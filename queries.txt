@@ -1,0 +1,63 @@
+  mutation{
+    addUser(username: "Natasha", password: "asecret", email: "test@test.at", photoLink: "url", mascot: 1){
+      id
+      username
+      password
+      email
+      photoLink
+      mascot
+    }
+  }
+
+
+  mutation {
+  addUser(
+    username: "Dani"
+    password: "Sci-Fi"
+    email: "test@test.at"
+    photoLink: "tjslkdf"
+    mascot: 1
+  ) {
+    id
+    username
+    email
+  }
+}
+
+
+query {
+  users {
+    id
+    username
+    email
+  }
+}
+
+query {
+  exam(id: "1") {
+    id
+    subject
+    examDate
+  }
+}
+
+
+
+  mutation {
+  addExam(
+    subject: "Maths"
+    examDate: "11-05-2020"
+    startDate: "05-05-2020"
+    numberPages: 5
+    timePerPage: 5
+    currentPage: 6
+    notes: "NOTES"
+    pdfLink: "klsdjfs"
+    completed: false
+    userId: "5e2f54c374fe3c404f9429b7"
+  ) {
+    id
+    subject
+    examDate
+  }
+}
