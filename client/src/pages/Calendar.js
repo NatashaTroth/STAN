@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function Calendar() {
-    return (
-        <div>
-            <h2>Calendar</h2>
-        </div>
-    );
+  return (
+    <div className="navigation__title">
+      <h2>Calendar</h2>
+    </div>
+  );
 }
 
 export default Calendar;
