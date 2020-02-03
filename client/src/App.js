@@ -2,7 +2,7 @@ import React from "react"
 import Navigation from "./Routing"
 
 // import logo from "./logo.svg";
-// import "./App.scss";
+import "./App.scss"
 
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app

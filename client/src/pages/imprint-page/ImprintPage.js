@@ -1,11 +1,11 @@
 import React from "react"
 
-function AddNew() {
+function Imprint() {
   return (
     <div className="navigation__title">
-      <h2>New exam</h2>
+      <h2>Imprint</h2>
     </div>
   )
 }
 
-export default AddNew
+export default Imprint

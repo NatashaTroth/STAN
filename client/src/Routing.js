@@ -1,15 +1,15 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-// styling
-import "./Routing.scss";
+import React from "react"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 // pages
-import Dashboard from "./pages/Dashboard";
-import AddNew from "./pages/AddNew";
-import Calendar from "./pages/Calendar";
-import Exams from "./pages/Exams";
-import NoMatch404 from "./pages/NoMatch404";
+import Dashboard from "./pages/dashboard-page/DashboardPage"
+import AddNew from "./pages/add-new-page/AddNewPage"
+import Calendar from "./pages/calendar-page/CalendarPage"
+import Exams from "./pages/exams-page/ExamsPage"
+import NoMatch404 from "./pages/no-match-page/404Page"
+import UserAccount from "./pages/user-account-page/UserAccountPage"
+import Imprint from "./pages/imprint-page/ImprintPage"
+import DataPolicy from "./pages/data-policy-page/DataPolicyPage"
 
 function Routing() {
   return (
@@ -28,6 +28,16 @@ function Routing() {
           <li>
             <Link to="/exams">Exams</Link>
           </li>
+          <li>
+            <Link to="/profile">Profile Icon</Link>
+          </li>
+          <li>Dark mode</li>
+          <li>
+            <Link to="/imprint">Imprint</Link>
+          </li>
+          <li>
+            <Link to="/data-policy">Data Policy</Link>
+          </li>
         </ul>
 
         <Switch>
@@ -43,13 +53,22 @@ function Routing() {
           <Route path="/exams">
             <Exams />
           </Route>
+          <Route path="/profile">
+            <UserAccount />
+          </Route>
+          <Route path="/imprint">
+            <Imprint />
+          </Route>
+          <Route path="/data-policy">
+            <DataPolicy />
+          </Route>
           <Route path="*">
             <NoMatch404 />
           </Route>
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default Routing;
+export default Routing
