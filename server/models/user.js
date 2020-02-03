@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -7,10 +7,10 @@ const userSchema = new Schema({
   email: String,
   photoLink: String,
   mascot: Number
-})
+});
 
 //todo creted at timestamphttps://www.youtube.com/watch?v=TIAfjBXsY2E&list=PLcCp4mjO-z9_y8lByvIfNgA_F18l-soQv&index=6
 // userSchema.set('toObject', { virtuals: true });
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model("User", userSchema);
 // export default mongoose.model('User', userSchema)

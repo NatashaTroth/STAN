@@ -1,49 +1,48 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const User = require('../models/user')
-const Exam = require('../models/exam')
-const {GraphQLScalarType} = require('graphql')
-const {Kind} = require('graphql/language')
+const User = require("../models/user");
+const Exam = require("../models/exam");
+const { GraphQLScalarType } = require("graphql");
+const { Kind } = require("graphql/language");
 // import { GraphQLScalarType } from 'graphql';
 // import { Kind } from 'graphql/language';
 // const Author = require('../models/author')
 
-console.log("here")
+console.log("here");
 // console.log(User.find())
 
 //TODO: Authentication
 const resolvers = {
   Query: {
-    users:(root, arg, context, info)=>{
-        return User.find({})
-        // return fetchData()
+    users: (root, arg, context, info) => {
+      return User.find({});
+      // return fetchData()
     },
     // user:(root, arg, context, info)=>{
     //     return fetchOneData()
     // },
-    exams:(root, arg, context, info)=>{
-        return Exam.find({})
-        // return fetchData()
+    exams: (root, arg, context, info) => {
+      return Exam.find({});
+      // return fetchData()
     },
-    exam:(root, arg, context, info)=>{
-        return fetchOneDateData()
-    },
-
+    exam: (root, arg, context, info) => {
+      return fetchOneDateData();
+    }
   },
   Mutation: {
-    addUser:(root, args, context, info)=>{
-      return User.create(args)
+    addUser: (root, args, context, info) => {
+      return User.create(args);
       // console.log("created user " + args)
     },
-    addExam:(root, args, context, info)=>{
+    addExam: (root, args, context, info) => {
       // args.userId = User.find({id: args.userId}).id
-      console.log(args)
-      return Exam.create(args)
+      console.log(args);
+      return Exam.create(args);
       // console.log("created user " + args)
     }
   },
   Date: new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
+    name: "Date",
+    description: "Date custom scalar type",
     parseValue(value) {
       return new Date(value); // value from the client
     },
@@ -52,16 +51,14 @@ const resolvers = {
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
-        return new Date(ast.value) // ast value is always in string format
+        return new Date(ast.value); // ast value is always in string format
       }
       return null;
-    },
-  }),
-}
+    }
+  })
+};
 
-
-module.exports = resolvers
-
+module.exports = resolvers;
 
 // var  fetchData = ()=>{
 
@@ -84,36 +81,32 @@ module.exports = resolvers
 //       }
 //     ]
 //   return fakeUsers;
- 
+
 //   }
 
-var  fetchOneData = ()=>{
+var fetchOneData = () => {
+  return {
+    id: "BJrp-DudG",
+    username: "testname",
+    password: "alice123",
+    email: "alice@facegle.io",
+    photoLink: "testlink",
+    mascot: 1
+  };
+};
 
- return {
-        "id": "BJrp-DudG",
-        "username": "testname",
-        "password": "alice123",
-        "email": "alice@facegle.io",
-        "photoLink": "testlink",
-        "mascot": 1
-      }
- 
-  }
-
-var  fetchOneDateData = ()=>{
-
- return {
-        "id": "1",
-        "subject": "testname",
-        "examDate": "alice123",
-        "startDate": "alice@facegle.io",
-        "numberPages": 1,
-        "timePerPage": 1,
-        "timesRepeat": 1,
-        "notes": "alice@facegle.io",
-        "pdfLink": "alice@facegle.io",
-        "completed": "alice@facegle.io",
-        "user": "1"
-      }
- 
-  }
+var fetchOneDateData = () => {
+  return {
+    id: "1",
+    subject: "testname",
+    examDate: "alice123",
+    startDate: "alice@facegle.io",
+    numberPages: 1,
+    timePerPage: 1,
+    timesRepeat: 1,
+    notes: "alice@facegle.io",
+    pdfLink: "alice@facegle.io",
+    completed: "alice@facegle.io",
+    user: "1"
+  };
+};

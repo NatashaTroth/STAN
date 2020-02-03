@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //this object describes properties and datatypes
@@ -15,8 +15,8 @@ const examSchema = new Schema({
   pdfLink: String,
   completed: Boolean,
   userId: String
-})
+});
 
 //model is like a collection in mongodb
 //This collection will be called Book and have objects inside it that look like this schema
-module.exports = mongoose.model('Exam', examSchema)
+module.exports = mongoose.model("Exam", examSchema);
