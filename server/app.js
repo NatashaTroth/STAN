@@ -1,7 +1,7 @@
 const express = require("express");
 // const graphqlHTTP = require('express-graphql')
 const typeDefs = require("./schema/schema");
-const resolvers = require("./resolvers/resolvers");
+const { resolvers } = require("./resolvers");
 const mongoose = require("mongoose");
 const cors = require("cors");
 // import { graphqlExpress } from 'apollo-server-express';

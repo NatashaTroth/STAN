@@ -1,7 +1,7 @@
-// const { resolvers } = require("./resolvers");
+const { userResolvers } = require("./userResolvers");
+const { examResolvers } = require("./examResolvers");
+const resolvers = [userResolvers, examResolvers];
 
-// const resolvers = [resolvers];
-
-// module.exports = {
-//   resolvers
-// };
+module.exports = {
+  resolvers
+};
