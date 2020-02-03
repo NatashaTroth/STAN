@@ -29,7 +29,7 @@ function Routing() {
             <Link to="/exams">Exams</Link>
           </li>
           <li>
-            <Link to="/profile">Profile (HIER KOMMT EIN ICON HIN!)</Link>
+            <Link to="/profile">Profile Icon</Link>
           </li>
           <li>Dark mode</li>
           <li>
