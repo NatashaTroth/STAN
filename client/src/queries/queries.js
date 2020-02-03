@@ -1,9 +1,9 @@
-import {gql} from 'apollo-boost'  //to make queries
+import { gql } from "apollo-boost"; //to make queries
 
 //!! no space after gql!! - parsing graphql query to js
 const GET_USERS_QUERY = gql`
   {
-    users{
+    users {
       id
       username
       email
@@ -16,7 +16,7 @@ const GET_USERS_QUERY = gql`
 //!! no space after gql!! - parsing graphql query to js
 const GET_BOOKS_QUERY = gql`
   {
-    books{
+    books {
       name
       id
     }
@@ -24,16 +24,16 @@ const GET_BOOKS_QUERY = gql`
 `;
 
 const GET_BOOK_QUERY = gql`
-  query($id: ID!){
-    book(id: $id){
+  query($id: ID!) {
+    book(id: $id) {
       id
       name
       genre
-      author{
+      author {
         id
         name
         age
-        books{
+        books {
           name
           id
         }
@@ -44,7 +44,7 @@ const GET_BOOK_QUERY = gql`
 
 const GET_AUTHORS_QUERY = gql`
   {
-    authors{
+    authors {
       name
       id
     }
@@ -53,12 +53,18 @@ const GET_AUTHORS_QUERY = gql`
 
 //!!Make sure the type in mutation here, is the same type as used by graphql
 const ADD_BOOK_MUTATION = gql`
-  mutation($name: String!, $genre: String!, $authorId: ID!){
-    addBook(name: $name, genre: $genre, authorId: $authorId){
+  mutation($name: String!, $genre: String!, $authorId: ID!) {
+    addBook(name: $name, genre: $genre, authorId: $authorId) {
       name
       id
     }
   }
-`
+`;
 
-export {GET_USERS_QUERY, GET_AUTHORS_QUERY, GET_BOOKS_QUERY, GET_BOOK_QUERY, ADD_BOOK_MUTATION}
+export {
+  GET_USERS_QUERY,
+  GET_AUTHORS_QUERY,
+  GET_BOOKS_QUERY,
+  GET_BOOK_QUERY,
+  ADD_BOOK_MUTATION
+};
