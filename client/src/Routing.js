@@ -1,15 +1,12 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-// styling
-import "./Routing.scss";
+import React from "react"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 // pages
-import Dashboard from "./pages/Dashboard";
-import AddNew from "./pages/AddNew";
-import Calendar from "./pages/Calendar";
-import Exams from "./pages/Exams";
-import NoMatch404 from "./pages/NoMatch404";
+import Dashboard from "./pages/dashboard-page"
+import AddNew from "./pages/add-new-page"
+import Calendar from "./pages/calendar-page"
+import Exams from "./pages/exams-page"
+import NoMatch404 from "./pages/no-match-page"
 
 function Routing() {
   return (
@@ -49,7 +46,7 @@ function Routing() {
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default Routing;
+export default Routing
