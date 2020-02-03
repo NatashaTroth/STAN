@@ -2,11 +2,14 @@ import React from "react"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 // pages
-import Dashboard from "./pages/dashboard-page"
-import AddNew from "./pages/add-new-page"
-import Calendar from "./pages/calendar-page"
-import Exams from "./pages/exams-page"
-import NoMatch404 from "./pages/no-match-page"
+import Dashboard from "./pages/dashboard-page/DashboardPage"
+import AddNew from "./pages/add-new-page/AddNewPage"
+import Calendar from "./pages/calendar-page/CalendarPage"
+import Exams from "./pages/exams-page/ExamsPage"
+import NoMatch404 from "./pages/no-match-page/404Page"
+import UserAccount from "./pages/user-account-page/UserAccountPage"
+import Imprint from "./pages/imprint-page/ImprintPage"
+import DataPolicy from "./pages/data-policy-page/DataPolicyPage"
 
 function Routing() {
   return (
@@ -25,6 +28,16 @@ function Routing() {
           <li>
             <Link to="/exams">Exams</Link>
           </li>
+          <li>
+            <Link to="/profile">Profile (HIER KOMMT EIN ICON HIN!)</Link>
+          </li>
+          <li>Dark mode</li>
+          <li>
+            <Link to="/imprint">Imprint</Link>
+          </li>
+          <li>
+            <Link to="/data-policy">Data Policy</Link>
+          </li>
         </ul>
 
         <Switch>
@@ -39,6 +52,15 @@ function Routing() {
           </Route>
           <Route path="/exams">
             <Exams />
+          </Route>
+          <Route path="/profile">
+            <UserAccount />
+          </Route>
+          <Route path="/imprint">
+            <Imprint />
+          </Route>
+          <Route path="/data-policy">
+            <DataPolicy />
           </Route>
           <Route path="*">
             <NoMatch404 />
