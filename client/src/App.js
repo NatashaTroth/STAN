@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks"; //inserts received data into our app
 
