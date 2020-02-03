@@ -33,7 +33,6 @@ function App() {
         {/* <UserList></UserList> */}
         {/* <BookList></BookList> */}
         {/* <AddBook></AddBook> */}
-        <h2>Test</h2>
       </div>
     </ApolloProvider>
   )
