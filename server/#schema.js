@@ -3,9 +3,9 @@
 const graphql = require("graphql");
 
 //import mongoDB Schemas
-const User = require("../models/user");
-const Exam = require("../models/exam");
-const MotivationalSayings = require("../models/motivationalSayings");
+const User = require("./models/user");
+const Exam = require("./models/exam");
+const MotivationalSayings = require("./models/motivationalSayings");
 
 const {
   GraphQLObjectType,

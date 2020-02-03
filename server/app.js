@@ -1,6 +1,10 @@
+//TODO: Extract middlewares into separate file
 const express = require("express");
 // const graphqlHTTP = require('express-graphql')
-const typeDefs = require("./schema/schema");
+// const typeDefs = require("./schema/schema");
+// const { typeDefs } = require("./typedefs");
+const { typeDefs } = require("./typedefs");
+
 const { resolvers } = require("./resolvers");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,6 +15,7 @@ const { ApolloServer, gql } = require("apollo-server-express");
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(cors());
+const { makeExecutableSchema } = require("apollo-server");
 
 const connectionString = "mongodb://localhost/MMP3";
 
@@ -23,7 +28,12 @@ mongoose
   .catch(e => console.error(e.message));
 
 // const server = new ApolloServer({ typeDefs, resolvers });
-const server = new ApolloServer({ typeDefs, resolvers });
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+
+const server = new ApolloServer({ schema });
 server.applyMiddleware({ app });
 
 app.listen({ port: PORT }, () =>
