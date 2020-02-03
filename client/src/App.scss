@@ -1,9 +1,11 @@
 // IMPORT ALL SCSS FILES HERE
 
 // Global
-@import "scss/global";
-@import "scss/fonts";
-@import "scss/buttons";
+@import "assets/styles/variables";
+// @import "styles/_variables.scss";
+@import "assets/styles/global";
+@import "assets/styles/fonts";
+@import "assets/styles/buttons";
 
 // Pages
 @import "pages/add-new-page/add-new-page";

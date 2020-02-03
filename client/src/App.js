@@ -1,11 +1,11 @@
-import React from "react";
-import Navigation from "./Routing";
+import React from "react"
+import Navigation from "./Routing"
 
 // import logo from "./logo.svg";
 // import "./App.scss";
 
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks"; //inserts received data into our app
+import ApolloClient from "apollo-boost"
+import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
 
 // components
 // import BookList from "./components/BookList";
@@ -18,9 +18,9 @@ import { ApolloProvider } from "@apollo/react-hooks"; //inserts received data in
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql/",
   onError: e => {
-    console.log(e);
-  }
-});
+    console.log(e)
+  },
+})
 
 function App() {
   return (
@@ -33,9 +33,10 @@ function App() {
         {/* <UserList></UserList> */}
         {/* <BookList></BookList> */}
         {/* <AddBook></AddBook> */}
+        <h2>Test</h2>
       </div>
     </ApolloProvider>
-  );
+  )
 }
 
-export default App;
+export default App

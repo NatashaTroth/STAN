@@ -1,5 +1,11 @@
+@import "variables";
+
 .App {
   text-align: center;
+}
+
+h2 {
+  font-family: $font-family-BasierCircle-Bold;
 }
 
 .App-logo {
