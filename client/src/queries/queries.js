@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost"; //to make queries
+import { gql } from "apollo-boost" //to make queries
 
 //!! no space after gql!! - parsing graphql query to js
 const GET_USERS_QUERY = gql`
@@ -11,7 +11,7 @@ const GET_USERS_QUERY = gql`
       mascot
     }
   }
-`;
+`
 
 //!! no space after gql!! - parsing graphql query to js
 const GET_BOOKS_QUERY = gql`
@@ -21,7 +21,7 @@ const GET_BOOKS_QUERY = gql`
       id
     }
   }
-`;
+`
 
 const GET_BOOK_QUERY = gql`
   query($id: ID!) {
@@ -40,7 +40,7 @@ const GET_BOOK_QUERY = gql`
       }
     }
   }
-`;
+`
 
 const GET_AUTHORS_QUERY = gql`
   {
@@ -49,7 +49,7 @@ const GET_AUTHORS_QUERY = gql`
       id
     }
   }
-`;
+`
 
 //!!Make sure the type in mutation here, is the same type as used by graphql
 const ADD_BOOK_MUTATION = gql`
@@ -59,12 +59,12 @@ const ADD_BOOK_MUTATION = gql`
       id
     }
   }
-`;
+`
 
 export {
   GET_USERS_QUERY,
   GET_AUTHORS_QUERY,
   GET_BOOKS_QUERY,
   GET_BOOK_QUERY,
-  ADD_BOOK_MUTATION
-};
+  ADD_BOOK_MUTATION,
+}
