@@ -1,0 +1,82 @@
+// Basier Circle Regular
+@font-face {
+  font-family: "Basier Circle";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/fonts/Basier-Circle-regular-webfont/basiercircle-regular-webfont.eot"); /* IE9 Compat Modes */
+  src: url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */
+      url("../assets/fonts/Basier-Circle-regular-webfont/basiercircle-regular-webfont.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../assets/fonts/Basier-Circle-regular-webfont/basiercircle-regular-webfont.woff")
+      format("woff"),
+    /* Modern Browsers */
+      url("../assets/fonts/Basier-Circle-regular-webfont/basiercircle-regular-webfont.ttf")
+      format("truetype");
+  /* Safari, Android, iOS */
+}
+
+// Basier Circle Semi-Bold
+@font-face {
+  font-family: "Basier Circle Semi-Bold";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../assets/fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.eot"); /* IE9 Compat Modes */
+  src: url("../assets/fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */
+      url("../assets/fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../assets/fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.woff")
+      format("woff"),
+    /* Modern Browsers */
+      url("../assets/fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.ttf")
+      format("truetype");
+  /* Safari, Android, iOS */
+}
+
+// Basier Circle Bold
+@font-face {
+  font-family: "Basier Circle Bold";
+  font-style: normal;
+  font-weight: 800;
+  src: url("../assets/fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.eot"); /* IE9 Compat Modes */
+  src: url("../assets/fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */
+      url("../assets/fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../assets/fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.woff")
+      format("woff"),
+    /* Modern Browsers */
+      url("../assets/fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.ttf")
+      format("truetype");
+  /* Safari, Android, iOS */
+}
+
+/* open-sans-regular - latin */
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.eot"); /* IE9 Compat Modes */
+  src: local("Open Sans Regular"), local("OpenSans-Regular"),
+    url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */
+      url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.woff")
+      format("woff"),
+    /* Modern Browsers */
+      url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.ttf")
+      format("truetype"),
+    /* Safari, Android, iOS */
+      url("../assets/fonts/open-sans-v17-latin/open-sans-v17-latin-regular.svg#OpenSans")
+      format("svg"); /* Legacy iOS */
+}
