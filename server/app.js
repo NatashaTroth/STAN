@@ -12,48 +12,29 @@ const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 
 const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const uuid = require("uuid/v4");
+//Passport config
+require("./config/passport")(passport);
 
-// const { getUsers, addUser } = require("./testUsers");
-const { getUsers, addUser } = require("./testUsers");
-import User from "./testUsers";
-const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
-
-// const User = { getUsers, addUser };
-// console.log("here: " + User);
+import User from "./#testUsers";
 
 //TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
 //you would want to set the cookie to secure mode so that it is only sent via https. You can use the cookie option for this: cookie: { secure: true }
 //https://jkettmann.com/authentication-and-authorization-with-graphql-and-passport/
 
-const SESSION_SECRECT = "bad secret";
-console.log(User.getUsers());
-
-passport.use(
-  new GraphQLLocalStrategy((email, password, done) => {
-    // Adjust this callback to your needs
-    const users = User.getUsers();
-    const matchingUser = users.find(
-      user => email === user.email && password === user.password
-    );
-    const error = matchingUser ? null : new Error("no matching user");
-    done(error, matchingUser);
-  })
-);
-app.use(cors());
-
+//Express Session
 app.use(
   session({
-    genid: req => uuid(),
-    secret: SESSION_SECRECT,
-    resave: false,
-    saveUninitialized: false,
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
     cookie: { secure: true }
   })
 );
 
-//intialise passport
+//intialise passport (Passport middleware)
 app.use(passport.initialize());
 app.use(passport.session());
 
