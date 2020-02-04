@@ -33,31 +33,33 @@ const userResolvers = {
       const user = await User.findOne({ email: email });
       // console.log(JSON.stringify(user));
       //TODO: Error Handling
-      if (!user) return null;
+      // if (!user) return null;
+      if (!user) throw new Error("User with this email does not exist");
       // console.log("here1");
       const valid = await bcrypt.compare(password, user.password);
-      if (!valid) return null;
+      // if (!valid) return null;
+      if (!valid) throw new Error("Password is incorrect");
 
       console.log("test2");
 
       //TODO: save secret to env variable
-      const refreshToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
-        expiresIn: "7d"
-      });
+      // const refreshToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
+      //   expiresIn: "7d"
+      // });
       const accessToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
         expiresIn: "15min"
       });
 
       //can also return in resolver?
-      context.res.cookie("refresh-token", refreshToken, {
-        maxAge: 60 * 60 * 24 * 7
-      });
-      context.res.cookie("access-token", accessToken, {
-        maxAge: 60 * 15
-      });
+      // context.res.cookie("refresh-token", refreshToken, {
+      //   maxAge: 60 * 60 * 24 * 7
+      // });
+      // context.res.cookie("access-token", accessToken, {
+      //   maxAge: 60 * 15
+      // });
       console.log("user:");
       console.log(user);
-      return { user };
+      return { userId: user.id, token: accessToken, tokenExpiration: 15 };
       // console.log(context.res);
     },
     signup: async (parent, args, context) => {

@@ -9,8 +9,10 @@ const userType = gql`
     email: String!
     mascot: Int!
   }
-  type AuthPayload {
-    user: User
+  type AuthData {
+    userId: ID!
+    token: String!
+    tokenExpiration: Int!
   }
 `;
 
