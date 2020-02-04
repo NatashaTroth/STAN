@@ -2,6 +2,7 @@
 const { User } = require("../models");
 const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
+import passport from "passport";
 const bcrypt = require("bcrypt");
 
 //TODO: Authentication
@@ -36,6 +37,34 @@ const userResolvers = {
     //   await context.login(user);
     //   return { user };
     // },
+    // login: async (parent, args, context) => {
+    //   try {
+    //     console.log("in login");
+    //     passport.authenticate("local", (err, user, info) => {
+    //       if (err) throw err;
+    //       // if(!user)
+    //       console.log("TEst");
+    //     });
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   } finally {
+    //     console.log("We do cleanup here");
+    //   }
+      // passport.authenticate("local", function(err, user, info) {
+      //   if (err) {
+      //     return next(err);
+      //   }
+      //   if (!user) {
+      //     console.log("no user");
+      //   }
+      //   req.logIn(user, function(err) {
+      //     if (err) {
+      //       return next(err);
+      //     }
+      //     return res.redirect("/users/" + user.username);
+      //   });
+      // })(req, res, next);
+    },
     signup: async (parent, args, context) => {
       let newUser = null;
       const { username, email, password, mascot } = args;
