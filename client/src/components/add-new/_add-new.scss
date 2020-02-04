@@ -1,2 +1,14 @@
 .add-new {
+  &__form {
+    &__element {
+      display: flex;
+      flex-direction: column;
+    }
+    &__label {
+    }
+    &__inout {
+    }
+    &__submit {
+    }
+  }
 }

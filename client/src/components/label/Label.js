@@ -1,9 +1,11 @@
 import React from "react"
 
-const Label = ({ labeltype, text }) => {
-  return <label htmlFor={labeltype}>{text}</label>
+const Label = ({ labeltype, text, className }) => {
+  return (
+    <label htmlFor={labeltype} className={className}>
+      {text}
+    </label>
+  )
 }
-
-// className={`${styles.label}`}
 
 export default Label

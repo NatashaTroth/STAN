@@ -1,13 +1,31 @@
-import React, { Component, useState } from "react"
+import React, { useState } from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../queries/queries"
 // --------------------------------------------------------------
 
-function AddNew() {
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
+// components
+import Label from "../../components/label/Label"
+import Input from "../../components/input/Input"
+import Textarea from "../../components/textarea/Textarea"
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
+function AddNew() {
+  // const { loading, error, data } = useQuery(GET_USERS_QUERY)
+
+  // if (loading) return <p>Loading...</p>
+  // if (error) return <p>Error :(</p>
+
+  const [exam_subject, setExamSubject] = useState("")
+  const [exam_date, setExamDate] = useState("")
+  const [exam_start_date, setExamStartDate] = useState("")
+  const [exam_page_amount, setExamPageAmount] = useState("")
+  const [exam_page_time, setExamPageTime] = useState("")
+  const [exam_page_repeat, setExamPageRepeat] = useState("")
+  const [exam_page_notes, setExamPageNotes] = useState("")
+  const [exam_pdf_upload, setExamPdfUpload] = useState("")
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+  }
 
   return (
     <div className="add-new">
@@ -17,117 +35,176 @@ function AddNew() {
             <h3 className="add-new__heading">Exam details</h3>
           </div>
           <div className="col-md-12">
-            <form action="#" method="post" className="add-new__form">
+            <form
+              onSubmit={handleSubmit}
+              id="add-exam"
+              className="add-new__form"
+            >
               <div className="row">
                 <div className="col-md-6 add-new__left">
-                  <label
-                    htmlFor="subject"
-                    className="add-new__form__label input-required"
-                  >
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="exam_subject"
-                    placeholder="Math"
-                    required
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="subject"
+                      text="Subject"
+                      className="add-new__form__element__label input-required"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="text"
+                      id="subject"
+                      name="exam_subject"
+                      placeholder="Math"
+                      value={exam_subject}
+                      maxLength={50}
+                      onChange={evt =>
+                        setExamSubject(evt.target.value.slice(0, 50))
+                      }
+                      required
+                    />
+                  </div>
 
-                  <label
-                    htmlFor="exam-date"
-                    className="add-new__form__label input-required"
-                  >
-                    Exam date
-                  </label>
-                  <input
-                    type="date"
-                    id="exam-date"
-                    name="exam_date"
-                    placeholder="DD/MM/YYYY"
-                    required
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="exam-date"
+                      text="Exam date"
+                      className="add-new__form__element__label input-required"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="date"
+                      id="exam-date"
+                      name="exam_date"
+                      placeholder="DD/MM/YYYY"
+                      value={exam_date}
+                      maxLength={null}
+                      onChange={evt => setExamDate(evt.target.value)}
+                      required
+                    />
+                  </div>
 
-                  <label
-                    htmlFor="study-start-date"
-                    className="add-new__form__label"
-                  >
-                    Start learning on
-                  </label>
-                  <input
-                    type="date"
-                    id="study-start-date"
-                    name="exam_study_start_date"
-                    placeholder="DD/MM/YYYY"
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="study-start-date"
+                      text="Start learning on"
+                      className="add-new__form__element__label"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="date"
+                      id="study-start-date"
+                      name="exam_study_start_date"
+                      placeholder="DD/MM/YYYY"
+                      value={exam_start_date}
+                      maxLength={null}
+                      onChange={evt => setExamStartDate(evt.target.value)}
+                    />
+                  </div>
 
-                  <label
-                    htmlFor="page-amount"
-                    className="add-new__form__label input-required"
-                  >
-                    Amount of pages
-                  </label>
-                  <input
-                    type="number"
-                    id="page-amount"
-                    name="exam_page_amount"
-                    placeholder="829"
-                    required
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="page-amount"
+                      text="Amount of pages"
+                      className="add-new__form__element__label input-required"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="number"
+                      id="page-amount"
+                      name="exam_study_start_date"
+                      placeholder="829"
+                      value={exam_page_amount}
+                      maxLength={10000}
+                      onChange={evt =>
+                        setExamPageAmount(evt.target.value.slice(0, 10000))
+                      }
+                      required
+                    />
+                  </div>
 
-                  <label htmlFor="page-time" className="add-new__form__label">
-                    Time per page
-                  </label>
-                  <input
-                    type="time"
-                    id="page-time"
-                    name="exam_page_time"
-                    placeholder="5 min"
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="page-time"
+                      text="Time per page (HH:MM)"
+                      className="add-new__form__element__label"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="time"
+                      id="page-time"
+                      name="exam_page_time"
+                      placeholder="5 min"
+                      value={exam_page_time}
+                      maxLength={null}
+                      onChange={evt => setExamPageTime(evt.target.value)}
+                    />
+                  </div>
 
-                  <label htmlFor="page-repeat" className="add-new__form__label">
-                    Repeat
-                  </label>
-                  <input
-                    type="number"
-                    id="page-repeat"
-                    name="exam_page_repeat"
-                    placeholder="2 times"
-                    className="add-new__form__input"
-                  ></input>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="page-repeat"
+                      text="Repeat"
+                      className="add-new__form__element__label"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="number"
+                      id="page-repeat"
+                      name="exam_page_repeat"
+                      placeholder="2 times"
+                      value={exam_page_repeat}
+                      maxLength={50}
+                      onChange={evt =>
+                        setExamPageRepeat(evt.target.value.slice(0, 50))
+                      }
+                    />
+                  </div>
 
-                  <label htmlFor="page-notes" className="add-new__form__label">
-                    Notes
-                  </label>
-                  <textarea
-                    id="page-notes"
-                    name="exam_page_notes"
-                    placeholder="..."
-                    className="add-new__form__input"
-                  ></textarea>
+                  <div className="add-new__form__element">
+                    <Label
+                      for="page-notes"
+                      text="Notes"
+                      className="add-new__form__element__label"
+                    ></Label>
+                    <Textarea
+                      className="add-new__form__element__input"
+                      id="page-notes"
+                      name="exam_page_notes"
+                      placeholder="..."
+                      value={exam_page_notes}
+                      maxLength={100000}
+                      onChange={evt =>
+                        setExamPageNotes(evt.target.value.slice(0, 100000))
+                      }
+                    ></Textarea>
+                  </div>
                 </div>
-                <div className="col-md-6 add-new__right">
-                  <label htmlFor="pdf-upload" className="add-new__form__label">
-                    Upload PDF file
-                  </label>
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    id="pdf-upload"
-                    name="exam_pdf_upload"
-                    className="add-new__form__input"
-                  ></input>
 
-                  <input
-                    type="submit"
-                    value="Add"
-                    className="add-new__form__btn stan-btn-primary"
-                  ></input>
+                <div className="col-md-6 add-new__right">
+                  <div className="add-new__form__element">
+                    <Label
+                      for="pdf-upload"
+                      text="Upload PDF file"
+                      className="add-new__form__element__label"
+                    ></Label>
+                    <Input
+                      className="add-new__form__element__input"
+                      type="file"
+                      accept=".pdf"
+                      id="pdf-upload"
+                      name="exam_pdf_upload"
+                      value={exam_pdf_upload}
+                      onChange={evt => setExamPdfUpload(evt.target.value)}
+                    />
+                  </div>
+
+                  <div className="add-new__form__submit">
+                    <Input
+                      className="add-new__form__element__btn stan-btn-primary"
+                      type="submit"
+                      value="Add"
+                      // onChange={evt => setExamPdfUpload(evt.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
             </form>

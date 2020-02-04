@@ -1,18 +1,16 @@
 import React from "react"
 
-const Input = ({
+const Textarea = ({
   value,
   onChange,
   label,
   placeholder,
-  type,
   maxLength,
   id,
   className,
 }) => {
   return (
-    <input
-      type={type}
+    <textarea
       id={id}
       name={label}
       placeholder={placeholder}
@@ -24,4 +22,4 @@ const Input = ({
   )
 }
 
-export default Input
+export default Textarea
