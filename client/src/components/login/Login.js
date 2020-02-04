@@ -70,7 +70,6 @@ function Login() {
         <div className="login__form__redirect-signup">
           <p className="login__form__redirect-signup__text">not registered?</p>{" "}
           <a href="/sign-up" className="login__form__redirect-signup__link">
-            {" "}
             sign up
           </a>
         </div>
