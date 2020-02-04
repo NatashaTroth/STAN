@@ -1,5 +1,6 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 const { User } = require("../models");
+const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
 
 //TODO: Authentication
@@ -35,29 +36,34 @@ const userResolvers = {
       return { user };
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
-      const existingUsers = context.User.getUsers();
-      //!! converts to true boolean - so returns boolean
-      //it's a horribly obscure way to do a type conversion.
-      //TODO: change
-      const userWithEmailAlreadyExists = !!existingUsers.find(
-        user => user.email === email
-      );
-
-      if (userWithEmailAlreadyExists) {
-        throw new Error("User with email already exists");
-      }
-
-      const newUser = {
-        id: uuid(),
-        username,
-        email,
-        password,
-        mascot
-      };
-
-      context.User.addUser(newUser);
-
-      await context.login(newUser);
+      let newUser = null;
+      const userWithEmail = await User.find({ email: email }).exec();
+      userWithEmail
+        .then(async resp => {
+          //TODO: REFACTOR WITH ES6
+          if (resp.length > 0) {
+            //TODO: ERROR HANDLING
+            throw new UserInputError("User with email already exists", {
+              invalidArgs: Object.keys({ username, email, password, mascot })
+            });
+          }
+          newUser = {
+            id: uuid(),
+            username,
+            email,
+            password,
+            mascot
+          };
+          console.log(newUser);
+          //TODO BCRYPT
+          User.create({ username, email, password, mascot });
+          context.User.addUser(newUser);
+          // console.log(context);
+          await context.login(newUser);
+        })
+        .catch(e => {
+          console.log(e.message);
+        });
 
       return { user: newUser };
     }

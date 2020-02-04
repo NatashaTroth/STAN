@@ -32,6 +32,7 @@ console.log(User.getUsers());
 
 passport.use(
   new GraphQLLocalStrategy((email, password, done) => {
+    // Adjust this callback to your needs
     const users = User.getUsers();
     const matchingUser = users.find(
       user => email === user.email && password === user.password
@@ -107,7 +108,7 @@ const schema = makeExecutableSchema({
 //buildcontext will add all additional fields you pass to it to the context.)
 const server = new ApolloServer({
   schema,
-  context: ({ req, res }) => buildContext({ req, res, User }),
+  context: ({ req, res }) => ({ req, res, User }),
   playground: {
     settings: {
       "request.credentials": "same-origin"
