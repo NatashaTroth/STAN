@@ -1,8 +1,10 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../graphQL/queries"
-import { getNamedType } from "graphql"
 // --------------------------------------------------------------
+
+// components ----------------
+import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 
 function Dashboard() {
   // query ----------------
@@ -21,7 +23,10 @@ function Dashboard() {
             <h2 className="dashboard-page__heading">Hello Lucy</h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
-          <div className="col-md-12"></div>
+          <div className="col-md-8">
+            <EmptyDashboard></EmptyDashboard>
+          </div>
+          <div className="col-md-4"></div>
         </div>
       </div>
     </div>
