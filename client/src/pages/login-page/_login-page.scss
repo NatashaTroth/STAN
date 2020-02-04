@@ -1,0 +1,19 @@
+.login {
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &__buttons {
+      display: flex;
+      padding: 10px;
+    }
+  }
+  &__redirect-signup {
+    display: flex;
+    justify-content: center;
+    p,
+    a {
+      padding: 10px; // TODO: nur zum Anschauen, später ändern!
+    }
+  }
+}
