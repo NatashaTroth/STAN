@@ -10,6 +10,7 @@ import NoMatch404 from "./pages/no-match-page/404Page"
 import UserAccount from "./pages/user-account-page/UserAccountPage"
 import Imprint from "./pages/imprint-page/ImprintPage"
 import DataPolicy from "./pages/data-policy-page/DataPolicyPage"
+import Login from "./pages/login-page/LoginPage"
 
 function Routing() {
   return (
@@ -61,6 +62,9 @@ function Routing() {
           </Route>
           <Route path="/data-policy">
             <DataPolicy />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="*">
             <NoMatch404 />
