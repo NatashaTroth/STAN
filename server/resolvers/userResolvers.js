@@ -37,19 +37,24 @@ const userResolvers = {
     //   await context.login(user);
     //   return { user };
     // },
-    // login: async (parent, args, context) => {
-    //   try {
-    //     console.log("in login");
-    //     passport.authenticate("local", (err, user, info) => {
-    //       if (err) throw err;
-    //       // if(!user)
-    //       console.log("TEst");
-    //     });
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   } finally {
-    //     console.log("We do cleanup here");
-    //   }
+    login: (parent, args, context) => {
+      try {
+        console.log("in login");
+
+        passport.authenticate("basic", { session: false }, function(req, res) {
+          console.log("in callback");
+          res.json({ id: req.user.id, username: req.user.username });
+        });
+        // passport.authenticate("local", (err, user, info) => {
+        //   if (err) throw err;
+        //   // if(!user)
+        //   console.log("TEst");
+        // });
+      } catch (e) {
+        console.log(e.message);
+      } finally {
+        console.log("We do cleanup here");
+      }
       // passport.authenticate("local", function(err, user, info) {
       //   if (err) {
       //     return next(err);
