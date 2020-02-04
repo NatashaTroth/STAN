@@ -1,12 +1,23 @@
 .add-new {
+  &__heading {
+    font-family: $font-family-BasierCircle-Bold;
+    border-bottom: 3px solid theme-color("dark");
+    padding: 5px 0;
+    margin: 5px;
+  }
+
   &__form {
     &__element {
       display: flex;
       flex-direction: column;
-    }
-    &__label {
-    }
-    &__inout {
+      margin: 35px 0;
+
+      &__label {
+      }
+      &__input {
+      }
+      &__btn {
+      }
     }
     &__submit {
     }

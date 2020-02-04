@@ -1,9 +1,41 @@
 // black in light theme
 .stan-btn-primary {
+  background-color: theme-color("dark");
+  border: 2px solid theme-color("dark");
+  color: theme-color("light");
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $font-size-16);
+  @include rem(letter-spacing, 2px);
+  @include rem(line-height, 20px);
+  text-transform: uppercase;
+  padding: 15px 20px;
+  min-width: 200px;
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $font-size-14);
+    @include rem(letter-spacing, 1.5px);
+    @include rem(line-height, 20px);
+  }
 }
 
 // white + black border in light theme
 .stan-btn-secondary {
+  background-color: theme-color("light");
+  border: 2px solid theme-color("dark");
+  color: theme-color("dark");
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $font-size-16);
+  @include rem(letter-spacing, 2px);
+  @include rem(line-height, 20px);
+  text-transform: uppercase;
+  padding: 15px 20px;
+  min-width: 200px;
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $font-size-14);
+    @include rem(letter-spacing, 1.5px);
+    @include rem(line-height, 20px);
+  }
 }
 
 // logged out w/ hover animation
