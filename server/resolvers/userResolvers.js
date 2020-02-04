@@ -27,20 +27,13 @@ const userResolvers = {
       return User.create(args);
     },
     login: async (parent, { email, password }, context) => {
-      // const  = args;
-      console.log("loggin in");
-      // console.log("test " + email);
       const user = await User.findOne({ email: email });
-      // console.log(JSON.stringify(user));
       //TODO: Error Handling
       // if (!user) return null;
       if (!user) throw new Error("User with this email does not exist");
-      // console.log("here1");
       const valid = await bcrypt.compare(password, user.password);
       // if (!valid) return null;
       if (!valid) throw new Error("Password is incorrect");
-
-      console.log("test2");
 
       //TODO: save secret to env variable
       // const refreshToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
@@ -60,47 +53,29 @@ const userResolvers = {
       console.log("user:");
       console.log(user);
       return { userId: user.id, token: accessToken, tokenExpiration: 15 };
-      // console.log(context.res);
     },
-    signup: async (parent, args, context) => {
-      let newUser = null;
-      const { username, email, password, mascot } = args;
-      try {
-        const userWithEmail = await User.findOne({ email: email });
+    signup: async (parent, { username, email, password, mascot }, context) => {
+      const userWithEmail = await User.findOne({ email: email });
 
-        if (userWithEmail) {
-          //TODO: ERROR HANDLING
-          throw new UserInputError("User with email already exists", {
-            invalidArgs: Object.keys(args)
-          });
-        }
-
-        newUser = new User({
-          username,
-          email,
-          password,
-          mascot
-        });
-
-        //Hash Password - TODO: change
-        bcrypt.genSalt(10, (err, salt) =>
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-
-            newUser.password = hash;
-            newUser
-              .save()
-              .then
-              //redirect
-              //COULD ALSO USE FLASH MESSAGE HERE (connect-flash)
-              ()
-              .catch(err => console.log(err));
-          })
-        );
-      } catch (e) {
-        console.error(e.message);
+      if (userWithEmail) {
+        //TODO: ERROR HANDLING
+        throw new UserInputError("User with email already exists");
       }
-      return { user: newUser };
+      const newUser = { username, email, password, mascot };
+      //Hash Password - TODO: change
+      bcrypt.genSalt(10, (err, salt) =>
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+        })
+      );
+
+      return User.create({
+        username,
+        email,
+        password,
+        mascot
+      });
     }
   }
 };
