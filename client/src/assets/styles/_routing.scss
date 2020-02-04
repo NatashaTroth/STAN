@@ -1,8 +1,71 @@
 .navigation {
   display: flex;
-  flex-direction: row;
+  &__side-bar {
+    background-color: theme-color("light");
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
 
-  &__list {
-    list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    border-right: 5px solid theme-color("dark");
+
+    &__logo {
+      padding: 30px;
+    }
+    &__list {
+      list-style: none;
+
+      .list-item {
+        padding-bottom: 40px;
+        position: relative;
+
+        a {
+          position: absolute;
+          top: 0;
+        }
+      }
+      &__menu-top {
+        &__dashboard {
+          &:before {
+            content: url("../../images/icons/dashboard.svg");
+            width: 29px;
+            height: 26px;
+            padding-right: 10px;
+          }
+        }
+        &__add-new {
+          &:before {
+            content: url("../../images/icons/add-new.svg");
+            width: 28px;
+            height: 33px;
+            padding-right: 10px;
+          }
+        }
+        &__calendar {
+          &:before {
+            content: url("../../images/icons/calendar.svg");
+            width: 28px;
+            height: 27px;
+            padding-right: 10px;
+          }
+        }
+        &__exams {
+          &:before {
+            content: url("../../images/icons/exams.svg");
+            width: 27px;
+            height: 31px;
+            padding-right: 10px;
+          }
+        }
+      }
+      &__menu-bottom {
+        text-transform: uppercase;
+        position: absolute;
+        bottom: 30px;
+      }
+    }
   }
 }

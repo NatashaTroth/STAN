@@ -13,34 +13,49 @@ import DataPolicy from "./pages/data-policy-page/DataPolicyPage"
 import Login from "./pages/login-page/LoginPage"
 import SignUp from "./pages/sign-up-page/SignUpPage"
 
+// logo
+import Logo from "./images/icons/logo.svg"
+
 function Routing() {
   return (
     <Router>
       <div className="navigation">
-        <ul className="navigation__list">
-          <li>
-            <Link to="/">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/add-new">Add New</Link>
-          </li>
-          <li>
-            <Link to="/calendar">Calendar</Link>
-          </li>
-          <li>
-            <Link to="/exams">Exams</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile Icon</Link>
-          </li>
-          <li>Dark mode</li>
-          <li>
-            <Link to="/imprint">Imprint</Link>
-          </li>
-          <li>
-            <Link to="/data-policy">Data Policy</Link>
-          </li>
-        </ul>
+        <div className="navigation__side-bar">
+          <img
+            src={Logo}
+            alt="Stans Logo"
+            className="navigation__side-bar__logo"
+          />
+          <ul className="navigation__side-bar__list">
+            <div className="navigation__side-bar__list__menu-top">
+              <li className="navigation__side-bar__list__menu-top__dashboard list-item">
+                <Link to="/">Dashboard</Link>
+              </li>
+              <li className="navigation__side-bar__list__menu-top__add-new list-item">
+                <Link to="/add-new">Add New</Link>
+              </li>
+              <li className="navigation__side-bar__list__menu-top__calendar list-item">
+                <Link to="/calendar">Calendar</Link>
+              </li>
+              <li className="navigation__side-bar__list__menu-top__exams list-item">
+                <Link to="/exams">Exams</Link>
+              </li>
+            </div>
+
+            <div className="navigation__side-bar__list__menu-bottom">
+              <li>
+                <Link to="/profile">Profile Icon</Link>
+              </li>
+              <li>Dark mode</li>
+              <li>
+                <Link to="/imprint">Imprint</Link>
+              </li>
+              <li>
+                <Link to="/data-policy">Data Policy</Link>
+              </li>
+            </div>
+          </ul>
+        </div>
 
         <Switch>
           <Route exact path="/">
