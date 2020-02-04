@@ -1,16 +1,25 @@
 import React from "react"
 
-const Input = ({ value, onChange, label, placeholder, type, maxLength }) => {
+const Input = ({
+  value,
+  onChange,
+  label,
+  placeholder,
+  type,
+  maxLength,
+  id,
+  className,
+}) => {
   return (
     <input
       type={type}
+      id={id}
       name={label}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       maxLength={maxLength}
-      required
-      //   className={`${styles.textInput}`}
+      className={className}
     />
   )
 }

@@ -2,11 +2,7 @@ import React from "react"
 
 const Button = ({ variant, text, className, onClick }) => {
   return (
-    <button
-      variant={variant}
-      //   className={`${className} ${styles.button}`}
-      onClick={onClick}
-    >
+    <button variant={variant} className={className} onClick={onClick}>
       {text}
     </button>
   )
