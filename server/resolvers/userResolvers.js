@@ -2,8 +2,9 @@
 const { User } = require("../models");
 const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
-import passport from "passport";
+// import passport from "passport";
 const bcrypt = require("bcrypt");
+const passport = require("../config/passport");
 
 //TODO: Authentication
 const userResolvers = {
@@ -41,15 +42,17 @@ const userResolvers = {
       try {
         console.log("in login");
 
-        passport.authenticate("basic", { session: false }, function(req, res) {
-          console.log("in callback");
-          res.json({ id: req.user.id, username: req.user.username });
-        });
-        // passport.authenticate("local", (err, user, info) => {
-        //   if (err) throw err;
-        //   // if(!user)
-        //   console.log("TEst");
+        // passport.authenticate("basic", { session: false }, function(req, res) {
+        //   console.log("in callback");
+        //   res.json({ id: req.user.id, username: req.user.username });
+        //   return res;
         // });
+        console.log(JSON.stringify(passport));
+        passport.authenticate("local", (err, user, info) => {
+          if (err) throw err;
+          // if(!user)
+          console.log("TEst");
+        });
       } catch (e) {
         console.log(e.message);
       } finally {

@@ -11,12 +11,13 @@ const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 
-const passport = require("passport");
+const passport = require("./config/passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const uuid = require("uuid/v4");
 //Passport config
-require("./config/passport")(passport);
+// require("./config/passport")(passport);
+// require("./resolvers/userResolvers");
 
 import User from "./#testUsers";
 
@@ -37,18 +38,6 @@ app.use(
 //intialise passport (Passport middleware)
 app.use(passport.initialize());
 app.use(passport.session());
-
-//save the user's ID to the session
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-//get its data back by searching all users by ID
-passport.deserializeUser((id, done) => {
-  const users = User.getUsers();
-  const matchingUser = users.find(user => user.id === id);
-  done(null, matchingUser);
-});
 
 // //login, signup
 // app.get("/login", function(req, res) {
