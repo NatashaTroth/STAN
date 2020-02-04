@@ -5,6 +5,7 @@ const userQueries = gql`
   type Query {
     users: [User]!
     user(id: ID!): User
+    currentUser: User
   }
 
   type Mutation {
@@ -14,6 +15,8 @@ const userQueries = gql`
       email: String!
       mascot: Int
     ): User
+    logout: Boolean
+    login(email: String!, password: String!): AuthPayload
   }
 `;
 
