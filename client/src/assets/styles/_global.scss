@@ -204,6 +204,7 @@ html body {
     &::-webkit-file-upload-button {
       border: 2px solid theme-color("dark");
       color: theme-color("dark");
+      background-color: theme-color("light");
       font-family: $font-family-BasierCircle-SemiBold;
       @include rem(font-size, $font-size-14);
       @include rem(letter-spacing, 1.5px);

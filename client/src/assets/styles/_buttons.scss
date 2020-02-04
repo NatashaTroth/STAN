@@ -16,6 +16,7 @@
     @include rem(font-size, $font-size-14);
     @include rem(letter-spacing, 1.5px);
     @include rem(line-height, 20px);
+    flex-grow: 1;
   }
 
   &:hover,
@@ -45,6 +46,7 @@
     @include rem(font-size, $font-size-14);
     @include rem(letter-spacing, 1.5px);
     @include rem(line-height, 20px);
+    flex-grow: 1;
   }
 
   &:hover,
