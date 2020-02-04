@@ -1,7 +1,7 @@
 // black in light theme
 .stan-btn-primary {
   background-color: theme-color("dark");
-  border: 2px solid theme-color("dark");
+  border: 3px solid theme-color("dark");
   color: theme-color("light");
   font-family: $font-family-BasierCircle-SemiBold;
   @include rem(font-size, $font-size-16);
@@ -10,18 +10,28 @@
   text-transform: uppercase;
   padding: 15px 20px;
   min-width: 200px;
+  transition: all 200ms ease-in-out;
 
   @include media-breakpoint-down(sm) {
     @include rem(font-size, $font-size-14);
     @include rem(letter-spacing, 1.5px);
     @include rem(line-height, 20px);
+    flex-grow: 1;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: theme-color("light");
+    color: theme-color("dark");
+    transform: scale(1.04);
   }
 }
 
 // white + black border in light theme
 .stan-btn-secondary {
   background-color: theme-color("light");
-  border: 2px solid theme-color("dark");
+  border: 3px solid theme-color("dark");
   color: theme-color("dark");
   font-family: $font-family-BasierCircle-SemiBold;
   @include rem(font-size, $font-size-16);
@@ -30,11 +40,21 @@
   text-transform: uppercase;
   padding: 15px 20px;
   min-width: 200px;
+  transition: all 200ms ease-in-out;
 
   @include media-breakpoint-down(sm) {
     @include rem(font-size, $font-size-14);
     @include rem(letter-spacing, 1.5px);
     @include rem(line-height, 20px);
+    flex-grow: 1;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: theme-color("dark");
+    color: theme-color("light");
+    transform: scale(1.04);
   }
 }
 

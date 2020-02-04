@@ -5,6 +5,10 @@ html body {
   font-size: 62.5%; // for px to rem conversion
   overflow-x: hidden; // hide horizontal scroll bar
 
+  *:focus {
+    outline: 3px solid theme-color("primary-yellow");
+  }
+
   h1 {
     color: theme-color("dark");
     font-family: $font-family-BasierCircle-Bold;
@@ -193,12 +197,38 @@ html body {
     color: theme-color("grey-dark");
   }
 
+  input[type="file"] {
+    border: none;
+    margin: 2px 0;
+
+    &::-webkit-file-upload-button {
+      border: 2px solid theme-color("dark");
+      color: theme-color("dark");
+      background-color: theme-color("light");
+      font-family: $font-family-BasierCircle-SemiBold;
+      @include rem(font-size, $font-size-14);
+      @include rem(letter-spacing, 1.5px);
+      @include rem(line-height, 20px);
+      text-transform: uppercase;
+      padding: 5px 10px;
+      transition: all 200ms ease-in-out;
+      cursor: pointer;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: theme-color("dark");
+        color: theme-color("light");
+      }
+    }
+  }
+
   textarea {
     width: 100%;
     min-height: 150px;
     border: none;
     border-bottom: 2px solid theme-color("dark");
-    padding: 5px 2px;
+    padding: 5px 15px;
     color: theme-color("dark");
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
@@ -218,31 +248,12 @@ html body {
     margin: -1px;
   }
 
-  .box-container {
+  .box-content {
+    padding: 20px;
     margin-bottom: 30px;
+
     @include media-breakpoint-down(sm) {
       margin-bottom: 20px;
-    }
-
-    .box-container-inner {
-      display: flex;
-      flex-direction: row;
-
-      .box-content {
-        flex-grow: 1;
-        border: 4px solid theme-color("dark");
-      }
-
-      .box-right {
-        background-color: theme-color("dark");
-        width: 10px;
-        margin-top: 2%;
-      }
-    }
-    .box-bottom {
-      background-color: theme-color("dark");
-      height: 10px;
-      margin-left: 2%;
     }
   }
 }
