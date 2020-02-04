@@ -9,12 +9,19 @@ const userQueries = gql`
   }
 
   type Mutation {
+    #TODO: delete addUser afterwards
     addUser(
       username: String!
       password: String!
       email: String!
       mascot: Int
     ): User
+    signup(
+      username: String!
+      email: String!
+      password: String!
+      mascot: Int
+    ): AuthPayload
     logout: Boolean
     login(email: String!, password: String!): AuthPayload
   }

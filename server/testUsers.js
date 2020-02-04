@@ -1,3 +1,5 @@
+import { NamedModulesPlugin } from "webpack";
+
 const users = [
   {
     id: "1",
@@ -13,15 +15,17 @@ const users = [
   }
 ];
 
-// export default {
-//   getUsers: () => users,
-//   addUser: user => users.push(user)
-// };
+export default {
+  getUsers: () => users,
+  addUser: user => users.push(user)
+};
 
-export function getUsers() {
-  return users;
-}
+// export function getUsers() {
+//   return users;
+// }
 
-export function addUser(user) {
-  return users.push(user);
-}
+// export function addUser(user) {
+//   return users.push(user);
+// }
+
+// module.exports = { userType };

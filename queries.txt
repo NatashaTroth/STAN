@@ -33,6 +33,29 @@ mutation {
   }
 }
 
+mutation {
+  signup(
+    username: "Jen",
+    email: "jen@barber.com",
+    password: "qwerty",
+    mascot: 1
+  ) {
+    user {
+      id
+      username
+      email
+      mascot
+    }
+  }
+}
+{
+  currentUser {
+    id
+    email
+  }
+}
+
+
 
 query {
   users {

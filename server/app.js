@@ -15,8 +15,12 @@ const passport = require("passport");
 const session = require("express-session");
 const uuid = require("uuid/v4");
 
+// const { getUsers, addUser } = require("./testUsers");
 const { getUsers, addUser } = require("./testUsers");
+import User from "./testUsers";
 const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
+
+// const User = { getUsers, addUser };
 // console.log("here: " + User);
 
 //TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
@@ -24,11 +28,11 @@ const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
 //https://jkettmann.com/authentication-and-authorization-with-graphql-and-passport/
 
 const SESSION_SECRECT = "bad secret";
-console.log(getUsers());
+console.log(User.getUsers());
 
 passport.use(
   new GraphQLLocalStrategy((email, password, done) => {
-    const users = getUsers();
+    const users = User.getUsers();
     const matchingUser = users.find(
       user => email === user.email && password === user.password
     );
@@ -59,7 +63,7 @@ passport.serializeUser((user, done) => {
 
 //get its data back by searching all users by ID
 passport.deserializeUser((id, done) => {
-  const users = getUsers();
+  const users = User.getUsers();
   const matchingUser = users.find(user => user.id === id);
   done(null, matchingUser);
 });
@@ -99,9 +103,16 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
+//buildcontext - so can access in resolvers (i think
+//buildcontext will add all additional fields you pass to it to the context.)
 const server = new ApolloServer({
   schema,
-  context: ({ req, res }) => buildContext({ req, res })
+  context: ({ req, res }) => buildContext({ req, res, User }),
+  playground: {
+    settings: {
+      "request.credentials": "same-origin"
+    }
+  }
 });
 server.applyMiddleware({ app });
 
