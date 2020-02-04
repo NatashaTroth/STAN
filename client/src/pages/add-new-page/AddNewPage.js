@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../queries/queries"
+import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components

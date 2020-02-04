@@ -14,6 +14,17 @@ const GET_USERS_QUERY = gql`
 `
 
 //!! no space after gql!! - parsing graphql query to js
+const GET_EXAMS_QUERY = gql`
+  {
+    exams {
+      id
+      subject
+      examDate
+    }
+  }
+`
+
+//!! no space after gql!! - parsing graphql query to js
 const GET_BOOKS_QUERY = gql`
   {
     books {
@@ -51,20 +62,10 @@ const GET_AUTHORS_QUERY = gql`
   }
 `
 
-//!!Make sure the type in mutation here, is the same type as used by graphql
-const ADD_BOOK_MUTATION = gql`
-  mutation($name: String!, $genre: String!, $authorId: ID!) {
-    addBook(name: $name, genre: $genre, authorId: $authorId) {
-      name
-      id
-    }
-  }
-`
-
 export {
   GET_USERS_QUERY,
+  GET_EXAMS_QUERY,
   GET_AUTHORS_QUERY,
   GET_BOOKS_QUERY,
   GET_BOOK_QUERY,
-  ADD_BOOK_MUTATION,
 }
