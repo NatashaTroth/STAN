@@ -20,7 +20,10 @@ function AddNew() {
             <form action="#" method="post" className="add-new__form">
               <div className="row">
                 <div className="col-md-6 add-new__left">
-                  <label htmlFor="subject" className="add-new__form__label">
+                  <label
+                    htmlFor="subject"
+                    className="add-new__form__label input-required"
+                  >
                     Subject
                   </label>
                   <input
@@ -29,10 +32,13 @@ function AddNew() {
                     name="exam_subject"
                     placeholder="Math"
                     required
-                    className="add-new__form__input input-required"
+                    className="add-new__form__input"
                   ></input>
 
-                  <label htmlFor="exam-date" className="add-new__form__label">
+                  <label
+                    htmlFor="exam-date"
+                    className="add-new__form__label input-required"
+                  >
                     Exam date
                   </label>
                   <input
@@ -41,7 +47,7 @@ function AddNew() {
                     name="exam_date"
                     placeholder="DD/MM/YYYY"
                     required
-                    className="add-new__form__input input-required"
+                    className="add-new__form__input"
                   ></input>
 
                   <label
@@ -58,7 +64,10 @@ function AddNew() {
                     className="add-new__form__input"
                   ></input>
 
-                  <label htmlFor="page-amount" className="add-new__form__label">
+                  <label
+                    htmlFor="page-amount"
+                    className="add-new__form__label input-required"
+                  >
                     Amount of pages
                   </label>
                   <input
@@ -67,7 +76,7 @@ function AddNew() {
                     name="exam_page_amount"
                     placeholder="829"
                     required
-                    className="add-new__form__input input-required"
+                    className="add-new__form__input"
                   ></input>
 
                   <label htmlFor="page-time" className="add-new__form__label">
