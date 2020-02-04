@@ -1,3 +1,31 @@
-// IMPORT global styles
-@import "scss/global";
-@import "scss/fonts";
+// IMPORT ALL SCSS FILES HERE
+
+// Global
+@import "./assets/styles/variables";
+// @import "styles/_variables.scss";
+@import "./assets/styles/global";
+@import "./assets/styles/fonts";
+@import "./assets/styles/buttons";
+@import "./assets/styles/routing";
+
+// Pages
+@import "pages/add-new-page/add-new-page";
+@import "pages/calendar-page/calendar-page";
+@import "pages/dashboard-page/dashboard-page";
+@import "pages/data-policy-page/data-policy-page";
+@import "pages/exams-page/exams-page";
+@import "pages/imprint-page/imprint-page";
+@import "pages/no-match-page/404-page";
+@import "pages/user-account-page/user-account-page";
+@import "pages/login-page/login-page";
+
+// Components
+@import "components/add-new/add-new";
+@import "components/login/login";
+@import "components/empty-dashboard/empty-dashboard";
+
+// Subcomponents
+@import "components/input/input";
+@import "components/label/label";
+@import "components/button/button";
+@import "components/textarea/textarea";
