@@ -6,20 +6,37 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
-function Login() {
+function SignUp() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [username, setUsername] = useState("")
 
   const handleSubmit = evt => {
     evt.preventDefault()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="login__form">
+    <form onSubmit={handleSubmit} className="signup__form">
+      <Label
+        for="username"
+        text="Username"
+        className="signup__form__username-label"
+      ></Label>
+      <Input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="lucy@stan.io"
+        value={username}
+        maxLength={50}
+        className="signup__form__username-input"
+        onChange={evt => setUsername(evt.target.value.slice(0, 50))}
+        required
+      />
       <Label
         for="email"
         text="E-Mail"
-        className="login__form__email-label"
+        className="signup__form__email-label"
       ></Label>
       <Input
         type="email"
@@ -28,14 +45,14 @@ function Login() {
         placeholder="lucy@stan.io"
         value={email}
         maxLength={50}
-        className="login__form__email-input"
+        className="signup__form__email-input"
         onChange={evt => setEmail(evt.target.value.slice(0, 50))}
         required
       />
       <Label
         for="password"
         text="Pasword"
-        className="login__form__password-label"
+        className="signup__form__password-label"
       ></Label>
       <Input
         type="password"
@@ -44,24 +61,25 @@ function Login() {
         placeholder=""
         value={password}
         maxLength={30}
-        className="login__form__passwort-input"
+        className="signup__form__passwort-input"
         onChange={evt => setPassword(evt.target.value.slice(0, 30))}
         required
       />
-      <div className="login__form__buttons">
-        <div className="col-md-6 login__button-left">
+
+      <div className="signup__form__buttons">
+        <div className="col-md-6 signup__button-left">
           <Button variant="button" text="Google Login" />
         </div>
 
-        <div className="col-md-6 login__button-right">
+        <div className="col-md-6 signup__button-right">
           <Button variant="button" text="Login" />
         </div>
       </div>
-      <div className="col-md-12 login__redirect-signup">
-        <p>not registered?</p> <a href="/sign-up"> sign up</a>
+      <div className="col-md-12 signup__redirect-signup">
+        <p>already have an account?</p> <a href="/login"> login</a>
       </div>
     </form>
   )
 }
 
-export default Login
+export default SignUp

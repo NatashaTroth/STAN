@@ -2,21 +2,22 @@ import React from "react"
 // --------------------------------------------------------------
 
 // components
-import LoginForm from "../../components/login/Login"
+import SignUpForm from "../../components/signup/SignUp"
 
-function LoginPage() {
+function SignUpPage() {
   return (
-    <div className="login">
+    <div className="signup">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <h2 className="login__heading">Login</h2>
-            <p className="login__sub-heading">
-              You can log into your account via Google or your E-Mail address
+            <h2 className="signup__heading">Sign Up</h2>
+            <p className="signup__sub-heading">
+              You can sign up via Google or with your E-Mail address
             </p>
           </div>
+
           <div className="col-md-12">
-            <LoginForm />
+            <SignUpForm />
           </div>
         </div>
       </div>
@@ -24,4 +25,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default SignUpPage
