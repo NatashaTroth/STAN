@@ -58,7 +58,11 @@ function Login() {
         </div>
       </div>
       <div className="col-md-12 login__redirect-signup">
-        <p>not registered?</p> <a href="/sign-up"> sign up</a>
+        <p className="login__redirect-signup__text">not registered?</p>{" "}
+        <a href="/sign-up" className="login__redirect-signup__link">
+          {" "}
+          sign up
+        </a>
       </div>
     </form>
   )

@@ -20,7 +20,7 @@ function SignUp() {
       <Label
         for="username"
         text="Username"
-        className="signup__form__username-label"
+        className="signup__form__username-label input-required"
       ></Label>
       <Input
         type="text"
@@ -36,7 +36,7 @@ function SignUp() {
       <Label
         for="email"
         text="E-Mail"
-        className="signup__form__email-label"
+        className="signup__form__email-label input-required"
       ></Label>
       <Input
         type="email"
@@ -52,7 +52,7 @@ function SignUp() {
       <Label
         for="password"
         text="Pasword"
-        className="signup__form__password-label"
+        className="signup__form__password-label input-required"
       ></Label>
       <Input
         type="password"
@@ -65,7 +65,6 @@ function SignUp() {
         onChange={evt => setPassword(evt.target.value.slice(0, 30))}
         required
       />
-
       <div className="signup__form__buttons">
         <div className="col-md-6 signup__button-left">
           <Button variant="button" text="Google Login" />
@@ -75,8 +74,14 @@ function SignUp() {
           <Button variant="button" text="Login" />
         </div>
       </div>
-      <div className="col-md-12 signup__redirect-signup">
-        <p>already have an account?</p> <a href="/login"> login</a>
+      <div className="col-md-12 signup__form__redirect-signup">
+        <p className="signup__form__redirect-signup__text">
+          already have an account?
+        </p>{" "}
+        <a href="/login" className="signup__form__redirect-signup__link">
+          {" "}
+          login
+        </a>
       </div>
     </form>
   )
