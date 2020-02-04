@@ -1,0 +1,28 @@
+.login {
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &__password-label {
+      padding-top: 16px;
+    }
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      padding-top: 35px;
+    }
+    &__redirect-signup {
+      display: flex;
+      justify-content: center;
+      padding-top: 20px;
+
+      &__text {
+        color: theme-color("grey-dark");
+        padding-right: 10px;
+      }
+      &__link {
+        font-weight: bold;
+      }
+    }
+  }
+}
