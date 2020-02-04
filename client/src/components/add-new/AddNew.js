@@ -1,19 +1,19 @@
 import React, { useState } from "react"
-import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../queries/queries"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { GET_USERS_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 // --------------------------------------------------------------
 
-// components
+// components ----------------
 import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Textarea from "../../components/textarea/Textarea"
+import Button from "../../components/button/Button"
 
 function AddNew() {
-  // const { loading, error, data } = useQuery(GET_USERS_QUERY)
-
-  // if (loading) return <p>Loading...</p>
-  // if (error) return <p>Error :(</p>
-
+  // query ----------------
+  const { loading, error, data } = useQuery(GET_USERS_QUERY)
+  // state handling ----------------
   const [exam_subject, setExamSubject] = useState("")
   const [exam_date, setExamDate] = useState("")
   const [exam_start_date, setExamStartDate] = useState("")
@@ -27,6 +27,14 @@ function AddNew() {
     evt.preventDefault()
   }
 
+  // mutation ----------------
+  const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
+
+  // error handling ----------------
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+
+  // return ----------------
   return (
     <div className="add-new">
       <div className="container-fluid">
@@ -198,11 +206,28 @@ function AddNew() {
                   </div>
 
                   <div className="add-new__form__submit">
-                    <Input
+                    <Button
                       className="add-new__form__element__btn stan-btn-primary"
-                      type="submit"
-                      value="Add"
-                      // onChange={evt => setExamPdfUpload(evt.target.value)}
+                      variant="button"
+                      text="Add"
+                      onClick={e => {
+                        e.preventDefault()
+                        // console.log("in onclick")
+                        addExam({
+                          variables: {
+                            subject: exam_subject,
+                            examDate: exam_date,
+                            startDate: exam_start_date,
+                            numberPages: exam_page_amount,
+                            timePerPage: exam_page_time,
+                            currentPage: exam_page_repeat,
+                            notes: exam_page_notes,
+                            pdfLink: exam_pdf_upload,
+                            completed: false,
+                          },
+                          refetchQueries: [{ query: GET_EXAMS_QUERY }],
+                        })
+                      }}
                     />
                   </div>
                 </div>
