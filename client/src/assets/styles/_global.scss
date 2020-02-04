@@ -5,6 +5,10 @@ html body {
   font-size: 62.5%; // for px to rem conversion
   overflow-x: hidden; // hide horizontal scroll bar
 
+  *:focus {
+    outline: 3px solid theme-color("primary-yellow");
+  }
+
   h1 {
     color: theme-color("dark");
     font-family: $font-family-BasierCircle-Bold;
@@ -194,6 +198,9 @@ html body {
   }
 
   input[type="file"] {
+    border: none;
+    margin: 2px 0;
+
     &::-webkit-file-upload-button {
       border: 2px solid theme-color("dark");
       color: theme-color("dark");
@@ -204,6 +211,7 @@ html body {
       text-transform: uppercase;
       padding: 5px 10px;
       transition: all 200ms ease-in-out;
+      cursor: pointer;
 
       &:hover,
       &:active,
