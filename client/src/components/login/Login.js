@@ -32,7 +32,6 @@ function Login() {
         onChange={evt => setEmail(evt.target.value.slice(0, 50))}
         required
       />
-
       <Label
         for="password"
         text="Pasword"
@@ -49,7 +48,6 @@ function Login() {
         onChange={evt => setPassword(evt.target.value.slice(0, 30))}
         required
       />
-
       <div className="login__form__buttons">
         <div className="col-md-6 login__button-left">
           <Button variant="button" text="Google Login" />
@@ -58,6 +56,13 @@ function Login() {
         <div className="col-md-6 login__button-right">
           <Button variant="button" text="Login" />
         </div>
+      </div>
+      <div className="col-md-12 login__redirect-signup">
+        <p className="login__redirect-signup__text">not registered?</p>{" "}
+        <a href="/sign-up" className="login__redirect-signup__link">
+          {" "}
+          sign up
+        </a>
       </div>
     </form>
   )

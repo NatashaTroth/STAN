@@ -15,13 +15,15 @@
 @import "pages/data-policy-page/data-policy-page";
 @import "pages/exams-page/exams-page";
 @import "pages/imprint-page/imprint-page";
-@import "pages/login-page/login-page";
 @import "pages/no-match-page/404-page";
 @import "pages/user-account-page/user-account-page";
+@import "pages/login-page/login-page";
+@import "pages/sign-up-page/sign-up-page";
 
 // Components
 @import "components/add-new/add-new";
 @import "components/login/login";
+@import "components/signup/signup";
 
 // Subcomponents
 @import "components/input/input";

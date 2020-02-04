@@ -11,8 +11,8 @@
   &__redirect-signup {
     display: flex;
     justify-content: center;
-    p,
-    a {
+    &__text,
+    &__link {
       padding: 10px; // TODO: nur zum Anschauen, später ändern!
     }
   }
