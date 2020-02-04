@@ -11,14 +11,9 @@ const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 
-const passport = require("./config/passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const uuid = require("uuid/v4");
-//Passport config
-// require("./config/passport")(passport);
-// require("./resolvers/userResolvers");
-
 import User from "./#testUsers";
 
 //TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
@@ -26,40 +21,14 @@ import User from "./#testUsers";
 //https://jkettmann.com/authentication-and-authorization-with-graphql-and-passport/
 
 //Express Session
-app.use(
-  session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true }
-  })
-);
-
-//intialise passport (Passport middleware)
-app.use(passport.initialize());
-app.use(passport.session());
-
-// //login, signup
-// app.get("/login", function(req, res) {
-//   res.send("Login");
-// });
-// app.get("/signup", function(req, res) {
-//   res.send("Signup");
-// });
-
-// app.post('/login',
-//   passport.authenticate('local'),
-//   function(req, res) {
-//     // If this function gets called, authentication was successful.
-//     // `req.user` contains the authenticated user.
-//     res.redirect('/' + req.user.username);
-//   });
-
-app.post("/login", passport.authenticate("local"), function(req, res) {
-  // If this function gets called, authentication was successful.
-  // `req.user` contains the authenticated user.
-  res.redirect("/users/" + req.user.username);
-});
+// app.use(
+//   session({
+//     secret: "secret",
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { secure: true }
+//   })
+// );
 
 mongoose
   .connect(connectionString, {
@@ -74,11 +43,9 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
-//buildcontext - so can access in resolvers (i think
-//buildcontext will add all additional fields you pass to it to the context.)
 const server = new ApolloServer({
   schema,
-  context: ({ req, res }) => ({ req, res, User }),
+  context: ({ req, res }) => ({ req, res }),
   playground: {
     settings: {
       "request.credentials": "same-origin"

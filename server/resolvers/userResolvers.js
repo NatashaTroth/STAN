@@ -4,7 +4,7 @@ const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
 // import passport from "passport";
 const bcrypt = require("bcrypt");
-const passport = require("../config/passport");
+const passport = require("../config/#passport");
 
 //TODO: Authentication
 const userResolvers = {
@@ -23,56 +23,9 @@ const userResolvers = {
   },
   Mutation: {
     addUser: (root, args, context, info) => {
-      // console.log(args.password);
       return User.create(args);
-      // console.log("created user " + args)
     },
-    // logout: (parent, args, context) => context.logout(),
-    // login: async (parent, { email, password }, context) => {
-    //   const { user } = await context.authenticate("graphql-local", {
-    //     email,
-    //     password
-    //   });
-    //   console.log("user... : " + user);
-
-    //   await context.login(user);
-    //   return { user };
-    // },
-    login: (parent, args, context) => {
-      try {
-        console.log("in login");
-
-        // passport.authenticate("basic", { session: false }, function(req, res) {
-        //   console.log("in callback");
-        //   res.json({ id: req.user.id, username: req.user.username });
-        //   return res;
-        // });
-        console.log(JSON.stringify(passport));
-        passport.authenticate("local", (err, user, info) => {
-          if (err) throw err;
-          // if(!user)
-          console.log("TEst");
-        });
-      } catch (e) {
-        console.log(e.message);
-      } finally {
-        console.log("We do cleanup here");
-      }
-      // passport.authenticate("local", function(err, user, info) {
-      //   if (err) {
-      //     return next(err);
-      //   }
-      //   if (!user) {
-      //     console.log("no user");
-      //   }
-      //   req.logIn(user, function(err) {
-      //     if (err) {
-      //       return next(err);
-      //     }
-      //     return res.redirect("/users/" + user.username);
-      //   });
-      // })(req, res, next);
-    },
+    login: (parent, args, context) => {},
     signup: async (parent, args, context) => {
       let newUser = null;
       const { username, email, password, mascot } = args;
@@ -110,37 +63,7 @@ const userResolvers = {
         );
       } catch (e) {
         console.error(e.message);
-      } finally {
-        console.log("We do cleanup here");
       }
-
-      // userWithEmail
-      //   .then(async resp => {
-      //     //TODO: REFACTOR WITH ES6
-      //     if (resp.length > 0) {
-      //       //TODO: ERROR HANDLING
-      //       throw new UserInputError("User with email already exists", {
-      //         invalidArgs: Object.keys({ username, email, password, mascot })
-      //       });
-      //     }
-      //     newUser = {
-      //       id: uuid(),
-      //       username,
-      //       email,
-      //       password,
-      //       mascot
-      //     };
-      //     console.log(newUser);
-      //     //TODO BCRYPT
-      //     User.create({ username, email, password, mascot });
-      //     context.User.addUser(newUser);
-      //     // console.log(context);
-      //     await context.login(newUser);
-      //   })
-      //   .catch(e => {
-      //     console.log(e.message);
-      //   });
-
       return { user: newUser };
     }
   }
