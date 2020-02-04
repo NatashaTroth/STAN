@@ -1,3 +1,5 @@
+// "server": "nodemon --exec babel-node app.js",  
+  
   mutation{
     addUser(username: "Natasha", password: "asecret", email: "test@test.at", photoLink: "url", mascot: 1){
       id

@@ -17,10 +17,8 @@
   "dependencies": {
     "apollo-server": "^2.9.16",
     "apollo-server-express": "^2.9.16",
-    "babel-cli": "^6.26.0",
     "bcrypt": "^3.0.7",
     "concurrently": "^5.0.2",
-    "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
@@ -31,15 +29,12 @@
     "merge-graphql-schemas": "^1.7.6",
     "mongoose": "^5.8.7",
     "nodemon": "^2.0.2",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
     "prettier": "^1.19.1",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
     "eslint": "^6.8.0"
   }
 }

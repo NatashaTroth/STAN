@@ -11,10 +11,10 @@ const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 
-const LocalStrategy = require("passport-local").Strategy;
+// const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const uuid = require("uuid/v4");
-import User from "./#testUsers";
+// import User from "./#testUsers";
 
 //TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
 //you would want to set the cookie to secure mode so that it is only sent via https. You can use the cookie option for this: cookie: { secure: true }
