@@ -1,13 +1,10 @@
+// Styling for Login & SignUp
 .login {
   &__form {
     display: flex;
     flex-direction: column;
     padding: 80px 100px;
 
-    &__inner {
-      display: flex;
-      flex-direction: column;
-    }
     &__password-label,
     &__email-label {
       padding-top: 16px;
@@ -27,9 +24,6 @@
       &__text {
         color: theme-color("grey-dark");
         padding-right: 10px;
-      }
-      &__link {
-        font-weight: 800;
       }
     }
   }
