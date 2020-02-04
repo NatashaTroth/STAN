@@ -1,4 +1,7 @@
 import React, { useState } from "react"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { SUCCESS_SIGNUP } from "../../graphQL/queries"
+import { ADD_USER_MUTATION } from "../../graphQL/mutations"
 // --------------------------------------------------------------
 
 // components
@@ -14,6 +17,8 @@ function SignUp() {
   const handleSubmit = evt => {
     evt.preventDefault()
   }
+
+  const [addUser, { mutationData }] = useMutation(ADD_USER_MUTATION)
 
   return (
     <form onSubmit={handleSubmit} className="signup__form">
@@ -71,7 +76,21 @@ function SignUp() {
         </div>
 
         <div className="col-md-6 signup__button-right">
-          <Button variant="button" text="Login" />
+          <Button
+            variant="button"
+            text="Login"
+            onClick={e => {
+              e.preventDefault()
+              addUser({
+                variables: {
+                  username: username,
+                  email: email,
+                  password: password,
+                },
+                refetchQueries: [{ query: SUCCESS_SIGNUP }],
+              })
+            }}
+          />
         </div>
       </div>
       <div className="col-md-12 signup__form__redirect-signup">

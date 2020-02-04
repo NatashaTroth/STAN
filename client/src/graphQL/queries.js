@@ -7,7 +7,6 @@ const GET_USERS_QUERY = gql`
       id
       username
       email
-      photoLink
       mascot
     }
   }
@@ -62,10 +61,21 @@ const GET_AUTHORS_QUERY = gql`
   }
 `
 
+const SUCCESS_SIGNUP = gql`
+  {
+    user {
+      username
+      email
+      password
+    }
+  }
+`
+
 export {
   GET_USERS_QUERY,
   GET_EXAMS_QUERY,
   GET_AUTHORS_QUERY,
   GET_BOOKS_QUERY,
   GET_BOOK_QUERY,
+  SUCCESS_SIGNUP,
 }
