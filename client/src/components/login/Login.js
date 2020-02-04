@@ -16,24 +16,38 @@ function Login() {
 
   return (
     <form onSubmit={handleSubmit} className="login__form">
-      <Label for="email" text="E-Mail"></Label>
+      <Label
+        for="email"
+        text="E-Mail"
+        className="login__form__email-label"
+      ></Label>
       <Input
         type="email"
+        id="email"
         name="email"
         placeholder="lucy@stan.io"
         value={email}
         maxLength={50}
+        className="login__form__email-input"
         onChange={evt => setEmail(evt.target.value.slice(0, 50))}
+        required
       />
 
-      <Label for="password" text="Pasword"></Label>
+      <Label
+        for="password"
+        text="Pasword"
+        className="login__form__password-label"
+      ></Label>
       <Input
         type="password"
+        id="password"
         name="password"
         placeholder=""
         value={password}
         maxLength={30}
+        className="login__form__passwort-input"
         onChange={evt => setPassword(evt.target.value.slice(0, 30))}
+        required
       />
 
       <div className="login__form__buttons">
