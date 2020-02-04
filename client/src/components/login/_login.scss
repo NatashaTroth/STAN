@@ -2,14 +2,22 @@
   &__form {
     display: flex;
     flex-direction: column;
+    padding: 80px 100px;
 
-    &__password-label {
+    &__inner {
+      display: flex;
+      flex-direction: column;
+    }
+    &__password-label,
+    &__email-label {
       padding-top: 16px;
     }
     &__buttons {
       display: flex;
-      flex-direction: row;
       padding-top: 35px;
+      &__button-left {
+        padding-right: 10px;
+      }
     }
     &__redirect-signup {
       display: flex;
@@ -21,7 +29,7 @@
         padding-right: 10px;
       }
       &__link {
-        font-weight: bold;
+        font-weight: 800;
       }
     }
   }
