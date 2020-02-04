@@ -73,100 +73,106 @@ function AddNew() {
                         />
                       </div>
 
-                      <div className="add-new__form__element">
-                        <Label
-                          for="exam-date"
-                          text="Exam date"
-                          className="add-new__form__element__label input-required"
-                        ></Label>
-                        <Input
-                          className="add-new__form__element__input"
-                          type="date"
-                          id="exam-date"
-                          name="exam_date"
-                          placeholder="DD/MM/YYYY"
-                          value={exam_date}
-                          maxLength={null}
-                          onChange={evt => setExamDate(evt.target.value)}
-                          required
-                        />
+                      <div className="add-new__form__container">
+                        <div className="add-new__form__element">
+                          <Label
+                            for="exam-date"
+                            text="Exam date"
+                            className="add-new__form__element__label input-required"
+                          ></Label>
+                          <Input
+                            className="add-new__form__element__input"
+                            type="date"
+                            id="exam-date"
+                            name="exam_date"
+                            placeholder="DD/MM/YYYY"
+                            value={exam_date}
+                            maxLength={null}
+                            onChange={evt => setExamDate(evt.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="add-new__form__element">
+                          <Label
+                            for="study-start-date"
+                            text="Start learning on"
+                            className="add-new__form__element__label"
+                          ></Label>
+                          <Input
+                            className="add-new__form__element__input"
+                            type="date"
+                            id="study-start-date"
+                            name="exam_study_start_date"
+                            placeholder="DD/MM/YYYY"
+                            value={exam_start_date}
+                            maxLength={null}
+                            onChange={evt => setExamStartDate(evt.target.value)}
+                          />
+                        </div>
                       </div>
 
-                      <div className="add-new__form__element">
-                        <Label
-                          for="study-start-date"
-                          text="Start learning on"
-                          className="add-new__form__element__label"
-                        ></Label>
-                        <Input
-                          className="add-new__form__element__input"
-                          type="date"
-                          id="study-start-date"
-                          name="exam_study_start_date"
-                          placeholder="DD/MM/YYYY"
-                          value={exam_start_date}
-                          maxLength={null}
-                          onChange={evt => setExamStartDate(evt.target.value)}
-                        />
-                      </div>
+                      <div className="add-new__form__container add-new__form__container--numbers">
+                        <div className="add-new__form__element">
+                          <Label
+                            for="page-amount"
+                            text="Amount of pages"
+                            className="add-new__form__element__label input-required"
+                          ></Label>
+                          <Input
+                            className="add-new__form__element__input"
+                            type="number"
+                            id="page-amount"
+                            name="exam_study_start_date"
+                            placeholder="829"
+                            value={exam_page_amount}
+                            maxLength={10000}
+                            onChange={evt =>
+                              setExamPageAmount(
+                                evt.target.value.slice(0, 10000)
+                              )
+                            }
+                            required
+                          />
+                        </div>
 
-                      <div className="add-new__form__element">
-                        <Label
-                          for="page-amount"
-                          text="Amount of pages"
-                          className="add-new__form__element__label input-required"
-                        ></Label>
-                        <Input
-                          className="add-new__form__element__input"
-                          type="number"
-                          id="page-amount"
-                          name="exam_study_start_date"
-                          placeholder="829"
-                          value={exam_page_amount}
-                          maxLength={10000}
-                          onChange={evt =>
-                            setExamPageAmount(evt.target.value.slice(0, 10000))
-                          }
-                          required
-                        />
-                      </div>
+                        <div className="add-new__form__element">
+                          <Label
+                            for="page-time"
+                            text="Time per page (h:m)"
+                            className="add-new__form__element__label"
+                          ></Label>
+                          <Input
+                            className="add-new__form__element__input"
+                            type="time"
+                            id="page-time"
+                            name="exam_page_time"
+                            placeholder="5 min"
+                            value={exam_page_time}
+                            maxLength={null}
+                            onChange={evt => setExamPageTime(evt.target.value)}
+                          />
+                        </div>
 
-                      <div className="add-new__form__element">
-                        <Label
-                          for="page-time"
-                          text="Time per page (HH:MM)"
-                          className="add-new__form__element__label"
-                        ></Label>
-                        <Input
-                          className="add-new__form__element__input"
-                          type="time"
-                          id="page-time"
-                          name="exam_page_time"
-                          placeholder="5 min"
-                          value={exam_page_time}
-                          maxLength={null}
-                          onChange={evt => setExamPageTime(evt.target.value)}
-                        />
-                      </div>
-
-                      <div className="add-new__form__element">
-                        <Label
-                          for="page-repeat"
-                          text="Repeat"
-                          className="add-new__form__element__label"
-                        ></Label>
-                        <Input
-                          className="add-new__form__element__input"
-                          type="number"
-                          id="page-repeat"
-                          name="exam_page_repeat"
-                          placeholder="2 times"
-                          value={exam_page_repeat}
-                          maxLength={50}
-                          onChange={evt =>
-                            setExamPageRepeat(evt.target.value.slice(0, 50))
-                          }
-                        />
+                        <div className="add-new__form__element">
+                          <Label
+                            for="page-repeat"
+                            text="Repeat"
+                            className="add-new__form__element__label"
+                          ></Label>
+                          <Input
+                            className="add-new__form__element__input"
+                            type="number"
+                            id="page-repeat"
+                            name="exam_page_repeat"
+                            placeholder="2 times"
+                            value={exam_page_repeat}
+                            maxLength={50}
+                            onChange={evt =>
+                              setExamPageRepeat(evt.target.value.slice(0, 50))
+                            }
+                          />
+                        </div>
                       </div>
 
                       <div className="add-new__form__element">

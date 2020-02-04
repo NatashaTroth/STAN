@@ -193,12 +193,33 @@ html body {
     color: theme-color("grey-dark");
   }
 
+  input[type="file"] {
+    &::-webkit-file-upload-button {
+      border: 2px solid theme-color("dark");
+      color: theme-color("dark");
+      font-family: $font-family-BasierCircle-SemiBold;
+      @include rem(font-size, $font-size-14);
+      @include rem(letter-spacing, 1.5px);
+      @include rem(line-height, 20px);
+      text-transform: uppercase;
+      padding: 5px 10px;
+      transition: all 200ms ease-in-out;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: theme-color("dark");
+        color: theme-color("light");
+      }
+    }
+  }
+
   textarea {
     width: 100%;
     min-height: 150px;
     border: none;
     border-bottom: 2px solid theme-color("dark");
-    padding: 5px 2px;
+    padding: 5px 15px;
     color: theme-color("dark");
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
@@ -231,6 +252,7 @@ html body {
       .box-content {
         flex-grow: 1;
         border: 4px solid theme-color("dark");
+        padding: 20px;
       }
 
       .box-right {
