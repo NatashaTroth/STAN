@@ -4,13 +4,14 @@ const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
 // import passport from "passport";
 const bcrypt = require("bcrypt");
-const passport = require("../config/#passport");
+// const passport = require("../config/#passport");
 const jwt = require("jsonwebtoken");
 
 //TODO: Authentication
 const userResolvers = {
   Query: {
-    users: (root, arg, context, info) => {
+    users: (root, arg, { req, res }, info) => {
+      if (!req.isAuth) throw new Error("Unauthorised");
       return User.find({});
       // return fetchData()
     },

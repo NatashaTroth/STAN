@@ -10,25 +10,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
+const isAuth = require("./middleware/is-auth");
 
 // const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
+// const session = require("express-session");
 const uuid = require("uuid/v4");
-// import User from "./#testUsers";
-
-//TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
-//you would want to set the cookie to secure mode so that it is only sent via https. You can use the cookie option for this: cookie: { secure: true }
-//https://jkettmann.com/authentication-and-authorization-with-graphql-and-passport/
-
-//Express Session
-// app.use(
-//   session({
-//     secret: "secret",
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { secure: true }
-//   })
-// );
 
 mongoose
   .connect(connectionString, {
@@ -37,6 +23,8 @@ mongoose
   })
   .then(() => console.log("connected to db"))
   .catch(e => console.error(e.message));
+
+app.use(isAuth);
 
 const schema = makeExecutableSchema({
   typeDefs,
