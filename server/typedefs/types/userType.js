@@ -7,7 +7,6 @@ const userType = gql`
     username: String!
     password: String!
     email: String!
-    photoLink: String
     mascot: Int!
   }
 `;

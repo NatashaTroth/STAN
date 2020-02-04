@@ -1,5 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { User, Exam } = require("../models");
+const { User, Exam } = require("./models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 

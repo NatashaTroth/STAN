@@ -10,7 +10,32 @@ const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 
+const passport = require("passport");
+const session = require("express-session");
+
 app.use(cors());
+
+// //login, signup
+// app.get("/login", function(req, res) {
+//   res.send("Login");
+// });
+// app.get("/signup", function(req, res) {
+//   res.send("Signup");
+// });
+
+// app.post('/login',
+//   passport.authenticate('local'),
+//   function(req, res) {
+//     // If this function gets called, authentication was successful.
+//     // `req.user` contains the authenticated user.
+//     res.redirect('/' + req.user.username);
+//   });
+
+app.post("/login", passport.authenticate("local"), function(req, res) {
+  // If this function gets called, authentication was successful.
+  // `req.user` contains the authenticated user.
+  res.redirect("/users/" + req.user.username);
+});
 
 mongoose
   .connect(connectionString, {
