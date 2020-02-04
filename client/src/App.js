@@ -1,5 +1,7 @@
 import React from "react"
+
 import Navigation from "./Routing"
+// import Logo from "./images/icons/logo.svg"
 
 // import logo from "./logo.svg";
 import "./App.scss"
@@ -27,7 +29,6 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          {/* <h1>Stan's Books - not</h1> */}
           <Navigation></Navigation>
         </header>
         {/* <UserList></UserList> */}
