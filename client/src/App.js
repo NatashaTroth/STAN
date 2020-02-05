@@ -1,16 +1,8 @@
 import React from "react"
 import Navigation from "./Routing"
-
-// import logo from "./logo.svg";
 import "./App.scss"
-
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
-
-// components
-// import BookList from "./components/BookList";
-// import UserList from "./components/UserList";
-// import AddBook from "./components/AddBook";
 
 //apollo client setup
 //uri = endpoint
@@ -27,12 +19,9 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          {/* <h1>Stan's Books - not</h1> */}
+          <h1 className="hide">Stan - online study plan</h1>
           <Navigation></Navigation>
         </header>
-        {/* <UserList></UserList> */}
-        {/* <BookList></BookList> */}
-        {/* <AddBook></AddBook> */}
       </div>
     </ApolloProvider>
   )

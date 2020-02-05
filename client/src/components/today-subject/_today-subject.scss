@@ -1,0 +1,59 @@
+.today-subject {
+  border: none;
+  //   background-color: transparent;
+  text-align: left;
+  width: 100%;
+  padding: 10px 10px;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    background-color: theme-color("primary-yellow-dark");
+
+    .today-subject__heading,
+    .today-subject__duration {
+      color: theme-color("light");
+    }
+  }
+
+  .container-fluid {
+    padding: 0;
+  }
+
+  &__heading {
+    transition: all 150ms ease-in-out;
+  }
+
+  &__duration {
+    display: flex;
+    transition: all 150ms ease-in-out;
+
+    &__text {
+      margin-right: 15px;
+    }
+    &__time {
+      font-family: $font-family-BasierCircle-SemiBold;
+    }
+  }
+}
+
+.active-subject {
+  background-color: theme-color("primary-yellow-dark");
+  color: theme-color("light");
+  width: 108%;
+  z-index: 2;
+
+  .row {
+    width: 100%;
+  }
+
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
+
+  .today-subject__heading {
+    color: theme-color("light");
+  }
+}

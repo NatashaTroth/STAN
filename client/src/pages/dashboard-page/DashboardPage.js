@@ -5,6 +5,7 @@ import { GET_USERS_QUERY } from "../../graphQL/queries"
 
 // components ----------------
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
+import TodayGoals from "../../components/today-goals/TodayGoals"
 
 function Dashboard() {
   // query ----------------
@@ -23,10 +24,17 @@ function Dashboard() {
             <h2 className="dashboard-page__heading">Hello Lucy</h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
+          {/* ------ no tasks ------*/}
           <div className="col-md-8">
             <EmptyDashboard></EmptyDashboard>
           </div>
           <div className="col-md-4"></div>
+          {/* ------ if tasks open ------*/}
+          <div className="col-md-4">
+            <TodayGoals></TodayGoals>
+          </div>
+          <div className="col-md-8">{/* Today */}</div>
+          <div className="col-md-4">{/* Today Progrss */}</div>
         </div>
       </div>
     </div>
