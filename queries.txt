@@ -50,6 +50,21 @@ mutation {
     }
   }
 }
+
+mutation {
+  signup(
+    username: "testUser",
+    email: "testUser@node.com",
+    password: "1234",
+    mascot: 1,
+    tokenVersion: 0
+  ){
+      username
+      email
+      mascot
+    
+  }
+}
 {
   currentUser {
     id
@@ -57,6 +72,9 @@ mutation {
   }
 }
 
+mutation {
+  logout
+}
 
 
 query {

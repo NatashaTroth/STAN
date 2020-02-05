@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
 const userType = gql`
@@ -8,9 +8,12 @@ const userType = gql`
     password: String!
     email: String!
     mascot: Int!
+    tokenVersion: Int
   }
-  type AuthPayload {
-    user: User
+  type AuthData {
+    userId: ID!
+    accessToken: String!
+    tokenExpiration: Int!
   }
 `;
 

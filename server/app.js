@@ -1,34 +1,23 @@
 //TODO: Extract middlewares into separate file??
 //TODO: change require to import
-const express = require("express");
-const { typeDefs } = require("./typedefs");
-const { resolvers } = require("./resolvers");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const { ApolloServer, gql } = require("apollo-server-express");
+import "dotenv/config";
+import express from "express";
+import { typeDefs } from "./typedefs";
+import { resolvers } from "./resolvers";
+import mongoose from "mongoose";
+import cors from "cors";
+import { ApolloServer } from "apollo-server-express";
+import { makeExecutableSchema } from "apollo-server";
+import isAuth from "./middleware/is-auth";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import { User } from "./models/index";
+import { createRefreshToken, createAccessToken } from "./auth";
+import { sendRefreshToken } from "./sendRefreshToken";
+
+const connectionString = "mongodb://localhost/MMP3";
 const app = express();
 const PORT = process.env.PORT || 5000;
-const { makeExecutableSchema } = require("apollo-server");
-const connectionString = "mongodb://localhost/MMP3";
-
-// const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
-const uuid = require("uuid/v4");
-// import User from "./#testUsers";
-
-//TODO: for ease of implementation we hard-coded the secret, but taking it from environment variables would be the way to go for a production environment
-//you would want to set the cookie to secure mode so that it is only sent via https. You can use the cookie option for this: cookie: { secure: true }
-//https://jkettmann.com/authentication-and-authorization-with-graphql-and-passport/
-
-//Express Session
-// app.use(
-//   session({
-//     secret: "secret",
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { secure: true }
-//   })
-// );
 
 mongoose
   .connect(connectionString, {
@@ -37,6 +26,41 @@ mongoose
   })
   .then(() => console.log("connected to db"))
   .catch(e => console.error(e.message));
+
+app.use(cookieParser());
+app.use(isAuth);
+// app.use(cors);
+
+//special route for updating access token - for security reasons
+app.post("/refresh_token", async (req, res) => {
+  //read refresh cookie - validate that it's correct
+  //TODO:late change name of refresh_token
+  const token = req.cookies.refresh_token;
+  if (!token) {
+    return res.send({ ok: false, accessToken: "" });
+  }
+  let payload = null;
+  try {
+    // console.log(process.env.REFRESH_TOKEN_SECRET);
+    payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+  } catch (err) {
+    console.log(err);
+    return res.send({ ok: false, accessToken: "" });
+  }
+
+  //token is valid and we can send back an access token
+  const user = await User.findOne({ _id: payload.userId });
+  if (!user) {
+    return res.send({ ok: false, accessToken: "" });
+  }
+
+  if (user.tokenVersion !== payload.tokenVersion) {
+    return res.send({ ok: false, accessToken: "" });
+  }
+  //also refresh the refresh token
+  sendRefreshToken(res, createRefreshToken(user));
+  return res.send({ ok: true, accessToken: createAccessToken(user) });
+});
 
 const schema = makeExecutableSchema({
   typeDefs,
