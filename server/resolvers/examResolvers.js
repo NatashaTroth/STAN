@@ -20,9 +20,9 @@ const examResolvers = {
   },
   Mutation: {
     addExam: (root, args, context, info) => {
-      console.log("test");
+      // console.log("test");
       // args.userId = User.find({id: args.userId}).id
-      console.log(args.examDate);
+      // console.log(args.examDate);
       return Exam.create(args);
       // console.log("created user " + args)
     }
