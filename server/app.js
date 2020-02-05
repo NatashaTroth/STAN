@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { User } from "./models/index";
 import { createAccessToken } from "./auth";
+import { sendRefreshToken } from "./sendRefreshToken";
 
 // const LocalStrategy = require("passport-local").Strategy;
 // const session = require("express-session");
@@ -37,7 +38,9 @@ app.post("/refresh_token", async (req, res) => {
   //read refresh cookie - validate that it's correct
   //TODO:late change name of refresh_token
   const token = req.cookies.refresh_token;
-  if (!token) return res.send({ ok: false, accessToken: "" });
+  if (!token) {
+    return res.send({ ok: false, accessToken: "" });
+  }
   let payload = null;
   try {
     // console.log(process.env.REFRESH_TOKEN_SECRET);
@@ -49,8 +52,12 @@ app.post("/refresh_token", async (req, res) => {
 
   //token is valid and we can send back an access token
   const user = await User.findOne({ _id: payload.userId });
-  if (!user) return res.send({ ok: false, accessToken: "" });
+  if (!user) {
+    return res.send({ ok: false, accessToken: "" });
+  }
 
+  //also refresh the refresh token
+  sendRefreshToken(res, createRefreshToken(user));
   return res.send({ ok: true, accessToken: createAccessToken(user) });
 });
 
