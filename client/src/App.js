@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+
 import Navigation from "./Routing"
 import "./App.scss"
 import ApolloClient from "apollo-boost"
@@ -19,7 +20,6 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          <h1 className="hide">Stan - online study plan</h1>
           <Navigation></Navigation>
         </header>
       </div>

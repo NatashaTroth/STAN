@@ -5,6 +5,9 @@ html body {
   font-size: 62.5%; // for px to rem conversion
   overflow-x: hidden; // hide horizontal scroll bar
 
+  a:focus {
+    outline: none;
+  }
   *:focus {
     outline: 3px solid theme-color("primary-yellow");
   }
