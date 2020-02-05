@@ -56,6 +56,9 @@ app.post("/refresh_token", async (req, res) => {
     return res.send({ ok: false, accessToken: "" });
   }
 
+  if (user.tokenVersion !== payload.tokenVersion) {
+    return res.send({ ok: false, accessToken: "" });
+  }
   //also refresh the refresh token
   sendRefreshToken(res, createRefreshToken(user));
   return res.send({ ok: true, accessToken: createAccessToken(user) });

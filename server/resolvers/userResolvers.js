@@ -30,6 +30,27 @@ const userResolvers = {
       // if (!req.isAuth) throw new Error("Unauthorised");
       return User.create(args);
     },
+    revokeRefreshTokensForUser: (root, { userId }, context, info) => {
+      //TODO: change to async await (find way for error handling)
+      User.findOneAndUpdate(
+        { _id: context.req.userId },
+        { $inc: { tokenVersion: 1 } },
+        { new: true },
+        (err, doc) => {
+          if (err) {
+            return false;
+          }
+        }
+      );
+      return true;
+
+      // findOneAndUpdate({ _id: res._id }, { $inc: {'post.like': 1 } }, {new: true },function(err, response) {
+      //   if (err) {
+      //   callback(err);
+      //  } else {
+      //   callback(response);
+      //  }
+    },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email: email });
       //TODO: Error Handling
@@ -52,27 +73,26 @@ const userResolvers = {
       console.log(user);
       return { userId: user.id, accessToken: accessToken, tokenExpiration: 15 };
     },
-    signup: async (parent, { username, email, password, mascot }, context) => {
+    signup: async (
+      parent,
+      { username, email, password, mascot, tokenVersion },
+      context
+    ) => {
       const userWithEmail = await User.findOne({ email: email });
 
       if (userWithEmail) {
         //TODO: ERROR HANDLING
         throw new UserInputError("User with email already exists");
       }
-      const newUser = { username, email, password, mascot };
-      //Hash Password - TODO: change
-      bcrypt.genSalt(10, (err, salt) =>
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-        })
-      );
+      const hash = await bcrypt.hash(password, 10);
 
+      console.log(hash);
       return User.create({
         username,
         email,
-        password,
-        mascot
+        password: hash,
+        mascot,
+        tokenVersion
       });
     }
   }

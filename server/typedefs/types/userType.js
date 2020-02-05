@@ -8,6 +8,7 @@ const userType = gql`
     password: String!
     email: String!
     mascot: Int!
+    tokenVersion: Int
   }
   type AuthData {
     userId: ID!
