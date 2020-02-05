@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   NavLink,
 } from "react-router-dom"
 
@@ -80,9 +79,9 @@ function Routing() {
         </div>
 
         <Switch>
-          <Route path="/">
+          {/* <Route path="/">
             <Dashboard />
-          </Route>
+          </Route> */}
           <Route path="/dashboard">
             <Dashboard />
           </Route>

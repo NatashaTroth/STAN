@@ -69,6 +69,7 @@
         text-transform: uppercase;
       }
 
+      // Highlight for navigation
       &__menu-top a.chosen,
       &__menu-bottom a.chosen {
         color: theme-color("primary-yellow");
