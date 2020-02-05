@@ -25,9 +25,10 @@ function AddNewPage() {
               enter all details about the exam
             </p>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-10">
             <AddNew></AddNew>
           </div>
+          <div className="col-md-2"></div>
         </div>
       </div>
     </div>
