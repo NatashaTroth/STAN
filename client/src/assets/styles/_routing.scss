@@ -28,6 +28,9 @@
           position: absolute;
           top: 0;
         }
+        // .active {
+        //   color: theme-color("primary-yellow");
+        // }
       }
       &__menu-top {
         &__dashboard {
@@ -70,10 +73,13 @@
       }
 
       // Highlight for navigation
-      &__menu-top a.chosen,
-      &__menu-bottom a.chosen {
-        color: theme-color("primary-yellow");
-      }
+      // &__menu-top a.chosen,
+      // &__menu-bottom a.chosen {
+      //   color: theme-color("primary-yellow");
+      // }
+      // .active {
+      //   color: theme-color("primary-yellow");
+      // }
     }
   }
 }
