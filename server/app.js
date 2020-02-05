@@ -12,6 +12,10 @@ const PORT = process.env.PORT || 5000;
 const { makeExecutableSchema } = require("apollo-server");
 const connectionString = "mongodb://localhost/MMP3";
 const isAuth = require("./middleware/is-auth");
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import { User } from "./models/index";
+import { createAccessToken } from "./auth";
 
 // const LocalStrategy = require("passport-local").Strategy;
 // const session = require("express-session");
@@ -25,7 +29,30 @@ mongoose
   .then(() => console.log("connected to db"))
   .catch(e => console.error(e.message));
 
+app.use(cookieParser());
 app.use(isAuth);
+
+//special route for updating access token - for security reasons
+app.post("/refresh_token", async (req, res) => {
+  //read refresh cookie - validate that it's correct
+  //TODO:late change name of refresh_token
+  const token = req.cookies.refresh_token;
+  if (!token) return res.send({ ok: false, accessToken: "" });
+  let payload = null;
+  try {
+    // console.log(process.env.REFRESH_TOKEN_SECRET);
+    payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+  } catch (err) {
+    console.log(err);
+    return res.send({ ok: false, accessToken: "" });
+  }
+
+  //token is valid and we can send back an access token
+  const user = await User.findOne({ _id: payload.userId });
+  if (!user) return res.send({ ok: false, accessToken: "" });
+
+  return res.send({ ok: true, accessToken: createAccessToken(user) });
+});
 
 const schema = makeExecutableSchema({
   typeDefs,
