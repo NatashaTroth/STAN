@@ -14,6 +14,8 @@ const jwt = require("jsonwebtoken");
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
+      if (!req.isAuth) throw new Error("Unauthorised");
+
       return User.find({});
       // return fetchData()
     },
@@ -21,7 +23,6 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: (parent, args, context) => {
-      // console.log("here:" + context.getUser());
       return context.req.userId;
     }
   },

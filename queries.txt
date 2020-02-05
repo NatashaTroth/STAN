@@ -72,6 +72,9 @@ mutation {
   }
 }
 
+mutation {
+  logout
+}
 
 
 query {
