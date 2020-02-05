@@ -2,10 +2,7 @@
   display: flex;
   &__side-bar {
     background-color: theme-color("light");
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
+    margin-right: 80px;
 
     display: flex;
     flex-direction: column;
@@ -21,6 +18,7 @@
       flex-direction: column;
       justify-content: space-between;
       height: 100vh;
+      width: 200px;
 
       .list-item {
         padding-bottom: 40px;
@@ -69,6 +67,11 @@
         height: 130px;
         margin-bottom: 30px;
         text-transform: uppercase;
+      }
+
+      &__menu-top a.chosen,
+      &__menu-bottom a.chosen {
+        color: theme-color("primary-yellow");
       }
     }
   }

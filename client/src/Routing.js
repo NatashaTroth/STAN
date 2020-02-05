@@ -1,5 +1,11 @@
 import React from "react"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom"
 
 // pages
 import Dashboard from "./pages/dashboard-page/DashboardPage"
@@ -21,44 +27,63 @@ function Routing() {
     <Router>
       <div className="navigation">
         <div className="navigation__side-bar">
-          <img
-            src={Logo}
-            alt="Stans Logo"
-            className="navigation__side-bar__logo"
-          />
+          <a href="/dashboard">
+            <img
+              src={Logo}
+              alt="Stans Logo"
+              className="navigation__side-bar__logo"
+            />
+          </a>
           <ul className="navigation__side-bar__list">
             <div className="navigation__side-bar__list__menu-top">
               <li className="navigation__side-bar__list__menu-top__dashboard list-item">
-                <Link to="/">Dashboard</Link>
+                <NavLink to="/dashboard" activeClassName="chosen">
+                  Dashboard
+                </NavLink>
               </li>
               <li className="navigation__side-bar__list__menu-top__add-new list-item">
-                <Link to="/add-new">Add New</Link>
+                <NavLink to="/add-new" activeClassName="chosen">
+                  Add New
+                </NavLink>
               </li>
               <li className="navigation__side-bar__list__menu-top__calendar list-item">
-                <Link to="/calendar">Calendar</Link>
+                <NavLink to="/calendar" activeClassName="chosen">
+                  Calendar
+                </NavLink>
               </li>
               <li className="navigation__side-bar__list__menu-top__exams list-item">
-                <Link to="/exams">Exams</Link>
+                <NavLink to="/exams" activeClassName="chosen">
+                  Exams
+                </NavLink>
               </li>
             </div>
 
             <div className="navigation__side-bar__list__menu-bottom">
               <li>
-                <Link to="/profile">Profile Icon</Link>
+                <NavLink to="/profile" activeClassName="chosen">
+                  Profile Icon
+                </NavLink>
               </li>
               <li>Dark mode</li>
               <li>
-                <Link to="/imprint">Imprint</Link>
+                <NavLink to="/imprint" activeClassName="chosen">
+                  Imprint
+                </NavLink>
               </li>
               <li>
-                <Link to="/data-policy">Data Policy</Link>
+                <NavLink to="/data-policy" activeClassName="chosen">
+                  Data Policy
+                </NavLink>
               </li>
             </div>
           </ul>
         </div>
 
         <Switch>
-          <Route exact path="/">
+          <Route path="/">
+            <Dashboard />
+          </Route>
+          <Route path="/dashboard">
             <Dashboard />
           </Route>
           <Route path="/add-new">
