@@ -1,14 +1,19 @@
 .today-subject {
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  width: 100%;
   padding: 10px 10px;
   cursor: pointer;
-  transition: background-color 150ms ease-in-out;
+  transition: all 250ms ease-in-out;
 
   &:hover,
   &:focus {
     background-color: theme-color("primary-yellow-dark");
-    color: theme-color("light");
+    // color: theme-color("light");
 
-    .today-subject__heading {
+    .today-subject__heading,
+    .today-subject__duration {
       color: theme-color("light");
     }
   }
@@ -18,16 +23,18 @@
   }
 
   &__heading {
+    transition: all 150ms ease-in-out;
   }
 
   &__duration {
     display: flex;
+    transition: all 150ms ease-in-out;
 
     &__text {
       margin-right: 15px;
     }
     &__time {
-      font-family: $font-family-BasierCircle-Bold;
+      font-family: $font-family-BasierCircle-SemiBold;
     }
   }
 }

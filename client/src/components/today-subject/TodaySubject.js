@@ -4,7 +4,7 @@ import React from "react"
 const TodaySubject = ({ subject, durationTime, id, onClick }) => {
   // return ----------------
   return (
-    <div className="today-subject" id={id} onClick={onClick}>
+    <button className="today-subject" id={id} onClick={onClick}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
@@ -18,7 +18,7 @@ const TodaySubject = ({ subject, durationTime, id, onClick }) => {
           </div>
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 
