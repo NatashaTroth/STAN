@@ -17,11 +17,11 @@ const userResolvers = {
     },
     user: (root, arg, context, info) => {
       return fetchOneData();
+    },
+    currentUser: (parent, args, context) => {
+      // console.log("here:" + context.getUser());
+      return context.req.userId;
     }
-    // currentUser: (parent, args, context) => {
-    //   // console.log("here:" + context.getUser());
-    //   context.getUser();
-    // }
   },
   Mutation: {
     addUser: (root, args, context, info) => {
