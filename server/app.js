@@ -1,5 +1,6 @@
 //TODO: Extract middlewares into separate file??
 //TODO: change require to import
+import "dotenv/config";
 const express = require("express");
 const { typeDefs } = require("./typedefs");
 const { resolvers } = require("./resolvers");

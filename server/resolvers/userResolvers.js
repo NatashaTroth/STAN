@@ -2,6 +2,7 @@
 const { User } = require("../models");
 const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
+import { createAccessToken, createRefreshToken } from "../auth";
 // import passport from "passport";
 const bcrypt = require("bcrypt");
 // const passport = require("../config/#passport");
@@ -16,11 +17,11 @@ const userResolvers = {
     },
     user: (root, arg, context, info) => {
       return fetchOneData();
-    },
-    currentUser: (parent, args, context) => {
-      // console.log("here:" + context.getUser());
-      context.getUser();
     }
+    // currentUser: (parent, args, context) => {
+    //   // console.log("here:" + context.getUser());
+    //   context.getUser();
+    // }
   },
   Mutation: {
     addUser: (root, args, context, info) => {
@@ -40,19 +41,13 @@ const userResolvers = {
       // const refreshToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
       //   expiresIn: "7d"
       // });
-      const accessToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
-        expiresIn: "15m"
-      });
-
+      const accessToken = createAccessToken(user);
       //can also return in resolver?
       //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
-      context.res.cookie(
-        "refresh-token",
-        jwt.sign({ userId: user.id }, "differentSecretSaveToEnv", {
-          expiresIn: "7d"
-        }),
-        { httpOnly: true }
-      );
+      context.res.cookie("refresh-token", createRefreshToken(user), {
+        httpOnly: true
+      });
+
       console.log("user:");
       console.log(user);
       return { userId: user.id, accessToken: accessToken, tokenExpiration: 15 };
