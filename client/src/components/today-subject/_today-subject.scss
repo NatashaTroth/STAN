@@ -1,0 +1,48 @@
+.today-subject {
+  padding: 10px 10px;
+  cursor: pointer;
+  transition: background-color 150ms ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: theme-color("primary-yellow-dark");
+    color: theme-color("light");
+
+    .today-subject__heading {
+      color: theme-color("light");
+    }
+  }
+
+  .container-fluid {
+    padding: 0;
+  }
+
+  &__heading {
+  }
+
+  &__duration {
+    display: flex;
+
+    &__text {
+      margin-right: 15px;
+    }
+    &__time {
+      font-family: $font-family-BasierCircle-Bold;
+    }
+  }
+}
+
+#active-subject {
+  background-color: theme-color("primary-yellow-dark");
+  color: theme-color("light");
+  width: 108%;
+  z-index: 2;
+
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
+
+  .today-subject__heading {
+    color: theme-color("light");
+  }
+}
