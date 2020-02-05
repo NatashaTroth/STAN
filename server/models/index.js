@@ -1,6 +1,6 @@
-const User = require("./User");
-const Exam = require("./Exam");
-const { MotivationalSayings } = require("./MotivationalSayings");
+import User from "./User";
+import Exam from "./Exam";
+import { MotivationalSayings } from "./MotivationalSayings";
 
 module.exports = {
   User,

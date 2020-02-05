@@ -1,14 +1,9 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { User } = require("../models");
-const { UserInputError } = require("apollo-server");
-import uuid from "uuid/v4";
+import { User } from "../models";
+import { UserInputError } from "apollo-server";
 import { createAccessToken, createRefreshToken } from "../auth";
 import { sendRefreshToken } from "../sendRefreshToken";
-
-// import passport from "passport";
-const bcrypt = require("bcrypt");
-// const passport = require("../config/#passport");
-const jwt = require("jsonwebtoken");
+import bcrypt from "bcrypt";
 
 //TODO: Authentication
 const userResolvers = {
@@ -62,8 +57,6 @@ const userResolvers = {
       //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
       sendRefreshToken(context.res, createRefreshToken(user));
 
-      console.log("user:");
-      console.log(user);
       return { userId: user.id, accessToken: accessToken, tokenExpiration: 15 };
     },
     signup: async (
@@ -79,7 +72,6 @@ const userResolvers = {
       }
       const hash = await bcrypt.hash(password, 10);
 
-      console.log(hash);
       return User.create({
         username,
         email,

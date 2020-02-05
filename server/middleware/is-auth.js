@@ -1,9 +1,9 @@
 //TODO: REFACTOR: https://www.youtube.com/watch?v=25GS0MLT8JU
 
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 //TODO: refactor
 module.exports = (req, res, next) => {
-  const authHeader = req.get("authorization");
+  const authHeader = req.get("Authorization");
   if (!authHeader) {
     req.isAuth = false;
     return next(); //executes next function (if there is one)
@@ -23,7 +23,6 @@ module.exports = (req, res, next) => {
     req.isAuth = false;
     return next();
   }
-  console.log(decodedToken);
 
   if (!decodedToken) {
     req.isAuth = false;

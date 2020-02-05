@@ -1,7 +1,7 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { User, Exam } = require("../models");
-const { GraphQLScalarType } = require("graphql");
-const { Kind } = require("graphql/language");
+import { Exam } from "../models";
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 
 // console.log("here " + User);
 // console.log(User.find())
@@ -20,7 +20,6 @@ const examResolvers = {
   Mutation: {
     addExam: (root, args, context, info) => {
       // args.userId = User.find({id: args.userId}).id
-      console.log(args);
       return Exam.create(args);
       // console.log("created user " + args)
     }

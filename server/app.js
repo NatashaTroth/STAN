@@ -1,26 +1,23 @@
 //TODO: Extract middlewares into separate file??
 //TODO: change require to import
 import "dotenv/config";
-const express = require("express");
-const { typeDefs } = require("./typedefs");
-const { resolvers } = require("./resolvers");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const { ApolloServer, gql } = require("apollo-server-express");
-const app = express();
-const PORT = process.env.PORT || 5000;
-const { makeExecutableSchema } = require("apollo-server");
-const connectionString = "mongodb://localhost/MMP3";
-const isAuth = require("./middleware/is-auth");
+import express from "express";
+import { typeDefs } from "./typedefs";
+import { resolvers } from "./resolvers";
+import mongoose from "mongoose";
+import cors from "cors";
+import { ApolloServer } from "apollo-server-express";
+import { makeExecutableSchema } from "apollo-server";
+import isAuth from "./middleware/is-auth";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { User } from "./models/index";
 import { createRefreshToken, createAccessToken } from "./auth";
 import { sendRefreshToken } from "./sendRefreshToken";
 
-// const LocalStrategy = require("passport-local").Strategy;
-// const session = require("express-session");
-const uuid = require("uuid/v4");
+const connectionString = "mongodb://localhost/MMP3";
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(connectionString, {
@@ -32,6 +29,7 @@ mongoose
 
 app.use(cookieParser());
 app.use(isAuth);
+// app.use(cors);
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
@@ -55,9 +53,7 @@ app.post("/refresh_token", async (req, res) => {
   if (!user) {
     return res.send({ ok: false, accessToken: "" });
   }
-  console.log("token version");
-  console.log(user.tokenVersion); //from db
-  console.log(payload.tokenVersion); //from cookie
+
   if (user.tokenVersion !== payload.tokenVersion) {
     return res.send({ ok: false, accessToken: "" });
   }
