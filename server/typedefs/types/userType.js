@@ -11,7 +11,7 @@ const userType = gql`
   }
   type AuthData {
     userId: ID!
-    token: String!
+    accessToken: String!
     tokenExpiration: Int!
   }
 `;

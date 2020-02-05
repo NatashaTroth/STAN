@@ -11,7 +11,6 @@ const jwt = require("jsonwebtoken");
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      if (!req.isAuth) throw new Error("Unauthorised");
       return User.find({});
       // return fetchData()
     },
@@ -25,6 +24,7 @@ const userResolvers = {
   },
   Mutation: {
     addUser: (root, args, context, info) => {
+      // if (!req.isAuth) throw new Error("Unauthorised");
       return User.create(args);
     },
     login: async (parent, { email, password }, context) => {
@@ -41,19 +41,21 @@ const userResolvers = {
       //   expiresIn: "7d"
       // });
       const accessToken = jwt.sign({ userId: user.id }, "secretSaveToEnv", {
-        expiresIn: "15min"
+        expiresIn: "15m"
       });
 
       //can also return in resolver?
-      // context.res.cookie("refresh-token", refreshToken, {
-      //   maxAge: 60 * 60 * 24 * 7
-      // });
-      // context.res.cookie("access-token", accessToken, {
-      //   maxAge: 60 * 15
-      // });
+      //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
+      context.res.cookie(
+        "refresh-token",
+        jwt.sign({ userId: user.id }, "differentSecretSaveToEnv", {
+          expiresIn: "7d"
+        }),
+        { httpOnly: true }
+      );
       console.log("user:");
       console.log(user);
-      return { userId: user.id, token: accessToken, tokenExpiration: 15 };
+      return { userId: user.id, accessToken: accessToken, tokenExpiration: 15 };
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
       const userWithEmail = await User.findOne({ email: email });
