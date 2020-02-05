@@ -39,6 +39,10 @@ const userResolvers = {
       await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
       return true;
     },
+    logout: (root, args, { res }, info) => {
+      sendRefreshToken(res, "");
+      return true;
+    },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email: email });
       //TODO: Error Handling
