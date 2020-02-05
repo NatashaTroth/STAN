@@ -1,6 +1,6 @@
 .today-subject {
   border: none;
-  background-color: transparent;
+  //   background-color: transparent;
   text-align: left;
   width: 100%;
   padding: 10px 10px;
@@ -9,8 +9,8 @@
 
   &:hover,
   &:focus {
+    outline: none;
     background-color: theme-color("primary-yellow-dark");
-    // color: theme-color("light");
 
     .today-subject__heading,
     .today-subject__duration {
@@ -39,11 +39,15 @@
   }
 }
 
-#active-subject {
+.active-subject {
   background-color: theme-color("primary-yellow-dark");
   color: theme-color("light");
   width: 108%;
   z-index: 2;
+
+  .row {
+    width: 100%;
+  }
 
   @include media-breakpoint-down(md) {
     width: 100%;

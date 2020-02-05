@@ -1,7 +1,8 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const TodaySubject = ({ subject, durationTime, id, onClick }) => {
+// TODO: showDetails should determine what gets rendered ind today component
+const TodaySubject = ({ subject, durationTime, id, onClick, showDetails }) => {
   // return ----------------
   return (
     <button className="today-subject" id={id} onClick={onClick}>

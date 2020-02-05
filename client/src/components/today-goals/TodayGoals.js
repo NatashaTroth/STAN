@@ -13,7 +13,7 @@ function TodayGoals() {
   // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
-  let activeSubject = "hi"
+
   // return ----------------
   return (
     <div className="today-goals box-content">
@@ -33,23 +33,26 @@ function TodayGoals() {
             <TodaySubject
               subject="Computer Networking"
               durationTime="20 min"
-              // onClick={e => {
-              //   e.preventDefault()
-              //   console.log("in onclick")
-              //   newActiveSubject()
-              // }}
-              // className={this.state.activeId === this.id && "is-active"}
-              // onClick={this.handleClick(this, this.id)}
+              onClick={e => {
+                e.preventDefault()
+                subjectEventClickHandler(e)
+              }}
             ></TodaySubject>
             <TodaySubject
               subject="Business English"
               durationTime="60 min"
-              // onClick={newActiveSubject()}
+              onClick={e => {
+                e.preventDefault()
+                subjectEventClickHandler(e)
+              }}
             ></TodaySubject>
             <TodaySubject
               subject="Multimedia"
               durationTime="40 min"
-              // onClick={newActiveSubject()}
+              onClick={e => {
+                e.preventDefault()
+                subjectEventClickHandler(e)
+              }}
             ></TodaySubject>
           </div>
         </div>
@@ -60,9 +63,10 @@ function TodayGoals() {
 
 export default TodayGoals
 
-function newActiveSubject() {
-  //  remove id from element and assign it to just clicked one
-  let subjectID = "active-subject"
-
-  return subjectID
+function subjectEventClickHandler(event) {
+  if (event.currentTarget.classList.value === "today-subject active-subject") {
+    event.currentTarget.classList.remove("active-subject")
+  } else {
+    event.currentTarget.classList.add("active-subject")
+  }
 }

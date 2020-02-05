@@ -61,21 +61,21 @@ html body {
 
   h4 {
     color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
+    font-family: $font-family-BasierCircle-SemiBold;
     @include rem(font-size, $h4-font-size);
-    @include rem(letter-spacing, 1.5px);
+    @include rem(letter-spacing, 1px);
     @include rem(line-height, $h4-line-height);
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $h4-font-size-mobile);
       @include rem(line-height, $h4-line-height-mobile);
-      @include rem(letter-spacing, 1px);
+      @include rem(letter-spacing, 0.5px);
     }
   }
 
   h5 {
     color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
+    font-family: $font-family-BasierCircle-SemiBold;
     @include rem(font-size, $h5-font-size);
     @include rem(letter-spacing, 0);
     @include rem(line-height, $h5-line-height);
