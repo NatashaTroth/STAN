@@ -1,7 +1,6 @@
 import React from "react"
 
 import Navigation from "./Routing"
-// import Logo from "./images/icons/logo.svg"
 
 // import logo from "./logo.svg";
 import "./App.scss"

@@ -13,10 +13,14 @@
     border-right: 5px solid theme-color("dark");
 
     &__logo {
-      padding: 30px;
+      padding: 40px;
     }
     &__list {
       list-style: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
 
       .list-item {
         padding-bottom: 40px;
@@ -62,9 +66,9 @@
         }
       }
       &__menu-bottom {
+        height: 130px;
+        margin-bottom: 30px;
         text-transform: uppercase;
-        position: absolute;
-        bottom: 30px;
       }
     }
   }
