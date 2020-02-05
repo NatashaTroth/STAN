@@ -1,9 +1,6 @@
 .navigation {
-  display: flex;
   &__side-bar {
     background-color: theme-color("light");
-    margin-right: 80px;
-
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -18,7 +15,6 @@
       flex-direction: column;
       justify-content: space-between;
       height: 100vh;
-      width: 200px;
 
       .list-item {
         padding-bottom: 40px;
@@ -28,9 +24,6 @@
           position: absolute;
           top: 0;
         }
-        // .active {
-        //   color: theme-color("primary-yellow");
-        // }
       }
       &__menu-top {
         &__dashboard {
@@ -67,19 +60,43 @@
         }
       }
       &__menu-bottom {
-        height: 130px;
         margin-bottom: 30px;
         text-transform: uppercase;
       }
-
-      // Highlight for navigation
-      // &__menu-top a.chosen,
-      // &__menu-bottom a.chosen {
-      //   color: theme-color("primary-yellow");
-      // }
-      // .active {
-      //   color: theme-color("primary-yellow");
-      // }
     }
   }
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background-color: theme-color("dark");
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 20px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: theme-color("dark");
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: theme-color("light");
+}
+
+.bm-menu-wrap {
+  width: 220px !important;
 }

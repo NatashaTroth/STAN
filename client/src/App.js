@@ -24,9 +24,6 @@ const client = new ApolloClient({
 })
 
 function App() {
-  // set the state to false when menu should be hidden when app is rendered
-  const [open, setOpen] = useState(true)
-
   return (
     <ApolloProvider client={client}>
       <div className="App">
