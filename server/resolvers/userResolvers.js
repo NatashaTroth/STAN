@@ -30,26 +30,14 @@ const userResolvers = {
       // if (!req.isAuth) throw new Error("Unauthorised");
       return User.create(args);
     },
-    revokeRefreshTokensForUser: (root, { userId }, context, info) => {
-      //TODO: change to async await (find way for error handling)
-      User.findOneAndUpdate(
-        { _id: context.req.userId },
-        { $inc: { tokenVersion: 1 } },
-        { new: true },
-        (err, doc) => {
-          if (err) {
-            return false;
-          }
-        }
-      );
-      return true;
+    revokeRefreshTokensForUser: async (root, { userId }, context, info) => {
+      //TODO! ERROR HANDLING NOT WORKING WHEN WRONG USERID
+      const user = await User.findOne({ _id: userId });
+      if (!user) throw new Error("This user does not exist");
 
-      // findOneAndUpdate({ _id: res._id }, { $inc: {'post.like': 1 } }, {new: true },function(err, response) {
-      //   if (err) {
-      //   callback(err);
-      //  } else {
-      //   callback(response);
-      //  }
+      //TODO: error handling
+      await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
+      return true;
     },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email: email });

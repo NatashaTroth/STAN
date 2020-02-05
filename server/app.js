@@ -15,7 +15,7 @@ const isAuth = require("./middleware/is-auth");
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { User } from "./models/index";
-import { createAccessToken } from "./auth";
+import { createRefreshToken, createAccessToken } from "./auth";
 import { sendRefreshToken } from "./sendRefreshToken";
 
 // const LocalStrategy = require("passport-local").Strategy;
@@ -55,7 +55,9 @@ app.post("/refresh_token", async (req, res) => {
   if (!user) {
     return res.send({ ok: false, accessToken: "" });
   }
-
+  console.log("token version");
+  console.log(user.tokenVersion); //from db
+  console.log(payload.tokenVersion); //from cookie
   if (user.tokenVersion !== payload.tokenVersion) {
     return res.send({ ok: false, accessToken: "" });
   }

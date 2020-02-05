@@ -26,7 +26,7 @@ const userQueries = gql`
     ): User
     logout: Boolean
     login(email: String!, password: String!): AuthData
-    revokeRefreshTokensForUser: Boolean
+    revokeRefreshTokensForUser(userId: ID!): Boolean
   }
 `;
 
