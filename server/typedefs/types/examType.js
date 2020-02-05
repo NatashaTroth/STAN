@@ -4,9 +4,9 @@ import { gql } from "apollo-server";
 const examType = gql`
   scalar Date
 
-  type MyType {
-    created: Date
-  }
+  # type MyType {
+  #   created: Date
+  # }
 
   type Exam {
     id: ID!
@@ -20,7 +20,7 @@ const examType = gql`
     notes: String
     pdfLink: String
     completed: Boolean
-    user: User!
+    userId: ID!
   }
 `;
 
