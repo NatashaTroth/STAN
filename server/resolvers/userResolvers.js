@@ -3,6 +3,8 @@ const { User } = require("../models");
 const { UserInputError } = require("apollo-server");
 import uuid from "uuid/v4";
 import { createAccessToken, createRefreshToken } from "../auth";
+import { sendRefreshToken } from "../sendRefreshToken";
+
 // import passport from "passport";
 const bcrypt = require("bcrypt");
 // const passport = require("../config/#passport");
@@ -44,9 +46,7 @@ const userResolvers = {
       const accessToken = createAccessToken(user);
       //can also return in resolver?
       //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
-      context.res.cookie("refresh-token", createRefreshToken(user), {
-        httpOnly: true
-      });
+      sendRefreshToken(context.res, createRefreshToken(user));
 
       console.log("user:");
       console.log(user);
