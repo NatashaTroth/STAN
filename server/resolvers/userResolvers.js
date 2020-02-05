@@ -5,11 +5,11 @@ import { createAccessToken, createRefreshToken } from "../auth";
 import { sendRefreshToken } from "../sendRefreshToken";
 import bcrypt from "bcrypt";
 
-//TODO: Authentication
+//TODO: Authenticate Queries
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      if (!req.isAuth) throw new Error("Unauthorised");
+      // if (!req.isAuth) throw new Error("Unauthorised");
 
       return User.find({});
       // return fetchData()
