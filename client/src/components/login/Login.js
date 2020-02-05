@@ -59,7 +59,7 @@ function Login() {
             />
           </div>
 
-          <div className=" login__form__buttons__button-right">
+          <div className="login__form__buttons__button-right">
             <Button
               variant="button"
               text="Login"

@@ -74,17 +74,16 @@
   height: 30px;
   left: 36px;
   top: 36px;
+
+  @include media-breakpoint-down(sm) {
+    top: 15px;
+    left: 15px;
+  }
 }
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background-color: theme-color("dark");
-}
-
-/* Position and sizing of clickable cross button */
-.bm-cross-button {
-  height: 20px;
-  width: 24px;
 }
 
 /* Color/shape of close button cross */
@@ -99,4 +98,8 @@
 
 .bm-menu-wrap {
   width: 220px !important;
+
+  @include media-breakpoint-down(sm) {
+    width: 50% !important;
+  }
 }

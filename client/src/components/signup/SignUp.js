@@ -72,7 +72,7 @@ function SignUp() {
           required
         />
         <div className="login__form__buttons">
-          <div className="col-md-6 signup__button-left">
+          <div className="login__form__buttons__button-left">
             <Button
               variant="button"
               text="Google Login"
@@ -80,7 +80,7 @@ function SignUp() {
             />
           </div>
 
-          <div className="col-md-6 login__button-right">
+          <div className="login__form__buttons__button-right">
             <Button
               variant="button"
               text="Login"
