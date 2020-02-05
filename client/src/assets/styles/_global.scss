@@ -49,13 +49,13 @@ html body {
     color: theme-color("dark");
     font-family: $font-family-BasierCircle-Bold;
     @include rem(font-size, $h3-font-size);
-    @include rem(letter-spacing, 0);
+    @include rem(letter-spacing, 1.5px);
     @include rem(line-height, $h3-line-height);
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $h3-font-size-mobile);
       @include rem(line-height, $h3-line-height-mobile);
-      @include rem(letter-spacing, 0);
+      @include rem(letter-spacing, 1px);
     }
   }
 
@@ -63,13 +63,13 @@ html body {
     color: theme-color("dark");
     font-family: $font-family-BasierCircle-Bold;
     @include rem(font-size, $h4-font-size);
-    @include rem(letter-spacing, 0);
+    @include rem(letter-spacing, 1.5px);
     @include rem(line-height, $h4-line-height);
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $h4-font-size-mobile);
       @include rem(line-height, $h4-line-height-mobile);
-      @include rem(letter-spacing, 0);
+      @include rem(letter-spacing, 1px);
     }
   }
 
