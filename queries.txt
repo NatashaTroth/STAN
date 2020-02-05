@@ -111,6 +111,33 @@ mutation {
     examDate
   }
 }
+mutation {
+  addExam(
+    subject: "Maths"
+    examDate: "2020-05-17"
+		startDate: "2020-05-30"
+    numberPages: 5
+    timePerPage: 5
+    currentPage: 6
+    notes: "NOTES"
+    pdfLink: "klsdjfs"
+    completed: false
+    userId: "5e2f54c374fe3c404f9429b7"
+  ) {
+    id
+    subject
+    examDate
+    startDate
+    numberPages
+    timePerPage
+    currentPage
+    notes
+    pdfLink
+    completed
+    userId
+    
+  }
+}
 
 query {
   currentUser {

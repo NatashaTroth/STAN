@@ -29,25 +29,16 @@ const examResolvers = {
   },
   Date: new GraphQLScalarType({
     name: "Date",
-    description: "Date custom scalar type",
+    description: "Custom description for the date scalar",
     parseValue(value) {
-      console.log("parse date");
-      return new Date(value); // value from the client
+      return dayjs(value); // value from the client
     },
     serialize(value) {
-      console.log("serialize date");
-
-      return value.getTime(); // value sent to the client
+      return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
     },
-    //This function is called when an inline input parameter should be parsed
     parseLiteral(ast) {
-      console.log("parseLiteral date");
-      // console.log(ast);
-
-      // if (ast.kind === Kind.INT) {
       if (ast.kind === Kind.STRING) {
-        console.log(new Date(ast.value));
-        return new Date(ast.value); // ast value is always in string format
+        return dayjs(ast.value); // ast value is always in string format
       }
       return null;
     }

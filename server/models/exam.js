@@ -13,8 +13,8 @@ const examSchema = new Schema({
   currentPage: Number,
   notes: String,
   pdfLink: String,
-  completed: Boolean
-  // userId: String
+  completed: Boolean,
+  userId: String
 });
 
 //model is like a collection in mongodb
