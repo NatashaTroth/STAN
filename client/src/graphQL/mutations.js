@@ -70,7 +70,7 @@ const ADD_EXAM_MUTATION = gql`
     }
   }
 `
-// TODO: für $email, ein email prop oder string?
+// TODO: LÖSCHEN - IST JETZT SIGNUP
 const ADD_USER_MUTATION = gql`
   mutation(
     $userId: ID!
@@ -91,10 +91,33 @@ const ADD_USER_MUTATION = gql`
   }
 `
 
+const SIGNUP_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String!
+    $mascot: Int
+    $tokenVersion: Int
+  ) {
+    signup(
+      username: $username
+      email: $email
+      password: $password
+      mascot: $mascot
+      tokenVersion: $tokenVersion
+    ) {
+      id
+      username
+      email
+    }
+  }
+`
+
 export {
   ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
   ADD_USER_MUTATION,
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
+  SIGNUP_MUTATION,
 }
