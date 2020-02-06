@@ -22,93 +22,93 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Logo from "../../images/icons/logo.svg"
 
 const navbar = props => {
-  // let barClasses = ["side-bar"]
+  let barClasses = "side-bar"
 
   if (props.show) {
-    // barClasses = ["side-bar open"]
+    barClasses = "side-bar open"
   }
 
   return (
-    // <div className={barClasses}>
-    <div className="side-bar">
-      <Router>
-        <nav className="side-bar__items">
-          <div className="side-bar__items__logo">
-            <a href="/">
-              <img
-                src={Logo}
-                alt="Stans Logo"
-                className="side-bar__items__logo--img"
-              />
-            </a>
+    <div className={barClasses}>
+      <div className="side-bar">
+        <Router>
+          <nav className="side-bar__items">
+            <div className="side-bar__items__logo">
+              <a href="/">
+                <img
+                  src={Logo}
+                  alt="Stans Logo"
+                  className="side-bar__items__logo--img"
+                />
+              </a>
+            </div>
+            <ul className="side-bar__items__list">
+              <div className="side-bar__items__list__menu-top">
+                <li className="side-bar__items__list__menu-top__dashboard list-item">
+                  <NavLink strict to="/" exact activeClassName="active">
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li className="side-bar__items__list__menu-top__add-new list-item">
+                  <NavLink strict to="/add-new" exact activeClassName="active">
+                    Add New
+                  </NavLink>
+                </li>
+                <li className="side-bar__items__list__menu-top__calendar list-item">
+                  <NavLink strict to="/calendar" exact activeClassName="active">
+                    Calendar
+                  </NavLink>
+                </li>
+                <li className="side-bar__items__list__menu-top__exams list-item">
+                  <NavLink strict to="/exams" exact activeClassName="active">
+                    Exams
+                  </NavLink>
+                </li>
+              </div>
+
+              <div className="side-bar__items__list__menu-bottom">
+                <li>
+                  <NavLink strict to="/profile" exact activeClassName="active">
+                    Profile Icon
+                  </NavLink>
+                </li>
+                <li>Dark mode</li>
+                <li>
+                  <NavLink strict to="/imprint" exact activeClassName="active">
+                    Imprint
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    strict
+                    to="/data-policy"
+                    exact
+                    activeClassName="active"
+                  >
+                    Data Policy
+                  </NavLink>
+                </li>
+              </div>
+            </ul>
+          </nav>
+
+          <div className="side-bar__content">
+            <Switch>
+              <Route exact={true} path="/" component={Dashboard} />
+              <Route path="/add-new" component={AddNew} />
+              <Route path="/calendar" component={Calendar} />
+              <Route path="/exams" component={Exams} />
+              <Route path="/profile" component={UserAccount} />
+              <Route path="/imprint" component={Imprint} />
+              <Route path="/data-policy" component={DataPolicy} />
+              <Route path="/login" component={Login} />
+              <Route path="/sign-up" component={SignUp} />
+              <Route path="*" component={NoMatch404} />
+            </Switch>
           </div>
-          <ul className="side-bar__items__list">
-            <div className="side-bar__items__list__menu-top">
-              <li className="side-bar__items__list__menu-top__dashboard list-item">
-                <NavLink strict to="/" exact activeClassName="active">
-                  Dashboard
-                </NavLink>
-              </li>
-              <li className="side-bar__items__list__menu-top__add-new list-item">
-                <NavLink strict to="/add-new" exact activeClassName="active">
-                  Add New
-                </NavLink>
-              </li>
-              <li className="side-bar__items__list__menu-top__calendar list-item">
-                <NavLink strict to="/calendar" exact activeClassName="active">
-                  Calendar
-                </NavLink>
-              </li>
-              <li className="side-bar__items__list__menu-top__exams list-item">
-                <NavLink strict to="/exams" exact activeClassName="active">
-                  Exams
-                </NavLink>
-              </li>
-            </div>
-
-            <div className="side-bar__items__list__menu-bottom">
-              <li>
-                <NavLink strict to="/profile" exact activeClassName="active">
-                  Profile Icon
-                </NavLink>
-              </li>
-              <li>Dark mode</li>
-              <li>
-                <NavLink strict to="/imprint" exact activeClassName="active">
-                  Imprint
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  strict
-                  to="/data-policy"
-                  exact
-                  activeClassName="active"
-                >
-                  Data Policy
-                </NavLink>
-              </li>
-            </div>
-          </ul>
-        </nav>
-
-        <div className="side-bar__content">
-          <Switch>
-            <Route exact={true} path="/" component={Dashboard} />
-            <Route path="/add-new" component={AddNew} />
-            <Route path="/calendar" component={Calendar} />
-            <Route path="/exams" component={Exams} />
-            <Route path="/profile" component={UserAccount} />
-            <Route path="/imprint" component={Imprint} />
-            <Route path="/data-policy" component={DataPolicy} />
-            <Route path="/login" component={Login} />
-            <Route path="/sign-up" component={SignUp} />
-            <Route path="*" component={NoMatch404} />
-          </Switch>
-        </div>
-      </Router>
+        </Router>
+      </div>
     </div>
-    // </div>
   )
 }
 

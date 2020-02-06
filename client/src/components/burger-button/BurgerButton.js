@@ -1,6 +1,6 @@
 import React from "react"
 
-const BurgerButton = props => (
+const burgerButton = props => (
   <button className="toggle-button" onClick={props.click}>
     <div className="toggle-button__line" />
     <div className="toggle-button__line" />
@@ -8,4 +8,4 @@ const BurgerButton = props => (
   </button>
 )
 
-export default BurgerButton
+export default burgerButton

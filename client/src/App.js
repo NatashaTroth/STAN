@@ -27,7 +27,7 @@ class App extends Component {
     sideDrawerOpen: false,
   }
 
-  drawerToggleClickeHandler = () => {
+  drawerToggleClickHandler = () => {
     this.setState(prevState => {
       return { sideDrawerOpen: !prevState.sideDrawerOpen }
     })
@@ -39,25 +39,22 @@ class App extends Component {
 
   render() {
     let backdrop
-
+    let nav
     if (this.state.sideDrawerOpen) {
       backdrop = <Backdrop click={this.backdropClickHandler} />
-      // nav = <Navbar />
+      nav = <Navbar />
     }
-
-    console.log(this.state.sideDrawerOpen)
-    console.log(backdrop)
 
     return (
       <ApolloProvider client={client}>
         <div className="App" style={{ height: "100%" }}>
           <h1 className="hide">Stan - online study plan</h1>
-          {/* <Toolbar drawerClickHandler={this.drawerToggleClickHandler} /> */}
-          {/* <Navbar show={this.state.sideDrawerOpen} /> */}
-          {/* {backdrop} */}
-          <Toolbar />
-          <Navbar />
-          {/* <Backdrop /> */}
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          <Navbar show={this.state.sideDrawerOpen} />
+          {backdrop}
+          {/* {nav} */}
+          {/* <Toolbar />
+          <Navbar /> */}
         </div>
       </ApolloProvider>
     )
