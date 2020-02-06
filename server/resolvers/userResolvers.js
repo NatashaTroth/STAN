@@ -17,7 +17,7 @@ const userResolvers = {
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
-    currentUser: (parent, args, context) => {
+    currentUser: (parent, ars, context) => {
       return context.req.userId;
     }
   },

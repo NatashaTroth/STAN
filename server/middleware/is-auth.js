@@ -3,7 +3,7 @@
 import jwt from "jsonwebtoken";
 //TODO: refactor
 module.exports = (req, res, next) => {
-  const authHeader = req.get("Authorization");
+  const authHeader = req.get("authorization");
   if (!authHeader) {
     req.isAuth = false;
     return next(); //executes next function (if there is one)
