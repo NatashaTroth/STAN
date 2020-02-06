@@ -135,12 +135,12 @@ function AddNew() {
                     <div className="add-new__form__element">
                       <Label
                         for="page-time"
-                        text="Time per page (h:m)"
+                        text="Time per page (min)"
                         className="add-new__form__element__label"
                       ></Label>
                       <Input
                         className="add-new__form__element__input"
-                        type="time"
+                        type="number"
                         id="page-time"
                         name="exam_page_time"
                         placeholder="5 min"
@@ -214,9 +214,10 @@ function AddNew() {
                       className="add-new__form__element__btn stan-btn-primary"
                       variant="button"
                       text="Add"
-                      onClick={e => {
-                        e.preventDefault()
-                        // console.log("in onclick")
+                      onClick={evt => {
+                        evt.preventDefault()
+                        // console.log(exam_date)
+                        console.log("in onclick")
                         addExam({
                           variables: {
                             subject: exam_subject,
@@ -228,6 +229,7 @@ function AddNew() {
                             notes: exam_page_notes,
                             pdfLink: exam_pdf_upload,
                             completed: false,
+                            userId: "5e2f54c374fe3c404f9429b7",
                           },
                           refetchQueries: [{ query: GET_EXAMS_QUERY }],
                         })

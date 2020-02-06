@@ -39,6 +39,14 @@ const ADD_EXAM_MUTATION = gql`
       id
       subject
       examDate
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+      userId
     }
   }
 `

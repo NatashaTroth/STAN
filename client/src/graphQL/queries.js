@@ -19,6 +19,14 @@ const GET_EXAMS_QUERY = gql`
       id
       subject
       examDate
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+      userId
     }
   }
 `
