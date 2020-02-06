@@ -4,6 +4,7 @@ import Navigation from "./Routing"
 import "./App.scss"
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
+import { getAccessToken } from "./accessToken"
 
 //apollo client setup
 //uri = endpoint
@@ -12,6 +13,17 @@ const client = new ApolloClient({
   uri: "http://localhost:5000/graphql/",
   onError: e => {
     console.log(e)
+  },
+  credentials: "include",
+  request: operation => {
+    const accessToken = getAccessToken()
+    if (accessToken) {
+      operation.setContext({
+        headers: {
+          authorization: accessToken ? `bearer ${accessToken}` : "",
+        },
+      })
+    }
   },
 })
 
