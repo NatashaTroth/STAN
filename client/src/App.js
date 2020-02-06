@@ -1,8 +1,11 @@
-import React, { useState, Component } from "react"
+import React, { useState, Component, useEffect } from "react"
 
 import "./App.scss"
-import ApolloClient from "apollo-boost"
+// import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
+import { setAccessToken } from "./accessToken"
+
+import { client } from "./apolloClient"
 
 // Navigation bar
 import Navbar from "./components/navbar/Navbar"
@@ -12,12 +15,12 @@ import Toolbar from "./components/toolbar/Toolbar"
 //apollo client setup
 //uri = endpoint
 //TODO: Change when online
-const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql/",
-  onError: e => {
-    console.log(e)
-  },
-})
+// const client = new ApolloClient({
+//   uri: "http://localhost:5000/graphql/",
+//   onError: e => {
+//     console.log(e)
+//   },
+// })
 
 class App extends Component {
   state = {
@@ -60,5 +63,61 @@ class App extends Component {
     )
   }
 }
+
+{
+  /* TODO: CACHING APOLLO */
+}
+
+{
+  /* function App() {
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch("http://localhost:5000/refresh_token", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(async resp => {
+        const { accessToken } = await resp.json()
+        setAccessToken(accessToken)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }, [])
+
+  if (loading) {
+    return <div>loading...</div>
+  }
+
+  return (
+    <ApolloProvider client={client}>
+      <div className="App">
+        <header className="App-header">
+          <h1 className="hide">Stan - online study plan</h1>
+          {/* <Toolbar drawerClickHandler={this.drawerToggleClickHandler} /> */
+}
+{
+  /* <Navbar show={this.state.sideDrawerOpen} /> */
+}
+{
+  /* {backdrop} */
+}
+{
+  /* <Toolbar />
+          <Navbar /> */
+}
+{
+  /* <Backdrop /> */
+}
+{
+  /* </div> */
+}
+{
+  /* </ApolloProvider> */
+}
+//     )
+//   }
+// }
 
 export default App

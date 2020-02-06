@@ -1,17 +1,53 @@
 import React, { useState } from "react"
+import { LOGIN_MUTATION } from "../../graphQL/mutations"
+
 // --------------------------------------------------------------
 
 // components
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import { useMutation } from "@apollo/react-hooks"
+import { setAccessToken } from "../../accessToken"
+import { useHistory } from "react-router-dom"
+//TODO: block signup & login path when user is logged in
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [login, { loginData }] = useMutation(LOGIN_MUTATION)
+  const history = useHistory()
 
-  const handleSubmit = evt => {
-    evt.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
+    console.log("in onclick")
+    try {
+      const resp = await login({
+        variables: {
+          email: email,
+          password: password,
+        },
+        //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
+        //https://www.apollographql.com/docs/react/caching/cache-interaction/
+        // update: (store, { data }) => {
+        //   if (!data) return null
+        //   store.writeQuery({
+        //     //update current user in cache
+        //     query: LOGIN_MUTATION,
+        //     data: data.login.user,
+        //   })
+        // },
+      })
+
+      if (resp && resp.data) {
+        setAccessToken(resp.data.login.accessToken)
+      }
+      history.push("/")
+    } catch (err) {
+      //TODO: USER DEN ERROR MITTEILEN
+      // console.log(err.message)
+      console.log(err)
+    }
   }
 
   return (

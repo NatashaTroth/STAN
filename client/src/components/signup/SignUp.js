@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import { SUCCESS_SIGNUP } from "../../graphQL/queries"
-import { ADD_USER_MUTATION } from "../../graphQL/mutations"
+import { SIGNUP_MUTATION } from "../../graphQL/mutations"
+import { useHistory } from "react-router-dom"
+
 // --------------------------------------------------------------
 
 // components
@@ -9,16 +11,38 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
+//TODO: block signup & login path when user is logged in
+
 function SignUp() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [username, setUsername] = useState("")
+  const history = useHistory()
 
-  const handleSubmit = evt => {
-    evt.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
+    //TODO: mascot & tokenversion nicht hardcodieren
+    try {
+      const resp = await signup({
+        variables: {
+          username: username,
+          email: email,
+          password: password,
+          mascot: 1,
+          tokenVersion: 0,
+        },
+      })
+      console.log(resp)
+      history.push("/")
+    } catch (err) {
+      //z.B. email gibts schon
+      //TODO: USER DEN ERROR MITTEILEN
+      // console.log(err.message)
+      console.log(err)
+    }
   }
 
-  const [addUser, { mutationData }] = useMutation(ADD_USER_MUTATION)
+  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
 
   return (
     <form onSubmit={handleSubmit} className="login__form box-content">
@@ -83,19 +107,8 @@ function SignUp() {
           <div className="login__form__buttons__button-right">
             <Button
               variant="button"
-              text="Login"
+              text="Sign up"
               className="stan-btn-primary"
-              onClick={e => {
-                e.preventDefault()
-                addUser({
-                  variables: {
-                    username: username,
-                    email: email,
-                    password: password,
-                  },
-                  refetchQueries: [{ query: SUCCESS_SIGNUP }],
-                })
-              }}
             />
           </div>
         </div>

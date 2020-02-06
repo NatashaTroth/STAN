@@ -1,16 +1,12 @@
-import React from "react"
+import React, { forwardRef } from "react"
 
-const Textarea = ({
-  value,
-  onChange,
-  label,
-  placeholder,
-  maxLength,
-  id,
-  className,
-}) => {
+const Textarea = (
+  { value, onChange, label, placeholder, maxLength, id, className },
+  ref
+) => {
   return (
     <textarea
+      ref={ref}
       id={id}
       name={label}
       placeholder={placeholder}
@@ -22,4 +18,4 @@ const Textarea = ({
   )
 }
 
-export default Textarea
+export default forwardRef(Textarea)

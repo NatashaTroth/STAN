@@ -19,6 +19,14 @@ const GET_EXAMS_QUERY = gql`
       id
       subject
       examDate
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+      userId
     }
   }
 `
@@ -71,6 +79,18 @@ const SUCCESS_SIGNUP = gql`
   }
 `
 
+//TODO: cache result of current user query - so you don't have to keep fetching it from the server - use apollo!
+//https://www.youtube.com/watch?v=25GS0MLT8JU 2:52:35
+const CURRENT_USER = gql`
+  query {
+    currentUser {
+      id
+      username
+      email
+    }
+  }
+`
+
 export {
   GET_USERS_QUERY,
   GET_EXAMS_QUERY,
@@ -78,4 +98,5 @@ export {
   GET_BOOKS_QUERY,
   GET_BOOK_QUERY,
   SUCCESS_SIGNUP,
+  CURRENT_USER,
 }

@@ -10,6 +10,26 @@ const ADD_BOOK_MUTATION = gql`
   }
 `
 
+const LOGIN_MUTATION = gql`
+  mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`
+
+const LOGOUT_MUTATION = gql`
+  mutation {
+    logout
+  }
+`
+
 //!!Make sure the type in mutation here, is the same type as used by graphql
 const ADD_EXAM_MUTATION = gql`
   mutation(
@@ -39,28 +59,48 @@ const ADD_EXAM_MUTATION = gql`
       id
       subject
       examDate
-    }
-  }
-`
-// TODO: für $email, ein email prop oder string?
-const ADD_USER_MUTATION = gql`
-  mutation(
-    $userId: ID!
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    addUser(
-      userId: $userId
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      id
-      username
-      email
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+      userId
     }
   }
 `
 
-export { ADD_BOOK_MUTATION, ADD_EXAM_MUTATION, ADD_USER_MUTATION }
+const SIGNUP_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String!
+    $mascot: Int
+    $tokenVersion: Int
+  ) {
+    signup(
+      username: $username
+      email: $email
+      password: $password
+      mascot: $mascot
+      tokenVersion: $tokenVersion
+    ) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`
+
+export {
+  ADD_BOOK_MUTATION,
+  ADD_EXAM_MUTATION,
+  LOGIN_MUTATION,
+  LOGOUT_MUTATION,
+  SIGNUP_MUTATION,
+}
