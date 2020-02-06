@@ -63,6 +63,10 @@ function Login() {
         </div>
       </div>
 
+      <div className="login__form__buttons__button-right">
+        <Button variant="button" text="Login" className="stan-btn-primary" />
+      </div>
+
       <div className="login__form__redirect-signup">
         <p className="login__form__redirect-signup__text">not registered?</p>
         <a href="/sign-up" className="login__form__redirect-signup__link">

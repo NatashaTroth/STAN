@@ -5,9 +5,19 @@ html body {
   font-size: 62.5%; // for px to rem conversion
   overflow-x: hidden; // hide horizontal scroll bar
 
+  a:focus {
+    outline: none;
+  }
   *:focus {
     outline: 3px solid theme-color("primary-yellow");
   }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-bottom: 2px solid theme-color("success");
+  }
+  //TODO: change color to red if error
 
   h1 {
     color: theme-color("dark");
@@ -42,33 +52,33 @@ html body {
     color: theme-color("dark");
     font-family: $font-family-BasierCircle-Bold;
     @include rem(font-size, $h3-font-size);
-    @include rem(letter-spacing, 0);
+    @include rem(letter-spacing, 1.5px);
     @include rem(line-height, $h3-line-height);
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $h3-font-size-mobile);
       @include rem(line-height, $h3-line-height-mobile);
-      @include rem(letter-spacing, 0);
+      @include rem(letter-spacing, 1px);
     }
   }
 
   h4 {
     color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
+    font-family: $font-family-BasierCircle-SemiBold;
     @include rem(font-size, $h4-font-size);
-    @include rem(letter-spacing, 0);
+    @include rem(letter-spacing, 1px);
     @include rem(line-height, $h4-line-height);
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $h4-font-size-mobile);
       @include rem(line-height, $h4-line-height-mobile);
-      @include rem(letter-spacing, 0);
+      @include rem(letter-spacing, 0.5px);
     }
   }
 
   h5 {
     color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
+    font-family: $font-family-BasierCircle-SemiBold;
     @include rem(font-size, $h5-font-size);
     @include rem(letter-spacing, 0);
     @include rem(line-height, $h5-line-height);
@@ -103,7 +113,7 @@ html body {
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, $font-size-14);
-      @include rem(line-height, 30px);
+      @include rem(line-height, 18px);
     }
   }
 
@@ -170,6 +180,7 @@ html body {
     border-bottom: 2px solid theme-color("dark");
     padding: 5px 2px;
     color: theme-color("dark");
+    background-color: theme-color("light");
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
     @include rem(line-height, 25px);
@@ -201,6 +212,10 @@ html body {
     border: none;
     margin: 2px 0;
 
+    &:focus {
+      outline: 3px solid theme-color("primary-yellow");
+    }
+
     &::-webkit-file-upload-button {
       border: 2px solid theme-color("dark");
       color: theme-color("dark");
@@ -230,6 +245,7 @@ html body {
     border-bottom: 2px solid theme-color("dark");
     padding: 5px 15px;
     color: theme-color("dark");
+    background-color: theme-color("light");
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
     @include rem(line-height, 32px);

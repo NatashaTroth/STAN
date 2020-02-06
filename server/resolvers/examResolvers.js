@@ -1,0 +1,50 @@
+//TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
+import { Exam } from "../models";
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
+import dayjs from "dayjs";
+
+// console.log("here " + User);
+// console.log(User.find())
+
+//TODO: Authentication
+const examResolvers = {
+  Query: {
+    exams: (root, arg, context, info) => {
+      return Exam.find({});
+      // return fetchData()
+    },
+    exam: (root, arg, context, info) => {
+      return fetchOneDateData();
+    }
+  },
+  Mutation: {
+    addExam: (root, args, context, info) => {
+      // console.log("test");
+      // args.userId = User.find({id: args.userId}).id
+      // console.log(args.examDate);
+      return Exam.create(args);
+      // console.log("created user " + args)
+    }
+  },
+  Date: new GraphQLScalarType({
+    name: "Date",
+    description: "Custom description for the date scalar",
+    parseValue(value) {
+      return dayjs(value); // value from the client
+    },
+    serialize(value) {
+      return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.STRING) {
+        return dayjs(ast.value); // ast value is always in string format
+      }
+      return null;
+    }
+  })
+};
+
+module.exports = {
+  examResolvers
+};

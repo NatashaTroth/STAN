@@ -3,15 +3,18 @@ import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
-// components
+// components ----------------
 import AddNew from "../../components/add-new/AddNew"
 
 function AddNewPage() {
+  // query ----------------
   const { loading, error, data } = useQuery(GET_USERS_QUERY)
 
+  // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 
+  // return ----------------
   return (
     <div className="add-new-page">
       <div className="container-fluid">
@@ -22,9 +25,10 @@ function AddNewPage() {
               enter all details about the exam
             </p>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-10">
             <AddNew></AddNew>
           </div>
+          <div className="col-md-2"></div>
         </div>
       </div>
     </div>

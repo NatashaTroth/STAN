@@ -5,22 +5,46 @@
     flex-direction: column;
     padding: 80px 100px;
 
+    @include media-breakpoint-down(md) {
+      padding: 60px 80px;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 20px 5px 20px 5px;
+    }
+    &__inner {
+      display: flex;
+      flex-direction: column;
+    }
     &__password-label,
     &__email-label {
       padding-top: 16px;
+      padding-bottom: 5px;
     }
     &__buttons {
       display: flex;
+      flex-wrap: wrap;
       padding-top: 35px;
+      justify-content: center;
+
       &__button-left {
         padding-right: 10px;
+
+        @include media-breakpoint-down(sm) {
+          padding-right: 0;
+          padding-bottom: 10px;
+        }
       }
     }
     &__redirect-signup {
       display: flex;
+      flex-direction: row;
       justify-content: center;
       padding-top: 20px;
 
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        align-items: center;
+      }
       &__text {
         color: theme-color("grey-dark");
         padding-right: 10px;

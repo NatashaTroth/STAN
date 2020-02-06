@@ -1,13 +1,15 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const User = require("../models/user");
-const Exam = require("../models/exam");
+const { User, Exam } = require("./models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
+
+// const User = require("../models/user");
+// const Exam = require("../models/exam");
 // import { GraphQLScalarType } from 'graphql';
 // import { Kind } from 'graphql/language';
 // const Author = require('../models/author')
 
-console.log("here");
+console.log("here " + User);
 // console.log(User.find())
 
 //TODO: Authentication

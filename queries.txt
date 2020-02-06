@@ -1,3 +1,5 @@
+// "server": "nodemon --exec babel-node app.js",  
+  
   mutation{
     addUser(username: "Natasha", password: "asecret", email: "test@test.at", photoLink: "url", mascot: 1){
       id
@@ -22,6 +24,56 @@
     username
     email
   }
+}
+mutation {
+  login(email: "maurice@moss.com", password: "abcdefg") {
+    user {
+      id
+      username
+      email
+    }
+  }
+}
+
+mutation {
+  signup(
+    username: "Jen",
+    email: "jen@barber.com",
+    password: "qwerty",
+    mascot: 1
+  ) {
+    user {
+      id
+      username
+      email
+      mascot
+    }
+  }
+}
+
+mutation {
+  signup(
+    username: "testUser",
+    email: "testUser@node.com",
+    password: "1234",
+    mascot: 1,
+    tokenVersion: 0
+  ){
+      username
+      email
+      mascot
+    
+  }
+}
+{
+  currentUser {
+    id
+    email
+  }
+}
+
+mutation {
+  logout
 }
 
 
@@ -57,6 +109,41 @@ mutation {
     id
     subject
     examDate
+  }
+}
+mutation {
+  addExam(
+    subject: "Maths"
+    examDate: "2020-05-17"
+		startDate: "2020-05-30"
+    numberPages: 5
+    timePerPage: 5
+    currentPage: 6
+    notes: "NOTES"
+    pdfLink: "klsdjfs"
+    completed: false
+    userId: "5e2f54c374fe3c404f9429b7"
+  ) {
+    id
+    subject
+    examDate
+    startDate
+    numberPages
+    timePerPage
+    currentPage
+    notes
+    pdfLink
+    completed
+    userId
+    
+  }
+}
+
+query {
+  currentUser {
+    id
+  	username
+    email
   }
 }
 
