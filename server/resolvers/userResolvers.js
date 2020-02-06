@@ -4,6 +4,7 @@ import { UserInputError } from "apollo-server";
 import { createAccessToken, createRefreshToken } from "../auth";
 import { sendRefreshToken } from "../sendRefreshToken";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -18,7 +19,21 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: (parent, ars, context) => {
-      return context.req.userId;
+      console.log("currentuser");
+      const authorization = context.req.get("authorization");
+      console.log(authorization);
+
+      if (!authorization) return null;
+      try {
+        //TODO: SAVE ALL PAYLOAD
+        const token = authorization.split(" ")[1];
+        const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        return User.findOne({ _id: payload.userId });
+      } catch (err) {
+        console.log(err.message);
+        return null;
+      }
+      // return context.req.userId;
     }
   },
   Mutation: {
@@ -57,7 +72,7 @@ const userResolvers = {
       //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
       sendRefreshToken(context.res, createRefreshToken(user));
 
-      return { userId: user.id, accessToken: accessToken, tokenExpiration: 15 };
+      return { user: user, accessToken: accessToken, tokenExpiration: 15 };
     },
     signup: async (
       parent,

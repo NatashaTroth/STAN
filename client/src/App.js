@@ -15,6 +15,8 @@ import { ApolloLink, Observable } from "apollo-link"
 import jwtDecode from "jwt-decode"
 import { TokenRefreshLink } from "apollo-link-token-refresh"
 
+//TODO: CACHING APOLLO
+
 const cache = new InMemoryCache({})
 
 //src: https://www.apollographql.com/docs/react/migrating/boost-migration/#advanced-migration
@@ -54,7 +56,7 @@ const client = new ApolloClient({
     new TokenRefreshLink({
       accessTokenField: "accessToken",
       isTokenValidOrUndefined: () => {
-        //checks if token is valid
+        //checks if token is valid - called in every graphql request - only does something if token is invalid though
         const token = getAccessToken()
 
         if (!token) {
@@ -64,6 +66,7 @@ const client = new ApolloClient({
         try {
           //exp = expires
           const { exp } = jwtDecode(token)
+          //if currentdate is bigger than the expiration date of the accesstoken - times 1000 for seconds/milliseconds
           if (Date.now() >= exp * 1000) {
             return false
           } else {
@@ -89,6 +92,7 @@ const client = new ApolloClient({
       },
 
       handleError: err => {
+        //called whenever try to fetch accesstoken (fetch post request - but shouldn't be called)
         // full control over handling token fetch Error
         console.warn("Your refresh token is invalid. Try to relogin")
         console.error(err)

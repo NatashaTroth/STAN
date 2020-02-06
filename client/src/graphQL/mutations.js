@@ -13,10 +13,20 @@ const ADD_BOOK_MUTATION = gql`
 const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-      userId
+      user {
+        id
+        username
+        email
+      }
       accessToken
       tokenExpiration
     }
+  }
+`
+
+const LOGOUT_MUTATION = gql`
+  mutation {
+    logout
   }
 `
 
@@ -86,4 +96,5 @@ export {
   ADD_EXAM_MUTATION,
   ADD_USER_MUTATION,
   LOGIN_MUTATION,
+  LOGOUT_MUTATION,
 }
