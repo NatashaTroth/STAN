@@ -10,10 +10,7 @@ import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
 import isAuth from "./middleware/is-auth";
 import cookieParser from "cookie-parser";
-import jwt from "jsonwebtoken";
-import { User } from "./models/index";
-import { createRefreshToken, createAccessToken } from "./auth";
-import { sendRefreshToken } from "./sendRefreshToken";
+import { handleRefreshToken } from "./refreshToken";
 //TODO: CACHING APOLLO
 const connectionString = "mongodb://localhost/MMP3";
 const app = express();
@@ -51,39 +48,7 @@ app.use(cors(corsOptions));
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
-  //read refresh cookie - validate that it's correct
-  //TODO:late change name of refresh_token
-  // console.log("refresh token post");
-  const token = req.cookies.refresh_token;
-  // console.log("server1 ");
-  // console.log(JSON.stringify(req.cookies));
-  if (!token) {
-    return res.send({ ok: false, accessToken: "" });
-  }
-  let payload = null;
-  // console.log("server3");
-
-  try {
-    // console.log(process.env.REFRESH_TOKEN_SECRET);
-    payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-  } catch (err) {
-    console.log(err);
-    return res.send({ ok: false, accessToken: "" });
-  }
-  // console.log("server2");
-
-  //token is valid and we can send back an access token
-  const user = await User.findOne({ _id: payload.userId });
-  if (!user) {
-    return res.send({ ok: false, accessToken: "" });
-  }
-
-  if (user.tokenVersion !== payload.tokenVersion) {
-    return res.send({ ok: false, accessToken: "" });
-  }
-  //also refresh the refresh token
-  sendRefreshToken(res, createRefreshToken(user));
-  return res.send({ ok: true, accessToken: createAccessToken(user) });
+  await handleRefreshToken(req, res);
 });
 
 // app.options("*", cors(corsOptions));

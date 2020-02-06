@@ -2,7 +2,7 @@
 import { User } from "../models";
 import { UserInputError } from "apollo-server";
 import { createAccessToken, createRefreshToken } from "../auth";
-import { sendRefreshToken } from "../sendRefreshToken";
+import { sendRefreshToken } from "../refreshToken";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
