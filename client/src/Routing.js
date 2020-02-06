@@ -1,6 +1,5 @@
 import React from "react"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { slide as Menu } from "react-burger-menu"
 
 // pages
 import Dashboard from "./pages/dashboard-page/DashboardPage"
@@ -21,9 +20,7 @@ function Routing() {
   return (
     <Router>
       <div className="navigation">
-        <Menu isOpen={false}>
-          <Navigation />
-        </Menu>
+        <Navigation />
 
         <Switch>
           <Route exact={true} path="/" component={Dashboard} />
