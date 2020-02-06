@@ -21,27 +21,33 @@ function Login() {
   const handleSubmit = async e => {
     e.preventDefault()
     console.log("in onclick")
-    const response = await login({
-      variables: {
-        email: email,
-        password: password,
-      },
-      //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
-      //https://www.apollographql.com/docs/react/caching/cache-interaction/
-      // update: (store, { data }) => {
-      //   if (!data) return null
-      //   store.writeQuery({
-      //     //update current user in cache
-      //     query: LOGIN_MUTATION,
-      //     data: data.login.user,
-      //   })
-      // },
-    })
+    try {
+      const resp = await login({
+        variables: {
+          email: email,
+          password: password,
+        },
+        //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
+        //https://www.apollographql.com/docs/react/caching/cache-interaction/
+        // update: (store, { data }) => {
+        //   if (!data) return null
+        //   store.writeQuery({
+        //     //update current user in cache
+        //     query: LOGIN_MUTATION,
+        //     data: data.login.user,
+        //   })
+        // },
+      })
 
-    if (response && response.data) {
-      setAccessToken(response.data.login.accessToken)
+      if (resp && resp.data) {
+        setAccessToken(resp.data.login.accessToken)
+      }
+      history.push("/")
+    } catch (err) {
+      //TODO: USER DEN ERROR MITTEILEN
+      // console.log(err.message)
+      console.log(err)
     }
-    history.push("/")
   }
 
   return (

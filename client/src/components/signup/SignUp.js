@@ -19,8 +19,27 @@ function SignUp() {
   const [username, setUsername] = useState("")
   const history = useHistory()
 
-  const handleSubmit = evt => {
-    evt.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
+    //TODO: mascot & tokenversion nicht hardcodieren
+    try {
+      const resp = await signup({
+        variables: {
+          username: username,
+          email: email,
+          password: password,
+          mascot: 1,
+          tokenVersion: 0,
+        },
+      })
+      console.log(resp)
+      history.push("/")
+    } catch (err) {
+      //z.B. email gibts schon
+      //TODO: USER DEN ERROR MITTEILEN
+      // console.log(err.message)
+      console.log(err)
+    }
   }
 
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
@@ -90,28 +109,6 @@ function SignUp() {
               variant="button"
               text="Sign up"
               className="stan-btn-primary"
-              onClick={async e => {
-                e.preventDefault()
-                //TODO: mascot & tokenversion nicht hardcodieren
-                try {
-                  const resp = await signup({
-                    variables: {
-                      username: username,
-                      email: email,
-                      password: password,
-                      mascot: 1,
-                      tokenVersion: 0,
-                    },
-                  })
-                  console.log(resp)
-                  history.push("/")
-                } catch (err) {
-                  //z.B. email gibts schon
-                  //TODO: USER DEN ERROR MITTEILEN
-                  // console.log(err.message)
-                  console.log(err)
-                }
-              }}
             />
           </div>
         </div>
