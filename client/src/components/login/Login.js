@@ -29,12 +29,12 @@ function Login() {
       // refetchQueries: [{ query: LOGIN_MUTATION }],
     })
     console.log("test")
-    console.log(response)
+    console.log(JSON.stringify(response))
 
     if (response && response.data) {
       setAccessToken(response.data.login.accessToken)
     }
-    history.push("/")
+    // history.push("/")
   }
 
   return (

@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      if (!req.isAuth) throw new Error("Unauthorised");
+      // if (!req.isAuth) throw new Error("Unauthorised");
 
       return User.find({});
       // return fetchData()
