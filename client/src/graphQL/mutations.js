@@ -10,6 +10,16 @@ const ADD_BOOK_MUTATION = gql`
   }
 `
 
+const LOGIN_MUTATION = gql`
+  mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      userId
+      accessToken
+      tokenExpiration
+    }
+  }
+`
+
 //!!Make sure the type in mutation here, is the same type as used by graphql
 const ADD_EXAM_MUTATION = gql`
   mutation(
@@ -71,4 +81,9 @@ const ADD_USER_MUTATION = gql`
   }
 `
 
-export { ADD_BOOK_MUTATION, ADD_EXAM_MUTATION, ADD_USER_MUTATION }
+export {
+  ADD_BOOK_MUTATION,
+  ADD_EXAM_MUTATION,
+  ADD_USER_MUTATION,
+  LOGIN_MUTATION,
+}

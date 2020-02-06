@@ -3,14 +3,19 @@
 import jwt from "jsonwebtoken";
 //TODO: refactor
 module.exports = (req, res, next) => {
-  const authHeader = req.get("Authorization");
+  console.log("in is auth");
+  const authHeader = req.get("authorization");
   if (!authHeader) {
     req.isAuth = false;
+    console.log("not authenticated");
+
     return next(); //executes next function (if there is one)
   }
   const token = authHeader.split(" ")[1]; //get token (removes Authorization: )
   if (!token) {
     req.isAuth = false;
+    console.log("not authenticated");
+
     return next();
   }
 
@@ -21,14 +26,18 @@ module.exports = (req, res, next) => {
   } catch (err) {
     console.log(err);
     req.isAuth = false;
+    console.log("not authenticated");
+
     return next();
   }
 
   if (!decodedToken) {
     req.isAuth = false;
+    console.log("not authenticated");
+
     return next();
   }
-
+  console.log("i'm authenticated");
   //Token is valid
   req.isAuth = true;
   req.userId = decodedToken.userId;

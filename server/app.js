@@ -29,17 +29,40 @@ mongoose
 
 app.use(cookieParser());
 app.use(isAuth);
-// app.use(cors);
+// app.use(cors); //add origin & credentials
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     credentials: true
+//   })
+//
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+
+const corsOptions = {
+  // preflightContinue: true,
+  origin: ["http://localhost:3000"],
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
   //read refresh cookie - validate that it's correct
   //TODO:late change name of refresh_token
+  // console.log("refresh token post");
   const token = req.cookies.refresh_token;
+  // console.log("server1 ");
+  // console.log(JSON.stringify(req.cookies));
   if (!token) {
     return res.send({ ok: false, accessToken: "" });
   }
   let payload = null;
+  // console.log("server3");
+
   try {
     // console.log(process.env.REFRESH_TOKEN_SECRET);
     payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
@@ -47,6 +70,7 @@ app.post("/refresh_token", async (req, res) => {
     console.log(err);
     return res.send({ ok: false, accessToken: "" });
   }
+  // console.log("server2");
 
   //token is valid and we can send back an access token
   const user = await User.findOne({ _id: payload.userId });
@@ -62,12 +86,8 @@ app.post("/refresh_token", async (req, res) => {
   return res.send({ ok: true, accessToken: createAccessToken(user) });
 });
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
-
-const server = new ApolloServer({
+// app.options("*", cors(corsOptions));
+const apolloServer = new ApolloServer({
   schema,
   context: ({ req, res }) => ({ req, res }),
   playground: {
@@ -75,9 +95,13 @@ const server = new ApolloServer({
       "request.credentials": "same-origin"
     }
   }
+  // cors: corsOptions
 });
-server.applyMiddleware({ app });
+// apolloServer.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app, cors: false });
 
 app.listen({ port: PORT }, () =>
-  console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath}`)
+  console.log(
+    `🚀 Server ready at http://localhost:5000${apolloServer.graphqlPath}`
+  )
 );

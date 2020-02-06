@@ -1,17 +1,40 @@
 import React, { useState } from "react"
+import { LOGIN_MUTATION } from "../../graphQL/mutations"
+
 // --------------------------------------------------------------
 
 // components
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import { useMutation } from "@apollo/react-hooks"
+import { setAccessToken } from "../../accessToken"
+import { useHistory } from "react-router-dom"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [login, { loginData }] = useMutation(LOGIN_MUTATION)
+  const history = useHistory()
 
-  const handleSubmit = evt => {
-    evt.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault()
+    console.log("in onclick")
+    const response = await login({
+      variables: {
+        email: email,
+        password: password,
+      },
+
+      // refetchQueries: [{ query: LOGIN_MUTATION }],
+    })
+    console.log("test")
+    console.log(JSON.stringify(response))
+
+    if (response && response.data) {
+      setAccessToken(response.data.login.accessToken)
+    }
+    // history.push("/")
   }
 
   return (
@@ -64,6 +87,23 @@ function Login() {
               variant="button"
               text="Login"
               className="stan-btn-primary"
+              // onClick={async e => {
+              //   e.preventDefault()
+              //   console.log("in onclick")
+              //   const response = await login({
+              //     variables: {
+              //       email: email,
+              //       password: password,
+              //     },
+              //     // refetchQueries: [{ query: LOGIN_MUTATION }],
+              //   })
+
+              //   console.log(response)
+
+              //   if (response && response.data) {
+              //     setAccessToken(response.data.login.accessToken)
+              //   }
+              // }}
             />
           </div>
         </div>
