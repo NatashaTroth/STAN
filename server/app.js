@@ -73,6 +73,11 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+};
+
 const server = new ApolloServer({
   schema,
   context: ({ req, res }) => ({ req, res }),
@@ -80,7 +85,8 @@ const server = new ApolloServer({
     settings: {
       "request.credentials": "same-origin"
     }
-  }
+  },
+  cors: corsOptions
 });
 server.applyMiddleware({ app });
 

@@ -14,7 +14,7 @@ const client = new ApolloClient({
   onError: e => {
     console.log(e)
   },
-  credentials: "include",
+  // credentials: "include",
   request: operation => {
     const accessToken = getAccessToken()
     if (accessToken) {

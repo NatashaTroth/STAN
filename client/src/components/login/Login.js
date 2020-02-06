@@ -9,30 +9,36 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 import { useMutation } from "@apollo/react-hooks"
 import { setAccessToken } from "../../accessToken"
+import { useHistory } from "react-router-dom"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
+  const history = useHistory()
 
-  // const handleSubmit = async evt => {
-  //   evt.preventDefault()
-  //   console.log("form submitted");
+  const handleSubmit = async e => {
+    e.preventDefault()
+    console.log("in onclick")
+    const response = await login({
+      variables: {
+        email: email,
+        password: password,
+      },
 
-  //   const response = await login({
-  //     variables: {
-  //       email,
-  //       password
-  //     }
-  //   });
+      // refetchQueries: [{ query: LOGIN_MUTATION }],
+    })
+    console.log("test")
+    console.log(response)
 
-  //   console.log(response)
-
-  //   history.pushState("/");
-  // }
+    if (response && response.data) {
+      setAccessToken(response.data.login.accessToken)
+    }
+    history.push("/")
+  }
 
   return (
-    <form className="login__form box-content">
+    <form onSubmit={handleSubmit} className="login__form box-content">
       <div className="col-md-12 login__form__inner">
         <Label
           for="email"
@@ -81,23 +87,23 @@ function Login() {
               variant="button"
               text="Login"
               className="stan-btn-primary"
-              onClick={async e => {
-                e.preventDefault()
-                console.log("in onclick")
-                const response = await login({
-                  variables: {
-                    email: email,
-                    password: password,
-                  },
-                  refetchQueries: [{ query: LOGIN_MUTATION }],
-                })
+              // onClick={async e => {
+              //   e.preventDefault()
+              //   console.log("in onclick")
+              //   const response = await login({
+              //     variables: {
+              //       email: email,
+              //       password: password,
+              //     },
+              //     // refetchQueries: [{ query: LOGIN_MUTATION }],
+              //   })
 
-                console.log(response)
+              //   console.log(response)
 
-                if (response && response.data) {
-                  setAccessToken(response.data.login.accessToken)
-                }
-              }}
+              //   if (response && response.data) {
+              //     setAccessToken(response.data.login.accessToken)
+              //   }
+              // }}
             />
           </div>
         </div>
