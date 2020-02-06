@@ -100,23 +100,6 @@ function Login() {
               variant="button"
               text="Login"
               className="stan-btn-primary"
-              // onClick={async e => {
-              //   e.preventDefault()
-              //   console.log("in onclick")
-              //   const response = await login({
-              //     variables: {
-              //       email: email,
-              //       password: password,
-              //     },
-              //     // refetchQueries: [{ query: LOGIN_MUTATION }],
-              //   })
-
-              //   console.log(response)
-
-              //   if (response && response.data) {
-              //     setAccessToken(response.data.login.accessToken)
-              //   }
-              // }}
             />
           </div>
         </div>
