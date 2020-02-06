@@ -1,4 +1,14 @@
 .side-bar {
+  // transform: translateX(-100%);
+  // transition: transform 0.3s ease-out;
+
+  @include media-breakpoint-down(md) {
+    // display: none;
+  }
+
+  &.open {
+    // transform: translateX(0);
+  }
   &__burger-btn {
     padding: 25px;
     display: flex;
@@ -17,6 +27,9 @@
     background-color: theme-color("light");
     border-right: 5px solid theme-color("dark");
 
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
     &__logo {
       display: flex;
       justify-content: center;
@@ -82,5 +95,9 @@
   }
   &__content {
     margin-left: 250px;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0px;
+    }
   }
 }
