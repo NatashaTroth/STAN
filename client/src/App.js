@@ -12,8 +12,7 @@ import { getAccessToken, setAccessToken } from "./accessToken"
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql/",
   onError: e => {
-    console.log("error in App.js")
-    console.log(e)
+    console.error(e)
   },
   credentials: "include",
   request: operation => {
@@ -32,26 +31,27 @@ function App() {
   const [loading, setLoading] = useState(true)
   //TODO: CORS - MAKE SURE IT IS SECURE
   useEffect(() => {
-    console.log("test1")
+    // console.log("test1")
     fetch("http://localhost:5000/refresh_token", {
       method: "POST",
       credentials: "include",
       // headers: {},
     })
-      .then(async x => {
-        console.log("test2")
-        const { accessToken } = await x.json()
+      .then(async resp => {
+        // console.log("test2")
+        // console.log(resp)
+        const { accessToken } = await resp.json()
         setAccessToken(accessToken)
         setLoading(false)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
   }, [])
 
-  // if (loading) {
-  //   return <div>loading...</div>
-  // }
+  if (loading) {
+    return <div>loading...</div>
+  }
 
   return (
     <ApolloProvider client={client}>

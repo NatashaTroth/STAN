@@ -53,15 +53,15 @@ app.use(cors(corsOptions));
 app.post("/refresh_token", async (req, res) => {
   //read refresh cookie - validate that it's correct
   //TODO:late change name of refresh_token
-  console.log("refresh token post");
+  // console.log("refresh token post");
   const token = req.cookies.refresh_token;
-  console.log("server1 ");
-  console.log(JSON.stringify(req.cookies));
+  // console.log("server1 ");
+  // console.log(JSON.stringify(req.cookies));
   if (!token) {
     return res.send({ ok: false, accessToken: "" });
   }
   let payload = null;
-  console.log("server3");
+  // console.log("server3");
 
   try {
     // console.log(process.env.REFRESH_TOKEN_SECRET);
@@ -70,7 +70,7 @@ app.post("/refresh_token", async (req, res) => {
     console.log(err);
     return res.send({ ok: false, accessToken: "" });
   }
-  console.log("server2");
+  // console.log("server2");
 
   //token is valid and we can send back an access token
   const user = await User.findOne({ _id: payload.userId });
