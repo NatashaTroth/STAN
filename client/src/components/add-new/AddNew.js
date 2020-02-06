@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_USERS_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import { CURRENT_USER, GET_EXAMS_QUERY } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -27,15 +27,15 @@ function AddNew() {
         notes: data.exam_page_notes,
         pdfLink: data.exam_pdf_upload,
         completed: false,
-        userId: "5e2f54c374fe3c404f9429b7",
+        userId: userdata.id,
       },
       refetchQueries: [{ query: GET_EXAMS_QUERY }],
     })
   }
 
   // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
-
+  const { loading, error, userdata } = useQuery(CURRENT_USER)
+  console.log(userdata)
   // mutation ----------------
   const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
 
