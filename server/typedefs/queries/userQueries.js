@@ -23,7 +23,7 @@ const userQueries = gql`
       password: String!
       mascot: Int
       tokenVersion: Int
-    ): User
+    ): AuthData
     logout: Boolean
     login(email: String!, password: String!): AuthData
     revokeRefreshTokensForUser(userId: ID!): Boolean
