@@ -216,16 +216,14 @@ function AddNew() {
                       text="Add"
                       onClick={evt => {
                         evt.preventDefault()
-                        // console.log(exam_date)
-                        console.log("in onclick")
                         addExam({
                           variables: {
                             subject: exam_subject,
                             examDate: exam_date,
                             startDate: exam_start_date,
-                            numberPages: exam_page_amount,
-                            timePerPage: exam_page_time,
-                            currentPage: exam_page_repeat,
+                            numberPages: parseInt(exam_page_amount),
+                            timePerPage: parseInt(exam_page_time),
+                            currentPage: parseInt(exam_page_repeat),
                             notes: exam_page_notes,
                             pdfLink: exam_pdf_upload,
                             completed: false,
