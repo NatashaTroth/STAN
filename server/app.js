@@ -29,7 +29,13 @@ mongoose
 
 app.use(cookieParser());
 app.use(isAuth);
-// app.use(cors);
+app.use(cors); //add origin & credentials
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     credentials: true
+//   })
+// );
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
