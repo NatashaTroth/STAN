@@ -7,7 +7,6 @@ import { createRefreshToken, createAccessToken } from "./auth";
 export async function handleRefreshToken(req, res) {
   //read refresh cookie - validate that it's correct
   //TODO:late change name of refresh_token
-  console.log(" hhhheeEREREE I MAMMMMMMMM");
   const token = req.cookies.refresh_token;
   if (!token) {
     return res.send({ ok: false, accessToken: "" });

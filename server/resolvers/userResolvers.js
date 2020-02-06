@@ -19,9 +19,9 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: (parent, ars, context) => {
-      console.log("currentuser");
+      // console.log("currentuser");
       const authorization = context.req.get("authorization");
-      console.log(authorization);
+      // console.log(authorization);
 
       if (!authorization) return null;
       try {
