@@ -70,26 +70,6 @@ const ADD_EXAM_MUTATION = gql`
     }
   }
 `
-// TODO: LÖSCHEN - IST JETZT SIGNUP
-const ADD_USER_MUTATION = gql`
-  mutation(
-    $userId: ID!
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    addUser(
-      userId: $userId
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      id
-      username
-      email
-    }
-  }
-`
 
 const SIGNUP_MUTATION = gql`
   mutation(
@@ -120,7 +100,6 @@ const SIGNUP_MUTATION = gql`
 export {
   ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
-  ADD_USER_MUTATION,
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
