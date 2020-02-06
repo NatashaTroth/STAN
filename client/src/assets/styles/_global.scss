@@ -286,4 +286,18 @@ html body {
     color: theme-color("error-hover");
     margin-top: 2px;
   }
+
+  #success-container {
+    display: none;
+
+    .success {
+      color: theme-color("success");
+      margin: 20px 0 0 0;
+      text-align: right;
+
+      @include media-breakpoint-down(md) {
+        text-align: left;
+      }
+    }
+  }
 }

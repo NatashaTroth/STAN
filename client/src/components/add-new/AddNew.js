@@ -16,7 +16,6 @@ function AddNew() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = formData => {
-    console.log(data.currentUser.id)
     addExam({
       variables: {
         subject: formData.exam_subject,
@@ -33,12 +32,13 @@ function AddNew() {
       },
       refetchQueries: [{ query: GET_EXAMS_QUERY }],
     })
+
+    document.getElementById("success-container").style.display = "block"
   }
 
   // query ----------------
   const { loading, error, data } = useQuery(CURRENT_USER)
 
-  // if (!loading) console.log(JSON.stringify(data.currentUser.id))
   // mutation ----------------
   const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
 
@@ -299,6 +299,9 @@ function AddNew() {
                 </div>
               </div>
             </form>
+          </div>
+          <div className="col-md-12" id="success-container">
+            <p className="success">the exam was successfully added</p>
           </div>
         </div>
       </div>
