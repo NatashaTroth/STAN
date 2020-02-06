@@ -25,8 +25,16 @@ function Login() {
         email: email,
         password: password,
       },
-
-      // refetchQueries: [{ query: LOGIN_MUTATION }],
+      //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
+      //https://www.apollographql.com/docs/react/caching/cache-interaction/
+      // update: (store, { data }) => {
+      //   if (!data) return null
+      //   store.writeQuery({
+      //     //update current user in cache
+      //     query: LOGIN_MUTATION,
+      //     data: data.login.user,
+      //   })
+      // },
     })
     console.log("test")
     console.log(JSON.stringify(response))
@@ -34,7 +42,7 @@ function Login() {
     if (response && response.data) {
       setAccessToken(response.data.login.accessToken)
     }
-    // history.push("/")
+    history.push("/")
   }
 
   return (
