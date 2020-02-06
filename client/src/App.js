@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 
-import Navigation from "./Routing"
 import "./App.scss"
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
+
+// Navigation bar
+import Navbar from "./components/navbar/Navbar"
 
 //apollo client setup
 //uri = endpoint
@@ -21,7 +23,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1 className="hide">Stan - online study plan</h1>
-          <Navigation></Navigation>
+          <Navbar />
         </header>
       </div>
     </ApolloProvider>
