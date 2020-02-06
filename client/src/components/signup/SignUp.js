@@ -11,6 +11,8 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
+//TODO: block signup & login path when user is logged in
+
 function SignUp() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -102,11 +104,12 @@ function SignUp() {
                     },
                   })
                   console.log(resp)
-                  history.push("/login")
+                  history.push("/")
                 } catch (err) {
                   //z.B. email gibts schon
                   //TODO: USER DEN ERROR MITTEILEN
-                  console.log(err.message)
+                  // console.log(err.message)
+                  console.log(err)
                 }
               }}
             />

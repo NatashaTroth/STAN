@@ -87,13 +87,22 @@ const userResolvers = {
       }
       const hash = await bcrypt.hash(password, 10);
 
-      return User.create({
+      //TODO ERROR HANDLING
+      const resp = await User.create({
         username,
         email,
         password: hash,
         mascot,
         tokenVersion
       });
+      const user = await User.findOne({ email: email });
+
+      const accessToken = createAccessToken(user);
+      //can also return in resolver?
+      //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN
+      sendRefreshToken(context.res, createRefreshToken(user));
+
+      return { user: user, accessToken: accessToken, tokenExpiration: 15 };
     }
   }
 };

@@ -10,6 +10,7 @@ import Button from "../../components/button/Button"
 import { useMutation } from "@apollo/react-hooks"
 import { setAccessToken } from "../../accessToken"
 import { useHistory } from "react-router-dom"
+//TODO: block signup & login path when user is logged in
 
 function Login() {
   const [email, setEmail] = useState("")
@@ -36,8 +37,6 @@ function Login() {
       //   })
       // },
     })
-    // console.log("test")
-    // console.log(JSON.stringify(response))
 
     if (response && response.data) {
       setAccessToken(response.data.login.accessToken)

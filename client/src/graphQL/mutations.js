@@ -106,9 +106,13 @@ const SIGNUP_MUTATION = gql`
       mascot: $mascot
       tokenVersion: $tokenVersion
     ) {
-      id
-      username
-      email
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
     }
   }
 `
