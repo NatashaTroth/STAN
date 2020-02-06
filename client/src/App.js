@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/react-hooks" //inserts received data int
 
 // Navigation bar
 import Navbar from "./components/navbar/Navbar"
+import Backdrop from "./components/backdrop/Backdrop"
 
 //apollo client setup
 //uri = endpoint
@@ -20,10 +21,11 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
+      <div className="App" style={{ height: "100%" }}>
         <header className="App-header">
           <h1 className="hide">Stan - online study plan</h1>
           <Navbar />
+          <Backdrop />
         </header>
       </div>
     </ApolloProvider>

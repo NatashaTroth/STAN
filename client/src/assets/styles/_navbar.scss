@@ -1,11 +1,18 @@
 .side-bar {
+  &__burger-btn {
+    padding: 25px;
+    display: flex;
+    justify-content: flex-end;
+  }
   &__items {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    width: 220px;
-    z-index: 1;
+    max-width: 220px;
+    width: 50%;
+
+    z-index: 200;
     overflow-x: hidden;
     background-color: theme-color("light");
     border-right: 5px solid theme-color("dark");

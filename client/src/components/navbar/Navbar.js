@@ -6,6 +6,9 @@ import {
   NavLink,
 } from "react-router-dom"
 
+// Button
+import BurgerButton from "../side-drawer/BurgerButton"
+
 // components
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
@@ -24,7 +27,9 @@ import Logo from "../../images/icons/logo.svg"
 const navbar = props => (
   <div className="side-bar">
     <Router>
-      <div></div>
+      <div className="side-bar__burger-btn">
+        <BurgerButton />
+      </div>
       <nav className="side-bar__items">
         <div className="side-bar__items__logo">
           <a href="/">
