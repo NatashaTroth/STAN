@@ -15,27 +15,30 @@ function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = data => {
+  const onSubmit = formData => {
+    console.log(data.currentUser.id)
     addExam({
       variables: {
-        subject: data.exam_subject,
-        examDate: data.exam_date,
-        startDate: data.exam_start_date,
-        numberPages: parseInt(data.exam_page_amount),
-        timePerPage: parseInt(data.exam_page_time),
-        currentPage: parseInt(data.exam_page_repeat),
-        notes: data.exam_page_notes,
-        pdfLink: data.exam_pdf_upload,
+        subject: formData.exam_subject,
+        examDate: formData.exam_date,
+        startDate: formData.exam_start_date,
+        numberPages: parseInt(formData.exam_page_amount),
+        timePerPage: parseInt(formData.exam_page_time),
+        currentPage: parseInt(formData.exam_page_repeat),
+        notes: formData.exam_page_notes,
+        // pdfLink: formData.exam_pdf_upload,
+        pdfLink: "TODO: CHANGE LATER",
         completed: false,
-        userId: userdata.id,
+        userId: data.currentUser.id,
       },
       refetchQueries: [{ query: GET_EXAMS_QUERY }],
     })
   }
 
   // query ----------------
-  const { loading, error, userdata } = useQuery(CURRENT_USER)
-  console.log(userdata)
+  const { loading, error, data } = useQuery(CURRENT_USER)
+
+  // if (!loading) console.log(JSON.stringify(data.currentUser.id))
   // mutation ----------------
   const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
 
@@ -127,7 +130,7 @@ function AddNew() {
                         className="add-new__form__element__input"
                         type="date"
                         id="study-start-date"
-                        label="exam_study_start_date"
+                        label="exam_start_date"
                         placeholder="DD/MM/YYYY"
                         ref={register({
                           required: false,
