@@ -1,17 +1,12 @@
-import React from "react"
+import React, { forwardRef } from "react"
 
-const Input = ({
-  value,
-  onChange,
-  label,
-  placeholder,
-  type,
-  maxLength,
-  id,
-  className,
-}) => {
+const Input = (
+  { value, onChange, label, placeholder, type, maxLength, id, className },
+  ref
+) => {
   return (
     <input
+      ref={ref}
       type={type}
       id={id}
       name={label}
@@ -24,4 +19,4 @@ const Input = ({
   )
 }
 
-export default Input
+export default forwardRef(Input)

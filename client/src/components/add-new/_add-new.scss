@@ -1,7 +1,16 @@
 .add-new {
   padding: 20px;
+
   .container-fluid {
     padding: 0;
+  }
+
+  &__left {
+  }
+  &__right {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
   }
 
   &__heading {
