@@ -29,7 +29,7 @@ mongoose
 
 app.use(cookieParser());
 app.use(isAuth);
-app.use(cors); //add origin & credentials
+// app.use(cors); //add origin & credentials
 // app.use(
 //   cors({
 //     origin: "http://localhost:3000",
