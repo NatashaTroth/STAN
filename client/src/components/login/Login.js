@@ -1,15 +1,16 @@
 import React from "react"
 import { LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
+import { useMutation } from "@apollo/react-hooks"
+import { useHistory } from "react-router-dom"
+import { setAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // components ----------------
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-import { useMutation } from "@apollo/react-hooks"
-import { setAccessToken } from "../../accessToken"
-import { useHistory } from "react-router-dom"
+
 //TODO: block signup & login path when user is logged in
 
 function Login() {
