@@ -68,7 +68,7 @@ function SignUp() {
               ref={register({
                 required: true,
                 minLength: 1,
-                maxLength: 5,
+                maxLength: 30,
               })}
             />
             {errors.username && errors.username.type === "required" && (
