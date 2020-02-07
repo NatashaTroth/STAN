@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_USERS_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import { CURRENT_USER, GET_EXAMS_QUERY } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -11,21 +12,32 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 
 function AddNew() {
-  // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
-  // state handling ----------------
-  const [exam_subject, setExamSubject] = useState("")
-  const [exam_date, setExamDate] = useState("")
-  const [exam_start_date, setExamStartDate] = useState("")
-  const [exam_page_amount, setExamPageAmount] = useState("")
-  const [exam_page_time, setExamPageTime] = useState("")
-  const [exam_page_repeat, setExamPageRepeat] = useState("")
-  const [exam_page_notes, setExamPageNotes] = useState("")
-  const [exam_pdf_upload, setExamPdfUpload] = useState("")
+  // form specific ----------------
+  const { register, errors, handleSubmit } = useForm()
 
-  const handleSubmit = evt => {
-    evt.preventDefault()
+  const onSubmit = formData => {
+    addExam({
+      variables: {
+        subject: formData.exam_subject,
+        examDate: formData.exam_date,
+        startDate: formData.exam_start_date,
+        numberPages: parseInt(formData.exam_page_amount),
+        timePerPage: parseInt(formData.exam_page_time),
+        currentPage: parseInt(formData.exam_page_repeat),
+        notes: formData.exam_page_notes,
+        // pdfLink: formData.exam_pdf_upload,
+        pdfLink: "TODO: CHANGE LATER",
+        completed: false,
+        userId: data.currentUser.id,
+      },
+      refetchQueries: [{ query: GET_EXAMS_QUERY }],
+    })
+
+    document.getElementById("success-container").style.display = "block"
   }
+
+  // query ----------------
+  const { loading, error, data } = useQuery(CURRENT_USER)
 
   // mutation ----------------
   const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
@@ -44,7 +56,8 @@ function AddNew() {
           </div>
           <div className="col-md-12">
             <form
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               id="add-exam"
               className="add-new__form"
             >
@@ -60,15 +73,27 @@ function AddNew() {
                       className="add-new__form__element__input"
                       type="text"
                       id="subject"
-                      name="exam_subject"
+                      label="exam_subject"
                       placeholder="Math"
-                      value={exam_subject}
-                      maxLength={50}
-                      onChange={evt =>
-                        setExamSubject(evt.target.value.slice(0, 50))
-                      }
                       required
+                      ref={register({
+                        required: true,
+                        minLength: 1,
+                        maxLength: 20,
+                      })}
                     />
+                    {errors.exam_subject &&
+                      errors.exam_subject.type === "required" && (
+                        <span className="error">This field is required</span>
+                      )}
+                    {errors.exam_subject &&
+                      errors.exam_subject.type === "maxLength" &&
+                      errors.exam_subject.type === "minLength" && (
+                        <span className="error">
+                          {" "}
+                          The input needs to be between 1 and 20 characters
+                        </span>
+                      )}
                   </div>
 
                   <div className="add-new__form__container">
@@ -82,13 +107,17 @@ function AddNew() {
                         className="add-new__form__element__input"
                         type="date"
                         id="exam-date"
-                        name="exam_date"
+                        label="exam_date"
                         placeholder="DD/MM/YYYY"
-                        value={exam_date}
-                        maxLength={null}
-                        onChange={evt => setExamDate(evt.target.value)}
                         required
+                        ref={register({
+                          required: true,
+                        })}
                       />
+                      {errors.exam_date &&
+                        errors.exam_date.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
                     </div>
 
                     <div className="add-new__form__element">
@@ -101,11 +130,11 @@ function AddNew() {
                         className="add-new__form__element__input"
                         type="date"
                         id="study-start-date"
-                        name="exam_study_start_date"
+                        label="exam_start_date"
                         placeholder="DD/MM/YYYY"
-                        value={exam_start_date}
-                        maxLength={null}
-                        onChange={evt => setExamStartDate(evt.target.value)}
+                        ref={register({
+                          required: false,
+                        })}
                       />
                     </div>
                   </div>
@@ -120,34 +149,65 @@ function AddNew() {
                       <Input
                         className="add-new__form__element__input"
                         type="number"
+                        min="0"
                         id="page-amount"
-                        name="exam_study_start_date"
+                        label="exam_page_amount"
                         placeholder="829"
-                        value={exam_page_amount}
-                        maxLength={10000}
-                        onChange={evt =>
-                          setExamPageAmount(evt.target.value.slice(0, 10000))
-                        }
                         required
+                        ref={register({
+                          required: true,
+                          min: 1,
+                          max: 10000,
+                        })}
                       />
+                      {errors.exam_page_amount &&
+                        errors.exam_page_amount.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
+                      {errors.exam_page_amount &&
+                        errors.exam_page_amount.type === "max" && (
+                          <span className="error">The maximum is 10.000</span>
+                        )}
+                      {errors.exam_page_amount &&
+                        errors.exam_page_amount.type === "min" && (
+                          <span className="error">
+                            Only positive numbers are allowed
+                          </span>
+                        )}
                     </div>
 
                     <div className="add-new__form__element">
                       <Label
                         for="page-time"
-                        text="Time per page (h:m)"
+                        text="Time per page (min)"
                         className="add-new__form__element__label"
                       ></Label>
                       <Input
                         className="add-new__form__element__input"
-                        type="time"
+                        type="number"
+                        min="0"
                         id="page-time"
-                        name="exam_page_time"
+                        label="exam_page_time"
                         placeholder="5 min"
-                        value={exam_page_time}
-                        maxLength={null}
-                        onChange={evt => setExamPageTime(evt.target.value)}
+                        ref={register({
+                          required: false,
+                          min: 1,
+                          max: 600,
+                        })}
                       />
+                      {errors.exam_page_time &&
+                        errors.exam_page_time.type === "max" && (
+                          <span className="error">
+                            {" "}
+                            The maximum is 600 minutes (10 hours)
+                          </span>
+                        )}
+                      {errors.exam_page_time &&
+                        errors.exam_page_time.type === "min" && (
+                          <span className="error">
+                            Only positive numbers are allowed
+                          </span>
+                        )}
                     </div>
 
                     <div className="add-new__form__element">
@@ -160,17 +220,32 @@ function AddNew() {
                         className="add-new__form__element__input"
                         type="number"
                         id="page-repeat"
-                        name="exam_page_repeat"
+                        label="exam_page_repeat"
                         placeholder="2 times"
-                        value={exam_page_repeat}
-                        maxLength={50}
-                        onChange={evt =>
-                          setExamPageRepeat(evt.target.value.slice(0, 50))
-                        }
+                        ref={register({
+                          required: false,
+                          min: 1,
+                          max: 1000,
+                        })}
                       />
                     </div>
+                    {errors.exam_page_repeat &&
+                      errors.exam_page_repeat.type === "max" && (
+                        <span className="error">
+                          {" "}
+                          The maximum is 1000 repeats
+                        </span>
+                      )}
+                    {errors.exam_page_repeat &&
+                      errors.exam_page_repeat.type === "min" && (
+                        <span className="error">
+                          Only positive numbers are allowed
+                        </span>
+                      )}
                   </div>
+                </div>
 
+                <div className="col-md-6 add-new__right">
                   <div className="add-new__form__element">
                     <Label
                       for="page-notes"
@@ -180,19 +255,23 @@ function AddNew() {
                     <Textarea
                       className="add-new__form__element__input"
                       id="page-notes"
-                      name="exam_page_notes"
+                      label="exam_page_notes"
                       placeholder="..."
-                      value={exam_page_notes}
-                      maxLength={100000}
-                      onChange={evt =>
-                        setExamPageNotes(evt.target.value.slice(0, 100000))
-                      }
+                      ref={register({
+                        required: false,
+                        maxLength: 100000000,
+                      })}
                     ></Textarea>
+                    {errors.exam_page_notes &&
+                      errors.exam_page_notes.type === "maxLength" && (
+                        <span className="error">
+                          The maximal length is 100.000.000 characters
+                        </span>
+                      )}
                   </div>
-                </div>
 
-                <div className="col-md-6 add-new__right">
-                  <div className="add-new__form__element">
+                  {/* TODO: implement file link or upload */}
+                  {/* <div className="add-new__form__element">
                     <Label
                       for="pdf-upload"
                       text="Upload PDF file"
@@ -201,42 +280,28 @@ function AddNew() {
                     <Input
                       className="add-new__form__element__input"
                       type="file"
-                      accept=".pdf"
+                      accept="application/pdf, .pdf"
                       id="pdf-upload"
-                      name="exam_pdf_upload"
-                      value={exam_pdf_upload}
-                      onChange={evt => setExamPdfUpload(evt.target.value)}
+                      label="exam_pdf_upload"
+                      ref={register({
+                        required: false,
+                      })}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="add-new__form__submit">
                     <Button
                       className="add-new__form__element__btn stan-btn-primary"
                       variant="button"
                       text="Add"
-                      onClick={e => {
-                        e.preventDefault()
-                        // console.log("in onclick")
-                        addExam({
-                          variables: {
-                            subject: exam_subject,
-                            examDate: exam_date,
-                            startDate: exam_start_date,
-                            numberPages: exam_page_amount,
-                            timePerPage: exam_page_time,
-                            currentPage: exam_page_repeat,
-                            notes: exam_page_notes,
-                            pdfLink: exam_pdf_upload,
-                            completed: false,
-                          },
-                          refetchQueries: [{ query: GET_EXAMS_QUERY }],
-                        })
-                      }}
                     />
                   </div>
                 </div>
               </div>
             </form>
+          </div>
+          <div className="col-md-12" id="success-container">
+            <p className="success">the exam was successfully added</p>
           </div>
         </div>
       </div>

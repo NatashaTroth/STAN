@@ -1,6 +1,6 @@
-import React, { Component, useState } from "react"
+import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -8,7 +8,7 @@ import AddNew from "../../components/add-new/AddNew"
 
 function AddNewPage() {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
+  const { loading, error } = useQuery(CURRENT_USER)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
