@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-// components
+// components ----------------
 import SignUpForm from "../../components/signup/SignUp"
 
 function SignUpPage() {
@@ -15,10 +15,11 @@ function SignUpPage() {
               You can sign up via Google or with your E-Mail address
             </p>
           </div>
-
-          <div className="col-md-12 login__form-container">
+          <div className="col-md-2"></div>
+          <div className="col-md-8 login__form-container">
             <SignUpForm />
           </div>
+          <div className="col-md-2"></div>
         </div>
       </div>
     </div>
