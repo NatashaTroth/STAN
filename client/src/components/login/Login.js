@@ -41,12 +41,16 @@ function Login() {
 
       if (resp && resp.data) {
         setAccessToken(resp.data.login.accessToken)
+      } else {
+        // displays server error (backend)
+        throw new Error("The login failed")
       }
+      // redirect
       history.push("/")
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
-      // console.log(err.message)
-      console.log(err)
+      console.error(err.message)
+      // console.log(err)
     }
   }
 

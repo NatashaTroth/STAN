@@ -30,18 +30,21 @@ function SignUp() {
           email: formData.email,
           password: formData.password,
           mascot: 1,
-          tokenVersion: 0,
         },
       })
 
       if (resp && resp.data) {
         setAccessToken(resp.data.signup.accessToken)
+      } else {
+        // displays server error (backend)
+        throw new Error("The sign up failed")
       }
+      // redirect
       history.push("/")
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
-      // console.log(err.message)
-      console.log(err)
+      console.error(err.message)
+      // console.log(err)
     }
   }
 

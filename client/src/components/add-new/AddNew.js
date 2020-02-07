@@ -34,17 +34,16 @@ function AddNew() {
         refetchQueries: [{ query: GET_EXAMS_QUERY }],
       })
 
-      if (resp) {
-        //TODO: success Message
-      } else throw new Error("The exam could not be added")
+      if (resp && resp.data.addExam) {
+        // success message ----------------
+        document.getElementById("success-container").style.display = "block"
+      } else {
+        // displays server error (backend)
+        throw new Error("The exam could not be added")
+      }
     } catch (err) {
-      // console.log("in catch")
-      console.log(err.messages)
-      // console.log(JSON.stringify(err))
+      console.error(err.message)
     }
-
-    // success message ----------------
-    document.getElementById("success-container").style.display = "block"
   }
 
   // query ----------------
