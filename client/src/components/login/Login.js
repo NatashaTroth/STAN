@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -52,11 +52,7 @@ function Login() {
 
   // return ----------------
   return (
-    <form
-      // onSubmit={handleSubmit}
-      onSubmit={handleSubmit(onSubmit)}
-      className="login__form box-content"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
@@ -81,14 +77,12 @@ function Login() {
             {errors.email && errors.email.type === "required" && (
               <span className="error">This field is required</span>
             )}
-            {errors.email &&
-              errors.email.type === "maxLength" &&
-              errors.email.type === "minLength" && (
-                <span className="error">
-                  {" "}
-                  The input needs to be between 1 and 50 characters
-                </span>
-              )}
+            {errors.email && errors.email.type === "minLength" && (
+              <span className="error"> Minimum 1 character required</span>
+            )}
+            {errors.email && errors.email.type === "maxLength" && (
+              <span className="error"> Maximum 50 characters allowed</span>
+            )}
           </div>
 
           <div className="login__form__element">
@@ -113,14 +107,12 @@ function Login() {
             {errors.password && errors.password.type === "required" && (
               <span className="error">This field is required</span>
             )}
-            {errors.password &&
-              errors.password.type === "maxLength" &&
-              errors.password.type === "minLength" && (
-                <span className="error">
-                  {" "}
-                  The input needs to be between 8 and 30 characters
-                </span>
-              )}
+            {errors.password && errors.password.type === "minLength" && (
+              <span className="error"> Minimum 8 characters required</span>
+            )}
+            {errors.password && errors.password.type === "maxLength" && (
+              <span className="error"> Maximum 30 characters allowed</span>
+            )}
           </div>
 
           <div className="login__form__buttons">
