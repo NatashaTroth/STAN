@@ -31,6 +31,8 @@ const examResolvers = {
     name: "Date",
     description: "Custom description for the date scalar",
     parseValue(value) {
+      //TODO: not sure if this is good for examDate
+      if (!value) return dayjs(new Date());
       return dayjs(value); // value from the client
     },
     serialize(value) {

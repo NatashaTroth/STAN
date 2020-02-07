@@ -35,13 +35,13 @@ const ADD_EXAM_MUTATION = gql`
   mutation(
     $subject: String!
     $examDate: Date!
-    $startDate: Date!
+    $startDate: Date
     $numberPages: Int!
-    $timePerPage: Int!
-    $currentPage: Int!
-    $notes: String!
-    $pdfLink: String!
-    $completed: Boolean!
+    $timePerPage: Int
+    $currentPage: Int
+    $notes: String
+    $pdfLink: String
+    $completed: Boolean
     $userId: ID!
   ) {
     addExam(

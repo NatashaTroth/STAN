@@ -1,20 +1,52 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+//validation: https://mongoosejs.com/docs/validation.html
 
 //this object describes properties and datatypes
 //Mongodb automatically creates new id for each file added to the db
 const examSchema = new Schema({
-  subject: String,
-  examDate: Date,
-  startDate: Date,
-  numberPages: Number,
-  timePerPage: Number,
-  timesRepeat: Number,
-  currentPage: Number,
-  notes: String,
-  pdfLink: String,
-  completed: Boolean,
-  userId: String
+  subject: {
+    type: String,
+    required: true
+  },
+  examDate: {
+    type: Date,
+    required: true
+  },
+  startDate: {
+    type: Date,
+    default: new Date()
+  },
+  numberPages: {
+    type: Number,
+    required: true
+  },
+  timePerPage: {
+    type: Number,
+    default: -1
+  },
+  timesRepeat: {
+    type: Number,
+    default: -1
+  },
+  currentPage: {
+    type: Number,
+    default: 0
+  },
+  notes: {
+    type: String
+  },
+  pdfLink: {
+    type: String
+  },
+  completed: {
+    type: Boolean,
+    required: false
+  },
+  userId: {
+    type: String,
+    required: true
+  }
 });
 
 //model is like a collection in mongodb
