@@ -122,7 +122,7 @@ html body {
     font-family: $font-family-OpenSans-Regular;
     @include rem(font-size, $font-size-16);
     letter-spacing: 0;
-    @include rem(line-height, 32px);
+    @include rem(line-height, 22px);
     transition: all 200ms ease-in-out;
 
     &:hover,
@@ -161,6 +161,10 @@ html body {
   input {
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+
+  strong {
+    font-family: $font-family-BasierCircle-SemiBold;
   }
 
   label {
