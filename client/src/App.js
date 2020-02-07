@@ -12,20 +12,36 @@ import Navbar from "./components/navbar/Navbar"
 import Backdrop from "./components/backdrop/Backdrop"
 import Toolbar from "./components/toolbar/Toolbar"
 
-//apollo client setup
-//uri = endpoint
-//TODO: Change when online
-// const client = new ApolloClient({
-//   uri: "http://localhost:5000/graphql/",
-//   onError: e => {
-//     console.log(e)
-//   },
-// })
+/* TODO: CACHING APOLLO */
 
 class App extends Component {
   state = {
     sideDrawerOpen: false,
+    loading: true,
   }
+  // const [loading, setLoading] = useState(true)
+
+  componentDidMount = () => {
+    fetch("http://localhost:5000/refresh_token", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(async resp => {
+        const { accessToken } = await resp.json()
+        setAccessToken(accessToken)
+        this.setState({ loading: false })
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  // componentWillUnmount() {
+  //   ChatAPI.unsubscribeFromFriendStatus(
+  //     this.props.friend.id,
+  //     this.handleStatusChange
+  //   );
+  // }
 
   drawerToggleClickHandler = () => {
     this.setState(prevState => {
@@ -45,6 +61,10 @@ class App extends Component {
       nav = <Navbar />
     }
 
+    if (this.state.loading) {
+      return <div>loading...</div>
+    }
+
     return (
       <ApolloProvider client={client}>
         <div className="App" style={{ height: "100%" }}>
@@ -60,61 +80,5 @@ class App extends Component {
     )
   }
 }
-
-{
-  /* TODO: CACHING APOLLO */
-}
-
-{
-  /* function App() {
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    fetch("http://localhost:5000/refresh_token", {
-      method: "POST",
-      credentials: "include",
-    })
-      .then(async resp => {
-        const { accessToken } = await resp.json()
-        setAccessToken(accessToken)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-  }, [])
-
-  if (loading) {
-    return <div>loading...</div>
-  }
-
-  return (
-    <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
-          <h1 className="hide">Stan - online study plan</h1>
-          {/* <Toolbar drawerClickHandler={this.drawerToggleClickHandler} /> */
-}
-{
-  /* <Navbar show={this.state.sideDrawerOpen} /> */
-}
-{
-  /* {backdrop} */
-}
-{
-  /* <Toolbar />
-          <Navbar /> */
-}
-{
-  /* <Backdrop /> */
-}
-{
-  /* </div> */
-}
-{
-  /* </ApolloProvider> */
-}
-//     )
-//   }
-// }
 
 export default App
