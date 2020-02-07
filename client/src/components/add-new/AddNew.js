@@ -23,7 +23,6 @@ function AddNew() {
           examDate: formData.exam_date,
           startDate: formData.exam_start_date,
           numberPages: parseInt(formData.exam_page_amount),
-          // numberPages: "dlfjg",
           timePerPage: parseInt(formData.exam_page_time),
           currentPage: parseInt(formData.exam_page_repeat),
           notes: formData.exam_page_notes,
@@ -44,6 +43,7 @@ function AddNew() {
       // console.log(JSON.stringify(err))
     }
 
+    // success message ----------------
     document.getElementById("success-container").style.display = "block"
   }
 
@@ -98,11 +98,17 @@ function AddNew() {
                         <span className="error">This field is required</span>
                       )}
                     {errors.exam_subject &&
-                      errors.exam_subject.type === "maxLength" &&
                       errors.exam_subject.type === "minLength" && (
                         <span className="error">
                           {" "}
-                          The input needs to be between 1 and 20 characters
+                          Minimum 1 character required
+                        </span>
+                      )}
+                    {errors.exam_subject &&
+                      errors.exam_subject.type === "maxLength" && (
+                        <span className="error">
+                          {" "}
+                          Maximum 20 characters allowed
                         </span>
                       )}
                   </div>
