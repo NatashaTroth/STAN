@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-// components
+// components ----------------
 import LoginForm from "../../components/login/Login"
 
 function LoginPage() {
@@ -15,9 +15,11 @@ function LoginPage() {
               You can log into your account via Google or your E-Mail address
             </p>
           </div>
-          <div className="col-md-12 login__form-container">
+          <div className="col-md-2"></div>
+          <div className="col-md-8 login__form-container">
             <LoginForm />
           </div>
+          <div className="col-md-2"></div>
         </div>
       </div>
     </div>

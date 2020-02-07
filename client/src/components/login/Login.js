@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { LOGIN_MUTATION } from "../../graphQL/mutations"
-
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// components
+// components ----------------
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
@@ -13,19 +13,19 @@ import { useHistory } from "react-router-dom"
 //TODO: block signup & login path when user is logged in
 
 function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  // mutation ----------------
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
   const history = useHistory()
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    console.log("in onclick")
+  // form specific ----------------
+  const { register, errors, handleSubmit } = useForm()
+
+  const onSubmit = async formData => {
     try {
       const resp = await login({
         variables: {
-          email: email,
-          password: password,
+          email: formData.email,
+          password: formData.password,
         },
         //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
         //https://www.apollographql.com/docs/react/caching/cache-interaction/
@@ -50,64 +50,104 @@ function Login() {
     }
   }
 
+  // return ----------------
   return (
-    <form onSubmit={handleSubmit} className="login__form box-content">
-      <div className="col-md-12 login__form__inner">
-        <Label
-          for="email"
-          text="E-Mail"
-          className="login__form__email-label"
-        ></Label>
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="lucy@stan.io"
-          value={email}
-          maxLength={50}
-          className="login__form__email-input"
-          onChange={evt => setEmail(evt.target.value.slice(0, 50))}
-          required
-        />
-        <Label
-          for="password"
-          text="Pasword"
-          className="login__form__password-label"
-        ></Label>
-        <Input
-          type="password"
-          id="password"
-          name="password"
-          placeholder=""
-          value={password}
-          maxLength={30}
-          className="login__form__password-input"
-          onChange={evt => setPassword(evt.target.value.slice(0, 30))}
-          required
-        />
-
-        <div className="login__form__buttons">
-          <div className="login__form__buttons__button-left">
-            <Button
-              variant="button"
-              text="Google Login"
-              className="stan-btn-secondary"
+    <form
+      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
+      className="login__form box-content"
+    >
+      <div className="row">
+        <div className="col-md-12 login__form__inner">
+          <div className="login__form__element">
+            <Label
+              for="email"
+              text="E-Mail"
+              className="login__form__element__label"
+            ></Label>
+            <Input
+              className="login__form__element__input"
+              type="email"
+              id="email"
+              label="email"
+              placeholder="lucy@stan.io"
+              required
+              ref={register({
+                required: true,
+                minLength: 1,
+                maxLength: 50,
+              })}
             />
+            {errors.email && errors.email.type === "required" && (
+              <span className="error">This field is required</span>
+            )}
+            {errors.email &&
+              errors.email.type === "maxLength" &&
+              errors.email.type === "minLength" && (
+                <span className="error">
+                  {" "}
+                  The input needs to be between 1 and 50 characters
+                </span>
+              )}
           </div>
 
-          <div className="login__form__buttons__button-right">
-            <Button
-              variant="button"
-              text="Login"
-              className="stan-btn-primary"
+          <div className="login__form__element">
+            <Label
+              for="password"
+              text="Pasword"
+              className="login__form__element__label"
+            ></Label>
+            <Input
+              className="login__form__element__input"
+              type="password"
+              id="password"
+              label="password"
+              placeholder=""
+              required
+              ref={register({
+                required: true,
+                minLength: 8,
+                maxLength: 30,
+              })}
             />
+            {errors.password && errors.password.type === "required" && (
+              <span className="error">This field is required</span>
+            )}
+            {errors.password &&
+              errors.password.type === "maxLength" &&
+              errors.password.type === "minLength" && (
+                <span className="error">
+                  {" "}
+                  The input needs to be between 8 and 30 characters
+                </span>
+              )}
           </div>
-        </div>
-        <div className="login__form__redirect-signup">
-          <p className="login__form__redirect-signup__text">not registered?</p>{" "}
-          <a href="/sign-up" className="login__form__redirect-signup__link">
-            sign up
-          </a>
+
+          <div className="login__form__buttons">
+            <div className="login__form__buttons__button-left">
+              <Button
+                className="stan-btn-secondary"
+                variant="button"
+                text="Google Login"
+              />
+            </div>
+
+            <div className="login__form__buttons__button-right">
+              <Button
+                className="stan-btn-primary"
+                variant="button"
+                text="Login"
+              />
+            </div>
+          </div>
+          <div className="login__form__redirect-signup">
+            <p className="login__form__redirect-signup__text">
+              not registered?
+            </p>{" "}
+            <a href="/sign-up" className="login__form__redirect-signup__link">
+              sign up
+            </a>
+          </div>
         </div>
       </div>
     </form>
