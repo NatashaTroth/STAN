@@ -8,9 +8,13 @@ import { setAccessToken } from "./accessToken"
 import { client } from "./apolloClient"
 
 // Navigation bar
-import Navbar from "./components/navbar/Navbar"
+// import Navbar from "./components/navbar/Navbar"
+import NavDirection from "./components/nav-link/Navlink"
+import RouteContent from "./components/route-content/RouteContent"
 import Backdrop from "./components/backdrop/Backdrop"
 import Toolbar from "./components/toolbar/Toolbar"
+
+import Navbar from "./components/navbar/Navbar"
 
 /* TODO: CACHING APOLLO */
 
@@ -68,13 +72,10 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <div className="App" style={{ height: "100%" }}>
-          <h1 className="hide">Stan - online study plan</h1>
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-          <Navbar show={this.state.sideDrawerOpen} />
-          {backdrop}
           {/* {nav} */}
-          {/* <Toolbar />
-          <Navbar /> */}
+          {backdrop}
+          <Navbar />
         </div>
       </ApolloProvider>
     )
