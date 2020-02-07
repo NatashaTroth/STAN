@@ -15,23 +15,34 @@ function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = formData => {
-    addExam({
-      variables: {
-        subject: formData.exam_subject,
-        examDate: formData.exam_date,
-        startDate: formData.exam_start_date,
-        numberPages: parseInt(formData.exam_page_amount),
-        timePerPage: parseInt(formData.exam_page_time),
-        currentPage: parseInt(formData.exam_page_repeat),
-        notes: formData.exam_page_notes,
-        // pdfLink: formData.exam_pdf_upload,
-        pdfLink: "TODO: CHANGE LATER",
-        completed: false,
-        userId: data.currentUser.id,
-      },
-      refetchQueries: [{ query: GET_EXAMS_QUERY }],
-    })
+  const onSubmit = async formData => {
+    try {
+      const resp = await addExam({
+        variables: {
+          subject: formData.exam_subject,
+          examDate: formData.exam_date,
+          startDate: formData.exam_start_date,
+          numberPages: parseInt(formData.exam_page_amount),
+          // numberPages: "dlfjg",
+          timePerPage: parseInt(formData.exam_page_time),
+          currentPage: parseInt(formData.exam_page_repeat),
+          notes: formData.exam_page_notes,
+          // pdfLink: formData.exam_pdf_upload,
+          pdfLink: "TODO: CHANGE LATER",
+          completed: false,
+          userId: data.currentUser.id,
+        },
+        refetchQueries: [{ query: GET_EXAMS_QUERY }],
+      })
+
+      if (resp) {
+        //TODO: success Message
+      } else throw new Error("The exam could not be added")
+    } catch (err) {
+      // console.log("in catch")
+      console.log(err.messages)
+      // console.log(JSON.stringify(err))
+    }
 
     document.getElementById("success-container").style.display = "block"
   }

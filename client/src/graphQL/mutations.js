@@ -55,19 +55,7 @@ const ADD_EXAM_MUTATION = gql`
       pdfLink: $pdfLink
       completed: $completed
       userId: $userId
-    ) {
-      id
-      subject
-      examDate
-      startDate
-      numberPages
-      timePerPage
-      currentPage
-      notes
-      pdfLink
-      completed
-      userId
-    }
+    )
   }
 `
 

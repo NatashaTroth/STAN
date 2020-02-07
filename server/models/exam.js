@@ -46,6 +46,11 @@ const examSchema = new Schema({
   userId: {
     type: String,
     required: true
+  },
+  //TODO: add created at and updated at
+  createdAt: {
+    type: Date,
+    default: new Date()
   }
 });
 
