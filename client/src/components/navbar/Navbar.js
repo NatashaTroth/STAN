@@ -6,6 +6,9 @@ import {
   NavLink,
 } from "react-router-dom"
 
+// TABLET: width 70%:
+// Mobile: volle Breite mit X im Screen
+
 // components
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
