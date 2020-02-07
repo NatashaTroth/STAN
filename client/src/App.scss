@@ -6,7 +6,7 @@
 @import "./assets/styles/global";
 @import "./assets/styles/fonts";
 @import "./assets/styles/buttons";
-@import "./assets/styles/routing";
+@import "./assets/styles/navbar";
 
 // Pages
 @import "pages/add-new-page/add-new-page";
@@ -31,3 +31,5 @@
 @import "components/button/button";
 @import "components/textarea/textarea";
 @import "components/today-subject/today-subject";
+@import "components/burger-button/burger-button";
+@import "components/backdrop/backdrop";
