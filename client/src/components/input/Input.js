@@ -1,9 +1,6 @@
 import React, { forwardRef } from "react"
 
-const Input = (
-  { value, onChange, label, placeholder, type, maxLength, id, className },
-  ref
-) => {
+const Input = ({ value, label, placeholder, type, id, className }, ref) => {
   return (
     <input
       ref={ref}
@@ -12,8 +9,6 @@ const Input = (
       name={label}
       placeholder={placeholder}
       value={value}
-      onChange={onChange}
-      maxLength={maxLength}
       className={className}
     />
   )

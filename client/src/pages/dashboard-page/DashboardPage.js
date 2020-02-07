@@ -1,6 +1,6 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -9,8 +9,7 @@ import TodayGoals from "../../components/today-goals/TodayGoals"
 
 function Dashboard() {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
-
+  const { loading, error, data } = useQuery(CURRENT_USER)
   // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
@@ -21,7 +20,9 @@ function Dashboard() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <h2 className="dashboard-page__heading">Hello Lucy</h2>
+            <h2 className="dashboard-page__heading">
+              Hello {data.currentUser.username}
+            </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
           {/* ------ no tasks ------*/}
@@ -34,7 +35,7 @@ function Dashboard() {
             <TodayGoals></TodayGoals>
           </div>
           <div className="col-md-8">{/* Today */}</div>
-          <div className="col-md-4">{/* Today Progrss */}</div>
+          <div className="col-md-4">{/* Today Progress */}</div>
         </div>
       </div>
     </div>

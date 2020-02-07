@@ -15,25 +15,35 @@ function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = formData => {
-    addExam({
-      variables: {
-        subject: formData.exam_subject,
-        examDate: formData.exam_date,
-        startDate: formData.exam_start_date,
-        numberPages: parseInt(formData.exam_page_amount),
-        timePerPage: parseInt(formData.exam_page_time),
-        currentPage: parseInt(formData.exam_page_repeat),
-        notes: formData.exam_page_notes,
-        // pdfLink: formData.exam_pdf_upload,
-        pdfLink: "TODO: CHANGE LATER",
-        completed: false,
-        userId: data.currentUser.id,
-      },
-      refetchQueries: [{ query: GET_EXAMS_QUERY }],
-    })
+  const onSubmit = async formData => {
+    try {
+      const resp = await addExam({
+        variables: {
+          subject: formData.exam_subject,
+          examDate: formData.exam_date,
+          startDate: formData.exam_start_date,
+          numberPages: parseInt(formData.exam_page_amount),
+          timePerPage: parseInt(formData.exam_page_time),
+          currentPage: parseInt(formData.exam_page_repeat),
+          notes: formData.exam_page_notes,
+          // pdfLink: formData.exam_pdf_upload,
+          pdfLink: "TODO: CHANGE LATER",
+          completed: false,
+          userId: data.currentUser.id,
+        },
+        refetchQueries: [{ query: GET_EXAMS_QUERY }],
+      })
 
-    document.getElementById("success-container").style.display = "block"
+      if (resp && resp.data.addExam) {
+        // success message ----------------
+        document.getElementById("success-container").style.display = "block"
+      } else {
+        // displays server error (backend)
+        throw new Error("The exam could not be added")
+      }
+    } catch (err) {
+      console.error(err.message)
+    }
   }
 
   // query ----------------
@@ -87,11 +97,17 @@ function AddNew() {
                         <span className="error">This field is required</span>
                       )}
                     {errors.exam_subject &&
-                      errors.exam_subject.type === "maxLength" &&
                       errors.exam_subject.type === "minLength" && (
                         <span className="error">
                           {" "}
-                          The input needs to be between 1 and 20 characters
+                          Minimum 1 character required
+                        </span>
+                      )}
+                    {errors.exam_subject &&
+                      errors.exam_subject.type === "maxLength" && (
+                        <span className="error">
+                          {" "}
+                          Maximum 20 characters allowed
                         </span>
                       )}
                   </div>

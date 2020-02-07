@@ -19,18 +19,22 @@ const examResolvers = {
     }
   },
   Mutation: {
-    addExam: (root, args, context, info) => {
-      // console.log("test");
-      // args.userId = User.find({id: args.userId}).id
-      // console.log(args.examDate);
-      return Exam.create(args);
-      // console.log("created user " + args)
+    addExam: async (root, args, context, info) => {
+      try {
+        const resp = await Exam.create(args);
+      } catch (err) {
+        console.error(err.message);
+        return false;
+      }
+      return true;
     }
   },
   Date: new GraphQLScalarType({
     name: "Date",
     description: "Custom description for the date scalar",
     parseValue(value) {
+      //TODO: not sure if this is good for examDate
+      if (!value) return dayjs(new Date());
       return dayjs(value); // value from the client
     },
     serialize(value) {
