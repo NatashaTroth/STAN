@@ -7,20 +7,12 @@ import { setAccessToken } from "./accessToken"
 
 import { client } from "./apolloClient"
 
-// Navigation bar
-// import Navbar from "./components/navbar/Navbar"
-import NavDirection from "./components/nav-link/Navlink"
-import RouteContent from "./components/route-content/RouteContent"
-import Backdrop from "./components/backdrop/Backdrop"
-import Toolbar from "./components/toolbar/Toolbar"
-
-import Navbar from "./components/navbar/Navbar"
+import STAN from "./components/STAN/STAN"
 
 /* TODO: CACHING APOLLO */
 
 class App extends Component {
   state = {
-    sideDrawerOpen: false,
     loading: true,
   }
   // const [loading, setLoading] = useState(true)
@@ -47,36 +39,18 @@ class App extends Component {
   //   );
   // }
 
-  drawerToggleClickHandler = () => {
-    this.setState(prevState => {
-      return { sideDrawerOpen: !prevState.sideDrawerOpen }
-    })
-  }
-
-  backdropClickHandler = () => {
-    this.setState({ sideDrawerOpen: false })
-  }
-
   render() {
-    let backdrop
-    let nav
-    if (this.state.sideDrawerOpen) {
-      backdrop = <Backdrop click={this.backdropClickHandler} />
-      nav = <Navbar />
-    }
-
     if (this.state.loading) {
       return <div>loading...</div>
     }
 
     return (
       <ApolloProvider client={client}>
-        <div className="App" style={{ height: "100%" }}>
-          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-          {/* {nav} */}
-          {backdrop}
-          <Navbar />
-        </div>
+        <header>
+          <h1 className="hide">Stan - online study plan</h1>
+        </header>
+
+        <STAN />
       </ApolloProvider>
     )
   }

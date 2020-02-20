@@ -1,7 +1,7 @@
 import React from "react"
-import { Route, Switch } from "react-router-dom"
+import { Switch, Route } from "react-router-dom"
 
-// components
+// component
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
 import Calendar from "../../pages/calendar-page/CalendarPage"
@@ -13,9 +13,9 @@ import DataPolicy from "../../pages/data-policy-page/DataPolicyPage"
 import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 
-const routeContent = () => {
+const content = () => {
   return (
-    <div className="side-bar__content">
+    <main className="content">
       <Switch>
         <Route exact={true} path="/" component={Dashboard} />
         <Route path="/add-new" component={AddNew} />
@@ -28,8 +28,8 @@ const routeContent = () => {
         <Route path="/sign-up" component={SignUp} />
         <Route path="*" component={NoMatch404} />
       </Switch>
-    </div>
+    </main>
   )
 }
 
-export default routeContent
+export default content
