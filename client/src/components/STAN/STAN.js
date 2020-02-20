@@ -138,7 +138,7 @@ class Navbar extends Component {
           </div>
         </nav>
 
-        {/* {backdrop} */}
+        {backdrop}
         <Content />
       </Router>
     )

@@ -5,6 +5,7 @@
 
   .close {
     z-index: 300;
+
     .line-1 {
       transform: rotate(45deg);
     }
@@ -14,6 +15,12 @@
     }
     .line-3 {
       transform: rotate(-45deg);
+    }
+
+    .burger__btn__line {
+      @include media-breakpoint-down(sm) {
+        transition-delay: 0.5s;
+      }
     }
   }
 
