@@ -1,20 +1,19 @@
 .burger {
-  padding: 25px;
+  padding: 30px;
   display: flex;
   justify-content: flex-end;
 
   .close {
-    .burger__btn {
-      .line-1 {
-        transform: rotate(45deg);
-      }
-      .line-2 {
-        width: 0%;
-        opacity: 0;
-      }
-      .line-3 {
-        transform: rotate(-45deg);
-      }
+    z-index: 300;
+    .line-1 {
+      transform: rotate(45deg);
+    }
+    .line-2 {
+      width: 0%;
+      opacity: 0;
+    }
+    .line-3 {
+      transform: rotate(-45deg);
     }
   }
 
@@ -25,10 +24,9 @@
     height: 50px;
     background: transparent;
     border: none;
-    cursor: pointer;
     padding: 0;
     box-sizing: border-box;
-
+    cursor: pointer;
     transform: rotate(0deg);
     transition: 0.5s ease-in-out;
 
@@ -39,12 +37,9 @@
     &__line {
       display: block;
       border-radius: 9px;
-      opacity: 1;
       background: theme-color("dark");
-
       height: 6px;
       width: 50px;
-
       transform: rotate(0deg);
       transition: 0.25s ease-in-out;
       transform-origin: left center;

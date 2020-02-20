@@ -1,4 +1,4 @@
-import React, { useState, Component, useEffect } from "react"
+import React, { Component } from "react"
 
 import "./App.scss"
 // import ApolloClient from "apollo-boost"

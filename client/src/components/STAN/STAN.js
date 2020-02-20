@@ -3,9 +3,6 @@ import { BrowserRouter as Router, NavLink } from "react-router-dom"
 
 import Logo from "../../images/icons/logo.svg"
 
-// TABLET: width 70%:
-// Mobile: volle Breite mit X im Screen
-
 // components
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
@@ -22,6 +19,12 @@ class Navbar extends Component {
     })
   }
 
+  closeSidebar = () => {
+    this.setState({
+      isSidebarOpen: false,
+    })
+  }
+
   render() {
     let backdrop
     if (this.state.isSidebarOpen) {
@@ -30,14 +33,9 @@ class Navbar extends Component {
 
     return (
       <Router className="sidebar">
-        {/* <BurgerButton click={this.handleClickSidebar} /> */}
         <div className="burger">
           <div className={this.state.isSidebarOpen ? "close" : "open"}>
-            <button className="burger__btn" onClick={this.handleClickSidebar}>
-              <div className="burger__btn__line line-1" />
-              <div className="burger__btn__line line-2" />
-              <div className="burger__btn__line line-3" />
-            </button>
+            <BurgerButton click={this.handleClickSidebar} />
           </div>
         </div>
 
@@ -55,22 +53,46 @@ class Navbar extends Component {
             <ul className="sidebar__items__list">
               <div className="sidebar__items__list__menu-top">
                 <li className="sidebar__items__list__menu-top__dashboard list-item">
-                  <NavLink strict to="/" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Dashboard
                   </NavLink>
                 </li>
                 <li className="sidebar__items__list__menu-top__add-new list-item">
-                  <NavLink strict to="/add-new" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/add-new"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Add New
                   </NavLink>
                 </li>
                 <li className="sidebar__items__list__menu-top__calendar list-item">
-                  <NavLink strict to="/calendar" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/calendar"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Calendar
                   </NavLink>
                 </li>
                 <li className="sidebar__items__list__menu-top__exams list-item">
-                  <NavLink strict to="/exams" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/exams"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Exams
                   </NavLink>
                 </li>
@@ -78,13 +100,25 @@ class Navbar extends Component {
 
               <div className="sidebar__items__list__menu-bottom">
                 <li>
-                  <NavLink strict to="/profile" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/profile"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Profile Icon
                   </NavLink>
                 </li>
                 <li>Dark mode</li>
                 <li>
-                  <NavLink strict to="/imprint" exact activeClassName="active">
+                  <NavLink
+                    strict
+                    to="/imprint"
+                    exact
+                    activeClassName="active"
+                    onClick={this.closeSidebar}
+                  >
                     Imprint
                   </NavLink>
                 </li>
@@ -94,6 +128,7 @@ class Navbar extends Component {
                     to="/data-policy"
                     exact
                     activeClassName="active"
+                    onClick={this.closeSidebar}
                   >
                     Data Policy
                   </NavLink>
@@ -103,7 +138,7 @@ class Navbar extends Component {
           </div>
         </nav>
 
-        {backdrop}
+        {/* {backdrop} */}
         <Content />
       </Router>
     )
