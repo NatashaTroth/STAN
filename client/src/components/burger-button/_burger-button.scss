@@ -1,26 +1,59 @@
-.toggle-button {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 40px;
-  width: 40px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  box-sizing: border-box;
+.burger {
+  padding: 30px;
+  display: flex;
+  justify-content: flex-end;
 
-  &:focus {
-    outline: none;
+  .close {
+    z-index: 300;
+
+    .line-1 {
+      transform: rotate(45deg);
+    }
+    .line-2 {
+      width: 0%;
+      opacity: 0;
+    }
+    .line-3 {
+      transform: rotate(-45deg);
+    }
+
+    .burger__btn__line {
+      @include media-breakpoint-down(sm) {
+        transition-delay: 0.5s;
+      }
+    }
   }
 
-  &__line {
-    width: 40px;
-    height: 4px;
-    background: theme-color("dark");
-  }
+  &__btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: 0.5s ease-in-out;
 
-  @include media-breakpoint-down(md) {
-    display: flex;
+    &:focus {
+      outline: none;
+    }
+
+    &__line {
+      display: block;
+      border-radius: 9px;
+      background: theme-color("dark");
+      height: 6px;
+      width: 50px;
+      transform: rotate(0deg);
+      transition: 0.25s ease-in-out;
+      transform-origin: left center;
+    }
+
+    @include media-breakpoint-down(md) {
+      display: flex;
+    }
   }
 }

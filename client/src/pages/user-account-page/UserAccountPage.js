@@ -1,5 +1,5 @@
 import React from "react"
-import Button from "../../components/button/Button"
+// import Button from "../../components/button/Button"
 import { setAccessToken } from "../../accessToken"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import { useMutation } from "@apollo/react-hooks"
