@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import React from "react"
+import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 function EmptyDashboard() {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
+  const { loading, error } = useQuery(GET_USERS_QUERY)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

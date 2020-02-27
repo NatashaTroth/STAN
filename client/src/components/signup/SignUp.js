@@ -1,6 +1,6 @@
 import React from "react"
 import { useMutation } from "@apollo/react-hooks"
-import { SUCCESS_SIGNUP } from "../../graphQL/queries"
+// import { SUCCESS_SIGNUP } from "../../graphQL/queries"
 import { SIGNUP_MUTATION } from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"

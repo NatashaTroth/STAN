@@ -8,7 +8,7 @@ import TodaySubject from "../../components/today-subject/TodaySubject"
 
 function TodayGoals() {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_USERS_QUERY)
+  const { loading, error } = useQuery(GET_USERS_QUERY)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

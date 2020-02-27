@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
+import { CURRENT_USER } from "../../graphQL/queries"
 
 import Logo from "../../images/icons/logo.svg"
 
@@ -11,6 +12,8 @@ import Backdrop from "../backdrop/Backdrop"
 class Navbar extends Component {
   state = {
     isSidebarOpen: false,
+    // loading: true,
+    // redirect: false,
   }
 
   handleClickSidebar = () => {
@@ -24,6 +27,22 @@ class Navbar extends Component {
       isSidebarOpen: false,
     })
   }
+
+  // componentDidMount() {
+  //   fetch("/refresh_token")
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         this.setState({ loading: false })
+  //       } else {
+  //         const error = new Error(res.error)
+  //         throw error
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.error(err)
+  //       this.setState({ loading: false, redirect: true })
+  //     })
+  // }
 
   render() {
     let backdrop
