@@ -1,0 +1,13 @@
+.about {
+  .container-fluid {
+    padding: 0;
+  }
+  &__heading {
+    padding-bottom: 30px;
+  }
+
+  &__img {
+    width: 400px;
+    height: 300px;
+  }
+}
