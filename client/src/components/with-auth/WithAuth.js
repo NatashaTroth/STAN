@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Redirect } from "react-router-dom"
-import Cookies from "js-cookie"
 
 function WithAuth(ComponentToProtect) {
   return class extends Component {
@@ -34,11 +33,6 @@ function WithAuth(ComponentToProtect) {
       if (loading) {
         return null
       }
-
-      let value = Cookies.get("refresh_token", {
-        domain: "localhost",
-        path: "/refresh_token",
-      })
 
       if (redirect) {
         return <Redirect to="/login" />

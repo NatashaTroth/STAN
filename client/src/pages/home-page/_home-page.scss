@@ -1,0 +1,16 @@
+.home {
+  &__heading {
+    padding-bottom: 30px;
+  }
+  &__text {
+    padding-bottom: 15px;
+  }
+  &__list {
+    padding-bottom: 35px;
+    &--item {
+      list-style: none;
+      font-size: 20px;
+      font-family: $font-family-BasierCircle-SemiBold;
+    }
+  }
+}

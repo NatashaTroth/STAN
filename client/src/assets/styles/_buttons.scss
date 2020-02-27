@@ -60,4 +60,25 @@
 
 // logged out w/ hover animation
 .stan-btn-double {
+  padding: 15px 30px;
+  text-transform: uppercase;
+  background-color: theme-color("light");
+  border: 2px solid theme-color("dark");
+  box-shadow: 5px 5px 0px 0px theme-color("dark");
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $font-size-16);
+  @include rem(letter-spacing, 2px);
+  @include rem(line-height, 20px);
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $font-size-14);
+    @include rem(letter-spacing, 1.5px);
+    @include rem(line-height, 20px);
+    flex-grow: 1;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+  }
 }

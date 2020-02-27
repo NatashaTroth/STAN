@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
-import { CURRENT_USER } from "../../graphQL/queries"
+// import { CURRENT_USER } from "../../graphQL/queries"
 
 import Logo from "../../images/icons/logo.svg"
 
