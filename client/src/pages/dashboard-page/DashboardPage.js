@@ -21,7 +21,8 @@ function Dashboard() {
         <div className="row">
           <div className="col-md-12">
             <h2 className="dashboard-page__heading">
-              Hello {data.currentUser.username}
+              Hello you
+              {/* {data.currentUser.username} */}
             </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
