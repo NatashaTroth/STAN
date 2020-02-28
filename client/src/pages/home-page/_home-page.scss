@@ -1,7 +1,4 @@
 .home {
-  .container-fluid {
-    padding: 0;
-  }
   &__heading {
     padding-bottom: 30px;
   }
@@ -10,5 +7,8 @@
   }
   &__list {
     padding-bottom: 35px;
+  }
+  &__btn {
+    padding-bottom: 50px;
   }
 }

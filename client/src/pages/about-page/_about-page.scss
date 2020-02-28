@@ -1,13 +1,28 @@
 .about {
-  .container-fluid {
-    padding: 0;
+  .row {
+    padding: 50px 20px 50px 0px;
+    align-items: center;
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0px;
+    }
+  }
+  &__row-1 {
+    flex-wrap: wrap;
+  }
+  &__row-2 {
+    flex-wrap: wrap-reverse;
   }
   &__heading {
     padding-bottom: 30px;
   }
-
+  &__content {
+    padding: 20px 0px 20px 0px;
+  }
+  &__btn {
+    padding: 40px 0px 40px 0px;
+  }
   &__img {
-    width: 400px;
-    height: 300px;
+    width: 100%;
   }
 }
