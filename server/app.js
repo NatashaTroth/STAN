@@ -10,7 +10,7 @@ import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
 import isAuth from "./middleware/is-auth";
 import cookieParser from "cookie-parser";
-import { handleRefreshToken } from "./refreshToken";
+import { handleRefreshToken } from "./authenticationTokens";
 //TODO: CACHING APOLLO
 const connectionString = "mongodb://localhost/MMP3";
 const app = express();
