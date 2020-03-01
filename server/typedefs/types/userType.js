@@ -5,10 +5,10 @@ const userType = gql`
   type User {
     id: ID!
     username: String!
-    password: String!
+    # password: String!
     email: String!
     mascot: Int!
-    tokenVersion: Int
+    # tokenVersion: Int
   }
   type AuthData {
     # userId: ID!

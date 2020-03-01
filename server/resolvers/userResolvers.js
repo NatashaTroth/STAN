@@ -15,9 +15,7 @@ const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
       // if (!req.isAuth) throw new Error("Unauthorised");
-
       return User.find({});
-      // return fetchData()
     },
     user: (root, arg, context, info) => {
       return fetchOneData();
