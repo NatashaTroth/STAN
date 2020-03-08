@@ -14,7 +14,7 @@ import jwt from "jsonwebtoken";
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");
+      // if (!req.isAuth) throw new Error("Unauthorised");  //TODO: NEED TO THEN RETURN 403 FORBIDDEN, or 401 unauthorized
       return User.find({});
     },
     user: (root, arg, context, info) => {
@@ -23,7 +23,7 @@ const userResolvers = {
     currentUser: (parent, ars, context) => {
       // if (!req.isAuth) throw new Error("Unauthorised");
       // fetch header
-      const authorization = context.req.get("authorization");
+      const authorization = context.req.get("Authorization");
       if (!authorization) return null;
       try {
         //TODO: SAVE ALL PAYLOAD

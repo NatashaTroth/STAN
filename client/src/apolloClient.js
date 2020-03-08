@@ -24,7 +24,7 @@ const requestLink = new ApolloLink(
           if (accessToken) {
             oper.setContext({
               headers: {
-                authorization: accessToken ? `bearer ${accessToken}` : "",
+                Authorization: accessToken ? `bearer ${accessToken}` : "",
               },
             })
           }
