@@ -9,10 +9,10 @@ import Button from "../../components/button/Button"
 function Home() {
   return (
     <div className="home">
-      <div class="container-fluid">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <div class="col-md-6">
+            <div className="col-md-6">
               <h2 className="home__heading">Organize your Study Plan</h2>
               <SubHeading className="sub-heading" text="Easy . Fast . Online" />
 
@@ -32,7 +32,7 @@ function Home() {
                 />
               </div>
 
-              <div class="home__btn">
+              <div className="home__btn">
                 <Button
                   className="stan-btn-double"
                   variant="button"
@@ -40,7 +40,7 @@ function Home() {
                 />
               </div>
             </div>
-            <div class="col-md-6"></div>
+            <div className="col-md-6"></div>
           </div>
         </div>
       </div>
