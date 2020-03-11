@@ -1,5 +1,7 @@
 import React from "react"
 import { Switch, Route } from "react-router-dom"
+import { CURRENT_USER } from "../../graphQL/queries"
+import { useQuery } from "@apollo/react-hooks"
 
 // pages component
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
@@ -15,28 +17,42 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 
-// authentication component
-// import WithAuth from "../with-auth/WithAuth"
+const Content = () => {
+  const { data, loading } = useQuery(CURRENT_USER)
 
-const content = () => {
   return (
     <main className="content">
       <Switch>
-        <Route exact={true} path="/" component={Dashboard} />
-        <Route path="/add-new" component={AddNew} />
-        <Route path="/calendar" component={Calendar} />
-        <Route path="/exams" component={Exams} />
-        <Route path="/profile" component={UserAccount} />
-        <Route path="/home" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/login" component={Login} />
-        <Route path="/imprint" component={Imprint} />
-        <Route path="/data-policy" component={DataPolicy} />
-        <Route path="/sign-up" component={SignUp} />
+        {!loading && !data ? <Route path="/home" component={Home} /> : null}
+        {!loading && !data ? <Route path="/about" component={About} /> : null}
+        {!loading && !data ? <Route path="/login" component={Login} /> : null}
+
+        {!loading && data ? (
+          <Route exact={true} path="/" component={Dashboard} />
+        ) : null}
+        {!loading && data ? <Route path="/add-new" component={AddNew} /> : null}
+        {!loading && data ? (
+          <Route path="/calendar" component={Calendar} />
+        ) : null}
+        {!loading && data ? <Route path="/exams" component={Exams} /> : null}
+        {!loading && data ? (
+          <Route path="/profile" component={UserAccount} />
+        ) : null}
+
+        {(!loading && !data) || (!loading && data) ? (
+          <Route path="/imprint" component={Imprint} />
+        ) : null}
+        {(!loading && !data) || (!loading && data) ? (
+          <Route path="/data-policy" component={DataPolicy} />
+        ) : null}
+        {(!loading && !data) || (!loading && data) ? (
+          <Route path="/sign-up" component={SignUp} />
+        ) : null}
+
         <Route path="*" component={NoMatch404} />
       </Switch>
     </main>
   )
 }
 
-export default content
+export default Content
