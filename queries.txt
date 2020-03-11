@@ -207,3 +207,16 @@ mutation {
 //Adding react
 
 ➜ create-react-app client --use-npm
+
+//in userresolvers for error handling login - not sure if need
+try{
+
+} catch (err) {
+        switch (err.extensions.code) {
+          case "UNAUTHENTICATED":
+            // throw new AuthenticationError(err);
+            console.log("test");
+        }
+        console.log(JSON.stringify(err));
+        console.log(err);
+      }

@@ -10,7 +10,7 @@ import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
 import isAuth from "./middleware/is-auth";
 import cookieParser from "cookie-parser";
-import { handleRefreshToken } from "./refreshToken";
+import { handleRefreshToken } from "./authenticationTokens";
 //TODO: CACHING APOLLO
 const connectionString = "mongodb://localhost/MMP3";
 const app = express();
@@ -59,6 +59,19 @@ const apolloServer = new ApolloServer({
     settings: {
       "request.credentials": "same-origin"
     }
+  },
+  formatError: err => {
+    // Don't give the specific errors to the client.
+    if (err.message.startsWith("Database Error: ")) {
+      return new Error("Internal server error");
+    }
+    // if (err.originalError instanceof AuthenticationError) {
+    //   return new Error('Different authentication error message!');
+    // }
+
+    // Otherwise return the original error.  The error can also
+    // be manipulated in other ways, so long as it's returned.
+    return err;
   }
   // cors: corsOptions
 });

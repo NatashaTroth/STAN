@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "express-session": "^1.17.0",
+    "googleapis": "^47.0.0",
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.7.6",

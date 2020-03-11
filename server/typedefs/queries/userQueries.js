@@ -26,7 +26,9 @@ const userQueries = gql`
     ): AuthData
     logout: Boolean
     login(email: String!, password: String!): AuthData
-    revokeRefreshTokensForUser(userId: ID!): Boolean
+
+    #in case refresh tokens get comprimised
+    # revokeRefreshTokensForUser(userId: ID!): Boolean
   }
 `;
 
