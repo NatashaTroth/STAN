@@ -42,15 +42,15 @@ class Navbar extends Component {
       backdrop = <Backdrop click={this.handleClickSidebar} />
     }
 
-    let body = null
+    // let body = null
 
-    if (loading) {
-      body = null
-    } else if (data && data.CURRENT_USER) {
-      body = <div>you are logged in as: {data.CURRENT_USER}</div>
-    } else {
-      body = <div>not logged in</div>
-    }
+    // if (loading) {
+    //   body = null
+    // } else if (data && data.CURRENT_USER) {
+    //   body = <div>you are logged in as: {data.CURRENT_USER}</div>
+    // } else {
+    //   body = <div>not logged in</div>
+    // }
 
     return (
       <Router className="sidebar">
@@ -72,7 +72,7 @@ class Navbar extends Component {
               </a>
             </div>
             <ul className="sidebar__items__list">
-              <p>{this.state.loading ? "Fetching current user..." : ""}</p>
+              {/* <p>{this.state.loading ? "Fetching current user..." : ""}</p> */}
               <div className="sidebar__items__list__menu-top">
                 <li className="list-item">
                   <NavLink
@@ -184,7 +184,7 @@ class Navbar extends Component {
         </nav>
 
         {backdrop}
-        {body}
+        {/* {body} */}
         <Content />
       </Router>
     )
