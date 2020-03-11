@@ -16,17 +16,17 @@ import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 
 // authentication component
-import WithAuth from "../with-auth/WithAuth"
+// import WithAuth from "../with-auth/WithAuth"
 
 const content = () => {
   return (
     <main className="content">
       <Switch>
-        <Route exact={true} path="/" component={WithAuth(Dashboard)} />
-        <Route path="/add-new" component={WithAuth(AddNew)} />
-        <Route path="/calendar" component={WithAuth(Calendar)} />
-        <Route path="/exams" component={WithAuth(Exams)} />
-        <Route path="/profile" component={WithAuth(UserAccount)} />
+        <Route exact={true} path="/" component={Dashboard} />
+        <Route path="/add-new" component={AddNew} />
+        <Route path="/calendar" component={Calendar} />
+        <Route path="/exams" component={Exams} />
+        <Route path="/profile" component={UserAccount} />
         <Route path="/home" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />

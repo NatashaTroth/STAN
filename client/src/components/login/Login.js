@@ -22,29 +22,6 @@ function Login() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    // TODO: überprüfen, wenn HTTP status im backend implementiert ist
-    // formData.preventDefault();
-    // fetch to authenticate user against the backend
-    // fetch('../../../../server/auth.js', {
-    //   method: 'POST',
-    //   body: JSON.stringify(this.state),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    // .then(res => {
-    //   if (res.status === 200) {
-    //     this.props.history.push('/');
-    //   } else {
-    //     const error = new Error(res.error);
-    //     throw error;
-    //   }
-    // })
-    // .catch(err => {
-    //   console.error(err);
-    //   alert('Error logging in please try again');
-    // });
-
     try {
       const resp = await login({
         variables: {

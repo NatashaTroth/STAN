@@ -2,15 +2,26 @@ import React, { Component } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
 
 import Logo from "../../images/icons/logo.svg"
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // components
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
+import { isNullableType } from "graphql"
 
 class Navbar extends Component {
-  state = {
-    isSidebarOpen: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSidebarOpen: false,
+      data: "",
+      loading: false,
+    }
+  }
+
+  componentDidMount = () => {
+    // this.getCurrentUser()
   }
 
   handleClickSidebar = () => {
@@ -29,6 +40,16 @@ class Navbar extends Component {
     let backdrop
     if (this.state.isSidebarOpen) {
       backdrop = <Backdrop click={this.handleClickSidebar} />
+    }
+
+    let body = null
+
+    if (loading) {
+      body = null
+    } else if (data && data.CURRENT_USER) {
+      body = <div>you are logged in as: {data.CURRENT_USER}</div>
+    } else {
+      body = <div>not logged in</div>
     }
 
     return (
@@ -51,6 +72,7 @@ class Navbar extends Component {
               </a>
             </div>
             <ul className="sidebar__items__list">
+              <p>{this.state.loading ? "Fetching current user..." : ""}</p>
               <div className="sidebar__items__list__menu-top">
                 <li className="list-item">
                   <NavLink
@@ -162,6 +184,7 @@ class Navbar extends Component {
         </nav>
 
         {backdrop}
+        {body}
         <Content />
       </Router>
     )

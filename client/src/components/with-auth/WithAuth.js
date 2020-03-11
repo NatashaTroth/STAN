@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Redirect } from "react-router-dom"
 import axios from "axios"
+import { setAccessToken } from "../../accessToken"
 
 function WithAuth(ComponentToProtect) {
   return class extends Component {
@@ -13,20 +14,23 @@ function WithAuth(ComponentToProtect) {
     }
 
     componentDidMount() {
-      axios
-        .post("http://localhost:5000/refresh_token", this.state)
-        .then(response => {
-          console.log(response.data)
-          // if (response.data.ok) {
-          //   this.setState({ loading: false })
-          // } else {
-          // const error = new Error(response.error)
-          // throw error
-          // }
+      fetch("http://localhost:5000/refresh_token", {
+        method: "POST",
+        credentials: "include",
+      })
+        .then(async resp => {
+          const { ok, accessToken } = await resp.json()
+          if (ok) {
+            setAccessToken(accessToken)
+            this.setState({ loading: false })
+          } else {
+            const error = new Error(resp.error)
+            throw error
+          }
         })
-        .catch(error => {
-          // console.log(error)
-          // this.setState({ loading: false, redirect: true })
+        .catch(err => {
+          console.error(err)
+          this.setState({ loading: false, redirect: true })
         })
     }
 
