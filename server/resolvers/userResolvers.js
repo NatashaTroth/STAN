@@ -20,7 +20,7 @@ const userResolvers = {
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
-    currentUser: (parent, ars, context) => {
+    currentUser: async (parent, ars, context) => {
       // if (!req.isAuth) throw new Error("Unauthorised");
       // fetch header
       const authorization = context.req.get("Authorization");
@@ -29,7 +29,8 @@ const userResolvers = {
         //TODO: SAVE ALL PAYLOAD
         const token = authorization.split(" ")[1];
         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        return User.findOne({ _id: payload.userId });
+        const user = await User.findOne({ _id: payload.userId });
+        return user;
       } catch (err) {
         console.error(err.message);
         return null;
@@ -56,7 +57,7 @@ const userResolvers = {
     },
     login: async (parent, { email, password }, context) => {
       try {
-        const user = authenticateUser({ email, password });
+        const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
