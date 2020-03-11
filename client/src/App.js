@@ -18,18 +18,18 @@ class App extends Component {
   // const [loading, setLoading] = useState(true)
 
   componentDidMount = () => {
-    // fetch("http://localhost:5000/refresh_token", {
-    //   method: "POST",
-    //   credentials: "include",
-    // })
-    //   .then(async resp => {
-    //     const { accessToken } = await resp.json()
-    //     setAccessToken(accessToken)
-    //     this.setState({ loading: false })
-    //   })
-    //   .catch(err => {
-    //     console.error(err)
-    //   })
+    fetch("http://localhost:5000/refresh_token", {
+      method: "POST",
+      credentials: "include",
+    })
+      .then(async resp => {
+        const { accessToken } = await resp.json()
+        setAccessToken(accessToken)
+        this.setState({ loading: false })
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   // componentWillUnmount() {
