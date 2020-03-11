@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 
 import "./App.scss"
 // import ApolloClient from "apollo-boost"
@@ -10,14 +10,10 @@ import { client } from "./apolloClient"
 import STAN from "./components/STAN/STAN"
 
 /* TODO: CACHING APOLLO */
+const App = () => {
+  const [loading, setLoading] = useState(true)
 
-class App extends Component {
-  state = {
-    loading: true,
-  }
-  // const [loading, setLoading] = useState(true)
-
-  componentDidMount = () => {
+  useEffect(() => {
     fetch("http://localhost:5000/refresh_token", {
       method: "POST",
       credentials: "include",
@@ -25,12 +21,12 @@ class App extends Component {
       .then(async resp => {
         const { accessToken } = await resp.json()
         setAccessToken(accessToken)
-        this.setState({ loading: false })
+        setLoading(false)
       })
       .catch(err => {
         console.error(err)
       })
-  }
+  }, [])
 
   // componentWillUnmount() {
   //   ChatAPI.unsubscribeFromFriendStatus(
@@ -39,21 +35,19 @@ class App extends Component {
   //   );
   // }
 
-  render() {
-    if (this.state.loading) {
-      return <div>loading...</div>
-    }
-
-    return (
-      <ApolloProvider client={client}>
-        <header>
-          <h1 className="hide">Stan - online study plan</h1>
-        </header>
-
-        <STAN />
-      </ApolloProvider>
-    )
+  if (loading) {
+    return <div>loading...</div>
   }
+
+  return (
+    <ApolloProvider client={client}>
+      <header>
+        <h1 className="hide">Stan - online study plan</h1>
+      </header>
+
+      <STAN />
+    </ApolloProvider>
+  )
 }
 
 export default App
