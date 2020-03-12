@@ -12,6 +12,15 @@ import STAN from "./components/STAN/STAN"
 /* TODO: CACHING APOLLO */
 const App = () => {
   const [loading, setLoading] = useState(true)
+  //TODO-LOGOUT-ALL-TABS
+  window.addEventListener("storage", e => {
+    if (e.key == "logout-event") {
+      localStorage.removeItem("logout-event")
+      //TODO: go to login and inform user that logout occurred
+      // history.push("/login")
+      window.location.reload()
+    }
+  })
 
   useEffect(() => {
     // TODO: if save accesstoken in store, use the if - but if only save in memory delete
