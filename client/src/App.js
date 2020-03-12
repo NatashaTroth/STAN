@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import "./App.scss"
 // import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
-import { setAccessToken } from "./accessToken"
+import { setAccessToken, getAccessToken } from "./accessToken"
 
 import { client } from "./apolloClient"
 
@@ -14,6 +14,8 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // TODO: if save accesstoken in store, use the if - but if only save in memory delete
+    //if (!getAccessToken()) {
     fetch("http://localhost:5000/refresh_token", {
       method: "POST",
       credentials: "include",
@@ -26,6 +28,7 @@ const App = () => {
       .catch(err => {
         console.error(err)
       })
+    // }
   }, [])
 
   // componentWillUnmount() {

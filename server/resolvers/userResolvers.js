@@ -21,8 +21,9 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
-      console.log("received current user request");
-      // if (!req.isAuth) throw new Error(" Unauthorised");
+      //TODO: return unorthorise important? returning null to avoid error when asking for current user in frontend and not logged in
+      // if (!context.req.isAuth) throw new Error(" Unauthorised");
+      if (!context.req.isAuth) return null;
       // fetch header
       const authorization = context.req.get("Authorization");
       if (!authorization) return null;
@@ -52,11 +53,13 @@ const userResolvers = {
     //     throw err;
     //   }
     // },
-    logout: (root, args, { res }, info) => {
+    logout: (root, args, { req, res }, info) => {
+      if (!req.isAuth) throw new Error("Unauthorised");
       sendRefreshToken(res, "");
       return true;
     },
     login: async (parent, { email, password }, context) => {
+      if (context.req.isAuth) throw new Error("Already logged in");
       try {
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
@@ -68,6 +71,8 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
+      if (context.req.isAuth) throw new Error("Already logged in");
+
       try {
         const user = await signUserUp({ username, email, password, mascot });
         const accessToken = logUserIn({ user, context });

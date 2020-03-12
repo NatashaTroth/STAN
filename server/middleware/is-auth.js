@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
   // console.log("in is auth");
   const authHeader = req.get("Authorization");
   if (!authHeader) {
+    //req.isAuth -> new property in req
     req.isAuth = false;
     // console.log("not authenticated");
 

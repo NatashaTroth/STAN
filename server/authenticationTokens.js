@@ -64,8 +64,6 @@ export const createAccessToken = user => {
  * @param {object} user
  */
 export const createRefreshToken = user => {
-  console.log("user:");
-  console.log(user);
   if (!user)
     throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(

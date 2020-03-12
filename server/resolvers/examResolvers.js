@@ -20,6 +20,7 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
+      if (!context.req.isAuth) throw new Error("Unauthorised");
       try {
         const resp = await Exam.create(args);
       } catch (err) {

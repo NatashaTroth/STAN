@@ -22,7 +22,6 @@ const requestLink = new ApolloLink(
           //from old apollo boost client
           const accessToken = getAccessToken()
           if (accessToken) {
-            console.log("sending accesstoken from apollo client")
             oper.setContext({
               headers: {
                 Authorization: accessToken ? `bearer ${accessToken}` : "",
@@ -67,7 +66,7 @@ export const client = new ApolloClient({
             return true
           }
         } catch (err) {
-          console.log(err)
+          console.error(err)
           return false
         }
       },

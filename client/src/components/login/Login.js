@@ -48,7 +48,7 @@ function Login() {
       history.push("/")
       window.location.reload()
     } catch (err) {
-      //TODO: USER DEN ERROR MITTEILEN
+      //TODO-AUTH: USER DEN ERROR MITTEILEN
       console.error(err.message)
       // console.log(err)
     }
