@@ -10,9 +10,22 @@ import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import { useQuery } from "@apollo/react-hooks"
 
+// function getCurrentUser(data) {
+//   return data.currentUser.map(({ id, name }) => {
+//     return { name }
+//   })
+// }
+
 const Navbar = () => {
   const { data, loading } = useQuery(CURRENT_USER)
   const [isSideBarOpen, setSideBar] = useState(false)
+
+  const currentUser = data.currentUser.map(({ id, name }) => {
+    return { name }
+  })
+  // TODO: NATASHA: wenn du das hier auskommentierst, siehst du die error meldung:
+  // console.log(currentUser)
+  // console.log(JSON.stringify(data))
 
   let body,
     backdrop = null
@@ -26,10 +39,6 @@ const Navbar = () => {
   }
 
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
-
-  if (loading) body = null
-  else if (data) body = <div>You are logged in</div>
-  else body = <div>Not logged in</div>
 
   return (
     <Router className="sidebar">
