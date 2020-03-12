@@ -120,19 +120,18 @@ function Login() {
           </div>
 
           <div className="login__form__buttons">
-            <div className="login__form__buttons__button-left">
-              <Button
-                className="stan-btn-secondary"
-                variant="button"
-                text="Google Login"
-              />
-            </div>
-
             <div className="login__form__buttons__button-right">
               <Button
                 className="stan-btn-primary"
                 variant="button"
                 text="Login"
+              />
+            </div>
+            <div className="login__form__buttons__button-left">
+              <Button
+                className="stan-btn-secondary"
+                variant="button"
+                text="Google Login"
               />
             </div>
           </div>
