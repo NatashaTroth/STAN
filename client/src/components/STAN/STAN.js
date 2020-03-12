@@ -10,21 +10,9 @@ import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import { useQuery } from "@apollo/react-hooks"
 
-// function getCurrentUser(data) {
-//   return data.currentUser.map(({ id, name }) => {
-//     return { name }
-//   })
-// }
-
 const Navbar = () => {
   const { data, loading } = useQuery(CURRENT_USER)
   const [isSideBarOpen, setSideBar] = useState(false)
-  if (data && data.currentUser) {
-    const currentUser = data.currentUser
-    // TODO: NATASHA: wenn du das hier auskommentierst, siehst du die error meldung:
-    console.log(currentUser)
-    // console.log(JSON.stringify(data))
-  }
 
   let body,
     backdrop = null
@@ -50,18 +38,28 @@ const Navbar = () => {
       <nav className={isSideBarOpen ? "showNav" : "closeNav"}>
         <div className="sidebar__items">
           <div className="sidebar__items__logo">
-            <a href="/">
-              <img
-                src={Logo}
-                alt="Stans Logo"
-                className="sidebar__items__logo--img"
-              />
-            </a>
+            {!loading && data.currentUser ? (
+              <a href="/">
+                <img
+                  src={Logo}
+                  alt="Stans Logo"
+                  className="sidebar__items__logo--img"
+                />
+              </a>
+            ) : (
+              <a href="/home">
+                <img
+                  src={Logo}
+                  alt="Stans Logo"
+                  className="sidebar__items__logo--img"
+                />
+              </a>
+            )}
           </div>
           {body}
           <ul className="sidebar__items__list">
             <div className="sidebar__items__list__menu-top">
-              {!loading && !data ? (
+              {!loading && !data.currentUser ? (
                 <li className="list-item">
                   <NavLink
                     strict
@@ -75,7 +73,7 @@ const Navbar = () => {
                 </li>
               ) : null}
 
-              {!loading && !data ? (
+              {!loading && !data.currentUser ? (
                 <li className="list-item">
                   <NavLink
                     strict
@@ -89,7 +87,21 @@ const Navbar = () => {
                 </li>
               ) : null}
 
-              {!loading && data ? (
+              {!loading && !data.currentUser ? (
+                <li className="list-item">
+                  <NavLink
+                    strict
+                    to="/login"
+                    exact
+                    activeClassName="active"
+                    onClick={closeSidebar}
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              ) : null}
+
+              {!loading && data.currentUser ? (
                 <li className="sidebar__items__list__menu-top__dashboard list-item">
                   <NavLink
                     strict
@@ -103,7 +115,7 @@ const Navbar = () => {
                 </li>
               ) : null}
 
-              {!loading && data ? (
+              {!loading && data.currentUser ? (
                 <li className="sidebar__items__list__menu-top__add-new list-item">
                   <NavLink
                     strict
@@ -117,7 +129,7 @@ const Navbar = () => {
                 </li>
               ) : null}
 
-              {!loading && data ? (
+              {!loading && data.currentUser ? (
                 <li className="sidebar__items__list__menu-top__calendar list-item">
                   <NavLink
                     strict
@@ -131,7 +143,7 @@ const Navbar = () => {
                 </li>
               ) : null}
 
-              {!loading && data ? (
+              {!loading && data.currentUser ? (
                 <li className="sidebar__items__list__menu-top__exams list-item">
                   <NavLink
                     strict
@@ -147,7 +159,7 @@ const Navbar = () => {
             </div>
 
             <div className="sidebar__items__list__menu-bottom">
-              {!loading && data ? (
+              {!loading && data.currentUser ? (
                 <li>
                   <NavLink
                     strict
