@@ -1,8 +1,11 @@
 //TODO: REFACTOR: https://www.youtube.com/watch?v=25GS0MLT8JU
 
 import jwt from "jsonwebtoken";
+import { User } from "../models";
+import { AuthenticationError } from "apollo-server";
+
 //TODO: refactor
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   // console.log("in is auth");
   const authHeader = req.get("Authorization");
   if (!authHeader) {
@@ -24,6 +27,9 @@ module.exports = (req, res, next) => {
 
   try {
     decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const user = await User.findOne({ _id: decodedToken.userId });
+    if (user.tokenVersion !== decodedToken.tokenVersion)
+      throw new AuthenticationError("Wrong token version");
   } catch (err) {
     console.log(err);
     req.isAuth = false;

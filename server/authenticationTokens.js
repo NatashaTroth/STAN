@@ -54,9 +54,13 @@ export const sendRefreshToken = (res, token) => {
 export const createAccessToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create access token");
-  return jwt.sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m"
-  });
+  return jwt.sign(
+    { userId: user.id, tokenVersion: user.tokenVersion },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "15m"
+    }
+  );
 };
 
 /**

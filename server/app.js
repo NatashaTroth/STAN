@@ -54,7 +54,7 @@ app.post("/refresh_token", async (req, res) => {
 // app.options("*", cors(corsOptions));
 const apolloServer = new ApolloServer({
   schema,
-  context: ({ req, res }) => ({ req, res }),
+  context: async ({ req, res }) => ({ req, res }),
   playground: {
     settings: {
       "request.credentials": "same-origin"

@@ -29,9 +29,12 @@ const userResolvers = {
       if (!authorization) return null;
       try {
         //TODO: SAVE ALL PAYLOAD
+        //TODO: do i need to do all this?:s
         const token = authorization.split(" ")[1];
         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = await User.findOne({ _id: payload.userId });
+        if (user.tokenVersion !== payload.tokenVersion)
+          throw new AuthenticationError("Wrong token version");
         return user;
       } catch (err) {
         console.error(err.message);
