@@ -54,8 +54,17 @@ const userResolvers = {
     //   }
     // },
     logout: (root, args, { req, res }, info) => {
-      if (!req.isAuth) throw new Error("Unauthorised");
-      sendRefreshToken(res, "");
+      console.log("userid:");
+      console.log(req.userId);
+      try {
+        if (!req.isAuth) throw new Error("Unauthorised");
+        sendRefreshToken(res, "");
+        //invalidate current refresh tokens for user
+        const resp = revokeRefreshTokensForUser(req.userId);
+        console.log(resp);
+      } catch (err) {
+        throw new ApolloError(err.message);
+      }
       return true;
     },
     login: async (parent, { email, password }, context) => {
@@ -116,6 +125,19 @@ function logUserIn({ user, context }) {
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
+}
+
+async function revokeRefreshTokensForUser(userId) {
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) throw new AuthenticationError("This user does not exist");
+    await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
+    return true;
+  } catch (err) {
+    if (err.extensions.code !== "UNAUTHENTICATED")
+      throw new ApolloError(err.message);
+    throw err;
+  }
 }
 
 module.exports = {
