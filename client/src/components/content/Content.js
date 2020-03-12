@@ -20,6 +20,9 @@ import About from "../../pages/about-page/AboutPage"
 const Content = () => {
   const { data, loading } = useQuery(CURRENT_USER)
 
+  console.log("content:")
+  console.log(JSON.stringify(data))
+
   return (
     <main className="content">
       <Switch>
