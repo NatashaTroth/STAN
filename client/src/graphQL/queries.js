@@ -87,6 +87,7 @@ const CURRENT_USER = gql`
       id
       username
       email
+      mascot
     }
   }
 `

@@ -19,13 +19,12 @@ import { useQuery } from "@apollo/react-hooks"
 const Navbar = () => {
   const { data, loading } = useQuery(CURRENT_USER)
   const [isSideBarOpen, setSideBar] = useState(false)
-
-  const currentUser = data.currentUser.map(({ id, name }) => {
-    return { name }
-  })
-  // TODO: NATASHA: wenn du das hier auskommentierst, siehst du die error meldung:
-  // console.log(currentUser)
-  // console.log(JSON.stringify(data))
+  if (data && data.currentUser) {
+    const currentUser = data.currentUser
+    // TODO: NATASHA: wenn du das hier auskommentierst, siehst du die error meldung:
+    console.log(currentUser)
+    // console.log(JSON.stringify(data))
+  }
 
   let body,
     backdrop = null
