@@ -27,7 +27,6 @@ const userSchema = new Schema({
   //   type: Date
   // }
 });
-//TODO: default tokenversion = 0
 
 //todo creted at timestamphttps://www.youtube.com/watch?v=TIAfjBXsY2E&list=PLcCp4mjO-z9_y8lByvIfNgA_F18l-soQv&index=6
 // userSchema.set('toObject', { virtuals: true });

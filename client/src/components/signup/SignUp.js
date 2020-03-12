@@ -23,7 +23,6 @@ function SignUp() {
 
   const onSubmit = async formData => {
     try {
-      //TODO: mascot & tokenversion nicht hardcodieren
       const resp = await signup({
         variables: {
           username: formData.username,

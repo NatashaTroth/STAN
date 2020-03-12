@@ -15,15 +15,13 @@ const userQueries = gql`
       password: String!
       email: String!
       mascot: Int
-    ): # tokenVersion: Int
-    User
+    ): User
     signup(
       username: String!
       email: String!
       password: String!
       mascot: Int
-    ): # tokenVersion: Int
-    AuthData
+    ): AuthData
     logout: Boolean
     login(email: String!, password: String!): AuthData
 

@@ -66,15 +66,13 @@ const SIGNUP_MUTATION = gql`
     $email: String!
     $password: String!
     $mascot: Int
-  ) # $tokenVersion: Int
-  {
+  ) {
     signup(
       username: $username
       email: $email
       password: $password
       mascot: $mascot
-    ) # tokenVersion: $tokenVersion
-    {
+    ) {
       user {
         id
         username
