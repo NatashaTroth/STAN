@@ -29,18 +29,21 @@ function SignUp() {
           username: formData.username,
           email: formData.email,
           password: formData.password,
-          mascot: 1,
+          mascot: 0, //TODO: make dynamic (user can choose mascot)
         },
       })
 
       if (resp && resp.data) {
         setAccessToken(resp.data.signup.accessToken)
+        console.log("saved access token after signup")
       } else {
         // displays server error (backend)
         throw new Error("The sign up failed")
       }
       // redirect
+
       history.push("/")
+      window.location.reload()
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
       console.error(err.message)

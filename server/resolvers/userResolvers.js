@@ -21,7 +21,8 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");
+      console.log("received current user request");
+      // if (!req.isAuth) throw new Error(" Unauthorised");
       // fetch header
       const authorization = context.req.get("Authorization");
       if (!authorization) return null;
@@ -68,7 +69,7 @@ const userResolvers = {
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
       try {
-        const user = signUserUp({ username, email, password, mascot });
+        const user = await signUserUp({ username, email, password, mascot });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {

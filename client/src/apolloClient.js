@@ -22,6 +22,7 @@ const requestLink = new ApolloLink(
           //from old apollo boost client
           const accessToken = getAccessToken()
           if (accessToken) {
+            console.log("sending accesstoken from apollo client")
             oper.setContext({
               headers: {
                 Authorization: accessToken ? `bearer ${accessToken}` : "",
@@ -96,6 +97,7 @@ export const client = new ApolloClient({
     }),
 
     onError(({ graphQLErrors, networkError }) => {
+      //TODO-AUTH
       console.log(graphQLErrors)
       console.log(networkError)
       // if (graphQLErrors) {
