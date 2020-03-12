@@ -1,7 +1,7 @@
 import React from "react"
 import { LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
@@ -10,8 +10,6 @@ import { setAccessToken } from "../../accessToken"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-
-//TODO: block signup & login path when user is logged in
 
 function Login() {
   // mutation ----------------
@@ -48,6 +46,7 @@ function Login() {
       }
       // redirect
       history.push("/")
+      window.location.reload()
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
       console.error(err.message)
@@ -93,7 +92,7 @@ function Login() {
           <div className="login__form__element">
             <Label
               for="password"
-              text="Pasword"
+              text="Password"
               className="login__form__element__label"
             ></Label>
             <Input

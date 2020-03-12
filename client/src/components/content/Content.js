@@ -23,40 +23,41 @@ const Content = () => {
   return (
     <main className="content">
       <Switch>
-        {!loading && !data.currentUser ? (
+        {!loading && data && !data.currentUser ? (
           <Route path="/home" component={Home} />
         ) : null}
-        {!loading && !data.currentUser ? (
+        {!loading && data && !data.currentUser ? (
           <Route path="/about" component={About} />
         ) : null}
-        {!loading && !data.currentUser ? (
+        {!loading && data && !data.currentUser ? (
           <Route path="/login" component={Login} />
         ) : null}
 
-        {!loading && data.currentUser ? (
+        {!loading && data && data.currentUser ? (
           <Route exact={true} path="/" component={Dashboard} />
         ) : null}
-        {!loading && data.currentUser ? (
+        {!loading && data && data.currentUser ? (
           <Route path="/add-new" component={AddNew} />
         ) : null}
-        {!loading && data.currentUser ? (
+        {!loading && data && data.currentUser ? (
           <Route path="/calendar" component={Calendar} />
         ) : null}
-        {!loading && data.currentUser ? (
+        {!loading && data && data.currentUser ? (
           <Route path="/exams" component={Exams} />
         ) : null}
-        {!loading && data.currentUser ? (
+        {!loading && data && data.currentUser ? (
           <Route path="/profile" component={UserAccount} />
         ) : null}
 
-        {(!loading && !data.currentUser) || (!loading && data.currentUser) ? (
+        {(!loading && data && !data.currentUser) ||
+        (!loading && data.currentUser) ? (
           <Route path="/imprint" component={Imprint} />
         ) : null}
-        {(!loading && !data.currentUser) || (!loading && data.currentUser) ? (
+        {(!loading && data && !data.currentUser) ||
+        (!loading && data.currentUser) ? (
           <Route path="/data-policy" component={DataPolicy} />
         ) : null}
-        {(!loading && !data.currentUser) ||
-        (!loading && data && data.currentUser) ? (
+        {!loading && data && !data.currentUser ? (
           <Route path="/sign-up" component={SignUp} />
         ) : null}
 

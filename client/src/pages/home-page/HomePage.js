@@ -12,7 +12,7 @@ function Home() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <div className="col-md-6">
+            <div className="col-md-8">
               <h2 className="home__heading">Organize your Study Plan</h2>
               <SubHeading className="sub-heading" text="Easy . Fast . Online" />
 
