@@ -6,7 +6,6 @@ import { ApolloError } from "apollo-server";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
 export async function handleRefreshToken(req, res) {
-  console.log("received request for refresh token");
   //read refresh cookie - validate that it's correct
   //TODO:late change name of refresh_token
   const token = req.cookies.refresh_token;
@@ -25,7 +24,6 @@ export async function handleRefreshToken(req, res) {
   //token is valid and we can send back an access token
   const user = await User.findOne({ _id: payload.userId });
   if (!user) {
-    console.log("here");
     return res.send({ ok: false, accessToken: "" });
   }
 

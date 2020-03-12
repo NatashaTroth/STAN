@@ -43,28 +43,13 @@ const userResolvers = {
     }
   },
   Mutation: {
-    //TODO: don't make this available to users - DELETE THIS MUTATION - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
-    // revokeRefreshTokensForUser: async (root, { userId }, context, info) => {
-    //   try {
-    //     const user = await User.findOne({ _id: userId });
-    //     if (!user) throw new AuthenticationError("This user does not exist");
-    //     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
-    //     return true;
-    //   } catch (err) {
-    //     if (err.extensions.code !== "UNAUTHENTICATED")
-    //       throw new ApolloError(err.message);
-    //     throw err;
-    //   }
-    // },
     logout: (root, args, { req, res }, info) => {
-      console.log("userid:");
-      console.log(req.userId);
       try {
         if (!req.isAuth) throw new Error("Unauthorised");
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
         const resp = revokeRefreshTokensForUser(req.userId);
-        console.log(resp);
+        if (!resp) throw new ApolloError("Unable to revoke refresh token");
       } catch (err) {
         throw new ApolloError(err.message);
       }
@@ -130,6 +115,7 @@ function logUserIn({ user, context }) {
   return userAccessToken;
 }
 
+//TODO: don't make this available to users - DELETE THIS MUTATION - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function revokeRefreshTokensForUser(userId) {
   try {
     const user = await User.findOne({ _id: userId });
