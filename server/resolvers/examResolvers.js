@@ -3,6 +3,11 @@ import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 import dayjs from "dayjs";
+import {
+  UserInputError,
+  AuthenticationError,
+  ApolloError
+} from "apollo-server";
 
 // console.log("here " + User);
 // console.log(User.find())
@@ -22,11 +27,22 @@ const examResolvers = {
     addExam: async (root, args, context, info) => {
       if (!context.req.isAuth) throw new Error("Unauthorised");
       try {
-        //TODO: add user id!!!
+        if (!args.userId) args.userId = context.req.userId;
+        else if (args.userId !== context.req.userId)
+          throw new AuthenticationError(
+            "Not authorised to create an exam for the this user."
+          );
+
         const resp = await Exam.create(args);
+        if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {
-        console.error(err.message);
-        return false;
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new ApolloError(err.message);
+        throw err;
       }
       return true;
     }
