@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, Route } from "react-router-dom"
+import { Switch, Route, Redirect } from "react-router-dom"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
@@ -20,48 +20,65 @@ import About from "../../pages/about-page/AboutPage"
 const Content = () => {
   const { data, loading } = useQuery(CURRENT_USER)
 
+  console.log("content")
+  if (data && data.currentUser) {
+    console.log(data.currentUser)
+    console.log(loading)
+  }
+
   return (
     <main className="content">
       <Switch>
         {!loading && data && !data.currentUser ? (
           <Route path="/home" component={Home} />
-        ) : null}
+        ) : (
+          <Redirect from="/home" to="/" />
+        )}
+
         {!loading && data && !data.currentUser ? (
           <Route path="/about" component={About} />
-        ) : null}
+        ) : (
+          <Redirect from="/about" to="/" />
+        )}
         {!loading && data && !data.currentUser ? (
           <Route path="/login" component={Login} />
-        ) : null}
+        ) : (
+          <Redirect from="/login" to="/" />
+        )}
+        {!loading && data && !data.currentUser ? (
+          <Route path="/sign-up" component={SignUp} />
+        ) : (
+          <Redirect from="/sign-up" to="/home" />
+        )}
 
         {!loading && data && data.currentUser ? (
           <Route exact={true} path="/" component={Dashboard} />
         ) : null}
         {!loading && data && data.currentUser ? (
           <Route path="/add-new" component={AddNew} />
-        ) : null}
+        ) : (
+          <Redirect from="/add-new" to="/home" />
+        )}
         {!loading && data && data.currentUser ? (
           <Route path="/calendar" component={Calendar} />
-        ) : null}
+        ) : (
+          <Redirect from="/calendar" to="/home" />
+        )}
         {!loading && data && data.currentUser ? (
           <Route path="/exams" component={Exams} />
-        ) : null}
+        ) : (
+          <Redirect from="/exams" to="/home" />
+        )}
         {!loading && data && data.currentUser ? (
           <Route path="/profile" component={UserAccount} />
-        ) : null}
+        ) : (
+          <Redirect from="/profile" to="/home" />
+        )}
 
-        {(!loading && data && !data.currentUser) ||
-        (!loading && data.currentUser) ? (
-          <Route path="/imprint" component={Imprint} />
-        ) : null}
-        {(!loading && data && !data.currentUser) ||
-        (!loading && data.currentUser) ? (
-          <Route path="/data-policy" component={DataPolicy} />
-        ) : null}
-        {!loading && data && !data.currentUser ? (
-          <Route path="/sign-up" component={SignUp} />
-        ) : null}
+        <Route path="/imprint" component={Imprint} />
+        <Route path="/data-policy" component={DataPolicy} />
 
-        <Route path="*" component={NoMatch404} />
+        {/* <Route path="*" component={NoMatch404} /> */}
       </Switch>
     </main>
   )

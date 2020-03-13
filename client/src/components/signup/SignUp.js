@@ -146,19 +146,18 @@ function SignUp() {
           </div>
 
           <div className="login__form__buttons">
-            <div className="login__form__buttons__button-left">
-              <Button
-                variant="button"
-                text="Google Login"
-                className="stan-btn-secondary"
-              />
-            </div>
-
             <div className="login__form__buttons__button-right">
               <Button
                 variant="button"
                 text="Sign up"
                 className="stan-btn-primary"
+              />
+            </div>
+            <div className="login__form__buttons__button-left">
+              <Button
+                variant="button"
+                text="Google Login"
+                className="stan-btn-secondary"
               />
             </div>
           </div>
