@@ -1,6 +1,6 @@
 import { gql } from "apollo-server";
 
-//TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
+//TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const userQueries = gql`
   type Query {
     users: [User]!

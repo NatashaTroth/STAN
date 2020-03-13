@@ -14,7 +14,7 @@ import jwt from "jsonwebtoken";
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");  //TODO: NEED TO THEN RETURN 403 FORBIDDEN, or 401 unauthorized
+      // if (!req.isAuth) throw new Error("Unauthorised");
       return User.find({});
     },
     user: (root, arg, context, info) => {
@@ -117,13 +117,12 @@ async function signUserUp({ username, email, password, mascot }) {
 
 function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
-  //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN?
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
 }
 
-//TODO: don't make this available to users - DELETE THIS MUTATION - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+//TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function revokeRefreshTokensForUser(userId) {
   try {
     const user = await User.findOne({ _id: userId });

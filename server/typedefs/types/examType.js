@@ -4,10 +4,6 @@ import { gql } from "apollo-server";
 const examType = gql`
   scalar Date
 
-  # type MyType {
-  #   created: Date
-  # }
-
   type Exam {
     id: ID!
     subject: String!

@@ -9,9 +9,6 @@ import {
   ApolloError
 } from "apollo-server";
 
-// console.log("here " + User);
-// console.log(User.find())
-
 //TODO: Authentication
 const examResolvers = {
   Query: {
