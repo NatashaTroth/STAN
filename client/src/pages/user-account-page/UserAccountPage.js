@@ -26,7 +26,7 @@ function UserAccount() {
           //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
           await client.resetStore()
           history.push("/login")
-          // window.location.reload()
+          window.location.reload()
         }}
       >
         Logout

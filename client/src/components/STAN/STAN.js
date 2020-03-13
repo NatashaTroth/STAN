@@ -38,23 +38,13 @@ const Navbar = () => {
       <nav className={isSideBarOpen ? "showNav" : "closeNav"}>
         <div className="sidebar__items">
           <div className="sidebar__items__logo">
-            {!loading && data.currentUser ? (
-              <a href="/">
-                <img
-                  src={Logo}
-                  alt="Stans Logo"
-                  className="sidebar__items__logo--img"
-                />
-              </a>
-            ) : (
-              <a href="/home">
-                <img
-                  src={Logo}
-                  alt="Stans Logo"
-                  className="sidebar__items__logo--img"
-                />
-              </a>
-            )}
+            <a href="/">
+              <img
+                src={Logo}
+                alt="Stans Logo"
+                className="sidebar__items__logo--img"
+              />
+            </a>
           </div>
           {body}
           <ul className="sidebar__items__list">
@@ -63,7 +53,7 @@ const Navbar = () => {
                 <li className="list-item">
                   <NavLink
                     strict
-                    to="/home"
+                    to="/"
                     exact
                     activeClassName="active"
                     onClick={closeSidebar}

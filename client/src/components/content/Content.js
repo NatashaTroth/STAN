@@ -16,69 +16,69 @@ import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
+import NoAccess from "../../components/no-access/NoAccess"
 
 const Content = () => {
   const { data, loading } = useQuery(CURRENT_USER)
+  let isAuth
 
-  console.log("content")
-  if (data && data.currentUser) {
-    console.log(data.currentUser)
-    console.log(loading)
+  // user is logged in
+  if (!loading && data && data.currentUser) {
+    isAuth = true
+  } else {
+    isAuth = false
   }
+
+  console.log(isAuth)
 
   return (
     <main className="content">
       <Switch>
-        {!loading && data && !data.currentUser ? (
-          <Route path="/home" component={Home} />
-        ) : (
-          <Redirect from="/home" to="/" />
-        )}
+        {!isAuth ? <Route exact path="/" component={Home} /> : null}
+        {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
 
-        {!loading && data && !data.currentUser ? (
-          <Route path="/about" component={About} />
+        {!isAuth ? (
+          <Route exact path="/about" component={About} />
         ) : (
           <Redirect from="/about" to="/" />
         )}
-        {!loading && data && !data.currentUser ? (
-          <Route path="/login" component={Login} />
+
+        {!isAuth ? (
+          <Route exact path="/login" component={Login} />
         ) : (
           <Redirect from="/login" to="/" />
         )}
-        {!loading && data && !data.currentUser ? (
-          <Route path="/sign-up" component={SignUp} />
+        {!isAuth ? (
+          <Route exact path="/sign-up" component={SignUp} />
         ) : (
-          <Redirect from="/sign-up" to="/home" />
+          <Redirect from="/sign-up" to="/" />
         )}
 
-        {!loading && data && data.currentUser ? (
-          <Route exact={true} path="/" component={Dashboard} />
-        ) : null}
-        {!loading && data && data.currentUser ? (
-          <Route path="/add-new" component={AddNew} />
+        {isAuth ? (
+          <Route exact path="/add-new" component={AddNew} />
         ) : (
-          <Redirect from="/add-new" to="/home" />
+          <Redirect from="/add-new" to="/" />
         )}
-        {!loading && data && data.currentUser ? (
-          <Route path="/calendar" component={Calendar} />
+        {isAuth ? (
+          <Route exact path="/calendar" component={Calendar} />
         ) : (
-          <Redirect from="/calendar" to="/home" />
+          <Redirect from="/calendar" to="/" />
         )}
-        {!loading && data && data.currentUser ? (
-          <Route path="/exams" component={Exams} />
+        {isAuth ? (
+          <Route exact path="/exams" component={Exams} />
         ) : (
-          <Redirect from="/exams" to="/home" />
+          <Redirect exact from="/exams" to="/" />
         )}
-        {!loading && data && data.currentUser ? (
-          <Route path="/profile" component={UserAccount} />
+        {isAuth ? (
+          <Route exact path="/profile" component={UserAccount} />
         ) : (
-          <Redirect from="/profile" to="/home" />
+          <Redirect from="/profile" to="/" />
         )}
 
-        <Route path="/imprint" component={Imprint} />
-        <Route path="/data-policy" component={DataPolicy} />
+        <Route exact path="/imprint" component={Imprint} />
+        <Route exact path="/data-policy" component={DataPolicy} />
 
-        {/* <Route path="*" component={NoMatch404} /> */}
+        {/* <Route path="*" component={NoAccess} /> */}
       </Switch>
     </main>
   )
