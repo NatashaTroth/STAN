@@ -12,7 +12,8 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   mascot: {
     type: Number,
@@ -21,15 +22,13 @@ const userSchema = new Schema({
   tokenVersion: {
     type: Number,
     default: 0
+  },
+  //TODO: updated at
+  createdAt: {
+    type: Date,
+    default: new Date()
   }
-  //TODO: add created at and updated at
-  // createdAt: {
-  //   type: Date
-  // }
 });
-
-//todo creted at timestamphttps://www.youtube.com/watch?v=TIAfjBXsY2E&list=PLcCp4mjO-z9_y8lByvIfNgA_F18l-soQv&index=6
-// userSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model("User", userSchema);
 // export default mongoose.model('User', userSchema)

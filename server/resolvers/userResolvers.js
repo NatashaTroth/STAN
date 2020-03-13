@@ -21,7 +21,7 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
-      //TODO: return unorthorise important? returning null to avoid error when asking for current user in frontend and not logged in
+      //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
       if (!context.req.isAuth) return null;
       // fetch header
