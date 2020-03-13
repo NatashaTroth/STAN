@@ -22,6 +22,7 @@ const examResolvers = {
     addExam: async (root, args, context, info) => {
       if (!context.req.isAuth) throw new Error("Unauthorised");
       try {
+        //TODO: add user id!!!
         const resp = await Exam.create(args);
       } catch (err) {
         console.error(err.message);
