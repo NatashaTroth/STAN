@@ -10,10 +10,12 @@ import { setAccessToken } from "../../accessToken"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import { GOOGLE_OAUTH_URL } from "../../graphQL/queries"
 
 function Login() {
   // mutation ----------------
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
+  const { data, loading } = useQuery(GOOGLE_OAUTH_URL)
   const history = useHistory()
 
   // form specific ----------------

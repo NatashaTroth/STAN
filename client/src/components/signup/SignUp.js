@@ -1,5 +1,5 @@
 import React from "react"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
 import { SIGNUP_MUTATION } from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
@@ -11,11 +11,14 @@ import { useForm } from "react-hook-form"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import { GOOGLE_OAUTH_URL } from "../../graphQL/queries"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
+  const { data, loading } = useQuery(GOOGLE_OAUTH_URL)
+
   const history = useHistory()
 
   // form specific ----------------
