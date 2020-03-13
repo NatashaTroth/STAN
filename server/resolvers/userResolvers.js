@@ -9,6 +9,7 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { getGoogleLoginUrl } from "../google-oauth-url";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -40,6 +41,9 @@ const userResolvers = {
         console.error(err.message);
         return null;
       }
+    },
+    googleAuthUrl: (parent, ars, context) => {
+      return getGoogleLoginUrl();
     }
   },
   Mutation: {
