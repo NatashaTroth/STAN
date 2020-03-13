@@ -3,7 +3,8 @@ import * as queryString from "query-string";
 
 const stringifiedParams = queryString.stringify({
   client_id: process.env.GOOGLE_CLIENT_ID,
-  redirect_uri: "https://www.example.com/authenticate/google",
+  // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirect_uri: "http://localhost:3000",
   scope: [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile"

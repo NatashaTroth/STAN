@@ -11,13 +11,13 @@ import { useForm } from "react-hook-form"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-import { GOOGLE_OAUTH_URL } from "../../graphQL/queries"
+import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const { data, loading } = useQuery(GOOGLE_OAUTH_URL)
+  const { data, loading } = useQuery(GOOGLE_AUTH_URL)
 
   const history = useHistory()
 

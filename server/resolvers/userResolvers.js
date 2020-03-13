@@ -91,6 +91,10 @@ const userResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+    googleAuthUrlCode: async (parent, { code }, context) => {
+      console.log("in google auth code mutation " + code);
+      return true;
     }
   }
 };
