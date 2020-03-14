@@ -4,21 +4,36 @@ import "./App.scss"
 // import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
 import { setAccessToken, getAccessToken } from "./accessToken"
+import { BrowserRouter, useHistory, Redirect } from "react-router-dom"
 
 import { client } from "./apolloClient"
 
+// components
 import STAN from "./components/STAN/STAN"
+import LoginPopUp from "./components/login-popup/LoginPopUp"
+
+const RedirectPopup = () => {
+  return (
+    <BrowserRouter>
+      <Redirect to="/popup" />
+    </BrowserRouter>
+  )
+}
 
 /* TODO: CACHING APOLLO */
 const App = () => {
   const [loading, setLoading] = useState(true)
+
   //TODO-LOGOUT-ALL-TABS
   window.addEventListener("storage", e => {
     if (e.key == "logout-event") {
       localStorage.removeItem("logout-event")
       //TODO: go to login and inform user that logout occurred
-      // history.push("/login")
-      window.location.reload()
+
+      RedirectPopup()
+      // history.push("/popup")
+      window.location.replace("/popup")
+      // window.location.reload()
     }
   })
 

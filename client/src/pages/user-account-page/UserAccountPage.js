@@ -11,7 +11,6 @@ function UserAccount() {
 
   return (
     <div className="navigation__title">
-      {/* TODO: ONLY DISPLAY LOGOUT BUTTON IF LOGGED IN */}
       <h2>User Account </h2>
       <button
         onClick={async () => {
@@ -26,7 +25,7 @@ function UserAccount() {
           //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
           await client.resetStore()
           history.push("/login")
-          // window.location.reload()
+          window.location.reload()
         }}
       >
         Logout
