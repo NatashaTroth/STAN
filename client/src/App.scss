@@ -28,6 +28,10 @@
 @import "components/today-goals/today-goals";
 @import "components/login-popup/login-popup";
 
+// Calendar
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+
 // Sub-Components
 @import "components/input/input";
 @import "components/label/label";

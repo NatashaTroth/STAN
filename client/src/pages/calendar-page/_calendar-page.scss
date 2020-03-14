@@ -1,0 +1,41 @@
+.calendar {
+  &__container {
+    padding-right: 50px;
+    padding-bottom: 50px;
+  }
+  .fc-left {
+    h2 {
+      margin-top: 5rem;
+      color: theme-color("dark");
+      font-family: $font-family-BasierCircle-Bold;
+      @include rem(font-size, $h2-font-size);
+      @include rem(letter-spacing, 0);
+      @include rem(line-height, $h2-line-height);
+
+      @include media-breakpoint-down(sm) {
+        @include rem(font-size, $h2-font-size-mobile);
+        @include rem(line-height, $h2-line-height-mobile);
+        @include rem(letter-spacing, 0);
+      }
+    }
+  }
+  .fc-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .fc-today-button {
+    display: none;
+  }
+  .fc-button-group {
+    button {
+      background-color: white;
+      border: none;
+      color: black;
+      font-size: 20px;
+      padding: 0;
+      padding-left: 10px;
+    }
+  }
+}
