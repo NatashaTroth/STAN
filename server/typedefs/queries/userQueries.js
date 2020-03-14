@@ -13,18 +13,19 @@ const userQueries = gql`
     #TODO: delete addUser afterwards
     addUser(
       username: String!
-      password: String!
+      password: String
       email: String!
       mascot: Int
     ): User
     signup(
       username: String!
       email: String!
-      password: String!
+      password: String
       mascot: Int
+      googleLogin: Boolean
     ): AuthData
     logout: Boolean
-    login(email: String!, password: String!): AuthData
+    login(email: String!, password: String, googleLogin: Boolean): AuthData
     googleAuthUrlCode(code: String!): Boolean #todo change to authdata
 
     #in case refresh tokens get comprimised

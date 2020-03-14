@@ -159,10 +159,12 @@ export default Login
 
 async function handleLogin({ formData, login, history }) {
   try {
+    // console.log("test: " + googleLogin || false)
     const resp = await login({
       variables: {
         email: formData.email,
         password: formData.password,
+        googleLogin: formData.googleLogin || false,
       },
       //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
       //https://www.apollographql.com/docs/react/caching/cache-interaction/

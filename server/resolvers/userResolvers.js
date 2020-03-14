@@ -62,10 +62,10 @@ const userResolvers = {
       }
       return true;
     },
-    login: async (parent, { email, password }, context) => {
+    login: async (parent, { email, password, googleLogin }, context) => {
       if (context.req.isAuth) throw new Error("Already logged in");
       try {
-        const user = await authenticateUser({ email, password });
+        const user = await authenticateUser({ email, password, googleLogin });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -78,11 +78,23 @@ const userResolvers = {
         throw err;
       }
     },
-    signup: async (parent, { username, email, password, mascot }, context) => {
+    signup: async (
+      parent,
+      { username, email, password, mascot, googleLogin },
+      context
+    ) => {
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {
-        const user = await signUserUp({ username, email, password, mascot });
+        console.log("googlog: " + googleLogin);
+
+        const user = await signUserUp({
+          username,
+          email,
+          password,
+          mascot,
+          googleLogin
+        });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -104,25 +116,32 @@ const userResolvers = {
   }
 };
 
-async function authenticateUser({ email, password }) {
+async function authenticateUser({ email, password, googleLogin }) {
   const user = await User.findOne({ email: email });
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
-
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new AuthenticationError("Password is incorrect");
+  console.log("test " + googleLogin);
+  if (user.googleLogin && !googleLogin) {
+    throw new AuthenticationError("User has to login with google");
+  } else if (!user.googleLogin) {
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new AuthenticationError("Password is incorrect");
+  }
   return user;
 }
 
-async function signUserUp({ username, email, password, mascot }) {
+async function signUserUp({ username, email, password, mascot, googleLogin }) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail) throw new UserInputError("User with email already exists");
-  const hashedPassword = await bcrypt.hash(password, 10);
+  let hashedPassword;
+  if (googleLogin) hashedPassword = null;
+  else hashedPassword = await bcrypt.hash(password, 10);
   const resp = await User.create({
     username,
     email,
     password: hashedPassword,
-    mascot
+    mascot,
+    googleLogin
   });
   if (!resp) throw new AuthenticationError("User could not be created");
   return resp;

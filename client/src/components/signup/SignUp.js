@@ -190,12 +190,14 @@ function SignUp() {
 export default SignUp
 
 async function handleSignup({ formData, signup, history }) {
+  console.log("googlelogin: " + formData.googleLogin)
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
+        googleLogin: formData.googleLogin || false,
         mascot: 0, //TODO: make dynamic (user can choose mascot)
       },
     })

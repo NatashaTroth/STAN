@@ -11,8 +11,8 @@ const ADD_BOOK_MUTATION = gql`
 `
 
 const LOGIN_MUTATION = gql`
-  mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation($email: String!, $password: String, $googleLogin: Boolean) {
+    login(email: $email, password: $password, googleLogin: $googleLogin) {
       user {
         id
         username
@@ -64,14 +64,16 @@ const SIGNUP_MUTATION = gql`
   mutation(
     $username: String!
     $email: String!
-    $password: String!
+    $password: String
     $mascot: Int
+    $googleLogin: Boolean
   ) {
     signup(
       username: $username
       email: $email
       password: $password
       mascot: $mascot
+      googleLogin: $googleLogin
     ) {
       user {
         id
