@@ -23,6 +23,10 @@ const userSchema = new Schema({
     type: Number,
     default: 0
   },
+  googleLogin: {
+    type: Boolean,
+    default: false
+  },
   //TODO: updated at
   createdAt: {
     type: Date,

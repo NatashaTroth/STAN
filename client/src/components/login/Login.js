@@ -12,13 +12,19 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
+// import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 
 function Login() {
   const successGoogle = response => {
-    console.log(JSON.stringify(response))
-    const formData = { username: response.Qt.Ad, email: response.Qt.zu }
-    const googleLoginData = { response }
+    console.log(response.Qt.zu)
+    const formData = {
+      // username: response.Qt.Ad,
+      email: response.Qt.zu,
+      password: null,
+      googleLogin: true,
+    }
+    // const googleLoginData = { response }
+    handleLogin({ formData, login, history })
   }
   const failureGoogle = response => {
     console.log(JSON.stringify(response.Qt.Ad))

@@ -92,11 +92,11 @@ const CURRENT_USER = gql`
   }
 `
 
-const GOOGLE_AUTH_URL = gql`
-  query {
-    googleAuthUrl
-  }
-`
+// const GOOGLE_AUTH_URL = gql`
+//   query {
+//     googleAuthUrl
+//   }
+// `
 
 export {
   GET_USERS_QUERY,
@@ -106,5 +106,5 @@ export {
   GET_BOOK_QUERY,
   SUCCESS_SIGNUP,
   CURRENT_USER,
-  GOOGLE_AUTH_URL,
+  // GOOGLE_AUTH_URL,
 }

@@ -5,19 +5,37 @@ import { SIGNUP_MUTATION } from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
+import { GoogleLogin } from "react-google-login"
+
 // --------------------------------------------------------------
 
 // components ----------------
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
+// import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
+  const successGoogle = response => {
+    console.log(response.Qt.zu)
+    const formData = {
+      username: response.Qt.Ad,
+      email: response.Qt.zu,
+      password: null,
+      googleLogin: true,
+      mascot: 0, //TODO: ALLOW USER TO CHOOSE MASCOT
+    }
+    // const googleLoginData = { response }
+    handleSignup({ formData, signup, history })
+  }
+  const failureGoogle = response => {
+    console.log(JSON.stringify(response.Qt.Ad))
+  }
+
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const { data, loading } = useQuery(GOOGLE_AUTH_URL)
+  // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
 
   const history = useHistory()
 
@@ -25,32 +43,7 @@ function SignUp() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    try {
-      const resp = await signup({
-        variables: {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          mascot: 0, //TODO: make dynamic (user can choose mascot)
-        },
-      })
-
-      if (resp && resp.data) {
-        setAccessToken(resp.data.signup.accessToken)
-        console.log("saved access token after signup")
-      } else {
-        // displays server error (backend)
-        throw new Error("The sign up failed")
-      }
-      // redirect
-
-      history.push("/")
-      window.location.reload()
-    } catch (err) {
-      //TODO: USER DEN ERROR MITTEILEN
-      console.error(err.message)
-      // console.log(err)
-    }
+    handleSignup({ formData, signup, history })
   }
 
   return (
@@ -156,10 +149,26 @@ function SignUp() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              <Button
+              {/* <Button
                 variant="button"
                 text="Google Login"
                 className="stan-btn-secondary"
+              /> */}
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                render={renderProps => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    className="stan-btn-secondary"
+                  >
+                    Google Sign up
+                  </button>
+                )}
+                onSuccess={successGoogle}
+                onFailure={failureGoogle}
+                cookiePolicy={"single_host_origin"}
               />
             </div>
           </div>
@@ -179,3 +188,32 @@ function SignUp() {
 }
 
 export default SignUp
+
+async function handleSignup({ formData, signup, history }) {
+  try {
+    const resp = await signup({
+      variables: {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        mascot: 0, //TODO: make dynamic (user can choose mascot)
+      },
+    })
+
+    if (resp && resp.data) {
+      setAccessToken(resp.data.signup.accessToken)
+      console.log("saved access token after signup")
+    } else {
+      // displays server error (backend)
+      throw new Error("The sign up failed")
+    }
+    // redirect
+
+    history.push("/")
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}

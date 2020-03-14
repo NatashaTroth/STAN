@@ -84,11 +84,11 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
-const GOOGLE_URL_AUTH_CODE_MUTATION = gql`
-  mutation($code: String!) {
-    googleAuthUrlCode(code: $code)
-  }
-`
+// const GOOGLE_URL_AUTH_CODE_MUTATION = gql`
+//   mutation($code: String!) {
+//     googleAuthUrlCode(code: $code)
+//   }
+// `
 
 export {
   ADD_BOOK_MUTATION,
@@ -96,5 +96,5 @@ export {
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
-  GOOGLE_URL_AUTH_CODE_MUTATION,
+  // GOOGLE_URL_AUTH_CODE_MUTATION,
 }
