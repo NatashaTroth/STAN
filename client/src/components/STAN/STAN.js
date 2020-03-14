@@ -146,12 +146,6 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ) : null}
-
-              <li>
-                <NavLink strict to="/popup">
-                  Popup
-                </NavLink>
-              </li>
             </div>
 
             <div className="sidebar__items__list__menu-bottom">

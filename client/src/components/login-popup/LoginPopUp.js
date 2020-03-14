@@ -9,7 +9,7 @@ function LoginPopUp() {
         </div>
 
         <div className="popup__content">
-          <div class="popup__content--paragraph">
+          <div className="popup__content--paragraph">
             <p>Please log in to continue. </p>
           </div>
           <a href="/login" className="stan-btn-secondary">

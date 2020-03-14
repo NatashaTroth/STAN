@@ -29,7 +29,7 @@ const Content = () => {
   return (
     <main className="content">
       <Switch>
-        <Route exact path="/popup" component={LoginPopUp} />
+        {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
 
         {!isAuth ? <Route exact path="/" component={Home} /> : null}
         {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
