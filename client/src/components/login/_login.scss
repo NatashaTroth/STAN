@@ -43,6 +43,14 @@
       &__button-right {
         padding: 5px 10px;
       }
+      &__button-left {
+        display: flex;
+        flex-direction: column;
+        a {
+          margin: 0;
+          text-align: center;
+        }
+      }
     }
 
     &__redirect-signup {

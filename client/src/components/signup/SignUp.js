@@ -153,11 +153,9 @@ function SignUp() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              <Button
-                variant="button"
-                text="Google Login"
-                className="stan-btn-secondary"
-              />
+              <a href="/googleurl" className="stan-btn-secondary">
+                Google Login
+              </a>
             </div>
           </div>
 

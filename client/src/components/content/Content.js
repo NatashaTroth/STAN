@@ -16,20 +16,13 @@ import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
-import NoAccess from "../../components/no-access/NoAccess"
 
 const Content = () => {
   const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
 
-  // user is logged in
-  if (!loading && data && data.currentUser) {
-    isAuth = true
-  } else {
-    isAuth = false
-  }
-
-  console.log(isAuth)
+  if (!loading && data && data.currentUser) isAuth = true
+  else isAuth = false
 
   return (
     <main className="content">
@@ -78,7 +71,7 @@ const Content = () => {
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />
 
-        {/* <Route path="*" component={NoAccess} /> */}
+        <Route path="*" component={NoMatch404} />
       </Switch>
     </main>
   )

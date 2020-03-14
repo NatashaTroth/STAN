@@ -11,7 +11,6 @@ function UserAccount() {
 
   return (
     <div className="navigation__title">
-      {/* TODO: ONLY DISPLAY LOGOUT BUTTON IF LOGGED IN */}
       <h2>User Account </h2>
       <button
         onClick={async () => {

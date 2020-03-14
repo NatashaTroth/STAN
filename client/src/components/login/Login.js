@@ -128,11 +128,9 @@ function Login() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              <Button
-                className="stan-btn-secondary"
-                variant="button"
-                text="Google Login"
-              />
+              <a href="/googleurl" className="stan-btn-secondary">
+                Google Login
+              </a>
             </div>
           </div>
           <div className="login__form__redirect-signup">
