@@ -3,57 +3,27 @@ import * as queryString from "query-string";
 import fetch from "node-fetch";
 import axios from "axios";
 
-import { google } from "googleapis";
-
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  "http://localhost:3000"
-);
-
-// generate a url that asks permissions for Blogger and Google Calendar scopes
-const scopes = [
-  "https://www.googleapis.com/auth/userinfo.email",
-  "https://www.googleapis.com/auth/userinfo.profile"
-];
-
-const googleLoginUrl = oauth2Client.generateAuthUrl({
-  // 'online' (default) or 'offline' (gets refresh_token)
+//TODO MOVE TO CLIENT?
+const stringifiedParams = queryString.stringify({
+  client_id: process.env.GOOGLE_CLIENT_ID,
+  // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirect_uri: "http://localhost:3000",
+  scope: [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+  ].join(" "), // space seperated string
+  response_type: "code",
   access_type: "offline",
-
-  // If you only need one scope you can pass it as a string
-  scope: scopes
+  prompt: "consent"
 });
 
-//TODO MOVE TO CLIENT?
-// const stringifiedParams = queryString.stringify({
-//   client_id: process.env.GOOGLE_CLIENT_ID,
-//   // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//   redirect_uri: "http://localhost:3000",
-//   scope: [
-//     "https://www.googleapis.com/auth/userinfo.email",
-//     "https://www.googleapis.com/auth/userinfo.profile"
-//   ].join(" "), // space seperated string
-//   response_type: "code",
-//   access_type: "offline",
-//   prompt: "consent"
-// });
-
-// const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
+const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
 
 export function getGoogleLoginUrl() {
   return googleLoginUrl;
 }
 
 export async function getGoogleAccessTokenFromCode(code) {
-  const { tokens } = await oauth2Client.getToken({
-    grant_type: "authorization_code",
-    code
-  });
-  console.log("tokens");
-  console.log(JSON.stringify(tokens));
-  oauth2Client.setCredentials(tokens);
-  return tokens;
   // fetch("http://localhost:5000/refresh_token", {
   //   method: "POST",
   //   credentials: "include",

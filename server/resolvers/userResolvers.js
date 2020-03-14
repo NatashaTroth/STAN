@@ -9,7 +9,10 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { getGoogleLoginUrl } from "../google-oauth-url";
+import {
+  getGoogleLoginUrl,
+  getGoogleAccessTokenFromCode
+} from "../google-oauth-url";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -94,6 +97,8 @@ const userResolvers = {
     },
     googleAuthUrlCode: async (parent, { code }, context) => {
       console.log("in google auth code mutation " + code);
+      // const resp = await getGoogleAccessTokenFromCode(code);
+      // console.log(resp);
       return true;
     }
   }

@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
+import ReactDOM from "react-dom"
+import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -13,10 +15,19 @@ import Button from "../../components/button/Button"
 import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 
 function Login() {
+  const successGoogle = response => {
+    console.log(JSON.stringify(response))
+    const formData = { username: response.Qt.Ad, email: response.Qt.zu }
+    const googleLoginData = { response }
+  }
+  const failureGoogle = response => {
+    console.log(JSON.stringify(response.Qt.Ad))
+  }
+
   // mutation ----------------
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
 
-  const { data, loading } = useQuery(GOOGLE_AUTH_URL)
+  // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
   // if (data && data.googleAuthUrl) console.log(data.googleAuthUrl)
   const history = useHistory()
 
@@ -24,38 +35,7 @@ function Login() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    try {
-      const resp = await login({
-        variables: {
-          email: formData.email,
-          password: formData.password,
-        },
-        //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
-        //https://www.apollographql.com/docs/react/caching/cache-interaction/
-        // update: (store, { data }) => {
-        //   if (!data) return null
-        //   store.writeQuery({
-        //     //update current user in cache
-        //     query: LOGIN_MUTATION,
-        //     data: data.login.user,
-        //   })
-        // },
-      })
-
-      if (resp && resp.data) {
-        setAccessToken(resp.data.login.accessToken)
-      } else {
-        // displays server error (backend)
-        throw new Error("The login failed")
-      }
-      // redirect
-      history.push("/")
-      window.location.reload()
-    } catch (err) {
-      //TODO-AUTH: USER DEN ERROR MITTEILEN
-      console.error(err.message)
-      // console.log(err)
-    }
+    await handleLogin({ formData, login, history })
   }
 
   // return ----------------
@@ -132,10 +112,26 @@ function Login() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              <Button
+              {/* <Button
                 className="stan-btn-secondary"
                 variant="button"
                 text="Google Login"
+              /> */}
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                render={renderProps => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    className="stan-btn-secondary"
+                  >
+                    Google Login
+                  </button>
+                )}
+                onSuccess={successGoogle}
+                onFailure={failureGoogle}
+                cookiePolicy={"single_host_origin"}
               />
             </div>
           </div>
@@ -154,3 +150,38 @@ function Login() {
 }
 
 export default Login
+
+async function handleLogin({ formData, login, history }) {
+  try {
+    const resp = await login({
+      variables: {
+        email: formData.email,
+        password: formData.password,
+      },
+      //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
+      //https://www.apollographql.com/docs/react/caching/cache-interaction/
+      // update: (store, { data }) => {
+      //   if (!data) return null
+      //   store.writeQuery({
+      //     //update current user in cache
+      //     query: LOGIN_MUTATION,
+      //     data: data.login.user,
+      //   })
+      // },
+    })
+
+    if (resp && resp.data) {
+      setAccessToken(resp.data.login.accessToken)
+    } else {
+      // displays server error (backend)
+      throw new Error("The login failed")
+    }
+    // redirect
+    history.push("/")
+    window.location.reload()
+  } catch (err) {
+    //TODO-AUTH: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}
