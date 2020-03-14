@@ -7,7 +7,9 @@ import { setAccessToken, getAccessToken } from "./accessToken"
 
 import { client } from "./apolloClient"
 
+// components
 import STAN from "./components/STAN/STAN"
+import LoginPopUp from "./components/login-popup/LoginPopUp"
 
 /* TODO: CACHING APOLLO */
 const App = () => {

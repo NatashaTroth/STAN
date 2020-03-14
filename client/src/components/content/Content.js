@@ -17,6 +17,8 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 
+import LoginPopUp from "../../components/login-popup/LoginPopUp"
+
 const Content = () => {
   const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
@@ -27,6 +29,8 @@ const Content = () => {
   return (
     <main className="content">
       <Switch>
+        <Route exact path="/popup" component={LoginPopUp} />
+
         {!isAuth ? <Route exact path="/" component={Home} /> : null}
         {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
 
