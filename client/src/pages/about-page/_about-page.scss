@@ -1,28 +1,70 @@
 .about {
-  .row {
-    padding: 50px 20px 50px 0px;
-    align-items: center;
+	.row {
+		padding: 50px 0;
 
-    @include media-breakpoint-down(md) {
-      padding-right: 0px;
-    }
-  }
-  &__row-1 {
-    flex-wrap: wrap;
-  }
-  &__row-2 {
-    flex-wrap: wrap-reverse;
-  }
-  &__heading {
-    padding-bottom: 30px;
-  }
-  &__content {
-    padding: 20px 0px 20px 0px;
-  }
-  &__btn {
-    padding: 40px 0px 40px 0px;
-  }
-  &__img {
-    width: 100%;
-  }
+		@include media-breakpoint-down(lg) {
+			padding: 30px 0;
+		}
+		@include media-breakpoint-down(sm) {
+			padding: 15px 0;
+		}
+	}
+
+	&__heading {
+		margin-bottom: 30px;
+
+		@include media-breakpoint-down(lg) {
+			margin-bottom: 10px;
+		}
+	}
+
+	&__content {
+		margin: 20px 40px 20px 0;
+
+		@include media-breakpoint-down(lg) {
+			margin: 20px 0;
+		}
+
+		&__btn {
+			margin: 40px 0;
+
+			@include media-breakpoint-down(sm) {
+				margin: 20px 0 30px;
+			}
+		}
+	}
+
+	&__img {
+		width: 100%;
+	}
+
+	.text-image-module {
+		padding: 0;
+
+		.row {
+			flex-direction: row;
+
+			@include media-breakpoint-down(lg) {
+				flex-direction: column-reverse;
+			}
+		}
+
+		&--reverse {
+			.row {
+				flex-direction: row-reverse;
+
+				@include media-breakpoint-down(lg) {
+					flex-direction: column-reverse;
+				}
+			}
+
+			.about__content {
+				margin: 20px 0 20px 40px;
+
+				@include media-breakpoint-down(lg) {
+					margin: 20px 0;
+				}
+			}
+		}
+	}
 }
