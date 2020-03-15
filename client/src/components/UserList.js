@@ -2,19 +2,23 @@ import React, { Component, useState } from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../queries/queries"
 //doc for apollo: https://www.apollographql.com/docs/react/get-started/
+// --------------------------------------------------------------
 
-// components
+// components ----------------
 import BookDetails from "./BookDetails"
 
 function UserList() {
+  // query ----------------
   const { loading, error, data } = useQuery(GET_USERS_QUERY)
   const [bookId, setBookId] = useState("")
 
   //console.log(data) //this console.log outputs in the browser console
 
+  // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 
+  // return ----------------
   return (
     <div>
       <div className="container">

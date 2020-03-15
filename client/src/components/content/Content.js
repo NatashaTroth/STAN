@@ -2,8 +2,9 @@ import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
+// --------------------------------------------------------------
 
-// pages component
+// pages component ----------------
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
 import Calendar from "../../pages/calendar-page/CalendarPage"
@@ -16,16 +17,17 @@ import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
-
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 
 const Content = () => {
+  // query ----------------
   const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
 
   if (!loading && data && data.currentUser) isAuth = true
   else isAuth = false
 
+  // return ----------------
   return (
     <main className="content">
       <Switch>

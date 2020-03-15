@@ -1,16 +1,17 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
-
 import Logo from "../../images/icons/logo.svg"
 import { CURRENT_USER } from "../../graphQL/queries"
+// --------------------------------------------------------------
 
-// components
+// components ----------------
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import { useQuery } from "@apollo/react-hooks"
 
 const Navbar = () => {
+  // query ----------------
   const { data, loading } = useQuery(CURRENT_USER)
   const [isSideBarOpen, setSideBar] = useState(false)
 
@@ -26,7 +27,7 @@ const Navbar = () => {
   }
 
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
-
+  // return ----------------
   return (
     <Router className="sidebar">
       <div className="burger">
