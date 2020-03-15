@@ -1,6 +1,8 @@
 import React from "react"
+// --------------------------------------------------------------
 
 function LoginPopUp() {
+  // return ----------------
   return (
     <div className="popup">
       <div className="popup__container">
@@ -9,10 +11,10 @@ function LoginPopUp() {
         </div>
 
         <div className="popup__content">
-          <div className="popup__content--paragraph">
-            <p>Please log in to continue. </p>
-          </div>
-          <a href="/login" className="stan-btn-secondary">
+          <p className="popup__content__paragraph">
+            Please log in to continue.
+          </p>
+          <a href="/login" className="popup__content__btn stan-btn-secondary">
             Login
           </a>
         </div>
