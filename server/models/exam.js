@@ -47,7 +47,7 @@ const examSchema = new Schema({
     type: String,
     required: true
   },
-  //TODO: add created at and updated at
+  //TODO: updated at
   createdAt: {
     type: Date,
     default: new Date()

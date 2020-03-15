@@ -1,0 +1,13 @@
+https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000
+
+
+http://localhost:3000/?code=4%2FxgHYd1wc_2AxRJmXQPoXcQPcQpLxe8JyDETtJqceJMepQYlJzZvsN149eHCXKn3IJvWSZKnPuTP4Z2cGnHoXYAM&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=consent#
+
+
+curl -X POST -d "code=4%2FxgHYd1wc_2AxRJmXQPoXcQPcQpLxe8JyDETtJqceJMepQYlJzZvsN149eHCXKn3IJvWSZKnPuTP4Z2cGnHoXYAM&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=consent#" https://oauth2.googleapis.com/token
+
+curl -X POST -d '{ "code": "4%2FxgHYd1wc_2AxRJmXQPoXcQPcQpLxe8JyDETtJqceJMepQYlJzZvsN149eHCXKn3IJvWSZKnPuTP4Z2cGnHoXYAM",  "grant_type": "authorization_code",   "client_id": "970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com",  "client_secret": "wB2rKJ3JwYT00XkJuFNiTzeo",  "redirect_uri": "http://localhost:3000"}' https://oauth2.googleapis.com/token --header "Content-Type:application/json"
+
+curl -X POST 'https://oauth2.googleapis.com/token?code=4%2FxgHYd1wc_2AxRJmXQPoXcQPcQpLxe8JyDETtJqceJMepQYlJzZvsN149eHCXKn3IJvWSZKnPuTP4Z2cGnHoXYAM&grant_type=authorization_code&client_id=970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com&client_secret=wB2rKJ3JwYT00XkJuFNiTzeo&redirect_uri=http://localhost:3000' --header 'Content-Type: application/x-www-form-urlencoded'
+
+curl -X POST https://oauth2.googleapis.com/token -d "code=4%2FxgHYd1wc_2AxRJmXQPoXcQPcQpLxe8JyDETtJqceJMepQYlJzZvsN149eHCXKn3IJvWSZKnPuTP4Z2cGnHoXYAM&grant_type=authorization_code&client_id=970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com&client_secret=wB2rKJ3JwYT00XkJuFNiTzeo&redirect_uri=http://localhost:3000" -H "Content-Type: application/x-www-form-urlencoded"

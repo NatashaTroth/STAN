@@ -7,6 +7,7 @@ const userType = gql`
     username: String!
     email: String!
     mascot: Int!
+    googleLogin: Boolean
   }
   type AuthData {
     # userId: ID!

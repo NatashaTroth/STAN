@@ -9,19 +9,23 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import {
+  getGoogleLoginUrl,
+  getGoogleAccessTokenFromCode
+} from "../google-oauth-url";
 
 //TODO: Authenticate Queries
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");  //TODO: NEED TO THEN RETURN 403 FORBIDDEN, or 401 unauthorized
+      // if (!req.isAuth) throw new Error("Unauthorised");
       return User.find({});
     },
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
-      //TODO: return unorthorise important? returning null to avoid error when asking for current user in frontend and not logged in
+      //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
       if (!context.req.isAuth) return null;
       // fetch header
@@ -40,6 +44,9 @@ const userResolvers = {
         console.error(err.message);
         return null;
       }
+    },
+    googleAuthUrl: (parent, ars, context) => {
+      return getGoogleLoginUrl();
     }
   },
   Mutation: {
@@ -55,10 +62,10 @@ const userResolvers = {
       }
       return true;
     },
-    login: async (parent, { email, password }, context) => {
+    login: async (parent, { email, password, googleLogin }, context) => {
       if (context.req.isAuth) throw new Error("Already logged in");
       try {
-        const user = await authenticateUser({ email, password });
+        const user = await authenticateUser({ email, password, googleLogin });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -71,11 +78,23 @@ const userResolvers = {
         throw err;
       }
     },
-    signup: async (parent, { username, email, password, mascot }, context) => {
+    signup: async (
+      parent,
+      { username, email, password, mascot, googleLogin },
+      context
+    ) => {
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {
-        const user = await signUserUp({ username, email, password, mascot });
+        console.log("googlog: " + googleLogin);
+
+        const user = await signUserUp({
+          username,
+          email,
+          password,
+          mascot,
+          googleLogin
+        });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -87,29 +106,42 @@ const userResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+    googleAuthUrlCode: async (parent, { code }, context) => {
+      console.log("in google auth code mutation " + code);
+      // const resp = await getGoogleAccessTokenFromCode(code);
+      // console.log(resp);
+      return true;
     }
   }
 };
 
-async function authenticateUser({ email, password }) {
+async function authenticateUser({ email, password, googleLogin }) {
   const user = await User.findOne({ email: email });
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
-
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new AuthenticationError("Password is incorrect");
+  console.log("test " + googleLogin);
+  if (user.googleLogin && !googleLogin) {
+    throw new AuthenticationError("User has to login with google");
+  } else if (!user.googleLogin) {
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new AuthenticationError("Password is incorrect");
+  }
   return user;
 }
 
-async function signUserUp({ username, email, password, mascot }) {
+async function signUserUp({ username, email, password, mascot, googleLogin }) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail) throw new UserInputError("User with email already exists");
-  const hashedPassword = await bcrypt.hash(password, 10);
+  let hashedPassword;
+  if (googleLogin) hashedPassword = null;
+  else hashedPassword = await bcrypt.hash(password, 10);
   const resp = await User.create({
     username,
     email,
     password: hashedPassword,
-    mascot
+    mascot,
+    googleLogin
   });
   if (!resp) throw new AuthenticationError("User could not be created");
   return resp;
@@ -117,13 +149,12 @@ async function signUserUp({ username, email, password, mascot }) {
 
 function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
-  //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN?
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
 }
 
-//TODO: don't make this available to users - DELETE THIS MUTATION - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+//TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function revokeRefreshTokensForUser(userId) {
   try {
     const user = await User.findOne({ _id: userId });
@@ -131,7 +162,11 @@ async function revokeRefreshTokensForUser(userId) {
     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
     return true;
   } catch (err) {
-    if (err.extensions.code !== "UNAUTHENTICATED")
+    if (
+      err.extensions &&
+      err.extensions.code &&
+      err.extensions.code !== "UNAUTHENTICATED"
+    )
       throw new ApolloError(err.message);
     throw err;
   }
