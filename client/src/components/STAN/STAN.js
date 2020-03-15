@@ -9,6 +9,10 @@ import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import { useQuery } from "@apollo/react-hooks"
+import Image from "../../components/image/Image"
+
+// images ----------------
+import Pic1 from "../../images/icons/profile.png"
 
 const Navbar = () => {
   // query ----------------
@@ -32,6 +36,9 @@ const Navbar = () => {
     <Router className="sidebar">
       <div className="burger">
         <div className={isSideBarOpen ? "close" : "open"}>
+          <a href="/">
+            <img src={Logo} alt="Stans Logo" className="burger__logo-img" />
+          </a>
           <BurgerButton click={handleClickSidebar} />
         </div>
       </div>
@@ -51,7 +58,7 @@ const Navbar = () => {
           <ul className="sidebar__items__list">
             <div className="sidebar__items__list__menu-top">
               {!loading && !data.currentUser ? (
-                <li className="list-item">
+                <li className="list-item list-item--logged-out">
                   <NavLink
                     strict
                     to="/"
@@ -65,7 +72,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && !data.currentUser ? (
-                <li className="list-item">
+                <li className="list-item list-item--logged-out">
                   <NavLink
                     strict
                     to="/about"
@@ -79,7 +86,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && !data.currentUser ? (
-                <li className="list-item">
+                <li className="list-item list-item--logged-out">
                   <NavLink
                     strict
                     to="/login"
@@ -93,7 +100,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && data.currentUser ? (
-                <li className="sidebar__items__list__menu-top__dashboard list-item">
+                <li className="sidebar__items__list__menu-top__dashboard list-item list-item--logged-in">
                   <NavLink
                     strict
                     to="/"
@@ -107,7 +114,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && data.currentUser ? (
-                <li className="sidebar__items__list__menu-top__add-new list-item">
+                <li className="sidebar__items__list__menu-top__add-new list-item list-item--logged-in">
                   <NavLink
                     strict
                     to="/add-new"
@@ -121,7 +128,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && data.currentUser ? (
-                <li className="sidebar__items__list__menu-top__calendar list-item">
+                <li className="sidebar__items__list__menu-top__calendar list-item list-item--logged-in">
                   <NavLink
                     strict
                     to="/calendar"
@@ -135,7 +142,7 @@ const Navbar = () => {
               ) : null}
 
               {!loading && data.currentUser ? (
-                <li className="sidebar__items__list__menu-top__exams list-item">
+                <li className="sidebar__items__list__menu-top__exams list-item list-item--logged-in">
                   <NavLink
                     strict
                     to="/exams"
@@ -159,7 +166,11 @@ const Navbar = () => {
                     activeClassName="active"
                     onClick={closeSidebar}
                   >
-                    Profile Icon
+                    <Image
+                      path={Pic1}
+                      alt="Shape ofa person as profile Icon"
+                      className="profile-img"
+                    />
                   </NavLink>
                 </li>
               ) : null}

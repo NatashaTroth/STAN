@@ -1,59 +1,82 @@
 .burger {
-  padding: 30px;
-  display: flex;
-  justify-content: flex-end;
+	padding: 15px 25px;
+	display: flex;
+	justify-content: flex-end;
+	position: fixed;
+	right: 0;
+	background-color: #ffffff;
+	z-index: 999;
+	width: 100%;
+	border-bottom: 4px solid #000;
 
-  .close {
-    z-index: 300;
+	@include media-breakpoint-up(lg) {
+		display: none;
+	}
 
-    .line-1 {
-      transform: rotate(45deg);
-    }
-    .line-2 {
-      width: 0%;
-      opacity: 0;
-    }
-    .line-3 {
-      transform: rotate(-45deg);
-    }
+	&__logo-img {
+		width: 70%;
+	}
+	.open {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.close {
+		z-index: 300;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-    .burger__btn__line {
-      @include media-breakpoint-down(sm) {
-        transition-delay: 0.5s;
-      }
-    }
-  }
+		.line-1 {
+			transform: rotate(45deg);
+		}
+		.line-2 {
+			width: 0%;
+			opacity: 0;
+		}
+		.line-3 {
+			transform: rotate(-45deg);
+		}
 
-  &__btn {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 50px;
-    background: transparent;
-    border: none;
-    padding: 0;
-    box-sizing: border-box;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition: 0.5s ease-in-out;
+		.burger__btn__line {
+			@include media-breakpoint-down(sm) {
+				transition-delay: 0.5s;
+			}
+		}
+	}
 
-    &:focus {
-      outline: none;
-    }
+	&__btn {
+		display: none;
+		flex-direction: column;
+		justify-content: space-around;
+		height: 35px;
+		background: transparent;
+		border: none;
+		padding: 0;
+		box-sizing: border-box;
+		cursor: pointer;
+		transform: rotate(0deg);
+		transition: 0.5s ease-in-out;
 
-    &__line {
-      display: block;
-      border-radius: 9px;
-      background: theme-color("dark");
-      height: 6px;
-      width: 50px;
-      transform: rotate(0deg);
-      transition: 0.25s ease-in-out;
-      transform-origin: left center;
-    }
+		&:focus {
+			outline: none;
+		}
 
-    @include media-breakpoint-down(md) {
-      display: flex;
-    }
-  }
+		&__line {
+			display: block;
+			border-radius: 0;
+			background: theme-color("dark");
+			height: 4px;
+			width: 33px;
+			transform: rotate(0deg);
+			transition: 0.25s ease-in-out;
+			transform-origin: left center;
+		}
+
+		@include media-breakpoint-down(md) {
+			display: flex;
+		}
+	}
 }

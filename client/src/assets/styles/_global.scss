@@ -43,6 +43,7 @@ html body {
 		@include rem(line-height, $h2-line-height);
 
 		@include media-breakpoint-down(sm) {
+			margin-top: 2rem;
 			@include rem(font-size, $h2-font-size-mobile);
 			@include rem(line-height, $h2-line-height-mobile);
 			@include rem(letter-spacing, 0);
@@ -312,11 +313,11 @@ html body {
 
 	.content {
 		@include media-breakpoint-down(md) {
-			padding: 0 30px;
+			padding: 70px 30px 0 30px;
 			margin: 0;
 		}
 		@include media-breakpoint-down(sm) {
-			padding: 0 20px;
+			padding: 70px 20px 0 20px;
 		}
 	}
 
