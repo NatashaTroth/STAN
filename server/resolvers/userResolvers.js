@@ -62,7 +62,11 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
           throw new AuthenticationError(err.message);
         throw err;
       }
@@ -75,7 +79,11 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
           throw new AuthenticationError(err.message);
         throw err;
       }
