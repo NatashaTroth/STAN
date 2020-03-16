@@ -24,7 +24,7 @@ function UserAccount() {
 
           //logout all other tabs
           localStorage.setItem("logout-event", Date.now())
-          //reset apollo client- always good after logout
+          //resçlo client- always good after logout
           //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
           await client.resetStore()
           history.push("/login")
