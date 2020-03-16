@@ -9,10 +9,10 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {
-  getGoogleLoginUrl,
-  getGoogleAccessTokenFromCode
-} from "../google-oauth-url";
+// import {
+//   getGoogleLoginUrl,
+//   getGoogleAccessTokenFromCode
+// } from "../google-oauth-url";
 
 //TODO: Authenticate Queries
 const userResolvers = {
