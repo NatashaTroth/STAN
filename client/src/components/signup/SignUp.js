@@ -172,7 +172,7 @@ function SignUp() {
                     disabled={renderProps.disabled}
                     className="stan-btn-secondary"
                   >
-                    Google Sign up
+                    Google Login
                   </button>
                 )}
                 onSuccess={successGoogle}

@@ -107,33 +107,6 @@ const userResolvers = {
     //   // console.log(resp);
     //   return true;
     // },
-    googleSignup: async (parent, { idToken }, context) => {
-      //https://developers.google.com/identity/sign-in/web/backend-auth
-      try {
-        // console.log("in google id token " + idToken);
-        const payload = await verifyGoogleIdToken(idToken);
-        if (!payload)
-          throw new AuthenticationError("Google id token was not verified.");
-        const user = await signUserUp({
-          username: payload.name,
-          email: payload.email,
-          password: null,
-          googleId: payload.sub,
-          googleLogin: true
-          // mascot: 1 //TODO GET MASCOT USER CHOSE
-        });
-        const accessToken = logUserIn({ user, context });
-        return { user, accessToken, tokenExpiration: 15 };
-      } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
-      }
-    },
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
@@ -164,7 +137,6 @@ async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
-  // console.log("test " + googleLogin);
 
   //in case user tries to login with google login data in normal login - cause no password!
   if (user.googleLogin)
@@ -174,20 +146,6 @@ async function authenticateUser({ email, password }) {
   if (!valid) throw new AuthenticationError("Password is incorrect");
   return user;
 }
-
-// async function authenticateGoogleUser({ googleId, email }) {
-//   const user = await User.findOne({ googleId: googleId });
-//   if (!user)
-//     throw new AuthenticationError("User with this email does not exist");
-//   // console.log("test " + googleLogin);
-//   // if (user.googleLogin && !googleLogin) {
-//   //   throw new AuthenticationError("User has to login with google");
-//   // } else if (!user.googleLogin) {
-//   const valid = await bcrypt.compare(password, user.password);
-//   if (!valid) throw new AuthenticationError("Password is incorrect");
-//   // }
-//   return user;
-// }
 
 async function signUserUp({
   username,

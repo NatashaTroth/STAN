@@ -27,7 +27,6 @@ const userQueries = gql`
     logout: Boolean
     login(email: String!, password: String): AuthData
     # googleAuthUrlCode(code: String!): Boolean #todo change to authdata
-    googleSignup(idToken: String!): AuthData
     googleLogin(idToken: String!): AuthData
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean
