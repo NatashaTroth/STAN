@@ -1,5 +1,5 @@
 import React from "react"
-import { LOGIN_MUTATION } from "../../graphQL/mutations"
+import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { useHistory } from "react-router-dom"
@@ -15,22 +15,30 @@ import Button from "../../components/button/Button"
 // import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 
 function Login() {
-  const successGoogle = response => {
-    console.log(response)
-    const formData = {
-      // username: response.Qt.Ad,
-      email: response.Qt.zu,
-      password: null,
-      // googleLogin: true,
+  const successGoogle = async response => {
+    try {
+      const resp = await googleLogin({
+        variables: {
+          idToken: response.tokenId,
+        },
+      })
+      //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
+      if (resp && resp.data) setAccessToken(resp.data.googleLogin.accessToken)
+      else throw new Error("The google login failed")
+
+      history.push("/")
+      window.location.reload()
+    } catch (err) {
+      //TODO: USER DEN ERROR MITTEILEN
+      console.error(err.message)
     }
-    // const googleLoginData = { response }
-    // handleLogin({ formData, login, history })
   }
   const failureGoogle = response => {
     console.log(JSON.stringify(response.Qt.Ad))
   }
 
   // mutation ----------------
+  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
 
   // const { data, loading } = useQuery(GOOGLE_AUTH_URL)

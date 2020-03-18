@@ -1,10 +1,7 @@
 import React from "react"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
-import {
-  SIGNUP_MUTATION,
-  GOOGLE_SIGNUP_MUTATION,
-} from "../../graphQL/mutations"
+import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
@@ -21,24 +18,15 @@ import Button from "../../components/button/Button"
 
 function SignUp() {
   const successGoogle = async response => {
-    console.log(response.tokenId)
     try {
-      const resp = await googleSignup({
+      const resp = await googleLogin({
         variables: {
           idToken: response.tokenId,
         },
       })
       //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
-      // handleSignupResponse({ resp, history })
-      if (resp && resp.data) {
-        console.log(JSON.stringify(resp.data))
-        setAccessToken(resp.data.googleSignup.accessToken)
-        console.log("saved access token after signup")
-      } else {
-        // displays server error (backend)
-        throw new Error("The sign up failed")
-      }
-      // redirect
+      if (resp && resp.data) setAccessToken(resp.data.googleLogin.accessToken)
+      else throw new Error("The google login failed")
 
       history.push("/")
       window.location.reload()
@@ -48,15 +36,15 @@ function SignUp() {
     }
   }
   const failureGoogle = response => {
-    console.log(JSON.stringify(response.Qt.Ad))
+    // console.log(JSON.stringify(response.Qt.Ad))
+    //TODO USER MITTEILEN
+    console.error("Google login failed")
   }
 
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
-  const [googleSignup, { mutationDataGoogleSignup }] = useMutation(
-    GOOGLE_SIGNUP_MUTATION
-  )
+  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   const history = useHistory()
 

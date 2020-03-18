@@ -1,4 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
+//TODO: RAFACTOR
 import { User } from "../models";
 import {
   UserInputError,
@@ -11,10 +12,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-// import {
-//   getGoogleLoginUrl,
-//   getGoogleAccessTokenFromCode
-// } from "../google-oauth-url";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -136,6 +133,29 @@ const userResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+    googleLogin: async (parent, { idToken }, context) => {
+      //https://developers.google.com/identity/sign-in/web/backend-auth
+      try {
+        const payload = await verifyGoogleIdToken(idToken);
+        if (!payload)
+          throw new AuthenticationError("Google id token was not verified.");
+        let user = await User.findOne({ googleId: payload.sub });
+        // resp = authenticateGoogleUser(user); //if already got account don't think i need to authenticate user cause google already did that
+
+        if (!user) user = await signUpGoogleUser(payload);
+
+        const accessToken = logUserIn({ user, context });
+        return { user, accessToken, tokenExpiration: 15 };
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   }
 };
@@ -145,14 +165,29 @@ async function authenticateUser({ email, password }) {
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
   // console.log("test " + googleLogin);
-  // if (user.googleLogin && !googleLogin) {
-  //   throw new AuthenticationError("User has to login with google");
-  // } else if (!user.googleLogin) {
+
+  //in case user tries to login with google login data in normal login - cause no password!
+  if (user.googleLogin)
+    throw new AuthenticationError("User has to login with google");
+
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) throw new AuthenticationError("Password is incorrect");
-  // }
   return user;
 }
+
+// async function authenticateGoogleUser({ googleId, email }) {
+//   const user = await User.findOne({ googleId: googleId });
+//   if (!user)
+//     throw new AuthenticationError("User with this email does not exist");
+//   // console.log("test " + googleLogin);
+//   // if (user.googleLogin && !googleLogin) {
+//   //   throw new AuthenticationError("User has to login with google");
+//   // } else if (!user.googleLogin) {
+//   const valid = await bcrypt.compare(password, user.password);
+//   if (!valid) throw new AuthenticationError("Password is incorrect");
+//   // }
+//   return user;
+// }
 
 async function signUserUp({
   username,
@@ -186,6 +221,17 @@ function logUserIn({ user, context }) {
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
+}
+
+function signUpGoogleUser(payload) {
+  return signUserUp({
+    username: payload.name,
+    email: payload.email,
+    password: null,
+    googleId: payload.sub,
+    googleLogin: true
+    // mascot: 1 //TODO GET MASCOT USER CHOSE
+  });
 }
 
 //TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions

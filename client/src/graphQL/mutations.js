@@ -89,19 +89,19 @@ const SIGNUP_MUTATION = gql`
 //     googleAuthUrlCode(code: $code)
 //   }
 // `
-const GOOGLE_SIGNUP_MUTATION = gql`
-  mutation($idToken: String!) {
-    googleSignup(idToken: $idToken) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
-    }
-  }
-`
+// const GOOGLE_SIGNUP_MUTATION = gql`
+//   mutation($idToken: String!) {
+//     googleSignup(idToken: $idToken) {
+//       user {
+//         id
+//         username
+//         email
+//       }
+//       accessToken
+//       tokenExpiration
+//     }
+//   }
+// `
 
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
@@ -123,7 +123,7 @@ export {
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
-  GOOGLE_SIGNUP_MUTATION,
+  // GOOGLE_SIGNUP_MUTATION,
   GOOGLE_LOGIN_MUTATION,
   // GOOGLE_URL_AUTH_CODE_MUTATION,
 }
