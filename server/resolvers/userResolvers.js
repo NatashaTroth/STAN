@@ -9,6 +9,8 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // import {
 //   getGoogleLoginUrl,
 //   getGoogleAccessTokenFromCode
@@ -44,10 +46,10 @@ const userResolvers = {
         console.error(err.message);
         return null;
       }
-    },
-    googleAuthUrl: (parent, ars, context) => {
-      return getGoogleLoginUrl();
     }
+    // googleAuthUrl: (parent, ars, context) => {
+    //   return getGoogleLoginUrl();
+    // }
   },
   Mutation: {
     logout: (root, args, { req, res }, info) => {
@@ -62,10 +64,10 @@ const userResolvers = {
       }
       return true;
     },
-    login: async (parent, { email, password, googleLogin }, context) => {
+    login: async (parent, { email, password }, context) => {
       if (context.req.isAuth) throw new Error("Already logged in");
       try {
-        const user = await authenticateUser({ email, password, googleLogin });
+        const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -78,25 +80,20 @@ const userResolvers = {
         throw err;
       }
     },
-    signup: async (
-      parent,
-      { username, email, password, mascot, googleLogin },
-      context
-    ) => {
+    signup: async (parent, { username, email, password, mascot }, context) => {
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {
-        console.log("googlog: " + googleLogin);
+        // console.log("googlog: " + googleLogin);
 
         const user = await signUserUp({
           username,
           email,
           password,
-          mascot,
-          googleLogin
+          mascot
         });
         const accessToken = logUserIn({ user, context });
-        return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        return { user, accessToken, tokenExpiration: 15 };
       } catch (err) {
         if (
           err.extensions &&
@@ -107,30 +104,64 @@ const userResolvers = {
         throw err;
       }
     },
-    googleAuthUrlCode: async (parent, { code }, context) => {
-      console.log("in google auth code mutation " + code);
-      // const resp = await getGoogleAccessTokenFromCode(code);
-      // console.log(resp);
-      return true;
+    // googleAuthUrlCode: async (parent, { code }, context) => {
+    //   console.log("in google auth code mutation " + code);
+    //   // const resp = await getGoogleAccessTokenFromCode(code);
+    //   // console.log(resp);
+    //   return true;
+    // },
+    googleSignup: async (parent, { idToken }, context) => {
+      //https://developers.google.com/identity/sign-in/web/backend-auth
+      try {
+        // console.log("in google id token " + idToken);
+        const payload = await verifyGoogleIdToken(idToken);
+        if (!payload)
+          throw new AuthenticationError("Google id token was not verified.");
+        const user = await signUserUp({
+          username: payload.name,
+          email: payload.email,
+          password: null,
+          googleId: payload.sub,
+          googleLogin: true
+          // mascot: 1 //TODO GET MASCOT USER CHOSE
+        });
+        const accessToken = logUserIn({ user, context });
+        return { user, accessToken, tokenExpiration: 15 };
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   }
 };
 
-async function authenticateUser({ email, password, googleLogin }) {
+async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
-  console.log("test " + googleLogin);
-  if (user.googleLogin && !googleLogin) {
-    throw new AuthenticationError("User has to login with google");
-  } else if (!user.googleLogin) {
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) throw new AuthenticationError("Password is incorrect");
-  }
+  // console.log("test " + googleLogin);
+  // if (user.googleLogin && !googleLogin) {
+  //   throw new AuthenticationError("User has to login with google");
+  // } else if (!user.googleLogin) {
+  const valid = await bcrypt.compare(password, user.password);
+  if (!valid) throw new AuthenticationError("Password is incorrect");
+  // }
   return user;
 }
 
-async function signUserUp({ username, email, password, mascot, googleLogin }) {
+async function signUserUp({
+  username,
+  email,
+  password,
+  mascot,
+  googleId,
+  googleLogin
+}) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail) throw new UserInputError("User with email already exists");
   let hashedPassword;
@@ -140,15 +171,18 @@ async function signUserUp({ username, email, password, mascot, googleLogin }) {
     username,
     email,
     password: hashedPassword,
-    mascot,
-    googleLogin
+    mascot: mascot || 0,
+    googleId: googleId || "",
+    googleLogin: googleLogin || false
   });
+
   if (!resp) throw new AuthenticationError("User could not be created");
   return resp;
 }
 
 function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
+
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
@@ -170,6 +204,19 @@ async function revokeRefreshTokensForUser(userId) {
       throw new ApolloError(err.message);
     throw err;
   }
+}
+
+//source: https://developers.google.com/identity/sign-in/web/backend-auth
+async function verifyGoogleIdToken(token) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID
+  });
+  const payload = ticket.getPayload();
+  // const userid = payload["sub"];
+  return payload;
+  // If request specified a G Suite domain:
+  //const domain = payload['hd'];
 }
 
 module.exports = {

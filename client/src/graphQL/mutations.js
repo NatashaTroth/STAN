@@ -11,8 +11,8 @@ const ADD_BOOK_MUTATION = gql`
 `
 
 const LOGIN_MUTATION = gql`
-  mutation($email: String!, $password: String, $googleLogin: Boolean) {
-    login(email: $email, password: $password, googleLogin: $googleLogin) {
+  mutation($email: String!, $password: String) {
+    login(email: $email, password: $password) {
       user {
         id
         username
@@ -66,14 +66,12 @@ const SIGNUP_MUTATION = gql`
     $email: String!
     $password: String
     $mascot: Int
-    $googleLogin: Boolean
   ) {
     signup(
       username: $username
       email: $email
       password: $password
       mascot: $mascot
-      googleLogin: $googleLogin
     ) {
       user {
         id
@@ -91,6 +89,33 @@ const SIGNUP_MUTATION = gql`
 //     googleAuthUrlCode(code: $code)
 //   }
 // `
+const GOOGLE_SIGNUP_MUTATION = gql`
+  mutation($idToken: String!) {
+    googleSignup(idToken: $idToken) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`
+
+const GOOGLE_LOGIN_MUTATION = gql`
+  mutation($idToken: String!) {
+    googleLogin(idToken: $idToken) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`
 
 export {
   ADD_BOOK_MUTATION,
@@ -98,5 +123,7 @@ export {
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
+  GOOGLE_SIGNUP_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
   // GOOGLE_URL_AUTH_CODE_MUTATION,
 }

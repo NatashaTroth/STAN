@@ -1,7 +1,10 @@
 import React from "react"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
-import { SIGNUP_MUTATION } from "../../graphQL/mutations"
+import {
+  SIGNUP_MUTATION,
+  GOOGLE_SIGNUP_MUTATION,
+} from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
@@ -17,17 +20,32 @@ import Button from "../../components/button/Button"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
-  const successGoogle = response => {
-    console.log(response.Qt.zu)
-    const formData = {
-      username: response.Qt.Ad,
-      email: response.Qt.zu,
-      password: null,
-      googleLogin: true,
-      mascot: 0, //TODO: ALLOW USER TO CHOOSE MASCOT
+  const successGoogle = async response => {
+    console.log(response.tokenId)
+    try {
+      const resp = await googleSignup({
+        variables: {
+          idToken: response.tokenId,
+        },
+      })
+      //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
+      // handleSignupResponse({ resp, history })
+      if (resp && resp.data) {
+        console.log(JSON.stringify(resp.data))
+        setAccessToken(resp.data.googleSignup.accessToken)
+        console.log("saved access token after signup")
+      } else {
+        // displays server error (backend)
+        throw new Error("The sign up failed")
+      }
+      // redirect
+
+      history.push("/")
+      window.location.reload()
+    } catch (err) {
+      //TODO: USER DEN ERROR MITTEILEN
+      console.error(err.message)
     }
-    // const googleLoginData = { response }
-    handleSignup({ formData, signup, history })
   }
   const failureGoogle = response => {
     console.log(JSON.stringify(response.Qt.Ad))
@@ -36,6 +54,9 @@ function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
+  const [googleSignup, { mutationDataGoogleSignup }] = useMutation(
+    GOOGLE_SIGNUP_MUTATION
+  )
 
   const history = useHistory()
 
@@ -190,18 +211,18 @@ function SignUp() {
 export default SignUp
 
 async function handleSignup({ formData, signup, history }) {
-  console.log("googlelogin: " + formData.googleLogin)
+  // console.log("googlelogin: " + formData.googleLogin)
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        googleLogin: formData.googleLogin || false,
+        // googleLogin: formData.googleLogin || false,
         mascot: 0, //TODO: make dynamic (user can choose mascot)
       },
     })
-
+    // handleSignupResponse({ resp, history })
     if (resp && resp.data) {
       setAccessToken(resp.data.signup.accessToken)
       console.log("saved access token after signup")
@@ -219,3 +240,17 @@ async function handleSignup({ formData, signup, history }) {
     // console.log(err)
   }
 }
+
+// function handleSignupResponse({ resp, history }) {
+//   if (resp && resp.data) {
+//     setAccessToken(resp.data.signup.accessToken)
+//     console.log("saved access token after signup")
+//   } else {
+//     // displays server error (backend)
+//     throw new Error("The sign up failed")
+//   }
+//   // redirect
+
+//   history.push("/")
+//   window.location.reload()
+// }

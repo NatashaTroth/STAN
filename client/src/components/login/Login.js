@@ -16,15 +16,15 @@ import Button from "../../components/button/Button"
 
 function Login() {
   const successGoogle = response => {
-    console.log(response.Qt.zu)
+    console.log(response)
     const formData = {
       // username: response.Qt.Ad,
       email: response.Qt.zu,
       password: null,
-      googleLogin: true,
+      // googleLogin: true,
     }
     // const googleLoginData = { response }
-    handleLogin({ formData, login, history })
+    // handleLogin({ formData, login, history })
   }
   const failureGoogle = response => {
     console.log(JSON.stringify(response.Qt.Ad))
@@ -164,7 +164,7 @@ async function handleLogin({ formData, login, history }) {
       variables: {
         email: formData.email,
         password: formData.password,
-        googleLogin: formData.googleLogin || false,
+        // googleLogin: formData.googleLogin || false,
       },
       //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
       //https://www.apollographql.com/docs/react/caching/cache-interaction/
