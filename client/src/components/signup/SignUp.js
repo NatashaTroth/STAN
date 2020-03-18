@@ -13,7 +13,6 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-// import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
@@ -43,7 +42,6 @@ function SignUp() {
 
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   const history = useHistory()
@@ -158,11 +156,6 @@ function SignUp() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              {/* <Button
-                variant="button"
-                text="Google Login"
-                className="stan-btn-secondary"
-              /> */}
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
@@ -199,18 +192,15 @@ function SignUp() {
 export default SignUp
 
 async function handleSignup({ formData, signup, history }) {
-  // console.log("googlelogin: " + formData.googleLogin)
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        // googleLogin: formData.googleLogin || false,
         mascot: 0, //TODO: make dynamic (user can choose mascot)
       },
     })
-    // handleSignupResponse({ resp, history })
     if (resp && resp.data) {
       setAccessToken(resp.data.signup.accessToken)
       console.log("saved access token after signup")
@@ -228,17 +218,3 @@ async function handleSignup({ formData, signup, history }) {
     // console.log(err)
   }
 }
-
-// function handleSignupResponse({ resp, history }) {
-//   if (resp && resp.data) {
-//     setAccessToken(resp.data.signup.accessToken)
-//     console.log("saved access token after signup")
-//   } else {
-//     // displays server error (backend)
-//     throw new Error("The sign up failed")
-//   }
-//   // redirect
-
-//   history.push("/")
-//   window.location.reload()
-// }

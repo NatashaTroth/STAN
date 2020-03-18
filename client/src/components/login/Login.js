@@ -12,9 +12,9 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-// import { GOOGLE_AUTH_URL } from "../../graphQL/queries"
 
 function Login() {
+  const history = useHistory()
   const successGoogle = async response => {
     try {
       const resp = await googleLogin({
@@ -40,8 +40,6 @@ function Login() {
   // mutation ----------------
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
-
-  const history = useHistory()
 
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
@@ -124,11 +122,6 @@ function Login() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              {/* <Button
-                className="stan-btn-secondary"
-                variant="button"
-                text="Google Login"
-              /> */}
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
@@ -165,12 +158,10 @@ export default Login
 
 async function handleLogin({ formData, login, history }) {
   try {
-    // console.log("test: " + googleLogin || false)
     const resp = await login({
       variables: {
         email: formData.email,
         password: formData.password,
-        // googleLogin: formData.googleLogin || false,
       },
       //TODO: STORE - ICH WEIß NICHT OB IHR DAS VERWENDET 😅lg natasha
       //https://www.apollographql.com/docs/react/caching/cache-interaction/
