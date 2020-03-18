@@ -92,12 +92,6 @@ const CURRENT_USER = gql`
   }
 `
 
-// const GOOGLE_AUTH_URL = gql`
-//   query {
-//     googleAuthUrl
-//   }
-// `
-
 export {
   GET_USERS_QUERY,
   GET_EXAMS_QUERY,

@@ -9,51 +9,9 @@ import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
-// async function handleGoogleLogin({
-//   googleAuthUrlCodeMutation,
-//   googleAuthUrlCode,
-// }) {
-//   try {
-//     //TODO: https://oauth2.example.com/auth?error=access_denied
-//     const resp = await googleAuthUrlCodeMutation({
-//       variables: {
-//         code: googleAuthUrlCode,
-//       },
-//     })
-
-//     if (resp && resp.data) {
-//       console.log(resp)
-//       // setAccessToken(resp.data.login.accessToken)
-//     } else {
-//       // displays server error (backend)
-//       throw new Error("The login failed")
-//     }
-//     // redirect
-//     // history.push("/")
-//     // window.location.reload()
-//   } catch (err) {
-//     //TODO-AUTH: USER DEN ERROR MITTEILEN
-//     console.error(err.message)
-//     // console.log(err)
-//   }
-// }
-
 function Dashboard() {
   // query ----------------
   const { loading, error, data } = useQuery(CURRENT_USER)
-  // const [
-  //   googleAuthUrlCodeMutation,
-  //   { googleAuthUrlCodeMutationData },
-  // ] = useMutation(GOOGLE_URL_AUTH_CODE_MUTATION)
-  // useEffect(() => {
-  //   console.log("in useeffect")
-  //   let search = window.location.search
-  //   let params = new URLSearchParams(search)
-  //   let googleAuthUrlCode = params.get("code")
-  //   if (params.get("code"))
-  //     handleGoogleLogin({ googleAuthUrlCodeMutation, googleAuthUrlCode })
-  //   //TODO: DON'T REDIRECT WHEN GOOGLE SUCCESSFULLY LOGGED IN - WOULD NEED REDIRECT HERE - WOULD NEED TO FIRST CHECK IF LOGGED IN AND IF CODE IN URL
-  // }, [])
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

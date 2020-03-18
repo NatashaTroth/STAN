@@ -6,7 +6,6 @@ const userQueries = gql`
     users: [User]!
     user(id: ID!): User
     currentUser: User
-    # googleAuthUrl: String!
   }
 
   type Mutation {
@@ -26,7 +25,6 @@ const userQueries = gql`
     ): AuthData
     logout: Boolean
     login(email: String!, password: String): AuthData
-    # googleAuthUrlCode(code: String!): Boolean #todo change to authdata
     googleLogin(idToken: String!): AuthData
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean

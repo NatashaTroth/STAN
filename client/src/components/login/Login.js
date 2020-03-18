@@ -41,8 +41,6 @@ function Login() {
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
   const [login, { loginData }] = useMutation(LOGIN_MUTATION)
 
-  // const { data, loading } = useQuery(GOOGLE_AUTH_URL)
-  // if (data && data.googleAuthUrl) console.log(data.googleAuthUrl)
   const history = useHistory()
 
   // form specific ----------------

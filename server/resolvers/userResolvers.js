@@ -44,9 +44,6 @@ const userResolvers = {
         return null;
       }
     }
-    // googleAuthUrl: (parent, ars, context) => {
-    //   return getGoogleLoginUrl();
-    // }
   },
   Mutation: {
     logout: (root, args, { req, res }, info) => {
@@ -101,12 +98,6 @@ const userResolvers = {
         throw err;
       }
     },
-    // googleAuthUrlCode: async (parent, { code }, context) => {
-    //   console.log("in google auth code mutation " + code);
-    //   // const resp = await getGoogleAccessTokenFromCode(code);
-    //   // console.log(resp);
-    //   return true;
-    // },
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {

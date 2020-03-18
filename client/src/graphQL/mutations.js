@@ -84,12 +84,6 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
-// const GOOGLE_URL_AUTH_CODE_MUTATION = gql`
-//   mutation($code: String!) {
-//     googleAuthUrlCode(code: $code)
-//   }
-// `
-
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
     googleLogin(idToken: $idToken) {
@@ -111,5 +105,4 @@ export {
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
   GOOGLE_LOGIN_MUTATION,
-  // GOOGLE_URL_AUTH_CODE_MUTATION,
 }
