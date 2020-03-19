@@ -52,6 +52,9 @@ const App = () => {
         console.error(err)
       })
     // }
+
+    //In case a second tab wasn't open, to make sure it is deleted
+    // localStorage.removeItem("logout-event")
   }, [])
 
   // componentWillUnmount() {
