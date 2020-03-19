@@ -29,9 +29,10 @@ const Exams = () => {
           <CurrentExam subject="Business English" currentStatus="37%" />
         </div>
 
+        {/* TODO: fix handleclick */}
         <button
           className="exams__archive-button"
-          click={handleArchiveClick}
+          onClick={handleArchiveClick}
           variant="button"
         >
           <h3>Past exams</h3>
