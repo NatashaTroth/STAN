@@ -56,7 +56,8 @@ function UserAccount() {
           setAccessToken("")
 
           //logout all other tabs
-          localStorage.setItem("logout-event", Date.now())
+          // localStorage.setItem("logout-event", Date.now())
+
           //resçlo client- always good after logout
           //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
           await client.resetStore()
