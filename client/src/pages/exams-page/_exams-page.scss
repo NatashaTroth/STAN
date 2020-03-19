@@ -3,10 +3,12 @@
     display: flex;
     flex-direction: row;
     padding-bottom: 80px;
+    flex-wrap: wrap;
   }
   .archive-exams {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   &__archive-button {
     border: none;

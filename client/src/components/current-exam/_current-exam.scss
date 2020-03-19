@@ -5,14 +5,23 @@
     justify-content: space-between;
     align-items: center;
     margin: 15px;
-    padding: 10px;
+    padding: 15px;
     word-break: normal;
     width: 210px;
     height: 210px;
 
+    @include media-breakpoint-down(sm) {
+      margin: 10px;
+      width: 190px;
+      height: 190px;
+    }
     &--headline {
       padding-top: 60px;
       text-align: center;
+
+      @include media-breakpoint-down(sm) {
+        padding-top: 50px;
+      }
     }
   }
 }
