@@ -12,11 +12,14 @@ import { CURRENT_USER } from "../../graphQL/queries"
 function UserAccount() {
   // query ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
-  const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
+  // const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
+
+  //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
+  const currentUserGoogleLogin = false
 
   const history = useHistory()
   let logoutButton
-  if (!loading && data && !data.currentUser.googleLogin)
+  if (!currentUserGoogleLogin)
     logoutButton = (
       <button
         className="stan-btn-primary"
@@ -31,15 +34,15 @@ function UserAccount() {
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         buttonText="Logout"
         onLogoutSuccess={async () => logUserOut({ logout, client, history })}
-        render={renderProps => (
-          <button
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-            className="stan-btn-primary"
-          >
-            Logout
-          </button>
-        )}
+        // render={renderProps => (
+        //   <button
+        //     onClick={renderProps.onClick}
+        //     disabled={renderProps.disabled}
+        //     className="stan-btn-primary"
+        //   >
+        //     Logout
+        //   </button>
+        // )}
       ></GoogleLogout>
     )
 

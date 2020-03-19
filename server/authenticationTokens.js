@@ -47,7 +47,11 @@ export const createAccessToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create access token");
   return jwt.sign(
-    { userId: user.id, tokenVersion: user.tokenVersion },
+    {
+      userId: user.id,
+      // googleLogin: user.googleLogin,
+      tokenVersion: user.tokenVersion
+    },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: "15m"
