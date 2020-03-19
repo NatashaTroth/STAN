@@ -1,5 +1,3 @@
-//TODO: Change 'refresh_token' name
-
 import jwt from "jsonwebtoken";
 import { User } from "./models/index";
 import { ApolloError } from "apollo-server";
@@ -7,7 +5,6 @@ import { ApolloError } from "apollo-server";
 
 export async function handleRefreshToken(req, res) {
   //read refresh cookie - validate that it's correct
-  //TODO:late change name of refresh_token
   const token = req.cookies.refresh_token;
   if (!token) {
     return res.send({ ok: false, accessToken: "" });
@@ -20,7 +17,6 @@ export async function handleRefreshToken(req, res) {
     // console.log(err);
     return res.send({ ok: false, accessToken: "" });
   }
-
   //token is valid and we can send back an access token
   const user = await User.findOne({ _id: payload.userId });
   if (!user) {
@@ -37,8 +33,6 @@ export async function handleRefreshToken(req, res) {
 
 export const sendRefreshToken = (res, token) => {
   // console.log("sending refresh token");
-  //TODO: allow to expire cookie - so when logout - it deletes the cookie
-  //TODO: rename refresh_token
   res.cookie("refresh_token", token, {
     httpOnly: true,
     path: "/refresh_token" //to only send request token when at refresh_token path

@@ -1,7 +1,9 @@
 import React from "react"
 import Stan from "../../images/mascots/0-stressed-1.svg"
+// --------------------------------------------------------------
 
 function NoAccess() {
+  // return ----------------
   return (
     <div className="nomatch">
       <div className="container-fluid">

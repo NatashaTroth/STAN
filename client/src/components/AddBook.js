@@ -6,10 +6,12 @@ import {
   GET_BOOKS_QUERY,
 } from "../queries/queries"
 //doc for apollo: https://www.apollographql.com/docs/react/get-started/
+// --------------------------------------------------------------
 
 function displayAuthors(data) {
   if (data.loading) return <option disabled>Loading Authors ...</option>
 
+  // return ----------------
   return data.authors.map(({ id, name }) => {
     return (
       <option key={id} value={id}>
@@ -20,6 +22,7 @@ function displayAuthors(data) {
 }
 
 function AddBook() {
+  // query ----------------
   const { loading, error, data } = useQuery(GET_AUTHORS_QUERY)
   const [name, setName] = useState("")
   const [genre, setGenre] = useState("")
@@ -28,9 +31,11 @@ function AddBook() {
 
   //console.log(data) //this console.log outputs in the browser console
 
+  // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 
+  // return ----------------
   return (
     <form id="add-book" className="container">
       <div className="field">

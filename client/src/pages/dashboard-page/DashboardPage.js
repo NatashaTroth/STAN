@@ -1,15 +1,18 @@
-import React from "react"
-import { useQuery } from "@apollo/react-hooks"
+import React, { useState, useEffect } from "react"
+
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
+import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
   // query ----------------
   const { loading, error, data } = useQuery(CURRENT_USER)
+
   // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>

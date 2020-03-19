@@ -1,317 +1,355 @@
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 html body {
-  height: 100%;
-  font-size: 62.5%; // for px to rem conversion
-  overflow-x: hidden; // hide horizontal scroll bar
+	height: 100%;
+	font-size: 62.5%; // for px to rem conversion
+	overflow-x: hidden; // hide horizontal scroll bar
 
-  a:focus {
-    outline: none;
-  }
-  *:focus {
-    outline: 3px solid theme-color("primary-yellow");
-  }
+	a:focus {
+		outline: none;
+	}
+	*:focus {
+		outline: 3px solid theme-color("primary-yellow");
+	}
 
-  input:focus,
-  textarea:focus {
-    outline: none;
-    border-bottom: 2px solid theme-color("success");
-  }
-  //TODO: change color to red if error
+	input:focus,
+	textarea:focus {
+		outline: none;
+		border-bottom: 2px solid theme-color("success");
+	}
+	//TODO: change color to red if error
 
-  h1 {
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
-    @include rem(font-size, $h1-font-size);
-    @include rem(line-height, $h1-line-height);
-    @include rem(letter-spacing, 0);
+	h1 {
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-Bold;
+		@include rem(font-size, $h1-font-size);
+		@include rem(line-height, $h1-line-height);
+		@include rem(letter-spacing, 0);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h1-font-size-mobile);
-      @include rem(line-height, $h1-line-height-mobile);
-      @include rem(letter-spacing, 0);
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $h1-font-size-mobile);
+			@include rem(line-height, $h1-line-height-mobile);
+			@include rem(letter-spacing, 0);
+		}
+	}
 
-  h2 {
-    margin-top: 5rem;
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
-    @include rem(font-size, $h2-font-size);
-    @include rem(letter-spacing, 0);
-    @include rem(line-height, $h2-line-height);
+	h2 {
+		margin-top: 5rem;
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-Bold;
+		@include rem(font-size, $h2-font-size);
+		@include rem(letter-spacing, 0);
+		@include rem(line-height, $h2-line-height);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h2-font-size-mobile);
-      @include rem(line-height, $h2-line-height-mobile);
-      @include rem(letter-spacing, 0);
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			margin-top: 2rem;
+			@include rem(font-size, $h2-font-size-mobile);
+			@include rem(line-height, $h2-line-height-mobile);
+			@include rem(letter-spacing, 0);
+		}
+	}
 
-  h3 {
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-Bold;
-    @include rem(font-size, $h3-font-size);
-    @include rem(letter-spacing, 1.5px);
-    @include rem(line-height, $h3-line-height);
+	h3 {
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-Bold;
+		@include rem(font-size, $h3-font-size);
+		@include rem(letter-spacing, 1.5px);
+		@include rem(line-height, $h3-line-height);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h3-font-size-mobile);
-      @include rem(line-height, $h3-line-height-mobile);
-      @include rem(letter-spacing, 1px);
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $h3-font-size-mobile);
+			@include rem(line-height, $h3-line-height-mobile);
+			@include rem(letter-spacing, 1px);
+		}
+	}
 
-  h4 {
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-SemiBold;
-    @include rem(font-size, $h4-font-size);
-    @include rem(letter-spacing, 1px);
-    @include rem(line-height, $h4-line-height);
+	h4 {
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-SemiBold;
+		@include rem(font-size, $h4-font-size);
+		@include rem(letter-spacing, 1px);
+		@include rem(line-height, $h4-line-height);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h4-font-size-mobile);
-      @include rem(line-height, $h4-line-height-mobile);
-      @include rem(letter-spacing, 0.5px);
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $h4-font-size-mobile);
+			@include rem(line-height, $h4-line-height-mobile);
+			@include rem(letter-spacing, 0.5px);
+		}
+	}
 
-  h5 {
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-SemiBold;
-    @include rem(font-size, $h5-font-size);
-    @include rem(letter-spacing, 0);
-    @include rem(line-height, $h5-line-height);
+	h5 {
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-SemiBold;
+		@include rem(font-size, $h5-font-size);
+		@include rem(letter-spacing, 0);
+		@include rem(line-height, $h5-line-height);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h5-font-size-mobile);
-      @include rem(line-height, $h5-line-height-mobile);
-      @include rem(letter-spacing, 0);
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $h5-font-size-mobile);
+			@include rem(line-height, $h5-line-height-mobile);
+			@include rem(letter-spacing, 0);
+		}
+	}
 
-  img {
-    max-width: 100%;
-    height: auto;
-  }
+	img {
+		max-width: 100%;
+		height: auto;
+	}
 
-  li {
-    font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, $font-size-16);
+	li {
+		font-family: $font-family-OpenSans-Regular;
+		@include rem(font-size, $font-size-16);
+		list-style: none;
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $font-size-14);
-    }
-  }
+		&::before {
+			content: ".";
+			padding: 0 10px 0 0;
+			@include rem(font-size, 25px);
+			font-family: $font-family-BasierCircle-SemiBold;
+		}
 
-  p {
-    font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, $font-size-16);
-    letter-spacing: 0;
-    @include rem(line-height, 22px);
-    margin: 0;
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $font-size-14);
+		}
+	}
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $font-size-14);
-      @include rem(line-height, 18px);
-    }
-  }
+	p {
+		font-family: $font-family-OpenSans-Regular;
+		@include rem(font-size, $font-size-16);
+		letter-spacing: 0;
+		@include rem(line-height, 22px);
+		margin: 0;
+		max-width: 65ch;
 
-  a {
-    color: theme-color("dark");
-    font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, $font-size-16);
-    letter-spacing: 0;
-    @include rem(line-height, 22px);
-    transition: all 200ms ease-in-out;
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $font-size-14);
+			@include rem(line-height, 18px);
+		}
+	}
 
-    &:hover,
-    &:focus,
-    &:active {
-      color: theme-color("primary-yellow");
-      text-decoration: none;
-    }
+	a {
+		color: theme-color("dark");
+		font-family: $font-family-OpenSans-Regular;
+		@include rem(font-size, $font-size-16);
+		letter-spacing: 0;
+		@include rem(line-height, 22px);
+		transition: all 200ms ease-in-out;
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $font-size-14);
-      @include rem(line-height, 30px);
-    }
-  }
+		&:hover,
+		&:focus,
+		&:active {
+			color: theme-color("primary-yellow");
+			text-decoration: none;
+		}
 
-  span {
-    font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, $font-size-14);
-    letter-spacing: 0;
-    @include rem(line-height, 20px);
-    margin: 0;
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $font-size-14);
+			@include rem(line-height, 30px);
+		}
+	}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  ul,
-  li,
-  p,
-  a,
-  span,
-  label,
-  input {
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
+	span {
+		font-family: $font-family-OpenSans-Regular;
+		@include rem(font-size, $font-size-14);
+		letter-spacing: 0;
+		@include rem(line-height, 20px);
+		margin: 0;
+	}
 
-  strong {
-    font-family: $font-family-BasierCircle-SemiBold;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	ul,
+	li,
+	p,
+	a,
+	span,
+	label,
+	input {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
 
-  label {
-    color: theme-color("dark");
-    font-family: $font-family-BasierCircle-SemiBold;
-    @include rem(font-size, $font-size-16);
-    @include rem(letter-spacing, 0.2px);
-    @include rem(line-height, 20px);
+	strong {
+		font-family: $font-family-BasierCircle-SemiBold;
+	}
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $font-size-16);
-      @include rem(line-height, 18px);
-    }
-  }
+	label {
+		color: theme-color("dark");
+		font-family: $font-family-BasierCircle-SemiBold;
+		@include rem(font-size, $font-size-16);
+		@include rem(letter-spacing, 0.2px);
+		@include rem(line-height, 20px);
 
-  .input-required {
-    &::after {
-      content: "*";
-      color: theme-color("error");
-    }
-  }
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, $font-size-16);
+			@include rem(line-height, 18px);
+		}
+	}
 
-  input {
-    border: none;
-    border-bottom: 2px solid theme-color("dark");
-    padding: 5px 2px;
-    color: theme-color("dark");
-    background-color: theme-color("light");
-    @include rem(font-size, $font-size-16);
-    @include rem(letter-spacing, 0.2px);
-    @include rem(line-height, 25px);
-    min-width: 95px;
-  }
+	.input-required {
+		&::after {
+			content: "*";
+			color: theme-color("error");
+		}
+	}
 
-  input[type="date"] {
-    text-transform: uppercase;
-  }
+	input {
+		border: none;
+		border-bottom: 2px solid theme-color("dark");
+		padding: 5px 2px;
+		color: theme-color("dark");
+		background-color: theme-color("light");
+		@include rem(font-size, $font-size-16);
+		@include rem(letter-spacing, 0.2px);
+		@include rem(line-height, 25px);
+		min-width: 95px;
+	}
 
-  ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: theme-color("grey-dark");
-  }
-  ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: theme-color("grey-dark");
-  }
-  :-ms-input-placeholder {
-    /* IE 10+ */
-    color: theme-color("grey-dark");
-  }
-  :-moz-placeholder {
-    /* Firefox 18- */
-    color: theme-color("grey-dark");
-  }
+	input[type="date"] {
+		text-transform: uppercase;
+	}
 
-  input[type="file"] {
-    border: none;
-    margin: 2px 0;
+	::-webkit-input-placeholder {
+		/* Chrome/Opera/Safari */
+		color: theme-color("grey-dark");
+	}
+	::-moz-placeholder {
+		/* Firefox 19+ */
+		color: theme-color("grey-dark");
+	}
+	:-ms-input-placeholder {
+		/* IE 10+ */
+		color: theme-color("grey-dark");
+	}
+	:-moz-placeholder {
+		/* Firefox 18- */
+		color: theme-color("grey-dark");
+	}
 
-    &:focus {
-      outline: 3px solid theme-color("primary-yellow");
-    }
+	input[type="file"] {
+		border: none;
+		margin: 2px 0;
 
-    &::-webkit-file-upload-button {
-      border: 2px solid theme-color("dark");
-      color: theme-color("dark");
-      background-color: theme-color("light");
-      font-family: $font-family-BasierCircle-SemiBold;
-      @include rem(font-size, $font-size-14);
-      @include rem(letter-spacing, 1.5px);
-      @include rem(line-height, 20px);
-      text-transform: uppercase;
-      padding: 5px 10px;
-      transition: all 200ms ease-in-out;
-      cursor: pointer;
+		&:focus {
+			outline: 3px solid theme-color("primary-yellow");
+		}
 
-      &:hover,
-      &:active,
-      &:focus {
-        background-color: theme-color("dark");
-        color: theme-color("light");
-      }
-    }
-  }
+		&::-webkit-file-upload-button {
+			border: 2px solid theme-color("dark");
+			color: theme-color("dark");
+			background-color: theme-color("light");
+			font-family: $font-family-BasierCircle-SemiBold;
+			@include rem(font-size, $font-size-14);
+			@include rem(letter-spacing, 1.5px);
+			@include rem(line-height, 20px);
+			text-transform: uppercase;
+			padding: 5px 10px;
+			transition: all 200ms ease-in-out;
+			cursor: pointer;
 
-  textarea {
-    width: 100%;
-    min-height: 150px;
-    border: none;
-    border-bottom: 2px solid theme-color("dark");
-    padding: 5px 15px;
-    color: theme-color("dark");
-    background-color: theme-color("light");
-    @include rem(font-size, $font-size-16);
-    @include rem(letter-spacing, 0.2px);
-    @include rem(line-height, 32px);
-  }
+			&:hover,
+			&:active,
+			&:focus {
+				background-color: theme-color("dark");
+				color: theme-color("light");
+			}
+		}
+	}
 
-  .hide {
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    border: 0;
-    padding: 0;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    margin: -1px;
-  }
+	textarea {
+		width: 100%;
+		min-height: 150px;
+		border: none;
+		border-bottom: 2px solid theme-color("dark");
+		padding: 5px 15px;
+		color: theme-color("dark");
+		background-color: theme-color("light");
+		@include rem(font-size, $font-size-16);
+		@include rem(letter-spacing, 0.2px);
+		@include rem(line-height, 32px);
+	}
 
-  .box-content {
-    margin-bottom: 30px;
-    border: 4px solid theme-color("dark");
-    box-shadow: 10px 10px 0px -2px theme-color("dark");
+	.hide {
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		border: 0;
+		padding: 0;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		margin: -1px;
+	}
 
-    @include media-breakpoint-down(sm) {
-      margin-bottom: 20px;
-    }
-  }
+	.box-content {
+		margin-bottom: 30px;
+		border: 4px solid theme-color("dark");
+		box-shadow: 10px 10px 0px -2px theme-color("dark");
 
-  .error {
-    color: theme-color("error-hover");
-    margin-top: 2px;
-  }
+		@include media-breakpoint-down(sm) {
+			margin-bottom: 20px;
+		}
+	}
 
-  .sub-heading {
-    padding-bottom: 30px;
-    color: theme-color("primary-blue-dark");
-    text-transform: lowercase;
-    font-family: $font-family-BasierCircle-SemiBold;
-    letter-spacing: 2px;
-    font-size: 20px;
-  }
+	.error {
+		color: theme-color("error-hover");
+		margin-top: 2px;
+	}
 
-  #success-container {
-    display: none;
+	.sub-heading {
+		padding-bottom: 30px;
+		color: theme-color("primary-blue-dark");
+		text-transform: lowercase;
+		font-family: $font-family-BasierCircle-SemiBold;
+		letter-spacing: 2px;
+		@include rem(font-size, 20px);
+	}
 
-    .success {
-      color: theme-color("success");
-      margin: 20px 0 0 0;
-      text-align: right;
+	.content {
+		@include media-breakpoint-down(md) {
+			padding: 70px 30px 0 30px;
+			margin: 0;
+		}
+		@include media-breakpoint-down(sm) {
+			padding: 70px 20px 0 20px;
+		}
+	}
 
-      @include media-breakpoint-down(md) {
-        text-align: left;
-      }
-    }
-  }
+	.list-style {
+		list-style: none;
+		@include rem(font-size, 20px);
+		font-family: $font-family-BasierCircle-SemiBold;
+		margin-bottom: 10px;
+
+		&::before {
+			content: ".";
+			padding: 0 10px 0 0;
+			font-family: $font-family-BasierCircle-SemiBold;
+			@include rem(font-size, 25px);
+		}
+
+		@include media-breakpoint-down(sm) {
+			@include rem(font-size, 18px);
+		}
+	}
+
+	#success-container {
+		display: none;
+
+		.success {
+			color: theme-color("success");
+			margin: 20px 0 0 0;
+			text-align: right;
+
+			@include media-breakpoint-down(md) {
+				text-align: left;
+			}
+		}
+	}
 }

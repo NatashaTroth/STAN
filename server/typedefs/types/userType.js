@@ -4,9 +4,11 @@ import { gql } from "apollo-server";
 const userType = gql`
   type User {
     id: ID!
+    googleId: String
     username: String!
     email: String!
     mascot: Int!
+    googleLogin: Boolean
   }
   type AuthData {
     # userId: ID!

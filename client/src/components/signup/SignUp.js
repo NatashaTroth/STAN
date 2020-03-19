@@ -1,10 +1,12 @@
 import React from "react"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
-import { SIGNUP_MUTATION } from "../../graphQL/mutations"
+import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
+import { GoogleLogin } from "react-google-login"
+
 // --------------------------------------------------------------
 
 // components ----------------
@@ -14,40 +16,41 @@ import Button from "../../components/button/Button"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
-  // mutation ----------------
-  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const history = useHistory()
-
-  // form specific ----------------
-  const { register, errors, handleSubmit } = useForm()
-
-  const onSubmit = async formData => {
+  const successGoogle = async response => {
     try {
-      const resp = await signup({
+      const resp = await googleLogin({
         variables: {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          mascot: 0, //TODO: make dynamic (user can choose mascot)
+          idToken: response.tokenId,
         },
       })
-
-      if (resp && resp.data) {
-        setAccessToken(resp.data.signup.accessToken)
-        console.log("saved access token after signup")
-      } else {
-        // displays server error (backend)
-        throw new Error("The sign up failed")
-      }
-      // redirect
+      //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
+      if (resp && resp.data) setAccessToken(resp.data.googleLogin.accessToken)
+      else throw new Error("The google login failed")
 
       history.push("/")
       window.location.reload()
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
       console.error(err.message)
-      // console.log(err)
     }
+  }
+  const failureGoogle = response => {
+    // console.log(JSON.stringify(response.Qt.Ad))
+    //TODO USER MITTEILEN
+    console.error("Google login failed")
+  }
+
+  // mutation ----------------
+  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
+  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
+
+  const history = useHistory()
+
+  // form specific ----------------
+  const { register, errors, handleSubmit } = useForm()
+
+  const onSubmit = async formData => {
+    handleSignup({ formData, signup, history })
   }
 
   return (
@@ -153,9 +156,22 @@ function SignUp() {
               />
             </div>
             <div className="login__form__buttons__button-left">
-              <a href="/googleurl" className="stan-btn-secondary">
-                Google Login
-              </a>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                render={renderProps => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    className="stan-btn-secondary"
+                  >
+                    Google Login
+                  </button>
+                )}
+                onSuccess={successGoogle}
+                onFailure={failureGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
           </div>
 
@@ -174,3 +190,31 @@ function SignUp() {
 }
 
 export default SignUp
+
+async function handleSignup({ formData, signup, history }) {
+  try {
+    const resp = await signup({
+      variables: {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        mascot: 0, //TODO: make dynamic (user can choose mascot)
+      },
+    })
+    if (resp && resp.data) {
+      setAccessToken(resp.data.signup.accessToken)
+      console.log("saved access token after signup")
+    } else {
+      // displays server error (backend)
+      throw new Error("The sign up failed")
+    }
+    // redirect
+
+    history.push("/")
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}

@@ -11,7 +11,7 @@ const ADD_BOOK_MUTATION = gql`
 `
 
 const LOGIN_MUTATION = gql`
-  mutation($email: String!, $password: String!) {
+  mutation($email: String!, $password: String) {
     login(email: $email, password: $password) {
       user {
         id
@@ -64,7 +64,7 @@ const SIGNUP_MUTATION = gql`
   mutation(
     $username: String!
     $email: String!
-    $password: String!
+    $password: String
     $mascot: Int
   ) {
     signup(
@@ -84,10 +84,25 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
+const GOOGLE_LOGIN_MUTATION = gql`
+  mutation($idToken: String!) {
+    googleLogin(idToken: $idToken) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`
+
 export {
   ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
   SIGNUP_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
 }

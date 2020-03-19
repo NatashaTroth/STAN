@@ -1,8 +1,11 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { getAccessToken } from "../../accessToken"
+import { CURRENT_USER } from "../../graphQL/queries"
+import { useQuery } from "@apollo/react-hooks"
+// --------------------------------------------------------------
 
-// pages component
+// pages component ----------------
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
 import Calendar from "../../pages/calendar-page/CalendarPage"
@@ -18,12 +21,15 @@ import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 
 const Content = () => {
+  // query ----------------
+  const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
   const token = getAccessToken()
 
   if (token != "") isAuth = true
   else isAuth = false
 
+  // return ----------------
   return (
     <main className="content">
       <Switch>

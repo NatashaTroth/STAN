@@ -1,4 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
+//TODO: RAFACTOR
 import { User } from "../models";
 import {
   UserInputError,
@@ -9,19 +10,21 @@ import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //TODO: Authenticate Queries
 const userResolvers = {
   Query: {
     users: (root, arg, { req, res }, info) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");  //TODO: NEED TO THEN RETURN 403 FORBIDDEN, or 401 unauthorized
+      // if (!req.isAuth) throw new Error("Unauthorised");
       return User.find({});
     },
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
-      //TODO: return unorthorise important? returning null to avoid error when asking for current user in frontend and not logged in
+      //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
       if (!context.req.isAuth) return null;
       // fetch header
@@ -62,7 +65,11 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
           throw new AuthenticationError(err.message);
         throw err;
       }
@@ -71,11 +78,45 @@ const userResolvers = {
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {
-        const user = await signUserUp({ username, email, password, mascot });
+        // console.log("googlog: " + googleLogin);
+
+        const user = await signUserUp({
+          username,
+          email,
+          password,
+          mascot
+        });
         const accessToken = logUserIn({ user, context });
-        return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        return { user, accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
+    },
+    googleLogin: async (parent, { idToken }, context) => {
+      //https://developers.google.com/identity/sign-in/web/backend-auth
+      try {
+        const payload = await verifyGoogleIdToken(idToken);
+        if (!payload)
+          throw new AuthenticationError("Google id token was not verified.");
+        let user = await User.findOne({ googleId: payload.sub });
+        // resp = authenticateGoogleUser(user); //if already got account don't think i need to authenticate user cause google already did that
+
+        if (!user) user = await signUpGoogleUser(payload);
+
+        const accessToken = logUserIn({ user, context });
+        return { user, accessToken, tokenExpiration: 15 };
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
           throw new AuthenticationError(err.message);
         throw err;
       }
@@ -88,34 +129,61 @@ async function authenticateUser({ email, password }) {
   if (!user)
     throw new AuthenticationError("User with this email does not exist");
 
+  //in case user tries to login with google login data in normal login - cause no password!
+  if (user.googleLogin)
+    throw new AuthenticationError("User has to login with google");
+
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) throw new AuthenticationError("Password is incorrect");
   return user;
 }
 
-async function signUserUp({ username, email, password, mascot }) {
+async function signUserUp({
+  username,
+  email,
+  password,
+  mascot,
+  googleId,
+  googleLogin
+}) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail) throw new UserInputError("User with email already exists");
-  const hashedPassword = await bcrypt.hash(password, 10);
+  let hashedPassword;
+  if (googleLogin) hashedPassword = null;
+  else hashedPassword = await bcrypt.hash(password, 10);
   const resp = await User.create({
     username,
     email,
     password: hashedPassword,
-    mascot
+    mascot: mascot || 0,
+    googleId: googleId || "",
+    googleLogin: googleLogin || false
   });
+
   if (!resp) throw new AuthenticationError("User could not be created");
   return resp;
 }
 
 function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
-  //TODO: NAME IT SOMETHING ELSE, SO NO ONE KNOWS ITS THE REFRESH-TOKEN?
+
   sendRefreshToken(context.res, createRefreshToken(user));
 
   return userAccessToken;
 }
 
-//TODO: don't make this available to users - DELETE THIS MUTATION - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+function signUpGoogleUser(payload) {
+  return signUserUp({
+    username: payload.name,
+    email: payload.email,
+    password: null,
+    googleId: payload.sub,
+    googleLogin: true
+    // mascot: 1 //TODO GET MASCOT USER CHOSE
+  });
+}
+
+//TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function revokeRefreshTokensForUser(userId) {
   try {
     const user = await User.findOne({ _id: userId });
@@ -123,10 +191,27 @@ async function revokeRefreshTokensForUser(userId) {
     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
     return true;
   } catch (err) {
-    if (err.extensions.code !== "UNAUTHENTICATED")
+    if (
+      err.extensions &&
+      err.extensions.code &&
+      err.extensions.code !== "UNAUTHENTICATED"
+    )
       throw new ApolloError(err.message);
     throw err;
   }
+}
+
+//source: https://developers.google.com/identity/sign-in/web/backend-auth
+async function verifyGoogleIdToken(token) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID
+  });
+  const payload = ticket.getPayload();
+  // const userid = payload["sub"];
+  return payload;
+  // If request specified a G Suite domain:
+  //const domain = payload['hd'];
 }
 
 module.exports = {
