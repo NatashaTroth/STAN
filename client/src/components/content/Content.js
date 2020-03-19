@@ -1,7 +1,6 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { CURRENT_USER } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
+import { getAccessToken } from "../../accessToken"
 
 // pages component
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
@@ -16,21 +15,18 @@ import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
-
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 
 const Content = () => {
-  const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
+  const token = getAccessToken()
 
-  if (!loading && data && data.currentUser) isAuth = true
+  if (token != "") isAuth = true
   else isAuth = false
 
   return (
     <main className="content">
       <Switch>
-        {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
-
         {!isAuth ? <Route exact path="/" component={Home} /> : null}
         {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
 
@@ -54,23 +50,24 @@ const Content = () => {
         {isAuth ? (
           <Route exact path="/add-new" component={AddNew} />
         ) : (
-          <Redirect from="/add-new" to="/" />
+          <Redirect from="/add-new" to="/login" />
         )}
         {isAuth ? (
           <Route exact path="/calendar" component={Calendar} />
         ) : (
-          <Redirect from="/calendar" to="/" />
+          <Redirect from="/calendar" to="/login" />
         )}
         {isAuth ? (
           <Route exact path="/exams" component={Exams} />
         ) : (
-          <Redirect exact from="/exams" to="/" />
+          <Redirect exact from="/exams" to="/login" />
         )}
         {isAuth ? (
           <Route exact path="/profile" component={UserAccount} />
         ) : (
-          <Redirect from="/profile" to="/" />
+          <Redirect from="/profile" to="/login" />
         )}
+        {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
 
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />

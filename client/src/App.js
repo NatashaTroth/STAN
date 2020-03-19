@@ -4,19 +4,18 @@ import "./App.scss"
 // import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
 import { setAccessToken, getAccessToken } from "./accessToken"
-import { BrowserRouter, useHistory, Redirect } from "react-router-dom"
+import { BrowserRouter as Router, Redirect } from "react-router-dom"
 
 import { client } from "./apolloClient"
 
 // components
 import STAN from "./components/STAN/STAN"
-import LoginPopUp from "./components/login-popup/LoginPopUp"
 
 const RedirectPopup = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Redirect to="/popup" />
-    </BrowserRouter>
+    </Router>
   )
 }
 
