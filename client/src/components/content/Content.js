@@ -1,8 +1,6 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { getAccessToken } from "../../accessToken"
-import { CURRENT_USER } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
 // --------------------------------------------------------------
 
 // pages component ----------------
@@ -22,7 +20,6 @@ import LoginPopUp from "../../components/login-popup/LoginPopUp"
 
 const Content = () => {
   // query ----------------
-  const { data, loading } = useQuery(CURRENT_USER)
   let isAuth
   const token = getAccessToken()
 
