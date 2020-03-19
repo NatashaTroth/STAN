@@ -1,10 +1,10 @@
 import React from "react"
 import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
-import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
-import ReactDOM from "react-dom"
+// import ReactDOM from "react-dom"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 

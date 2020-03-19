@@ -2,7 +2,7 @@ import React from "react"
 // --------------------------------------------------------------
 
 // sub-components ----------------
-import Listing from "../../components/listing/Listing"
+// import Listing from "../../components/listing/Listing"
 import Image from "../../components/image/Image"
 
 // images ----------------

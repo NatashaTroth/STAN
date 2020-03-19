@@ -7,15 +7,14 @@ import CurrentExam from "../../components/current-exam/CurrentExam"
 // sub components
 import Button from "../../components/button/Button"
 
-// TODO: Add query to loop through all exams
-function Exams() {
-  const [isArchiveOpen, setArchive] = useState(false)
+// TODO: Add query to loop through current and archive exams
+const Exams = () => {
+  const [isArchiveOpen, setArchiveExams] = useState(false)
 
-  const handleButtonClick = () => {
-    setArchive(!isArchiveOpen)
+  const handleArchiveClick = () => {
+    setArchiveExams(!isArchiveOpen)
   }
 
-  console.log(isArchiveOpen)
   // return ----------------
   return (
     <div className="exams">
@@ -30,12 +29,20 @@ function Exams() {
           <CurrentExam subject="Business English" currentStatus="37%" />
         </div>
 
-        <Button variant="button" click={handleButtonClick} text="Past exams" />
+        <button
+          className="exams__archive-button"
+          click={handleArchiveClick}
+          variant="button"
+        >
+          <h3>Past exams</h3>
+        </button>
 
-        <div className="archive-exams">
-          <CurrentExam subject="Computer Networks" currentStatus="67%" />
-          <CurrentExam subject="Math Statistics" currentStatus="98%" />
-          <CurrentExam subject="Multimedia" currentStatus="43%" />
+        <div className={handleArchiveClick ? "show" : "close"}>
+          <div className="archive-exams">
+            <CurrentExam subject="Computer Networks" currentStatus="67%" />
+            <CurrentExam subject="Math Statistics" currentStatus="98%" />
+            <CurrentExam subject="Multimedia" currentStatus="43%" />
+          </div>
         </div>
       </div>
     </div>

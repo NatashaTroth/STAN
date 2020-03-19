@@ -23,7 +23,7 @@ const Content = () => {
   let isAuth
   const token = getAccessToken()
 
-  if (token != "") isAuth = true
+  if (token !== "") isAuth = true
   else isAuth = false
 
   // return ----------------

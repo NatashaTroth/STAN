@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import "./App.scss"
 // import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
-import { setAccessToken, getAccessToken } from "./accessToken"
+import { setAccessToken } from "./accessToken"
 import { BrowserRouter as Router, Redirect } from "react-router-dom"
 
 import { client } from "./apolloClient"
@@ -25,7 +25,7 @@ const App = () => {
 
   //TODO-LOGOUT-ALL-TABS
   window.addEventListener("storage", e => {
-    if (e.key == "logout-event") {
+    if (e.key === "logout-event") {
       localStorage.removeItem("logout-event")
       //TODO: go to login and inform user that logout occurred
 

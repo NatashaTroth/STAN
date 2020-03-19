@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
@@ -11,7 +11,7 @@ import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
   // query ----------------
-  const { loading, error, data } = useQuery(CURRENT_USER)
+  const { loading, error } = useQuery(CURRENT_USER)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
