@@ -1,0 +1,18 @@
+.exam {
+  &__subject {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+    padding: 10px;
+    word-break: normal;
+    width: 210px;
+    height: 210px;
+
+    &--headline {
+      padding-top: 40px;
+      text-align: center;
+    }
+  }
+}

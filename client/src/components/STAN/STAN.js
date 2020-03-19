@@ -168,7 +168,7 @@ const Navbar = () => {
                   >
                     <Image
                       path={Pic1}
-                      alt="Shape ofa person as profile Icon"
+                      alt="Shape of a person as profile Icon"
                       className="profile-img"
                     />
                   </NavLink>

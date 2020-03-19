@@ -1,24 +1,13 @@
 .exams {
-  &__container {
+  .current-exams {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    &__subject {
-      padding-left: 30px;
-      padding-right: 30px;
-      margin: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      &--headline {
-        padding-top: 40px;
-        padding-bottom: 50px;
-        width: 100px;
-        text-align: center;
-      }
-      &--current-status {
-        padding-bottom: 5px;
-      }
-    }
+    padding-bottom: 80px;
+  }
+  .archive-exams {
+    display: flex;
+    flex-direction: row;
+
+    display: none;
   }
 }
