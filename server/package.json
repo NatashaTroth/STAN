@@ -10,7 +10,8 @@
     "format": "prettier --write \"**/*.js\"",
     "lint": "eslint \"**/*.js\" --quiet",
     "lintFix": "eslint \"**/*.js\" --fix",
-    "build": "mkdir dist && babel src -s -d dist"
+    "build": "mkdir dist && babel src -s -d dist",
+    "test": "jest --watchAll"
   },
   "author": "",
   "license": "ISC",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
-    "eslint": "^6.8.0"
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0"
   }
 }
