@@ -56,7 +56,10 @@ const Navbar = () => {
           </div>
           {body}
           <ul className="sidebar__items__list">
-            <div className="sidebar__items__list__menu-top">
+            <div
+              className="sidebar__items__list__menu-top"
+              data-testid="navbar"
+            >
               {!loading && !data.currentUser ? (
                 <li className="list-item list-item--logged-out">
                   <NavLink
@@ -65,6 +68,7 @@ const Navbar = () => {
                     exact
                     activeClassName="active"
                     onClick={closeSidebar}
+                    data-testid="home-link"
                   >
                     Home
                   </NavLink>
@@ -74,6 +78,7 @@ const Navbar = () => {
               {!loading && !data.currentUser ? (
                 <li className="list-item list-item--logged-out">
                   <NavLink
+                    data-testid="about-link"
                     strict
                     to="/about"
                     exact
