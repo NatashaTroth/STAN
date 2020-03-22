@@ -1,7 +1,8 @@
 const {
   verifyEmail,
   verifyPassword,
-  verifyUsername
+  verifyUsername,
+  verifySubject
 } = require("../../helpers/regex");
 
 test("verifies string is formatted as an email", () => {
@@ -29,6 +30,7 @@ test("verifies string is formatted as an email", () => {
   // expect(verifyEmail('just"not"right@example.com')).toBeFalsy();
   // expect(verifyEmail('this is"notallowed@example.com')).toBeFalsy();
   expect(verifyEmail('this still"not\\allowed@example.com')).toBeFalsy();
+  expect(verifyEmail("")).toBeFalsy();
   expect(
     verifyEmail(
       "1234567890123456789012345678901234567890123456789012345678901234+x@example.com"
@@ -56,6 +58,20 @@ test("verifies string is formatted as a password", () => {
   expect(verifyPassword("1234567890123456789012345678904")).toBeFalsy();
   expect(verifyPassword("123454")).toBeFalsy();
   expect(verifyPassword("di4sz$§")).toBeFalsy();
+  expect(verifyPassword("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a subject", () => {
+  expect(verifySubject("Maths")).toBeTruthy();
+  expect(verifySubject("12345678901234567890")).toBeTruthy();
+  expect(verifySubject("di4sz$§d")).toBeTruthy();
+  expect(verifySubject("!\"§$%&/()=?*+'#-_.:,;")).toBeTruthy();
+  expect(verifySubject("k")).toBeTruthy();
+
+  expect(verifySubject("123456789012345678905")).toBeFalsy();
+  expect(verifySubject("123454")).toBeFalsy();
+  expect(verifySubject("di4sz$§")).toBeFalsy();
+  expect(verifySubject("")).toBeFalsy();
 });
 
 //verify password

@@ -11,3 +11,7 @@ export function verifyUsername(string) {
 export function verifyPassword(string) {
   return string.match(/^.{8,30}$/);
 }
+
+export function verifySubject(string) {
+  return string.match(/^.{1,20}$/);
+}
