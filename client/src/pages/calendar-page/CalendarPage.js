@@ -9,16 +9,21 @@ class Calendar extends React.Component {
     // return ----------------
     return (
       <div className="calendar">
-        <div className="calendar__container container-fluid">
-          <FullCalendar
-            classname=""
-            defaultView="dayGridMonth"
-            plugins={[dayGridPlugin]}
-            events={[
-              { title: "Test Event", date: "2020-03-14" },
-              { title: "Test Event", date: "2020-03-16" },
-            ]}
-          />
+        <div className="container-fluid">
+          <div class="row">
+            <div class="col-md-10">
+              <FullCalendar
+                classname=""
+                defaultView="dayGridMonth"
+                plugins={[dayGridPlugin]}
+                events={[
+                  { title: "Test Event", date: "2020-03-14" },
+                  { title: "Test Event", date: "2020-03-16" },
+                ]}
+              />
+            </div>
+            <div class="col-md-2"></div>
+          </div>
         </div>
       </div>
     )
