@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .exams {
   .current-exams {
     display: flex;
@@ -18,17 +27,6 @@
       border: none;
       color: theme-color("dark");
       transition: all 0.3s ease;
-      font-family: $font-family-BasierCircle-Bold;
-      @include rem(font-size, $h3-font-size);
-      @include rem(letter-spacing, 1.5px);
-      @include rem(line-height, $h3-line-height);
-
-      @include media-breakpoint-down(sm) {
-        @include rem(font-size, $h3-font-size-mobile);
-        @include rem(line-height, $h3-line-height-mobile);
-        @include rem(letter-spacing, 1px);
-      }
-
       &:focus {
         outline: none;
       }
@@ -41,6 +39,10 @@
       padding: 3px;
       margin-bottom: 3px;
       margin-left: 4px;
+
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 2px;
+      }
     }
     .arrow {
       transition: transform 0.2s;
@@ -53,7 +55,7 @@
     }
   }
   .show {
-    display: block;
+    animation: fadeIn 0.3s;
   }
   .close {
     display: none;

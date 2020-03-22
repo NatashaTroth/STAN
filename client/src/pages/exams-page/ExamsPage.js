@@ -30,12 +30,13 @@ const Exams = () => {
         </div>
 
         <div className="exams__toggle-archive">
-          <Button
+          <button
             variant="button"
             onClick={handleArchiveClick}
             className="exams__toggle-archive--button"
-            text="Past exams"
-          />
+          >
+            <h3>Past exams</h3>
+          </button>
           <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
         </div>
 
