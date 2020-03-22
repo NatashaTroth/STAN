@@ -1,4 +1,8 @@
-const { verifyEmail } = require("../../helpers/regex");
+const {
+  verifyEmail,
+  verifyPassword,
+  verifyUsername
+} = require("../../helpers/regex");
 
 test("verifies string is formatted as an email", () => {
   expect(verifyEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();
@@ -30,11 +34,28 @@ test("verifies string is formatted as an email", () => {
       "1234567890123456789012345678901234567890123456789012345678901234+x@example.com"
     )
   ).toBeFalsy();
-  // expect(
-  //   verifyEmail(
-  //     "123456789012345678901234567890123+x@12345678901234567890123456789012345678901234567890123456789012341234567890123456789012345678901234567890123456789012345678901234123456789012345678901234567890123456789012345678901234567890123412345678901234567890123456789012345678901234567893454589347584901234567.com"
-  //   )
-  // ).toBeFalsy();
+});
+
+test("verifies string is formatted as a username", () => {
+  expect(verifyUsername("dsfj3$%fdsdf")).toBeTruthy();
+  expect(verifyUsername("123456789012345678901234567890")).toBeTruthy();
+  expect(verifyUsername("di4sz$§d")).toBeTruthy();
+  expect(verifyUsername('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
+  expect(verifyUsername("%")).toBeTruthy();
+
+  expect(verifyUsername("1234567890123456789012345678904")).toBeFalsy();
+  expect(verifyUsername("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a password", () => {
+  expect(verifyPassword("dsfj3$%fdsdf")).toBeTruthy();
+  expect(verifyPassword("123456789012345678901234567890")).toBeTruthy();
+  expect(verifyPassword("di4sz$§d")).toBeTruthy();
+  expect(verifyPassword('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
+
+  expect(verifyPassword("1234567890123456789012345678904")).toBeFalsy();
+  expect(verifyPassword("123454")).toBeFalsy();
+  expect(verifyPassword("di4sz$§")).toBeFalsy();
 });
 
 //verify password
