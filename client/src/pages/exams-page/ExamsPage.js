@@ -29,16 +29,17 @@ const Exams = () => {
           <CurrentExam subject="Business English" currentStatus="37%" />
         </div>
 
-        {/* TODO: fix handleclick */}
-        <button
-          className="exams__archive-button"
-          onClick={handleArchiveClick}
-          variant="button"
-        >
-          <h3>Past exams</h3>
-        </button>
+        <div className="exams__toggle-archive">
+          <Button
+            variant="button"
+            onClick={handleArchiveClick}
+            className="exams__toggle-archive--button"
+            text="Past exams"
+          />
+          <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
+        </div>
 
-        <div className={handleArchiveClick ? "show" : "close"}>
+        <div className={isArchiveOpen ? "show" : "close"}>
           <div className="archive-exams">
             <CurrentExam subject="Computer Networks" currentStatus="67%" />
             <CurrentExam subject="Math Statistics" currentStatus="98%" />

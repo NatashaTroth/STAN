@@ -4,22 +4,54 @@
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
+    cursor: pointer;
   }
   .archive-exams {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
-  &__archive-button {
-    border: none;
-    h3 {
+  &__toggle-archive {
+    &--button {
+      border: none;
+      color: theme-color("dark");
       transition: all 0.3s ease;
-      &:hover {
-        color: theme_color("primary-yellow");
+      font-family: $font-family-BasierCircle-Bold;
+      @include rem(font-size, $h3-font-size);
+      @include rem(letter-spacing, 1.5px);
+      @include rem(line-height, $h3-line-height);
+
+      @include media-breakpoint-down(sm) {
+        @include rem(font-size, $h3-font-size-mobile);
+        @include rem(line-height, $h3-line-height-mobile);
+        @include rem(letter-spacing, 1px);
+      }
+
+      &:focus {
+        outline: none;
       }
     }
-  }
 
+    i {
+      border: solid theme_color("dark");
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      margin-bottom: 3px;
+      margin-left: 4px;
+    }
+    .arrow {
+      transition: transform 0.2s;
+    }
+    .right {
+      transform: rotate(-45deg);
+    }
+    .down {
+      transform: rotate(45deg);
+    }
+  }
   .show {
     display: block;
   }
