@@ -19,8 +19,8 @@ const Exams = () => {
   return (
     <div className="exams">
       <div className="container-fluid">
-        <div class="row">
-          <div class="col-md-11">
+        <div className="row">
+          <div className="col-md-11">
             <div className="exams__headline">
               <h2>Current Exams</h2>
             </div>
@@ -52,7 +52,7 @@ const Exams = () => {
               </div>
             </div>
           </div>
-          <div class="col-md-1"></div>
+          <div className="col-md-1"></div>
         </div>
       </div>
     </div>
