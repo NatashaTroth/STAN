@@ -27,6 +27,8 @@ const Exams = () => {
           <CurrentExam subject="Backend Development" currentStatus="68%" />
           <CurrentExam subject="Programming" currentStatus="81%" />
           <CurrentExam subject="Business English" currentStatus="37%" />
+          <CurrentExam subject="Programming" currentStatus="81%" />
+          <CurrentExam subject="Multimedia" currentStatus="43%" />
         </div>
 
         <div className="exams__toggle-archive">
