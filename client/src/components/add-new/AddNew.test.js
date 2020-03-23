@@ -9,8 +9,8 @@ test("calls onSubmit with data", () => {
   )
 
   getByLabelText(/subject/i).value = "English"
-  //   getByLabelText(/examDate/i).value = "test1234"
-  //   getByLabelText(/studyStartDate/i).value = "test1234"
+  getByLabelText(/examDate/i).value = ""
+  getByLabelText(/studyStartDate/i).value = ""
   getByLabelText(/pageAmount/i).value = "850"
   getByLabelText(/pageTime/i).value = "5"
   getByLabelText(/pageRepeat/i).value = "2"
@@ -21,8 +21,8 @@ test("calls onSubmit with data", () => {
   expect(handleSubmit).toHaveBeenCalledTimes(1)
   expect(handleSubmit).toHaveBeenCalledWith({
     subject: "English",
-    // examDate: "test1234",
-    // studyStartDate: "test1234",
+    examDate: "",
+    studyStartDate: "",
     pageAmount: "850",
     pageTime: "5",
     pageRepeat: "2",
