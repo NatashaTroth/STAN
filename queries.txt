@@ -220,3 +220,24 @@ try{
         console.log(JSON.stringify(err));
         console.log(err);
       }
+
+
+
+//google auth backend object
+      {
+  "iss": "accounts.google.com",
+  "azp": "970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com",
+  "aud": "970259532396-nlrmhcrt3efj3f2iqikkra7cc2l9mg0i.apps.googleusercontent.com",
+  "sub": "104397096365159953622",
+  "email": "tashy.troth@gmail.com",
+  "email_verified": true,
+  "at_hash": "ZJO_wa24xWGwe75p44vvyQ",
+  "name": "Natasha Troth",
+  "picture": "https://lh5.googleusercontent.com/-zMRbXXWE24Y/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nDupfWo05JDcB2-exbq7NUSkAoQPg/s96-c/photo.jpg",
+  "given_name": "Natasha",
+  "family_name": "Troth",
+  "locale": "en",
+  "iat": 1584479828,
+  "exp": 1584483428,
+  "jti": "551582578c784f381c0009b6278ea1fc550d611a"
+}

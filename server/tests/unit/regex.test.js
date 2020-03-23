@@ -1,0 +1,79 @@
+const {
+  verifyEmail,
+  verifyPassword,
+  verifyUsername,
+  verifySubject
+} = require("../../helpers/regex");
+
+test("verifies string is formatted as an email", () => {
+  expect(verifyEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();
+  expect(verifyEmail("n@f.at")).toBeTruthy();
+  expect(verifyEmail("123.-3@d.at")).toBeTruthy();
+  expect(verifyEmail("very.common@example.com")).toBeTruthy();
+  expect(
+    verifyEmail("disposable.style.email.with+symbol@example.com")
+  ).toBeTruthy();
+  expect(verifyEmail("other.email-with-hyphen@example.com")).toBeTruthy();
+  expect(verifyEmail("fully-qualified-domain@example.com")).toBeTruthy();
+  expect(verifyEmail("user.name+tag+sorting@example.com")).toBeTruthy();
+  expect(verifyEmail("example-indeed@strange-example.com")).toBeTruthy();
+  expect(verifyEmail("example@s.example")).toBeTruthy();
+  expect(verifyEmail('" "@example.org')).toBeTruthy();
+  expect(verifyEmail('"john..doe"@example.org')).toBeTruthy();
+  expect(verifyEmail("mailhost!username@example.org")).toBeTruthy();
+  expect(verifyEmail("user%example.com@example.org")).toBeTruthy();
+
+  expect(verifyEmail("@fh-salzburg.ac.at")).toBeFalsy();
+  expect(verifyEmail("Abc.example.com")).toBeFalsy();
+  expect(verifyEmail("A@b@c@example.com")).toBeFalsy();
+  expect(verifyEmail('a"b(c)d,e:f;g<h>i[jk]l@example.com')).toBeFalsy();
+  // expect(verifyEmail('just"not"right@example.com')).toBeFalsy();
+  // expect(verifyEmail('this is"notallowed@example.com')).toBeFalsy();
+  expect(verifyEmail('this still"not\\allowed@example.com')).toBeFalsy();
+  expect(verifyEmail("")).toBeFalsy();
+  expect(
+    verifyEmail(
+      "1234567890123456789012345678901234567890123456789012345678901234+x@example.com"
+    )
+  ).toBeFalsy();
+});
+
+test("verifies string is formatted as a username", () => {
+  expect(verifyUsername("dsfj3$%fdsdf")).toBeTruthy();
+  expect(verifyUsername("123456789012345678901234567890")).toBeTruthy();
+  expect(verifyUsername("di4sz$§d")).toBeTruthy();
+  expect(verifyUsername('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
+  expect(verifyUsername("%")).toBeTruthy();
+
+  expect(verifyUsername("1234567890123456789012345678904")).toBeFalsy();
+  expect(verifyUsername("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a password", () => {
+  expect(verifyPassword("dsfj3$%fdsdf")).toBeTruthy();
+  expect(verifyPassword("123456789012345678901234567890")).toBeTruthy();
+  expect(verifyPassword("di4sz$§d")).toBeTruthy();
+  expect(verifyPassword('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
+
+  expect(verifyPassword("1234567890123456789012345678904")).toBeFalsy();
+  expect(verifyPassword("123454")).toBeFalsy();
+  expect(verifyPassword("di4sz$§")).toBeFalsy();
+  expect(verifyPassword("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a subject", () => {
+  expect(verifySubject("Maths")).toBeTruthy();
+  expect(verifySubject("12345678901234567890")).toBeTruthy();
+  expect(verifySubject("di4sz$§d")).toBeTruthy();
+  expect(verifySubject("!\"§$%&/()=?*+'#-_.:,;")).toBeTruthy();
+  expect(verifySubject("k")).toBeTruthy();
+
+  expect(verifySubject("123456789012345678905")).toBeFalsy();
+  expect(verifySubject("123454")).toBeFalsy();
+  expect(verifySubject("di4sz$§")).toBeFalsy();
+  expect(verifySubject("")).toBeFalsy();
+});
+
+//verify password
+//verify dates
+//verify no script xss
