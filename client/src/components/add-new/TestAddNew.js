@@ -72,7 +72,7 @@ function TestAddNew({ onSubmit }) {
         />
 
         <label htmlFor="pageAmount" className="add-new__form__element__label">
-          Amount of pages
+          pageAmount
         </label>
         <Input
           className="add-new__form__element__input"
@@ -86,7 +86,7 @@ function TestAddNew({ onSubmit }) {
         />
 
         <label htmlFor="pageTime" className="add-new__form__element__label">
-          Time per page (min)
+          pageTime
         </label>
         <Input
           className="add-new__form__element__input"
@@ -98,7 +98,7 @@ function TestAddNew({ onSubmit }) {
         />
 
         <label htmlFor="pageRepeat" className="add-new__form__element__label">
-          Repeat
+          pageRepeat
         </label>
         <Input
           className="add-new__form__element__input"
@@ -109,7 +109,7 @@ function TestAddNew({ onSubmit }) {
         />
 
         <label htmlFor="pageNotes" className="add-new__form__element__label">
-          Notes
+          pageNotes
         </label>
         <textarea
           className="add-new__form__element__input"
@@ -124,7 +124,7 @@ function TestAddNew({ onSubmit }) {
           className="stan-btn-primary"
           variant="button"
         >
-          Add
+          submit
         </button>
       </form>
     </div>
