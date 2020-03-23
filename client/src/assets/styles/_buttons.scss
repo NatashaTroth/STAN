@@ -13,12 +13,13 @@
 	min-width: 200px;
 	transition: all 200ms ease-in-out;
 	justify-content: center;
+	width: fit-content;
 
 	@include media-breakpoint-down(sm) {
 		@include rem(font-size, $font-size-14);
 		@include rem(letter-spacing, 1.5px);
 		@include rem(line-height, 20px);
-		flex-grow: 1;
+		width: 100%;
 	}
 
 	&:hover,
@@ -45,12 +46,13 @@
 	min-width: 200px;
 	transition: all 200ms ease-in-out;
 	justify-content: center;
+	width: fit-content;
 
 	@include media-breakpoint-down(sm) {
 		@include rem(font-size, $font-size-14);
 		@include rem(letter-spacing, 1.5px);
 		@include rem(line-height, 20px);
-		flex-grow: 1;
+		width: 100%;
 	}
 
 	&:hover,
