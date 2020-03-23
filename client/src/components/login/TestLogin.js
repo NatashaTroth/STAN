@@ -7,6 +7,7 @@ function TestLogin({ onSubmit }) {
   return (
     <div>
       <form
+        data-testid="login-form"
         onSubmit={e => {
           e.preventDefault()
           const { email, password } = e.target.elements
@@ -20,8 +21,8 @@ function TestLogin({ onSubmit }) {
           Email
         </label>
 
-        <Input
-          data-testid="required-input"
+        <input
+          data-testid="required-input-email"
           className="login__form__element__input"
           type="email"
           id="email"
@@ -34,10 +35,10 @@ function TestLogin({ onSubmit }) {
           Password
         </label>
 
-        <Input
-          data-testid="required-input"
-          className="login__form__element__input"
+        <input
+          data-testid="required-input-password"
           type="password"
+          className="login__form__element__input"
           id="password"
           label="password"
           placeholder=""
