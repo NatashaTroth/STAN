@@ -45,7 +45,7 @@ function TestAddNew({ onSubmit }) {
         />
 
         <label htmlFor="examDate" className="add-new__form__element__label">
-          Exam date
+          examDate
         </label>
         <Input
           className="add-new__form__element__input"
@@ -61,7 +61,7 @@ function TestAddNew({ onSubmit }) {
           htmlFor="studyStartDate"
           className="add-new__form__element__label"
         >
-          Start learning on
+          studyStartDate
         </label>
         <Input
           className="add-new__form__element__input"
