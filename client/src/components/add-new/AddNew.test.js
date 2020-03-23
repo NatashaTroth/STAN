@@ -1,6 +1,15 @@
 import React from "react"
 import { render, getByTestId } from "@testing-library/react"
 import TestAddNew from "./TestAddNew"
+import {
+  verifySubject,
+  verifyExamDate,
+  verifyStudyStartDate,
+  verifyPageAmount,
+  verifyPageTime,
+  verifyPageRepeat,
+  verifyPageNotes,
+} from "../../../../server/helpers/regex"
 
 test("calls onSubmit with data", () => {
   const handleSubmit = jest.fn()
@@ -29,3 +38,7 @@ test("calls onSubmit with data", () => {
     pageNotes: "test1234",
   })
 })
+
+test("calls onSubmit with WRONG data", () => {})
+
+test("regex implementation", () => {})
