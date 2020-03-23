@@ -19,31 +19,40 @@ const Exams = () => {
   return (
     <div className="exams">
       <div className="container-fluid">
-        <div className="exams__headline">
-          <h2>Current Exams</h2>
-        </div>
+        <div className="row">
+          <div className="col-md-11">
+            <div className="exams__headline">
+              <h2>Current Exams</h2>
+            </div>
 
-        <div className="current-exams">
-          <CurrentExam subject="Backend Development" currentStatus="68%" />
-          <CurrentExam subject="Programming" currentStatus="81%" />
-          <CurrentExam subject="Business English" currentStatus="37%" />
-        </div>
+            <div className="current-exams">
+              <CurrentExam subject="Backend Development" currentStatus="68%" />
+              <CurrentExam subject="Programming" currentStatus="81%" />
+              <CurrentExam subject="Business English" currentStatus="37%" />
+              <CurrentExam subject="Programming" currentStatus="81%" />
+              <CurrentExam subject="Multimedia" currentStatus="43%" />
+            </div>
 
-        {/* TODO: fix handleclick */}
-        <button
-          className="exams__archive-button"
-          onClick={handleArchiveClick}
-          variant="button"
-        >
-          <h3>Past exams</h3>
-        </button>
+            <div className="exams__toggle-archive">
+              <button
+                variant="button"
+                onClick={handleArchiveClick}
+                className="exams__toggle-archive--button"
+              >
+                <h3>Past exams</h3>
+              </button>
+              <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
+            </div>
 
-        <div className={handleArchiveClick ? "show" : "close"}>
-          <div className="archive-exams">
-            <CurrentExam subject="Computer Networks" currentStatus="67%" />
-            <CurrentExam subject="Math Statistics" currentStatus="98%" />
-            <CurrentExam subject="Multimedia" currentStatus="43%" />
+            <div className={isArchiveOpen ? "show" : "close"}>
+              <div className="archive-exams">
+                <CurrentExam subject="Computer Networks" currentStatus="67%" />
+                <CurrentExam subject="Math Statistics" currentStatus="98%" />
+                <CurrentExam subject="Multimedia" currentStatus="43%" />
+              </div>
+            </div>
           </div>
+          <div className="col-md-1"></div>
         </div>
       </div>
     </div>

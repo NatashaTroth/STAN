@@ -1,29 +1,64 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .exams {
   .current-exams {
     display: flex;
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
+    cursor: pointer;
   }
   .archive-exams {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
-  &__archive-button {
-    border: none;
-    h3 {
+  &__toggle-archive {
+    padding-bottom: 15px;
+    &--button {
+      border: none;
+      color: theme-color("dark");
       transition: all 0.3s ease;
-      &:hover {
-        color: theme_color("primary-yellow");
+      &:focus {
+        outline: none;
       }
     }
-  }
+    i {
+      border: solid theme_color("dark");
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      margin-bottom: 3px;
+      margin-left: 8px;
 
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 2px;
+      }
+    }
+    .arrow {
+      transition: transform 0.2s;
+    }
+    .right {
+      transform: rotate(-45deg);
+    }
+    .down {
+      transform: rotate(45deg);
+    }
+  }
   .show {
-    display: block;
+    animation: fadeIn 0.3s;
   }
   .close {
-    display: none;
+    // display: none;
+    opacity: 0;
   }
 }

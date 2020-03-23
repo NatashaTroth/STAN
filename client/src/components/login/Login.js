@@ -57,9 +57,10 @@ function Login() {
             <Label
               for="email"
               text="E-Mail"
-              className="login__form__element__label"
+              className="login__form__element__label input-required"
             ></Label>
             <Input
+              data-testid="required-input-email"
               className="login__form__element__input"
               type="email"
               id="email"
@@ -70,16 +71,21 @@ function Login() {
                 required: true,
                 minLength: 1,
                 maxLength: 50,
+                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
               })}
             />
+
             {errors.email && errors.email.type === "required" && (
               <span className="error">This field is required</span>
             )}
             {errors.email && errors.email.type === "minLength" && (
-              <span className="error"> Minimum 1 character required</span>
+              <span className="error">Minimum 1 character required</span>
             )}
             {errors.email && errors.email.type === "maxLength" && (
-              <span className="error"> Maximum 50 characters allowed</span>
+              <span className="error">Maximum 50 characters allowed</span>
+            )}
+            {errors.email && errors.email.type === "pattern" && (
+              <span className="error">This is no valid e-mail address</span>
             )}
           </div>
 
@@ -87,9 +93,10 @@ function Login() {
             <Label
               for="password"
               text="Password"
-              className="login__form__element__label"
+              className="login__form__element__label input-required"
             ></Label>
             <Input
+              data-testid="required-input-password"
               className="login__form__element__input"
               type="password"
               id="password"
@@ -100,21 +107,30 @@ function Login() {
                 required: true,
                 minLength: 8,
                 maxLength: 30,
+                pattern: /^.{8,30}$/,
               })}
             />
             {errors.password && errors.password.type === "required" && (
               <span className="error">This field is required</span>
             )}
             {errors.password && errors.password.type === "minLength" && (
-              <span className="error"> Minimum 8 characters required</span>
+              <span className="error">Minimum 8 characters required</span>
             )}
             {errors.password && errors.password.type === "maxLength" && (
-              <span className="error"> Maximum 30 characters allowed</span>
+              <span className="error">Maximum 30 characters allowed</span>
+            )}
+            {errors.password && errors.password.type === "pattern" && (
+              <span className="error">
+                The password needs to be between 8 and 30 characters long
+              </span>
             )}
           </div>
 
           <div className="login__form__buttons">
-            <div className="login__form__buttons__button-right">
+            <div
+              className="login__form__buttons__button-right"
+              data-testid="button-login"
+            >
               <Button
                 className="stan-btn-primary"
                 variant="button"

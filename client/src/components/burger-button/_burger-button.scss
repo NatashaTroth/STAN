@@ -4,10 +4,10 @@
   justify-content: flex-end;
   position: fixed;
   right: 0;
-  background-color: #ffffff;
+  background-color: theme_color("light");
   z-index: 999;
   width: 100%;
-  border-bottom: 4px solid #000;
+  border-bottom: 4px solid theme_color("dark");
 
   @include media-breakpoint-up(lg) {
     display: none;

@@ -74,6 +74,7 @@ function SignUp() {
                 required: true,
                 minLength: 1,
                 maxLength: 30,
+                pattern: /^.{1,30}$/,
               })}
             />
             {errors.username && errors.username.type === "required" && (
@@ -84,6 +85,11 @@ function SignUp() {
             )}
             {errors.username && errors.username.type === "maxLength" && (
               <span className="error"> Maximum 30 characters allowed</span>
+            )}
+            {errors.username && errors.username.type === "pattern" && (
+              <span className="error">
+                The username needs to be between 1 and 30 characters long
+              </span>
             )}
           </div>
 
@@ -104,6 +110,7 @@ function SignUp() {
                 required: true,
                 minLength: 1,
                 maxLength: 50,
+                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
               })}
             />
             {errors.email && errors.email.type === "required" && (
@@ -115,12 +122,15 @@ function SignUp() {
             {errors.email && errors.email.type === "maxLength" && (
               <span className="error"> Maximum 30 characters allowed</span>
             )}
+            {errors.email && errors.email.type === "pattern" && (
+              <span className="error">This is no valid e-mail address</span>
+            )}
           </div>
 
           <div className="login__form__element">
             <Label
               for="password"
-              text="Pasword"
+              text="Password"
               className="login__form__element__label input-required"
             ></Label>
             <Input
@@ -134,6 +144,7 @@ function SignUp() {
                 required: true,
                 minLength: 8,
                 maxLength: 30,
+                pattern: /^.{8,30}$/,
               })}
             />
             {errors.password && errors.password.type === "required" && (
@@ -144,6 +155,11 @@ function SignUp() {
             )}
             {errors.password && errors.password.type === "maxLength" && (
               <span className="error"> Maximum 30 characters allowed</span>
+            )}
+            {errors.password && errors.password.type === "pattern" && (
+              <span className="error">
+                The password needs to be between 8 and 30 characters long
+              </span>
             )}
           </div>
 
