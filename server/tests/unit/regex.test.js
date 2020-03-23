@@ -74,6 +74,18 @@ test("verifies string is formatted as a subject", () => {
   expect(verifySubject("")).toBeFalsy();
 });
 
+// test("verifies string is formatted as a date", () => {
+//   expect(verifySubject("11-12-2020")).toBeTruthy();
+//   expect(verifySubject("12345678901234567890")).toBeTruthy();
+//   expect(verifySubject("di4sz$§d")).toBeTruthy();
+//   expect(verifySubject("!\"§$%&/()=?*+'#-_.:,;")).toBeTruthy();
+//   expect(verifySubject("k")).toBeTruthy();
+
+//   expect(verifySubject("123456789012345678905")).toBeFalsy();
+//   expect(verifySubject("123454")).toBeFalsy();
+//   expect(verifySubject("di4sz$§")).toBeFalsy();
+//   expect(verifySubject("")).toBeFalsy();
+// });
 //verify password
 //verify dates
 //verify no script xss
