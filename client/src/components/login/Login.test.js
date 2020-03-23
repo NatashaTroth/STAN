@@ -1,7 +1,21 @@
 import React from "react"
-import { render } from "@testing-library/react"
+import { render, getByTestId } from "@testing-library/react"
+import TestLogin from "./TestLogin"
 
-test("hello world", () => {
-  const { getByText } = render(<p>Hello Jest!</p>)
-  expect(getByText("Hello Jest!")).toBeInTheDocument()
+test("calls onSubmit with email and password", () => {
+  const handleSubmit = jest.fn()
+  const { getByLabelText, getByText } = render(
+    <TestLogin onSubmit={handleSubmit} />
+  )
+
+  getByLabelText(/email/i).value = "test@test.com"
+  getByLabelText(/password/i).value = "test1234"
+
+  getByText(/submit/i).click()
+
+  expect(handleSubmit).toHaveBeenCalledTimes(1)
+  expect(handleSubmit).toHaveBeenCalledWith({
+    email: "test@test.com",
+    password: "test1234",
+  })
 })
