@@ -1,16 +1,24 @@
 import React from "react"
 import { render, getByTestId } from "@testing-library/react"
 import TestLogin from "./TestLogin"
+import {
+  verifyEmail,
+  verifyUsername,
+  verifyPassword,
+} from "../../../../server/helpers/regex"
 
-test("calls onSubmit with email and password", () => {
+test("call onSubmit with email and password", () => {
   const handleSubmit = jest.fn()
   const { getByLabelText, getByText } = render(
     <TestLogin onSubmit={handleSubmit} />
   )
 
-  getByLabelText(/email/i).value = "test@test.com"
-  getByLabelText(/password/i).value = "test1234"
-
+  expect(
+    verifyEmail((getByLabelText(/email/i).value = "test@test.com"))
+  ).toBeTruthy()
+  expect(
+    verifyPassword((getByLabelText(/password/i).value = "test1234"))
+  ).toBeTruthy()
   getByText(/submit/i).click()
 
   expect(handleSubmit).toHaveBeenCalledTimes(1)
@@ -19,3 +27,7 @@ test("calls onSubmit with email and password", () => {
     password: "test1234",
   })
 })
+
+// test("input field required", () => {
+
+// });
