@@ -24,7 +24,9 @@ function AddNew() {
           startDate: formData.exam_start_date,
           numberPages: parseInt(formData.exam_page_amount),
           timePerPage: parseInt(formData.exam_page_time),
-          currentPage: parseInt(formData.exam_page_repeat),
+          timesRepeat: parseInt(formData.exam_page_repeat),
+          //TODO: MAKE CURRENT PAGE DYNAMIC
+          currentPage: 0,
           notes: formData.exam_page_notes,
           // pdfLink: formData.exam_pdf_upload,
           pdfLink: "TODO: CHANGE LATER",

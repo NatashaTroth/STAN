@@ -39,6 +39,7 @@ const ADD_EXAM_MUTATION = gql`
     $startDate: Date
     $numberPages: Int!
     $timePerPage: Int
+    $timesRepeat: Int
     $currentPage: Int
     $notes: String
     $pdfLink: String
@@ -51,6 +52,7 @@ const ADD_EXAM_MUTATION = gql`
       startDate: $startDate
       numberPages: $numberPages
       timePerPage: $timePerPage
+      timesRepeat: $timesRepeat
       currentPage: $currentPage
       notes: $notes
       pdfLink: $pdfLink

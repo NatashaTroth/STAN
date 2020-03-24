@@ -11,6 +11,11 @@ import { sendRefreshToken } from "../authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+import {
+  verifyUsername,
+  verifyEmail,
+  verifyPassword
+} from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //TODO: Authenticate Queries
@@ -61,6 +66,7 @@ const userResolvers = {
     login: async (parent, { email, password }, context) => {
       if (context.req.isAuth) throw new Error("Already logged in");
       try {
+        verifyUserInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
@@ -79,7 +85,9 @@ const userResolvers = {
 
       try {
         // console.log("googlog: " + googleLogin);
-
+        console.log(verifyUsername(username));
+        verifyUserInputFormat({ username, email, password });
+        console.log("hiii " + username);
         const user = await signUserUp({
           username,
           email,
@@ -212,6 +220,16 @@ async function verifyGoogleIdToken(token) {
   return payload;
   // If request specified a G Suite domain:
   //const domain = payload['hd'];
+}
+
+function verifyUserInputFormat({ username, email, password }) {
+  console.log(username);
+  if (typeof username !== "undefined" && !verifyUsername(username))
+    throw new AuthenticationError("Username input has the wrong format");
+  if (typeof email !== "undefined" && !verifyEmail(email))
+    throw new AuthenticationError("Email input has the wrong format");
+  if (typeof password !== "undefined" && !verifyPassword(password))
+    throw new AuthenticationError("Password input has the wrong format");
 }
 
 module.exports = {
