@@ -1,7 +1,11 @@
 function verifyEmail(string) {
-  return string.match(
-    /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/
-  );
+  //the upper limit is normally 254 - but older addresses might still be 320
+  if (!string.match(/^.{1,320}$/)) return false;
+  const emailRegex = /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/;
+  if (!string.match(emailRegex)) return false;
+  let domain = string.split("@")[1];
+  if (!domain.match(/^.{1,255}$/)) return false;
+  return true;
 }
 
 function verifyUsername(string) {
@@ -16,8 +20,12 @@ function verifySubject(string) {
   return string.match(/^.{1,20}$/);
 }
 
-function verifyDate(string) {
-  // return string.match(/^.{1,20}$/);
+function verifyExamDate(string) {
+  // return string.match(/^.(\d{1-4})[-|/|.](\d{1-2})[-|/|.](\d{1-4})$/);
+}
+function verifyStudyStartDate(string) {
+  //if(match empty, or match date pattern)
+  // return string.match(/^.(\d{1-4})[-|/|.](\d{1-2})[-|/|.](\d{1-4})$/);
 }
 
 function verifyPageAmount(string) {
@@ -25,15 +33,15 @@ function verifyPageAmount(string) {
 }
 
 function verifyPageTime(string) {
-  return string.match(/^\d{1,600}$/);
+  return string.match(/^\d{0,600}$/);
 }
 
 function verifyPageRepeat(string) {
-  return string.match(/^\d{1,1000}$/);
+  return string.match(/^\d{0,1000}$/);
 }
 
 function verifyPageNotes(string) {
-  return string.match(/^.{1,100000000}$/);
+  return string.match(/^.{0,100000000}$/);
 }
 
 module.exports = {
@@ -41,7 +49,8 @@ module.exports = {
   verifyUsername,
   verifyPassword,
   verifySubject,
-  verifyDate,
+  verifyExamDate,
+  verifyStudyStartDate,
   verifyPageAmount,
   verifyPageTime,
   verifyPageRepeat,

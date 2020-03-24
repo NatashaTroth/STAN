@@ -28,6 +28,9 @@ test("verifies string is formatted as an email", () => {
   expect(verifyEmail("mailhost!username@example.org")).toBeTruthy();
   expect(verifyEmail("user%example.com@example.org")).toBeTruthy();
   expect(verifyEmail("a".repeat(64) + "@example.com")).toBeTruthy();
+  expect(
+    verifyEmail("a".repeat(64) + "@" + "a".repeat(251) + ".com")
+  ).toBeTruthy();
 
   expect(verifyEmail("@fh-salzburg.ac.at")).toBeFalsy();
   expect(verifyEmail("Abc.example.com")).toBeFalsy();
@@ -38,6 +41,9 @@ test("verifies string is formatted as an email", () => {
   expect(verifyEmail('this still"not\\allowed@example.com')).toBeFalsy();
   expect(verifyEmail("")).toBeFalsy();
   expect(verifyEmail("b".repeat(65) + "@example.com")).toBeFalsy();
+  expect(
+    verifyEmail("a".repeat(64) + "@" + "a".repeat(252) + ".com")
+  ).toBeFalsy();
 });
 
 test("verifies string is formatted as a username", () => {
@@ -106,11 +112,11 @@ test("verifies string is formatted as a page time", () => {
   expect(verifyPageTime("1".repeat(600))).toBeTruthy();
   expect(verifyPageTime("1234567890")).toBeTruthy();
   expect(verifyPageTime("\u0035")).toBeTruthy();
+  expect(verifyPageTime("")).toBeTruthy();
 
   expect(verifyPageTime("1".repeat(601))).toBeFalsy();
   expect(verifyPageTime("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
   expect(verifyPageTime("di4sz45$§")).toBeFalsy();
-  expect(verifyPageTime("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a page repeat", () => {
@@ -118,9 +124,21 @@ test("verifies string is formatted as a page repeat", () => {
   expect(verifyPageRepeat("1".repeat(1000))).toBeTruthy();
   expect(verifyPageRepeat("1234567890")).toBeTruthy();
   expect(verifyPageRepeat("\u0035")).toBeTruthy();
+  expect(verifyPageRepeat("")).toBeTruthy();
 
   expect(verifyPageRepeat("1".repeat(1001))).toBeFalsy();
   expect(verifyPageRepeat("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
   expect(verifyPageRepeat("di4sz45$§")).toBeFalsy();
-  expect(verifyPageRepeat("")).toBeFalsy();
 });
+
+// test("verifies string is formatted as a username", () => {
+//   expect(verifyUsername("dsfj3$%fdsdf")).toBeTruthy();
+//   expect(verifyUsername("c".repeat(30))).toBeTruthy();
+//   expect(verifyUsername("di4sz$§d")).toBeTruthy();
+//   expect(verifyUsername('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
+//   expect(verifyUsername("%")).toBeTruthy();
+//   expect(verifyUsername("\u0035")).toBeTruthy();
+
+//   expect(verifyUsername("d".repeat(31))).toBeFalsy();
+//   expect(verifyUsername("")).toBeFalsy();
+// });
