@@ -1,41 +1,49 @@
-export function verifyEmail(string) {
+function verifyEmail(string) {
   return string.match(
     /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/
   );
 }
 
-export function verifyUsername(string) {
+function verifyUsername(string) {
   return string.match(/^.{1,30}$/);
 }
 
-export function verifyPassword(string) {
+function verifyPassword(string) {
   return string.match(/^.{8,30}$/);
 }
 
-export function verifySubject(string) {
+function verifySubject(string) {
   return string.match(/^.{1,20}$/);
 }
 
-export function verifyExamDate(string) {
+function verifyDate(string) {
   // return string.match(/^.{1,20}$/);
 }
 
-export function verifyStudyStartDate(string) {
-  // return string.match(/^.{1,20}$/);
+function verifyPageAmount(string) {
+  return string.match(/^\d{1,10000}$/);
 }
 
-export function verifyPageAmount(string) {
-  return string.match(/^.{1,10000}$/);
+function verifyPageTime(string) {
+  return string.match(/^\d{1,600}$/);
 }
 
-export function verifyPageTime(string) {
-  return string.match(/^.{1,600}$/);
+function verifyPageRepeat(string) {
+  return string.match(/^\d{1,1000}$/);
 }
 
-export function verifyPageRepeat(string) {
-  return string.match(/^.{1,1000}$/);
-}
-
-export function verifyPageNotes(string) {
+function verifyPageNotes(string) {
   return string.match(/^.{1,100000000}$/);
 }
+
+module.exports = {
+  verifyEmail,
+  verifyUsername,
+  verifyPassword,
+  verifySubject,
+  verifyDate,
+  verifyPageAmount,
+  verifyPageTime,
+  verifyPageRepeat,
+  verifyPageNotes
+};
