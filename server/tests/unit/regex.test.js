@@ -101,7 +101,7 @@ test("verifies string is formatted as a page amount", () => {
   expect(verifyPageAmount("")).toBeFalsy();
 });
 
-test("verifies string is formatted as a page amount", () => {
+test("verifies string is formatted as a page time", () => {
   expect(verifyPageTime("11")).toBeTruthy();
   expect(verifyPageTime("1".repeat(600))).toBeTruthy();
   expect(verifyPageTime("1234567890")).toBeTruthy();
@@ -111,4 +111,16 @@ test("verifies string is formatted as a page amount", () => {
   expect(verifyPageTime("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
   expect(verifyPageTime("di4sz45$§")).toBeFalsy();
   expect(verifyPageTime("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a page repeat", () => {
+  expect(verifyPageRepeat("11")).toBeTruthy();
+  expect(verifyPageRepeat("1".repeat(1000))).toBeTruthy();
+  expect(verifyPageRepeat("1234567890")).toBeTruthy();
+  expect(verifyPageRepeat("\u0035")).toBeTruthy();
+
+  expect(verifyPageRepeat("1".repeat(1001))).toBeFalsy();
+  expect(verifyPageRepeat("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
+  expect(verifyPageRepeat("di4sz45$§")).toBeFalsy();
+  expect(verifyPageRepeat("")).toBeFalsy();
 });
