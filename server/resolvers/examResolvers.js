@@ -35,19 +35,6 @@ const examResolvers = {
     addExam: async (root, args, context, info) => {
       if (!context.req.isAuth) throw new Error("Unauthorised");
       try {
-        // console.log("here1 " + context);
-        // console.log(JSON.stringify(args));
-        // const {
-        //   subject,
-        //   examDate,
-        //   startDate,
-        //   numberPages,
-        //   timePerPage,
-        //   timesRepeat,
-        //   currentPage,
-        //   notes
-        // } = context;
-        // console.log("subject1 + " + subject);
         verifyUserInputFormat(args);
         if (!args.userId) args.userId = context.req.userId;
         else if (args.userId !== context.req.userId)

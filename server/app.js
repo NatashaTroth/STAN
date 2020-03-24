@@ -14,6 +14,7 @@ import { handleRefreshToken } from "./authenticationTokens";
 const connectionString = "mongodb://localhost/MMP3";
 const app = express();
 const PORT = process.env.PORT || 5000;
+//TODO: EXTRACT MONGODB CONNECTIONS
 
 mongoose
   .connect(connectionString, {
