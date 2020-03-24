@@ -3,7 +3,8 @@ const {
   verifyUsername,
   verifyPassword,
   verifySubject,
-  verifyDate,
+  verifyExamDate,
+  verifyStudyStartDate,
   verifyPageAmount,
   verifyPageTime,
   verifyPageRepeat,
@@ -131,14 +132,13 @@ test("verifies string is formatted as a page repeat", () => {
   expect(verifyPageRepeat("di4sz45$§")).toBeFalsy();
 });
 
-// test("verifies string is formatted as a username", () => {
-//   expect(verifyUsername("dsfj3$%fdsdf")).toBeTruthy();
-//   expect(verifyUsername("c".repeat(30))).toBeTruthy();
-//   expect(verifyUsername("di4sz$§d")).toBeTruthy();
-//   expect(verifyUsername('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
-//   expect(verifyUsername("%")).toBeTruthy();
-//   expect(verifyUsername("\u0035")).toBeTruthy();
+test("verifies string is formatted as a notes", () => {
+  expect(verifyPageNotes("dsfj3$%fdsdf")).toBeTruthy();
+  expect(verifyPageNotes("c".repeat(100000000))).toBeTruthy();
+  expect(verifyPageNotes("di4sz$§d")).toBeTruthy();
+  expect(verifyPageNotes('kls7$5469!"§$%%&/()=?$§d')).toBeTruthy();
+  expect(verifyPageNotes("\u0035")).toBeTruthy();
+  expect(verifyPageNotes("")).toBeTruthy();
 
-//   expect(verifyUsername("d".repeat(31))).toBeFalsy();
-//   expect(verifyUsername("")).toBeFalsy();
-// });
+  expect(verifyPageNotes("d".repeat(100000001))).toBeFalsy();
+});
