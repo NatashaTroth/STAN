@@ -100,3 +100,15 @@ test("verifies string is formatted as a page amount", () => {
   expect(verifyPageAmount("di4sz45$§")).toBeFalsy();
   expect(verifyPageAmount("")).toBeFalsy();
 });
+
+test("verifies string is formatted as a page amount", () => {
+  expect(verifyPageTime("11")).toBeTruthy();
+  expect(verifyPageTime("1".repeat(600))).toBeTruthy();
+  expect(verifyPageTime("1234567890")).toBeTruthy();
+  expect(verifyPageTime("\u0035")).toBeTruthy();
+
+  expect(verifyPageTime("1".repeat(601))).toBeFalsy();
+  expect(verifyPageTime("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
+  expect(verifyPageTime("di4sz45$§")).toBeFalsy();
+  expect(verifyPageTime("")).toBeFalsy();
+});
