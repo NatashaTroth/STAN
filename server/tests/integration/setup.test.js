@@ -5,6 +5,8 @@ import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
 const { MongoClient } = require("mongodb");
+import mongoose from "mongoose";
+import { User } from "../../models";
 
 describe("??", () => {
   // const userAPI = new UserAPI({ store });
@@ -25,16 +27,18 @@ describe("??", () => {
   let db;
 
   beforeAll(async () => {
-    try {
-      connection = await MongoClient.connect(connectionString, {
+    mongoose
+      .connect(connectionString, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
+      })
+      .then(() => console.log("connected to db"))
+      .catch(e => {
+        console.error(e.message);
+        //TODO CHANGE TO TEST
+        throw new Error("db not connected");
       });
-      db = await connection.db("testMMP3");
-    } catch (err) {
-      //TODO CHANGE TO TEST
-      throw new Error("db not connected");
-    }
   });
 
   afterAll(async () => {
@@ -45,14 +49,22 @@ describe("??", () => {
   });
 
   it("should insert a doc into collection", async () => {
-    const users = db.collection("users");
+    const resp = await User.create({
+      username: "testUser",
+      email: "test@user.at",
+      password: "klsjdflk",
+      mascot: 0,
+      googleId: "",
+      googleLogin: false
+    });
+    // const users = db.collection("users");
 
-    const conso = { name: "John1" };
-    await users.insertOne(conso);
+    // const conso = { name: "John1" };
+    // await users.insertOne(conso);
 
-    const insertedUser = await users.findOne({ name: "John1" });
-    expect(insertedUser).toEqual(conso);
-    // expect("ksjhdf").toBeTruthy();
+    // const insertedUser = await users.findOne({ name: "John1" });
+    // expect(insertedUser).toEqual(conso);
+    expect(resp).toBeTruthy();
   });
   // use the test server to create a query function
   const { query } = createTestClient(server);
