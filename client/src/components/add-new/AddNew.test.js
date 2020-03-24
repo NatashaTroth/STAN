@@ -24,10 +24,14 @@ test("calls onSubmit with CORRECT data", () => {
   expect(
     verifySubject((getByLabelText(/subject/i).value = "English"))
   ).toBeTruthy()
-  //   expect(verifyExamDate((getByLabelText(/examDate/i).value = ""))).toBeTruthy()
-  //   expect(
-  //     verifyStudyStartDate((getByLabelText(/studyStartDate/i).value = ""))
-  //   ).toBeTruthy()
+  expect(
+    verifyExamDate((getByLabelText(/examDate/i).value = "2020-03-30"))
+  ).toBeTruthy()
+  expect(
+    verifyStudyStartDate(
+      (getByLabelText(/studyStartDate/i).value = "2020-03-30")
+    )
+  ).toBeTruthy()
   expect(
     verifyPageAmount((getByLabelText(/pageAmount/i).value = "850"))
   ).toBeTruthy()
@@ -44,8 +48,8 @@ test("calls onSubmit with CORRECT data", () => {
   expect(handleSubmit).toHaveBeenCalledTimes(1)
   expect(handleSubmit).toHaveBeenCalledWith({
     subject: "English",
-    examDate: "",
-    studyStartDate: "",
+    examDate: "2020-03-30",
+    studyStartDate: "2020-03-30",
     pageAmount: "850",
     pageTime: "5",
     pageRepeat: "2",
@@ -60,10 +64,14 @@ test("calls onSubmit with WRONG data", () => {
   )
 
   expect(verifySubject((getByLabelText(/subject/i).value = ""))).toBeFalsy()
-  //   expect(verifyExamDate((getByLabelText(/examDate/i).value = ""))).toBeFalsy()
-  //   expect(
-  //     verifyStudyStartDate((getByLabelText(/studyStartDate/i).value = ""))
-  //   ).toBeFalsy()
+  expect(
+    verifyExamDate((getByLabelText(/examDate/i).value = "3.March 2020"))
+  ).toBeFalsy()
+  expect(
+    verifyStudyStartDate(
+      (getByLabelText(/studyStartDate/i).value = "200-2-20999")
+    )
+  ).toBeFalsy()
   expect(
     verifyPageAmount((getByLabelText(/pageAmount/i).value = "achthundert"))
   ).toBeFalsy()
@@ -73,20 +81,13 @@ test("calls onSubmit with WRONG data", () => {
   expect(
     verifyPageRepeat((getByLabelText(/pageRepeat/i).value = "zwei"))
   ).toBeFalsy()
-  expect(verifyPageNotes((getByLabelText(/pageNotes/i).value = ""))).toBeFalsy()
+
+  let longString = "s".repeat(11)
+  expect(
+    verifyPageNotes((getByLabelText(/pageNotes/i).value = longString))
+  ).toBeFalsy()
 
   getByText(/submit/i).click()
-
-  expect(handleSubmit).toHaveBeenCalledTimes(1)
-  expect(handleSubmit).toHaveBeenCalledWith({
-    subject: "",
-    examDate: "",
-    studyStartDate: "",
-    pageAmount: "achthundert",
-    pageTime: "drei",
-    pageRepeat: "zwei",
-    pageNotes: "",
-  })
 })
 
 test("verifies input field attribute", () => {

@@ -38,12 +38,6 @@ test("call onSubmit with wrong email and password", () => {
     verifyPassword((getByLabelText(/password/i).value = "987654"))
   ).toBeFalsy()
   getByText(/submit/i).click()
-
-  expect(handleSubmit).toHaveBeenCalledTimes(1)
-  expect(handleSubmit).toHaveBeenCalledWith({
-    email: "-@&/.com",
-    password: "987654",
-  })
 })
 
 test("verifies required input field for email", () => {

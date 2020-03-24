@@ -49,7 +49,7 @@ function verifyCurrentPage(string) {
 function verifyPageNotes(string) {
   //Regex returns: RangeError: Maximum call stack size exceeded at String.match (<anonymous>)
   // return string.match(/^.{0,100000000}$/);
-  if (string.length > 100000000) return false
+  if (string.length > 10) return false
   return true
 }
 
