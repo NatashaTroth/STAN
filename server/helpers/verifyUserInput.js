@@ -9,10 +9,15 @@ function verifyEmail(string) {
 }
 
 function verifyUsername(string) {
+  let result = "".match(/^.{1,30}$/);
+  console.log(string + " verifying username + " + result);
   return string.match(/^.{1,30}$/);
 }
 
 function verifyPassword(string) {
+  let result = string.match(/^.{8,30}$/);
+  console.log(string + " verifying username + " + result);
+
   return string.match(/^.{8,30}$/);
 }
 
