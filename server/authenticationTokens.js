@@ -1,9 +1,14 @@
-import jwt from "jsonwebtoken";
-import { User } from "./models/index";
-import { ApolloError } from "apollo-server";
+// import { NamedModulesPlugin } from "webpack";
+
+const jwt = require("jsonwebtoken");
+const { User } = require("./models/index");
+const { ApolloError } = require("apollo-server");
+// import jwt from "jsonwebtoken";
+// import { User } from "./models/index";
+// import { ApolloError } from "apollo-server";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
-export async function handleRefreshToken(req, res) {
+async function handleRefreshToken(req, res) {
   //read refresh cookie - validate that it's correct
   const token = req.cookies.refresh_token;
   if (!token) {
@@ -31,7 +36,7 @@ export async function handleRefreshToken(req, res) {
   return res.send({ ok: true, accessToken: createAccessToken(user) });
 }
 
-export const sendRefreshToken = (res, token) => {
+const sendRefreshToken = (res, token) => {
   // console.log("sending refresh token");
   res.cookie("refresh_token", token, {
     httpOnly: true,
@@ -43,7 +48,7 @@ export const sendRefreshToken = (res, token) => {
  * Creates and returns a json token, containing the user id. Used as short term access token for authentication.
  * @param {object} user
  */
-export const createAccessToken = user => {
+const createAccessToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create access token");
   return jwt.sign(
@@ -63,7 +68,7 @@ export const createAccessToken = user => {
  * Creates and returns json token, containing the user id and tokenversion. Used as a refreshtoken for authentication.
  * @param {object} user
  */
-export const createRefreshToken = user => {
+const createRefreshToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(
@@ -73,4 +78,11 @@ export const createRefreshToken = user => {
       expiresIn: "7d"
     }
   );
+};
+
+module.exports = {
+  handleRefreshToken,
+  sendRefreshToken,
+  createAccessToken,
+  createRefreshToken
 };

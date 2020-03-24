@@ -1,4 +1,6 @@
-import { gql } from "apollo-server";
+// import { gql } from "apollo-server";
+
+const { gql } = require("apollo-server");
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
 const userType = gql`

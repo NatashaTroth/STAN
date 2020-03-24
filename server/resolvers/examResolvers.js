@@ -1,14 +1,14 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-import { Exam } from "../models";
-import { GraphQLScalarType } from "graphql";
-import { Kind } from "graphql/language";
-import dayjs from "dayjs";
-import {
+const { Exam } = require("../models");
+const { GraphQLScalarType } = require("graphql");
+const { Kind } = require("graphql/language");
+const dayjs = require("dayjs");
+const {
   UserInputError,
   AuthenticationError,
   ApolloError
-} from "apollo-server";
-import {
+} = require("apollo-server");
+const {
   verifySubject,
   verifyExamDate,
   verifyStudyStartDate,
@@ -17,8 +17,28 @@ import {
   verifyPageRepeat,
   verifyCurrentPage,
   verifyPageNotes
-} from "../helpers/verifyUserInput";
-import { JsonWebTokenError } from "jsonwebtoken";
+} = require("../helpers/verifyUserInput");
+const { JsonWebTokenError } = require("jsonwebtoken");
+// import { Exam } from "../models";
+// import { GraphQLScalarType } from "graphql";
+// import { Kind } from "graphql/language";
+// import dayjs from "dayjs";
+// import {
+//   UserInputError,
+//   AuthenticationError,
+//   ApolloError
+// } from "apollo-server";
+// import {
+//   verifySubject,
+//   verifyExamDate,
+//   verifyStudyStartDate,
+//   verifyPageAmount,
+//   verifyPageTime,
+//   verifyPageRepeat,
+//   verifyCurrentPage,
+//   verifyPageNotes
+// } from "../helpers/verifyUserInput";
+// import { JsonWebTokenError } from "jsonwebtoken";
 
 //TODO: Authentication
 const examResolvers = {

@@ -1,5 +1,5 @@
-import User from "./User";
-import Exam from "./Exam";
+const User = require("./User");
+const Exam = require("./Exam");
 // import { MotivationalSayings } from "./MotivationalSayings";
 
 module.exports = {

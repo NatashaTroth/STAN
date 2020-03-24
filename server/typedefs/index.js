@@ -1,8 +1,8 @@
 // const { userType, examType } = require("./types");
-import { types } from "./types";
-import { queries } from "./queries";
-import { gql } from "apollo-server";
-import { mergeTypes } from "merge-graphql-schemas";
+const { types } = require("./types");
+const { queries } = require("./queries");
+const { gql } = require("apollo-server");
+const { mergeTypes } = require("merge-graphql-schemas");
 
 const typeDefs = gql`
   ${mergeTypes([...types, ...queries])}

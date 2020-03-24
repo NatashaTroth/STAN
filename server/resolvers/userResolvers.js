@@ -1,21 +1,40 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 //TODO: RAFACTOR
-import { User } from "../models";
-import {
+const { User } = require("../models");
+const {
   UserInputError,
   AuthenticationError,
   ApolloError
-} from "apollo-server";
-import { createAccessToken, createRefreshToken } from "../authenticationTokens";
-import { sendRefreshToken } from "../authenticationTokens";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { OAuth2Client } from "google-auth-library";
-import {
+} = require("apollo-server");
+const {
+  createAccessToken,
+  createRefreshToken
+} = require("../authenticationTokens");
+const { sendRefreshToken } = require("../authenticationTokens");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require("google-auth-library");
+const {
   verifyUsername,
   verifyEmail,
   verifyPassword
-} from "../helpers/verifyUserInput";
+} = require("../helpers/verifyUserInput");
+// import { User } from "../models";
+// import {
+//   UserInputError,
+//   AuthenticationError,
+//   ApolloError
+// } from "apollo-server";
+// import { createAccessToken, createRefreshToken } from "../authenticationTokens";
+// import { sendRefreshToken } from "../authenticationTokens";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
+// import { OAuth2Client } from "google-auth-library";
+// import {
+//   verifyUsername,
+//   verifyEmail,
+//   verifyPassword
+// } from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //TODO: Authenticate Queries
