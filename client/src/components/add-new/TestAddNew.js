@@ -34,27 +34,27 @@ function TestAddNew({ onSubmit }) {
         <label htmlFor="subject" className="add-new__form__element__label">
           Subject
         </label>
-        <Input
+        <input
           className="add-new__form__element__input"
           type="text"
           id="subject"
           label="subject"
           placeholder="Math"
           required
-          data-testid="required-input"
+          data-testid="required-input-subject"
         />
 
         <label htmlFor="examDate" className="add-new__form__element__label">
           examDate
         </label>
-        <Input
+        <input
           className="add-new__form__element__input"
           type="date"
           id="examDate"
           label="examDate"
           placeholder="DD/MM/YYYY"
           required
-          data-testid="required-input"
+          data-testid="required-input-examdate"
         />
 
         <label
@@ -74,7 +74,7 @@ function TestAddNew({ onSubmit }) {
         <label htmlFor="pageAmount" className="add-new__form__element__label">
           pageAmount
         </label>
-        <Input
+        <input
           className="add-new__form__element__input"
           type="number"
           min="0"
@@ -82,7 +82,7 @@ function TestAddNew({ onSubmit }) {
           label="pageAmount"
           placeholder="829"
           required
-          data-testid="required-input"
+          data-testid="required-input-pageamount"
         />
 
         <label htmlFor="pageTime" className="add-new__form__element__label">

@@ -17,6 +17,7 @@ function AddNew() {
 
   const onSubmit = async formData => {
     try {
+      console.log(JSON.stringify(formData.exam_date))
       const resp = await addExam({
         variables: {
           subject: formData.exam_subject,
