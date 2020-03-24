@@ -1,7 +1,10 @@
 import React from "react"
 import { render, getByTestId, cleanup } from "@testing-library/react"
 import TestLogin from "./TestLogin"
-import { verifyEmail, verifyPassword } from "../../../../server/helpers/regex"
+import {
+  verifyEmail,
+  verifyPassword,
+} from "../../../src/helpers/verifyUserInput"
 
 afterEach(cleanup)
 

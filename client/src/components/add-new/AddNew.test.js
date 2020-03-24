@@ -9,7 +9,7 @@ import {
   verifyPageTime,
   verifyPageRepeat,
   verifyPageNotes,
-} from "../../../../server/helpers/regex"
+} from "../../../src/helpers/verifyUserInput"
 // --------------------------------------------------------------
 
 afterEach(cleanup)
