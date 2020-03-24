@@ -46,6 +46,7 @@ test("verifies string is formatted as a username", () => {
   expect(verifyUsername("di4sz$§d")).toBeTruthy();
   expect(verifyUsername('kls7$5469!"§$%&/()=?$§d')).toBeTruthy();
   expect(verifyUsername("%")).toBeTruthy();
+  expect(verifyUsername("\u0035")).toBeTruthy();
 
   expect(verifyUsername("d".repeat(31))).toBeFalsy();
   expect(verifyUsername("")).toBeFalsy();
@@ -88,19 +89,14 @@ test("verifies string is formatted as a subject", () => {
 //   expect(verifySubject("")).toBeFalsy();
 // });
 
-// test("verifies string is formatted as a page amount", () => {
-//   expect(verifySubject("11")).toBeTruthy();
-//   let input = "1"
-//   expect(verifySubject(input.repeat(1000))).toBeTruthy();
-//   expect(verifySubject("di4sz$§d")).toBeTruthy();
-//   expect(verifySubject("!\"§$%&/()=?*+'#-_.:,;")).toBeTruthy();
-//   expect(verifySubject("k")).toBeTruthy();
+test("verifies string is formatted as a page amount", () => {
+  expect(verifyPageAmount("11")).toBeTruthy();
+  expect(verifyPageAmount("1".repeat(10000))).toBeTruthy();
+  expect(verifyPageAmount("1234567890")).toBeTruthy();
+  expect(verifyPageAmount("\u0035")).toBeTruthy();
 
-//   expect(verifySubject("123456789012345678905")).toBeFalsy();
-//   expect(verifySubject("123454")).toBeFalsy();
-//   expect(verifySubject("di4sz$§")).toBeFalsy();
-//   expect(verifySubject("")).toBeFalsy();
-// });
-//verify password
-//verify dates
-//verify no script xss
+  expect(verifyPageAmount("1".repeat(10001))).toBeFalsy();
+  expect(verifyPageAmount("!\"§$%&/()=?*+'#-_.:,;")).toBeFalsy();
+  expect(verifyPageAmount("di4sz45$§")).toBeFalsy();
+  expect(verifyPageAmount("")).toBeFalsy();
+});
