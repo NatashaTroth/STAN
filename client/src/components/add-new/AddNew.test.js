@@ -82,7 +82,7 @@ test("calls onSubmit with WRONG data", () => {
     verifyPageRepeat((getByLabelText(/pageRepeat/i).value = "zwei"))
   ).toBeFalsy()
 
-  let longString = "s".repeat(11)
+  let longString = "s".repeat(100000001)
   expect(
     verifyPageNotes((getByLabelText(/pageNotes/i).value = longString))
   ).toBeFalsy()
