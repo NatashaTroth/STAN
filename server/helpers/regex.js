@@ -21,11 +21,13 @@ function verifySubject(string) {
 }
 
 function verifyExamDate(string) {
-  // return string.match(/^.(\d{1-4})[-|/|.](\d{1-2})[-|/|.](\d{1-4})$/);
+  if (!validateDate(string)) return false;
+  return true;
 }
 function verifyStudyStartDate(string) {
-  //if(match empty, or match date pattern)
-  // return string.match(/^.(\d{1-4})[-|/|.](\d{1-2})[-|/|.](\d{1-4})$/);
+  if (string.match(/^.{0}$/)) return true;
+  if (!validateDate(string)) return false;
+  return true;
 }
 
 function verifyPageAmount(string) {
@@ -44,6 +46,13 @@ function verifyPageNotes(string) {
   //Regex returns: RangeError: Maximum call stack size exceeded at String.match (<anonymous>)
   // return string.match(/^.{0,100000000}$/);
   if (string.length > 100000000) return false;
+  return true;
+}
+
+function validateDate(string) {
+  let regexDateOne = /^(0?[1-9]|[12][0-9]|3[01])[-|/|.](0?[1-9]|1[012])[-|/|.]\d{4}$/;
+  let regexDateTwo = /^\d{4}[-|/|.](0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])$/;
+  if (!string.match(regexDateOne) && !string.match(regexDateTwo)) return false;
   return true;
 }
 

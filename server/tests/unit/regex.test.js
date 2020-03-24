@@ -1,3 +1,4 @@
+// //TODO: TEST ALL ASCII CHARS
 const {
   verifyEmail,
   verifyUsername,
@@ -83,18 +84,15 @@ test("verifies string is formatted as a subject", () => {
   expect(verifySubject("")).toBeFalsy();
 });
 
-// test("verifies string is formatted as a date", () => {
-//   expect(verifySubject("11-12-2020")).toBeTruthy();
-//   expect(verifySubject("12345678901234567890")).toBeTruthy();
-//   expect(verifySubject("di4sz$§d")).toBeTruthy();
-//   expect(verifySubject("!\"§$%&/()=?*+'#-_.:,;")).toBeTruthy();
-//   expect(verifySubject("k")).toBeTruthy();
+test("verifies string is formatted as an exam date", () => {
+  dateTests(verifyExamDate);
+  expect(verifyExamDate("")).toBeFalsy();
+});
 
-//   expect(verifySubject("123456789012345678905")).toBeFalsy();
-//   expect(verifySubject("123454")).toBeFalsy();
-//   expect(verifySubject("di4sz$§")).toBeFalsy();
-//   expect(verifySubject("")).toBeFalsy();
-// });
+test("verifies string is formatted as an start date", () => {
+  dateTests(verifyStudyStartDate);
+  expect(verifyStudyStartDate("")).toBeTruthy();
+});
 
 test("verifies string is formatted as a page amount", () => {
   expect(verifyPageAmount("11")).toBeTruthy();
@@ -132,7 +130,7 @@ test("verifies string is formatted as a page repeat", () => {
   expect(verifyPageRepeat("di4sz45$§")).toBeFalsy();
 });
 
-test("verifies string is formatted as a notes", () => {
+test("verifies string is formatted as notes", () => {
   expect(verifyPageNotes("dsfj3$%fdsdf")).toBeTruthy();
   expect(verifyPageNotes("c".repeat(100000000))).toBeTruthy();
   expect(verifyPageNotes("di4sz$§d")).toBeTruthy();
@@ -142,3 +140,27 @@ test("verifies string is formatted as a notes", () => {
 
   expect(verifyPageNotes("d".repeat(100000001))).toBeFalsy();
 });
+
+function dateTests(dateFunction) {
+  expect(dateFunction("11-12-2020")).toBeTruthy();
+  expect(dateFunction("2020-12-11")).toBeTruthy();
+  expect(dateFunction("05.06.2020")).toBeTruthy();
+  expect(dateFunction("05.06.2020")).toBeTruthy();
+  expect(dateFunction("2023.12.2")).toBeTruthy();
+  expect(dateFunction("01/12/2020")).toBeTruthy();
+  expect(dateFunction("2016/05/7")).toBeTruthy();
+
+  expect(dateFunction("0-0-0")).toBeFalsy();
+  expect(dateFunction("00-00-0000")).toBeFalsy();
+  expect(dateFunction("05.06.20")).toBeFalsy();
+  expect(dateFunction("32.12.2020")).toBeFalsy();
+  expect(dateFunction("30/13/2020")).toBeFalsy();
+  expect(dateFunction("dd-0-0")).toBeFalsy();
+  expect(dateFunction("32.mm.2020")).toBeFalsy();
+  expect(dateFunction("30/13/yyyy")).toBeFalsy();
+  expect(dateFunction("0-0-0")).toBeFalsy();
+  expect(dateFunction("32.12.2020")).toBeFalsy();
+  expect(dateFunction("30/13/2020")).toBeFalsy();
+  expect(dateFunction("123454")).toBeFalsy();
+  expect(dateFunction("di4sz$§")).toBeFalsy();
+}
