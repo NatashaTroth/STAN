@@ -7,46 +7,17 @@ import { ApolloServer } from "apollo-server-express";
 const { MongoClient } = require("mongodb");
 import mongoose from "mongoose";
 import { User } from "../../models";
+import { setup, teardown } from "./setup";
 
 describe("??", () => {
-  // const userAPI = new UserAPI({ store });
-  // const launchAPI = new LaunchAPI();
-
-  // create a test server to test against, using our production typeDefs,
-  // resolvers, and dataSources.
-
   //TODO: EXTRACT MONGODB CONNECTIONS
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: async ({ req, res }) => ({ req, res })
-  });
-
-  const connectionString = "mongodb://localhost/testMMP3";
-  let connection;
-  let db;
-
+  let server;
   beforeAll(async () => {
-    mongoose
-      .connect(connectionString, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-      })
-      .then(() => console.log("connected to db"))
-      .catch(e => {
-        console.error(e.message);
-        //TODO CHANGE TO TEST
-        throw new Error("db not connected");
-      });
+    setup();
   });
 
   afterAll(async () => {
-    await mongoose.connection.db.dropDatabase();
-    //await db.dropDatabase();
-    // await db.users.drop();
-    await connection.close();
-    await db.close();
+    teardown();
   });
 
   it("should insert a doc into collection", async () => {
@@ -68,7 +39,7 @@ describe("??", () => {
     expect(resp).toBeTruthy();
   });
   // use the test server to create a query function
-  const { query } = createTestClient(server);
+  // const { query } = createTestClient(server);
 
   // // run query against the server and snapshot the output
   // const res = await query({ query: GET_LAUNCH, variables: { id: 1 } });
