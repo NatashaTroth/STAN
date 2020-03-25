@@ -13,7 +13,7 @@
     "build": "mkdir dist && babel src -s -d dist",
     "test": "jest --watchAll",
     "testUnit": "jest --watch ./tests/unit",
-    "testIntegration": "jest --watch ./tests/integration"
+    "testIntegration": "jest --watch ./tests/integration --runInBand --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",

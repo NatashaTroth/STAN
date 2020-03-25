@@ -42,7 +42,8 @@ describe("??", () => {
   });
 
   afterAll(async () => {
-    await db.dropDatabase();
+    await mongoose.connection.db.dropDatabase();
+    //await db.dropDatabase();
     // await db.users.drop();
     await connection.close();
     await db.close();
