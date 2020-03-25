@@ -31,22 +31,23 @@ class StanEnvironment extends NodeEnvironment {
       context: async ({ req, res }) => ({ req, res })
     });
     console.log("done server " + this.global.server);
-    mongoose
-      .connect(this.connectionString, {
+
+    try {
+      this.db = await mongoose.connect(this.connectionString, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true
-      })
-      .then(dbConnection => {
-        // this.global.db = dbConnection;
-        console.log("connected to db");
-        // console.log(JSON.stringify(mongoose));
-      })
-      .catch(e => {
-        console.error(e.message);
-        //TODO CHANGE TO TEST
-        throw new Error("db not connected");
       });
+      // this.db = mongoose.connection;
+      this.global.mongoose = mongoose;
+      if (this.db) console.log("database connected");
+
+      // console.log(resp);
+    } catch (e) {
+      console.error(e.message);
+      //TODO CHANGE TO TEST
+      throw new Error("db not connected");
+    }
 
     // // Will trigger if docblock contains @my-custom-pragma my-pragma-value
     // if (this.docblockPragmas["my-custom-pragma"] === "my-pragma-value") {

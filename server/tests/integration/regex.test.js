@@ -5,7 +5,7 @@ import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
 const { MongoClient } = require("mongodb");
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { User } from "../../models";
 
 describe("??", () => {
@@ -43,21 +43,19 @@ describe("??", () => {
   // });
 
   it("should insert a doc into collection", async () => {
-    const resp = await User.create({
-      username: "testUser",
-      email: "test@user.at",
-      password: "klsjdflk",
-      mascot: 0,
-      googleId: "",
-      googleLogin: false
-    });
-    // const users = db.collection("users");
+    const mongoose = global.mongoose;
+    console.log("IN TESTING " + global.mongoose);
+    // console.log(global.dbConnection);
+    // const resp = await User.create({
+    //   username: "testUser",
+    //   email: "test@user.at",
+    //   password: "klsjdflk",
+    //   mascot: 0,
+    //   googleId: "",
+    //   googleLogin: false
+    // });
+    const resp = await User.find({});
 
-    // const conso = { name: "John1" };
-    // await users.insertOne(conso);
-
-    // const insertedUser = await users.findOne({ name: "John1" });
-    // expect(insertedUser).toEqual(conso);
     expect("test").toBeTruthy();
   });
   // use the test server to create a query function
