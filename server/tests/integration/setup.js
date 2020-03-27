@@ -36,7 +36,7 @@ async function setup() {
     console.log(e.message);
     throw new Error("db not connected");
   }
-
+  console.log("END OF SETUP");
   return server;
 }
 

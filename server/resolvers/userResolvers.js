@@ -100,6 +100,7 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
+      console.log(JSON.stringify(context));
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {
