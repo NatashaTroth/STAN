@@ -24,6 +24,7 @@
     "@shelf/jest-mongodb": "^1.1.5",
     "apollo-server": "^2.9.16",
     "apollo-server-express": "^2.9.16",
+    "apollo-server-integration-testing": "^2.3.0",
     "apollo-server-testing": "^2.11.0",
     "bcrypt": "^4.0.1",
     "concurrently": "^5.0.2",

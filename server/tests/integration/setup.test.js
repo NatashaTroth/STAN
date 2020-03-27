@@ -1,6 +1,6 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
-import { createTestClient } from "apollo-server-testing";
+// import { createTestClient } from "apollo-server-testing";
 import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
@@ -16,6 +16,7 @@ import {
   GOOGLE_LOGIN_MUTATION
 } from "../mutations.js";
 import { GET_EXAMS_QUERY, CURRENT_USER } from "../queries.js";
+import { createTestClient } from "apollo-server-integration-testing";
 
 describe("??", () => {
   //TODO: EXTRACT MONGODB CONNECTIONS
@@ -47,8 +48,9 @@ describe("??", () => {
     // expect(insertedUser).toEqual(conso);
 
     //  use the test server to create a query function
-    const { query, mutate } = createTestClient({
-      server,
+    // const { query, mutate } = createTestClient({ server });
+    const { query } = createTestClient({
+      apolloServer,
       extendMockRequest: {
         headers: {
           cookie: "csrf=blablabla",
