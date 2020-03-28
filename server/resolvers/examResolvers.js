@@ -53,7 +53,7 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      if (!context.req.isAuth) throw new Error("Unauthorised");
+      if (!context.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
         if (!args.userId) args.userId = context.req.userId;

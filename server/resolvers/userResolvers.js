@@ -47,13 +47,13 @@ const userResolvers = {
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
-    currentUser: async (parent, ars, context) => {
-      console.log(context.isAuth);
+    currentUser: async (parent, ars, { req, res, isAuth }) => {
+      // console.log(context.isAuth);
       //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
-      if (!context.isAuth) return null;
+      if (!isAuth) return null;
       // fetch header
-      const authorization = context.req.get("Authorization");
+      const authorization = req.get("Authorization");
       if (!authorization) return null;
       try {
         //TODO: SAVE ALL PAYLOAD
@@ -71,9 +71,9 @@ const userResolvers = {
     }
   },
   Mutation: {
-    logout: (root, args, { req, res }, info) => {
+    logout: (root, args, { req, res, isAuth }, info) => {
       try {
-        if (!req.isAuth) throw new Error("Unauthorised");
+        if (!isAuth) throw new Error("Unauthorised");
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
         const resp = revokeRefreshTokensForUser(req.userId);
@@ -106,9 +106,9 @@ const userResolvers = {
 
       try {
         // console.log("googlog: " + googleLogin);
-        console.log(verifyUsername(username));
+        // console.log(verifyUsername(username));
         verifyUserInputFormat({ username, email, password });
-        console.log("hiii " + username);
+        // console.log("hiii " + username);
         const user = await signUserUp({
           username,
           email,
@@ -214,6 +214,7 @@ function signUpGoogleUser(payload) {
 
 //TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function revokeRefreshTokensForUser(userId) {
+  //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
   try {
     const user = await User.findOne({ _id: userId });
     if (!user) throw new AuthenticationError("This user does not exist");
@@ -244,7 +245,7 @@ async function verifyGoogleIdToken(token) {
 }
 
 function verifyUserInputFormat({ username, email, password }) {
-  console.log(username);
+  // console.log(username);
   if (typeof username !== "undefined" && !verifyUsername(username))
     throw new AuthenticationError("Username input has the wrong format");
   if (typeof email !== "undefined" && !verifyEmail(email))
