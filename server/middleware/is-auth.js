@@ -8,23 +8,25 @@ export async function isAuth(req) {
   // req.isAuth = false;
 
   const authHeader = req.get("Authorization");
-  if (!authHeader) return false; //executes next function (if there is one)
+  if (!authHeader) return { isAuth: false, userId: "" }; //executes next function (if there is one)
 
   try {
     const token = authHeader.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    if (!decodedToken) return false;
+    if (!decodedToken) return { isAuth: false, userId: "" };
 
     const user = await User.findOne({ _id: decodedToken.userId });
     if (user.tokenVersion !== decodedToken.tokenVersion)
       throw new AuthenticationError("Wrong token version");
 
     // req.isAuth = true;
-    req.userId = decodedToken.userId;
+    // req.userId = decodedToken.userId;
+
+    return { isAuth: true, userId: decodedToken.userId };
   } catch (err) {
     console.log(err);
-    return false;
+    return { isAuth: false, userId: "" };
   }
-  return true;
+  // return {isAuth: t, userId: ""};
 }
 // };

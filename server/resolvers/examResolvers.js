@@ -53,11 +53,11 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      if (!context.isAuth) throw new Error("Unauthorised");
+      if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
-        if (!args.userId) args.userId = context.req.userId;
-        else if (args.userId !== context.req.userId)
+        if (!args.userId) args.userId = context.userInfo.userId;
+        else if (args.userId !== context.userInfo.userId)
           throw new AuthenticationError(
             "Not authorised to create an exam for the this user."
           );

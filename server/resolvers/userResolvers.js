@@ -47,11 +47,10 @@ const userResolvers = {
     user: (root, arg, context, info) => {
       return fetchOneData();
     },
-    currentUser: async (parent, ars, { req, res, isAuth }) => {
-      // console.log(context.isAuth);
+    currentUser: async (parent, ars, { req, res, userInfo }) => {
       //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
-      if (!isAuth) return null;
+      if (!userInfo.isAuth) return null;
       // fetch header
       const authorization = req.get("Authorization");
       if (!authorization) return null;
@@ -71,9 +70,9 @@ const userResolvers = {
     }
   },
   Mutation: {
-    logout: (root, args, { req, res, isAuth }, info) => {
+    logout: (root, args, { req, res, userInfo }, info) => {
       try {
-        if (!isAuth) throw new Error("Unauthorised");
+        if (!userInfo.isAuth) throw new Error("Unauthorised");
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
         const resp = revokeRefreshTokensForUser(req.userId);
@@ -84,7 +83,7 @@ const userResolvers = {
       return true;
     },
     login: async (parent, { email, password }, context) => {
-      if (context.req.isAuth) throw new Error("Already logged in");
+      if (context.userInfo.isAuth) throw new Error("Already logged in");
       try {
         verifyUserInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
@@ -102,7 +101,7 @@ const userResolvers = {
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
       // console.log(JSON.stringify(context));
-      if (context.req.isAuth) throw new Error("Already logged in");
+      if (context.userInfo.isAuth) throw new Error("Already logged in");
 
       try {
         // console.log("googlog: " + googleLogin);

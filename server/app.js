@@ -58,7 +58,7 @@ const apolloServer = new ApolloServer({
   context: async ({ req, res }) => ({
     req,
     res,
-    isAuth: isAuth(req)
+    userInfo: await isAuth(req)
   }),
   playground: {
     settings: {
