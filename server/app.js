@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
-import isAuth from "./middleware/is-auth";
+import { isAuth } from "./middleware/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
 //TODO: CACHING APOLLO
@@ -26,7 +26,7 @@ mongoose
   .catch(e => console.error(e.message));
 
 app.use(cookieParser());
-app.use(isAuth);
+// app.use(isAuth);
 // app.use(cors); //add origin & credentials
 // app.use(
 //   cors({
@@ -55,7 +55,11 @@ app.post("/refresh_token", async (req, res) => {
 // app.options("*", cors(corsOptions));
 const apolloServer = new ApolloServer({
   schema,
-  context: async ({ req, res }) => ({ req, res }),
+  context: async ({ req, res }) => ({
+    req,
+    res,
+    isAuth: isAuth(req)
+  }),
   playground: {
     settings: {
       "request.credentials": "same-origin"

@@ -22,6 +22,9 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/runtime": "^7.9.2",
     "@shelf/jest-mongodb": "^1.1.5",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.16",
     "apollo-server-express": "^2.9.16",
     "apollo-server-integration-testing": "^2.3.0",
@@ -39,7 +42,6 @@
     "express-session": "^1.17.0",
     "google-auth-library": "^5.10.1",
     "googleapis": "^47.0.0",
-    "graphql": "^14.5.8",
     "jest-cli": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.7.6",
@@ -53,7 +55,15 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
+    "@babel/register": "^7.9.0",
+    "apollo-boost": "^0.4.7",
+    "babel-cli": "^7.0.0-0",
+    "babel-preset-env": "^1.7.0",
+    "cross-fetch": "^3.0.4",
     "eslint": "^6.8.0",
-    "jest": "^25.1.0"
+    "graphql": "^14.6.0",
+    "jest": "^25.1.0",
+    "superagent": "^5.2.2",
+    "supertest": "^4.0.2"
   }
 }

@@ -48,9 +48,10 @@ const userResolvers = {
       return fetchOneData();
     },
     currentUser: async (parent, ars, context) => {
+      console.log(context.isAuth);
       //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
       // if (!context.req.isAuth) throw new Error(" Unauthorised");
-      if (!context.req.isAuth) return null;
+      if (!context.isAuth) return null;
       // fetch header
       const authorization = context.req.get("Authorization");
       if (!authorization) return null;
@@ -100,7 +101,7 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
-      console.log(JSON.stringify(context));
+      // console.log(JSON.stringify(context));
       if (context.req.isAuth) throw new Error("Already logged in");
 
       try {

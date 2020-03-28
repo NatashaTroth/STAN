@@ -18,8 +18,13 @@ async function setup() {
     server = new ApolloServer({
       typeDefs,
       resolvers,
-      context: async ({ req, res }) => ({ req, res })
+      context: async ({ req, res }) => {
+        // return (req.headers.authorization = "");
+        req.isAuth;
+      }
     });
+    // global.httpServer = server;
+    // await global.httpServer.listen();
 
     const connectionString = "mongodb://localhost/testMMP3";
     let connection;
