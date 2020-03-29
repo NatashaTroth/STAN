@@ -24,7 +24,7 @@ describe("Test user resolver regex", () => {
   //TODO: EXTRACT MONGODB CONNECTIONS
   let server;
   beforeAll(async () => {
-    server = await setup();
+    server = await setup({ isAuth: false });
   });
 
   afterAll(async () => {
@@ -54,7 +54,6 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    console.log(resp.errors[0].message);
     expect(resp.data.signup).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format");
 
@@ -111,7 +110,7 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual("Email input has the wrong format");
   });
 
-  it("should use regex to filter out wrong sign up input data", async () => {
+  it("should use regex to filter out wrong login input data", async () => {
     const { query, mutate } = createTestClient(server);
     let resp;
     resp = await mutate({

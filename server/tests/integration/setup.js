@@ -13,7 +13,7 @@ import { isAuth } from "../../helpers/is-auth";
 //   // this.carname = brand;
 // }
 
-async function setup() {
+async function setup({ isAuth, userId }) {
   let server;
   try {
     // const headers = new Map();
@@ -29,7 +29,7 @@ async function setup() {
           }
         },
         // userInfo: await isAuth({ headers })
-        userInfo: true
+        userInfo: { isAuth, userId }
       })
     });
     // global.httpServer = server;

@@ -37,7 +37,7 @@ function AddNew() {
         refetchQueries: [{ query: GET_EXAMS_QUERY }],
       })
 
-      if (resp && resp.data.addExam) {
+      if (resp && resp.data && resp.data.addExam) {
         // success message ----------------
         document.getElementById("success-container").style.display = "block"
       } else {
