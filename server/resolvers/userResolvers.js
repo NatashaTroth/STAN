@@ -100,7 +100,6 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
-      console.log("IN SIGNUP RESOLVER");
       // console.log(JSON.stringify(context));
       if (context.userInfo.isAuth) throw new Error("Already logged in");
 
@@ -196,10 +195,7 @@ async function signUserUp({
 
 function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
-
   sendRefreshToken(context.res, createRefreshToken(user));
-  console.log("end SIGNUP RESOLVER");
-
   return userAccessToken;
 }
 
