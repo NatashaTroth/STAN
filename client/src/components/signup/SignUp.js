@@ -24,7 +24,8 @@ function SignUp() {
         },
       })
       //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
-      if (resp && resp.data) setAccessToken(resp.data.googleLogin.accessToken)
+      if (resp && resp.data && resp.data.googleLogin)
+        setAccessToken(resp.data.googleLogin.accessToken)
       else throw new Error("The google login failed")
 
       history.push("/")
@@ -217,7 +218,7 @@ async function handleSignup({ formData, signup, history }) {
         mascot: 0, //TODO: make dynamic (user can choose mascot)
       },
     })
-    if (resp && resp.data) {
+    if (resp && resp.data && resp.data.signup) {
       setAccessToken(resp.data.signup.accessToken)
       console.log("saved access token after signup")
     } else {

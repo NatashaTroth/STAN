@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
-import { isAuth } from "./middleware/is-auth";
+import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
 //TODO: CACHING APOLLO

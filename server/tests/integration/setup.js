@@ -5,6 +5,7 @@ import { ApolloServer } from "apollo-server-express";
 const { MongoClient } = require("mongodb");
 import mongoose from "mongoose";
 import { User } from "../../models";
+import { isAuth } from "../../helpers/is-auth";
 
 // class testSetup {
 // constructor() {
@@ -15,13 +16,21 @@ import { User } from "../../models";
 async function setup() {
   let server;
   try {
+    // const headers = new Map();
+    // header.set("Authorization", "test");
     server = new ApolloServer({
       typeDefs,
       resolvers,
-      context: async ({ req, res }) => {
-        // return (req.headers.authorization = "");
-        req.isAuth;
-      }
+      context: async ({ req, res }) => ({
+        req: {},
+        res: {
+          cookie: (name, value, options) => {
+            return { name, value, options };
+          }
+        },
+        // userInfo: await isAuth({ headers })
+        userInfo: true
+      })
     });
     // global.httpServer = server;
     // await global.httpServer.listen();
@@ -46,6 +55,7 @@ async function setup() {
 }
 
 async function teardown() {
+  console.log("IN TEARDOWN");
   await mongoose.connection.db.dropDatabase();
   //await db.dropDatabase();
   // await db.users.drop();

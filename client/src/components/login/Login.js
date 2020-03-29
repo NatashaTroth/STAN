@@ -23,7 +23,8 @@ function Login() {
         },
       })
       //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
-      if (resp && resp.data) setAccessToken(resp.data.googleLogin.accessToken)
+      if (resp && resp.data && resp.data.googleLogin)
+        setAccessToken(resp.data.googleLogin.accessToken)
       else throw new Error("The google login failed")
 
       history.push("/")
@@ -191,7 +192,7 @@ async function handleLogin({ formData, login, history }) {
       // },
     })
 
-    if (resp && resp.data) {
+    if (resp && resp.data && resp.data.login) {
       setAccessToken(resp.data.login.accessToken)
     } else {
       // displays server error (backend)

@@ -100,6 +100,7 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
+      console.log("IN SIGNUP RESOLVER");
       // console.log(JSON.stringify(context));
       if (context.userInfo.isAuth) throw new Error("Already logged in");
 
@@ -114,6 +115,7 @@ const userResolvers = {
           password,
           mascot
         });
+
         const accessToken = logUserIn({ user, context });
         return { user, accessToken, tokenExpiration: 15 };
       } catch (err) {
@@ -196,6 +198,7 @@ function logUserIn({ user, context }) {
   let userAccessToken = createAccessToken(user);
 
   sendRefreshToken(context.res, createRefreshToken(user));
+  console.log("end SIGNUP RESOLVER");
 
   return userAccessToken;
 }
@@ -216,7 +219,7 @@ async function revokeRefreshTokensForUser(userId) {
   //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
   try {
     const user = await User.findOne({ _id: userId });
-    if (!user) throw new AuthenticationError("This user does not exist");
+    if (!user) throw new Error("This user does not exist");
     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
     return true;
   } catch (err) {
@@ -225,7 +228,7 @@ async function revokeRefreshTokensForUser(userId) {
       err.extensions.code &&
       err.extensions.code !== "UNAUTHENTICATED"
     )
-      throw new ApolloError(err.message);
+      throw new Error(err.message);
     throw err;
   }
 }

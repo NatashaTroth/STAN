@@ -6,7 +6,7 @@ import { AuthenticationError } from "apollo-server";
 export async function isAuth(req) {
   //req.isAuth -> new property in req
   // req.isAuth = false;
-
+  console.log(req.get("Authorization"));
   const authHeader = req.get("Authorization");
   if (!authHeader) return { isAuth: false, userId: "" }; //executes next function (if there is one)
 
