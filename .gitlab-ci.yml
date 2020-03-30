@@ -1,33 +1,37 @@
-stages:
-  - npm
-  - lint
-  - test
-  - staging
-  - deployment
+include:
+     - local: '/server/.gitlab-ci.yml'
 
-npm:
-  tags:
-    - stan
-  stage: npm
-  artifacts:
-    paths:
-      - server/node_modules/
-    expire_in: 1 days
-    when: always
 
-  script:
-    - cd server/
-    - echo "Running npm ci.."
-    - npm ci
+# stages:
+#   - npm
+#   - lint
+#   - test
+#   - staging
+#   - deployment
+
+# npm:
+#   tags:
+#     - stan
+#   stage: npm
+#   artifacts:
+#     paths:
+#       - server/node_modules/
+#     expire_in: 1 days
+#     when: always
+
+#   script:
+#     - cd server/
+#     - echo "Running npm ci.."
+#     - npm ci
     
 
-test:
-     stage: test
-     tags:
-       - stan
-     script:
-       - cd server/
-      #  - echo "Running unit tests.."
-      #  - jest ./tests/unit/
-       - echo "Running integration tests.."
-       - jest ./tests/integration/
+# test:
+#      stage: test
+#      tags:
+#        - stan
+#      script:
+#        - cd server/
+#       #  - echo "Running unit tests.."
+#       #  - jest ./tests/unit/
+#        - echo "Running integration tests.."
+#        - jest ./tests/integration/
