@@ -12,7 +12,7 @@
     "lintFix": "eslint \"**/*.js\" --fix",
     "build": "mkdir dist && babel src -s -d dist",
     "test": "jest --watchAll",
-    "ciTest": "jest",
+    "ciTest": "jest ./tests/unit",
     "testUnit": "jest --watch ./tests/unit",
     "testIntegration": "jest --watch ./tests/integration --runInBand --detectOpenHandles"
   },
