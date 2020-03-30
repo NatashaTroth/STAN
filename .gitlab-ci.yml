@@ -10,4 +10,4 @@ test:
        - stan
      script:
        - cd server/
-       - npm run test
+       - npm run ciTest
