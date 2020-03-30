@@ -11,7 +11,7 @@ npm:
   stage: npm
   artifacts:
     paths:
-      - node_modules/
+      - server/node_modules/
     expire_in: 1 days
     when: always
 
