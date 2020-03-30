@@ -13,6 +13,7 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import Mascots from "../../components/mascots/Mascots"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
@@ -58,6 +59,9 @@ function SignUp() {
     <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
         <div className="col-md-12 login__form__inner">
+          <div className="login__form__element">
+            <Mascots />
+          </div>
           <div className="login__form__element">
             <Label
               for="username"
@@ -226,7 +230,6 @@ async function handleSignup({ formData, signup, history }) {
       throw new Error("The sign up failed")
     }
     // redirect
-
     history.push("/")
     window.location.reload()
   } catch (err) {

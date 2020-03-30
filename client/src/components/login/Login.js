@@ -61,7 +61,6 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              data-testid="required-input-email"
               className="login__form__element__input"
               type="email"
               id="email"
@@ -97,7 +96,6 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              data-testid="required-input-password"
               className="login__form__element__input"
               type="password"
               id="password"
