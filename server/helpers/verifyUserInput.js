@@ -1,7 +1,7 @@
 function verifyEmail(string) {
   //the upper limit is normally 254 - but older addresses might still be 320
   if (!string.match(/^.{1,320}$/)) return false;
-  const emailRegex = /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/;
+  const emailRegex = /^([\w_\-."+!#$%&'*/=?^`{|}~ ]{1,64})@([\w_\-.]+)\.([a-z]+)$/;
   if (!string.match(emailRegex)) return false;
   let domain = string.split("@")[1];
   if (!domain.match(/^.{1,255}$/)) return false;

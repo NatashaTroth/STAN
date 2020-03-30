@@ -52,6 +52,7 @@ describe("Test user resolver regex", () => {
         userId: currentUserId
       }
     });
+    console.log(resp);
     expect(resp.data.addExam).toBeTruthy();
 
     resp = await mutate({

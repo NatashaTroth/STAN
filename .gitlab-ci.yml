@@ -25,4 +25,4 @@ test:
        - stan
      script:
        - cd server/
-       - npm run ciTest
+       - jest
