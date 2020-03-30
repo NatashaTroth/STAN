@@ -5,7 +5,7 @@ stages:
   - staging
   - deployment
 
-  npm:
+npm:
   tags:
     - stan
   stage: npm
