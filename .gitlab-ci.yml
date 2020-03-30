@@ -1,8 +1,22 @@
 stages:
+  - npm
   - lint
   - test
   - staging
   - deployment
+
+  npm:
+  tags:
+    - stan
+  stage: npm
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 1 days
+    when: always
+
+  script:
+    - npm ci
 
 test:
      stage: test
