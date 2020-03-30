@@ -17,6 +17,7 @@ npm:
 
   script:
     - cd server/
+    - echo "Running npm ci.."
     - npm ci
 
 test:
@@ -25,4 +26,7 @@ test:
        - stan
      script:
        - cd server/
+       - echo "Running unit tests.."
        - jest ./tests/unit/
+       - echo "Running integration tests.."
+       - jest ./tests/integration/
