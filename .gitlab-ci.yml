@@ -11,7 +11,7 @@ npm:
   stage: npm
   artifacts:
     paths:
-      - node_modules
+      - node_modules/
     expire_in: 1 days
     when: always
 
@@ -19,6 +19,7 @@ npm:
     - cd server/
     - echo "Running npm ci.."
     - npm ci
+    
 
 test:
      stage: test
@@ -26,7 +27,7 @@ test:
        - stan
      script:
        - cd server/
-       - echo "Running unit tests.."
-       - jest ./tests/unit/
+      #  - echo "Running unit tests.."
+      #  - jest ./tests/unit/
        - echo "Running integration tests.."
        - jest ./tests/integration/

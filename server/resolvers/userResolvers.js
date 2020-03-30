@@ -45,7 +45,9 @@ const userResolvers = {
       return User.find({});
     },
     user: (root, arg, context, info) => {
-      return fetchOneData();
+      return User.find({});
+
+      // return fetchOneData();
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
