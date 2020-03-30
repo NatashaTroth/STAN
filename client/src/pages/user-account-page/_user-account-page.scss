@@ -11,6 +11,7 @@
       &--top {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         padding: 40px;
 
         &--user-data {
@@ -29,12 +30,13 @@
         }
         &--buttons {
           text-align: right;
+
           button {
             border: none;
             text-transform: lowercase;
             position: relative;
-            margin: 2px !important;
             padding: 0;
+            margin: 5px !important;
 
             &:after {
               content: "";
@@ -50,6 +52,9 @@
               width: 100%;
               left: 0;
               background: theme_color("dark");
+            }
+            &:focus {
+              outline: none;
             }
 
             font-family: $font-family-OpenSans-Regular;
