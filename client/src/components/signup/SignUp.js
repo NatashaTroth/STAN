@@ -170,13 +170,6 @@ function SignUp() {
 
           <div className="login__form__buttons">
             <div className="login__form__buttons__button-right">
-              <Button
-                variant="button"
-                text="Sign up"
-                className="stan-btn-primary"
-              />
-            </div>
-            <div className="login__form__buttons__button-left">
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
@@ -192,6 +185,13 @@ function SignUp() {
                 onSuccess={successGoogle}
                 onFailure={failureGoogle}
                 cookiePolicy={"single_host_origin"}
+              />
+            </div>
+            <div className="login__form__buttons__button-left">
+              <Button
+                variant="button"
+                text="Sign up"
+                className="stan-btn-primary"
               />
             </div>
           </div>

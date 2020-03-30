@@ -126,14 +126,10 @@ function Login() {
           </div>
 
           <div className="login__form__buttons">
-            <div className="login__form__buttons__button-right">
-              <Button
-                className="stan-btn-primary"
-                variant="button"
-                text="Login"
-              />
-            </div>
-            <div className="login__form__buttons__button-left">
+            <div
+              className="login__form__buttons__button-right"
+              data-testid="button-login"
+            >
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
@@ -149,6 +145,13 @@ function Login() {
                 onSuccess={successGoogle}
                 onFailure={failureGoogle}
                 cookiePolicy={"single_host_origin"}
+              />
+            </div>
+            <div className="login__form__buttons__button-left">
+              <Button
+                className="stan-btn-primary"
+                variant="button"
+                text="Login"
               />
             </div>
           </div>

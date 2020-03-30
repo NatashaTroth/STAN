@@ -14,6 +14,40 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
+const SIGNUP_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String
+    $mascot: Int
+  ) {
+    signup(
+      username: $username
+      email: $email
+      password: $password
+      mascot: $mascot
+    ) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`;
+
+const UPDATE_MASCOT_MUTATION = gql`
+  mutation($mascot: Int!) {
+    updateMascot(mascot: $mascot) {
+      successful
+      user {
+        mascot
+      }
+    }
+  }
+`;
 
 const LOGOUT_MUTATION = gql`
   mutation {
@@ -21,6 +55,21 @@ const LOGOUT_MUTATION = gql`
   }
 `;
 
+const GOOGLE_LOGIN_MUTATION = gql`
+  mutation($idToken: String!) {
+    googleLogin(idToken: $idToken) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`;
+
+//------------------Exam mutations:---------------
 const ADD_EXAM_MUTATION = gql`
   mutation(
     $subject: String!
@@ -51,48 +100,11 @@ const ADD_EXAM_MUTATION = gql`
   }
 `;
 
-const SIGNUP_MUTATION = gql`
-  mutation(
-    $username: String!
-    $email: String!
-    $password: String
-    $mascot: Int
-  ) {
-    signup(
-      username: $username
-      email: $email
-      password: $password
-      mascot: $mascot
-    ) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
-    }
-  }
-`;
-
-const GOOGLE_LOGIN_MUTATION = gql`
-  mutation($idToken: String!) {
-    googleLogin(idToken: $idToken) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
-    }
-  }
-`;
-
 export {
-  ADD_EXAM_MUTATION,
   LOGIN_MUTATION,
-  LOGOUT_MUTATION,
   SIGNUP_MUTATION,
-  GOOGLE_LOGIN_MUTATION
+  UPDATE_MASCOT_MUTATION,
+  LOGOUT_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
+  ADD_EXAM_MUTATION
 };
