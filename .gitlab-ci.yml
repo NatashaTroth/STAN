@@ -1,6 +1,13 @@
+stages:
+  - lint
+  - test
+  - staging
+  - deployment
+
 test:
+     stage: test
      tags:
        - stan
      script:
        - cd server/
-       - npm run jestTest
+       - ./node_modules/.bin/jest
