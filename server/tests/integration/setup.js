@@ -7,12 +7,6 @@ import mongoose from "mongoose";
 import { User } from "../../models";
 import { isAuth } from "../../helpers/is-auth";
 
-// class testSetup {
-// constructor() {
-//   // Constructor
-//   // this.carname = brand;
-// }
-
 async function setup({ isAuth, userId }) {
   let server;
   try {

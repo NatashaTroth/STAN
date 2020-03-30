@@ -40,8 +40,8 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 //TODO: Authenticate Queries
 const userResolvers = {
   Query: {
-    users: (root, arg, { req, res }, info) => {
-      // if (!req.isAuth) throw new Error("Unauthorised");
+    users: (root, arg, { req, res, userInfo }, info) => {
+      // if (!userInfo.isAuth) throw new Error("Unauthorised");
       return User.find({});
     },
     user: (root, arg, context, info) => {
@@ -49,7 +49,7 @@ const userResolvers = {
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
-      // if (!context.req.isAuth) throw new Error(" Unauthorised");
+      // if (!userInfo.isAuth) throw new Error(" Unauthorised");
       if (!userInfo.isAuth) return null;
       // fetch header
       const authorization = req.get("Authorization");
@@ -75,7 +75,7 @@ const userResolvers = {
         if (!userInfo.isAuth) throw new Error("Unauthorised");
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
-        const resp = revokeRefreshTokensForUser(req.userId);
+        const resp = revokeRefreshTokensForUser(userInfo.userId);
         if (!resp) throw new ApolloError("Unable to revoke refresh token");
       } catch (err) {
         throw new ApolloError(err.message);
