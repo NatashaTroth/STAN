@@ -43,6 +43,8 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
+    console.log(resp);
+
     expect(resp.data.signup).toBeTruthy();
 
     resp = await mutate({
