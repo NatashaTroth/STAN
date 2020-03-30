@@ -1,0 +1,43 @@
+.today {
+    padding-bottom: 10px;
+
+    .container-fluid {
+        padding: 0;
+    }
+
+    &__container {
+        padding: 10px 10px 0 10px;
+        &__header {
+            border-bottom: 3px solid theme-color("dark");
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__heading {
+            }
+            &__deadline {
+                margin-left: 10px;
+                display: flex;
+                align-items: baseline;
+
+                &__text {
+                    margin-right: 10px;
+                    color: theme-color("dark");
+                    font-family: $font-family-BasierCircle-Bold;
+                    @include rem(font-size, $font-size-20);
+                    @include rem(line-height, 26px);
+                    @include rem(letter-spacing, 1px);
+
+                    @include media-breakpoint-down(sm) {
+                        @include rem(font-size, $font-size-18);
+                        @include rem(line-height, 24px);
+                        @include rem(letter-spacing, 0.5px);
+                    }
+                }
+                &__date {
+                }
+            }
+        }
+    }
+}

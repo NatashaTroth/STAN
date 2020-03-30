@@ -7,6 +7,7 @@ import { CURRENT_USER } from "../../graphQL/queries"
 // components ----------------
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
+import Today from "../../components/today/Today"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
@@ -22,24 +23,33 @@ function Dashboard() {
     <div className="dashboard-page">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
             <h2 className="dashboard-page__heading">
               Hello you
               {/* {data.currentUser.username} */}
             </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
+          <div className="col-md-1"></div>
           {/* ------ no tasks ------*/}
-          <div className="col-md-8">
+          <div className="col-md-1"></div>
+          <div className="col-md-7">
             <EmptyDashboard></EmptyDashboard>
           </div>
           <div className="col-md-4"></div>
           {/* ------ if tasks open ------*/}
-          <div className="col-md-4">
+          <div className="col-xl-1"></div>
+          <div className="col-xl-3">
+            {/* Today Goals*/}
             <TodayGoals></TodayGoals>
           </div>
-          <div className="col-md-8">{/* Today */}</div>
-          <div className="col-md-4">{/* Today Progress */}</div>
+          <div className="col-xl-5">
+            {/* Today */}
+            <Today></Today>
+          </div>
+          <div className="col-xl-2">{/* Today Progress */}</div>
+          <div className="col-xl-1"></div>
         </div>
       </div>
     </div>
