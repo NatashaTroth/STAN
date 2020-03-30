@@ -19,16 +19,19 @@ function AddNewPage() {
     <div className="add-new-page">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
             <h2 className="add-new-page__heading">New exam</h2>
             <p className="add-new-page__sub-heading">
               enter all details about the exam
             </p>
           </div>
+          <div className="col-md-1"></div>
+          <div className="col-md-1"></div>
           <div className="col-md-10">
             <AddNew></AddNew>
           </div>
-          <div className="col-md-2"></div>
+          <div className="col-md-1"></div>
         </div>
       </div>
     </div>
