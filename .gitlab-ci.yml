@@ -10,4 +10,4 @@ test:
        - stan
      script:
        - cd server/
-       - ./node_modules/.bin/jest
+       - npm run test
