@@ -7,7 +7,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "babel-node app.js",
     "server": "nodemon --exec babel-node app.js",
     "dev": "concurrently \"npm run server\" \"cd ../client/ && npm run start \"",
     "format": "prettier --write \"**/*.js\"",
