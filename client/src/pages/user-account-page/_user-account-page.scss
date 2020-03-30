@@ -10,11 +10,12 @@
     &--left {
       &--top {
         display: flex;
-        justify-content: space-between;
+        flex-direction: row;
         padding: 40px;
 
         &--user-data {
           display: flex;
+          flex-direction: row;
           align-items: center;
           flex-wrap: wrap;
           img {
@@ -27,11 +28,29 @@
           }
         }
         &--buttons {
-          //   display: flex;
-          //   flex-direction: column;
+          text-align: right;
           button {
             border: none;
             text-transform: lowercase;
+            position: relative;
+            margin: 2px !important;
+            padding: 0;
+
+            &:after {
+              content: "";
+              position: absolute;
+              width: 0;
+              height: 3px;
+              display: block;
+              right: 0;
+              background: theme_color("dark");
+              transition: width 0.3s ease;
+            }
+            &:hover:after {
+              width: 100%;
+              left: 0;
+              background: theme_color("dark");
+            }
 
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, $font-size-16);
