@@ -2,4 +2,5 @@ test:
      tags:
        - stan
      script:
-       - cd server/ && npm run test
+       - cd server/
+       - npm run test
