@@ -44,7 +44,6 @@
     "express-session": "^1.17.0",
     "google-auth-library": "^5.10.1",
     "googleapis": "^47.0.0",
-    "jest-cli": "^25.2.4",
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.7.6",
     "mongoose": "^5.8.7",
@@ -65,6 +64,7 @@
     "eslint": "^6.8.0",
     "graphql": "^14.6.0",
     "jest": "^25.1.0",
+    "jest-cli": "^25.2.4",
     "superagent": "^5.2.2",
     "supertest": "^4.0.2"
   }
