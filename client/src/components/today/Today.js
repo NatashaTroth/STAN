@@ -29,11 +29,41 @@ function Today() {
                   </p>
                   {/* TODO: insert deadline */}
                   <p className="today__container__header__deadline__date">
-                    30/01/20
+                    30/01/2020
                   </p>
                 </div>
               </div>
-              <div className="today__container__content"></div>
+              <div className="today__container__content">
+                <div className="today__container__content__subject">
+                  <p className="today__container__content__label">Subject</p>
+                  <p className="today__container__content__text--big">
+                    Computer Networks
+                  </p>
+                </div>
+                <div className="today__container__content__layout">
+                  <div className="today__container__content__details">
+                    <div className="today__container__content__details__goal">
+                      <p className="today__container__content__label">Goal:</p>
+                      <p className="today__container__content__text">
+                        page 280 to 340
+                      </p>
+                    </div>
+                    <div className="today__container__content__details__duration">
+                      <p className="today__container__content__label">
+                        Duration:
+                      </p>
+                      <p className="today__container__content__text">20 min</p>
+                    </div>
+                  </div>
+
+                  <div className="today__container__content__total-pages">
+                    <p className="today__container__content__label">
+                      Total pages
+                    </p>
+                    <p className="today__container__content__text">280 / 890</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
