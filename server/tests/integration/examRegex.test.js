@@ -52,7 +52,6 @@ describe("Test user resolver regex", () => {
         userId: currentUserId
       }
     });
-
     expect(resp.data.addExam).toBeTruthy();
 
     resp = await mutate({
@@ -70,7 +69,6 @@ describe("Test user resolver regex", () => {
         userId: currentUserId
       }
     });
-
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Subject input has the wrong format"
@@ -91,7 +89,6 @@ describe("Test user resolver regex", () => {
         userId: currentUserId
       }
     });
-
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Exam date input has the wrong format"
@@ -112,7 +109,6 @@ describe("Test user resolver regex", () => {
         userId: currentUserId
       }
     });
-
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Study start date input has the wrong format"
@@ -135,25 +131,39 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeTruthy();
 
-    // resp = await mutate({
-    //   query: ADD_EXAM_MUTATION,
-    //   variables: {
-    //     subject: "Maths",
-    //     examDate: new Date("05-09-2020"),
-    //     startDate: new Date("04-09-2020"),
-    //     numberPages: 5,
-    //     timePerPage: 5,
-    //     currentPage: 6,
-    //     notes: "NOTES",
-    //     pdfLink: "klsdjfs",
-    //     completed: false,
-    //     userId: currentUserId
-    //   }
-    // });
+    resp = await mutate({
+      query: ADD_EXAM_MUTATION,
+      variables: {
+        subject: "Maths",
+        examDate: new Date("05-09-2020"),
+        startDate: new Date("04-09-2020"),
+        numberPages: 5,
+        timePerPage: null,
+        currentPage: null,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false,
+        userId: currentUserId
+      }
+    });
+    expect(resp.data.addExam).toBeTruthy();
 
-    // expect(resp.data.addExam).toBeFalsy();
-    // expect(resp.errors[0].message).toEqual(
-    //   "Number of pages input has the wrong format"
-    // );
+    resp = await mutate({
+      query: ADD_EXAM_MUTATION,
+      variables: {
+        subject: "Maths",
+        examDate: new Date("05-09-2020"),
+        startDate: new Date("04-09-2020"),
+        numberPages: 5,
+        timePerPage: 5,
+        currentPage: 6,
+        notes: "d".repeat(100000001),
+        pdfLink: "klsdjfs",
+        completed: false,
+        userId: currentUserId
+      }
+    });
+    expect(resp.data.addExam).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Notes input has the wrong format");
   });
 });
