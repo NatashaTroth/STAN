@@ -6,6 +6,9 @@
 		width: 100%;
 		max-width: 50rem;
 
+		@include media-breakpoint-down(xl) {
+			padding: 80px 75px;
+		}
 		@include media-breakpoint-down(md) {
 			padding: 60px 80px;
 		}
@@ -13,7 +16,7 @@
 			padding: 50px 60px;
 		}
 		@include media-breakpoint-down(xs) {
-			padding: 20px 20px;
+			padding: 20px 10px;
 		}
 
 		&__inner {
@@ -39,6 +42,10 @@
 			padding-top: 35px;
 			justify-content: center;
 
+			@include media-breakpoint-down(lg) {
+				flex-direction: column-reverse;
+			}
+
 			&__button-left,
 			&__button-right {
 				padding: 5px 10px;
@@ -46,16 +53,6 @@
 				@include media-breakpoint-down(lg) {
 					width: 100%;
 				}
-			}
-			&__button-left {
-				display: flex;
-				flex-direction: column;
-				a {
-					margin: 0;
-					text-align: center;
-				}
-			}
-			&__button-right {
 				button {
 					@include media-breakpoint-down(lg) {
 						width: 100%;

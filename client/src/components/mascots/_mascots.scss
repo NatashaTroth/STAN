@@ -1,0 +1,34 @@
+.mascots {
+  .carousel {
+    .slide {
+      background: none;
+      &:before {
+        content: "";
+      }
+
+      .container {
+        &__img {
+          width: 200px;
+        }
+      }
+    }
+    .control-arrow {
+      &:hover {
+        background: none !important;
+      }
+    }
+    .control-next {
+      &:before {
+        border-left: 8px solid black !important;
+      }
+    }
+    .control-prev {
+      &:before {
+        border-right: 8px solid black !important;
+      }
+    }
+  }
+  &__sub-heading {
+    text-align: center;
+  }
+}

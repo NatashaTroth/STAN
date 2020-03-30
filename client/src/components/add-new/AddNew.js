@@ -24,10 +24,9 @@ function AddNew() {
           examDate: formData.exam_date,
           startDate: formData.exam_start_date,
           numberPages: parseInt(formData.exam_page_amount),
+          currentPage: parseInt(formData.exam_page_current),
           timePerPage: parseInt(formData.exam_page_time),
           timesRepeat: parseInt(formData.exam_page_repeat),
-          //TODO: MAKE CURRENT PAGE DYNAMIC
-          currentPage: 0,
           notes: formData.exam_page_notes,
           // pdfLink: formData.exam_pdf_upload,
           pdfLink: "TODO: CHANGE LATER",
@@ -114,8 +113,7 @@ function AddNew() {
                         </span>
                       )}
                   </div>
-
-                  <div className="add-new__form__container">
+                  <div className="add-new__form__container add-new__form__container--numbers">
                     <div className="add-new__form__element">
                       <Label
                         for="exam-date"
@@ -157,7 +155,6 @@ function AddNew() {
                       />
                     </div>
                   </div>
-
                   <div className="add-new__form__container add-new__form__container--numbers">
                     <div className="add-new__form__element">
                       <Label
@@ -195,6 +192,38 @@ function AddNew() {
                         )}
                     </div>
 
+                    <div className="add-new__form__element">
+                      <Label
+                        for="page-current"
+                        text="Start page"
+                        className="add-new__form__element__label"
+                      ></Label>
+                      <Input
+                        className="add-new__form__element__input"
+                        type="number"
+                        min="0"
+                        id="page-current"
+                        label="exam_page_current"
+                        placeholder="1"
+                        ref={register({
+                          min: 1,
+                          max: 10000,
+                        })}
+                      />
+                      {errors.exam_page_amount &&
+                        errors.exam_page_amount.type === "max" && (
+                          <span className="error">The maximum is 10.000</span>
+                        )}
+                      {errors.exam_page_amount &&
+                        errors.exam_page_amount.type === "min" && (
+                          <span className="error">
+                            Only positive numbers are allowed
+                          </span>
+                        )}
+                    </div>
+                  </div>
+
+                  <div className="add-new__form__container add-new__form__container--numbers">
                     <div className="add-new__form__element">
                       <Label
                         for="page-time"
