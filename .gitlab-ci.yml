@@ -1,5 +1,3 @@
 test:
-     tags:
-       - ci
      script:
-       - echo Hello World
+       - cd server/ && npm run test
