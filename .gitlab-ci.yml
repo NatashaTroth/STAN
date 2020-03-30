@@ -16,6 +16,7 @@ npm:
     when: always
 
   script:
+    - cd server/
     - npm ci
 
 test:
