@@ -17,10 +17,30 @@ npm:
 
   script:
     - cd server/
-    - echo "Running npm ci.."
+    - echo "Running npm ci ..."
     - npm ci
 
-test:
+lint:
+  stage: lint
+  tags:
+    - stan
+  script:
+    - cd server/
+    #  - echo "Running unit tests.."
+    #  - jest ./tests/unit/
+    - echo "Linting.."
+    - npm run lintFix
+
+unit testing:
+  stage: test
+  tags:
+    - stan
+  script:
+    - cd server/
+      - echo "Running unit tests ..."
+      - jest ./tests/unit/
+
+integration testing:
   stage: test
   tags:
     - stan
@@ -29,7 +49,5 @@ test:
     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
   script:
     - cd server/
-    #  - echo "Running unit tests.."
-    #  - jest ./tests/unit/
-    - echo "Running integration tests.."
+    - echo "Running integration tests ..."
     - jest ./tests/integration/
