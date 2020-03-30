@@ -26,8 +26,6 @@ lint:
     - stan
   script:
     - cd server/
-    #  - echo "Running unit tests.."
-    #  - jest ./tests/unit/
     - echo "Linting.."
     - npm run lintFix
 
