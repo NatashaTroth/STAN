@@ -3,9 +3,9 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // components
-import VeryHappyMascot from "../../images/mascots/user-mascot/0.svg"
-import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1.svg"
-import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2.svg"
+import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
+import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
+import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 function Mascots({ getMascotCallback }) {
   return (

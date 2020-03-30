@@ -1,4 +1,6 @@
 import React from "react"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 // import Button from "../../components/button/Button"
 import { setAccessToken } from "../../accessToken"
 import { useQuery } from "@apollo/react-hooks"
@@ -59,7 +61,8 @@ function UserAccount() {
     <div className="user-account">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-1"></div>
+          <div className="col-md-11">
             <div className="user-account__headline">
               {currentUserLoaded ? (
                 <h2> {data.currentUser.username}'s account</h2>
@@ -71,7 +74,7 @@ function UserAccount() {
                 <div className="user-account__container--left--top box-content">
                   <div className="user-account__container--left--top--user-data">
                     {/* TODO: Soll der User ein eigenes Profilfoto hochladen? */}
-                    {currentUserLoaded ? <img src={TestImg} alt="" /> : null}
+                    {/* {currentUserLoaded ? <img src={TestImg} alt="" /> : null} */}
 
                     <div className="user-data">
                       {currentUserLoaded ? (
@@ -105,7 +108,7 @@ function UserAccount() {
                 </div>
               </div>
 
-              <div className="col-md-6 user-account__container--right">
+              <div className="col-md-5 user-account__container--right">
                 <div className="user-account__container--right--top box-content">
                   <h4>current state:</h4>
                   <p>okay</p>
@@ -113,10 +116,27 @@ function UserAccount() {
 
                 <div className="user-account__container--right--bottom box-content">
                   {currentUserLoaded ? (
-                    <img
-                      src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}.svg`)}
-                      alt=""
-                    />
+                    <Carousel
+                      showStatus={false}
+                      showThumbs={false}
+                      infiniteLoop={true}
+                      showIndicators={false}
+                      autoPlay={true}
+                      showArrows={false}
+                    >
+                      <img
+                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-0.svg`)}
+                        alt=""
+                      />
+                      <img
+                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-1.svg`)}
+                        alt=""
+                      />
+                      <img
+                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-2.svg`)}
+                        alt=""
+                      />
+                    </Carousel>
                   ) : null}
                 </div>
               </div>

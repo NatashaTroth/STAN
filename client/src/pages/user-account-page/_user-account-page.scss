@@ -25,18 +25,16 @@
           .user-data {
             display: flex;
             flex-direction: column;
-            padding: 20px;
           }
         }
         &--buttons {
           text-align: right;
-
           button {
             border: none;
             text-transform: lowercase;
             position: relative;
             padding: 0;
-            margin: 5px !important;
+            margin-left: 10px !important;
 
             &:after {
               content: "";
@@ -88,11 +86,21 @@
         padding: 40px;
       }
       &--bottom {
-        padding: 20px;
+        padding: 50px;
         display: flex;
         justify-content: center;
-        img {
-          width: 235px;
+
+        .carousel {
+          .slide {
+            background: none;
+
+            img {
+              width: 235px;
+            }
+            &:before {
+              content: "";
+            }
+          }
         }
       }
     }

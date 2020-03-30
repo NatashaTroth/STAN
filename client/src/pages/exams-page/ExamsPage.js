@@ -20,7 +20,8 @@ const Exams = () => {
     <div className="exams">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-11">
+          <div class="col-md-1"></div>
+          <div className="col-md-10">
             <div className="exams__headline">
               <h2>Current Exams</h2>
             </div>

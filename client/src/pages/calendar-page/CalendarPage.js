@@ -11,6 +11,7 @@ class Calendar extends React.Component {
       <div className="calendar">
         <div className="container-fluid">
           <div class="row">
+            <div className="col-md-1"></div>
             <div class="col-md-10">
               <FullCalendar
                 classname=""
@@ -22,7 +23,7 @@ class Calendar extends React.Component {
                 ]}
               />
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
           </div>
         </div>
       </div>
