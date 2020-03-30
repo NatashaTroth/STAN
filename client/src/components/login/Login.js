@@ -61,7 +61,6 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              data-testid="required-input-email"
               className="login__form__element__input"
               type="email"
               id="email"
@@ -97,7 +96,6 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              data-testid="required-input-password"
               className="login__form__element__input"
               type="password"
               id="password"
@@ -128,10 +126,7 @@ function Login() {
           </div>
 
           <div className="login__form__buttons">
-            <div
-              className="login__form__buttons__button-right"
-              data-testid="button-login"
-            >
+            <div className="login__form__buttons__button-right">
               <Button
                 className="stan-btn-primary"
                 variant="button"
