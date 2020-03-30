@@ -25,4 +25,4 @@ test:
        - stan
      script:
        - cd server/
-       - jest
+       - jest ./tests/testForCi/
