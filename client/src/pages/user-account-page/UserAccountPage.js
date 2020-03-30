@@ -9,10 +9,18 @@ import { GoogleLogout } from "react-google-login"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
+// test image
+import TestImg from "../../images/test-user.png"
+
 function UserAccount() {
   // query ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
-  // const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
+  const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
+  let currentUserLoaded = false
+
+  if (!loading && data && data.currentUser) {
+    currentUserLoaded = true
+  }
 
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
   const currentUserGoogleLogin = false
@@ -22,7 +30,7 @@ function UserAccount() {
   if (!currentUserGoogleLogin)
     logoutButton = (
       <button
-        className="stan-btn-primary"
+        className=""
         onClick={async () => logUserOut({ logout, client, history })}
       >
         Logout
@@ -48,9 +56,75 @@ function UserAccount() {
 
   // return ----------------
   return (
-    <div className="navigation__title">
-      <h2>User Account </h2>
-      {logoutButton}
+    <div className="user-account">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="user-account__headline">
+              {currentUserLoaded ? (
+                <h2> {data.currentUser.username}'s account</h2>
+              ) : null}
+            </div>
+
+            <div className="user-account__container">
+              <div className="col-md-6 user-account__container--left">
+                <div className="user-account__container--left--top box-content">
+                  <div className="user-account__container--left--top--user-data">
+                    {/* TODO: Soll der User ein eigenes Profilfoto hochladen? */}
+                    {currentUserLoaded ? <img src={TestImg} alt="" /> : null}
+
+                    <div className="user-data">
+                      {currentUserLoaded ? (
+                        <h3>{data.currentUser.username}</h3>
+                      ) : null}
+
+                      {currentUserLoaded ? (
+                        <p>{data.currentUser.email}</p>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="user-account__container--left--top--buttons">
+                    <button>edit</button>
+                    {logoutButton}
+                  </div>
+                </div>
+
+                <div className="user-account__container--left--bottom box-content">
+                  <div className="total-exam">
+                    <h1>10</h1>
+                    <p>
+                      total exams <br /> to study
+                    </p>
+                  </div>
+
+                  <div className="finished-exam">
+                    <h1>2</h1>
+                    <p>exams finished</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-6 user-account__container--right">
+                <div className="user-account__container--right--top box-content">
+                  <h4>current state:</h4>
+                  <p>okay</p>
+                </div>
+
+                <div className="user-account__container--right--bottom box-content">
+                  {currentUserLoaded ? (
+                    <img
+                      src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}.svg`)}
+                      alt=""
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* <button
         onClick={async () => {
           //reset refresh token
