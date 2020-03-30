@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useMutation } from "@apollo/react-hooks"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
 import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
@@ -45,6 +45,7 @@ function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
+  let [selectedMascot, getSelectedMascot] = useState(0)
 
   const history = useHistory()
 
@@ -52,7 +53,11 @@ function SignUp() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    handleSignup({ formData, signup, history })
+    handleSignup({ formData, signup, history, selectedMascot })
+  }
+
+  getSelectedMascot = number => {
+    selectedMascot = number
   }
 
   return (
@@ -60,7 +65,7 @@ function SignUp() {
       <div className="row">
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
-            <Mascots />
+            <Mascots getMascotCallback={getSelectedMascot} />
           </div>
           <div className="login__form__element">
             <Label
@@ -212,16 +217,17 @@ function SignUp() {
 
 export default SignUp
 
-async function handleSignup({ formData, signup, history }) {
+async function handleSignup({ formData, signup, history, selectedMascot = 0 }) {
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        mascot: 0, //TODO: make dynamic (user can choose mascot)
+        mascot: selectedMascot,
       },
     })
+    console.log(selectedMascot)
     if (resp && resp.data && resp.data.signup) {
       setAccessToken(resp.data.signup.accessToken)
       console.log("saved access token after signup")

@@ -1,38 +1,76 @@
-import React from "react"
-import Slider from "infinite-react-carousel"
+import React, { useState } from "react"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-import HappyMascot from "../../images/mascots/0-happy-0.svg"
-import VeryHappyMascot from "../../images/mascots/0-veryhappy-0.svg"
-import HappyGirlyMascot from "../../images/mascots/1-happy-0.svg"
-import VeryHappyGirlyMascot from "../../images/mascots/1-veryhappy-0.svg"
-import HappyCleverMascot from "../../images/mascots/2-happy-0.svg"
-import VeryHappyCleverMascot from "../../images/mascots/2-veryhappy-0.svg"
+// components
+import HappyMascot from "../../images/mascots/user-mascot/0.svg"
+import VeryHappyMascot from "../../images/mascots/user-mascot/1.svg"
+import HappyGirlyMascot from "../../images/mascots/user-mascot/2.svg"
+import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/3.svg"
+import HappyCleverMascot from "../../images/mascots/user-mascot/4.svg"
+import VeryHappyCleverMascot from "../../images/mascots/user-mascot/5.svg"
 
-function Mascots() {
+function Mascots({ getMascotCallback }) {
   return (
     <div className="mascots">
-      <p>Choose your mascot, you can change it afterwards in your profile</p>
+      <div className="mascots__sub-heading">
+        <p>
+          Choose your mascot, <br />
+          you can change it afterwards in your profile
+        </p>
+      </div>
 
-      <Slider>
-        <div className="mascots__container">
-          <img className="mascots__img" src={HappyMascot} alt="" />
+      <Carousel
+        showStatus={false}
+        showThumbs={false}
+        infiniteLoop={true}
+        showIndicators={false}
+        useKeyboardArrows={true}
+        onChange={getMascotCallback}
+      >
+        <div className="container">
+          <img
+            className="container__img"
+            src={HappyMascot}
+            alt="a happy mascot"
+          />
         </div>
-        <div className="mascots__container">
-          <img className="mascots__img" src={VeryHappyMascot} alt="" />
+        <div className="container">
+          <img
+            className="container__img"
+            src={VeryHappyMascot}
+            alt="a very happy mascot"
+          />
         </div>
-        <div className="mascots__container">
-          <img className="mascots__img" src={HappyGirlyMascot} alt="" />
+        <div className="container">
+          <img
+            className="container__img"
+            src={HappyGirlyMascot}
+            alt="a happy girly mascot"
+          />
         </div>
-        <div className="mascots__container">
-          <img className="mascots__img" src={VeryHappyGirlyMascot} alt="" />
+        <div className="container">
+          <img
+            className="container__img"
+            src={VeryHappyGirlyMascot}
+            alt="a very happy girly mascot"
+          />
         </div>
-        <div className="mascots__container">
-          <img className="mascots__img" src={HappyCleverMascot} alt="" />
+        <div className="container">
+          <img
+            className="container__img"
+            src={HappyCleverMascot}
+            alt="a happy clever mascot"
+          />
         </div>
-        <div className="mascots__container">
-          <img className="mascots__img" src={VeryHappyCleverMascot} alt="" />
+        <div className="container">
+          <img
+            className="container__img"
+            src={VeryHappyCleverMascot}
+            alt="a very happy clever mascot"
+          />
         </div>
-      </Slider>
+      </Carousel>
     </div>
   )
 }
