@@ -1,8 +1,8 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
-import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
 import { typeDefs } from "../../typedefs";
+import "dotenv/config";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
 const { MongoClient } = require("mongodb");

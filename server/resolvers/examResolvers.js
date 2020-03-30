@@ -3,11 +3,7 @@ const { Exam } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const dayjs = require("dayjs");
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+const { AuthenticationError, ApolloError } = require("apollo-server");
 const {
   verifySubject,
   verifyExamDate,
@@ -18,7 +14,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const { JsonWebTokenError } = require("jsonwebtoken");
+// const { JsonWebTokenError } = require("jsonwebtoken");
 // import { Exam } from "../models";
 // import { GraphQLScalarType } from "graphql";
 // import { Kind } from "graphql/language";
@@ -45,14 +41,13 @@ const examResolvers = {
   Query: {
     exams: (root, arg, context, info) => {
       return Exam.find({});
-      // return fetchData()
     },
     exam: (root, arg, context, info) => {
-      return fetchOneDateData();
+      return Exam.findOne({});
     }
   },
   Mutation: {
-    addExam: async ({}, args, context) => {
+    addExam: async (root, args, context) => {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
