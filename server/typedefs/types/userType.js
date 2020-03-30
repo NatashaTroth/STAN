@@ -18,6 +18,10 @@ const userType = gql`
     accessToken: String!
     tokenExpiration: Int!
   }
+  type UpdateResponse {
+    successful: Boolean!
+    user: User!
+  }
 `;
 
 module.exports = { userType };
