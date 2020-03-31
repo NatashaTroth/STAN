@@ -71,6 +71,7 @@ staging server:
     # - brew update
     # - brew install rbenv rbenv-gem-rehash ruby-build
     # - gem install dpl
+    - git remote -v
     - brew install ruby
     - gem install dpl
     - cd server/
