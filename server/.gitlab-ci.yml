@@ -76,14 +76,14 @@ staging server:
     # - sudo gem install dpl
     # - git remote remove stan-studyplan-staging
 
-    - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
+    # - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
     # git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com/stan-studyplan-staging.git # works
     # - git remote add staging-stan-studyplan master git@heroku.com:staging-stan-studyplan.git #THIS WORKS
     # - git remote add stan-studyplan-staging master git@heroku.com:stan-studyplan-staging.git  #THIS WORKS
     # - git pull stan-studyplan-staging master
     # - git pull stan-studyplan-staging master --allow-unrelated-histories
     # - heroku git:clone -a myapp
-    - heroku addons:create mongolab:sandbox
+    - heroku addons:create mongolab:sandbox --staging-stan-studyplan
     - git subtree push --prefix server/ staging-stan-studyplan master
     - git remote -v
     # - cd server/
