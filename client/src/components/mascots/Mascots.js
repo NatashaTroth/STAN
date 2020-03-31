@@ -2,6 +2,9 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
+// state
+import { CurrentUserContext } from "../../components/STAN/STAN"
+
 // mutation & queries
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
@@ -22,6 +25,7 @@ function Mascots() {
   const history = useHistory()
   // mutation ----------------
   // const [updateMascot] = useMutation()
+
   // query ----------------
   const { loading, error, data } = useQuery(CURRENT_USER)
   let mascotID, user

@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import CurrentExam from "../../components/current-exam/CurrentExam"
 
 // sub components
-import Button from "../../components/button/Button"
+// import Button from "../../components/button/Button"
 
 // TODO: Add query to loop through current and archive exams
 const Exams = () => {
@@ -20,7 +20,7 @@ const Exams = () => {
     <div className="exams">
       <div className="container-fluid">
         <div className="row">
-          <div class="col-md-1"></div>
+          <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="exams__headline">
               <h2>Current Exams</h2>
