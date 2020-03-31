@@ -106,5 +106,7 @@ app.get("*", (req, res) => {
 });
 
 app.listen({ port: PORT }, () =>
-  console.log(`🚀 Server ready at http://localhost:5000${PORT}`)
+  console.log(
+    `🚀 Server ready at http://localhost:5000${apolloServer.graphqlPath}`
+  )
 );

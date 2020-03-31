@@ -49,3 +49,11 @@ integration testing:
     - cd server/
     - echo "Running integration tests ..."
     - jest ./tests/integration/
+
+staging:
+  stage: staging
+  tags:
+    - stan
+  script:
+    - echo "Staging deployment ..."
+    - git subtree push --prefix server/ stan-staging master
