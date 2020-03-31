@@ -25,10 +25,8 @@ npm server:
     - cd server/
     - echo "Running npm ci ..."
     - npm ci
-  only:
-    - /^back-feature.*$/
-    - development
-    - master
+  except:
+    - /^front-feature.*$/
 
 # lint:
 #   stage: lint
@@ -83,7 +81,7 @@ staging server:
     # - git pull stan-studyplan-staging master
     # - git pull stan-studyplan-staging master --allow-unrelated-histories
     # - heroku git:clone -a myapp
-    - heroku addons:create mongolab:sandbox --staging-stan-studyplan
+    - heroku addons:create mongolab:sandbox --app staging-stan-studyplan
     - git subtree push --prefix server/ staging-stan-studyplan master
     - git remote -v
     # - cd server/

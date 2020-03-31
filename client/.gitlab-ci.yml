@@ -19,7 +19,38 @@ npm client:
     - cd client/
     - echo "Running npm ci ..."
     - npm ci
-  only:
-    - /^front-feature.*$/
-    - development
-    - master
+  except:
+    - /^back-feature.*$/
+  # only:
+  #   - /^front-feature.*$/
+  #   - development
+  #   - master
+# lint:
+#   stage: lint
+#   tags:
+#     - stan
+#   script:
+#     - cd server/
+#     - echo "Linting.."
+#     - npm run lintFix
+
+# unit testing:
+#   stage: test
+#   tags:
+#     - stan
+#   script:
+#     - cd server/
+#       - echo "Running unit tests ..."
+#       - jest ./tests/unit/
+
+# integration testing:
+#   stage: test
+#   tags:
+#     - stan
+#   variables:
+#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+#   script:
+#     - cd server/
+#     - echo "Running integration tests ..."
+#     - jest ./tests/integration/
