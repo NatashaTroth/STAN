@@ -189,8 +189,6 @@ async function logUserOut({ logout, client, history }) {
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())
   //resçlo client- always good after logout
-  //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
-  await client.resetStore()
   history.push("/login")
   window.location.reload()
 }
