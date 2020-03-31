@@ -100,6 +100,11 @@ const apolloServer = new ApolloServer({
 apolloServer.applyMiddleware({ app, cors: false });
 
 // setup client render
+//TODO: DELETE LATER OR CHANGE TO /graphql
+app.get("/backend", (req, res) => {
+  // res.send("Welcome to STAN's backend");
+  res.sendFile(path.join(__dirname + "/backend/index.html"));
+});
 app.use(express.static("public"));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
