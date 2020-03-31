@@ -40,9 +40,15 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
+let origin = "http://localhost:3000";
+
+app.configure("production", () => {
+  origin = "/public";
+});
+
 const corsOptions = {
   // preflightContinue: true,
-  origin: ["http://localhost:3000"],
+  origin: [origin],
   credentials: true
 };
 app.use(cors(corsOptions));
