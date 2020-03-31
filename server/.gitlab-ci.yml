@@ -74,8 +74,8 @@ staging server:
     - git remote -v
     # - brew install ruby
     # - sudo gem install dpl
-    - git remote remove stan-studyplan-staging
-    - git remote remove stan-staging
+    # - git remote remove stan-studyplan-staging
+
     - git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com/stan-studyplan-staging.git
 
     # - git remote add stan-stan-studyplan-staging master git@heroku.com:stan-studyplan-staging.git
