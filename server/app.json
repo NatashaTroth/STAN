@@ -3,16 +3,5 @@
   "description": "STAN is a study planner app.",
   "keywords": ["study", "organise", "school", "university"],
   "repository": "https://gitlab.mediacube.at/fhs41216/mmp3-stan",
-  "logo": "./logo.png",
-
-  "env": {
-    "ACCESS_TOKEN_SECRET": {
-      "description": "A secret key for verifying the integrity of signed jwt access tokens.",
-      "generator": "secret"
-    },
-    "REFRESH_TOKEN_SECRET": {
-      "description": "A secret key for verifying the integrity of signed jwt refresh tokens.",
-      "generator": "secret"
-    }
-  }
+  "logo": "./logo.png"
 }

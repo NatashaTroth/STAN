@@ -10,6 +10,8 @@ import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
+const path = require("path");
+
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
 const connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
@@ -55,10 +57,10 @@ const corsOptions = {
 
 console.log(corsOptions);
 app.use(cors(corsOptions));
-
+app.use(express.static("publicServer"));
 app.get("/", (req, res) => {
-  res.send("Welcome to STAN's backend");
-  // res.sendFile(stanImage);
+  // res.send("Welcome to STAN's backend");
+  res.sendFile(path.join(__dirname + "/index.html"));
 });
 
 //special route for updating access token - for security reasons
