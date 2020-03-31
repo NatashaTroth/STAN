@@ -1,11 +1,14 @@
 import React from "react"
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useHistory } from "react-router-dom"
+// --------------------------------------------------------------
 
 // mutation & queries
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
+
+// libraries
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // components
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
@@ -17,9 +20,10 @@ import Button from "../button/Button"
 
 function Mascots() {
   const history = useHistory()
-
-  const { loading, error, data } = useQuery(CURRENT_USER) // get the current user
+  // mutation ----------------
   // const [updateMascot] = useMutation()
+  // query ----------------
+  const { loading, error, data } = useQuery(CURRENT_USER)
   let mascotID, user
 
   if (loading) return <p>Loading...</p>

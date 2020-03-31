@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import { useMutation } from "@apollo/react-hooks"
-// import { SUCCESS_SIGNUP } from "../../graphQL/queries"
-import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
-import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
-import { useForm } from "react-hook-form"
 import { GoogleLogin } from "react-google-login"
-
 // --------------------------------------------------------------
+// mutation & queries
+import { useHistory } from "react-router-dom"
+import { useMutation } from "@apollo/react-hooks"
+import { useForm } from "react-hook-form"
+import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
+// import { SUCCESS_SIGNUP } from "../../graphQL/queries"
 
 // components ----------------
 import Input from "../../components/input/Input"
@@ -15,6 +15,8 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
 function SignUp() {
+  const history = useHistory()
+  // google signup ----------------
   const successGoogle = async response => {
     try {
       const resp = await googleLogin({
@@ -43,12 +45,8 @@ function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
-
-  const history = useHistory()
-
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
-
   const onSubmit = async formData => {
     handleSignup({ formData, signup, history })
   }
