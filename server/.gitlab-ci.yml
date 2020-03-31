@@ -74,9 +74,11 @@ staging server:
     - git remote -v
     # - brew install ruby
     # - sudo gem install dpl
-    # - git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com:stan-studyplan-staging.git
     - git remote remove stan-studyplan-staging
-    - git remote add stan-stan-studyplan-staging master git@heroku.com:stan-studyplan-staging.git
+    - git remote remove stan-staging
+    - git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com/stan-studyplan-staging.git
+
+    # - git remote add stan-stan-studyplan-staging master git@heroku.com:stan-studyplan-staging.git
     - git subtree push --prefix server/ stan-studyplan-staging master
     - git remote -v
     # - cd server/
