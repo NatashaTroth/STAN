@@ -26,7 +26,6 @@ const GET_EXAMS_QUERY = gql`
       notes
       pdfLink
       completed
-      userId
     }
   }
 `
