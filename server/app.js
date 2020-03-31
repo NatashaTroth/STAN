@@ -57,11 +57,11 @@ const corsOptions = {
 
 console.log(corsOptions);
 app.use(cors(corsOptions));
-app.use(express.static("publicServer"));
-app.get("/", (req, res) => {
-  // res.send("Welcome to STAN's backend");
-  res.sendFile(path.join(__dirname + "/index.html"));
-});
+// app.use(express.static("publicServer"));
+// app.get("/", (req, res) => {
+//   // res.send("Welcome to STAN's backend");
+//   res.sendFile(path.join(__dirname + "/index.html"));
+// });
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
@@ -99,8 +99,12 @@ const apolloServer = new ApolloServer({
 // apolloServer.applyMiddleware({ app });
 apolloServer.applyMiddleware({ app, cors: false });
 
+// setup client render
+app.use(express.static("public"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+
 app.listen({ port: PORT }, () =>
-  console.log(
-    `🚀 Server ready at http://localhost:5000${apolloServer.graphqlPath}`
-  )
+  console.log(`🚀 Server ready at http://localhost:5000${PORT}`)
 );

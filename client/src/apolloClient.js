@@ -72,7 +72,7 @@ export const client = new ApolloClient({
       },
       fetchAccessToken: () => {
         //if token is not valid
-        return fetch(process.env.DOMAIN_REFRESH_TOKEN, {
+        return fetch("/refresh_token", {
           method: "POST",
           credentials: "include",
           // headers: {},
@@ -109,7 +109,7 @@ export const client = new ApolloClient({
     requestLink,
 
     new HttpLink({
-      uri: process.env.DOMAIN_SERVER,
+      uri: "/graphql",
       credentials: "include",
     }),
   ]),
