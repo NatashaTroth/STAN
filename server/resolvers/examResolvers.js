@@ -50,8 +50,6 @@ const examResolvers = {
     exams: async (root, args, context, info) => {
       try {
         if (!context.userInfo.isAuth) throw new Error("Unauthorised");
-        const user = await User.findOne({ _id: context.userInfo.userId });
-        if (!user) throw new Error("This user does not exist");
         const resp = await Exam.find({
           userId: context.userInfo.userId
         });
@@ -68,7 +66,23 @@ const examResolvers = {
       }
     },
     exam: async (root, args, context, info) => {
-      return fetchOneDateData();
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const resp = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+
+        return resp;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   },
   Mutation: {
