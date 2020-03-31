@@ -28,7 +28,19 @@
       }
     }
   }
-  &__sub-heading {
-    text-align: center;
+  &__inner {
+    &--box {
+      padding: 40px;
+      &__sub-heading {
+        text-align: center;
+      }
+    }
+    &__heading {
+      padding-bottom: 30px;
+    }
+    &__btn {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }

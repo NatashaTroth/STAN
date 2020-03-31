@@ -14,6 +14,8 @@ import Image from "../../components/image/Image"
 // images ----------------
 import Pic1 from "../../images/icons/profile.png"
 
+// Unter App.js, es muss im Apollo Provider sein der currentUser
+
 const Navbar = () => {
   // query ----------------
   const { data, loading } = useQuery(CURRENT_USER)

@@ -13,7 +13,6 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-import Mascots from "../../components/mascots/Mascots"
 //TODO: block signup & login path when user is logged in
 
 function SignUp() {
@@ -45,7 +44,6 @@ function SignUp() {
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
-  let [selectedMascot, getSelectedMascot] = useState(0)
 
   const history = useHistory()
 
@@ -53,20 +51,13 @@ function SignUp() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    handleSignup({ formData, signup, history, selectedMascot })
-  }
-
-  getSelectedMascot = number => {
-    selectedMascot = number
+    handleSignup({ formData, signup, history })
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
         <div className="col-md-12 login__form__inner">
-          <div className="login__form__element">
-            <Mascots getMascotCallback={getSelectedMascot} />
-          </div>
           <div className="login__form__element">
             <Label
               for="username"
@@ -217,17 +208,17 @@ function SignUp() {
 
 export default SignUp
 
-async function handleSignup({ formData, signup, history, selectedMascot = 0 }) {
+async function handleSignup({ formData, signup, history }) {
+  // selectedMascot = 0
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        mascot: selectedMascot,
+        mascot: null,
       },
     })
-    console.log(selectedMascot)
     if (resp && resp.data && resp.data.signup) {
       setAccessToken(resp.data.signup.accessToken)
       console.log("saved access token after signup")
@@ -236,7 +227,7 @@ async function handleSignup({ formData, signup, history, selectedMascot = 0 }) {
       throw new Error("The sign up failed")
     }
     // redirect
-    history.push("/")
+    history.push("/mascots")
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
