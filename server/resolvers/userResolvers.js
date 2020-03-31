@@ -157,9 +157,14 @@ const userResolvers = {
 
         const user = await User.findOne({ _id: userInfo.userId });
         if (!user) throw new Error("This user does not exist");
-
-        user.mascot = mascot;
-        await User.updateOne({ _id: userInfo.userId }, { mascot: mascot });
+        if (user.mascot === mascot)
+          return { successful: true, user: updatedUser };
+        // user.mascot = mascot;
+        const resp = await User.updateOne(
+          { _id: userInfo.userId },
+          { mascot: mascot }
+        );
+        console.log(resp);
         //TODO: error handling need - not sure how to check if resp was successful
         //DO I NEED SUCCESSFUL - NEED ERROR HANDLING - FOR MONGOOSE?!
         const updatedUser = await User.findOne({ _id: userInfo.userId });
