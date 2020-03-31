@@ -25,7 +25,7 @@ npm client:
   #   - /^front-feature.*$/
   #   - development
   #   - master
-# lint:
+# lint client:
 #   stage: lint
 #   tags:
 #     - stan
@@ -34,7 +34,7 @@ npm client:
 #     - echo "Linting.."
 #     - npm run lintFix
 
-# unit testing:
+# unit testing client:
 #   stage: test
 #   tags:
 #     - stan
@@ -43,13 +43,12 @@ npm client:
 #       - echo "Running unit tests ..."
 #       - jest ./tests/unit/
 
-# integration testing:
+# integration testing client:
 #   stage: test
 #   tags:
 #     - stan
 #   variables:
-#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+
 #   script:
 #     - cd server/
 #     - echo "Running integration tests ..."
