@@ -25,6 +25,11 @@ npm server:
     - cd server/
     - echo "Running npm ci ..."
     - npm ci
+    
+    only:
+    - /^back-feature.*$/
+    - development
+    - master
 
 # lint:
 #   stage: lint

@@ -19,3 +19,7 @@ npm client:
     - cd client/
     - echo "Running npm ci ..."
     - npm ci
+  only:
+    - /^front-feature.*$/
+    - development
+    - master
