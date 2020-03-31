@@ -11,6 +11,8 @@ import { GoogleLogout } from "react-google-login"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
+import CountUp from "react-countup"
+
 // test image
 import TestImg from "../../images/test-user.png"
 
@@ -19,6 +21,7 @@ function UserAccount() {
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
   const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
   let currentUserLoaded = false
+  let value = 10
 
   if (!loading && data && data.currentUser) {
     currentUserLoaded = true
@@ -95,14 +98,14 @@ function UserAccount() {
 
                 <div className="user-account__container--left--bottom box-content">
                   <div className="total-exam">
-                    <h1>10</h1>
+                    <CountUp start={0} end={10} duration={2.75} delay={0.5} />
                     <p>
                       total exams <br /> to study
                     </p>
                   </div>
 
                   <div className="finished-exam">
-                    <h1>2</h1>
+                    <CountUp start={0} end={2} duration={2.75} delay={0.5} />
                     <p>exams finished</p>
                   </div>
                 </div>

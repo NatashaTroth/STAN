@@ -3,8 +3,9 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useHistory } from "react-router-dom"
 
-// mutation
-import { useMutation } from "@apollo/react-hooks"
+// mutation & queries
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // components
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
@@ -16,22 +17,30 @@ import Button from "../button/Button"
 
 function Mascots() {
   const history = useHistory()
-  // const [addBook, { mutationData }] = useMutation(ADD_BOOK_MUTATION)
+
+  const { loading, error, data } = useQuery(CURRENT_USER) // get the current user
+  // const [updateMascot] = useMutation()
+  let mascotID, user
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+  if (!loading && data && data.currentUser) user = data.currentUser
 
   const handlePath = path => {
     history.push(path)
   }
 
-  const getMascotCallback = mascotId => {
-    console.log(mascotId)
+  const getMascotCallback = id => {
+    mascotID = id
   }
 
+  // return data.currentUser.map(({ id }) => {
   return (
     <div className="mascots">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2"></div>
-          <div className="col-md-8 mascots__inner">
+          <div className="col-md-7 mascots__inner">
             <div className="mascots__inner__heading">
               <h2>Almost there...</h2>
             </div>
@@ -77,20 +86,31 @@ function Mascots() {
 
                 <div className="mascots__inner__btn">
                   <Button
+                    type="submit"
                     variant="button"
                     className="stan-btn-primary"
                     text="Save"
                     onClick={() => handlePath("/")}
+                    onSubmit={event => {
+                      event.preventDefault()
+                      // updateMascot({
+                      //   variables: {
+                      //     id,
+                      //     mascotId: mascotID,
+                      //   },
+                      // })
+                    }}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-md-2"></div>
+          <div className="col-md-3"></div>
         </div>
       </div>
     </div>
   )
+  // })
 }
 
 export default Mascots

@@ -42,7 +42,7 @@
         display: inline-block;
         padding: 10px;
         transform: rotate(135deg);
-        transition: transform 0.3s ease-out;
+        transition: transform 0.2s ease-out;
       }
       &:hover {
         transform: translateX(-4px);
@@ -51,7 +51,7 @@
   }
   &__inner {
     &--box {
-      padding: 40px;
+      padding: 30px;
       &__sub-heading {
         text-align: center;
       }
