@@ -149,31 +149,31 @@ const userResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+
+    updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
+      try {
+        if (!userInfo.isAuth) throw new Error("Unauthorised");
+
+        const user = await User.findOne({ _id: userInfo.userId });
+        if (!user) throw new Error("This user does not exist");
+
+        user.mascot = mascot;
+        await User.updateOne({ _id: userInfo.userId }, { mascot: mascot });
+        //TODO: error handling need - not sure how to check if resp was successful
+        //DO I NEED SUCCESSFUL - NEED ERROR HANDLING - FOR MONGOOSE?!
+        const updatedUser = await User.findOne({ _id: userInfo.userId });
+        return { successful: true, user: updatedUser };
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
-    //TODO: TURN INTO UPDATE USER RESOLVER
-    // updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
-    //   try {
-    //     if (!userInfo.isAuth) throw new Error("Unauthorised");
-
-    //     const user = await User.findOne({ _id: userInfo.userId });
-    //     if (!user) throw new Error("This user does not exist");
-
-    //     user.mascot = mascot;
-    //     await User.updateOne({ _id: userInfo.userId }, { mascot: mascot });
-    //     //TODO: error handling need - not sure how to check if resp was successful
-    //     //DO I NEED SUCCESSFUL - NEED ERROR HANDLING - FOR MONGOOSE?!
-    //     const updatedUser = await User.findOne({ _id: userInfo.userId });
-    //     return { successful: true, user: updatedUser };
-    //   } catch (err) {
-    //     if (
-    //       err.extensions &&
-    //       err.extensions.code &&
-    //       err.extensions.code !== "UNAUTHENTICATED"
-    //     )
-    //       throw new AuthenticationError(err.message);
-    //     throw err;
-    //   }
-    // }
   }
 };
 
