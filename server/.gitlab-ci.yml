@@ -11,7 +11,7 @@ stages:
 #   - apt-get install -y ruby-dev
 #   - gem install dpl
 
-npm:
+npm server:
   tags:
     - stan
   stage: npm
@@ -56,7 +56,7 @@ npm:
 #     - echo "Running integration tests ..."
 #     - jest ./tests/integration/
 
-staging:
+staging server:
   stage: staging
   tags:
     - stan
