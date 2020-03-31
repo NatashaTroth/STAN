@@ -62,8 +62,10 @@ staging:
     - stan
   image: ruby:latest
   script:
-    - apk update
-    - apk add ruby-dev
+    # - apk update
+    # - apk add ruby-dev
+    - brew update
+    - brew install rbenv rbenv-gem-rehash ruby-build
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   # script:
