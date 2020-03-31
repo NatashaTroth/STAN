@@ -68,7 +68,7 @@ staging server:
     # - git remote remove stan-staging
     # - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
     # - heroku addons:create mongolab:sandbox --app staging-stan-studyplan
-    - git pull staging-stan-studyplan master
+    - git pull staging-stan-studyplan master --allow-unrelated-histories
     - git subtree push --prefix server/ staging-stan-studyplan master
     - heroku config:get MONGODB_URI
     # - git remote -v
