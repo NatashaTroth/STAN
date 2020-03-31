@@ -1,44 +1,49 @@
 import React from "react"
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-// import Button from "../../components/button/Button"
 import { setAccessToken } from "../../accessToken"
-import { useQuery } from "@apollo/react-hooks"
-import { LOGOUT_MUTATION } from "../../graphQL/mutations"
-import { useMutation } from "@apollo/react-hooks"
-import { useHistory } from "react-router-dom"
 import { GoogleLogout } from "react-google-login"
-import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
-// test image
-import TestImg from "../../images/test-user.png"
+// mutation & queries
+import { useHistory } from "react-router-dom"
+import { useMutation, useQuery } from "@apollo/react-hooks"
+import { LOGOUT_MUTATION } from "../../graphQL/mutations"
+import { CURRENT_USER } from "../../graphQL/queries"
+
+// libraries
+import CountUp from "react-countup"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+
+// sub components
+import Button from "../../components/button/Button"
 
 function UserAccount() {
-  // query ----------------
+  const history = useHistory()
+  // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
-  const { data, loading } = useQuery(CURRENT_USER) //TODO: current user vom store holen statt immer wieder vom server abzurufen (bzw einmal vl in app.js vom server holen dann im store speicher)
+  // query ----------------
+  //TODO: current user vom store holen
+  const { data, loading } = useQuery(CURRENT_USER)
   let currentUserLoaded = false
 
   if (!loading && data && data.currentUser) {
     currentUserLoaded = true
   }
 
+  // google login ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
   const currentUserGoogleLogin = false
-
-  const history = useHistory()
   let logoutButton
-  if (!currentUserGoogleLogin)
+  if (!currentUserGoogleLogin) {
     logoutButton = (
-      <button
+      <Button
+        variant="button"
         className=""
         onClick={async () => logUserOut({ logout, client, history })}
-      >
-        Logout
-      </button>
+        text="Logout"
+      />
     )
-  else
+  } else {
     logoutButton = (
       <GoogleLogout
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -55,6 +60,7 @@ function UserAccount() {
         // )}
       ></GoogleLogout>
     )
+  }
 
   // return ----------------
   return (
@@ -73,9 +79,6 @@ function UserAccount() {
               <div className="col-md-6 user-account__container--left">
                 <div className="user-account__container--left--top box-content">
                   <div className="user-account__container--left--top--user-data">
-                    {/* TODO: Soll der User ein eigenes Profilfoto hochladen? */}
-                    {/* {currentUserLoaded ? <img src={TestImg} alt="" /> : null} */}
-
                     <div className="user-data">
                       {currentUserLoaded ? (
                         <h3>{data.currentUser.username}</h3>
@@ -88,21 +91,21 @@ function UserAccount() {
                   </div>
 
                   <div className="user-account__container--left--top--buttons">
-                    <button>edit</button>
+                    <Button variant="button" text="edit" />
                     {logoutButton}
                   </div>
                 </div>
 
                 <div className="user-account__container--left--bottom box-content">
                   <div className="total-exam">
-                    <h1>10</h1>
+                    <CountUp start={0} end={10} duration={2.75} delay={0.5} />
                     <p>
                       total exams <br /> to study
                     </p>
                   </div>
 
                   <div className="finished-exam">
-                    <h1>2</h1>
+                    <CountUp start={0} end={2} duration={2.75} delay={0.5} />
                     <p>exams finished</p>
                   </div>
                 </div>

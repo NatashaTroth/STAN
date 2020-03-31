@@ -1,4 +1,12 @@
 import React from "react"
+import { useHistory } from "react-router-dom"
+// --------------------------------------------------------------
+
+// mutation & queries
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { CURRENT_USER } from "../../graphQL/queries"
+
+// libraries
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
@@ -7,48 +15,106 @@ import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
 import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
-function Mascots({ getMascotCallback }) {
+// sub components
+import Button from "../button/Button"
+
+function Mascots() {
+  const history = useHistory()
+  // mutation ----------------
+  // const [updateMascot] = useMutation()
+  // query ----------------
+  const { loading, error, data } = useQuery(CURRENT_USER)
+  let mascotID, user
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+  if (!loading && data && data.currentUser) user = data.currentUser
+
+  const handlePath = path => {
+    history.push(path)
+  }
+
+  const getMascotCallback = id => {
+    mascotID = id
+  }
+
+  // return data.currentUser.map(({ id }) => {
   return (
     <div className="mascots">
-      <div className="mascots__sub-heading">
-        <p>
-          Choose your mascot, <br />
-          you can change it afterwards in your profile
-        </p>
-      </div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-2"></div>
+          <div className="col-md-7 mascots__inner">
+            <div className="mascots__inner__heading">
+              <h2>Almost there...</h2>
+            </div>
+            <div className="mascots__inner--box box-content">
+              <div className="mascots__inner--box__sub-heading">
+                <p>
+                  Choose your mascot, <br />
+                  you can change it afterwards in your profile
+                </p>
+              </div>
 
-      <Carousel
-        showStatus={false}
-        showThumbs={false}
-        infiniteLoop={true}
-        showIndicators={false}
-        useKeyboardArrows={true}
-        onChange={getMascotCallback}
-      >
-        <div className="container">
-          <img
-            className="container__img"
-            src={VeryHappyMascot}
-            alt="a very happy mascot"
-          />
+              <div className="mascots__inner--box__carousel">
+                <Carousel
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  showIndicators={false}
+                  useKeyboardArrows={true}
+                  onChange={getMascotCallback}
+                >
+                  <div className="container">
+                    <img
+                      className="container__img"
+                      src={VeryHappyMascot}
+                      alt="a very happy mascot"
+                    />
+                  </div>
+                  <div className="container">
+                    <img
+                      className="container__img"
+                      src={VeryHappyGirlyMascot}
+                      alt="a very happy girly mascot"
+                    />
+                  </div>
+                  <div className="container">
+                    <img
+                      className="container__img"
+                      src={VeryHappyCleverMascot}
+                      alt="a very happy clever mascot"
+                    />
+                  </div>
+                </Carousel>
+
+                <div className="mascots__inner__btn">
+                  <Button
+                    type="submit"
+                    variant="button"
+                    className="stan-btn-primary"
+                    text="Save"
+                    onClick={() => handlePath("/")}
+                    onSubmit={event => {
+                      event.preventDefault()
+                      // updateMascot({
+                      //   variables: {
+                      //     id,
+                      //     mascotId: mascotID,
+                      //   },
+                      // })
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3"></div>
         </div>
-        <div className="container">
-          <img
-            className="container__img"
-            src={VeryHappyGirlyMascot}
-            alt="a very happy girly mascot"
-          />
-        </div>
-        <div className="container">
-          <img
-            className="container__img"
-            src={VeryHappyCleverMascot}
-            alt="a very happy clever mascot"
-          />
-        </div>
-      </Carousel>
+      </div>
     </div>
   )
+  // })
 }
 
 export default Mascots

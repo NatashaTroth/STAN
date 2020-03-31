@@ -1,18 +1,21 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
-import Logo from "../../images/icons/logo.svg"
-import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
+// mutation & queries ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
 
-// components ----------------
+// components
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import { useQuery } from "@apollo/react-hooks"
 import Image from "../../components/image/Image"
 
-// images ----------------
+// images & logos ----------------
+import Logo from "../../images/icons/logo.svg"
 import Pic1 from "../../images/icons/profile.png"
+
+// TODO: currentUser innerhalb von Apollo Provider einrichten
 
 const Navbar = () => {
   // query ----------------
@@ -29,8 +32,8 @@ const Navbar = () => {
   const closeSidebar = () => {
     setSideBar(false)
   }
-
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
+
   // return ----------------
   return (
     <Router className="sidebar">

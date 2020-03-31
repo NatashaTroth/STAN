@@ -34,7 +34,7 @@
             text-transform: lowercase;
             position: relative;
             padding: 0;
-            margin-left: 10px !important;
+            margin: 4px !important;
 
             &:after {
               content: "";
@@ -76,8 +76,19 @@
         padding: 40px;
         text-align: center;
 
-        h1 {
+        .total-exam span,
+        .finished-exam span {
           color: theme_color("primary-blue-dark");
+          font-family: $font-family-BasierCircle-Bold;
+          @include rem(font-size, $h1-font-size);
+          @include rem(line-height, $h1-line-height);
+          @include rem(letter-spacing, 0);
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $h1-font-size-mobile);
+            @include rem(line-height, $h1-line-height-mobile);
+            @include rem(letter-spacing, 0);
+          }
         }
       }
     }
@@ -86,7 +97,7 @@
         padding: 40px;
       }
       &--bottom {
-        padding: 50px;
+        padding: 30px;
         display: flex;
         justify-content: center;
 
