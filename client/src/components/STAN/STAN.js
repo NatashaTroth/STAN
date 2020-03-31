@@ -1,27 +1,46 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
 // --------------------------------------------------------------
-// mutation & queries ----------------
+
+// mutation & queries & apollo ----------------
 import { CURRENT_USER } from "../../graphQL/queries"
+import { useApolloClient, useQuery } from "@apollo/react-hooks"
 
 // components
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
-import { useQuery } from "@apollo/react-hooks"
-import Image from "../../components/image/Image"
 
 // images & logos ----------------
+import Image from "../../components/image/Image"
 import Logo from "../../images/icons/logo.svg"
 import Pic1 from "../../images/icons/profile.png"
 
-// TODO: currentUser innerhalb von Apollo Provider einrichten
-
 const Navbar = () => {
   // query ----------------
-  const { data, loading } = useQuery(CURRENT_USER)
+  const { data, loading, error } = useQuery(CURRENT_USER)
+  // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
+  const client = useApolloClient()
 
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+  if (data && data.currentUser) {
+    client.writeData({
+      data: {
+        currentUser: {
+          id: data.currentUser.id,
+          username: data.currentUser.username,
+          email: data.currentUser.email,
+          mascotId: data.currentUser.mascot,
+          googleLogin: data.currentUser.googleLogin,
+          __typename: data.currentUser.__typename,
+        },
+      },
+    })
+  }
+
+  // variables ----------------
   let body,
     backdrop = null
 
