@@ -13,7 +13,6 @@ import { GoogleLogin } from "react-google-login"
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
-//TODO: block signup & login path when user is logged in
 
 function SignUp() {
   const successGoogle = async response => {
@@ -209,14 +208,13 @@ function SignUp() {
 export default SignUp
 
 async function handleSignup({ formData, signup, history }) {
-  // selectedMascot = 0
   try {
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        mascot: null,
+        mascot: 0,
       },
     })
     if (resp && resp.data && resp.data.signup) {

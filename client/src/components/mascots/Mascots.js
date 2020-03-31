@@ -1,7 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useHistory } from "react-router-dom"
+
+// mutation
+import { useMutation } from "@apollo/react-hooks"
 
 // components
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
@@ -11,11 +14,16 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 // sub components
 import Button from "../button/Button"
 
-function Mascots({ getMascotCallback }) {
+function Mascots() {
   const history = useHistory()
+  // const [addBook, { mutationData }] = useMutation(ADD_BOOK_MUTATION)
 
   const handlePath = path => {
     history.push(path)
+  }
+
+  const getMascotCallback = mascotId => {
+    console.log(mascotId)
   }
 
   return (
@@ -24,10 +32,10 @@ function Mascots({ getMascotCallback }) {
         <div className="row">
           <div className="col-md-2"></div>
           <div className="col-md-8 mascots__inner">
-            <div class="mascots__inner__heading">
+            <div className="mascots__inner__heading">
               <h2>Almost there...</h2>
             </div>
-            <div class="mascots__inner--box box-content">
+            <div className="mascots__inner--box box-content">
               <div className="mascots__inner--box__sub-heading">
                 <p>
                   Choose your mascot, <br />
@@ -35,7 +43,7 @@ function Mascots({ getMascotCallback }) {
                 </p>
               </div>
 
-              <div class="mascots__inner--box__carousel">
+              <div className="mascots__inner--box__carousel">
                 <Carousel
                   showStatus={false}
                   showThumbs={false}
@@ -67,7 +75,7 @@ function Mascots({ getMascotCallback }) {
                   </div>
                 </Carousel>
 
-                <div class="mascots__inner__btn">
+                <div className="mascots__inner__btn">
                   <Button
                     variant="button"
                     className="stan-btn-primary"
