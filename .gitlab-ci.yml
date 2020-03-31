@@ -1,6 +1,6 @@
 include:
-     - server: '/server/.gitlab-ci.yml'
-     - client: '/client/.gitlab-ci.yml'
+     - local: '/server/.gitlab-ci.yml'
+     # - client: '/client/.gitlab-ci.yml'
 
 
 
