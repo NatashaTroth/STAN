@@ -73,7 +73,7 @@ const Navbar = () => {
                 className="sidebar__items__list__menu-top"
                 data-testid="navbar"
               >
-                {!loading && data && !data.currentUser ? (
+                {!currentUser ? (
                   <li className="list-item list-item--logged-out">
                     <NavLink
                       strict
@@ -88,7 +88,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && !data.currentUser ? (
+                {!currentUser ? (
                   <li className="list-item list-item--logged-out">
                     <NavLink
                       data-testid="about-link"
@@ -103,7 +103,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && !data.currentUser ? (
+                {!currentUser ? (
                   <li className="list-item list-item--logged-out">
                     <NavLink
                       strict
@@ -117,7 +117,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && data.currentUser ? (
+                {currentUser ? (
                   <li className="sidebar__items__list__menu-top__dashboard list-item list-item--logged-in">
                     <NavLink
                       strict
@@ -131,7 +131,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && data.currentUser ? (
+                {currentUser ? (
                   <li className="sidebar__items__list__menu-top__add-new list-item list-item--logged-in">
                     <NavLink
                       strict
@@ -145,7 +145,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && data.currentUser ? (
+                {currentUser ? (
                   <li className="sidebar__items__list__menu-top__calendar list-item list-item--logged-in">
                     <NavLink
                       strict
@@ -159,7 +159,7 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                {!loading && data && data.currentUser ? (
+                {currentUser ? (
                   <li className="sidebar__items__list__menu-top__exams list-item list-item--logged-in">
                     <NavLink
                       strict
@@ -175,7 +175,7 @@ const Navbar = () => {
               </div>
 
               <div className="sidebar__items__list__menu-bottom">
-                {!loading && data && data.currentUser ? (
+                {currentUser ? (
                   <li>
                     <NavLink
                       strict
