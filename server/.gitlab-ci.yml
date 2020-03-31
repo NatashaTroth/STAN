@@ -72,12 +72,13 @@ staging server:
     # - brew install rbenv rbenv-gem-rehash ruby-build
     # - gem install dpl
     - git remote -v
-    - brew install ruby
-    - sudo gem install dpl
-    # - git remote add stan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com:stan-studyplan-staging.git
-    # - git subtree push --prefix server/ stan-studyplan-staging master
-    - cd server/
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    # - brew install ruby
+    # - sudo gem install dpl
+    - git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com:stan-studyplan-staging.git
+    - git subtree push --prefix server/ stan-studyplan-staging master
+    - git remote -v
+    # - cd server/
+    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
     # - git subtree push --prefix server/ stan-staging master
   only:
     - /^back-feature.*$/
