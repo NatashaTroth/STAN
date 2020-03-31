@@ -1,6 +1,6 @@
 import React from "react"
+import { useCurrentUserValue } from "../STAN/STAN"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // pages component ----------------
@@ -21,10 +21,10 @@ import Mascots from "../../components/mascots/Mascots"
 
 const Content = () => {
   // query ----------------
-  let isAuth
-  const token = getAccessToken()
+  let currentUser = useCurrentUserValue()
+  let isAuth = false
 
-  if (token !== "") isAuth = true
+  if (currentUser.id != null) isAuth = true
   else isAuth = false
 
   // return ----------------

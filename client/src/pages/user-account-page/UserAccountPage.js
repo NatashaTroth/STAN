@@ -1,10 +1,8 @@
 import React from "react"
+import { CurrentUserContext } from "../../components/STAN/STAN"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
-
-// state
-import { CurrentUserContext } from "../../components/STAN/STAN"
 
 // mutation & queries
 import { useHistory } from "react-router-dom"
