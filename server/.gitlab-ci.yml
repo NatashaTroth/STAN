@@ -79,8 +79,10 @@ staging server:
     # - git remote add stan-studyplan-staging https://heroku:$HEROKU_API_KEY@git.heroku.com/stan-studyplan-staging.git
 
     - git remote add staging-stan-studyplan master git@heroku.com:staging-stan-studyplan.git #THIS WORKS
+    # - git remote add stan-studyplan-staging master git@heroku.com:stan-studyplan-staging.git  #THIS WORKS
     # - git pull stan-studyplan-staging master
     # - heroku git:clone -a myapp
+    - heroku addons:create mongolab:sandbox
     - git subtree push --prefix server/ staging-stan-studyplan master
     - git remote -v
     # - cd server/
