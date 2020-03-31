@@ -1,5 +1,7 @@
 include:
-     - local: '/server/.gitlab-ci.yml'
+     - server: '/server/.gitlab-ci.yml'
+     - client: '/client/.gitlab-ci.yml'
+
 
 
 # stages:
