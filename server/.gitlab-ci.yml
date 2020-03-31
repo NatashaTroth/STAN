@@ -71,7 +71,11 @@ staging server:
     # - brew update
     # - brew install rbenv rbenv-gem-rehash ruby-build
     # - gem install dpl
+    - brew install ruby
+    - gem install dpl
+    - cd server/
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    # - git subtree push --prefix server/ stan-staging master
   only:
     - /^back-feature.*$/
     # - development
