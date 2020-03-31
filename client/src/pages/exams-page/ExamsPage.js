@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import CurrentExam from "../../components/current-exam/CurrentExam"
 
 // sub components
-import Button from "../../components/button/Button"
+// import Button from "../../components/button/Button"
 
 // TODO: Add query to loop through current and archive exams
 const Exams = () => {

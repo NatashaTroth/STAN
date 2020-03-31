@@ -2,9 +2,12 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
+// state
+import { CurrentUserContext } from "../../components/STAN/STAN"
+
 // mutation & queries
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { CURRENT_USER } from "../../graphQL/queries"
+// import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
 import { Carousel } from "react-responsive-carousel"
@@ -22,13 +25,14 @@ function Mascots() {
   const history = useHistory()
   // mutation ----------------
   // const [updateMascot] = useMutation()
-  // query ----------------
-  const { loading, error, data } = useQuery(CURRENT_USER)
-  let mascotID, user
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
-  if (!loading && data && data.currentUser) user = data.currentUser
+  // query ----------------
+  // const { loading, error, data } = useQuery(CURRENT_USER)
+  // let mascotID, user
+
+  // if (loading) return <p>Loading...</p>
+  // if (error) return <p>Error :(</p>
+  // if (!loading && data && data.currentUser) user = data.currentUser
 
   const handlePath = path => {
     history.push(path)
