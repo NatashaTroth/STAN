@@ -16,6 +16,11 @@ function verifyPassword(string) {
   return string.match(/^.{8,30}$/);
 }
 
+function verifyMascot(string) {
+  // console.log(string);
+  return string.match(/[012]/);
+}
+
 function verifySubject(string) {
   return string.match(/^.{1,20}$/);
 }
@@ -70,6 +75,7 @@ module.exports = {
   verifyEmail,
   verifyUsername,
   verifyPassword,
+  verifyMascot,
   verifySubject,
   verifyExamDate,
   verifyStudyStartDate,
