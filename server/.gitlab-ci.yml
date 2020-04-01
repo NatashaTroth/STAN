@@ -11,7 +11,7 @@ image: node:latest
 #   - apt-get install -y ruby-dev
 #   - gem install dpl
 
-npm server:
+npm:server:
   tags:
     - node
   stage: npm
@@ -65,7 +65,7 @@ npm server:
 #     - /^front-feature.*$/
 
 #always deploy on server
-staging server:
+staging:server:
   stage: staging server
   tags:
     - node
@@ -84,5 +84,7 @@ staging server:
     - cd public/
     - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  dependencies:
+    - staging:client
   only:
     - development

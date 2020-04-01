@@ -6,7 +6,7 @@ image: node:latest
 #   - staging
 #   - deployment
 
-npm client:
+npm:client:
   tags:
     - node
   stage: npm
@@ -50,12 +50,12 @@ npm client:
 #     - echo "Running integration tests ..."
 #     - ./node_modules/.bin/jest ./tests/integration/
 
-staging client:
+staging:client:
   stage: staging client
   artifacts:
     paths:
       - server/public/
-      - server/public/build
+      # - server/public/build
     expire_in: 1 week
   tags:
     - node
