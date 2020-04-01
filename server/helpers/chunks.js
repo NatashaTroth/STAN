@@ -1,9 +1,16 @@
-export function numberOfPagesForChunk(numberOfPages, currentPage, daysLeft) {
+export function numberOfPagesForChunk({
+  numberOfPages,
+  currentPage,
+  daysLeft
+}) {
   console.log("args:");
-  console.log(numberOfPages);
-  console.log(currentPage);
-  console.log(daysLeft);
+  console.log("numpages: " + numberOfPages);
+  console.log("currentpage: " + currentPage);
+  console.log("daysleft: " + daysLeft);
+  if (isNaN(numberOfPages) || isNaN(currentPage) || isNaN(daysLeft))
+    throw new Error("Not all arguments for numberOfPagesForChunk are numbers");
   let pagesLeft = numberOfPages - currentPage + 1;
-  console.log(pagesLeft);
-  return pagesLeft / daysLeft;
+  console.log("pagesleft: " + pagesLeft);
+  console.log("chunk pages: " + Math.round(pagesLeft / daysLeft) + "\n");
+  return Math.round(pagesLeft / daysLeft);
 }
