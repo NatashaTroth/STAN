@@ -1,6 +1,6 @@
 import React from "react"
+import { useCurrentUserValue } from "../STAN/STAN"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // pages component ----------------
@@ -17,13 +17,14 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
+import Mascots from "../../components/mascots/Mascots"
 
 const Content = () => {
   // query ----------------
-  let isAuth
-  const token = getAccessToken()
+  let currentUser = useCurrentUserValue()
+  let isAuth = false
 
-  if (token !== "") isAuth = true
+  if (currentUser.id != null) isAuth = true
   else isAuth = false
 
   // return ----------------
@@ -70,7 +71,9 @@ const Content = () => {
         ) : (
           <Redirect from="/profile" to="/login" />
         )}
+
         {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
+        {isAuth ? <Route exact path="/mascots" component={Mascots} /> : null}
 
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />

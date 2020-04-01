@@ -1,8 +1,12 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { Exam } = require("../models");
+const { Exam, User } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const dayjs = require("dayjs");
+import mongoose from "mongoose";
+// const { ObjectId } = require("mongodb");
+// const ObjectID = require("mongodb").ObjectID;
+
 const {
   UserInputError,
   AuthenticationError,
@@ -43,12 +47,42 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 //TODO: Authentication
 const examResolvers = {
   Query: {
-    exams: (root, arg, context, info) => {
-      return Exam.find({});
-      // return fetchData()
+    exams: async (root, args, context, info) => {
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const resp = await Exam.find({
+          userId: context.userInfo.userId
+        });
+
+        return resp;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     },
-    exam: (root, arg, context, info) => {
-      return fetchOneDateData();
+    exam: async (root, args, context, info) => {
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const resp = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+
+        return resp;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   },
   Mutation: {
@@ -56,12 +90,12 @@ const examResolvers = {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
-        if (!args.userId) args.userId = context.userInfo.userId;
-        else if (args.userId !== context.userInfo.userId)
-          throw new AuthenticationError(
-            "Not authorised to create an exam for the this user."
-          );
-
+        // if (!args.userId) args.userId = context.userInfo.userId;
+        // else if (args.userId !== context.userInfo.userId)
+        //   throw new AuthenticationError(
+        //     "Not authorised to create an exam for the this user."
+        //   );
+        args.userId = context.userInfo.userId;
         const resp = await Exam.create(args);
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {

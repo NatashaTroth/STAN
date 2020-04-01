@@ -10,10 +10,11 @@ class Calendar extends React.Component {
     return (
       <div className="calendar">
         <div className="container-fluid">
-          <div class="row">
-            <div class="col-md-10">
+          <div className="row">
+            <div className="col-md-1"></div>
+            <div className="col-md-10">
               <FullCalendar
-                classname=""
+                className=""
                 defaultView="dayGridMonth"
                 plugins={[dayGridPlugin]}
                 events={[
@@ -22,7 +23,7 @@ class Calendar extends React.Component {
                 ]}
               />
             </div>
-            <div class="col-md-2"></div>
+            <div className="col-md-1"></div>
           </div>
         </div>
       </div>
