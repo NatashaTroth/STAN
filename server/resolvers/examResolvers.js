@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 // const ObjectID = require("mongodb").ObjectID;
 import { datesTimingIsValid, startDateIsActive } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
+import { numberOfPagesForChunk } from "../helpers/chunks";
 const { verifyExamDate } = require("../helpers/verifyUserInput");
 const {
   UserInputError,
@@ -68,13 +69,20 @@ const examResolvers = {
 
         const currentExams = exams.filter(exam => {
           // return true;
-          let isActive = startDateIsActive(new Date(exam.startDate));
-          return true;
+          return startDateIsActive(new Date(exam.startDate));
         });
         console.log("In TODAYSCHUNKS");
         console.log(currentExams);
         const chunks = currentExams.map(exam => {
-          return { subject: exam.subject, numberPages: 5, duration: 5 };
+          return {
+            subject: exam.subject,
+            numberPages: numberOfPagesForChunk({
+              numberOfPages: exam.numberOfPages,
+              currentPage: exam.numberOfPages,
+              daysLeft: 5
+            }),
+            duration: 5
+          };
         });
         // {
         //   subject: String!

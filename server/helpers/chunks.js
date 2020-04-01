@@ -1,1 +1,1 @@
-export function numberOfPagesForChunk() {}
+export function numberOfPagesForChunk(numberOfPages, currentPage, daysLeft) {}
