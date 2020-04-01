@@ -13,7 +13,7 @@ stages:
 
 npm server:
   tags:
-    - stan
+    - node
   stage: npm
   artifacts:
     paths:
@@ -28,60 +28,59 @@ npm server:
   except:
     - /^front-feature.*$/
 
-# lint server:
-#   stage: lint
-#   tags:
-#     - stan
-#   script:
-#     - cd server/
-#     - echo "Linting.."
-#     - npm run lintFix
-
-# unit testing server:
-#   stage: test
-#   tags:
-#     - stan
-#   script:
-#     - cd server/
-#       - echo "Running unit tests ..."
-#       - jest ./tests/unit/
-
-# integration testing server:
-#   stage: test
-#   tags:
-#     - stan
-#   variables:
-#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
-#   script:
-#     - cd server/
-#     - echo "Running integration tests ..."
-#     - jest ./tests/integration/
-
-staging server:
-  stage: staging
+lint server:
+  stage: lint
   tags:
-    - stan
-  image: ruby:latest
+    - node
   script:
-    # - git remote remove stan-studyplan-staging
-    # - git remote remove stan-staging
-    # - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
-    # - heroku addons:create mongolab:sandbox --app staging-stan-studyplan
-    - git pull staging-stan-studyplan master --allow-unrelated-histories
-    - git subtree push --prefix server/ staging-stan-studyplan master
-    - heroku config:get MONGODB_URI
-    # - git remote -v
+    - cd server/
+    - echo "Linting.."
+    - npm run lintFix
 
-  only:
-    - /^back-feature.*$/
-    # - development
-    # - master
-  # script:
-  #   - echo "Staging deployment ..."
-  #   # - git subtree push --prefix server/ stan-staging master
-  #   # - apk update
-  #   - apt-get update -qy
-  #   - apt-get install -y ruby-dev
-  #   - gem install dpl
-  #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+unit testing server:
+  stage: test
+  tags:
+    - node
+  script:
+    - cd server/
+      - echo "Running unit tests ..."
+      - jest ./tests/unit/
+
+integration testing server:
+  stage: test
+  tags:
+    - node
+  variables:
+    ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+    REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+  script:
+    - cd server/
+    - echo "Running integration tests ..."
+    - jest ./tests/integration/
+# staging server:
+#   stage: staging
+#   tags:
+#     - stan
+#   image: ruby:latest
+#   script:
+#     # - git remote remove stan-studyplan-staging
+#     # - git remote remove stan-staging
+#     # - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
+#     # - heroku addons:create mongolab:sandbox --app staging-stan-studyplan
+#     - git pull staging-stan-studyplan master --allow-unrelated-histories
+#     - git subtree push --prefix server/ staging-stan-studyplan master
+#     - heroku config:get MONGODB_URI
+#     # - git remote -v
+
+#   only:
+#     - /^back-feature.*$/
+#     # - development
+#     # - master
+#   # script:
+#   #   - echo "Staging deployment ..."
+#   #   # - git subtree push --prefix server/ stan-staging master
+#   #   # - apk update
+#   #   - apt-get update -qy
+#   #   - apt-get install -y ruby-dev
+#   #   - gem install dpl
+#   #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
