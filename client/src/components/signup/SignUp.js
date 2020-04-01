@@ -225,6 +225,7 @@ async function handleSignup({ formData, signup, history }) {
     }
     // redirect
     history.push("/mascots")
+    window.localStorage.setItem("setMascot", true)
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN

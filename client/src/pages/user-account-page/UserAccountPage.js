@@ -28,11 +28,6 @@ function UserAccount() {
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
-  // context api
-  const currentUser = useCurrentUserValue()
-
-  console.log(currentUser)
-
   // google login ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
   const currentUserGoogleLogin = false
@@ -191,6 +186,9 @@ async function logUserOut({ logout, client, history }) {
   await logout()
   //reset access token
   setAccessToken("")
+
+  // reset sign up trigger
+  window.localStorage.setItem("setMascot", true)
 
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())

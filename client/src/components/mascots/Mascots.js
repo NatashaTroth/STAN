@@ -108,6 +108,7 @@ async function handleMascot({ data, updateMascot, history }) {
       throw new Error("failed: saved new mascot")
     }
     // redirect
+    window.localStorage.setItem("setMascot", false)
     history.push("/")
     window.location.reload()
   } catch (err) {
