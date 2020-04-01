@@ -20,11 +20,12 @@ import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import Mascots from "../../components/mascots/Mascots"
 
 const Content = () => {
-  // query ----------------
+  // context api ----------------
   let currentUser = useCurrentUserValue()
   let isAuth = false
 
-  if (currentUser.id != null) isAuth = true
+  if (currentUser === undefined) isAuth = false
+  else if (currentUser.id != null) isAuth = true
   else isAuth = false
 
   // return ----------------
