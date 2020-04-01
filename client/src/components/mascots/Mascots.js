@@ -1,17 +1,14 @@
-import React, { useState, useStore } from "react"
+import React from "react"
 import { useHistory } from "react-router-dom"
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // state
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // mutation & queries
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
-import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
 import { Carousel } from "react-responsive-carousel"
@@ -24,29 +21,24 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components
 import Button from "../button/Button"
-import { NetworkStatus } from "apollo-boost"
+// import { NetworkStatus } from "apollo-boost"
 
 function Mascots() {
   const history = useHistory()
+  let mascotID = 0
 
   // context api
   const currentUser = useCurrentUserValue()
 
   // mutation ----------------
-  const [updateMascot, { mascotId }] = useMutation(UPDATE_MASCOT_MUTATION)
-  const { data, loading, error } = useQuery(CURRENT_USER)
-  const [stan, setStan] = useState(0)
+  const [updateMascot, { id }] = useMutation(UPDATE_MASCOT_MUTATION)
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
+  // form specific ----------------
+  const { handleSubmit } = useForm()
+  const onSubmit = async formData => {
+    handleMascot({ formData, updateMascot, history })
 
-  const handlePath = path => {
-    history.push(path)
-  }
-
-  const getMascotCallback = id => {
-    // currentUser.mascot = id // store new mascot id in provider
-    // setStan(id)
+    console.log(formData)
   }
 
   return (
@@ -59,14 +51,7 @@ function Mascots() {
               <h2>Almost there...</h2>
             </div>
             <form
-              onSubmit={mascot => {
-                mascot.preventDefault()
-                updateMascot({
-                  variables: {
-                    mascot: 2,
-                  },
-                })
-              }}
+              onSubmit={handleSubmit(onSubmit)}
               className="mascots__inner--box box-content"
             >
               <div className="mascots__inner--box__sub-heading">
@@ -78,12 +63,15 @@ function Mascots() {
 
               <div className="mascots__inner--box__carousel">
                 <Carousel
+                  id="mascot"
                   showStatus={false}
                   showThumbs={false}
                   infiniteLoop={true}
                   showIndicators={false}
                   useKeyboardArrows={true}
-                  onChange={getMascotCallback}
+                  onChange={id => {
+                    mascotID = id
+                  }}
                 >
                   <div className="container">
                     <img
@@ -110,19 +98,9 @@ function Mascots() {
 
                 <div className="mascots__inner__btn">
                   <Button
-                    type="submit"
                     variant="button"
-                    className="stan-btn-primary"
                     text="Save"
-                    onClick={() => handlePath("/")}
-                    // onSubmit={mascot => {
-                    //   mascot.preventDefault()
-                    //   updateMascot({
-                    //     variables: {
-                    //       mascot: 2,
-                    //     },
-                    //   })
-                    // }}
+                    className="stan-btn-primary"
                   />
                 </div>
               </div>
@@ -136,3 +114,26 @@ function Mascots() {
 }
 
 export default Mascots
+
+async function handleMascot({ formData, updateMascot, history }) {
+  try {
+    const resp = await updateMascot({
+      variables: {
+        mascot: 1,
+      },
+    })
+
+    if (resp && resp.data && resp.data.updateMascot) {
+      console.log("success: saved new mascot")
+    } else {
+      throw new Error("failed: saved new mascot")
+    }
+    // redirect
+    // history.push("/")
+    // window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}
