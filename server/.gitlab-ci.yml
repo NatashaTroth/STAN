@@ -6,10 +6,10 @@ image: node:latest
 #   - staging
 #   - deployment
 
-before_script:
-  - apt-get update -qy
-  - apt-get install -y ruby-dev
-  - gem install dpl
+# before_script:
+#   - apt-get update -qy
+#   - apt-get install -y ruby-dev
+#   - gem install dpl
 
 npm server:
   tags:
@@ -71,15 +71,18 @@ staging server:
     - node
   image: ruby:latest
   script:
-    - rm -rf server/public
-    - mkdir server/public
-    - cd client/
-    - react-scripts build && mv build ../server/public
-    - cd ../server/
-    # - cd server/
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    # - rm -rf server/public
+    # - mkdir server/public
+    # - cd client/
+    # - react-scripts build && mv build ../server/public
+    # - cd ../server/
+    - cd server/
     - ls
-    # - cd public/
-    # - ls
+    - cd public/
+    - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
     - development
