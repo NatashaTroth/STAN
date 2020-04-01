@@ -23,6 +23,9 @@ npm server:
 
   script:
     - cd server/
+    - ls
+    - cd public/
+    - ls
     - echo "Running npm ci ..."
     - npm ci
   except:
