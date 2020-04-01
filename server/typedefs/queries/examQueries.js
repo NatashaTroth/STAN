@@ -16,7 +16,7 @@ const examQueries = gql`
       numberPages: Int
       timePerPage: Int
       timesRepeat: Int
-      currentPage: Int
+      startPage: Int
       notes: String
       pdfLink: String
       completed: Boolean

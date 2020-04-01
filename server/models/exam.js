@@ -30,6 +30,10 @@ const examSchema = new Schema({
     type: Number,
     default: -1
   },
+  startPage: {
+    type: Number,
+    default: 0
+  },
   currentPage: {
     type: Number,
     default: 0

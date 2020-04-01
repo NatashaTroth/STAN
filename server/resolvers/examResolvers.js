@@ -22,27 +22,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const { JsonWebTokenError } = require("jsonwebtoken");
-// import { Exam } from "../models";
-// import { GraphQLScalarType } from "graphql";
-// import { Kind } from "graphql/language";
-// import dayjs from "dayjs";
-// import {
-//   UserInputError,
-//   AuthenticationError,
-//   ApolloError
-// } from "apollo-server";
-// import {
-//   verifySubject,
-//   verifyExamDate,
-//   verifyStudyStartDate,
-//   verifyPageAmount,
-//   verifyPageTime,
-//   verifyPageRepeat,
-//   verifyCurrentPage,
-//   verifyPageNotes
-// } from "../helpers/verifyUserInput";
-// import { JsonWebTokenError } from "jsonwebtoken";
+// const { JsonWebTokenError } = require("jsonwebtoken");
 
 //TODO: Authentication
 const examResolvers = {
@@ -87,15 +67,14 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
+      console.log("TEST");
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
-        // if (!args.userId) args.userId = context.userInfo.userId;
-        // else if (args.userId !== context.userInfo.userId)
-        //   throw new AuthenticationError(
-        //     "Not authorised to create an exam for the this user."
-        //   );
+        args.startDate = args.startDate || new Date();
+        verifyDates(args.startDate, args.examDate);
         args.userId = context.userInfo.userId;
+        args.currentPage = args.startPage;
         const resp = await Exam.create(args);
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {
@@ -116,6 +95,7 @@ const examResolvers = {
     parseValue(value) {
       //TODO: not sure if this is good for examDate
       if (!value) return dayjs(new Date());
+      console.log("In parse value");
       return dayjs(value); // value from the client
     },
     serialize(value) {
@@ -130,6 +110,7 @@ const examResolvers = {
   })
 };
 
+//TODO: refactor??
 function verifyUserInputFormat({
   subject,
   examDate,
@@ -192,6 +173,12 @@ function verifyUserInputFormat({
 
   if (typeof notes !== "undefined" && notes != null && !verifyPageNotes(notes))
     throw new AuthenticationError("Notes input has the wrong format");
+}
+
+function verifyDates(startDate, examDate) {
+  console.log("startDate" + startDate);
+  console.log("examDate" + examDate);
+  console.log(dayjs().isBefore(dayjs(new Date(examDate))));
 }
 
 module.exports = {
