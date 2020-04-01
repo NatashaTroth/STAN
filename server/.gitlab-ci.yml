@@ -68,7 +68,9 @@ staging:
   stage: staging server
   tags:
     - node
-  image: ruby:latest
+  image:
+    - ruby:latest
+    - node:latest
   script:
     - cd client/
     - pwd
