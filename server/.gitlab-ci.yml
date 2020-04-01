@@ -46,17 +46,17 @@ unit testing server:
     - echo "Running unit tests ..."
     - ./node_modules/.bin/jest ./tests/unit/
 
-integration testing server:
-  stage: test
-  tags:
-    - node
-  variables:
-    ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-    REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
-  script:
-    - cd server/
-    - echo "Running integration tests ..."
-    - ./node_modules/.bin/jest ./tests/integration/
+# integration testing server:
+#   stage: test
+#   tags:
+#     - node
+#   variables:
+#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+#   script:
+#     - cd server/
+#     - echo "Running integration tests ..."
+#     - ./node_modules/.bin/jest ./tests/integration/
 
 staging server:
   stage: staging
