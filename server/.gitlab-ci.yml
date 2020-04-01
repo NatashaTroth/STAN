@@ -73,8 +73,8 @@ staging server:
   script:
     - cd server/
     - ls
-    - cd public/
-    - ls
+    # - cd public/
+    # - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
     - development
