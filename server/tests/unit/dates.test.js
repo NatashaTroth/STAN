@@ -43,14 +43,4 @@ test("verifies numberOfDaysLeft", () => {
   expect(numberOfDaysLeft(new Date("2020.12.05"), new Date("2020.12.10"))).toBe(
     5
   );
-  // expect(numberOfDaysLeft(new Date("2020.12.01"), new Date("2020.12.02"))).toBe(
-  //   1
-  // );
-  // expect(numberOfDaysLeft(new Date("2020.12.01"), new Date("2020.12.02"))).toBe(
-  //   1
-  // );
-  // expect(numberOfDaysLeft(new Date(new Date() - 1))).toBeTruthy();
-  // expect(numberOfDaysLeft(new Date())).toBeTruthy();
-  // expect(numberOfDaysLeft(new Date("1990.12.01"))).toBeTruthy();
-  // expect(numberOfDaysLeft(new Date(new Date() + 1))).toBeTruthy();
 });

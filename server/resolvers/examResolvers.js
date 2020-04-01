@@ -9,7 +9,10 @@ import mongoose from "mongoose";
 import { datesTimingIsValid, startDateIsActive } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-const { verifyExamDate } = require("../helpers/verifyUserInput");
+const {
+  verifyExamDate,
+  numberOfDaysLeft
+} = require("../helpers/verifyUserInput");
 const {
   UserInputError,
   AuthenticationError,
@@ -79,7 +82,7 @@ const examResolvers = {
             numberPages: numberOfPagesForChunk({
               numberOfPages: exam.numberOfPages,
               currentPage: exam.numberOfPages,
-              daysLeft: 5
+              daysLeft: numberOfDaysLeft(exam.startDate, exam.examDate)
             }),
             duration: 5
           };
