@@ -27,7 +27,6 @@ npm server:
     - npm ci
   except:
     - /^front-feature.*$/
-
 # lint server:
 #   stage: lint
 #   tags:
@@ -65,13 +64,13 @@ npm server:
 #     - /^front-feature.*$/
 
 #always deploy on server
-staging server:
-  stage: staging server
-  tags:
-    - node
-  image: ruby:latest
-  script:
-    - cd server/
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-  only:
-    - development
+# staging server:
+#   stage: staging server
+#   tags:
+#     - node
+#   image: ruby:latest
+#   script:
+#     - cd server/
+#     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+#   only:
+#     - development
