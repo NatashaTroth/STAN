@@ -66,6 +66,10 @@ const examResolvers = {
           completed: false
         });
 
+        exams.filter(exam => startDate);
+
+        return [];
+
         // filter out where start date is in the past
       } catch (err) {
         if (
@@ -76,8 +80,6 @@ const examResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
-
-      return [];
     }
   },
   Mutation: {

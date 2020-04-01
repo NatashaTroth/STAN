@@ -1,4 +1,7 @@
-const { datesTimingIsValid } = require("../../helpers/dates");
+const {
+  datesTimingIsValid,
+  startDateIsActive
+} = require("../../helpers/dates");
 
 test("verifies datesTimingIsValid", () => {
   expect(
@@ -22,4 +25,12 @@ test("verifies datesTimingIsValid", () => {
   expect(
     datesTimingIsValid(new Date("2020.12.01"), new Date("2020.12.01"))
   ).toBeFalsy();
+});
+
+test("verifies startDateIsActive", () => {
+  expect(startDateIsActive(new Date("1990.12.01"))).toBeTruthy();
+  expect(startDateIsActive(new Date(new Date() - 1))).toBeTruthy();
+  expect(startDateIsActive(new Date())).toBeTruthy();
+  expect(startDateIsActive(new Date("1990.12.01"))).toBeTruthy();
+  expect(startDateIsActive(new Date(new Date() + 1))).toBeTruthy();
 });
