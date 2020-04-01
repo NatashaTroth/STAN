@@ -7,49 +7,58 @@ stages:
 
 npm client:
   tags:
-    - stan
+    - node
   stage: npm
   artifacts:
     paths:
       - client/node_modules/
     expire_in: 1 days
     when: always
-
   script:
     - cd client/
     - echo "Running npm ci ..."
     - npm ci
   except:
     - /^back-feature.*$/
-  # only:
-  #   - /^front-feature.*$/
-  #   - development
-  #   - master
 # lint client:
 #   stage: lint
 #   tags:
-#     - stan
+#     - node
 #   script:
-#     - cd server/
+#     - cd client/
 #     - echo "Linting.."
-#     - npm run lintFix
+#     - npm run lint
 
 # unit testing client:
 #   stage: test
 #   tags:
-#     - stan
+#     - node
 #   script:
-#     - cd server/
-#       - echo "Running unit tests ..."
-#       - jest ./tests/unit/
+#     - cd client/
+#     - echo "Running unit tests ..."
+#     - ./node_modules/.bin/jest ./tests/unit/
 
 # integration testing client:
 #   stage: test
 #   tags:
-#     - stan
+#     - node
 #   variables:
 
 #   script:
-#     - cd server/
+#     - cd client/
 #     - echo "Running integration tests ..."
-#     - jest ./tests/integration/
+#     - ./node_modules/.bin/jest ./tests/integration/
+
+staging client:
+  stage: staging client
+  tags:
+    - node
+  image: ruby:latest
+  script:
+    - rm -rf server/public
+    - cd client/
+    - npm run build
+    # - cd ../server/
+    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  only:
+    - development

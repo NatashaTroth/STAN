@@ -3,15 +3,11 @@ const { Exam, User } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const dayjs = require("dayjs");
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
 
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+const { AuthenticationError, ApolloError } = require("apollo-server");
 const {
   verifySubject,
   verifyExamDate,
@@ -86,7 +82,7 @@ const examResolvers = {
     }
   },
   Mutation: {
-    addExam: async (root, args, context) => {
+    addExam: async (root, args, context, info) => {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);

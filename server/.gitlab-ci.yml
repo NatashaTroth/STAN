@@ -1,10 +1,10 @@
 image: node:latest
-stages:
-  - npm
-  - lint
-  - test
-  - staging
-  - deployment
+# stages:
+#   - npm
+#   - lint
+#   - test
+#   - staging
+#   - deployment
 
 before_script:
   - apt-get update -qy
@@ -28,14 +28,16 @@ npm server:
   except:
     - /^front-feature.*$/
 
-# lint server:
-#   stage: lint
-#   tags:
-#     - node
-#   script:
-#     - cd server/
-#     - echo "Linting.."
-#     - npm run lintFix
+lint server:
+  stage: lint
+  tags:
+    - node
+  script:
+    - cd server/
+    - echo "Linting.."
+    - npm run lintFix
+  except:
+    - /^front-feature.*$/
 
 unit testing server:
   stage: test
@@ -45,6 +47,8 @@ unit testing server:
     - cd server/
     - echo "Running unit tests ..."
     - ./node_modules/.bin/jest ./tests/unit/
+  except:
+    - /^front-feature.*$/
 
 integration testing server:
   stage: test
@@ -57,50 +61,17 @@ integration testing server:
     - cd server/
     - echo "Running integration tests ..."
     - ./node_modules/.bin/jest ./tests/integration/
+  except:
+    - /^front-feature.*$/
 
+#always deploy on server
 staging server:
-  stage: staging
+  stage: staging server
   tags:
     - node
   image: ruby:latest
   script:
+    - cd server/
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
-    - /^back-feature.*$/
-    # - development
-    # - master
-  # script:
-  #   - echo "Staging deployment ..."
-  #   # - git subtree push --prefix server/ stan-staging master
-  #   # - apk update
-  #   - apt-get update -qy
-  #   - apt-get install -y ruby-dev
-  #   - gem install dpl
-  #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-# staging server:
-#   stage: staging
-#   tags:
-#     - stan
-#   image: ruby:latest
-#   script:
-#     # - git remote remove stan-studyplan-staging
-#     # - git remote remove stan-staging
-#     # - git remote add staging-stan-studyplan https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-stan-studyplan.git
-#     # - heroku addons:create mongolab:sandbox --app staging-stan-studyplan
-#     - git pull staging-stan-studyplan master --allow-unrelated-histories
-#     - git subtree push --prefix server/ staging-stan-studyplan master
-#     - heroku config:get MONGODB_URI
-#     # - git remote -v
-
-#   only:
-#     - /^back-feature.*$/
-#     # - development
-#     # - master
-#   # script:
-#   #   - echo "Staging deployment ..."
-#   #   # - git subtree push --prefix server/ stan-staging master
-#   #   # - apk update
-#   #   - apt-get update -qy
-#   #   - apt-get install -y ruby-dev
-#   #   - gem install dpl
-#   #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    - development

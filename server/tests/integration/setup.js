@@ -2,13 +2,18 @@
 import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 import mongoose from "mongoose";
 // import { User } from "../../models";
 // import { isAuth } from "../../helpers/is-auth";
 
+let mongod;
+
 async function setup({ isAuth, userId }) {
+  console.log("IN SETUP");
   let server;
+
   try {
     // const headers = new Map();
     // header.set("Authorization", "test");
@@ -29,9 +34,14 @@ async function setup({ isAuth, userId }) {
     // global.httpServer = server;
     // await global.httpServer.listen();
 
-    const connectionString = "mongodb://localhost/testMMP3";
-
-    await mongoose.connect(connectionString, {
+    // const connectionString = "mongodb://localhost/testMMP3";
+    // const connectionString = "mongodb://localhost/testMMP3";
+    mongod = new MongoMemoryServer();
+    const uri = await mongod.getUri();
+    // const port = await mongod.getPort();
+    // const dbPath = await mongod.getDbPath();
+    // const dbName = await mongod.getDbName();
+    await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
@@ -48,11 +58,12 @@ async function setup({ isAuth, userId }) {
 
 async function teardown() {
   console.log("IN TEARDOWN");
-  await mongoose.connection.db.dropDatabase();
-  //await db.dropDatabase();
-  // await db.users.drop();
-  await mongoose.connection.close();
-  await mongoose.connection.db.close();
+  await mongod.stop();
+  // await mongoose.connection.db.dropDatabase();
+  // //await db.dropDatabase();
+  // // await db.users.drop();
+  // await mongoose.connection.close();
+  // await mongoose.connection.db.close();
 }
 
 module.exports = {
