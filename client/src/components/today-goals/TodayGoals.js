@@ -31,6 +31,7 @@ function TodayGoals() {
             {/* LOOP through each task */}
             {/* on click check if class is set */}
             <TodaySubject
+              activeOnStart="active-subject"
               subject="Computer Networking"
               durationTime="20 min"
               onClick={e => {
@@ -39,6 +40,7 @@ function TodayGoals() {
               }}
             ></TodaySubject>
             <TodaySubject
+              activeOnStart="active-subject-no"
               subject="Business English"
               durationTime="60 min"
               onClick={e => {
@@ -47,6 +49,7 @@ function TodayGoals() {
               }}
             ></TodaySubject>
             <TodaySubject
+              activeOnStart="active-subject-no"
               subject="Multimedia"
               durationTime="40 min"
               onClick={e => {
@@ -64,7 +67,11 @@ function TodayGoals() {
 export default TodayGoals
 
 function subjectEventClickHandler(event) {
-  if (event.currentTarget.classList.value === "today-subject active-subject") {
+  if (
+    event.currentTarget.classList.value === "today-subject active-subject" ||
+    event.currentTarget.classList.value ===
+      "today-subject active-subject-no active-subject"
+  ) {
     event.currentTarget.classList.remove("active-subject")
   } else {
     event.currentTarget.classList.add("active-subject")

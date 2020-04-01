@@ -3,11 +3,11 @@ const { Exam } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const dayjs = require("dayjs");
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+// import mongoose from "mongoose";
+// const { ObjectId } = require("mongodb");
+// const ObjectID = require("mongodb").ObjectID;
+
+const { AuthenticationError, ApolloError } = require("apollo-server");
 const {
   verifySubject,
   verifyExamDate,
@@ -18,7 +18,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const { JsonWebTokenError } = require("jsonwebtoken");
+// const { JsonWebTokenError } = require("jsonwebtoken");
 // import { Exam } from "../models";
 // import { GraphQLScalarType } from "graphql";
 // import { Kind } from "graphql/language";
@@ -43,12 +43,42 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 //TODO: Authentication
 const examResolvers = {
   Query: {
-    exams: (root, arg, context, info) => {
-      return Exam.find({});
-      // return fetchData()
+    exams: async (root, args, context, info) => {
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const resp = await Exam.find({
+          userId: context.userInfo.userId
+        });
+
+        return resp;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     },
-    exam: (root, arg, context, info) => {
-      return fetchOneDateData();
+    exam: async (root, args, context, info) => {
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const resp = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+
+        return resp;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   },
   Mutation: {
@@ -56,12 +86,12 @@ const examResolvers = {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
-        if (!args.userId) args.userId = context.userInfo.userId;
-        else if (args.userId !== context.userInfo.userId)
-          throw new AuthenticationError(
-            "Not authorised to create an exam for the this user."
-          );
-
+        // if (!args.userId) args.userId = context.userInfo.userId;
+        // else if (args.userId !== context.userInfo.userId)
+        //   throw new AuthenticationError(
+        //     "Not authorised to create an exam for the this user."
+        //   );
+        args.userId = context.userInfo.userId;
         const resp = await Exam.create(args);
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {

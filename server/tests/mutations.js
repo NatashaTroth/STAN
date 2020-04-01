@@ -82,7 +82,6 @@ const ADD_EXAM_MUTATION = gql`
     $notes: String
     $pdfLink: String
     $completed: Boolean
-    $userId: ID!
   ) {
     addExam(
       subject: $subject
@@ -95,7 +94,6 @@ const ADD_EXAM_MUTATION = gql`
       notes: $notes
       pdfLink: $pdfLink
       completed: $completed
-      userId: $userId
     )
   }
 `;

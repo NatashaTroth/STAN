@@ -164,12 +164,3 @@
     }
   }
 }
-
-.content {
-  margin-left: 250px;
-  transition: all 0.3s ease-in;
-
-  @include media-breakpoint-down(md) {
-    margin-left: 5px;
-  }
-}
