@@ -1,11 +1,11 @@
-import { createTestClient } from "apollo-server-testing";
+// import { createTestClient } from "apollo-server-testing";
 import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express";
-const { MongoClient } = require("mongodb");
+
 import mongoose from "mongoose";
-import { User } from "../../models";
-import { isAuth } from "../../helpers/is-auth";
+// import { User } from "../../models";
+// import { isAuth } from "../../helpers/is-auth";
 
 async function setup({ isAuth, userId }) {
   let server;
@@ -30,8 +30,6 @@ async function setup({ isAuth, userId }) {
     // await global.httpServer.listen();
 
     const connectionString = "mongodb://localhost/testMMP3";
-    let connection;
-    let db;
 
     await mongoose.connect(connectionString, {
       useNewUrlParser: true,
@@ -53,8 +51,8 @@ async function teardown() {
   await mongoose.connection.db.dropDatabase();
   //await db.dropDatabase();
   // await db.users.drop();
-  await connection.close();
-  await db.close();
+  await mongoose.connection.close();
+  await mongoose.connection.db.close();
 }
 
 module.exports = {

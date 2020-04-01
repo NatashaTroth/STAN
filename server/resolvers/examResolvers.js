@@ -22,7 +22,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const { JsonWebTokenError } = require("jsonwebtoken");
+// const { JsonWebTokenError } = require("jsonwebtoken");
 // import { Exam } from "../models";
 // import { GraphQLScalarType } from "graphql";
 // import { Kind } from "graphql/language";
@@ -86,7 +86,7 @@ const examResolvers = {
     }
   },
   Mutation: {
-    addExam: async (root, args, context, info) => {
+    addExam: async (root, args, context) => {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);

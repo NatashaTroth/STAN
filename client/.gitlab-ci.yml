@@ -1,0 +1,55 @@
+stages:
+  - npm
+  - lint
+  - test
+  - staging
+  - deployment
+
+npm client:
+  tags:
+    - stan
+  stage: npm
+  artifacts:
+    paths:
+      - client/node_modules/
+    expire_in: 1 days
+    when: always
+
+  script:
+    - cd client/
+    - echo "Running npm ci ..."
+    - npm ci
+  except:
+    - /^back-feature.*$/
+  # only:
+  #   - /^front-feature.*$/
+  #   - development
+  #   - master
+# lint client:
+#   stage: lint
+#   tags:
+#     - stan
+#   script:
+#     - cd server/
+#     - echo "Linting.."
+#     - npm run lintFix
+
+# unit testing client:
+#   stage: test
+#   tags:
+#     - stan
+#   script:
+#     - cd server/
+#       - echo "Running unit tests ..."
+#       - jest ./tests/unit/
+
+# integration testing client:
+#   stage: test
+#   tags:
+#     - stan
+#   variables:
+
+#   script:
+#     - cd server/
+#     - echo "Running integration tests ..."
+#     - jest ./tests/integration/
