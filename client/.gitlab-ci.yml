@@ -50,26 +50,31 @@ npm client:
 #     - echo "Running integration tests ..."
 #     - ./node_modules/.bin/jest ./tests/integration/
 
-# staging client:
-#   stage: staging client
-#   tags:
-#     - node
-#   script:
-#     - pwd
-#     - rm -rf server/public
-#     - mkdir server/public
-#     - cd server/
-#     - pwd
-#     - ls
-#     - cd ../client/
-#     - pwd
-#     # # - cd client/
-#     # #TODO: remove CI=false - so it treats warnings as errors again
-#     - CI=false npm run build
-#     - cd ../server/
-#     - ls
-#     - cd public/
-#     - ls
-#     # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-#   only:
-#     - development
+staging client:
+  stage: staging client
+   artifacts:
+    paths:
+      - server/public
+    expire_in: 1 days
+    when: always
+  tags:
+    - node
+  script:
+    - pwd
+    - rm -rf server/public
+    - mkdir server/public
+    - cd server/
+    - pwd
+    - ls
+    - cd ../client/
+    - pwd
+    # # - cd client/
+    # #TODO: remove CI=false - so it treats warnings as errors again
+    - CI=false npm run build
+    - cd ../server/
+    - ls
+    - cd public/
+    - ls
+    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  only:
+    - development
