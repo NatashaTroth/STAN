@@ -23,9 +23,6 @@ npm server:
 
   script:
     - cd server/
-    - ls
-    - cd public/
-    - ls
     - echo "Running npm ci ..."
     - npm ci
   except:
@@ -75,6 +72,9 @@ staging server:
   image: ruby:latest
   script:
     - cd server/
+    - ls
+    - cd public/
+    - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
     - development
