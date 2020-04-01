@@ -1,0 +1,74 @@
+.timeline-chunks {
+    .timeline__bar__percentage {
+        background: repeating-linear-gradient(
+            to right,
+            theme-color("dark"),
+            theme-color("dark") 2px,
+            theme-color("light") 1px,
+            theme-color("light") 5%
+        );
+    }
+}
+
+.timeline,
+.timeline-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    padding: 10px 0;
+    margin: 0;
+
+    &__heading {
+        align-self: flex-start;
+        width: 100%;
+        display: block;
+        @include rem(font-size, $font-size-16);
+        @include rem(line-height, 22px);
+        letter-spacing: 0;
+        font-weight: normal;
+        font-family: $font-family-OpenSans-Regular;
+    }
+
+    &__bar {
+        display: flex;
+
+        &__percentage {
+            font-size: 0.8em;
+            line-height: 1;
+            width: 85%;
+            height: 17px;
+            margin: 0;
+            border: 2.5px solid theme-color("dark");
+
+            &:after {
+                content: "";
+                display: block;
+                background-color: theme-color("dark");
+                border: 7px solid theme-color("dark");
+                // width: 50px;
+                height: 100%;
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: background-color 0.3s ease;
+            }
+        }
+        &__text {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 17px;
+            margin-left: 8px;
+        }
+    }
+}
+
+@for $i from 1 through 100 {
+    .percentage-#{$i} {
+        &:after {
+            $value: ($i * 1%);
+            width: $value;
+        }
+    }
+}
