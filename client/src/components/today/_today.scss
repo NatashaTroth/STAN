@@ -1,243 +1,243 @@
 .today-component-container {
-    margin-left: -16px;
-    max-width: 52rem;
+  margin-left: -16px;
+  max-width: 52rem;
 
-    @include media-breakpoint-down(lg) {
-        margin: 0 auto 30px auto;
-    }
+  @include media-breakpoint-down(lg) {
+    margin: 0 auto 30px auto;
+  }
 }
 
 .today,
 .today.box-content {
-    padding-bottom: 10px;
-    border: 4px solid theme-color("primary-yellow-dark");
-    box-shadow: 10px 10px 0px -2px theme-color("primary-yellow-dark");
-    background-color: theme-color("light");
+  padding-bottom: 10px;
+  border: 4px solid theme-color("primary-yellow-dark");
+  box-shadow: 10px 10px 0px -2px theme-color("primary-yellow-dark");
+  background-color: theme-color("light");
 
-    .container-fluid {
-        padding: 0;
+  .container-fluid {
+    padding: 0;
+  }
+
+  &__container {
+    padding: 10px 10px 0 10px;
+
+    &__header {
+      border-bottom: 3px solid theme-color("dark");
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__heading {
+        @include media-breakpoint-down(sm) {
+          &::after {
+            content: ",";
+          }
+        }
+      }
+
+      &__deadline {
+        margin-left: 10px;
+        display: flex;
+        align-items: baseline;
+
+        &__text {
+          margin-right: 10px;
+          color: theme-color("dark");
+          font-family: $font-family-BasierCircle-Bold;
+          @include rem(font-size, $font-size-20);
+          @include rem(line-height, 26px);
+          @include rem(letter-spacing, 1px);
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $font-size-18);
+            @include rem(line-height, 24px);
+            @include rem(letter-spacing, 0.5px);
+          }
+        }
+        &__date {
+        }
+      }
     }
 
-    &__container {
-        padding: 10px 10px 0 10px;
+    &__content {
+      padding: 10px 20px;
 
-        &__header {
-            border-bottom: 3px solid theme-color("dark");
-            margin-bottom: 5px;
+      @include media-breakpoint-down(xs) {
+        padding: 10px 0px;
+      }
+
+      &__label {
+      }
+      &__text {
+        font-family: $font-family-BasierCircle-Bold;
+        @include rem(letter-spacing, 0.5px);
+
+        &--big {
+          font-family: $font-family-BasierCircle-Bold;
+          @include rem(font-size, $font-size-18);
+          @include rem(line-height, 24px);
+          @include rem(letter-spacing, 0.5px);
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $font-size-14);
+            @include rem(line-height, 18px);
+          }
+        }
+
+        &--warning {
+          font-family: $font-family-BasierCircle-SemiBold;
+          @include rem(font-size, $font-size-14);
+          @include rem(line-height, 18px);
+          @include rem(letter-spacing, 0.5px);
+          color: theme-color("error-hover");
+          text-align: right;
+
+          @include media-breakpoint-down(xs) {
+            text-align: center;
+          }
+        }
+      }
+
+      &__layout {
+        display: flex;
+
+        @include media-breakpoint-down(xs) {
+          flex-direction: column-reverse;
+        }
+      }
+
+      &__subject {
+        margin: 10px 0;
+        width: 100%;
+
+        @include media-breakpoint-down(xs) {
+          margin: 6px 0;
+        }
+      }
+
+      &__warning {
+        margin: 10px 0 10px 10px;
+
+        @include media-breakpoint-down(xs) {
+          margin: 6px 0;
+        }
+      }
+
+      &__details {
+        margin: 10px 25% 10px 0;
+
+        @include media-breakpoint-down(xs) {
+          margin: 6px 0;
+        }
+
+        &__goal {
+          margin: 0 0 3px 0;
+          display: flex;
+
+          .today__container__content__label {
+            padding-right: 8px;
+          }
+        }
+
+        &__duration {
+          display: flex;
+
+          .today__container__content__label {
+            padding-right: 8px;
+          }
+        }
+      }
+
+      &__total-pages {
+        margin: 10px 0;
+
+        @include media-breakpoint-down(xs) {
+          margin: 6px 0;
+        }
+
+        .today__container__content__label {
+          padding-right: 8px;
+          margin: 0 0 3px 0;
+        }
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 20px;
+
+      @include media-breakpoint-down(xs) {
+        flex-direction: column-reverse;
+        margin-top: 10px;
+      }
+
+      &__open {
+        border-bottom: 1.5px solid theme-color("dark");
+        min-width: fit-content;
+
+        @include media-breakpoint-down(xs) {
+          align-self: flex-start;
+          margin-top: 10px;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+          border-bottom: 1.5px solid theme-color("primary-yellow");
+        }
+      }
+
+      &__submit {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+
+        &__form {
+          display: flex;
+          margin: 0 0 15px 0;
+
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+            justify-content: flex-end;
+          }
+
+          &__elements {
             display: flex;
-            justify-content: space-between;
             align-items: center;
 
-            &__heading {
-                @include media-breakpoint-down(sm) {
-                    &::after {
-                        content: ",";
-                    }
-                }
+            &__input {
+              min-width: initial;
+              width: 50px;
+              margin: 0 10px;
             }
+          }
+          &__btn {
+            min-width: initial;
+            padding: 7px 12px;
+            @include rem(font-size, 14px);
 
-            &__deadline {
-                margin-left: 10px;
-                display: flex;
-                align-items: baseline;
-
-                &__text {
-                    margin-right: 10px;
-                    color: theme-color("dark");
-                    font-family: $font-family-BasierCircle-Bold;
-                    @include rem(font-size, $font-size-20);
-                    @include rem(line-height, 26px);
-                    @include rem(letter-spacing, 1px);
-
-                    @include media-breakpoint-down(sm) {
-                        @include rem(font-size, $font-size-18);
-                        @include rem(line-height, 24px);
-                        @include rem(letter-spacing, 0.5px);
-                    }
-                }
-                &__date {
-                }
+            @include media-breakpoint-down(sm) {
+              width: auto;
             }
+          }
         }
 
-        &__content {
-            padding: 10px 20px;
-
-            @include media-breakpoint-down(xs) {
-                padding: 10px 0px;
-            }
-
-            &__label {
-            }
-            &__text {
-                font-family: $font-family-BasierCircle-Bold;
-                @include rem(letter-spacing, 0.5px);
-
-                &--big {
-                    font-family: $font-family-BasierCircle-Bold;
-                    @include rem(font-size, $font-size-18);
-                    @include rem(line-height, 24px);
-                    @include rem(letter-spacing, 0.5px);
-
-                    @include media-breakpoint-down(sm) {
-                        @include rem(font-size, $font-size-14);
-                        @include rem(line-height, 18px);
-                    }
-                }
-
-                &--warning {
-                    font-family: $font-family-BasierCircle-SemiBold;
-                    @include rem(font-size, $font-size-14);
-                    @include rem(line-height, 18px);
-                    @include rem(letter-spacing, 0.5px);
-                    color: theme-color("error-hover");
-                    text-align: right;
-
-                    @include media-breakpoint-down(xs) {
-                        text-align: center;
-                    }
-                }
-            }
-
-            &__layout {
-                display: flex;
-
-                @include media-breakpoint-down(xs) {
-                    flex-direction: column-reverse;
-                }
-            }
-
-            &__subject {
-                margin: 10px 0;
-                width: 100%;
-
-                @include media-breakpoint-down(xs) {
-                    margin: 6px 0;
-                }
-            }
-
-            &__warning {
-                margin: 10px 0 10px 10px;
-
-                @include media-breakpoint-down(xs) {
-                    margin: 6px 0;
-                }
-            }
-
-            &__details {
-                margin: 10px 25% 10px 0;
-
-                @include media-breakpoint-down(xs) {
-                    margin: 6px 0;
-                }
-
-                &__goal {
-                    margin: 0 0 3px 0;
-                    display: flex;
-
-                    .today__container__content__label {
-                        padding-right: 8px;
-                    }
-                }
-
-                &__duration {
-                    display: flex;
-
-                    .today__container__content__label {
-                        padding-right: 8px;
-                    }
-                }
-            }
-
-            &__total-pages {
-                margin: 10px 0;
-
-                @include media-breakpoint-down(xs) {
-                    margin: 6px 0;
-                }
-
-                .today__container__content__label {
-                    padding-right: 8px;
-                    margin: 0 0 3px 0;
-                }
-            }
+        &__all-done {
+          @include media-breakpoint-down(xs) {
+            width: 100%;
+          }
+          &__btn {
+            // min-width: 150px;
+          }
         }
-
-        &__buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 20px;
-
-            @include media-breakpoint-down(xs) {
-                flex-direction: column-reverse;
-                margin-top: 10px;
-            }
-
-            &__open {
-                border-bottom: 1.5px solid theme-color("dark");
-                min-width: fit-content;
-
-                @include media-breakpoint-down(xs) {
-                    align-self: flex-start;
-                    margin-top: 10px;
-                }
-
-                &:hover,
-                &:active,
-                &:focus {
-                    border-bottom: 1.5px solid theme-color("primary-yellow");
-                }
-            }
-
-            &__submit {
-                display: flex;
-                align-items: flex-end;
-                flex-direction: column;
-
-                @include media-breakpoint-down(sm) {
-                    width: 100%;
-                }
-
-                &__form {
-                    display: flex;
-                    margin: 0 0 15px 0;
-
-                    @include media-breakpoint-down(sm) {
-                        width: 100%;
-                        justify-content: flex-end;
-                    }
-
-                    &__elements {
-                        display: flex;
-                        align-items: center;
-
-                        &__input {
-                            min-width: initial;
-                            width: 50px;
-                            margin: 0 10px;
-                        }
-                    }
-                    &__btn {
-                        min-width: initial;
-                        padding: 7px 12px;
-                        @include rem(font-size, 14px);
-
-                        @include media-breakpoint-down(sm) {
-                            width: auto;
-                        }
-                    }
-                }
-
-                &__all-done {
-                    @include media-breakpoint-down(xs) {
-                        width: 100%;
-                    }
-                    &__btn {
-                        // min-width: 150px;
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 }

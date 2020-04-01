@@ -1,19 +1,19 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
 $theme-colors: (
-	primary-yellow: #fec902,
-	primary-yellow-dark: #ef7a20,
-	primary-blue: #bce0f8,
-	primary-blue-dark: #03719e,
-	light: #ffffff,
-	dark: #000000,
-	grey-light: #f2f2f2,
-	grey-dark: #979797,
-	dark-mode: #101926,
-	error: #ec634c,
-	error-hover: #e7333e,
-	success: #a9bf16,
-	success-hover: #5b7429
+  primary-yellow: #fec902,
+  primary-yellow-dark: #ef7a20,
+  primary-blue: #bce0f8,
+  primary-blue-dark: #03719e,
+  light: #ffffff,
+  dark: #000000,
+  grey-light: #f2f2f2,
+  grey-dark: #979797,
+  dark-mode: #101926,
+  error: #ec634c,
+  error-hover: #e7333e,
+  success: #a9bf16,
+  success-hover: #5b7429,
 );
 
 /** Bootstrap navbar fix (https://git.io/fADqW) */
@@ -69,56 +69,56 @@ $font-family-OpenSans-Regular: "Open Sans", sans-serif;
 $baseFontSize: 16;
 
 @function parse-int($n) {
-	@return $n / ($n * 0 + 1);
+  @return $n / ($n * 0 + 1);
 }
 
 @mixin rem($property, $values) {
-	$px: ();
-	$rem: ();
+  $px: ();
+  $rem: ();
 
-	$root: $baseFontSize;
+  $root: $baseFontSize;
 
-	@each $value in $values {
-		@if $value == 0 or $value == auto {
-			$px: append($px, $value);
-			$rem: append($rem, $value);
-		} @else if type-of($value) == number {
-			$unit: unit($value);
-			$val: parse-int($value);
+  @each $value in $values {
+    @if $value == 0 or $value == auto {
+      $px: append($px, $value);
+      $rem: append($rem, $value);
+    } @else if type-of($value) == number {
+      $unit: unit($value);
+      $val: parse-int($value);
 
-			@if $unit == "px" {
-				$px: append($px, $value);
-				$rem: append($rem, ($val / $root + rem));
-			}
+      @if $unit == "px" {
+        $px: append($px, $value);
+        $rem: append($rem, ($val / $root + rem));
+      }
 
-			@if $unit == "rem" {
-				$px: append($px, ($val * $root + px));
-				$rem: append($rem, $value);
-			}
-		} @else {
-			$px: append($px, $value);
-			$rem: append($rem, $value);
-		}
-	}
+      @if $unit == "rem" {
+        $px: append($px, ($val * $root + px));
+        $rem: append($rem, $value);
+      }
+    } @else {
+      $px: append($px, $value);
+      $rem: append($rem, $value);
+    }
+  }
 
-	@if $px == $rem {
-		#{$property}: $px;
-	} @else {
-		#{$property}: $px;
-		#{$property}: $rem;
-	}
+  @if $px == $rem {
+    #{$property}: $px;
+  } @else {
+    #{$property}: $px;
+    #{$property}: $rem;
+  }
 }
 
 @function rem($value) {
-	$root: $baseFontSize;
-	$val: parse-int($value);
-	$return: ();
+  $root: $baseFontSize;
+  $val: parse-int($value);
+  $return: ();
 
-	@if unit($value) == "px" {
-		$return: append($return, ($val / $root + rem));
-	} @else {
-		$return: append($return, ($val * $root + px));
-	}
+  @if unit($value) == "px" {
+    $return: append($return, ($val / $root + rem));
+  } @else {
+    $return: append($return, ($val * $root + px));
+  }
 
-	@return $return;
+  @return $return;
 }
