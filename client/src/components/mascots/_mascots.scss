@@ -1,15 +1,24 @@
 .mascots {
   .carousel {
+    .control-dots {
+      padding-bottom: 20px;
+      padding: 10px;
+      .dot {
+        visibility: hidden;
+        &:before {
+          visibility: visible;
+        }
+      }
+    }
     .slide {
       background: none;
+      padding-top: 30px;
+      padding-bottom: 30px;
       &:before {
         content: "";
       }
-
-      .container {
-        &__img {
-          width: 200px;
-        }
+      img {
+        width: 220px;
       }
     }
     .control-arrow {
@@ -57,7 +66,7 @@
       }
     }
     &__heading {
-      padding-bottom: 30px;
+      padding-bottom: 20px;
     }
     &__btn {
       display: flex;

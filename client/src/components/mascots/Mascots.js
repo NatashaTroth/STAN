@@ -1,10 +1,7 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
-
-// state
-import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // mutation & queries
 import { useMutation } from "@apollo/react-hooks"
@@ -21,24 +18,23 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components
 import Button from "../button/Button"
-// import { NetworkStatus } from "apollo-boost"
 
 function Mascots() {
   const history = useHistory()
-  let mascotID = 0
-
-  // context api
-  const currentUser = useCurrentUserValue()
 
   // mutation ----------------
   const [updateMascot, { id }] = useMutation(UPDATE_MASCOT_MUTATION)
+  const mascotStore = { mascot: 0 }
 
   // form specific ----------------
   const { handleSubmit } = useForm()
-  const onSubmit = async formData => {
-    handleMascot({ formData, updateMascot, history })
+  const onSubmit = async data => {
+    data = mascotStore.mascot
+    handleMascot({ data, updateMascot, history })
+  }
 
-    console.log(formData)
+  const handleMascotCallback = id => {
+    mascotStore.mascot = id
   }
 
   return (
@@ -63,37 +59,20 @@ function Mascots() {
 
               <div className="mascots__inner--box__carousel">
                 <Carousel
-                  id="mascot"
                   showStatus={false}
                   showThumbs={false}
-                  infiniteLoop={true}
-                  showIndicators={false}
                   useKeyboardArrows={true}
-                  onChange={id => {
-                    mascotID = id
-                  }}
+                  onChange={handleMascotCallback}
                 >
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyMascot}
-                      alt="a very happy mascot"
-                    />
-                  </div>
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyGirlyMascot}
-                      alt="a very happy girly mascot"
-                    />
-                  </div>
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyCleverMascot}
-                      alt="a very happy clever mascot"
-                    />
-                  </div>
+                  <img src={VeryHappyMascot} alt="a very happy mascot" />
+                  <img
+                    src={VeryHappyGirlyMascot}
+                    alt="a very happy girly mascot"
+                  />
+                  <img
+                    src={VeryHappyCleverMascot}
+                    alt="a very happy clever mascot"
+                  />
                 </Carousel>
 
                 <div className="mascots__inner__btn">
@@ -115,11 +94,11 @@ function Mascots() {
 
 export default Mascots
 
-async function handleMascot({ formData, updateMascot, history }) {
+async function handleMascot({ data, updateMascot, history }) {
   try {
     const resp = await updateMascot({
       variables: {
-        mascot: 1,
+        mascot: data,
       },
     })
 
@@ -129,8 +108,8 @@ async function handleMascot({ formData, updateMascot, history }) {
       throw new Error("failed: saved new mascot")
     }
     // redirect
-    // history.push("/")
-    // window.location.reload()
+    history.push("/")
+    window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
