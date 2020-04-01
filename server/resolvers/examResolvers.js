@@ -6,7 +6,7 @@ const dayjs = require("dayjs");
 import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
-import { datesTimingIsValid } from "../helpers/dates";
+import { datesTimingIsValid, startDateIsActive } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 const { verifyExamDate } = require("../helpers/verifyUserInput");
 const {
@@ -66,9 +66,22 @@ const examResolvers = {
           completed: false
         });
 
-        exams.filter(exam => startDate);
-
-        return [];
+        const currentExams = exams.filter(exam => {
+          // return true;
+          let isActive = startDateIsActive(new Date(exam.startDate));
+          return true;
+        });
+        console.log("In TODAYSCHUNKS");
+        console.log(currentExams);
+        const chunks = currentExams.map(exam => {
+          return { subject: exam.subject, numberPages: 5, duration: 5 };
+        });
+        // {
+        //   subject: String!
+        //   numberPages: Int!
+        //   duration: Int!
+        // // }
+        return chunks;
 
         // filter out where start date is in the past
       } catch (err) {
