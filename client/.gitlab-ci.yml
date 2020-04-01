@@ -52,7 +52,7 @@ npm client:
 
 staging client:
   stage: staging client
-   artifacts:
+  artifacts:
     paths:
       - server/public
     expire_in: 1 days
