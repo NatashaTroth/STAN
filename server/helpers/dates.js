@@ -7,6 +7,17 @@ export function datesTimingIsValid(startDate, examDate) {
   );
 }
 
+export function startDateIsActive(startDate) {
+  return isToday(startDate) || dayjs(startDate).isBefore(dayjs());
+}
+
+export function numberOfDaysLeft(startDate, examDate) {
+  console.log(dayjs(startDate).to(dayjs(examDate)));
+  // return dayjs().fromNow();
+}
+
+//------------------------HELPERS--------------------
+
 function datesAreNotPast(dates) {
   for (let i = 0; i < dates.length; i++) {
     //if today is after the date, then it is in the past
@@ -30,9 +41,3 @@ function isToday(date) {
     date.getFullYear() == today.getFullYear()
   );
 }
-
-export function startDateIsActive(startDate) {
-  return isToday(startDate) || dayjs(startDate).isBefore(dayjs());
-}
-
-export function numberOfDaysLeft() {}
