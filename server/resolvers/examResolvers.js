@@ -6,13 +6,14 @@ const dayjs = require("dayjs");
 import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
-import { datesTimingIsValid, startDateIsActive } from "../helpers/dates";
+import {
+  datesTimingIsValid,
+  startDateIsActive,
+  numberOfDaysLeft
+} from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-const {
-  verifyExamDate,
-  numberOfDaysLeft
-} = require("../helpers/verifyUserInput");
+const { verifyExamDate } = require("../helpers/verifyUserInput");
 const {
   UserInputError,
   AuthenticationError,
@@ -75,13 +76,13 @@ const examResolvers = {
           return startDateIsActive(new Date(exam.startDate));
         });
         console.log("In TODAYSCHUNKS");
-        console.log(currentExams);
+        // console.log(currentExams);
         const chunks = currentExams.map(exam => {
           return {
             subject: exam.subject,
             numberPages: numberOfPagesForChunk({
-              numberOfPages: exam.numberOfPages,
-              currentPage: exam.numberOfPages,
+              numberOfPages: exam.numberPages,
+              currentPage: exam.currentPage,
               daysLeft: numberOfDaysLeft(exam.startDate, exam.examDate)
             }),
             duration: 5
@@ -122,7 +123,19 @@ const examResolvers = {
           );
         args.userId = context.userInfo.userId;
         args.currentPage = args.startPage;
-        const resp = await Exam.create(args);
+        const resp = await Exam.create({
+          subject: args.subject,
+          examDate: args.examDate,
+          startDate: args.startDate,
+          numberPages: args.numberPages,
+          timePerPage: args.timePerPage || -1,
+          timesRepeat: args.timesRepeat || 1,
+          currentPage: args.currentPage || 0,
+          notes: args.notes,
+          pdfLink: args.pdfLink,
+          completed: args.completed || false,
+          userId: args.userId
+        });
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {
         if (
