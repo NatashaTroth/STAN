@@ -78,14 +78,17 @@ const examResolvers = {
         console.log("In TODAYSCHUNKS");
         // console.log(currentExams);
         const chunks = currentExams.map(exam => {
+          const numberPages = numberOfPagesForChunk({
+            numberOfPages: exam.numberPages,
+            currentPage: exam.currentPage,
+            daysLeft: numberOfDaysLeft(exam.startDate, exam.examDate)
+          });
+          const duration =
+            exam.timePerPage > 0 ? exam.timePerPage * numberPages : null;
           return {
             subject: exam.subject,
-            numberPages: numberOfPagesForChunk({
-              numberOfPages: exam.numberPages,
-              currentPage: exam.currentPage,
-              daysLeft: numberOfDaysLeft(exam.startDate, exam.examDate)
-            }),
-            duration: 5
+            numberPages,
+            duration
           };
         });
         // {

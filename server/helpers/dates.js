@@ -15,9 +15,20 @@ export function startDateIsActive(startDate) {
 }
 
 export function numberOfDaysLeft(startDate, examDate) {
-  //source: https://stackoverflow.com/a/2627493
-  const oneDay = 24 * 60 * 60 * 1000 * 2; // hours*minutes*seconds*milliseconds
-  return Math.round(Math.abs((startDate - examDate + oneDay * 2) / oneDay));
+  //source: https://stackoverflow.com/a/2627493 &  https://stackoverflow.com/a/17727953
+  const start = Date.UTC(
+    examDate.getFullYear(),
+    examDate.getMonth(),
+    examDate.getDate()
+  );
+  const end = Date.UTC(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate()
+  );
+
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  return Math.round(Math.abs((start - end + oneDay) / oneDay));
 }
 
 //------------------------HELPERS--------------------

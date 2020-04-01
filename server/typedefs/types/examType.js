@@ -24,7 +24,7 @@ const examType = gql`
   type Chunk {
     subject: String!
     numberPages: Int!
-    duration: Int!
+    duration: Int
   }
 `;
 
