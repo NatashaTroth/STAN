@@ -80,9 +80,9 @@ staging:server:
     # - react-scripts build && mv build ../server/public
     # - cd ../server/
     - cd server/
-    - ls
-    - cd public/
-    - ls
+    # - ls
+    # - cd public/
+    # - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   dependencies:
     - staging:client
