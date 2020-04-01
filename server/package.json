@@ -67,6 +67,7 @@
     "graphql": "^14.6.0",
     "jest": "^25.2.4",
     "jest-cli": "^25.2.4",
+    "mongodb-memory-server": "^6.5.0",
     "superagent": "^5.2.2",
     "supertest": "^4.0.2"
   }

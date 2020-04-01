@@ -37,46 +37,45 @@ npm server:
 #     - echo "Linting.."
 #     - npm run lintFix
 
-unit testing server:
-  stage: test
-  tags:
-    - node
-  script:
-    - cd server/
-    - echo "Running unit tests ..."
-    - ./node_modules/.bin/jest ./tests/unit/
-
-# integration testing server:
+# unit testing server:
 #   stage: test
 #   tags:
 #     - node
-#   variables:
-#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
 #   script:
 #     - cd server/
-#     - echo "Running integration tests ..."
-#     - ./node_modules/.bin/jest ./tests/integration/
+#     - echo "Running unit tests ..."
+#     - ./node_modules/.bin/jest ./tests/unit/
 
-staging server:
-  stage: staging
+integration testing server:
+  stage: test
   tags:
     - node
-  image: ruby:latest
+  variables:
+    ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+    REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-  only:
-    - /^back-feature.*$/
-    # - development
-    # - master
-  # script:
-  #   - echo "Staging deployment ..."
-  #   # - git subtree push --prefix server/ stan-staging master
-  #   # - apk update
-  #   - apt-get update -qy
-  #   - apt-get install -y ruby-dev
-  #   - gem install dpl
-  #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    - cd server/
+    - echo "Running integration tests ..."
+    - ./node_modules/.bin/jest ./tests/integration/
+# staging server:
+#   stage: staging
+#   tags:
+#     - node
+#   image: ruby:latest
+#   script:
+#     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+#   only:
+#     - /^back-feature.*$/
+# - development
+# - master
+# script:
+#   - echo "Staging deployment ..."
+#   # - git subtree push --prefix server/ stan-staging master
+#   # - apk update
+#   - apt-get update -qy
+#   - apt-get install -y ruby-dev
+#   - gem install dpl
+#   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
 # staging server:
 #   stage: staging
 #   tags:
