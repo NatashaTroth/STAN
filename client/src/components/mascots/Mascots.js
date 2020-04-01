@@ -1,12 +1,16 @@
-import React from "react"
+import React, { useState, useStore } from "react"
 import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // state
-import { CurrentUserContext } from "../../components/STAN/STAN"
+import {
+  CurrentUserContext,
+  useCurrentUserValue,
+} from "../../components/STAN/STAN"
 
 // mutation & queries
 import { useQuery, useMutation } from "@apollo/react-hooks"
+import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
@@ -20,29 +24,31 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components
 import Button from "../button/Button"
+import { NetworkStatus } from "apollo-boost"
 
 function Mascots() {
   const history = useHistory()
-  // mutation ----------------
-  // const [updateMascot] = useMutation()
 
-  // query ----------------
-  const { loading, error, data } = useQuery(CURRENT_USER)
-  let mascotID, user
+  // context api
+  const currentUser = useCurrentUserValue()
+
+  // mutation ----------------
+  const [updateMascot, { mascotId }] = useMutation(UPDATE_MASCOT_MUTATION)
+  const { data, loading, error } = useQuery(CURRENT_USER)
+  const [stan, setStan] = useState(0)
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
-  if (!loading && data && data.currentUser) user = data.currentUser
 
   const handlePath = path => {
     history.push(path)
   }
 
   const getMascotCallback = id => {
-    mascotID = id
+    // currentUser.mascot = id // store new mascot id in provider
+    // setStan(id)
   }
 
-  // return data.currentUser.map(({ id }) => {
   return (
     <div className="mascots">
       <div className="container-fluid">
@@ -52,7 +58,17 @@ function Mascots() {
             <div className="mascots__inner__heading">
               <h2>Almost there...</h2>
             </div>
-            <div className="mascots__inner--box box-content">
+            <form
+              onSubmit={mascot => {
+                mascot.preventDefault()
+                updateMascot({
+                  variables: {
+                    mascot: 2,
+                  },
+                })
+              }}
+              className="mascots__inner--box box-content"
+            >
               <div className="mascots__inner--box__sub-heading">
                 <p>
                   Choose your mascot, <br />
@@ -99,26 +115,24 @@ function Mascots() {
                     className="stan-btn-primary"
                     text="Save"
                     onClick={() => handlePath("/")}
-                    onSubmit={event => {
-                      event.preventDefault()
-                      // updateMascot({
-                      //   variables: {
-                      //     id,
-                      //     mascotId: mascotID,
-                      //   },
-                      // })
-                    }}
+                    // onSubmit={mascot => {
+                    //   mascot.preventDefault()
+                    //   updateMascot({
+                    //     variables: {
+                    //       mascot: 2,
+                    //     },
+                    //   })
+                    // }}
                   />
                 </div>
               </div>
-            </div>
+            </form>
           </div>
           <div className="col-md-3"></div>
         </div>
       </div>
     </div>
   )
-  // })
 }
 
 export default Mascots

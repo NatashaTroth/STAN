@@ -69,10 +69,7 @@ const Navbar = () => {
             </div>
             {body}
             <ul className="sidebar__items__list">
-              <div
-                className="sidebar__items__list__menu-top"
-                data-testid="navbar"
-              >
+              <div className="sidebar__items__list__menu-top">
                 {!currentUser ? (
                   <li className="list-item list-item--logged-out">
                     <NavLink
@@ -81,7 +78,6 @@ const Navbar = () => {
                       exact
                       activeClassName="active"
                       onClick={closeSidebar}
-                      data-testid="home-link"
                     >
                       Home
                     </NavLink>
@@ -91,7 +87,6 @@ const Navbar = () => {
                 {!currentUser ? (
                   <li className="list-item list-item--logged-out">
                     <NavLink
-                      data-testid="about-link"
                       strict
                       to="/about"
                       exact
@@ -229,5 +224,4 @@ const Navbar = () => {
 }
 
 export default Navbar
-
 export const useCurrentUserValue = () => useContext(CurrentUserContext)
