@@ -56,6 +56,28 @@ const examResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+    todaysChunks: async (root, args, context, info) => {
+      try {
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        //fetch exams from userid that are not completed
+        const exams = await Exam.find({
+          userId: context.userInfo.userId,
+          completed: false
+        });
+
+        // filter out where start date is in the past
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
+
+      return [];
     }
   },
   Mutation: {
