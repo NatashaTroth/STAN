@@ -1,4 +1,7 @@
-const dayjs = require("dayjs");
+// const dayjs = require("dayjs");
+import dayjs from "dayjs";
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 
 export function datesTimingIsValid(startDate, examDate) {
   return (
@@ -12,8 +15,9 @@ export function startDateIsActive(startDate) {
 }
 
 export function numberOfDaysLeft(startDate, examDate) {
-  console.log(dayjs(startDate).to(dayjs(examDate)));
-  // return dayjs().fromNow();
+  //source: https://stackoverflow.com/a/2627493
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  return Math.round(Math.abs((startDate - examDate) / oneDay));
 }
 
 //------------------------HELPERS--------------------
