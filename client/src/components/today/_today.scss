@@ -66,7 +66,7 @@
                     @include rem(font-size, $font-size-14);
                     @include rem(line-height, 18px);
                     @include rem(letter-spacing, 0.5px);
-                    color: theme-color("error");
+                    color: theme-color("error-hover");
                     text-align: right;
                 }
             }
@@ -111,6 +111,56 @@
                 .today__container__content__label {
                     padding-right: 8px;
                     margin: 0 0 3px 0;
+                }
+            }
+        }
+
+        &__buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+
+            &__open {
+                border-bottom: 1.5px solid theme-color("dark");
+
+                &:hover,
+                &:active,
+                &:focus {
+                    border-bottom: 1.5px solid theme-color("primary-yellow");
+                }
+            }
+
+            &__submit {
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+
+                &__form {
+                    display: flex;
+                    margin: 0 0 15px 0;
+
+                    &__elements {
+                        display: flex;
+                        align-items: center;
+
+                        &__input {
+                            min-width: initial;
+                            width: 50px;
+                            margin: 0 10px;
+                        }
+                    }
+                    &__btn {
+                        min-width: initial;
+                        padding: 7px 12px;
+                        @include rem(font-size, 14px);
+                    }
+                }
+
+                &__all-done {
+                    &__btn {
+                        // min-width: 150px;
+                    }
                 }
             }
         }
