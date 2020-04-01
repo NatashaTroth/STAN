@@ -44,12 +44,11 @@ function Dashboard() {
             {/* Today Goals*/}
             <TodayGoals></TodayGoals>
           </div>
-          <div className="col-xl-5">
+          <div className="col-xl-6">
             {/* Today */}
             <Today></Today>
           </div>
           <div className="col-xl-2">{/* Today Progress */}</div>
-          <div className="col-xl-1"></div>
         </div>
       </div>
     </div>

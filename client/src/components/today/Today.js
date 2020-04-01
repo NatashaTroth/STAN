@@ -34,11 +34,19 @@ function Today() {
                 </div>
               </div>
               <div className="today__container__content">
-                <div className="today__container__content__subject">
-                  <p className="today__container__content__label">Subject</p>
-                  <p className="today__container__content__text--big">
-                    Computer Networks
-                  </p>
+                <div className="today__container__content__layout">
+                  <div className="today__container__content__subject">
+                    <p className="today__container__content__label">Subject</p>
+                    <p className="today__container__content__text--big">
+                      Computer Networks
+                    </p>
+                  </div>
+                  <div className="today__container__content__warning">
+                    <p className="today__container__content__text--warning">
+                      Info: You need to study faster to finish all pages until
+                      the exam!
+                    </p>
+                  </div>
                 </div>
                 <div className="today__container__content__layout">
                   <div className="today__container__content__details">
