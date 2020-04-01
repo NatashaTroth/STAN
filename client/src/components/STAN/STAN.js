@@ -229,5 +229,4 @@ const Navbar = () => {
 }
 
 export default Navbar
-
 export const useCurrentUserValue = () => useContext(CurrentUserContext)
