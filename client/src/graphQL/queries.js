@@ -45,6 +45,16 @@ const GET_EXAM_QUERY = gql`
   }
 `
 
+const GET_TODAYS_CHUNKS = gql`
+  query {
+    todaysChunks {
+      subject
+      numberPages
+      duration
+    }
+  }
+`
+
 const GET_BOOKS_QUERY = gql`
   {
     books {
@@ -114,5 +124,6 @@ export {
   GET_BOOK_QUERY,
   SUCCESS_SIGNUP,
   CURRENT_USER,
+  GET_TODAYS_CHUNKS,
   // GOOGLE_AUTH_URL,
 }
