@@ -17,7 +17,8 @@ const { OAuth2Client } = require("google-auth-library");
 const {
   verifyUsername,
   verifyEmail,
-  verifyPassword
+  verifyPassword,
+  verifyMascot
 } = require("../helpers/verifyUserInput");
 // import { User } from "../models";
 // import {
@@ -151,31 +152,36 @@ const userResolvers = {
           throw new AuthenticationError(err.message);
         throw err;
       }
+    },
+
+    updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
+      try {
+        if (!userInfo.isAuth) throw new Error("Unauthorised");
+        verifyUserInputFormat({ mascot: mascot.toString() });
+        const user = await User.findOne({ _id: userInfo.userId });
+        if (!user) throw new Error("This user does not exist");
+        if (user.mascot === mascot) return { successful: true, user: user };
+
+        // user.mascot = mascot;
+        const resp = await User.updateOne(
+          { _id: userInfo.userId },
+          { mascot: mascot }
+        );
+
+        if (resp.nModified === 0) return { successful: false, user: user };
+
+        const updatedUser = await User.findOne({ _id: userInfo.userId });
+        return { successful: true, user: updatedUser };
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
-    //TODO: TURN INTO UPDATE USER RESOLVER
-    // updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
-    //   try {
-    //     if (!userInfo.isAuth) throw new Error("Unauthorised");
-
-    //     const user = await User.findOne({ _id: userInfo.userId });
-    //     if (!user) throw new Error("This user does not exist");
-
-    //     user.mascot = mascot;
-    //     await User.updateOne({ _id: userInfo.userId }, { mascot: mascot });
-    //     //TODO: error handling need - not sure how to check if resp was successful
-    //     //DO I NEED SUCCESSFUL - NEED ERROR HANDLING - FOR MONGOOSE?!
-    //     const updatedUser = await User.findOne({ _id: userInfo.userId });
-    //     return { successful: true, user: updatedUser };
-    //   } catch (err) {
-    //     if (
-    //       err.extensions &&
-    //       err.extensions.code &&
-    //       err.extensions.code !== "UNAUTHENTICATED"
-    //     )
-    //       throw new AuthenticationError(err.message);
-    //     throw err;
-    //   }
-    // }
   }
 };
 
@@ -270,7 +276,7 @@ async function verifyGoogleIdToken(token) {
   //const domain = payload['hd'];
 }
 
-function verifyUserInputFormat({ username, email, password }) {
+function verifyUserInputFormat({ username, email, password, mascot }) {
   // console.log(username);
   if (typeof username !== "undefined" && !verifyUsername(username))
     throw new AuthenticationError("Username input has the wrong format");
@@ -278,6 +284,8 @@ function verifyUserInputFormat({ username, email, password }) {
     throw new AuthenticationError("Email input has the wrong format");
   if (typeof password !== "undefined" && !verifyPassword(password))
     throw new AuthenticationError("Password input has the wrong format");
+  if (typeof mascot !== "undefined" && !verifyMascot(mascot))
+    throw new AuthenticationError("Mascot input has the wrong format");
 }
 
 module.exports = {

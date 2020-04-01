@@ -2,6 +2,7 @@ const {
   verifyEmail,
   verifyUsername,
   verifyPassword,
+  verifyMascot,
   verifySubject,
   verifyExamDate,
   verifyStudyStartDate,
@@ -64,6 +65,16 @@ test("verifies string is formatted as a password", () => {
   expect(verifyPassword("f".repeat(31))).toBeFalsy();
   expect(verifyPassword("g".repeat(7))).toBeFalsy();
   expect(verifyPassword("")).toBeFalsy();
+});
+
+test("verifies string is formatted as a mascot", () => {
+  expect(verifyMascot("0")).toBeTruthy();
+  expect(verifyMascot("1")).toBeTruthy();
+  expect(verifyMascot("2")).toBeTruthy();
+
+  expect(verifyMascot("e".repeat(30))).toBeFalsy();
+  expect(verifyMascot("g")).toBeFalsy();
+  expect(verifyMascot("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a subject", () => {

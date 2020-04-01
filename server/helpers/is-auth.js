@@ -12,6 +12,7 @@ export async function isAuth(req) {
     if (!decodedToken) return { isAuth: false, userId: "" };
 
     const user = await User.findOne({ _id: decodedToken.userId });
+    if (!user) throw new AuthenticationError("User does not exist");
     if (user.tokenVersion !== decodedToken.tokenVersion)
       throw new AuthenticationError("Wrong token version");
 

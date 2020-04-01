@@ -20,7 +20,6 @@ const examQueries = gql`
       notes: String
       pdfLink: String
       completed: Boolean
-      userId: ID!
     ): Boolean
   }
 `;
