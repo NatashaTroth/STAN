@@ -190,7 +190,7 @@ async function handleLogin({ formData, login, history }) {
     history.push("/")
     window.location.reload()
   } catch (err) {
-    //TODO-AUTH: USER DEN ERROR MITTEILEN
+    //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
     // console.log(err)
   }
