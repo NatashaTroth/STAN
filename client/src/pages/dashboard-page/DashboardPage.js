@@ -28,6 +28,7 @@ function Dashboard() {
             <h2 className="dashboard-page__heading">
               Hello you
               {/* {data.currentUser.username} */}
+              {/* TODO: add username */}
             </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
@@ -44,7 +45,7 @@ function Dashboard() {
             {/* Today Goals*/}
             <TodayGoals></TodayGoals>
           </div>
-          <div className="col-xl-6">
+          <div className="col-xl-6 today-component-container">
             {/* Today */}
             <Today></Today>
           </div>

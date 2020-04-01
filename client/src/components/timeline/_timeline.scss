@@ -19,6 +19,10 @@
     padding: 10px 0;
     margin: 0;
 
+    @include media-breakpoint-down(xs) {
+        padding: 5px 0;
+    }
+
     &__heading {
         align-self: flex-start;
         width: 100%;
@@ -28,10 +32,21 @@
         letter-spacing: 0;
         font-weight: normal;
         font-family: $font-family-OpenSans-Regular;
+        margin-bottom: 3px;
+
+        @include media-breakpoint-down(xs) {
+            @include rem(font-size, $font-size-14);
+            @include rem(line-height, 18px);
+        }
     }
 
     &__bar {
         display: flex;
+
+        @include media-breakpoint-down(xs) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
         &__percentage {
             font-size: 0.8em;
@@ -41,12 +56,16 @@
             margin: 0;
             border: 2.5px solid theme-color("dark");
 
+            @include media-breakpoint-down(xs) {
+                width: 100%;
+            }
+
             &:after {
                 content: "";
                 display: block;
                 background-color: theme-color("dark");
                 border: 7px solid theme-color("dark");
-                // width: 50px;
+                width: 0px;
                 height: 100%;
                 position: relative;
                 top: 50%;
@@ -60,6 +79,10 @@
             justify-content: flex-end;
             height: 17px;
             margin-left: 8px;
+
+            @include media-breakpoint-down(xs) {
+                margin-left: 0;
+            }
         }
     }
 }

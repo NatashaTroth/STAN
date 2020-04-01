@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import Button from "../../components/button/Button"
 import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
+import Timeline from "../../components/timeline/Timeline"
 
 function Today() {
   // form specific ----------------
@@ -102,7 +103,24 @@ function Today() {
                   </div>
                 </div>
                 {/* days left */}
+                <div className="today__container__days-left">
+                  <Timeline
+                    heading="Days until deadline"
+                    daysLeft="12"
+                    percentage="22"
+                    style="bar"
+                  ></Timeline>
+                </div>
                 {/* chunks left */}
+                <div className="today__container__chunks-left">
+                  <Timeline
+                    heading="Chunks left to study"
+                    daysLeft="7"
+                    percentage="50"
+                    style="chunks"
+                  ></Timeline>
+                </div>
+
                 {/* buttons */}
                 <div className="today__container__buttons">
                   {/* open notes or link */}

@@ -145,7 +145,7 @@ html body {
 
 		@include media-breakpoint-down(sm) {
 			@include rem(font-size, $font-size-14);
-			@include rem(line-height, 30px);
+			@include rem(line-height, 18px);
 		}
 	}
 
