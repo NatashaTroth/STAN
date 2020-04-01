@@ -7,22 +7,14 @@ import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
 import { datesTimingIsValid } from "../helpers/dates";
-
+import { verifyUserInputFormat } from "../helpers/examHelpers";
+const { verifyExamDate } = require("../helpers/verifyUserInput");
 const {
   UserInputError,
   AuthenticationError,
   ApolloError
 } = require("apollo-server");
-const {
-  verifySubject,
-  verifyExamDate,
-  verifyStudyStartDate,
-  verifyPageAmount,
-  verifyPageTime,
-  verifyPageRepeat,
-  verifyCurrentPage,
-  verifyPageNotes
-} = require("../helpers/verifyUserInput");
+
 // const { JsonWebTokenError } = require("jsonwebtoken");
 
 //TODO: Authentication
@@ -68,15 +60,17 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      console.log("TEST");
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
         verifyUserInputFormat(args);
-        args.startDate = args.startDate || new Date();
+        if (!args.startDate || args.startDate.length <= 0) {
+          args.startDate = new Date();
+        }
+
         args.examDate = new Date(args.examDate);
         if (!datesTimingIsValid(args.startDate, args.examDate))
           throw new ApolloError(
-            "Start learning date must be before exam date."
+            "Dates cannot be in the past and start learning date must be before exam date."
           );
         args.userId = context.userInfo.userId;
         args.currentPage = args.startPage;
@@ -99,16 +93,15 @@ const examResolvers = {
     description: "Custom description for the date scalar",
     parseValue(value) {
       //TODO: not sure if this is good for examDate
-      if (!value) return dayjs(new Date());
-      console.log("In parse value");
-      return dayjs(value); // value from the client
+      if (!value || value.length <= 0) return new Date();
+      return new Date(value); // value from the client
     },
     serialize(value) {
-      return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
+      return new Date(value); // value sent to the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING) {
-        return dayjs(ast.value); // ast value is always in string format
+        return new Date(ast.value); // ast value is always in string format
       }
       return null;
     }
@@ -116,71 +109,6 @@ const examResolvers = {
 };
 
 //TODO: refactor??
-function verifyUserInputFormat({
-  subject,
-  examDate,
-  startDate,
-  numberPages,
-  timePerPage,
-  timesRepeat,
-  currentPage,
-  notes
-  // pdfLink,
-  // completed,
-  // userId
-}) {
-  let examOnlyDate = new Date(examDate).toLocaleDateString();
-  let startOnlyDate = "";
-  if (startDate && startDate.length > 0)
-    startOnlyDate = new Date(startDate).toLocaleDateString();
-
-  //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
-  if (typeof subject !== "undefined" && !verifySubject(subject))
-    throw new AuthenticationError("Subject input has the wrong format");
-
-  if (typeof examDate !== "undefined" && !verifyExamDate(examOnlyDate))
-    throw new AuthenticationError("Exam date input has the wrong format");
-
-  if (
-    typeof startDate !== "undefined" &&
-    startDate != null &&
-    startDate != "" &&
-    !verifyStudyStartDate(startOnlyDate)
-  )
-    throw new AuthenticationError(
-      "Study start date input has the wrong format"
-    );
-
-  if (
-    typeof numberPages !== "undefined" &&
-    !verifyPageAmount(numberPages.toString())
-  )
-    throw new AuthenticationError("Number of pages input has the wrong format");
-
-  if (
-    typeof timePerPage !== "undefined" &&
-    timePerPage != null &&
-    !verifyPageTime(timePerPage.toString())
-  )
-    throw new AuthenticationError("Time per page input has the wrong format");
-
-  if (
-    typeof timesRepeat !== "undefined" &&
-    timesRepeat != null &&
-    !verifyPageRepeat(timesRepeat.toString())
-  )
-    throw new AuthenticationError("Times to repeat input has the wrong format");
-
-  if (
-    typeof currentPage !== "undefined" &&
-    currentPage != null &&
-    !verifyCurrentPage(currentPage.toString())
-  )
-    throw new AuthenticationError("Current page input has the wrong format");
-
-  if (typeof notes !== "undefined" && notes != null && !verifyPageNotes(notes))
-    throw new AuthenticationError("Notes input has the wrong format");
-}
 
 module.exports = {
   examResolvers

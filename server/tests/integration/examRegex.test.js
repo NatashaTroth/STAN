@@ -91,31 +91,31 @@ describe("Test user resolver regex", () => {
       "Exam date input has the wrong format"
     );
 
-    resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "Maths",
-        examDate: new Date("2020-08-11"),
-        startDate: "test",
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
-    expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Study start date input has the wrong format"
-    );
+    // let resp = await mutate({
+    //   query: ADD_EXAM_MUTATION,
+    //   variables: {
+    //     subject: "Maths",
+    //     examDate: new Date("2020-08-11"),
+    //     startDate: "test",
+    //     numberPages: 5,
+    //     timePerPage: 5,
+    //     startPage: 6,
+    //     notes: "NOTES",
+    //     pdfLink: "klsdjfs",
+    //     completed: false
+    //   }
+    // });
+    // expect(resp.data.addExam).toBeFalsy();
+    // expect(resp.errors[0].message).toEqual(
+    //   "Study start date input has the wrong format"
+    // );
 
     resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
         examDate: new Date("2150-08-11"),
-        startDate: "null",
+        startDate: "",
         numberPages: 5,
         timePerPage: 5,
         startPage: 6,
@@ -124,7 +124,6 @@ describe("Test user resolver regex", () => {
         completed: false
       }
     });
-    console.log(resp);
 
     expect(resp.data.addExam).toBeTruthy();
 
