@@ -1,17 +1,13 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { Exam, User } = require("../models");
+const { Exam } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const dayjs = require("dayjs");
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
 
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+const { AuthenticationError, ApolloError } = require("apollo-server");
 const {
   verifySubject,
   verifyExamDate,
@@ -22,7 +18,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const { JsonWebTokenError } = require("jsonwebtoken");
+// const { JsonWebTokenError } = require("jsonwebtoken");
 // import { Exam } from "../models";
 // import { GraphQLScalarType } from "graphql";
 // import { Kind } from "graphql/language";

@@ -2,22 +2,9 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { typeDefs } from "../../typedefs";
-import { resolvers } from "../../resolvers";
-import { ApolloServer } from "apollo-server-express";
-const { MongoClient } = require("mongodb");
-import mongoose from "mongoose";
-import { User } from "../../models";
-
 import { setup, teardown } from "./setup";
-import {
-  ADD_EXAM_MUTATION,
-  LOGIN_MUTATION,
-  LOGOUT_MUTATION,
-  SIGNUP_MUTATION,
-  GOOGLE_LOGIN_MUTATION
-} from "../mutations.js";
-import { GET_EXAMS_QUERY, CURRENT_USER } from "../queries.js";
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../mutations.js";
+
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
@@ -32,7 +19,7 @@ describe("Test user resolver regex", () => {
   });
 
   it("should use regex to filter out wrong sign up input data", async () => {
-    const { query, mutate } = createTestClient(server);
+    const { mutate } = createTestClient(server);
     let resp;
     resp = await mutate({
       query: SIGNUP_MUTATION,
@@ -111,7 +98,7 @@ describe("Test user resolver regex", () => {
   });
 
   it("should use regex to filter out wrong login input data", async () => {
-    const { query, mutate } = createTestClient(server);
+    const { mutate } = createTestClient(server);
     let resp;
     resp = await mutate({
       query: LOGIN_MUTATION,

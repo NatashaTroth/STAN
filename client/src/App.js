@@ -39,7 +39,9 @@ const App = () => {
   useEffect(() => {
     // TODO: if save accesstoken in store, use the if - but if only save in memory delete
     //if (!getAccessToken()) {
-    fetch("http://localhost:5000/refresh_token", {
+    // fetch("http://localhost:5000/refresh_token", {
+    // console.log("here:" + process.env.DOMAIN_REFRESH_TOKEN)
+    fetch("/refresh_token", {
       method: "POST",
       credentials: "include",
     })

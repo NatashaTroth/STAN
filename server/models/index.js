@@ -1,5 +1,5 @@
-const User = require("./User");
-const Exam = require("./Exam");
+const User = require("./user");
+const Exam = require("./exam");
 // import { MotivationalSayings } from "./MotivationalSayings";
 
 module.exports = {
