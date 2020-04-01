@@ -74,17 +74,9 @@ staging:server:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    # - rm -rf server/public
-    # - mkdir server/public
-    # - cd client/
-    # - react-scripts build && mv build ../server/public
-    # - cd ../server/
     - cd server/
-    # - ls
-    # - cd public/
-    # - ls
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-  # dependencies:
-  #   - staging:client
+  dependencies:
+    - staging:client
   only:
     - development

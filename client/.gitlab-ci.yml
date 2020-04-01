@@ -55,7 +55,7 @@ staging:client:
   artifacts:
     paths:
       - server/public/
-      # - server/public/build
+      - server/public/build
     expire_in: 1 week
   tags:
     - node
