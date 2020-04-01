@@ -6,10 +6,10 @@ stages:
   - staging
   - deployment
 
-  before_script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
+before_script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
 
 npm server:
   tags:
@@ -77,15 +77,6 @@ staging server:
   #   - apt-get install -y ruby-dev
   #   - gem install dpl
   #   - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-
-
-
-
-
-
-
-
-
 # staging server:
 #   stage: staging
 #   tags:
