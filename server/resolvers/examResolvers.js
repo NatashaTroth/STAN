@@ -6,6 +6,7 @@ const dayjs = require("dayjs");
 import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
+import { datesTimingIsValid } from "../helpers/dates";
 
 const {
   UserInputError,
@@ -72,7 +73,11 @@ const examResolvers = {
       try {
         verifyUserInputFormat(args);
         args.startDate = args.startDate || new Date();
-        verifyDates(args.startDate, args.examDate);
+        args.examDate = new Date(args.examDate);
+        if (!datesTimingIsValid(args.startDate, args.examDate))
+          throw new ApolloError(
+            "Start learning date must be before exam date."
+          );
         args.userId = context.userInfo.userId;
         args.currentPage = args.startPage;
         const resp = await Exam.create(args);
@@ -126,7 +131,8 @@ function verifyUserInputFormat({
 }) {
   let examOnlyDate = new Date(examDate).toLocaleDateString();
   let startOnlyDate = "";
-  if (startDate) startOnlyDate = new Date(startDate).toLocaleDateString();
+  if (startDate && startDate.length > 0)
+    startOnlyDate = new Date(startDate).toLocaleDateString();
 
   //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
   if (typeof subject !== "undefined" && !verifySubject(subject))
@@ -138,6 +144,7 @@ function verifyUserInputFormat({
   if (
     typeof startDate !== "undefined" &&
     startDate != null &&
+    startDate != "" &&
     !verifyStudyStartDate(startOnlyDate)
   )
     throw new AuthenticationError(
@@ -173,12 +180,6 @@ function verifyUserInputFormat({
 
   if (typeof notes !== "undefined" && notes != null && !verifyPageNotes(notes))
     throw new AuthenticationError("Notes input has the wrong format");
-}
-
-function verifyDates(startDate, examDate) {
-  console.log("startDate" + startDate);
-  console.log("examDate" + examDate);
-  console.log(dayjs().isBefore(dayjs(new Date(examDate))));
 }
 
 module.exports = {
