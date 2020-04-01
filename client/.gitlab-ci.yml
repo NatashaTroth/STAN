@@ -1,9 +1,10 @@
-stages:
-  - npm
-  - lint
-  - test
-  - staging
-  - deployment
+image: node:latest
+# stages:
+#   - npm
+#   - lint
+#   - test
+#   - staging
+#   - deployment
 
 npm client:
   tags:
@@ -53,7 +54,6 @@ staging client:
   stage: staging client
   tags:
     - node
-  image: ruby:latest
   script:
     - rm -rf server/public
     - cd client/
