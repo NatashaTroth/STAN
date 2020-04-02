@@ -5,7 +5,8 @@ const { gql } = require("apollo-server");
 const examQueries = gql`
   type Query {
     exams: [Exam]!
-    exam(id: ID!): Exam
+    exam(id: ID!): Exam!
+    todaysChunks: [Chunk]!
   }
 
   type Mutation {
@@ -16,11 +17,13 @@ const examQueries = gql`
       numberPages: Int
       timePerPage: Int
       timesRepeat: Int
-      currentPage: Int
+      startPage: Int
       notes: String
       pdfLink: String
       completed: Boolean
     ): Boolean
+
+    updateCurrentPage(examId: ID!, page: Int!): Boolean
   }
 `;
 

@@ -68,6 +68,7 @@
       }
 
       &__label {
+        padding-right: 8px;
       }
       &__text {
         font-family: $font-family-BasierCircle-Bold;
@@ -101,6 +102,7 @@
 
       &__layout {
         display: flex;
+        justify-content: space-between;
 
         @include media-breakpoint-down(xs) {
           flex-direction: column-reverse;
@@ -110,10 +112,6 @@
       &__subject {
         margin: 10px 0;
         width: 100%;
-
-        @include media-breakpoint-down(xs) {
-          margin: 6px 0;
-        }
       }
 
       &__warning {
@@ -125,41 +123,41 @@
       }
 
       &__details {
-        margin: 10px 25% 10px 0;
+        margin: 10px 50px 10px 0;
 
+        @include media-breakpoint-down(xl) {
+          margin: 10px 10px 10px 0;
+        }
+        @include media-breakpoint-down(lg) {
+          margin: 10px 50px 10px 0;
+        }
         @include media-breakpoint-down(xs) {
-          margin: 6px 0;
+          margin: 0 0 3px;
         }
 
         &__goal {
           margin: 0 0 3px 0;
           display: flex;
-
-          .today__container__content__label {
-            padding-right: 8px;
-          }
         }
 
         &__duration {
           display: flex;
+        }
 
-          .today__container__content__label {
-            padding-right: 8px;
-          }
+        &__total-pages {
+          margin: 0 0 3px 0;
+          display: flex;
+        }
+
+        &__repetition {
+          display: flex;
         }
       }
+    }
 
-      &__total-pages {
+    &__days-left {
+      @include media-breakpoint-down(xs) {
         margin: 10px 0;
-
-        @include media-breakpoint-down(xs) {
-          margin: 6px 0;
-        }
-
-        .today__container__content__label {
-          padding-right: 8px;
-          margin: 0 0 3px 0;
-        }
       }
     }
 

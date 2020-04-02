@@ -28,7 +28,11 @@ const examSchema = new Schema({
   },
   timesRepeat: {
     type: Number,
-    default: -1
+    default: 1
+  },
+  startPage: {
+    type: Number,
+    default: 0
   },
   currentPage: {
     type: Number,

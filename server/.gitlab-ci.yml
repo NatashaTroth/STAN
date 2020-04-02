@@ -6,12 +6,12 @@ image: node:latest
 #   - staging
 #   - deployment
 
-before_script:
-  - apt-get update -qy
-  - apt-get install -y ruby-dev
-  - gem install dpl
+# before_script:
+#   - apt-get update -qy
+#   - apt-get install -y ruby-dev
+#   - gem install dpl
 
-npm server:
+npm:server:
   tags:
     - node
   stage: npm
@@ -27,7 +27,20 @@ npm server:
     - npm ci
   except:
     - /^front-feature.*$/
-# lint server:
+
+lint server:
+  stage: lint
+  tags:
+    - node
+  script:
+    - cd server/
+    - echo "Linting.."
+    - npm run lintFix
+  except:
+    - /^front-feature.*$/
+    - /^back-feature.*$/
+
+# lint server merge:
 #   stage: lint
 #   tags:
 #     - node
@@ -35,46 +48,48 @@ npm server:
 #     - cd server/
 #     - echo "Linting.."
 #     - npm run lintFix
-#   except:
-#     - /^front-feature.*$/
+#   only:
+#     - merge_requests
+#     - /^back-feature.*$/
 
-# unit testing server:
-#   stage: test
-#   tags:
-#     - node
-#   script:
-#     - cd server/
-#     - echo "Running unit tests ..."
-#     - ./node_modules/.bin/jest ./tests/unit/
-#   except:
-#     - /^front-feature.*$/
+unit testing server:
+  stage: test
+  tags:
+    - node
+  script:
+    - cd server/
+    - echo "Running unit tests ..."
+    - ./node_modules/.bin/jest ./tests/unit/
+  except:
+    - /^front-feature.*$/
 
-# integration testing server:
-#   stage: test
-#   tags:
-#     - node
-#   variables:
-#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
-#   script:
-#     - cd server/
-#     - echo "Running integration tests ..."
-#     - ./node_modules/.bin/jest ./tests/integration/
-#   except:
-#     - /^front-feature.*$/
+integration testing server:
+  stage: test
+  tags:
+    - node
+  variables:
+    ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+    REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+  script:
+    - cd server/
+    - echo "Running integration tests ..."
+    - ./node_modules/.bin/jest ./tests/integration/
+  except:
+    - /^front-feature.*$/
 
 #always deploy on server
-staging:
+staging:server:
   stage: staging server
   tags:
     - node
   image: ruby:latest
   script:
-    - cd client/
-    - pwd
-    - CI=false npm run build
-    - cd ../server/
-    # - cd server/
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd server/
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY --skip-cleanup
+  dependencies:
+    - staging:client
   only:
     - development

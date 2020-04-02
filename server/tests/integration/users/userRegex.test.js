@@ -2,8 +2,9 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setup, teardown } from "./setup";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../mutations.js";
+
+import { setup, teardown } from "../setup";
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 

@@ -19,6 +19,20 @@ const examType = gql`
     completed: Boolean
     userId: ID!
   }
+
+  # duration in minutes
+  type Chunk {
+    # examId: ID!
+    # subject: String!
+    exam: Exam!
+    numberPagesToday: Int!
+    duration: Int
+    daysLeft: Int!
+    totalNumberDays: Int!
+    totalChunks: Int!
+    numberPagesWithRepeat: Int!
+    notEnoughTime: Boolean!
+  }
 `;
 
 module.exports = { examType };
