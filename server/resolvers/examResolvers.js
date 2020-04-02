@@ -16,6 +16,7 @@ import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 // const { verifyExamDate } = require("../helpers/verifyUserInput");
 const { AuthenticationError, ApolloError } = require("apollo-server");
+import { handleResolverError } from "../helpers/errorHandling";
 
 // const { JsonWebTokenError } = require("jsonwebtoken");
 
@@ -31,13 +32,7 @@ const examResolvers = {
 
         return resp;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     exam: async (root, args, context, info) => {
@@ -50,13 +45,7 @@ const examResolvers = {
 
         return resp;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     todaysChunks: async (root, args, context, info) => {
@@ -105,13 +94,7 @@ const examResolvers = {
 
         // filter out where start date is in the past
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     }
   },
@@ -148,13 +131,7 @@ const examResolvers = {
         });
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new ApolloError(err.message);
-        throw err;
+        handleResolverError(err);
       }
       return true;
     },
@@ -185,13 +162,7 @@ const examResolvers = {
         if (resp.nModified === 0) return false;
         return true;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     }
   },
