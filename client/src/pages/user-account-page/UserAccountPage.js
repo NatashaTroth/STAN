@@ -4,10 +4,7 @@ import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
 // state
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+import { CurrentUserContext } from "../../components/STAN/STAN"
 
 // mutation & queries
 import { useHistory } from "react-router-dom"
@@ -188,7 +185,7 @@ async function logUserOut({ logout, client, history }) {
   setAccessToken("")
 
   // reset sign up trigger
-  window.localStorage.setItem("setMascot", true)
+  window.localStorage.setItem("setMascot", false)
 
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())

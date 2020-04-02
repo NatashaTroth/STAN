@@ -77,7 +77,6 @@ const Content = () => {
         )}
 
         {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
-
         {isAuth && setMascot ? (
           <Route exact path="/mascots" component={Mascots} />
         ) : null}

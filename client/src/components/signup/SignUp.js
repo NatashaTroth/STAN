@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useCurrentUserValue } from "../STAN/STAN"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
@@ -17,6 +18,7 @@ import Button from "../../components/button/Button"
 
 function SignUp() {
   const history = useHistory()
+
   // google signup ----------------
   const successGoogle = async response => {
     try {
@@ -39,13 +41,14 @@ function SignUp() {
   }
   const failureGoogle = response => {
     // console.log(JSON.stringify(response.Qt.Ad))
-    //TODO USER MITTEILEN
+    // TODO: USER MITTEILEN
     console.error("Google login failed")
   }
 
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
+
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
   const onSubmit = async formData => {

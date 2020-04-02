@@ -21,6 +21,7 @@ export const CurrentUserContext = createContext()
 const Navbar = () => {
   // query ----------------
   const { data, loading, error } = useQuery(CURRENT_USER)
+
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
   let currentUser
@@ -36,12 +37,13 @@ const Navbar = () => {
     backdrop = null
 
   const handleClickSidebar = () => {
-    setSideBar(!isSideBarOpen)
+    setSideBar(isSideBarOpen => !isSideBarOpen)
   }
 
   const closeSidebar = () => {
     setSideBar(false)
   }
+
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
 
   // return ----------------
