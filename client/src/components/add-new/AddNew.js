@@ -233,7 +233,7 @@ function AddNew() {
                       <Label
                         for="page-time"
                         text="Time per page (min)"
-                        className="add-new__form__element__label"
+                        className="add-new__form__element__label input-required"
                       ></Label>
                       <Input
                         className="add-new__form__element__input"
@@ -243,11 +243,16 @@ function AddNew() {
                         label="exam_page_time"
                         placeholder="5 min"
                         ref={register({
-                          required: false,
+                          required: true,
                           min: 1,
                           max: 600,
                         })}
+                        required
                       />
+                      {errors.exam_page_time &&
+                        errors.exam_page_time.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
                       {errors.exam_page_time &&
                         errors.exam_page_time.type === "max" && (
                           <span className="error">
