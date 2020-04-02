@@ -75,7 +75,13 @@ staging:server:
     - apt-get install -y ruby-dev
     - gem install dpl
     - cd server/
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    - ls
+    - cd public/
+    - ls
+    - cd build/
+    - ls
+    - ll -lah
+    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   dependencies:
     - staging:client
   only:
