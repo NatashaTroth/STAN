@@ -71,8 +71,6 @@ staging:client:
     - ls
     - cd public
     - ls
-    - cd build/
-    - ls
 
     # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
