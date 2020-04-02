@@ -1,6 +1,7 @@
 import { gql } from "apollo-boost" //to make queries
 
-const GET_USERS_QUERY = gql`
+//TODO IMPORTANT - DELETE AS SOON AS POSSIBLE
+export const GET_USERS_QUERY = gql`
   {
     users {
       id
@@ -11,7 +12,7 @@ const GET_USERS_QUERY = gql`
   }
 `
 
-const GET_EXAMS_QUERY = gql`
+export const GET_EXAMS_QUERY = gql`
   {
     exams {
       id
@@ -28,7 +29,7 @@ const GET_EXAMS_QUERY = gql`
   }
 `
 
-const GET_EXAM_QUERY = gql`
+export const GET_EXAM_QUERY = gql`
   query($id: ID!) {
     exams(id: $id) {
       id
@@ -45,7 +46,7 @@ const GET_EXAM_QUERY = gql`
   }
 `
 
-const GET_TODAYS_CHUNKS = gql`
+export const GET_TODAYS_CHUNKS = gql`
   query {
     todaysChunks {
       exam {
@@ -70,56 +71,9 @@ const GET_TODAYS_CHUNKS = gql`
   }
 `
 
-const GET_BOOKS_QUERY = gql`
-  {
-    books {
-      name
-      id
-    }
-  }
-`
-
-const GET_BOOK_QUERY = gql`
-  query($id: ID!) {
-    book(id: $id) {
-      id
-      name
-      genre
-      author {
-        id
-        name
-        age
-        books {
-          name
-          id
-        }
-      }
-    }
-  }
-`
-
-const GET_AUTHORS_QUERY = gql`
-  {
-    authors {
-      name
-      id
-    }
-  }
-`
-
-const SUCCESS_SIGNUP = gql`
-  {
-    user {
-      username
-      email
-      password
-    }
-  }
-`
-
 //TODO: cache result of current user query - so you don't have to keep fetching it from the server - use apollo!
 //https://www.youtube.com/watch?v=25GS0MLT8JU 2:52:35
-const CURRENT_USER = gql`
+export const CURRENT_USER = gql`
   query {
     currentUser {
       id
@@ -130,15 +84,3 @@ const CURRENT_USER = gql`
     }
   }
 `
-
-export {
-  GET_USERS_QUERY,
-  GET_EXAMS_QUERY,
-  GET_AUTHORS_QUERY,
-  GET_BOOKS_QUERY,
-  GET_BOOK_QUERY,
-  SUCCESS_SIGNUP,
-  CURRENT_USER,
-  GET_TODAYS_CHUNKS,
-  // GOOGLE_AUTH_URL,
-}
