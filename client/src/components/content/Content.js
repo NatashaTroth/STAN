@@ -36,13 +36,13 @@ const Content = () => {
     <main className="content">
       <Switch>
         {!isAuth ? <Route exact path="/" component={Home} /> : null}
-        {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
-
         {!isAuth ? (
           <Route exact path="/about" component={About} />
         ) : (
           <Redirect from="/about" to="/" />
         )}
+
+        {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
 
         {!isAuth ? (
           <Route exact path="/login" component={Login} />

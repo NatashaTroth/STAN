@@ -302,6 +302,10 @@ html body {
     margin-top: 2px;
   }
 
+  .loading {
+    visibility: hidden;
+  }
+
   .sub-heading {
     padding-bottom: 30px;
     color: theme-color("primary-blue-dark");
