@@ -68,11 +68,11 @@ staging:client:
     # #TODO: remove CI=false - so it treats warnings as errors again
     - CI=false npm run build
     - cd ../server
-    - ll -lah
+    - ls
     - cd public
-    - ll -lah
+    - ls
     - cd build/
-    - ll -lah
+    - ls
 
     # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:

@@ -80,8 +80,9 @@ staging:server:
     - ls
     - cd build/
     - ls
-    - ll -lah
-    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+    - cd ..
+    - cd ..
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   dependencies:
     - staging:client
   only:
