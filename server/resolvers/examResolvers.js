@@ -10,7 +10,7 @@ const { Kind } = require("graphql/language");
 import {
   datesTimingIsValid,
   startDateIsActive,
-  numberOfDaysLeft
+  getNumberOfDays
 } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
@@ -75,18 +75,21 @@ const examResolvers = {
         });
         console.log("In TODAYSCHUNKS");
         const chunks = currentExams.map(exam => {
+          const daysLeft = getNumberOfDays(new Date(), exam.examDate);
           const numberPages = numberOfPagesForChunk({
             numberOfPages: exam.numberPages,
             currentPage: exam.currentPage,
-            daysLeft: numberOfDaysLeft(exam.startDate, exam.examDate)
+            daysLeft,
+            repeat: exam.timesRepeat
           });
           const duration =
             exam.timePerPage > 0 ? exam.timePerPage * numberPages : null;
           return {
-            examId: exam.id,
-            subject: exam.subject,
+            exam,
             numberPages,
-            duration
+            duration,
+            daysLeft,
+            totalChunks: getNumberOfDays(exam.startDate, exam.examDate)
           };
         });
         // {
