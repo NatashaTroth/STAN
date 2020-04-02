@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost" //to make queries
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String) {
     login(email: $email, password: $password) {
       user {
@@ -15,14 +15,14 @@ const LOGIN_MUTATION = gql`
   }
 `
 
-const LOGOUT_MUTATION = gql`
+export const LOGOUT_MUTATION = gql`
   mutation {
     logout
   }
 `
 
 //!!Make sure the type in mutation here, is the same type as used by graphql
-const ADD_EXAM_MUTATION = gql`
+export const ADD_EXAM_MUTATION = gql`
   mutation(
     $subject: String!
     $examDate: Date!
@@ -50,13 +50,13 @@ const ADD_EXAM_MUTATION = gql`
   }
 `
 
-const UPDATE_CURRENT_PAGE_MUTATION = gql`
+export const UPDATE_CURRENT_PAGE_MUTATION = gql`
   mutation($examId: ID!, $page: Int!) {
     updateCurrentPage(examId: $examId, page: $page)
   }
 `
 
-const SIGNUP_MUTATION = gql`
+export const SIGNUP_MUTATION = gql`
   mutation(
     $username: String!
     $email: String!
@@ -80,7 +80,7 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
-const UPDATE_MASCOT_MUTATION = gql`
+export const UPDATE_MASCOT_MUTATION = gql`
   mutation($mascot: Int!) {
     updateMascot(mascot: $mascot) {
       successful
@@ -91,7 +91,7 @@ const UPDATE_MASCOT_MUTATION = gql`
   }
 `
 
-const GOOGLE_LOGIN_MUTATION = gql`
+export const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
     googleLogin(idToken: $idToken) {
       user {
@@ -104,13 +104,3 @@ const GOOGLE_LOGIN_MUTATION = gql`
     }
   }
 `
-
-export {
-  ADD_EXAM_MUTATION,
-  UPDATE_CURRENT_PAGE_MUTATION,
-  SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION,
-  GOOGLE_LOGIN_MUTATION,
-  LOGIN_MUTATION,
-  LOGOUT_MUTATION,
-}
