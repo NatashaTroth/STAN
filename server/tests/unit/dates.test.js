@@ -1,7 +1,7 @@
 const {
   datesTimingIsValid,
   startDateIsActive,
-  numberOfDaysLeft
+  getNumberOfDays
 } = require("../../helpers/dates");
 
 test("verifies datesTimingIsValid", () => {
@@ -37,13 +37,13 @@ test("verifies startDateIsActive", () => {
 });
 
 test("verifies numberOfDaysLeft", () => {
-  expect(numberOfDaysLeft(new Date("2020.12.01"), new Date("2020.12.02"))).toBe(
+  expect(getNumberOfDays(new Date("2020.12.01"), new Date("2020.12.02"))).toBe(
     2
   );
-  expect(numberOfDaysLeft(new Date("2020.12.05"), new Date("2020.12.10"))).toBe(
+  expect(getNumberOfDays(new Date("2020.12.05"), new Date("2020.12.10"))).toBe(
     6
   );
-  expect(numberOfDaysLeft(new Date("2020-04-01"), new Date("2020-04-10"))).toBe(
+  expect(getNumberOfDays(new Date("2020-04-01"), new Date("2020-04-10"))).toBe(
     10
   );
 });
