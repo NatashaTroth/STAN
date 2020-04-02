@@ -64,14 +64,8 @@ staging:client:
     - mkdir server/public
     - cd client/
 
-    # # - cd client/
     # #TODO: remove CI=false - so it treats warnings as errors again
     - CI=false npm run build
-    - cd ../server
-    - ls
-    - cd public
-    - ls
 
-    # - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
   only:
     - development
