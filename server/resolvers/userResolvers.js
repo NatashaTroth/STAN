@@ -1,25 +1,22 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 //TODO: RAFACTOR
-const { User } = require("../models");
-const {
+import { User } from "../models";
+import {
   UserInputError,
   AuthenticationError,
   ApolloError
-} = require("apollo-server");
-const {
-  createAccessToken,
-  createRefreshToken
-} = require("../authenticationTokens");
-const { sendRefreshToken } = require("../authenticationTokens");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const {
+} from "apollo-server";
+import { createAccessToken, createRefreshToken } from "../authenticationTokens";
+import { sendRefreshToken } from "../authenticationTokens";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import {
   verifyUsername,
   verifyEmail,
   verifyPassword,
   verifyMascot
-} = require("../helpers/verifyUserInput");
+} from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/errorHandling";
 

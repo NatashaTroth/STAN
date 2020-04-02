@@ -1,12 +1,7 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { Exam } = require("../models");
-const { GraphQLScalarType } = require("graphql");
-const { Kind } = require("graphql/language");
-// const dayjs = require("dayjs");
-// import mongoose from "mongoose";
-// const { ObjectId } = require("mongodb");
-// const ObjectID = require("mongodb").ObjectID;
-
+import { Exam } from "../models";
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -14,11 +9,9 @@ import {
 } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-// const { verifyExamDate } = require("../helpers/verifyUserInput");
-const { AuthenticationError, ApolloError } = require("apollo-server");
-import { handleResolverError } from "../helpers/errorHandling";
 
-// const { JsonWebTokenError } = require("jsonwebtoken");
+import { AuthenticationError, ApolloError } from "apollo-server";
+import { handleResolverError } from "../helpers/errorHandling";
 
 //TODO: Authentication
 const examResolvers = {

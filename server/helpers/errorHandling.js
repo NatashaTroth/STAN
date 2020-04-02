@@ -1,3 +1,5 @@
+import { AuthenticationError } from "apollo-server";
+
 export function handleResolverError(err) {
   if (
     err.extensions &&
