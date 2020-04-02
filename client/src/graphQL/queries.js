@@ -48,9 +48,19 @@ const GET_EXAM_QUERY = gql`
 const GET_TODAYS_CHUNKS = gql`
   query {
     todaysChunks {
-      exam
+      exam {
+        id
+        subject
+        numberPages
+        timePerPage
+        timesRepeat
+        currentPage
+        pdfLink
+      }
       numberPages
       duration
+      daysLeft
+      totalChunks
     }
   }
 `
