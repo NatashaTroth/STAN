@@ -65,43 +65,6 @@ const GET_TODAYS_CHUNKS = gql`
   }
 `
 
-const GET_BOOKS_QUERY = gql`
-  {
-    books {
-      name
-      id
-    }
-  }
-`
-
-const GET_BOOK_QUERY = gql`
-  query($id: ID!) {
-    book(id: $id) {
-      id
-      name
-      genre
-      author {
-        id
-        name
-        age
-        books {
-          name
-          id
-        }
-      }
-    }
-  }
-`
-
-const GET_AUTHORS_QUERY = gql`
-  {
-    authors {
-      name
-      id
-    }
-  }
-`
-
 const SUCCESS_SIGNUP = gql`
   {
     user {
@@ -129,9 +92,6 @@ const CURRENT_USER = gql`
 export {
   GET_USERS_QUERY,
   GET_EXAMS_QUERY,
-  GET_AUTHORS_QUERY,
-  GET_BOOKS_QUERY,
-  GET_BOOK_QUERY,
   SUCCESS_SIGNUP,
   CURRENT_USER,
   GET_TODAYS_CHUNKS,

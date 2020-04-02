@@ -1,15 +1,5 @@
 import { gql } from "apollo-boost" //to make queries
 
-//!!Make sure the type in mutation here, is the same type as used by graphql
-const ADD_BOOK_MUTATION = gql`
-  mutation($name: String!, $genre: String!, $authorId: ID!) {
-    addBook(name: $name, genre: $genre, authorId: $authorId) {
-      name
-      id
-    }
-  }
-`
-
 const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String) {
     login(email: $email, password: $password) {
@@ -116,7 +106,6 @@ const GOOGLE_LOGIN_MUTATION = gql`
 `
 
 export {
-  ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
   UPDATE_CURRENT_PAGE_MUTATION,
   SIGNUP_MUTATION,
