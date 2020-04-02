@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useState, useEffect } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
+import { Dots } from "react-preloaders"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -19,11 +20,11 @@ import Pic1 from "../../images/icons/profile.png"
 export const CurrentUserContext = createContext()
 
 const Navbar = () => {
-  // query ----------------
-  const { data, loading, error } = useQuery(CURRENT_USER)
-
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
+
+  // query ----------------
+  const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
   if (loading) return <p>Loading...</p>
@@ -49,6 +50,7 @@ const Navbar = () => {
   // return ----------------
   return (
     <CurrentUserContext.Provider value={currentUser}>
+      <Dots customLoading={loading} />
       <Router className="sidebar">
         <div className="burger">
           <div className={isSideBarOpen ? "close" : "open"}>
