@@ -19,6 +19,13 @@ const examType = gql`
     completed: Boolean
     userId: ID!
   }
+
+  # duration in minutes
+  type Chunk {
+    subject: String!
+    numberPages: Int!
+    duration: Int
+  }
 `;
 
 module.exports = { examType };

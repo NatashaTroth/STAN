@@ -40,11 +40,10 @@ const ADD_EXAM_MUTATION = gql`
     $numberPages: Int!
     $timePerPage: Int
     $timesRepeat: Int
-    $currentPage: Int
+    $startPage: Int
     $notes: String
     $pdfLink: String
     $completed: Boolean
-    $userId: ID!
   ) {
     addExam(
       subject: $subject
@@ -53,11 +52,10 @@ const ADD_EXAM_MUTATION = gql`
       numberPages: $numberPages
       timePerPage: $timePerPage
       timesRepeat: $timesRepeat
-      currentPage: $currentPage
+      startPage: $startPage
       notes: $notes
       pdfLink: $pdfLink
       completed: $completed
-      userId: $userId
     )
   }
 `

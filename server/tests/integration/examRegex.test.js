@@ -26,15 +26,14 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("11-08-2020"),
-        startDate: new Date("05-09-2020"),
+        examDate: new Date("2020-08-11"),
+        startDate: new Date("2020-08-05"),
         numberPages: 5,
         timePerPage: 5,
-        currentPage: 6,
+        startPage: 6,
         notes: "NOTES",
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
     expect(resp.data.addExam).toBeTruthy();
@@ -43,15 +42,14 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "",
-        examDate: new Date("11-09-2020"),
-        startDate: new Date("05-09-2020"),
+        examDate: new Date("2020-09-11"),
+        startDate: new Date("2020-08-05"),
         numberPages: 5,
         timePerPage: 5,
-        currentPage: 6,
+        startPage: 6,
         notes: "NOTES",
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
     expect(resp.data.addExam).toBeFalsy();
@@ -64,14 +62,13 @@ describe("Test user resolver regex", () => {
       variables: {
         subject: "Maths",
         examDate: "test",
-        startDate: new Date("05-09-2020"),
+        startDate: new Date("2020-08-11"),
         numberPages: 5,
         timePerPage: 5,
-        currentPage: 6,
+        startPage: 6,
         notes: "NOTES",
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
     expect(resp.data.addExam).toBeFalsy();
@@ -79,56 +76,54 @@ describe("Test user resolver regex", () => {
       "Exam date input has the wrong format"
     );
 
-    resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "Maths",
-        examDate: new Date("05-09-2020"),
-        startDate: "test",
-        numberPages: 5,
-        timePerPage: 5,
-        currentPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
-      }
-    });
-    expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Study start date input has the wrong format"
-    );
+    // let resp = await mutate({
+    //   query: ADD_EXAM_MUTATION,
+    //   variables: {
+    //     subject: "Maths",
+    //     examDate: new Date("2020-08-11"),
+    //     startDate: "test",
+    //     numberPages: 5,
+    //     timePerPage: 5,
+    //     startPage: 6,
+    //     notes: "NOTES",
+    //     pdfLink: "klsdjfs",
+    //     completed: false
+    //   }
+    // });
+    // expect(resp.data.addExam).toBeFalsy();
+    // expect(resp.errors[0].message).toEqual(
+    //   "Study start date input has the wrong format"
+    // );
 
     resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("05-09-2020"),
+        examDate: new Date("2150-08-11"),
         startDate: "",
         numberPages: 5,
         timePerPage: 5,
-        currentPage: 6,
+        startPage: 6,
         notes: "NOTES",
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
+
     expect(resp.data.addExam).toBeTruthy();
 
     resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("05-09-2020"),
-        startDate: new Date("04-09-2020"),
+        examDate: new Date("2020-08-11"),
+        startDate: new Date("2020-08-05"),
         numberPages: 5,
         timePerPage: null,
-        currentPage: null,
+        startPage: null,
         notes: "NOTES",
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
     expect(resp.data.addExam).toBeTruthy();
@@ -137,15 +132,14 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("05-09-2020"),
-        startDate: new Date("04-09-2020"),
+        examDate: new Date("2020-08-11"),
+        startDate: new Date("2020-08-05"),
         numberPages: 5,
         timePerPage: 5,
-        currentPage: 6,
+        startPage: 6,
         notes: "d".repeat(100000001),
         pdfLink: "klsdjfs",
-        completed: false,
-        userId: currentUserId
+        completed: false
       }
     });
     expect(resp.data.addExam).toBeFalsy();

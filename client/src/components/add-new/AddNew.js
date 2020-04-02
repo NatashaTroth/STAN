@@ -17,21 +17,19 @@ function AddNew() {
 
   const onSubmit = async formData => {
     try {
-      console.log(JSON.stringify(formData.exam_date))
       const resp = await addExam({
         variables: {
           subject: formData.exam_subject,
           examDate: formData.exam_date,
           startDate: formData.exam_start_date,
           numberPages: parseInt(formData.exam_page_amount),
-          currentPage: parseInt(formData.exam_page_current),
+          startPage: parseInt(formData.exam_page_current),
           timePerPage: parseInt(formData.exam_page_time),
           timesRepeat: parseInt(formData.exam_page_repeat),
           notes: formData.exam_page_notes,
           // pdfLink: formData.exam_pdf_upload,
           pdfLink: "TODO: CHANGE LATER",
           completed: false,
-          userId: data.currentUser.id,
         },
         refetchQueries: [{ query: GET_EXAMS_QUERY }],
       })

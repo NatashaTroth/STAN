@@ -158,6 +158,7 @@ const userResolvers = {
       try {
         if (!userInfo.isAuth) throw new Error("Unauthorised");
         verifyUserInputFormat({ mascot: mascot.toString() });
+        //TODO: check, already done in isAuth
         const user = await User.findOne({ _id: userInfo.userId });
         if (!user) throw new Error("This user does not exist");
         if (user.mascot === mascot) return { successful: true, user: user };
