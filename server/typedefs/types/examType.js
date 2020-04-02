@@ -25,10 +25,13 @@ const examType = gql`
     # examId: ID!
     # subject: String!
     exam: Exam!
-    numberPages: Int!
+    numberPagesToday: Int!
     duration: Int
     daysLeft: Int!
+    totalNumberDays: Int!
     totalChunks: Int!
+    numberPagesWithRepeat: Int!
+    notEnoughTime: Boolean!
   }
 `;
 

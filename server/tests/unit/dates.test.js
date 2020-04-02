@@ -38,12 +38,12 @@ test("verifies startDateIsActive", () => {
 
 test("verifies numberOfDaysLeft", () => {
   expect(getNumberOfDays(new Date("2020.12.01"), new Date("2020.12.02"))).toBe(
-    2
+    1
   );
   expect(getNumberOfDays(new Date("2020.12.05"), new Date("2020.12.10"))).toBe(
-    6
+    5
   );
   expect(getNumberOfDays(new Date("2020-04-01"), new Date("2020-04-10"))).toBe(
-    10
+    9
   );
 });
