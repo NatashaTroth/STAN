@@ -10,8 +10,11 @@ import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
+const path = require("path");
+
+// import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
-const connectionString = "mongodb://localhost/MMP3";
+const connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
 const app = express();
 const PORT = process.env.PORT || 5000;
 //TODO: EXTRACT MONGODB CONNECTIONS
@@ -40,12 +43,25 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
+let origin = "http://localhost:3000";
+
+// app.configure("production", () => {
+//   origin = "/public";
+// });
+
 const corsOptions = {
   // preflightContinue: true,
-  origin: ["http://localhost:3000"],
+  origin: [origin],
   credentials: true
 };
+
+console.log(corsOptions);
 app.use(cors(corsOptions));
+// app.use(express.static("publicServer"));
+// app.get("/", (req, res) => {
+//   // res.send("Welcome to STAN's backend");
+//   res.sendFile(path.join(__dirname + "/index.html"));
+// });
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
@@ -82,6 +98,17 @@ const apolloServer = new ApolloServer({
 });
 // apolloServer.applyMiddleware({ app });
 apolloServer.applyMiddleware({ app, cors: false });
+
+// setup client render
+//TODO: DELETE LATER OR CHANGE TO /graphql
+app.get("/backend", (req, res) => {
+  // res.send("Welcome to STAN's backend");
+  res.sendFile(path.join(__dirname + "/backend/index.html"));
+});
+app.use(express.static("public"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
 
 app.listen({ port: PORT }, () =>
   console.log(

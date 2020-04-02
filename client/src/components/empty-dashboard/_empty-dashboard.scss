@@ -1,36 +1,36 @@
 .empty-dashboard {
-	text-align: center;
-	padding: 100px;
+  text-align: center;
+  padding: 100px;
 
-	@include media-breakpoint-down(md) {
-		padding: 50px 30px;
-	}
-	@include media-breakpoint-down(sm) {
-		padding: 40px 10px;
-	}
+  @include media-breakpoint-down(md) {
+    padding: 50px 30px;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: 40px 10px;
+  }
 
-	&__heading {
-		text-transform: lowercase;
-		@include rem(font-size, $font-size-40);
-		@include rem(letter-spacing, 2px);
-		@include rem(line-height, 50px);
+  &__heading {
+    text-transform: lowercase;
+    @include rem(font-size, $font-size-40);
+    @include rem(letter-spacing, 2px);
+    @include rem(line-height, 50px);
 
-		@include media-breakpoint-down(sm) {
-			@include rem(font-size, 27px);
-			@include rem(letter-spacing, 2px);
-			@include rem(line-height, 30px);
-		}
-	}
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, 27px);
+      @include rem(letter-spacing, 2px);
+      @include rem(line-height, 30px);
+    }
+  }
 
-	&__text {
-		margin: 25px 0;
+  &__text {
+    margin: 25px 0;
 
-		@include media-breakpoint-down(sm) {
-			margin: 20px 0;
-		}
-	}
+    @include media-breakpoint-down(sm) {
+      margin: 20px 0;
+    }
+  }
 
-	&__btn {
-		margin: 0 auto;
-	}
+  &__btn {
+    margin: 0 auto;
+  }
 }

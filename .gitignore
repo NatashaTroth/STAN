@@ -136,3 +136,5 @@ sketch
 
 
 client_secret_*
+# Local Netlify folder
+.netlify

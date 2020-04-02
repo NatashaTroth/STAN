@@ -1,11 +1,22 @@
 import React from "react"
 // --------------------------------------------------------------
 
-// TODO: showDetails should determine what gets rendered ind today component
-const TodaySubject = ({ subject, durationTime, id, onClick, showDetails }) => {
+// TODO: showDetails should determine what gets rendered in today component
+const TodaySubject = ({
+  subject,
+  durationTime,
+  id,
+  onClick,
+  activeOnStart,
+  showDetails,
+}) => {
   // return ----------------
   return (
-    <button className="today-subject" id={id} onClick={onClick}>
+    <button
+      className={"today-subject " + activeOnStart}
+      id={id}
+      onClick={onClick}
+    >
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">

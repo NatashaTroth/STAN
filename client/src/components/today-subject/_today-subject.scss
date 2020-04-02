@@ -42,14 +42,14 @@
 .active-subject {
   background-color: theme-color("primary-yellow-dark");
   color: theme-color("light");
-  width: 108%;
+  width: 109%;
   z-index: 2;
 
   .row {
     width: 100%;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     width: 100%;
   }
 
