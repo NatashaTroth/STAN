@@ -46,7 +46,7 @@ function Today(props) {
   let noTime
   let noTimeMessage
 
-  if (data) {
+  if (data && data.todaysChunks.length > 0) {
     noTime = data.todaysChunks[props.activeIndex].notEnoughTime
     if (noTime) {
       noTimeMessage =

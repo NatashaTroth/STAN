@@ -19,7 +19,7 @@ function TodayGoals(props) {
   let duration
   let todaySubject
 
-  if (data) {
+  if (data && data.todaysChunks.length > 0) {
     todaySubject = data.todaysChunks.map((element, index) => {
       subject = element.exam.subject
       duration = element.duration
