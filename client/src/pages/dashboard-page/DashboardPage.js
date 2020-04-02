@@ -8,6 +8,7 @@ import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
+import Mascots from "../../components/mascots/Mascots"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
@@ -15,6 +16,12 @@ function Dashboard() {
   const { loading, error } = useQuery(CURRENT_USER)
   const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
   const [activeElementIndex, setActiveElementIndex] = useState(0)
+
+  // mascot trigger
+  const mascot = window.localStorage.getItem("setMascot")
+  if (mascot === "true") {
+    return <Mascots />
+  }
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

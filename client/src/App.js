@@ -9,6 +9,7 @@ import { client } from "./apolloClient"
 
 // components
 import STAN from "./components/STAN/STAN"
+import LoginPopUp from "./components/login-popup/LoginPopUp"
 
 const RedirectPopup = () => {
   return (
@@ -29,9 +30,7 @@ const App = () => {
       //TODO: go to login and inform user that logout occurred
 
       RedirectPopup()
-      // history.push("/popup")
       window.location.replace("/popup")
-      // window.location.reload()
     }
   })
 

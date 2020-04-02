@@ -4,7 +4,6 @@ import { Switch, Route } from "react-router-dom"
 // --------------------------------------------------------------
 
 // pages component ----------------
-import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import AddNew from "../../pages/add-new-page/AddNewPage"
 import Calendar from "../../pages/calendar-page/CalendarPage"
 import Exams from "../../pages/exams-page/ExamsPage"
@@ -17,12 +16,8 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
-import Mascots from "../../components/mascots/Mascots"
 
 const Content = () => {
-  // signup trigger
-  let setMascot = window.localStorage.getItem("setMascot") === "true"
-
   // return ----------------
   return (
     <main className="content">
@@ -31,7 +26,6 @@ const Content = () => {
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/mascots" component={Mascots} />
         <Route exact path="/popup" component={LoginPopUp} />
 
         <Route exact path="/add-new" component={AddNew} />

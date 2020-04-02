@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
 // mutation & queries
@@ -52,7 +50,7 @@ function SignUp() {
 
   // form specific ----------------
   const onSubmit = async formData => {
-    handleSignup({ formData, signup, history })
+    handleSignup({ formData, signup })
   }
 
   return (
@@ -209,7 +207,7 @@ function SignUp() {
 
 export default SignUp
 
-async function handleSignup({ formData, signup, history }) {
+async function handleSignup({ formData, signup }) {
   try {
     const resp = await signup({
       variables: {
@@ -227,7 +225,6 @@ async function handleSignup({ formData, signup, history }) {
       throw new Error("The sign up failed")
     }
     // redirect
-    history.push("/mascots")
     window.localStorage.setItem("setMascot", true)
     window.location.reload()
   } catch (err) {
