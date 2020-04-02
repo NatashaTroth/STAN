@@ -79,7 +79,7 @@ staging:server:
     - cd public/
     - ls
     - cd ..
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY --skip-cleanup=true
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY --skip-cleanup
   dependencies:
     - staging:client
   only:
