@@ -1,6 +1,7 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { GET_USERS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -14,36 +15,49 @@ function Today() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = async formData => {
-    // try {
-    //   console.log(JSON.stringify(formData.exam_date))
-    //   const resp = await addChunkPages({
-    //     variables: {
-    //       numberPages: parseInt(formData.page_amount_studied),
-    //       userId: data.currentUser.id,
-    //     },
-    //     refetchQueries: [{ query: GET_EXAMS_QUERY }],
-    //   })
-    //   if (resp && resp.data && resp.data.addChunkPages) {
-    //     // TODO: remove block from dashboard
-    //   } else {
-    //     // displays server error (backend)
-    //     throw new Error("Your input could not be saved")
-    //   }
-    // } catch (err) {
-    //   console.error(err.message)
-    // }
-  }
+  const onSubmit = async formData => {}
+  // mutation ----------------
+  //   const [addChunkPages, { mutationData }] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
 
   // query ----------------
   const { loading, error } = useQuery(GET_USERS_QUERY)
-
-  // mutation ----------------
-  //   const [addChunkPages, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
+  const { loadingChunks, errorChunks, data } = useQuery(GET_TODAYS_CHUNKS)
 
   // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
+  if (loading || loadingChunks) return <p>Loading...</p>
+  if (error || errorChunks) return <p>Error :(</p>
+
+  // query data ----------------
+  let deadline
+  let subject
+  let currentPage
+  let chunkGoalPage
+  let lastPage
+  let repetition
+  let duration
+  let daysLeft
+  let dayPercentage
+  let chunksLeft
+  let chunkPercentage
+  let todaySubject
+
+  if (data) {
+    todaySubject = data.todaysChunks.map((element, index) => {
+      subject = element.exam.subject
+      deadline = element.exam.examDate
+      currentPage = element.exam.currentPage
+      // chunkGoalPage = element.
+      lastPage = element.exam.numberPages
+      repetition = element.exam.timesRepeat
+      duration = element.duration
+      daysLeft = element.daysLeft
+      // dayPercentage =
+      // chunksLeft = element
+      // chunkPercentage =
+
+      // console.log(element)
+    })
+  }
 
   // return ----------------
   return (
