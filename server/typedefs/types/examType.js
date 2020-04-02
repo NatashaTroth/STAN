@@ -10,7 +10,7 @@ const examType = gql`
     subject: String!
     examDate: Date!
     startDate: Date
-    numberPages: Int
+    numberPages: Int!
     timePerPage: Int
     timesRepeat: Int
     currentPage: Int
