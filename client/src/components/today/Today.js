@@ -95,11 +95,22 @@ function Today() {
                     </div>
                   </div>
 
-                  <div className="today__container__content__total-pages">
-                    <p className="today__container__content__label">
-                      Total pages
-                    </p>
-                    <p className="today__container__content__text">280 / 890</p>
+                  <div className="today__container__content__details">
+                    <div className="today__container__content__details__total-pages">
+                      <p className="today__container__content__label">
+                        Total pages:
+                      </p>
+                      <p className="today__container__content__text">
+                        280 / 890
+                      </p>
+                    </div>
+
+                    <div className="today__container__content__details__repetition">
+                      <p className="today__container__content__label">
+                        Repetition cycle:
+                      </p>
+                      <p className="today__container__content__text">1</p>
+                    </div>
                   </div>
                 </div>
                 {/* days left */}

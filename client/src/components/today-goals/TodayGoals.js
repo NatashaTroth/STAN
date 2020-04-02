@@ -1,6 +1,7 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
