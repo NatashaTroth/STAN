@@ -1,7 +1,8 @@
 import React from "react"
-import { getAccessToken } from "../../accessToken"
-import { Redirect } from "react-router"
 // --------------------------------------------------------------
+
+// context
+import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
 import SubHeading from "../../components/sub-heading/SubHeading"
@@ -9,9 +10,9 @@ import Listing from "../../components/listing/Listing"
 import Dashboard from "../dashboard-page/DashboardPage"
 
 function Home() {
-  const currentUser = getAccessToken()
+  let currentUser = useCurrentUserValue()
 
-  if (currentUser.length > 0) {
+  if (currentUser !== undefined) {
     return <Dashboard />
   }
 

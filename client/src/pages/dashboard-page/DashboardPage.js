@@ -2,8 +2,6 @@ import React, { useState } from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
-import { getAccessToken } from "../../accessToken"
-import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -17,11 +15,6 @@ function Dashboard() {
   const { loading, error } = useQuery(CURRENT_USER)
   const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
   const [activeElementIndex, setActiveElementIndex] = useState(0)
-
-  const currentUser = getAccessToken()
-  if (currentUser.length === 0) {
-    return <Redirect to="/" />
-  }
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

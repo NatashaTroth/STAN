@@ -1,10 +1,20 @@
 import React from "react"
 // --------------------------------------------------------------
 
+// context
+import { useCurrentUserValue } from "../../components/STAN/STAN"
+
 // components ----------------
 import SignUpForm from "../../components/signup/SignUp"
+import { Redirect } from "react-router"
 
 function SignUpPage() {
+  const currentUser = useCurrentUserValue()
+
+  if (currentUser !== undefined) {
+    return <Redirect to="/" />
+  }
+
   // return ----------------
   return (
     <div className="login">

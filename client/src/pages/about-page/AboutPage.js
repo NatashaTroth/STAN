@@ -1,7 +1,9 @@
 import React from "react"
 import { Redirect } from "react-router"
-import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
+
+// context
+import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
@@ -11,9 +13,9 @@ import Pic1 from "../../images/desk1.png"
 import Pic2 from "../../images/desk2.png"
 
 function About() {
-  const token = getAccessToken()
+  const currentUser = useCurrentUserValue()
 
-  if (token.length > 0) {
+  if (currentUser !== undefined) {
     return <Redirect to="/" />
   }
 

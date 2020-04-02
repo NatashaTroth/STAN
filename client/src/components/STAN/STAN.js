@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+import React, { createContext, useContext, useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
 import { Dots } from "react-preloaders"
 // --------------------------------------------------------------
@@ -27,7 +27,7 @@ const Navbar = () => {
   const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
-  // if (loading) return <p>Loading...</p>
+  if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
   if (data && data.currentUser) {
     currentUser = data.currentUser
