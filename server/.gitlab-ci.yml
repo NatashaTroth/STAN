@@ -38,8 +38,19 @@ lint server:
     - npm run lintFix
   except:
     - /^front-feature.*$/
+    - /^back-feature.*$/
+
+lint server merge:
+  stage: lint
+  tags:
+    - node
+  script:
+    - cd server/
+    - echo "Linting.."
+    - npm run lintFix
   only:
     - merge_requests
+    - /^back-feature.*$/
 
 unit testing server:
   stage: test
