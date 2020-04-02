@@ -68,28 +68,32 @@ const examResolvers = {
           completed: false
         });
 
-        console.log(exams);
+        // console.log(exams);
         const currentExams = exams.filter(exam => {
           // return true;
           return startDateIsActive(new Date(exam.startDate));
         });
         console.log("In TODAYSCHUNKS");
+        console.log();
         const chunks = currentExams.map(exam => {
           const daysLeft = getNumberOfDays(new Date(), exam.examDate);
-          const numberPages = numberOfPagesForChunk({
+          const numberPagesToday = numberOfPagesForChunk({
             numberOfPages: exam.numberPages,
             currentPage: exam.currentPage,
             daysLeft,
             repeat: exam.timesRepeat
           });
           const duration =
-            exam.timePerPage > 0 ? exam.timePerPage * numberPages : null;
+            exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
           return {
             exam,
-            numberPages,
+            numberPagesToday,
             duration,
             daysLeft,
-            totalChunks: getNumberOfDays(exam.startDate, exam.examDate)
+            totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
+            totalChunks: getNumberOfDays(exam.startDate, exam.examDate),
+            numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
+            notEnoughTime: false //TODO: IMPLEMENT
           };
         });
         // {

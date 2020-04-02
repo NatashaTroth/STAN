@@ -28,7 +28,7 @@ export function getNumberOfDays(startDate, examDate) {
   );
 
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  return Math.round(Math.abs((start - end + oneDay) / oneDay));
+  return Math.round(Math.abs((start - end) / oneDay));
 }
 
 //------------------------HELPERS--------------------
