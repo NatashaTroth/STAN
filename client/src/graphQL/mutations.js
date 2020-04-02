@@ -60,6 +60,12 @@ const ADD_EXAM_MUTATION = gql`
   }
 `
 
+const UPDATE_CURRENT_PAGE_MUTATION = gql`
+  mutation($examId: ID!, $page: Int!) {
+    updateCurrentPage(examId: $examId, page: $page)
+  }
+`
+
 const SIGNUP_MUTATION = gql`
   mutation(
     $username: String!
@@ -112,6 +118,7 @@ const GOOGLE_LOGIN_MUTATION = gql`
 export {
   ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
+  UPDATE_CURRENT_PAGE_MUTATION,
   SIGNUP_MUTATION,
   UPDATE_MASCOT_MUTATION,
   GOOGLE_LOGIN_MUTATION,

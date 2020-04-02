@@ -157,6 +157,38 @@ const examResolvers = {
         throw err;
       }
       return true;
+    },
+    updateCurrentPage: async (root, args, context, info) => {
+      try {
+        console.log("IN UPDATE CURRENT PAGE");
+        console.log(args.page);
+
+        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        const exam = await Exam.findOne({
+          _id: args.examId,
+          userId: context.userInfo.userId
+        });
+        if (!exam) throw new ApolloError("There is no exam with that id.");
+        //TODO: MAKE SURE PAGE ISN'T HIGHER THAN MAX PAGES
+        if (exam.currentPage === args.page) return true;
+
+        // user.mascot = mascot;
+        const resp = await Exam.updateOne(
+          { _id: args.examId },
+          { currentPage: args.page }
+        );
+
+        if (resp.nModified === 0) return false;
+        return true;
+      } catch (err) {
+        if (
+          err.extensions &&
+          err.extensions.code &&
+          err.extensions.code !== "UNAUTHENTICATED"
+        )
+          throw new AuthenticationError(err.message);
+        throw err;
+      }
     }
   },
   Date: new GraphQLScalarType({

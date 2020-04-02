@@ -22,6 +22,8 @@ const examQueries = gql`
       pdfLink: String
       completed: Boolean
     ): Boolean
+
+    updateCurrentPage(examId: ID!, page: Int!): Boolean
   }
 `;
 
