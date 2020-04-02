@@ -1,7 +1,7 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
-import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
+
 import { typeDefs } from "../../../typedefs";
 import { resolvers } from "../../../resolvers";
 import { ApolloServer } from "apollo-server-express";
@@ -33,7 +33,7 @@ describe("Test user resolver regex", () => {
   });
 
   it("should use regex to filter out wrong add new exam input data", async () => {
-    const { query, mutate } = createTestClient(server);
+    const { mutate } = createTestClient(server);
 
     const currentUserId = "testUserId";
 

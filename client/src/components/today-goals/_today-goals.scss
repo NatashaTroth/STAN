@@ -1,5 +1,10 @@
 .today-goals {
   padding-bottom: 10px;
+  max-width: 50rem;
+
+  @include media-breakpoint-down(lg) {
+    margin: 0 auto 30px auto;
+  }
 
   .container-fluid {
     padding: 0;

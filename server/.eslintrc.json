@@ -14,8 +14,10 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "ignorePatterns": ["public/", "node_modules/"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-unused-vars": ["error", { "args": "none" }]
   },
 
   "plugins": ["prettier", "jest"]

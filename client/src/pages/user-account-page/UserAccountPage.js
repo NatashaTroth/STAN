@@ -1,13 +1,13 @@
 import React from "react"
+import { CurrentUserContext } from "../../components/STAN/STAN"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
 // mutation & queries
 import { useHistory } from "react-router-dom"
-import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
-import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
 import CountUp from "react-countup"
@@ -19,16 +19,9 @@ import Button from "../../components/button/Button"
 
 function UserAccount() {
   const history = useHistory()
+
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
-  // query ----------------
-  //TODO: current user vom store holen
-  const { data, loading } = useQuery(CURRENT_USER)
-  let currentUserLoaded = false
-
-  if (!loading && data && data.currentUser) {
-    currentUserLoaded = true
-  }
 
   // google login ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
@@ -70,9 +63,9 @@ function UserAccount() {
           <div className="col-md-1"></div>
           <div className="col-md-11">
             <div className="user-account__headline">
-              {currentUserLoaded ? (
-                <h2> {data.currentUser.username}'s account</h2>
-              ) : null}
+              <CurrentUserContext.Consumer>
+                {currentUser => <h2>{currentUser.username}'s account</h2>}
+              </CurrentUserContext.Consumer>
             </div>
 
             <div className="user-account__container">
@@ -80,13 +73,13 @@ function UserAccount() {
                 <div className="user-account__container--left--top box-content">
                   <div className="user-account__container--left--top--user-data">
                     <div className="user-data">
-                      {currentUserLoaded ? (
-                        <h3>{data.currentUser.username}</h3>
-                      ) : null}
+                      <CurrentUserContext.Consumer>
+                        {currentUser => <h3>{currentUser.username}</h3>}
+                      </CurrentUserContext.Consumer>
 
-                      {currentUserLoaded ? (
-                        <p>{data.currentUser.email}</p>
-                      ) : null}
+                      <CurrentUserContext.Consumer>
+                        {currentUser => <p>{currentUser.email}</p>}
+                      </CurrentUserContext.Consumer>
                     </div>
                   </div>
 
@@ -118,29 +111,41 @@ function UserAccount() {
                 </div>
 
                 <div className="user-account__container--right--bottom box-content">
-                  {currentUserLoaded ? (
-                    <Carousel
-                      showStatus={false}
-                      showThumbs={false}
-                      infiniteLoop={true}
-                      showIndicators={false}
-                      autoPlay={true}
-                      showArrows={false}
-                    >
-                      <img
-                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-0.svg`)}
-                        alt=""
-                      />
-                      <img
-                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-1.svg`)}
-                        alt=""
-                      />
-                      <img
-                        src={require(`../../images/mascots/user-mascot/${data.currentUser.mascot}-2.svg`)}
-                        alt=""
-                      />
-                    </Carousel>
-                  ) : null}
+                  <Carousel
+                    showStatus={false}
+                    showThumbs={false}
+                    infiniteLoop={true}
+                    showIndicators={false}
+                    autoPlay={true}
+                    showArrows={false}
+                  >
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <img
+                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
+                          alt=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <img
+                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
+                          alt=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <img
+                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
+                          alt=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+                  </Carousel>
                 </div>
               </div>
             </div>
@@ -159,8 +164,6 @@ function UserAccount() {
           // localStorage.setItem("logout-event", Date.now())
 
           //resçlo client- always good after logout
-          //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
-          await client.resetStore()
           history.push("/login")
           window.location.reload()
         }}
@@ -182,8 +185,6 @@ async function logUserOut({ logout, client, history }) {
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())
   //resçlo client- always good after logout
-  //TODO: DELETE IF APOLLO STORE IS NOT BEING USED
-  await client.resetStore()
   history.push("/login")
   window.location.reload()
 }

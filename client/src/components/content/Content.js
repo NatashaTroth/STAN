@@ -1,6 +1,6 @@
 import React from "react"
+import { useCurrentUserValue } from "../STAN/STAN"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // pages component ----------------
@@ -20,11 +20,12 @@ import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import Mascots from "../../components/mascots/Mascots"
 
 const Content = () => {
-  // query ----------------
-  let isAuth
-  const token = getAccessToken()
+  // context api ----------------
+  let currentUser = useCurrentUserValue()
+  let isAuth = false
 
-  if (token !== "") isAuth = true
+  if (currentUser === undefined) isAuth = false
+  else if (currentUser.id != null) isAuth = true
   else isAuth = false
 
   // return ----------------
