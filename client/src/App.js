@@ -9,7 +9,6 @@ import { client } from "./apolloClient"
 
 // components
 import STAN from "./components/STAN/STAN"
-import LoginPopUp from "./components/login-popup/LoginPopUp"
 
 const RedirectPopup = () => {
   return (
@@ -56,13 +55,6 @@ const App = () => {
     //In case a second tab wasn't open, to make sure it is deleted
     // localStorage.removeItem("logout-event")
   }, [])
-
-  // componentWillUnmount() {
-  //   ChatAPI.unsubscribeFromFriendStatus(
-  //     this.props.friend.id,
-  //     this.handleStatusChange
-  //   );
-  // }
 
   if (loading) {
     return <div className="loading">loading...</div>
