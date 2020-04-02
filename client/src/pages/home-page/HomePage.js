@@ -1,4 +1,6 @@
 import React from "react"
+import { useCurrentUserValue } from "../../components/STAN/STAN"
+import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -6,6 +8,12 @@ import SubHeading from "../../components/sub-heading/SubHeading"
 import Listing from "../../components/listing/Listing"
 
 function Home() {
+  let currentUser = useCurrentUserValue()
+
+  // if (currentUser !== undefined) {
+  //   return <Redirect to="/" />
+  // }
+
   // return ----------------
   return (
     <div className="home">

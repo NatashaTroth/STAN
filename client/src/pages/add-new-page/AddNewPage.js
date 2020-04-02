@@ -1,14 +1,21 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
+import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // components ----------------
 import AddNew from "../../components/add-new/AddNew"
+import { Redirect } from "react-router"
 
 function AddNewPage() {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
+  const token = getAccessToken()
+
+  if (token.length === 0) {
+    return <Redirect to="/" />
+  }
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

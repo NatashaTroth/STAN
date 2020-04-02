@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import { Redirect } from "react-router"
+import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // components
@@ -10,6 +12,11 @@ import CurrentExam from "../../components/current-exam/CurrentExam"
 // TODO: Add query to loop through current and archive exams
 const Exams = () => {
   const [isArchiveOpen, setArchiveExams] = useState(false)
+  const token = getAccessToken()
+
+  if (token.length === 0) {
+    return <Redirect to="/" />
+  }
 
   const handleArchiveClick = () => {
     setArchiveExams(!isArchiveOpen)

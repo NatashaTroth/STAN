@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
@@ -7,7 +7,7 @@ import { GoogleLogout } from "react-google-login"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 
 // mutation & queries
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 

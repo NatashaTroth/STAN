@@ -35,7 +35,25 @@ const Content = () => {
   return (
     <main className="content">
       <Switch>
-        {!isAuth ? <Route exact path="/" component={Home} /> : null}
+        {/* <Route exact path="/" component={Home} /> */}
+        <Route exact path="/about" component={About} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/sign-up" component={SignUp} />
+        <Route exact path="/mascots" component={Mascots} />
+        <Route exact path="/popup" component={LoginPopUp} />
+
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/add-new" component={AddNew} />
+        <Route exact path="/calendar" component={Calendar} />
+        <Route exact path="/exams" component={Exams} />
+        <Route exact path="/profile" component={UserAccount} />
+
+        <Route exact path="/imprint" component={Imprint} />
+        <Route exact path="/data-policy" component={DataPolicy} />
+
+        <Route path="*" component={NoMatch404} />
+
+        {/* {!isAuth ? <Route exact path="/" component={Home} /> : null}
         {!isAuth ? (
           <Route exact path="/about" component={About} />
         ) : (
@@ -84,7 +102,7 @@ const Content = () => {
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />
 
-        <Route path="*" component={NoMatch404} />
+        <Route path="*" component={NoMatch404} /> */}
       </Switch>
     </main>
   )
