@@ -87,6 +87,7 @@ const examResolvers = {
           const duration =
             exam.timePerPage > 0 ? exam.timePerPage * numberPages : null;
           return {
+            examId: exam.id,
             subject: exam.subject,
             numberPages,
             duration

@@ -30,4 +30,14 @@ const CURRENT_USER = gql`
   }
 `;
 
-export { GET_EXAMS_QUERY, CURRENT_USER };
+const GET_TODAYS_CHUNKS = gql`
+  query {
+    todaysChunks {
+      subject
+      numberPages
+      duration
+    }
+  }
+`;
+
+export { GET_EXAMS_QUERY, CURRENT_USER, GET_TODAYS_CHUNKS };
