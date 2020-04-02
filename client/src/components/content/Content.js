@@ -42,7 +42,7 @@ const Content = () => {
         <Route exact path="/mascots" component={Mascots} />
         <Route exact path="/popup" component={LoginPopUp} />
 
-        <Route exact path="/" component={Dashboard} />
+        {/* <Route exact path="/" component={Dashboard} /> */}
         <Route exact path="/add-new" component={AddNew} />
         <Route exact path="/calendar" component={Calendar} />
         <Route exact path="/exams" component={Exams} />

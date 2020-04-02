@@ -6,12 +6,13 @@ import { Redirect } from "react-router"
 // components ----------------
 import SubHeading from "../../components/sub-heading/SubHeading"
 import Listing from "../../components/listing/Listing"
+import Dashboard from "../dashboard-page/DashboardPage"
 
 function Home() {
   const currentUser = getAccessToken()
 
   if (currentUser.length > 0) {
-    return <Redirect to="/" />
+    return <Dashboard />
   }
 
   // return ----------------
