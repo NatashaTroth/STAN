@@ -1,6 +1,5 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
 import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
@@ -9,11 +8,35 @@ import TodaySubject from "../../components/today-subject/TodaySubject"
 
 function TodayGoals() {
   // query ----------------
-  const { loading, error } = useQuery(GET_USERS_QUERY)
+  const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
+
+  // query data ----------------
+  let subject
+  let duration
+  let todaySubject
+
+  if (data) {
+    todaySubject = data.todaysChunks.map((element, index) => {
+      subject = element.exam.subject
+      duration = element.duration
+
+      return (
+        <TodaySubject
+          key={index}
+          subject={subject}
+          durationTime={duration + " min"}
+          onClick={e => {
+            e.preventDefault()
+            subjectEventClickHandler(e)
+          }}
+        ></TodaySubject>
+      )
+    })
+  }
 
   // return ----------------
   return (
@@ -29,35 +52,9 @@ function TodayGoals() {
                 <p className="today-goals__container__header__time">2:30h</p>
               </div>
             </div>
-            {/* LOOP through each task */}
-            {/* on click check if class is set */}
-            <TodaySubject
-              activeOnStart="active-subject"
-              subject="Computer Networking"
-              durationTime="20 min"
-              onClick={e => {
-                e.preventDefault()
-                subjectEventClickHandler(e)
-              }}
-            ></TodaySubject>
-            <TodaySubject
-              activeOnStart="active-subject-no"
-              subject="Business English"
-              durationTime="60 min"
-              onClick={e => {
-                e.preventDefault()
-                subjectEventClickHandler(e)
-              }}
-            ></TodaySubject>
-            <TodaySubject
-              activeOnStart="active-subject-no"
-              subject="Multimedia"
-              durationTime="40 min"
-              onClick={e => {
-                e.preventDefault()
-                subjectEventClickHandler(e)
-              }}
-            ></TodaySubject>
+            {/* Subjects */}
+            {todaySubject}
+            {/* ---------------- */}
           </div>
         </div>
       </div>
@@ -68,11 +65,7 @@ function TodayGoals() {
 export default TodayGoals
 
 function subjectEventClickHandler(event) {
-  if (
-    event.currentTarget.classList.value === "today-subject active-subject" ||
-    event.currentTarget.classList.value ===
-      "today-subject active-subject-no active-subject"
-  ) {
+  if (event.currentTarget.classList.value === "today-subject active-subject") {
     event.currentTarget.classList.remove("active-subject")
   } else {
     event.currentTarget.classList.add("active-subject")
