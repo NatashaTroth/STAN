@@ -35,7 +35,7 @@ const Content = () => {
   return (
     <main className="content">
       <Switch>
-        {/* <Route exact path="/" component={Home} /> */}
+        <Route exact path="/" component={Home} />
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />

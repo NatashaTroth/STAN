@@ -1,5 +1,5 @@
 import React from "react"
-import { useCurrentUserValue } from "../../components/STAN/STAN"
+import { getAccessToken } from "../../accessToken"
 import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
@@ -8,11 +8,11 @@ import SubHeading from "../../components/sub-heading/SubHeading"
 import Listing from "../../components/listing/Listing"
 
 function Home() {
-  let currentUser = useCurrentUserValue()
+  const currentUser = getAccessToken()
 
-  // if (currentUser !== undefined) {
-  //   return <Redirect to="/" />
-  // }
+  if (currentUser.length > 0) {
+    return <Redirect to="/" />
+  }
 
   // return ----------------
   return (
