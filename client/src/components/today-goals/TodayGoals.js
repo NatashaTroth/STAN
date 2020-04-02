@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
@@ -9,6 +9,7 @@ import TodaySubject from "../../components/today-subject/TodaySubject"
 function TodayGoals() {
   // query ----------------
   const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
+  const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
@@ -24,6 +25,7 @@ function TodayGoals() {
       subject = element.exam.subject
       duration = element.duration
 
+      console.log(element)
       return (
         <TodaySubject
           key={index}
@@ -31,8 +33,11 @@ function TodayGoals() {
           durationTime={duration + " min"}
           onClick={e => {
             e.preventDefault()
-            subjectEventClickHandler(e)
+            setActiveElementIndex(index)
           }}
+          className={
+            index === activeElementIndex ? "active-subject" : undefined
+          }
         ></TodaySubject>
       )
     })
@@ -64,10 +69,10 @@ function TodayGoals() {
 
 export default TodayGoals
 
-function subjectEventClickHandler(event) {
-  if (event.currentTarget.classList.value === "today-subject active-subject") {
-    event.currentTarget.classList.remove("active-subject")
-  } else {
-    event.currentTarget.classList.add("active-subject")
-  }
-}
+// function subjectEventClickHandler(event) {
+//   if (event.currentTarget.classList.value === "today-subject active-subject") {
+//     event.currentTarget.classList.remove("active-subject")
+//   } else {
+//     event.currentTarget.classList.add("active-subject")
+//   }
+// }

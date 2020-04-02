@@ -1,10 +1,10 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const TodaySubject = ({ subject, durationTime, id, onClick }) => {
+const TodaySubject = ({ subject, durationTime, id, onClick, className }) => {
   // return ----------------
   return (
-    <button className="today-subject" id={id} onClick={onClick}>
+    <button className={"today-subject " + className} id={id} onClick={onClick}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
