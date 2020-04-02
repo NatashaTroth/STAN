@@ -1,9 +1,24 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import "dotenv/config";
-import { setup, teardown } from "./setup";
-import { ADD_EXAM_MUTATION } from "../mutations.js";
+
+import { typeDefs } from "../../../typedefs";
+import { resolvers } from "../../../resolvers";
+import { ApolloServer } from "apollo-server-express";
+const { MongoClient } = require("mongodb");
+import mongoose from "mongoose";
+import { User } from "../../../models";
+
+import { setup, teardown } from "../setup";
+import {
+  ADD_EXAM_MUTATION,
+  LOGIN_MUTATION,
+  LOGOUT_MUTATION,
+  SIGNUP_MUTATION,
+  GOOGLE_LOGIN_MUTATION
+} from "../../mutations.js";
+import { GET_EXAMS_QUERY, CURRENT_USER } from "../../queries.js";
+// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   //TODO: EXTRACT MONGODB CONNECTIONS

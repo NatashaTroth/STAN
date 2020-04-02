@@ -22,6 +22,7 @@ const examType = gql`
 
   # duration in minutes
   type Chunk {
+    examId: ID!
     subject: String!
     numberPages: Int!
     duration: Int

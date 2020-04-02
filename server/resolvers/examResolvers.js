@@ -6,6 +6,7 @@ const dayjs = require("dayjs");
 // import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
+
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -86,6 +87,7 @@ const examResolvers = {
           const duration =
             exam.timePerPage > 0 ? exam.timePerPage * numberPages : null;
           return {
+            examId: exam.id,
             subject: exam.subject,
             numberPages,
             duration
