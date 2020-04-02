@@ -1,6 +1,5 @@
 import { gql } from "apollo-boost" //to make queries
 
-//!! no space after gql!! - parsing graphql query to js
 const GET_USERS_QUERY = gql`
   {
     users {
@@ -12,7 +11,6 @@ const GET_USERS_QUERY = gql`
   }
 `
 
-//!! no space after gql!! - parsing graphql query to js
 const GET_EXAMS_QUERY = gql`
   {
     exams {
@@ -26,12 +24,27 @@ const GET_EXAMS_QUERY = gql`
       notes
       pdfLink
       completed
-      userId
     }
   }
 `
 
-//!! no space after gql!! - parsing graphql query to js
+const GET_EXAM_QUERY = gql`
+  query($id: ID!) {
+    exams(id: $id) {
+      id
+      subject
+      examDate
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+    }
+  }
+`
+
 const GET_BOOKS_QUERY = gql`
   {
     books {

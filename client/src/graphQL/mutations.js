@@ -86,6 +86,17 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
+const UPDATE_MASCOT_MUTATION = gql`
+  mutation($mascot: Int!) {
+    updateMascot(mascot: $mascot) {
+      successful
+      user {
+        mascot
+      }
+    }
+  }
+`
+
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
     googleLogin(idToken: $idToken) {
@@ -103,8 +114,9 @@ const GOOGLE_LOGIN_MUTATION = gql`
 export {
   ADD_BOOK_MUTATION,
   ADD_EXAM_MUTATION,
+  SIGNUP_MUTATION,
+  UPDATE_MASCOT_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
   LOGIN_MUTATION,
   LOGOUT_MUTATION,
-  SIGNUP_MUTATION,
-  GOOGLE_LOGIN_MUTATION,
 }
