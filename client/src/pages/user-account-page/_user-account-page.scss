@@ -3,9 +3,13 @@
     padding-bottom: 60px;
   }
   &__container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-areas: "top-left top-right" "bottom-left bottom-right";
+    grid-gap: 20px;
+
+    @include media-breakpoint-down(lg) {
+      grid-template-areas: "top";
+    }
 
     &--left {
       &--top {
@@ -13,6 +17,7 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 40px;
+        width: 100%;
 
         &--user-data {
           display: flex;
@@ -25,6 +30,7 @@
           .user-data {
             display: flex;
             flex-direction: column;
+            padding: 10px;
           }
         }
         &--buttons {
@@ -97,7 +103,7 @@
         padding: 40px;
       }
       &--bottom {
-        padding: 30px;
+        padding: 20px;
         display: flex;
         justify-content: center;
 

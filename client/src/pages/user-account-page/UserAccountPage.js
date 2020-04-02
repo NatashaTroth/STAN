@@ -63,7 +63,7 @@ function UserAccount() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <div className="col-md-11">
+          <div className="col-md-10">
             <div className="user-account__headline">
               <CurrentUserContext.Consumer>
                 {currentUser => <h2>{currentUser.username}'s account</h2>}
@@ -71,7 +71,7 @@ function UserAccount() {
             </div>
 
             <div className="user-account__container">
-              <div className="col-md-6 user-account__container--left">
+              <div className="user-account__container--left">
                 <div className="user-account__container--left--top box-content">
                   <div className="user-account__container--left--top--user-data">
                     <div className="user-data">
@@ -106,7 +106,7 @@ function UserAccount() {
                 </div>
               </div>
 
-              <div className="col-md-5 user-account__container--right">
+              <div className="user-account__container--right">
                 <div className="user-account__container--right--top box-content">
                   <h4>current state:</h4>
                   <p>okay</p>
@@ -152,6 +152,7 @@ function UserAccount() {
               </div>
             </div>
           </div>
+          <div className="col-md-1"></div>
         </div>
       </div>
 
