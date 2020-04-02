@@ -1,7 +1,7 @@
 import React from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -13,10 +13,49 @@ import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 function Dashboard() {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
+  const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
+  if (chunkLoading) return <p>Loading...</p>
+  if (chunkError) return <p>Error :(</p>
+
+  // query data ----------------
+  let usersToDos
+
+  if (data) {
+    usersToDos = (
+      <div className="container-fluid">
+        <div className="row">
+          {/* ------ if tasks open ------*/}
+          <div className="col-xl-1"></div>
+          <div className="col-xl-3">
+            {/* Today Goals*/}
+            <TodayGoals></TodayGoals>
+          </div>
+          <div className="col-xl-6 today-component-container">
+            {/* Today */}
+            <Today></Today>
+          </div>
+          <div className="col-xl-2">{/* Today Progress */}</div>
+        </div>
+      </div>
+    )
+  } else {
+    usersToDos = (
+      <div className="container-fluid">
+        <div className="row">
+          {/* ------ no tasks ------*/}
+          <div className="col-md-1"></div>
+          <div className="col-md-7">
+            <EmptyDashboard></EmptyDashboard>
+          </div>
+          <div className="col-md-4"></div>
+        </div>
+      </div>
+    )
+  }
 
   // return ----------------
   return (
@@ -46,25 +85,11 @@ function Dashboard() {
             </CurrentUserContext.Consumer> */}
           </div>
           <div className="col-md-1"></div>
-          {/* ------ no tasks ------*/}
-          <div className="col-md-1"></div>
-          <div className="col-md-7">
-            <EmptyDashboard></EmptyDashboard>
-          </div>
-          <div className="col-md-4"></div>
-          {/* ------ if tasks open ------*/}
-          <div className="col-xl-1"></div>
-          <div className="col-xl-3">
-            {/* Today Goals*/}
-            <TodayGoals></TodayGoals>
-          </div>
-          <div className="col-xl-6 today-component-container">
-            {/* Today */}
-            <Today></Today>
-          </div>
-          <div className="col-xl-2">{/* Today Progress */}</div>
         </div>
       </div>
+      {/* dashboard content */}
+      {usersToDos}
+      {/* ---------------- */}
     </div>
   )
 }
