@@ -2,7 +2,7 @@
 const { Exam } = require("../models");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
-const dayjs = require("dayjs");
+// const dayjs = require("dayjs");
 // import mongoose from "mongoose";
 // const { ObjectId } = require("mongodb");
 // const ObjectID = require("mongodb").ObjectID;
@@ -14,12 +14,8 @@ import {
 } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-const { verifyExamDate } = require("../helpers/verifyUserInput");
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+// const { verifyExamDate } = require("../helpers/verifyUserInput");
+const { AuthenticationError, ApolloError } = require("apollo-server");
 
 // const { JsonWebTokenError } = require("jsonwebtoken");
 

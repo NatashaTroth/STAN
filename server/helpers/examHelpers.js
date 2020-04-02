@@ -8,11 +8,7 @@ const {
   verifyCurrentPage,
   verifyPageNotes
 } = require("../helpers/verifyUserInput");
-const {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} = require("apollo-server");
+const { AuthenticationError } = require("apollo-server");
 
 export function verifyUserInputFormat({
   subject,
