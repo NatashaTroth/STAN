@@ -46,13 +46,13 @@ async function setup({ isAuth, userId }) {
       useUnifiedTopology: true,
       useCreateIndex: true
     });
-    console.log("connected to db");
+    // console.log("connected to db");
   } catch (e) {
     //TODO CHANGE TO TEST
     console.log(e.message);
     throw new Error("db not connected");
   }
-  console.log("END OF SETUP");
+  // console.log("END OF SETUP");
   return server;
 }
 

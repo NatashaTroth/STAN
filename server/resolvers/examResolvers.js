@@ -72,12 +72,12 @@ const examResolvers = {
           completed: false
         });
 
+        console.log(exams);
         const currentExams = exams.filter(exam => {
           // return true;
           return startDateIsActive(new Date(exam.startDate));
         });
         console.log("In TODAYSCHUNKS");
-        // console.log(currentExams);
         const chunks = currentExams.map(exam => {
           const numberPages = numberOfPagesForChunk({
             numberOfPages: exam.numberPages,
