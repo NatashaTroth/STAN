@@ -1,5 +1,5 @@
 import React from "react"
-
+import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
@@ -24,13 +24,26 @@ function Dashboard() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <div className="col-md-10">
-            <h2 className="dashboard-page__heading">
-              Hello you
-              {/* {data.currentUser.username} */}
-              {/* TODO: add username */}
-            </h2>
+          <div className="col-md-5">
+            <CurrentUserContext.Consumer>
+              {currentUser => (
+                <h2 className="dashboard-page__heading">
+                  Hello {currentUser.username}
+                </h2>
+              )}
+            </CurrentUserContext.Consumer>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
+          </div>
+          {/* Mascot */}
+          <div className="col-md-5">
+            {/* <CurrentUserContext.Consumer>
+              {currentUser => (
+                <img
+                  src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
+                  alt=""
+                />
+              )}
+            </CurrentUserContext.Consumer> */}
           </div>
           <div className="col-md-1"></div>
           {/* ------ no tasks ------*/}
