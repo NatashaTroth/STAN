@@ -72,12 +72,12 @@ const examResolvers = {
           completed: false
         });
 
+        console.log(exams);
         const currentExams = exams.filter(exam => {
           // return true;
           return startDateIsActive(new Date(exam.startDate));
         });
         console.log("In TODAYSCHUNKS");
-        // console.log(currentExams);
         const chunks = currentExams.map(exam => {
           const numberPages = numberOfPagesForChunk({
             numberOfPages: exam.numberPages,
@@ -116,11 +116,13 @@ const examResolvers = {
     addExam: async (root, args, context, info) => {
       if (!context.userInfo.isAuth) throw new Error("Unauthorised");
       try {
+        console.log(args.examDate);
         verifyUserInputFormat(args);
         if (!args.startDate || args.startDate.length <= 0) {
           args.startDate = new Date();
         }
 
+        console.log("in if");
         args.examDate = new Date(args.examDate);
         if (!datesTimingIsValid(args.startDate, args.examDate))
           throw new ApolloError(
@@ -159,6 +161,7 @@ const examResolvers = {
     description: "Custom description for the date scalar",
     parseValue(value) {
       //TODO: not sure if this is good for examDate
+      console.log("in parse date");
       if (!value || value.length <= 0) return new Date();
       return new Date(value); // value from the client
     },
