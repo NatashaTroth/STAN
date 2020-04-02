@@ -34,17 +34,17 @@ lint client:
     - /^front-feature.*$/
     - /^back-feature.*$/
 
-lint client merge:
-  stage: lint
-  tags:
-    - node
-  script:
-    - cd client/
-    - echo "Linting.."
-    - npm run format
-  only:
-    - merge_requests
-    - /^front-feature.*$/
+# lint client merge:
+#   stage: lint
+#   tags:
+#     - node
+#   script:
+#     - cd client/
+#     - echo "Linting.."
+#     - npm run format
+#   only:
+#     - merge_requests
+#     - /^front-feature.*$/
 
 # unit testing client:
 #   stage: test
