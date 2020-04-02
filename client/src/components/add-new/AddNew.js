@@ -1,6 +1,10 @@
 import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { CURRENT_USER, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  CURRENT_USER,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS,
+} from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -31,7 +35,10 @@ function AddNew() {
           pdfLink: "TODO: CHANGE LATER",
           completed: false,
         },
-        refetchQueries: [{ query: GET_EXAMS_QUERY }],
+        refetchQueries: [
+          { query: GET_EXAMS_QUERY },
+          { query: GET_TODAYS_CHUNKS },
+        ],
       })
 
       if (resp && resp.data && resp.data.addExam) {
