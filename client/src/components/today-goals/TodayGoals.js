@@ -25,7 +25,6 @@ function TodayGoals() {
       subject = element.exam.subject
       duration = element.duration
 
-      console.log(element)
       return (
         <TodaySubject
           key={index}
