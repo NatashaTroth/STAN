@@ -91,7 +91,7 @@ const examResolvers = {
             duration,
             daysLeft,
             totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
-            totalChunks: getNumberOfDays(exam.startDate, exam.examDate),
+            // totalChunks: getNumberOfDays(exam.startDate, exam.examDate),
             numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
             notEnoughTime: false //TODO: IMPLEMENT
           };
