@@ -48,7 +48,7 @@ const GET_EXAM_QUERY = gql`
 const GET_TODAYS_CHUNKS = gql`
   query {
     todaysChunks {
-      subject
+      exam
       numberPages
       duration
     }

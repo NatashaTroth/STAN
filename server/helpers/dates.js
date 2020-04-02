@@ -14,7 +14,7 @@ export function startDateIsActive(startDate) {
   return isToday(startDate) || dayjs(startDate).isBefore(dayjs());
 }
 
-export function numberOfDaysLeft(startDate, examDate) {
+export function getNumberOfDays(startDate, examDate) {
   //source: https://stackoverflow.com/a/2627493 &  https://stackoverflow.com/a/17727953
   const start = Date.UTC(
     examDate.getFullYear(),
