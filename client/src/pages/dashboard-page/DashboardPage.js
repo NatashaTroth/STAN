@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
@@ -14,6 +14,7 @@ function Dashboard() {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
   const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
+  const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
@@ -32,11 +33,16 @@ function Dashboard() {
           <div className="col-xl-1"></div>
           <div className="col-xl-3">
             {/* Today Goals*/}
-            <TodayGoals></TodayGoals>
+            <TodayGoals
+              activeElementIndexChange={index => {
+                setActiveElementIndex(index)
+              }}
+              activeIndex={activeElementIndex}
+            ></TodayGoals>
           </div>
           <div className="col-xl-6 today-component-container">
             {/* Today */}
-            <Today></Today>
+            <Today activeIndex={activeElementIndex}></Today>
           </div>
           <div className="col-xl-2">{/* Today Progress */}</div>
         </div>

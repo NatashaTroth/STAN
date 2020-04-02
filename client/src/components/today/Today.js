@@ -11,7 +11,7 @@ import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
-function Today() {
+function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
@@ -31,32 +31,62 @@ function Today() {
   let deadline
   let subject
   let currentPage
+  let realCurrentPage
   let chunkGoalPage
   let lastPage
+  let amountPagesWithRepeat
   let repetition
+  let repetitionCycles
   let duration
   let daysLeft
+  let totalDays
   let dayPercentage
-  let chunksLeft
+  let chunksTotal
   let chunkPercentage
-  let todaySubject
+  let noTime
+  let noTimeMessage
 
   if (data) {
-    todaySubject = data.todaysChunks.map((element, index) => {
-      subject = element.exam.subject
-      deadline = element.exam.examDate
-      currentPage = element.exam.currentPage
-      // chunkGoalPage = element.
-      lastPage = element.exam.numberPages
-      repetition = element.exam.timesRepeat
-      duration = element.duration
-      daysLeft = element.daysLeft
-      // dayPercentage =
-      // chunksLeft = element
-      // chunkPercentage =
+    noTime = data.todaysChunks[props.activeIndex].notEnoughTime
+    if (noTime) {
+      noTimeMessage =
+        "Info: You need to study faster to finish all pages until the exam!"
+    }
 
-      // console.log(element)
-    })
+    subject = data.todaysChunks[props.activeIndex].exam.subject
+
+    deadline = data.todaysChunks[props.activeIndex].exam.examDate.slice(0, 10)
+    deadline = deadline
+      .split("-")
+      .reverse()
+      .join("-")
+      .replace("-", "/")
+      .replace("-", "/")
+
+    currentPage = data.todaysChunks[props.activeIndex].exam.currentPage
+    amountPagesWithRepeat =
+      data.todaysChunks[props.activeIndex].numberPagesWithRepeat
+    realCurrentPage = currentPage % amountPagesWithRepeat
+
+    lastPage = data.todaysChunks[props.activeIndex].exam.numberPages
+    chunkGoalPage = data.todaysChunks[props.activeIndex].numberPagesToday
+    duration = data.todaysChunks[props.activeIndex].duration
+
+    repetitionCycles = data.todaysChunks[props.activeIndex].exam.timesRepeat
+    repetition = 0
+    let repetitionCounter = Math.floor(currentPage / lastPage)
+    if (repetitionCounter <= repetitionCycles) {
+      repetition = repetitionCounter
+    } else {
+      repetition = repetitionCycles
+    }
+
+    daysLeft = data.todaysChunks[props.activeIndex].daysLeft
+    totalDays = data.todaysChunks[props.activeIndex].totalNumberDays
+    dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
+
+    chunksTotal = totalDays
+    chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
   }
 
   // return ----------------
@@ -72,9 +102,8 @@ function Today() {
                   <p className="today__container__header__deadline__text">
                     deadline
                   </p>
-                  {/* TODO: insert deadline */}
                   <p className="today__container__header__deadline__date">
-                    30/01/2020
+                    {deadline}
                   </p>
                 </div>
               </div>
@@ -83,13 +112,12 @@ function Today() {
                   <div className="today__container__content__subject">
                     <p className="today__container__content__label">Subject</p>
                     <p className="today__container__content__text--big">
-                      Computer Networks
+                      {subject}
                     </p>
                   </div>
                   <div className="today__container__content__warning">
                     <p className="today__container__content__text--warning">
-                      Info: You need to study faster to finish all pages until
-                      the exam!
+                      {noTimeMessage}
                     </p>
                   </div>
                 </div>
@@ -98,14 +126,16 @@ function Today() {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
-                        page 280 to 340
+                        page {realCurrentPage} to {chunkGoalPage}
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
                       <p className="today__container__content__label">
                         Duration:
                       </p>
-                      <p className="today__container__content__text">20 min</p>
+                      <p className="today__container__content__text">
+                        {duration} min
+                      </p>
                     </div>
                   </div>
 
@@ -115,7 +145,7 @@ function Today() {
                         Total pages:
                       </p>
                       <p className="today__container__content__text">
-                        280 / 890
+                        {realCurrentPage} / {lastPage}
                       </p>
                     </div>
 
@@ -123,7 +153,9 @@ function Today() {
                       <p className="today__container__content__label">
                         Repetition cycle:
                       </p>
-                      <p className="today__container__content__text">1</p>
+                      <p className="today__container__content__text">
+                        {repetition}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -131,8 +163,8 @@ function Today() {
                 <div className="today__container__days-left">
                   <Timeline
                     heading="Days until deadline"
-                    daysLeft="12"
-                    percentage="22"
+                    daysLeft={daysLeft}
+                    percentage={dayPercentage}
                     style="bar"
                   ></Timeline>
                 </div>
@@ -140,8 +172,8 @@ function Today() {
                 <div className="today__container__chunks-left">
                   <Timeline
                     heading="Chunks left to study"
-                    daysLeft="7"
-                    percentage="50"
+                    daysLeft={daysLeft}
+                    percentage={chunkPercentage}
                     style="chunks"
                   ></Timeline>
                 </div>
@@ -174,13 +206,11 @@ function Today() {
                           min="0"
                           id="page-amount-studied"
                           label="page_amount_studied"
-                          placeholder="120"
+                          placeholder={realCurrentPage}
                           ref={register({
                             min: 1,
-                            max: 10000,
+                            max: { amountPagesWithRepeat },
                           })}
-                          // TODO: maximum is page amount
-                          // TODO: placeholder is current page
                         />
                         {errors.page_amount_studied &&
                           errors.page_amount_studied.type === "max" && (
