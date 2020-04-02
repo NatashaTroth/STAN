@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useState, useEffect } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
+import { Dots } from "react-preloaders"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -19,13 +20,14 @@ import Pic1 from "../../images/icons/profile.png"
 export const CurrentUserContext = createContext()
 
 const Navbar = () => {
-  // query ----------------
-  const { data, loading, error } = useQuery(CURRENT_USER)
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
+
+  // query ----------------
+  const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
-  if (loading) return <p>Loading...</p>
+  // if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
   if (data && data.currentUser) {
     currentUser = data.currentUser
@@ -36,17 +38,19 @@ const Navbar = () => {
     backdrop = null
 
   const handleClickSidebar = () => {
-    setSideBar(!isSideBarOpen)
+    setSideBar(isSideBarOpen => !isSideBarOpen)
   }
 
   const closeSidebar = () => {
     setSideBar(false)
   }
+
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
 
   // return ----------------
   return (
     <CurrentUserContext.Provider value={currentUser}>
+      <Dots customLoading={loading} background="#ffffff" />
       <Router className="sidebar">
         <div className="burger">
           <div className={isSideBarOpen ? "close" : "open"}>

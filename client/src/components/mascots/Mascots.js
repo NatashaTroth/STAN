@@ -1,17 +1,14 @@
-import React, { useState, useStore } from "react"
+import React from "react"
 import { useHistory } from "react-router-dom"
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// state
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+// context provider
+import { useCurrentUserValue } from "../STAN/STAN"
 
 // mutation & queries
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
-import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
 import { Carousel } from "react-responsive-carousel"
@@ -24,29 +21,23 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components
 import Button from "../button/Button"
-import { NetworkStatus } from "apollo-boost"
 
 function Mascots() {
   const history = useHistory()
 
-  // context api
-  const currentUser = useCurrentUserValue()
-
   // mutation ----------------
-  const [updateMascot, { mascotId }] = useMutation(UPDATE_MASCOT_MUTATION)
-  const { data, loading, error } = useQuery(CURRENT_USER)
-  const [stan, setStan] = useState(0)
+  const [updateMascot, { id }] = useMutation(UPDATE_MASCOT_MUTATION)
+  const mascotStore = { mascot: 0 }
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
-
-  const handlePath = path => {
-    history.push(path)
+  // form specific ----------------
+  const { handleSubmit } = useForm()
+  const onSubmit = async data => {
+    data = mascotStore.mascot
+    handleMascot({ data, updateMascot, history })
   }
 
-  const getMascotCallback = id => {
-    // currentUser.mascot = id // store new mascot id in provider
-    // setStan(id)
+  const handleMascotCallback = id => {
+    mascotStore.mascot = id
   }
 
   return (
@@ -59,14 +50,7 @@ function Mascots() {
               <h2>Almost there...</h2>
             </div>
             <form
-              onSubmit={mascot => {
-                mascot.preventDefault()
-                updateMascot({
-                  variables: {
-                    mascot: 2,
-                  },
-                })
-              }}
+              onSubmit={handleSubmit(onSubmit)}
               className="mascots__inner--box box-content"
             >
               <div className="mascots__inner--box__sub-heading">
@@ -80,49 +64,25 @@ function Mascots() {
                 <Carousel
                   showStatus={false}
                   showThumbs={false}
-                  infiniteLoop={true}
-                  showIndicators={false}
                   useKeyboardArrows={true}
-                  onChange={getMascotCallback}
+                  onChange={handleMascotCallback}
                 >
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyMascot}
-                      alt="a very happy mascot"
-                    />
-                  </div>
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyGirlyMascot}
-                      alt="a very happy girly mascot"
-                    />
-                  </div>
-                  <div className="container">
-                    <img
-                      className="container__img"
-                      src={VeryHappyCleverMascot}
-                      alt="a very happy clever mascot"
-                    />
-                  </div>
+                  <img src={VeryHappyMascot} alt="a very happy mascot" />
+                  <img
+                    src={VeryHappyGirlyMascot}
+                    alt="a very happy girly mascot"
+                  />
+                  <img
+                    src={VeryHappyCleverMascot}
+                    alt="a very happy clever mascot"
+                  />
                 </Carousel>
 
                 <div className="mascots__inner__btn">
                   <Button
-                    type="submit"
                     variant="button"
-                    className="stan-btn-primary"
                     text="Save"
-                    onClick={() => handlePath("/")}
-                    // onSubmit={mascot => {
-                    //   mascot.preventDefault()
-                    //   updateMascot({
-                    //     variables: {
-                    //       mascot: 2,
-                    //     },
-                    //   })
-                    // }}
+                    className="stan-btn-primary"
                   />
                 </div>
               </div>
@@ -136,3 +96,27 @@ function Mascots() {
 }
 
 export default Mascots
+
+async function handleMascot({ data, updateMascot, history }) {
+  try {
+    const resp = await updateMascot({
+      variables: {
+        mascot: data,
+      },
+    })
+
+    if (resp && resp.data && resp.data.updateMascot) {
+      console.log("success: saved new mascot")
+    } else {
+      throw new Error("failed: saved new mascot")
+    }
+    // redirect
+    window.localStorage.setItem("setMascot", false)
+    history.push("/")
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}

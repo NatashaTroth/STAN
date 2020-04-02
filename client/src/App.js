@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-
 import "./App.scss"
 // import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks" //inserts received data into our app
@@ -67,7 +66,7 @@ const App = () => {
   // }
 
   if (loading) {
-    return <div>loading...</div>
+    return <div className="loading">loading...</div>
   }
 
   return (

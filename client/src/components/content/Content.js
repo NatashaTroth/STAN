@@ -28,18 +28,21 @@ const Content = () => {
   else if (currentUser.id != null) isAuth = true
   else isAuth = false
 
+  // signup trigger
+  let setMascot = window.localStorage.getItem("setMascot") === "true"
+
   // return ----------------
   return (
     <main className="content">
       <Switch>
         {!isAuth ? <Route exact path="/" component={Home} /> : null}
-        {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
-
         {!isAuth ? (
           <Route exact path="/about" component={About} />
         ) : (
           <Redirect from="/about" to="/" />
         )}
+
+        {isAuth ? <Route exact={true} path="/" component={Dashboard} /> : null}
 
         {!isAuth ? (
           <Route exact path="/login" component={Login} />
@@ -74,7 +77,9 @@ const Content = () => {
         )}
 
         {!isAuth ? <Route exact path="/popup" component={LoginPopUp} /> : null}
-        {isAuth ? <Route exact path="/mascots" component={Mascots} /> : null}
+        {isAuth && setMascot ? (
+          <Route exact path="/mascots" component={Mascots} />
+        ) : null}
 
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />

@@ -160,8 +160,7 @@ const examResolvers = {
     },
     updateCurrentPage: async (root, args, context, info) => {
       try {
-        console.log("IN UPDATE CURRENT PAGE");
-        console.log(args.page);
+        // console.log(args.page);
 
         if (!context.userInfo.isAuth) throw new Error("Unauthorised");
         const exam = await Exam.findOne({
@@ -170,7 +169,12 @@ const examResolvers = {
         });
         if (!exam) throw new ApolloError("There is no exam with that id.");
         //TODO: MAKE SURE PAGE ISN'T HIGHER THAN MAX PAGES
+
         if (exam.currentPage === args.page) return true;
+        if (args.page > exam.numberPages * exam.timesRepeat)
+          throw new ApolloError(
+            "The entered current page is higher than the number of pages for this exam."
+          );
 
         // user.mascot = mascot;
         const resp = await Exam.updateOne(
