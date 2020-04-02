@@ -51,16 +51,21 @@ const GET_TODAYS_CHUNKS = gql`
       exam {
         id
         subject
+        examDate
+        startDate
         numberPages
         timePerPage
         timesRepeat
         currentPage
         pdfLink
       }
-      numberPages
+      numberPagesToday
       duration
       daysLeft
+      totalNumberDays
       totalChunks
+      numberPagesWithRepeat
+      notEnoughTime
     }
   }
 `
