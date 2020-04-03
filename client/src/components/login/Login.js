@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
@@ -18,6 +18,7 @@ function Login() {
   const history = useHistory()
 
   // key listener
+  const [keyPressed, setKeyPressed] = useState(false)
 
   // localstorage popup event ----------------
   window.localStorage.setItem("popup-event", false)
@@ -142,6 +143,7 @@ function Login() {
                 buttonText="Login"
                 render={renderProps => (
                   <button
+                    type="button"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     className="stan-btn-secondary"
@@ -156,6 +158,7 @@ function Login() {
             </div>
             <div className="login__form__buttons__button-left">
               <Button
+                type="submit"
                 className="stan-btn-primary"
                 variant="button"
                 text="Login"
