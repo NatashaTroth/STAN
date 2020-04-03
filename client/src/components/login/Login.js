@@ -33,7 +33,6 @@ function Login() {
         setAccessToken(resp.data.googleLogin.accessToken)
       else throw new Error("The google login failed")
 
-      history.push("/")
       window.location.reload()
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
