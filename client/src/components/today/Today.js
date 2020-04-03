@@ -33,6 +33,7 @@ function Today(props) {
   let currentPage
   let realCurrentPage
   let chunkGoalPage
+  let numberPagesToday
   let lastPage
   let amountPagesWithRepeat
   let repetition
@@ -66,10 +67,12 @@ function Today(props) {
     currentPage = data.todaysChunks[props.activeIndex].exam.currentPage
     amountPagesWithRepeat =
       data.todaysChunks[props.activeIndex].numberPagesWithRepeat
-    realCurrentPage = currentPage % amountPagesWithRepeat
-
     lastPage = data.todaysChunks[props.activeIndex].exam.numberPages
-    chunkGoalPage = data.todaysChunks[props.activeIndex].numberPagesToday
+    realCurrentPage = currentPage % lastPage
+
+    numberPagesToday = data.todaysChunks[props.activeIndex].numberPagesToday
+    chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
     duration = data.todaysChunks[props.activeIndex].duration
 
     repetitionCycles = data.todaysChunks[props.activeIndex].exam.timesRepeat
