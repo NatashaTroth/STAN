@@ -19,6 +19,10 @@
         padding: 40px;
         min-width: 500px;
 
+        @include media-breakpoint-down(lg) {
+          min-width: 0px;
+        }
+
         &--user-data {
           display: flex;
           flex-direction: row;
@@ -103,7 +107,7 @@
         padding: 40px;
       }
       &--bottom {
-        padding: 20px;
+        padding: 10px;
         display: flex;
         justify-content: center;
 
