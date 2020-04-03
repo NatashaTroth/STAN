@@ -77,10 +77,7 @@ function Today(props) {
 
     repetitionCycles = data.todaysChunks[props.activeIndex].exam.timesRepeat
     repetition = 1
-    console.log(repetition)
-    console.log(repetitionCycles)
     let repetitionCounter = Math.floor(currentPage / lastPage) + 1
-    console.log(repetitionCounter)
     if (repetitionCounter <= repetitionCycles) {
       repetition = repetitionCounter
     } else {
