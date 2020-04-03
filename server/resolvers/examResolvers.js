@@ -131,6 +131,11 @@ const examResolvers = {
           throw new ApolloError(
             "Dates cannot be in the past and start learning date must be before exam date."
           );
+
+        //TODO MOVE TO VERIFY USER INPUT
+        if (args.timePerPage <= 0)
+          throw new ApolloError("Time per page has to be higher than 0.");
+
         args.userId = context.userInfo.userId;
         args.currentPage = args.startPage;
         const resp = await Exam.create({

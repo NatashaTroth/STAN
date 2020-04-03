@@ -54,7 +54,6 @@ const examSchema = new Schema({
   },
   userId: {
     type: String,
-    required: true,
     required: true
   },
   //TODO: updated at

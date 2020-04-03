@@ -108,9 +108,9 @@ test("verifies string is formatted as a page amount", () => {
 test("verifies string is formatted as a page time", () => {
   testNumbers(verifyPageTime);
   expect(verifyPageTime("1".repeat(600))).toBeTruthy();
-  expect(verifyPageTime("")).toBeTruthy();
 
   expect(verifyPageTime("1".repeat(601))).toBeFalsy();
+  expect(verifyPageTime("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a page repeat", () => {
