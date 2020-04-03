@@ -1,14 +1,16 @@
 import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
-import { GoogleLogin } from "react-google-login"
+import { useHistory } from "react-router-dom"
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// mutation & queries
-import { useHistory } from "react-router-dom"
+// mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { useForm } from "react-hook-form"
 import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 // import { SUCCESS_SIGNUP } from "../../graphQL/queries"
+
+// google login ----------------
+import { GoogleLogin } from "react-google-login"
 
 // components ----------------
 import Input from "../../components/input/Input"
@@ -18,6 +20,7 @@ import Button from "../../components/button/Button"
 function SignUp() {
   const history = useHistory()
   const { register, errors, handleSubmit } = useForm()
+
   // mutation ----------------
   const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
   const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)

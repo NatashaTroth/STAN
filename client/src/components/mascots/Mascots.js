@@ -1,9 +1,9 @@
 import React from "react"
-import { useHistory, Redirect } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// mutation & queries
+// mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 
@@ -11,12 +11,12 @@ import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-// components
+// components ----------------
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
 import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
-// sub components
+// sub components ----------------
 import Button from "../button/Button"
 
 function Mascots() {
@@ -33,6 +33,7 @@ function Mascots() {
     handleMascot({ data, updateMascot, history })
   }
 
+  // functions ----------------
   const handleMascotCallback = id => {
     mascotStore.mascot = id
   }

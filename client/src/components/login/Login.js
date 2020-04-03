@@ -3,9 +3,6 @@ import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
-// context
-import { useCurrentUserValue } from "../STAN/STAN"
-
 // mutation & queries
 import { useForm } from "react-hook-form"
 import { useMutation } from "@apollo/react-hooks"
@@ -19,7 +16,11 @@ import Button from "../../components/button/Button"
 
 function Login() {
   const history = useHistory()
+
+  // localstorage popup event ----------------
   window.localStorage.setItem("popup-event", false)
+
+  // google login ----------------
   const successGoogle = async response => {
     try {
       const resp = await googleLogin({
@@ -50,7 +51,7 @@ function Login() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
   const onSubmit = async formData => {
-    await handleLogin({ formData, login, history })
+    await handleLogin({ formData, login })
   }
 
   // return ----------------
@@ -175,7 +176,7 @@ function Login() {
 
 export default Login
 
-async function handleLogin({ formData, login, history }) {
+async function handleLogin({ formData, login }) {
   try {
     const resp = await login({
       variables: {

@@ -35,7 +35,7 @@ function UserAccount() {
     return <Redirect to="/login" />
   }
 
-  // google login ----------------
+  // google logout ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
   const currentUserGoogleLogin = false
   let logoutButton
