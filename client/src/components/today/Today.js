@@ -157,7 +157,7 @@ function Today(props) {
                         Repetition cycle:
                       </p>
                       <p className="today__container__content__text">
-                        {repetition}
+                        {repetition} / {repetitionCycles}
                       </p>
                     </div>
                   </div>
