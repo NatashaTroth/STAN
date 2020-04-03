@@ -131,10 +131,7 @@ function Login() {
           </div>
 
           <div className="login__form__buttons">
-            <div
-              className="login__form__buttons__button-right"
-              data-testid="button-login"
-            >
+            <div className="login__form__buttons__button-right">
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
