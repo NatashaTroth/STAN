@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
@@ -6,10 +6,9 @@ import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // components ----------------
 import TodaySubject from "../../components/today-subject/TodaySubject"
 
-function TodayGoals() {
+function TodayGoals(props) {
   // query ----------------
   const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
-  const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
@@ -20,12 +19,11 @@ function TodayGoals() {
   let duration
   let todaySubject
 
-  if (data) {
+  if (data && data.todaysChunks.length > 0) {
     todaySubject = data.todaysChunks.map((element, index) => {
       subject = element.exam.subject
       duration = element.duration
 
-      console.log(element)
       return (
         <TodaySubject
           key={index}
@@ -33,11 +31,9 @@ function TodayGoals() {
           durationTime={duration + " min"}
           onClick={e => {
             e.preventDefault()
-            setActiveElementIndex(index)
+            props.activeElementIndexChange(index)
           }}
-          className={
-            index === activeElementIndex ? "active-subject" : undefined
-          }
+          className={props.activeIndex === index ? "active-subject" : undefined}
         ></TodaySubject>
       )
     })

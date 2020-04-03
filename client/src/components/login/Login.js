@@ -3,6 +3,9 @@ import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
+// context
+import { useCurrentUserValue } from "../STAN/STAN"
+
 // mutation & queries
 import { useForm } from "react-hook-form"
 import { useMutation } from "@apollo/react-hooks"
@@ -187,7 +190,6 @@ async function handleLogin({ formData, login, history }) {
       throw new Error("The login failed")
     }
     // redirect
-    history.push("/")
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN

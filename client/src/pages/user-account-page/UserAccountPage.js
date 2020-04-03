@@ -1,13 +1,16 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
-// state
-import { CurrentUserContext } from "../../components/STAN/STAN"
+// context
+import {
+  CurrentUserContext,
+  useCurrentUserValue,
+} from "../../components/STAN/STAN"
 
 // mutation & queries
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 
@@ -21,9 +24,14 @@ import Button from "../../components/button/Button"
 
 function UserAccount() {
   const history = useHistory()
-
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
+
+  const currentUser = useCurrentUserValue()
+
+  if (currentUser === undefined) {
+    return <Redirect to="/login" />
+  }
 
   // google login ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
@@ -191,6 +199,5 @@ async function logUserOut({ logout, client, history }) {
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())
   //resçlo client- always good after logout
-  history.push("/login")
   window.location.reload()
 }

@@ -3,12 +3,21 @@ import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
+// context
+import { useCurrentUserValue } from "../../components/STAN/STAN"
+
 // components ----------------
 import AddNew from "../../components/add-new/AddNew"
+import { Redirect } from "react-router"
 
 function AddNewPage() {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
+  const currentUser = useCurrentUserValue()
+
+  if (currentUser === undefined) {
+    return <Redirect to="/login" />
+  }
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

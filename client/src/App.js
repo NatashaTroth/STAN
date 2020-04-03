@@ -29,9 +29,7 @@ const App = () => {
       //TODO: go to login and inform user that logout occurred
 
       RedirectPopup()
-      // history.push("/popup")
       window.location.replace("/popup")
-      // window.location.reload()
     }
   })
 
@@ -57,13 +55,6 @@ const App = () => {
     //In case a second tab wasn't open, to make sure it is deleted
     // localStorage.removeItem("logout-event")
   }, [])
-
-  // componentWillUnmount() {
-  //   ChatAPI.unsubscribeFromFriendStatus(
-  //     this.props.friend.id,
-  //     this.handleStatusChange
-  //   );
-  // }
 
   if (loading) {
     return <div className="loading">loading...</div>

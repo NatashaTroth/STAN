@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+import React, { createContext, useContext, useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
-import { Dots } from "react-preloaders"
+import { Cube } from "react-preloaders"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -27,7 +27,7 @@ const Navbar = () => {
   const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
-  // if (loading) return <p>Loading...</p>
+  if (loading) return <p className="loading">Loading...</p>
   if (error) return <p>Error :(</p>
   if (data && data.currentUser) {
     currentUser = data.currentUser
@@ -50,7 +50,7 @@ const Navbar = () => {
   // return ----------------
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Dots customLoading={loading} background="#ffffff" />
+      <Cube customLoading={loading} background="#ffffff" />
       <Router className="sidebar">
         <div className="burger">
           <div className={isSideBarOpen ? "close" : "open"}>

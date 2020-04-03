@@ -1,6 +1,10 @@
 import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { CURRENT_USER, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  CURRENT_USER,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS,
+} from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -31,7 +35,10 @@ function AddNew() {
           pdfLink: "TODO: CHANGE LATER",
           completed: false,
         },
-        refetchQueries: [{ query: GET_EXAMS_QUERY }],
+        refetchQueries: [
+          { query: GET_EXAMS_QUERY },
+          { query: GET_TODAYS_CHUNKS },
+        ],
       })
 
       if (resp && resp.data && resp.data.addExam) {
@@ -226,7 +233,7 @@ function AddNew() {
                       <Label
                         for="page-time"
                         text="Time per page (min)"
-                        className="add-new__form__element__label"
+                        className="add-new__form__element__label input-required"
                       ></Label>
                       <Input
                         className="add-new__form__element__input"
@@ -236,11 +243,16 @@ function AddNew() {
                         label="exam_page_time"
                         placeholder="5 min"
                         ref={register({
-                          required: false,
+                          required: true,
                           min: 1,
                           max: 600,
                         })}
+                        required
                       />
+                      {errors.exam_page_time &&
+                        errors.exam_page_time.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
                       {errors.exam_page_time &&
                         errors.exam_page_time.type === "max" && (
                           <span className="error">

@@ -1,10 +1,7 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
-
-// context provider
-import { useCurrentUserValue } from "../STAN/STAN"
 
 // mutation & queries
 import { useMutation } from "@apollo/react-hooks"
@@ -24,13 +21,13 @@ import Button from "../button/Button"
 
 function Mascots() {
   const history = useHistory()
+  const { handleSubmit } = useForm()
 
   // mutation ----------------
   const [updateMascot, { id }] = useMutation(UPDATE_MASCOT_MUTATION)
   const mascotStore = { mascot: 0 }
 
   // form specific ----------------
-  const { handleSubmit } = useForm()
   const onSubmit = async data => {
     data = mascotStore.mascot
     handleMascot({ data, updateMascot, history })

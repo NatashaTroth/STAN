@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useCurrentUserValue } from "../STAN/STAN"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
@@ -18,6 +17,10 @@ import Button from "../../components/button/Button"
 
 function SignUp() {
   const history = useHistory()
+  const { register, errors, handleSubmit } = useForm()
+  // mutation ----------------
+  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
+  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   // google signup ----------------
   const successGoogle = async response => {
@@ -45,14 +48,9 @@ function SignUp() {
     console.error("Google login failed")
   }
 
-  // mutation ----------------
-  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
-
   // form specific ----------------
-  const { register, errors, handleSubmit } = useForm()
   const onSubmit = async formData => {
-    handleSignup({ formData, signup, history })
+    handleSignup({ formData, signup })
   }
 
   return (
@@ -209,7 +207,7 @@ function SignUp() {
 
 export default SignUp
 
-async function handleSignup({ formData, signup, history }) {
+async function handleSignup({ formData, signup }) {
   try {
     const resp = await signup({
       variables: {
@@ -227,7 +225,6 @@ async function handleSignup({ formData, signup, history }) {
       throw new Error("The sign up failed")
     }
     // redirect
-    history.push("/mascots")
     window.localStorage.setItem("setMascot", true)
     window.location.reload()
   } catch (err) {

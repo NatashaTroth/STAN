@@ -1,11 +1,21 @@
 import React from "react"
 // --------------------------------------------------------------
 
+// context
+import { useCurrentUserValue } from "../../components/STAN/STAN"
+
 // components ----------------
 import SubHeading from "../../components/sub-heading/SubHeading"
 import Listing from "../../components/listing/Listing"
+import Dashboard from "../dashboard-page/DashboardPage"
 
 function Home() {
+  let currentUser = useCurrentUserValue()
+
+  if (currentUser !== undefined) {
+    return <Dashboard />
+  }
+
   // return ----------------
   return (
     <div className="home">
