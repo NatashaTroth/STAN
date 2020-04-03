@@ -19,6 +19,7 @@ import Button from "../../components/button/Button"
 
 function Login() {
   const history = useHistory()
+  window.localStorage.setItem("popup-event", false)
   const successGoogle = async response => {
     try {
       const resp = await googleLogin({

@@ -225,7 +225,7 @@ async function handleSignup({ formData, signup }) {
       throw new Error("The sign up failed")
     }
     // redirect
-    window.localStorage.setItem("setMascot", true)
+    window.localStorage.setItem("mascot-event", true)
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN

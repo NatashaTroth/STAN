@@ -1,7 +1,17 @@
 import React from "react"
+import { useCurrentUserValue } from "../STAN/STAN"
+import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 function LoginPopUp() {
+  const currentUser = useCurrentUserValue()
+
+  if (
+    currentUser !== undefined ||
+    window.localStorage.getItem("popup-event") === "false"
+  ) {
+    return <Redirect to="/" />
+  }
   // return ----------------
   return (
     <div className="popup">
@@ -11,12 +21,14 @@ function LoginPopUp() {
         </div>
 
         <div className="popup__content">
-          <p className="popup__content__paragraph">
-            Please log in to continue.
-          </p>
-          <a href="/login" className="popup__content__btn stan-btn-secondary">
-            Login
-          </a>
+          <div className="popup__content__paragraph">
+            <p>Please log in to continue.</p>
+          </div>
+          <div className="popup__content--btn">
+            <a href="/login" className="stan-btn-secondary">
+              Login
+            </a>
+          </div>
         </div>
       </div>
     </div>

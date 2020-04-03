@@ -194,7 +194,7 @@ async function logUserOut({ logout, client, history }) {
   setAccessToken("")
 
   // reset sign up trigger
-  window.localStorage.setItem("setMascot", false)
+  window.localStorage.setItem("mascot-event", false)
 
   //logout all other tabs
   localStorage.setItem("logout-event", Date.now())
