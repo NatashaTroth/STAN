@@ -40,7 +40,7 @@ function verifyPageAmount(string) {
 }
 
 function verifyPageTime(string) {
-  return string.match(/^\d{0,600}$/);
+  return string.match(/^\d{1,600}$/);
 }
 
 function verifyPageRepeat(string) {

@@ -11,9 +11,9 @@ const examType = gql`
     examDate: Date!
     startDate: Date
     numberPages: Int!
-    timePerPage: Int
-    timesRepeat: Int
-    currentPage: Int
+    timePerPage: Int!
+    timesRepeat: Int!
+    currentPage: Int!
     notes: String
     pdfLink: String
     completed: Boolean

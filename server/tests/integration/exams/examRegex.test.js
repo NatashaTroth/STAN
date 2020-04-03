@@ -36,6 +36,7 @@ describe("Test user resolver regex", () => {
         completed: false
       }
     });
+
     expect(resp.data.addExam).toBeTruthy();
 
     resp = await mutate({
@@ -119,14 +120,18 @@ describe("Test user resolver regex", () => {
         examDate: new Date("2020-08-11"),
         startDate: new Date("2020-08-05"),
         numberPages: 5,
-        timePerPage: null,
+        timePerPage: 0,
         startPage: null,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
       }
     });
-    expect(resp.data.addExam).toBeTruthy();
+
+    expect(resp.data.addExam).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Time per page has to be higher than 0."
+    );
 
     resp = await mutate({
       query: ADD_EXAM_MUTATION,
