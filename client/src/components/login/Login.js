@@ -17,9 +17,6 @@ import Button from "../../components/button/Button"
 function Login() {
   const history = useHistory()
 
-  // key listener
-  const [keyPressed, setKeyPressed] = useState(false)
-
   // localstorage popup event ----------------
   window.localStorage.setItem("popup-event", false)
 
