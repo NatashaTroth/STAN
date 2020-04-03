@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
@@ -23,12 +23,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import Button from "../../components/button/Button"
 
 function UserAccount() {
+  // history ----------------
   const history = useHistory()
+
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
+  // redirects ----------------
   const currentUser = useCurrentUserValue()
-
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }
@@ -188,16 +190,16 @@ function UserAccount() {
 export default UserAccount
 
 async function logUserOut({ logout, client, history }) {
-  //reset refresh token
+  // reset refresh token ----------------
   await logout()
-  //reset access token
+
+  // reset access token ----------------
   setAccessToken("")
 
-  // reset sign up trigger
+  // reset mascot event ----------------
   window.localStorage.setItem("mascot-event", false)
 
-  //logout all other tabs
+  // logout all other tabs ----------------
   localStorage.setItem("logout-event", Date.now())
-  //resçlo client- always good after logout
   window.location.reload()
 }

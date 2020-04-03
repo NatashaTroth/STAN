@@ -37,6 +37,7 @@ const Navbar = () => {
   let body,
     backdrop = null
 
+  // functions & conditions ----------------
   const handleClickSidebar = () => {
     setSideBar(isSideBarOpen => !isSideBarOpen)
   }
