@@ -3,23 +3,23 @@ import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import {
   CurrentUserContext,
   useCurrentUserValue,
 } from "../../components/STAN/STAN"
 
-// mutation & queries
+// mutation & queries ----------------
 import { useHistory, Redirect } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 
-// libraries
+// libraries ----------------
 import CountUp from "react-countup"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-// sub components
+// sub components ----------------
 import Button from "../../components/button/Button"
 
 function UserAccount() {

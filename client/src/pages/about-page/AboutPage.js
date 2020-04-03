@@ -2,7 +2,7 @@ import React from "react"
 import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // sub-components ----------------
@@ -13,8 +13,8 @@ import Pic1 from "../../images/desk1.png"
 import Pic2 from "../../images/desk2.png"
 
 function About() {
+  // redirects ----------------
   const currentUser = useCurrentUserValue()
-
   if (currentUser !== undefined) {
     return <Redirect to="/" />
   }
