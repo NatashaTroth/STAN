@@ -18,6 +18,7 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components ----------------
 import Button from "../button/Button"
+import Image from "../image/Image"
 
 function Mascots() {
   const history = useHistory()
@@ -65,14 +66,14 @@ function Mascots() {
                   useKeyboardArrows={true}
                   onChange={handleMascotCallback}
                 >
-                  <img src={VeryHappyMascot} alt="a very happy mascot" />
-                  <img
-                    src={VeryHappyGirlyMascot}
-                    alt="a very happy girly mascot"
+                  <Image path={VeryHappyMascot} text="a very happy mascot" />
+                  <Image
+                    path={VeryHappyGirlyMascot}
+                    text="a very happy girly mascot"
                   />
-                  <img
-                    src={VeryHappyCleverMascot}
-                    alt="a very happy clever mascot"
+                  <Image
+                    path={VeryHappyCleverMascot}
+                    text="a very happy clever mascot"
                   />
                 </Carousel>
 

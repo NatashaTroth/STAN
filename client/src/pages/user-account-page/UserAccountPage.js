@@ -21,6 +21,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // sub components ----------------
 import Button from "../../components/button/Button"
+import Image from "../../components/image/Image"
 
 function UserAccount() {
   // history ----------------
@@ -133,27 +134,27 @@ function UserAccount() {
                   >
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>
 
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>
 
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>

@@ -7,6 +7,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
+import SubHeading from "../../components/sub-heading/SubHeading"
 
 // images ----------------
 import Pic1 from "../../images/desk1.png"
@@ -27,7 +28,7 @@ function About() {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <h2 className="about__heading">Who is stan?</h2>
-            <p className="sub-heading">We will explain</p>
+            <SubHeading className="sub-heading" text="We will explain" />
           </div>
           <div className="col-md-1"></div>
 
