@@ -138,7 +138,7 @@ const examResolvers = {
           examDate: args.examDate,
           startDate: args.startDate,
           numberPages: args.numberPages,
-          timePerPage: args.timePerPage || -1,
+          timePerPage: args.timePerPage,
           timesRepeat: args.timesRepeat || 1,
           currentPage: args.currentPage || 0,
           notes: args.notes,

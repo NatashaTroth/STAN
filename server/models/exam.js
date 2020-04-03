@@ -16,7 +16,8 @@ const examSchema = new Schema({
   },
   startDate: {
     type: Date,
-    default: new Date()
+    default: new Date(),
+    required: true
   },
   numberPages: {
     type: Number,
@@ -24,19 +25,22 @@ const examSchema = new Schema({
   },
   timePerPage: {
     type: Number,
-    default: -1
+    required: true
   },
   timesRepeat: {
     type: Number,
-    default: 1
+    default: 1,
+    required: true
   },
   startPage: {
     type: Number,
-    default: 0
+    default: 0,
+    required: true
   },
   currentPage: {
     type: Number,
-    default: 0
+    default: 0,
+    required: true
   },
   notes: {
     type: String
@@ -46,10 +50,11 @@ const examSchema = new Schema({
   },
   completed: {
     type: Boolean,
-    required: false
+    default: false
   },
   userId: {
     type: String,
+    required: true,
     required: true
   },
   //TODO: updated at
