@@ -33,8 +33,6 @@ function Dashboard() {
   let usersToDos
 
   if (data && data.todaysChunks.length > 0) {
-    console.log(data)
-
     usersToDos = (
       <div className="container-fluid">
         <div className="row">
