@@ -10,7 +10,6 @@ import { Redirect } from "react-router"
 
 function LoginPage() {
   const currentUser = useCurrentUserValue()
-
   if (currentUser !== undefined) {
     return <Redirect to="/" />
   }

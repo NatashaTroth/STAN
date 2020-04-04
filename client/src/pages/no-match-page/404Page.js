@@ -3,8 +3,6 @@ import Stan from "../../images/mascots/0-stressed-1.svg"
 // --------------------------------------------------------------
 
 function NoMatch404() {
-  // let location = useLocation()
-
   // return ----------------
   return (
     <div className="nomatch">

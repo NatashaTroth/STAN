@@ -1,39 +1,42 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import {
   CurrentUserContext,
   useCurrentUserValue,
 } from "../../components/STAN/STAN"
 
-// mutation & queries
+// mutation & queries ----------------
 import { useHistory, Redirect } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 
-// libraries
+// libraries ----------------
 import CountUp from "react-countup"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-// sub components
+// sub components ----------------
 import Button from "../../components/button/Button"
+import Image from "../../components/image/Image"
 
 function UserAccount() {
+  // history ----------------
   const history = useHistory()
+
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
+  // redirects ----------------
   const currentUser = useCurrentUserValue()
-
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }
 
-  // google login ----------------
+  // google logout ----------------
   //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
   const currentUserGoogleLogin = false
   let logoutButton
@@ -131,27 +134,27 @@ function UserAccount() {
                   >
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>
 
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>
 
                     <CurrentUserContext.Consumer>
                       {currentUser => (
-                        <img
-                          src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
-                          alt=""
+                        <Image
+                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
+                          text=""
                         />
                       )}
                     </CurrentUserContext.Consumer>
@@ -188,16 +191,16 @@ function UserAccount() {
 export default UserAccount
 
 async function logUserOut({ logout, client, history }) {
-  //reset refresh token
+  // reset refresh token ----------------
   await logout()
-  //reset access token
+
+  // reset access token ----------------
   setAccessToken("")
 
-  // reset sign up trigger
+  // reset mascot event ----------------
   window.localStorage.setItem("mascot-event", false)
 
-  //logout all other tabs
+  // logout all other tabs ----------------
   localStorage.setItem("logout-event", Date.now())
-  //resçlo client- always good after logout
   window.location.reload()
 }

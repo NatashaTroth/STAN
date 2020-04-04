@@ -2,19 +2,20 @@ import React from "react"
 import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
+import SubHeading from "../../components/sub-heading/SubHeading"
 
 // images ----------------
 import Pic1 from "../../images/desk1.png"
 import Pic2 from "../../images/desk2.png"
 
 function About() {
+  // redirects ----------------
   const currentUser = useCurrentUserValue()
-
   if (currentUser !== undefined) {
     return <Redirect to="/" />
   }
@@ -27,7 +28,7 @@ function About() {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <h2 className="about__heading">Who is stan?</h2>
-            <p className="sub-heading">We will explain</p>
+            <SubHeading className="sub-heading" text="We will explain" />
           </div>
           <div className="col-md-1"></div>
 

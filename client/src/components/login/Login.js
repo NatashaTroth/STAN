@@ -1,10 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
-
-// context
-import { useCurrentUserValue } from "../STAN/STAN"
 
 // mutation & queries
 import { useForm } from "react-hook-form"
@@ -19,7 +16,11 @@ import Button from "../../components/button/Button"
 
 function Login() {
   const history = useHistory()
+
+  // localstorage popup event ----------------
   window.localStorage.setItem("popup-event", false)
+
+  // google login ----------------
   const successGoogle = async response => {
     try {
       const resp = await googleLogin({
@@ -32,7 +33,6 @@ function Login() {
         setAccessToken(resp.data.googleLogin.accessToken)
       else throw new Error("The google login failed")
 
-      history.push("/")
       window.location.reload()
     } catch (err) {
       //TODO: USER DEN ERROR MITTEILEN
@@ -50,7 +50,7 @@ function Login() {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
   const onSubmit = async formData => {
-    await handleLogin({ formData, login, history })
+    await handleLogin({ formData, login })
   }
 
   // return ----------------
@@ -130,15 +130,13 @@ function Login() {
           </div>
 
           <div className="login__form__buttons">
-            <div
-              className="login__form__buttons__button-right"
-              data-testid="button-login"
-            >
+            <div className="login__form__buttons__button-right">
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
                 render={renderProps => (
                   <button
+                    type="button"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     className="stan-btn-secondary"
@@ -153,6 +151,7 @@ function Login() {
             </div>
             <div className="login__form__buttons__button-left">
               <Button
+                type="submit"
                 className="stan-btn-primary"
                 variant="button"
                 text="Login"
@@ -175,7 +174,7 @@ function Login() {
 
 export default Login
 
-async function handleLogin({ formData, login, history }) {
+async function handleLogin({ formData, login }) {
   try {
     const resp = await login({
       variables: {

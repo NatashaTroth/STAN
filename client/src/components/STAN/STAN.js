@@ -7,7 +7,7 @@ import { Cube } from "react-preloaders"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
-// components
+// components ----------------
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
@@ -37,6 +37,7 @@ const Navbar = () => {
   let body,
     backdrop = null
 
+  // functions & conditions ----------------
   const handleClickSidebar = () => {
     setSideBar(isSideBarOpen => !isSideBarOpen)
   }

@@ -1,11 +1,14 @@
 import React from "react"
-import { useCurrentUserValue } from "../STAN/STAN"
-import { Redirect } from "react-router-dom"
+
 // --------------------------------------------------------------
 
-function LoginPopUp() {
-  const currentUser = useCurrentUserValue()
+// context ----------------
+import { useCurrentUserValue } from "../STAN/STAN"
+import { Redirect } from "react-router-dom"
 
+function LoginPopUp() {
+  // redirects ----------------
+  const currentUser = useCurrentUserValue()
   if (
     currentUser !== undefined ||
     window.localStorage.getItem("popup-event") === "false"

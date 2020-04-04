@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
@@ -10,8 +10,8 @@ import Listing from "../../components/listing/Listing"
 import Dashboard from "../dashboard-page/DashboardPage"
 
 function Home() {
+  // mutation ----------------
   let currentUser = useCurrentUserValue()
-
   if (currentUser !== undefined) {
     return <Dashboard />
   }
