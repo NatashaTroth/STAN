@@ -55,7 +55,7 @@ export const GET_TODAYS_CHUNKS = gql`
         examDate
         startDate
         numberPages
-        timePerPage
+        # timePerPage
         timesRepeat
         currentPage
         pdfLink
@@ -64,7 +64,7 @@ export const GET_TODAYS_CHUNKS = gql`
       duration
       daysLeft
       totalNumberDays
-      totalChunks
+      # totalChunks
       numberPagesWithRepeat
       notEnoughTime
     }

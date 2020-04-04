@@ -1,4 +1,4 @@
-const {
+import {
   verifySubject,
   verifyExamDate,
   verifyStudyStartDate,
@@ -7,8 +7,8 @@ const {
   verifyPageRepeat,
   verifyCurrentPage,
   verifyPageNotes
-} = require("../helpers/verifyUserInput");
-const { AuthenticationError } = require("apollo-server");
+} from "../helpers/verifyUserInput";
+import { AuthenticationError } from "apollo-server";
 
 export function verifyUserInputFormat({
   subject,

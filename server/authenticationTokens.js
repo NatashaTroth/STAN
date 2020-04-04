@@ -1,11 +1,6 @@
-// import { NamedModulesPlugin } from "webpack";
-
-const jwt = require("jsonwebtoken");
-const { User } = require("./models/index");
-const { ApolloError } = require("apollo-server");
-// import jwt from "jsonwebtoken";
-// import { User } from "./models/index";
-// import { ApolloError } from "apollo-server";
+import jwt from "jsonwebtoken";
+import { User } from "./models/index";
+import { ApolloError } from "apollo-server";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
 async function handleRefreshToken(req, res) {
