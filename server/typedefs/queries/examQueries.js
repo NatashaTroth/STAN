@@ -12,10 +12,10 @@ const examQueries = gql`
   type Mutation {
     addExam(
       subject: String!
-      examDate: Date
+      examDate: Date!
       startDate: Date
-      numberPages: Int
-      timePerPage: Int
+      numberPages: Int!
+      timePerPage: Int!
       timesRepeat: Int
       startPage: Int
       notes: String

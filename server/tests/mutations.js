@@ -76,7 +76,7 @@ const ADD_EXAM_MUTATION = gql`
     $examDate: Date!
     $startDate: Date
     $numberPages: Int!
-    $timePerPage: Int
+    $timePerPage: Int!
     $timesRepeat: Int
     $startPage: Int
     $notes: String
