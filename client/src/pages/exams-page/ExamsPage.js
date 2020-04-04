@@ -18,7 +18,8 @@ const Exams = () => {
   const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
-  let exams
+  let currentExams = []
+  let archiveExams = []
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -30,20 +31,53 @@ const Exams = () => {
   if (error) return <p>error...(</p>
   if (data && data.exams) {
     // TODO: repeat is missing
-    exams = data.exams.map(function(exam) {
-      return (
-        <div key={exam.id}>
-          <CurrentExam
-            subject={exam.subject}
-            // TODO: rechnung überprüfen
-            currentStatus={Math.round(
-              (100 * exam.currentPage) / exam.numberPages
-            )}
-          />
-        </div>
-      )
+    data.exams.map(function(exam) {
+      if (!exam.completed) {
+        currentExams.push({
+          id: exam.id,
+          subject: exam.subject,
+          numberPages: exam.numberPages,
+          currentPage: exam.currentPage,
+        })
+      } else {
+        archiveExams.push({
+          id: exam.id,
+          subject: exam.subject,
+          numberPages: exam.numberPages,
+          currentPage: exam.currentPage,
+        })
+      }
     })
   }
+
+  // function ----------------
+  let currentExamsList, archiveExamsList
+
+  currentExamsList = currentExams.map(function(exam) {
+    return (
+      <div key={exam.id}>
+        <CurrentExam
+          subject={exam.subject}
+          currentStatus={Math.round(
+            (100 * exam.currentPage) / exam.numberPages
+          )}
+        />
+      </div>
+    )
+  })
+
+  archiveExamsList = archiveExams.map(function(exam) {
+    return (
+      <div key={exam.id}>
+        <CurrentExam
+          subject={exam.subject}
+          currentStatus={Math.round(
+            (100 * exam.currentPage) / exam.numberPages
+          )}
+        />
+      </div>
+    )
+  })
 
   const handleArchiveClick = () => {
     setArchiveExams(!isArchiveOpen)
@@ -60,7 +94,7 @@ const Exams = () => {
               <h2>Current Exams</h2>
             </div>
 
-            <div className="current-exams">{exams}</div>
+            <div className="current-exams">{currentExamsList}</div>
 
             <div className="exams__toggle-archive">
               <button
@@ -74,11 +108,7 @@ const Exams = () => {
             </div>
 
             <div className={isArchiveOpen ? "show" : "close"}>
-              <div className="archive-exams">
-                {/* <CurrentExam subject="Computer Networks" currentStatus="67%" />
-                <CurrentExam subject="Math Statistics" currentStatus="98%" />
-                <CurrentExam subject="Multimedia" currentStatus="43%" /> */}
-              </div>
+              <div className="archive-exams">{archiveExamsList}</div>
             </div>
           </div>
           <div className="col-md-1"></div>
