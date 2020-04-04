@@ -2,22 +2,47 @@ import React, { useState } from "react"
 import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
-// context
+// queries ----------------
+import { GET_EXAMS_QUERY } from "../../graphQL/queries"
+import { useQuery } from "@apollo/react-hooks"
+
+// context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
-// components
+// components ----------------
 import CurrentExam from "../../components/current-exam/CurrentExam"
 
-// sub components
-// import Button from "../../components/button/Button"
-
-// TODO: Add query to loop through current and archive exams
 const Exams = () => {
+  // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
-  const currentUser = useCurrentUserValue()
+  const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
+  // variables ----------------
+  let exams
+
+  // redirects ----------------
+  const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
+  }
+
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...(</p>
+  if (data && data.exams) {
+    // TODO: repeat is missing
+    exams = data.exams.map(function(exam) {
+      return (
+        <div key={exam.id}>
+          <CurrentExam
+            subject={exam.subject}
+            // TODO: rechnung überprüfen
+            currentStatus={Math.round(
+              (100 * exam.currentPage) / exam.numberPages
+            )}
+          />
+        </div>
+      )
+    })
   }
 
   const handleArchiveClick = () => {
@@ -35,13 +60,7 @@ const Exams = () => {
               <h2>Current Exams</h2>
             </div>
 
-            <div className="current-exams">
-              <CurrentExam subject="Backend Development" currentStatus="68%" />
-              <CurrentExam subject="Programming" currentStatus="81%" />
-              <CurrentExam subject="Business English" currentStatus="37%" />
-              <CurrentExam subject="Programming" currentStatus="81%" />
-              <CurrentExam subject="Multimedia" currentStatus="43%" />
-            </div>
+            <div className="current-exams">{exams}</div>
 
             <div className="exams__toggle-archive">
               <button
@@ -56,9 +75,9 @@ const Exams = () => {
 
             <div className={isArchiveOpen ? "show" : "close"}>
               <div className="archive-exams">
-                <CurrentExam subject="Computer Networks" currentStatus="67%" />
+                {/* <CurrentExam subject="Computer Networks" currentStatus="67%" />
                 <CurrentExam subject="Math Statistics" currentStatus="98%" />
-                <CurrentExam subject="Multimedia" currentStatus="43%" />
+                <CurrentExam subject="Multimedia" currentStatus="43%" /> */}
               </div>
             </div>
           </div>
