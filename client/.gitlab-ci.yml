@@ -21,6 +21,8 @@ npm:client:
     - npm ci
   except:
     - /^back-feature.*$/
+    # TODO: change when testing in client:
+    - /^front-feature.*$/
 
 lint client:
   stage: lint
