@@ -12,7 +12,6 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 // components ----------------
 import CurrentExam from "../../components/current-exam/CurrentExam"
 import { Link } from "react-router-dom"
-import ExamDetails from "../../components/current-exam/ExamDetails"
 
 const Exams = () => {
   // state & queries ----------------

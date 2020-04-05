@@ -1,37 +1,46 @@
 import React from "react"
 import { Redirect, useHistory } from "react-router-dom"
-// onClick={() => history.goBack()
+// --------------------------------------------------------------
+
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
+import { gql } from "apollo-boost"
+import { Query } from "react-apollo"
+
+// sub-components ----------------
+import Button from "../button/Button"
+
+// mapping query on client side ----------------
+// const GET_EXAM_QUERY = gql`
+//   query($id: ID!) {
+//     exams(id: $id) {
+//       id
+//       subject
+//       examDate
+//       startDate
+//       numberPages
+//       timePerPage
+//       currentPage
+//       notes
+//       pdfLink
+//       completed
+//     }
+//   }
+// `
 
 const ExamDetails = props => {
-  //   const { data, loading, error } = useQuery(GET_EXAM_QUERY)
-  const examId = props.location.state.id
+  // get examId from props ----------------
+  let { examId } = props.location.state
+  let history = useHistory()
 
-  // variables ----------------
-  let exam = []
-
-  //   var root = {
-  //     exams: examId => {
-  //       exam.push({
-  //         id: examId.id,
-  //         subject: examId.subject,
-  //         examDate: examId.examDate,
-  //         startDate: examId.startDate,
-  //         numberPages: examId.numberPages,
-  //         timePerPage: examId.timePerPage,
-  //         timesRepeat: examId.timesRepeat,
-  //         currentPage: examId.currentPage,
-  //         pdfLink: examId.pdfLink,
-  //       })
-  //     },
-  //   }
-
-  console.log(exam)
+  // query ----------------
+  //   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+  //     variables: { id: examId },
+  //   })
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -39,8 +48,12 @@ const ExamDetails = props => {
     return <Redirect to="/login" />
   }
 
-  //   if (loading) return <p className="loading">loading...</p>
-  //   if (error) return <p>error...exam details</p>
+  //   if (loading) return <p>loading...</p>
+  //   if (error) return <p>error...</p>
+
+  //   if (data && data.exams) {
+  //     console.log(data.exams)
+  //   }
 
   return (
     <div className="exam-details">
@@ -48,11 +61,64 @@ const ExamDetails = props => {
         <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10">
+            <Button
+              variant="button"
+              onClick={() => {
+                history.goBack()
+              }}
+              className="exam-details__back-btn"
+            />
             <div className="exam-details__headline">
-              <h2>Subject</h2>
+              <h2>Computer Networks</h2>
             </div>
 
-            <div className="exam-details__inner box-content"></div>
+            <div className="exam-details__inner box-content">
+              <div className="exam-details__inner--bar">
+                <div className="exam-details__inner--bar--headline">
+                  <h3>Exam details</h3>
+                </div>
+                <div className="exam-details__inner--bar--edit">
+                  <a href="">edit</a>
+                </div>
+              </div>
+
+              <div className="exam-details__inner--details">
+                <div className="col-md-4">
+                  <div className="exam-details__inner--details--left">
+                    <h4>Exam date</h4>
+                    <p>30.02.2020</p>
+
+                    <h4>Start learning on</h4>
+                    <p>17.01.2020</p>
+
+                    <h4>Amount of pages</h4>
+                    <p>890</p>
+
+                    <h4>Time per pages</h4>
+                    <p>7 min</p>
+
+                    <h4>Repeat</h4>
+                    <p>1 time</p>
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="exam-details__inner--details-right"></div>
+                </div>
+
+                <div className="col-md-10">
+                  <div className="exam-details__inner--bottom">
+                    <h4>Notes</h4>
+
+                    <p>
+                      Chapter 3 is the most important one, we do not need to
+                      study chapter 1; including calculation tasks; draw graphs;
+                      different colored pens for exam needed
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="col-md-1"></div>
         </div>
