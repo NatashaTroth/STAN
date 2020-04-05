@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 let mongod;
 
 async function setup({ isAuth, userId }) {
-  console.log("IN SETUP");
+  // console.log("IN SETUP");
   let server;
 
   try {
@@ -45,7 +45,7 @@ async function setup({ isAuth, userId }) {
 }
 
 async function teardown() {
-  console.log("IN TEARDOWN");
+  // console.log("IN TEARDOWN");
   await mongod.stop();
 }
 

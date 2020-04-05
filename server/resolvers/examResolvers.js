@@ -12,14 +12,17 @@ import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 
 import { ApolloError } from "apollo-server";
-import { handleResolverError } from "../helpers/errorHandling";
+import {
+  handleResolverError,
+  handleAuthentication
+} from "../helpers/resolvers";
 
 //TODO: Authentication
 const examResolvers = {
   Query: {
     exams: async (root, args, context, info) => {
       try {
-        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        handleAuthentication(context.userInfo);
         const resp = await Exam.find({
           userId: context.userInfo.userId
         });
@@ -30,9 +33,8 @@ const examResolvers = {
       }
     },
     exam: async (root, args, context, info) => {
-      console.log("IN EXAM");
       try {
-        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        handleAuthentication(context.userInfo);
         const resp = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -45,20 +47,19 @@ const examResolvers = {
     },
     todaysChunks: async (root, args, context, info) => {
       try {
-        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
-        //fetch exams from userid that are not completed
+        handleAuthentication(context.userInfo);
+
         const exams = await Exam.find({
           userId: context.userInfo.userId,
           completed: false
         });
 
-        // console.log(exams);
         const currentExams = exams.filter(exam => {
           // return true;
           return startDateIsActive(new Date(exam.startDate));
         });
-        console.log("In TODAYSCHUNKS");
-        console.log();
+        // console.log("In TODAYSCHUNKS");
+        // console.log();
         const chunks = currentExams.map(exam => {
           const daysLeft = getNumberOfDays(new Date(), exam.examDate);
           const numberPagesToday = numberOfPagesForChunk({
@@ -95,15 +96,14 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+      console.log(context.userInfo.isAuth);
+      handleAuthentication(context.userInfo);
       try {
-        console.log(args.examDate);
         verifyUserInputFormat(args);
         if (!args.startDate || args.startDate.length <= 0) {
           args.startDate = new Date();
         }
 
-        console.log("in if");
         args.examDate = new Date(args.examDate);
         if (!datesTimingIsValid(args.startDate, args.examDate))
           throw new ApolloError(
@@ -139,7 +139,7 @@ const examResolvers = {
       try {
         // console.log(args.page);
 
-        if (!context.userInfo.isAuth) throw new Error("Unauthorised");
+        handleAuthentication(context.userInfo);
         const exam = await Exam.findOne({
           _id: args.examId,
           userId: context.userInfo.userId
@@ -171,7 +171,7 @@ const examResolvers = {
     description: "Custom description for the date scalar",
     parseValue(value) {
       //TODO: not sure if this is good for examDate
-      console.log("in parse date");
+      // console.log("in parse date");
       if (!value || value.length <= 0) return new Date();
       return new Date(value); // value from the client
     },

@@ -9,3 +9,8 @@ export function handleResolverError(err) {
     throw new AuthenticationError(err.message);
   throw err;
 }
+
+export function handleAuthentication(userInfo) {
+  console.log(userInfo.isAuth);
+  if (!userInfo.isAuth) throw new AuthenticationError("Unauthorised");
+}

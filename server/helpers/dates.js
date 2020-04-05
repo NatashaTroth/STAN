@@ -34,7 +34,7 @@ export function getNumberOfDays(startDate, examDate) {
 
 function datesAreNotPast(dates) {
   for (let i = 0; i < dates.length; i++) {
-    console.log(dates[i]);
+    // console.log(dates[i]);
 
     //if today is after the date, then it is in the past
     if (dayjs(dates[i]).isBefore(dayjs()) && !isToday(dates[i])) {

@@ -18,7 +18,10 @@ import {
   verifyMascot
 } from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-import { handleResolverError } from "../helpers/errorHandling";
+import {
+  handleResolverError,
+  handleAuthentication
+} from "../helpers/resolvers";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -56,7 +59,7 @@ const userResolvers = {
   Mutation: {
     logout: (root, args, { req, res, userInfo }, info) => {
       try {
-        if (!userInfo.isAuth) throw new Error("Unauthorised");
+        handleAuthentication(userInfo);
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
         const resp = revokeRefreshTokensForUser(userInfo.userId);
@@ -67,7 +70,8 @@ const userResolvers = {
       return true;
     },
     login: async (parent, { email, password }, context) => {
-      if (context.userInfo.isAuth) throw new Error("Already logged in");
+      if (context.userInfo.isAuth)
+        throw new AuthenticationError("Already logged in");
       try {
         verifyUserInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
@@ -79,7 +83,8 @@ const userResolvers = {
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
       // console.log(JSON.stringify(context));
-      if (context.userInfo.isAuth) throw new Error("Already logged in");
+      if (context.userInfo.isAuth)
+        throw new AuthenticationError("Already logged in");
 
       try {
         // console.log("googlog: " + googleLogin);
@@ -119,7 +124,7 @@ const userResolvers = {
 
     updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
       try {
-        if (!userInfo.isAuth) throw new Error("Unauthorised");
+        handleAuthentication(userInfo);
         verifyUserInputFormat({ mascot: mascot.toString() });
         //TODO: check, already done in isAuth
         const user = await User.findOne({ _id: userInfo.userId });
