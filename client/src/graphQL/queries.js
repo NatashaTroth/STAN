@@ -31,7 +31,7 @@ export const GET_EXAMS_QUERY = gql`
 
 export const GET_EXAM_QUERY = gql`
   query($id: ID!) {
-    exams(id: $id) {
+    exam(id: $id) {
       id
       subject
       examDate
@@ -55,7 +55,7 @@ export const GET_TODAYS_CHUNKS = gql`
         examDate
         startDate
         numberPages
-        timePerPage
+        # timePerPage
         timesRepeat
         currentPage
         pdfLink
@@ -64,7 +64,7 @@ export const GET_TODAYS_CHUNKS = gql`
       duration
       daysLeft
       totalNumberDays
-      totalChunks
+      # totalChunks
       numberPagesWithRepeat
       notEnoughTime
     }

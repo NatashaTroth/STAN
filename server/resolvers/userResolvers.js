@@ -1,42 +1,24 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 //TODO: RAFACTOR
-const { User } = require("../models");
-const {
+import { User } from "../models";
+import {
   UserInputError,
   AuthenticationError,
   ApolloError
-} = require("apollo-server");
-const {
-  createAccessToken,
-  createRefreshToken
-} = require("../authenticationTokens");
-const { sendRefreshToken } = require("../authenticationTokens");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { OAuth2Client } = require("google-auth-library");
-const {
+} from "apollo-server";
+import { createAccessToken, createRefreshToken } from "../authenticationTokens";
+import { sendRefreshToken } from "../authenticationTokens";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+import {
   verifyUsername,
   verifyEmail,
   verifyPassword,
   verifyMascot
-} = require("../helpers/verifyUserInput");
-// import { User } from "../models";
-// import {
-//   UserInputError,
-//   AuthenticationError,
-//   ApolloError
-// } from "apollo-server";
-// import { createAccessToken, createRefreshToken } from "../authenticationTokens";
-// import { sendRefreshToken } from "../authenticationTokens";
-// import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-// import { OAuth2Client } from "google-auth-library";
-// import {
-//   verifyUsername,
-//   verifyEmail,
-//   verifyPassword
-// } from "../helpers/verifyUserInput";
+} from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+import { handleResolverError } from "../helpers/errorHandling";
 
 //TODO: Authenticate Queries
 const userResolvers = {
@@ -67,7 +49,6 @@ const userResolvers = {
           throw new AuthenticationError("Wrong token version");
         return user;
       } catch (err) {
-        console.error(err.message);
         return null;
       }
     }
@@ -93,13 +74,7 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user: user, accessToken: accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
@@ -121,13 +96,7 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user, accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     googleLogin: async (parent, { idToken }, context) => {
@@ -144,13 +113,7 @@ const userResolvers = {
         const accessToken = logUserIn({ user, context });
         return { user, accessToken, tokenExpiration: 15 };
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
 
@@ -175,13 +138,7 @@ const userResolvers = {
         const updatedUser = await User.findOne({ _id: userInfo.userId });
         return { successful: true, user: updatedUser };
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     }
   }
@@ -255,13 +212,7 @@ async function revokeRefreshTokensForUser(userId) {
     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
     return true;
   } catch (err) {
-    if (
-      err.extensions &&
-      err.extensions.code &&
-      err.extensions.code !== "UNAUTHENTICATED"
-    )
-      throw new Error(err.message);
-    throw err;
+    handleResolverError(err);
   }
 }
 

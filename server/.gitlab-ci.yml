@@ -28,7 +28,7 @@ npm:server:
   except:
     - /^front-feature.*$/
 
-lint server:
+lint:server:
   stage: lint
   tags:
     - node
@@ -52,7 +52,7 @@ lint server:
 #     - merge_requests
 #     - /^back-feature.*$/
 
-unit testing server:
+unit-testing:server:
   stage: test
   tags:
     - node
@@ -63,7 +63,7 @@ unit testing server:
   except:
     - /^front-feature.*$/
 
-integration testing server:
+integration-testing:server:
   stage: test
   tags:
     - node
@@ -77,7 +77,6 @@ integration testing server:
   except:
     - /^front-feature.*$/
 
-#always deploy on server
 staging:server:
   stage: staging server
   tags:
@@ -92,4 +91,22 @@ staging:server:
   dependencies:
     - staging:client
   only:
+    - development
+
+deployment:server:
+  stage: deployment server
+  tags:
+    - node
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd server/
+    - dpl --provider=heroku --app=$HEROKU_APP_DEPLOYMENT --api-key=$HEROKU_API_KEY --skip-cleanup
+  dependencies:
+    - deployment:client
+  only:
+    #TODO: CHANGE AFTER TESTED
+    # - master
     - development

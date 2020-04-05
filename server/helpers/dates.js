@@ -1,6 +1,5 @@
-// const dayjs = require("dayjs");
 import dayjs from "dayjs";
-const relativeTime = require("dayjs/plugin/relativeTime");
+import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 export function datesTimingIsValid(startDate, examDate) {
