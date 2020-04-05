@@ -15,6 +15,7 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
+import ExamDetails from "../current-exam/ExamDetails"
 
 const Content = () => {
   // return ----------------
@@ -30,6 +31,7 @@ const Content = () => {
         <Route exact path="/add-new" component={AddNew} />
         <Route exact path="/calendar" component={Calendar} />
         <Route exact path="/exams" component={Exams} />
+        <Route path="/:subject" render={props => <ExamDetails {...props} />} />
         <Route exact path="/profile" component={UserAccount} />
 
         <Route exact path="/imprint" component={Imprint} />

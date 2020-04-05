@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Redirect } from "react-router"
+import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -11,6 +11,8 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
 import CurrentExam from "../../components/current-exam/CurrentExam"
+import { Link } from "react-router-dom"
+import ExamDetails from "../../components/current-exam/ExamDetails"
 
 const Exams = () => {
   // state & queries ----------------
@@ -56,12 +58,19 @@ const Exams = () => {
   currentExamsList = currentExams.map(function(exam) {
     return (
       <div key={exam.id}>
-        <CurrentExam
-          subject={exam.subject}
-          currentStatus={Math.round(
-            (100 * exam.currentPage) / exam.numberPages
-          )}
-        />
+        <Link
+          to={{
+            pathname: `/exams/${exam.subject.toLowerCase()}`,
+            state: { examId: exam.id },
+          }}
+        >
+          <CurrentExam
+            subject={exam.subject}
+            currentStatus={Math.round(
+              (100 * exam.currentPage) / exam.numberPages
+            )}
+          />
+        </Link>
       </div>
     )
   })
