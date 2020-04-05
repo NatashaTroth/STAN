@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const Button = ({ variant, text, className, onClick }) => {
+const Button = ({ variant, text, className, onClick, disabled }) => {
   // return ----------------
   return (
     <button
@@ -9,6 +9,7 @@ const Button = ({ variant, text, className, onClick }) => {
       variant={variant}
       className={className}
       onClick={onClick}
+      disabled={disabled}
     >
       {text}
     </button>

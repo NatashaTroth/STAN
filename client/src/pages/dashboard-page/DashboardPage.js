@@ -18,7 +18,7 @@ function Dashboard() {
   const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // mascot trigger
-  const mascot = window.localStorage.getItem("setMascot")
+  const mascot = window.localStorage.getItem("mascot-event")
   if (mascot === "true") {
     return <Mascots />
   }

@@ -1,16 +1,18 @@
 import React from "react"
-import FullCalendar from "@fullcalendar/react"
-import dayGridPlugin from "@fullcalendar/daygrid"
 // --------------------------------------------------------------
 
-// context
+// context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 import { Redirect } from "react-router"
 
+// libraries ----------------
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+
 // TODO: https://fullcalendar.io/docs/react
 const Calendar = () => {
+  // redirects ----------------
   const currentUser = useCurrentUserValue()
-
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }

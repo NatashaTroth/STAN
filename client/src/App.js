@@ -26,9 +26,8 @@ const App = () => {
   window.addEventListener("storage", e => {
     if (e.key === "logout-event") {
       localStorage.removeItem("logout-event")
-      //TODO: go to login and inform user that logout occurred
-
       RedirectPopup()
+      localStorage.setItem("popup-event", true)
       window.location.replace("/popup")
     }
   })

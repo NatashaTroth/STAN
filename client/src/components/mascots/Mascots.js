@@ -1,9 +1,9 @@
 import React from "react"
-import { useHistory, Redirect } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// mutation & queries
+// mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 
@@ -11,13 +11,14 @@ import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-// components
+// components ----------------
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
 import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
-// sub components
+// sub components ----------------
 import Button from "../button/Button"
+import Image from "../image/Image"
 
 function Mascots() {
   const history = useHistory()
@@ -33,6 +34,7 @@ function Mascots() {
     handleMascot({ data, updateMascot, history })
   }
 
+  // functions ----------------
   const handleMascotCallback = id => {
     mascotStore.mascot = id
   }
@@ -64,14 +66,14 @@ function Mascots() {
                   useKeyboardArrows={true}
                   onChange={handleMascotCallback}
                 >
-                  <img src={VeryHappyMascot} alt="a very happy mascot" />
-                  <img
-                    src={VeryHappyGirlyMascot}
-                    alt="a very happy girly mascot"
+                  <Image path={VeryHappyMascot} text="a very happy mascot" />
+                  <Image
+                    path={VeryHappyGirlyMascot}
+                    text="a very happy girly mascot"
                   />
-                  <img
-                    src={VeryHappyCleverMascot}
-                    alt="a very happy clever mascot"
+                  <Image
+                    path={VeryHappyCleverMascot}
+                    text="a very happy clever mascot"
                   />
                 </Carousel>
 
@@ -108,7 +110,7 @@ async function handleMascot({ data, updateMascot, history }) {
       throw new Error("failed: saved new mascot")
     }
     // redirect
-    window.localStorage.setItem("setMascot", false)
+    window.localStorage.setItem("mascot-event", false)
     history.push("/")
     window.location.reload()
   } catch (err) {
