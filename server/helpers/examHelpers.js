@@ -1,12 +1,12 @@
 import {
-  verifySubject,
-  verifyExamDate,
-  verifyStudyStartDate,
-  verifyPageAmount,
-  verifyPageTime,
-  verifyPageRepeat,
-  verifyCurrentPage,
-  verifyPageNotes
+  verifyRegexSubject,
+  verifyRegexExamDate,
+  verifyRegexStudyStartDate,
+  verifyRegexPageAmount,
+  verifyRegexPageTime,
+  verifyRegexPageRepeat,
+  verifyRegexCurrentPage,
+  verifyRegexPageNotes
 } from "../helpers/verifyUserInput";
 import { AuthenticationError } from "apollo-server";
 
@@ -29,16 +29,16 @@ export function verifyUserInputFormat({
     startOnlyDate = new Date(startDate).toLocaleDateString();
 
   //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
-  if (typeof subject !== "undefined" && !verifySubject(subject))
+  if (typeof subject !== "undefined" && !verifyRegexSubject(subject))
     throw new AuthenticationError("Subject input has the wrong format");
 
-  if (typeof examDate !== "undefined" && !verifyExamDate(examOnlyDate))
+  if (typeof examDate !== "undefined" && !verifyRegexExamDate(examOnlyDate))
     throw new AuthenticationError("Exam date input has the wrong format");
 
   if (
     typeof startDate !== "undefined" &&
     startDate != null &&
-    !verifyStudyStartDate(startOnlyDate)
+    !verifyRegexStudyStartDate(startOnlyDate)
   )
     throw new AuthenticationError(
       "Study start date input has the wrong format"
@@ -46,31 +46,35 @@ export function verifyUserInputFormat({
 
   if (
     typeof numberPages !== "undefined" &&
-    !verifyPageAmount(numberPages.toString())
+    !verifyRegexPageAmount(numberPages.toString())
   )
     throw new AuthenticationError("Number of pages input has the wrong format");
 
   if (
     typeof timePerPage !== "undefined" &&
     timePerPage != null &&
-    !verifyPageTime(timePerPage.toString())
+    !verifyRegexPageTime(timePerPage.toString())
   )
     throw new AuthenticationError("Time per page input has the wrong format");
 
   if (
     typeof timesRepeat !== "undefined" &&
     timesRepeat != null &&
-    !verifyPageRepeat(timesRepeat.toString())
+    !verifyRegexPageRepeat(timesRepeat.toString())
   )
     throw new AuthenticationError("Times to repeat input has the wrong format");
 
   if (
     typeof currentPage !== "undefined" &&
     currentPage != null &&
-    !verifyCurrentPage(currentPage.toString())
+    !verifyRegexCurrentPage(currentPage.toString())
   )
     throw new AuthenticationError("Current page input has the wrong format");
 
-  if (typeof notes !== "undefined" && notes != null && !verifyPageNotes(notes))
+  if (
+    typeof notes !== "undefined" &&
+    notes != null &&
+    !verifyRegexPageNotes(notes)
+  )
     throw new AuthenticationError("Notes input has the wrong format");
 }

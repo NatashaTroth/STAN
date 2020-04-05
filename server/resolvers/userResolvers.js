@@ -12,10 +12,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import {
-  verifyUsername,
-  verifyEmail,
-  verifyPassword,
-  verifyMascot
+  verifyRegexEmail,
+  verifyRegexUsername,
+  verifyRegexPassword,
+  verifyRegexMascot
 } from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import {
@@ -88,7 +88,7 @@ const userResolvers = {
 
       try {
         // console.log("googlog: " + googleLogin);
-        // console.log(verifyUsername(username));
+        // console.log(verifyRegexUsername(username));
         verifyUserInputFormat({ username, email, password });
         // console.log("hiii " + username);
         const user = await signUserUp({
@@ -236,13 +236,13 @@ async function verifyGoogleIdToken(token) {
 
 function verifyUserInputFormat({ username, email, password, mascot }) {
   // console.log(username);
-  if (typeof username !== "undefined" && !verifyUsername(username))
+  if (typeof username !== "undefined" && !verifyRegexUsername(username))
     throw new AuthenticationError("Username input has the wrong format");
-  if (typeof email !== "undefined" && !verifyEmail(email))
+  if (typeof email !== "undefined" && !verifyRegexEmail(email))
     throw new AuthenticationError("Email input has the wrong format");
-  if (typeof password !== "undefined" && !verifyPassword(password))
+  if (typeof password !== "undefined" && !verifyRegexPassword(password))
     throw new AuthenticationError("Password input has the wrong format");
-  if (typeof mascot !== "undefined" && !verifyMascot(mascot))
+  if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
     throw new AuthenticationError("Mascot input has the wrong format");
 }
 

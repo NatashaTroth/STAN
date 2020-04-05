@@ -45,7 +45,7 @@ async function setup({ isAuth, userId }) {
 }
 
 async function teardown() {
-  // console.log("IN TEARDOWN");
+  console.log("IN TEARDOWN");
   await mongod.stop();
 }
 

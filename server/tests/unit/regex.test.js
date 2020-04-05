@@ -1,140 +1,140 @@
 const {
-  verifyEmail,
-  verifyUsername,
-  verifyPassword,
-  verifyMascot,
-  verifySubject,
-  verifyExamDate,
-  verifyStudyStartDate,
-  verifyPageAmount,
-  verifyPageTime,
-  verifyPageRepeat,
-  verifyCurrentPage,
-  verifyPageNotes
+  verifyRegexEmail,
+  verifyRegexUsername,
+  verifyRegexPassword,
+  verifyRegexMascot,
+  verifyRegexSubject,
+  verifyRegexExamDate,
+  verifyRegexStudyStartDate,
+  verifyRegexPageAmount,
+  verifyRegexPageTime,
+  verifyRegexPageRepeat,
+  verifyRegexCurrentPage,
+  verifyRegexPageNotes
 } = require("../../helpers/verifyUserInput");
 
 test("verifies string is formatted as an email", () => {
-  expect(verifyEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();
-  expect(verifyEmail("n@f.at")).toBeTruthy();
-  expect(verifyEmail("123.-3@d.at")).toBeTruthy();
-  expect(verifyEmail("very.common@example.com")).toBeTruthy();
+  expect(verifyRegexEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();
+  expect(verifyRegexEmail("n@f.at")).toBeTruthy();
+  expect(verifyRegexEmail("123.-3@d.at")).toBeTruthy();
+  expect(verifyRegexEmail("very.common@example.com")).toBeTruthy();
   expect(
-    verifyEmail("disposable.style.email.with+symbol@example.com")
+    verifyRegexEmail("disposable.style.email.with+symbol@example.com")
   ).toBeTruthy();
-  expect(verifyEmail("other.email-with-hyphen@example.com")).toBeTruthy();
-  expect(verifyEmail("fully-qualified-domain@example.com")).toBeTruthy();
-  expect(verifyEmail("user.name+tag+sorting@example.com")).toBeTruthy();
-  expect(verifyEmail("example-indeed@strange-example.com")).toBeTruthy();
-  expect(verifyEmail("example@s.example")).toBeTruthy();
-  expect(verifyEmail('" "@example.org')).toBeTruthy();
-  expect(verifyEmail('"john..doe"@example.org')).toBeTruthy();
-  expect(verifyEmail("mailhost!username@example.org")).toBeTruthy();
-  expect(verifyEmail("user%example.com@example.org")).toBeTruthy();
-  expect(verifyEmail("a".repeat(64) + "@example.com")).toBeTruthy();
+  expect(verifyRegexEmail("other.email-with-hyphen@example.com")).toBeTruthy();
+  expect(verifyRegexEmail("fully-qualified-domain@example.com")).toBeTruthy();
+  expect(verifyRegexEmail("user.name+tag+sorting@example.com")).toBeTruthy();
+  expect(verifyRegexEmail("example-indeed@strange-example.com")).toBeTruthy();
+  expect(verifyRegexEmail("example@s.example")).toBeTruthy();
+  expect(verifyRegexEmail('" "@example.org')).toBeTruthy();
+  expect(verifyRegexEmail('"john..doe"@example.org')).toBeTruthy();
+  expect(verifyRegexEmail("mailhost!username@example.org")).toBeTruthy();
+  expect(verifyRegexEmail("user%example.com@example.org")).toBeTruthy();
+  expect(verifyRegexEmail("a".repeat(64) + "@example.com")).toBeTruthy();
   expect(
-    verifyEmail("a".repeat(64) + "@" + "a".repeat(251) + ".com")
+    verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(251) + ".com")
   ).toBeTruthy();
 
-  expect(verifyEmail("@fh-salzburg.ac.at")).toBeFalsy();
-  expect(verifyEmail("Abc.example.com")).toBeFalsy();
-  expect(verifyEmail("A@b@c@example.com")).toBeFalsy();
-  expect(verifyEmail('a"b(c)d,e:f;g<h>i[jk]l@example.com')).toBeFalsy();
-  // expect(verifyEmail('just"not"right@example.com')).toBeFalsy();
-  // expect(verifyEmail('this is"notallowed@example.com')).toBeFalsy();
-  expect(verifyEmail('this still"not\\allowed@example.com')).toBeFalsy();
-  expect(verifyEmail("")).toBeFalsy();
-  expect(verifyEmail("b".repeat(65) + "@example.com")).toBeFalsy();
+  expect(verifyRegexEmail("@fh-salzburg.ac.at")).toBeFalsy();
+  expect(verifyRegexEmail("Abc.example.com")).toBeFalsy();
+  expect(verifyRegexEmail("A@b@c@example.com")).toBeFalsy();
+  expect(verifyRegexEmail('a"b(c)d,e:f;g<h>i[jk]l@example.com')).toBeFalsy();
+  // expect(verifyRegexEmail('just"not"right@example.com')).toBeFalsy();
+  // expect(verifyRegexEmail('this is"notallowed@example.com')).toBeFalsy();
+  expect(verifyRegexEmail('this still"not\\allowed@example.com')).toBeFalsy();
+  expect(verifyRegexEmail("")).toBeFalsy();
+  expect(verifyRegexEmail("b".repeat(65) + "@example.com")).toBeFalsy();
   expect(
-    verifyEmail("a".repeat(64) + "@" + "a".repeat(252) + ".com")
+    verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(252) + ".com")
   ).toBeFalsy();
 });
 
 test("verifies string is formatted as a username", () => {
-  testVariousChars(verifyUsername);
-  expect(verifyUsername("%")).toBeTruthy();
-  expect(verifyUsername("c".repeat(30))).toBeTruthy();
+  testVariousChars(verifyRegexUsername);
+  expect(verifyRegexUsername("%")).toBeTruthy();
+  expect(verifyRegexUsername("c".repeat(30))).toBeTruthy();
 
-  expect(verifyUsername("d".repeat(31))).toBeFalsy();
-  expect(verifyUsername("")).toBeFalsy();
+  expect(verifyRegexUsername("d".repeat(31))).toBeFalsy();
+  expect(verifyRegexUsername("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a password", () => {
-  testVariousChars(verifyPassword);
-  expect(verifyPassword("e".repeat(30))).toBeTruthy();
+  testVariousChars(verifyRegexPassword);
+  expect(verifyRegexPassword("e".repeat(30))).toBeTruthy();
 
-  expect(verifyPassword("f".repeat(31))).toBeFalsy();
-  expect(verifyPassword("g".repeat(7))).toBeFalsy();
-  expect(verifyPassword("")).toBeFalsy();
+  expect(verifyRegexPassword("f".repeat(31))).toBeFalsy();
+  expect(verifyRegexPassword("g".repeat(7))).toBeFalsy();
+  expect(verifyRegexPassword("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a mascot", () => {
-  expect(verifyMascot("0")).toBeTruthy();
-  expect(verifyMascot("1")).toBeTruthy();
-  expect(verifyMascot("2")).toBeTruthy();
+  expect(verifyRegexMascot("0")).toBeTruthy();
+  expect(verifyRegexMascot("1")).toBeTruthy();
+  expect(verifyRegexMascot("2")).toBeTruthy();
 
-  expect(verifyMascot("e".repeat(30))).toBeFalsy();
-  expect(verifyMascot("g")).toBeFalsy();
-  expect(verifyMascot("")).toBeFalsy();
+  expect(verifyRegexMascot("e".repeat(30))).toBeFalsy();
+  expect(verifyRegexMascot("g")).toBeFalsy();
+  expect(verifyRegexMascot("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a subject", () => {
-  testVariousChars(verifySubject);
-  expect(verifySubject("Maths")).toBeTruthy();
-  expect(verifySubject("h".repeat(20))).toBeTruthy();
-  expect(verifySubject("k")).toBeTruthy();
+  testVariousChars(verifyRegexSubject);
+  expect(verifyRegexSubject("Maths")).toBeTruthy();
+  expect(verifyRegexSubject("h".repeat(20))).toBeTruthy();
+  expect(verifyRegexSubject("k")).toBeTruthy();
 
-  expect(verifySubject("i".repeat(21))).toBeFalsy();
-  expect(verifySubject("")).toBeFalsy();
+  expect(verifyRegexSubject("i".repeat(21))).toBeFalsy();
+  expect(verifyRegexSubject("")).toBeFalsy();
 });
 
 test("verifies string is formatted as an exam date", () => {
-  dateTests(verifyExamDate);
-  expect(verifyExamDate("")).toBeFalsy();
+  dateTests(verifyRegexExamDate);
+  expect(verifyRegexExamDate("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a study start date", () => {
-  dateTests(verifyStudyStartDate);
-  expect(verifyStudyStartDate("")).toBeTruthy();
+  dateTests(verifyRegexStudyStartDate);
+  expect(verifyRegexStudyStartDate("")).toBeTruthy();
 });
 
 test("verifies string is formatted as a page amount", () => {
-  testNumbers(verifyPageAmount);
-  expect(verifyPageAmount("1".repeat(10000))).toBeTruthy();
+  testNumbers(verifyRegexPageAmount);
+  expect(verifyRegexPageAmount("1".repeat(10000))).toBeTruthy();
 
-  expect(verifyPageAmount("1".repeat(10001))).toBeFalsy();
-  expect(verifyPageAmount("")).toBeFalsy();
+  expect(verifyRegexPageAmount("1".repeat(10001))).toBeFalsy();
+  expect(verifyRegexPageAmount("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a page time", () => {
-  testNumbers(verifyPageTime);
-  expect(verifyPageTime("1".repeat(600))).toBeTruthy();
+  testNumbers(verifyRegexPageTime);
+  expect(verifyRegexPageTime("1".repeat(600))).toBeTruthy();
 
-  expect(verifyPageTime("1".repeat(601))).toBeFalsy();
-  expect(verifyPageTime("")).toBeFalsy();
+  expect(verifyRegexPageTime("1".repeat(601))).toBeFalsy();
+  expect(verifyRegexPageTime("")).toBeFalsy();
 });
 
 test("verifies string is formatted as a page repeat", () => {
-  testNumbers(verifyPageRepeat);
-  expect(verifyPageRepeat("1".repeat(1000))).toBeTruthy();
-  expect(verifyPageRepeat("")).toBeTruthy();
+  testNumbers(verifyRegexPageRepeat);
+  expect(verifyRegexPageRepeat("1".repeat(1000))).toBeTruthy();
+  expect(verifyRegexPageRepeat("")).toBeTruthy();
 
-  expect(verifyPageRepeat("1".repeat(1001))).toBeFalsy();
+  expect(verifyRegexPageRepeat("1".repeat(1001))).toBeFalsy();
 });
 
 test("verifies string is formatted as a current page", () => {
-  testNumbers(verifyCurrentPage);
-  expect(verifyCurrentPage("1".repeat(10000))).toBeTruthy();
-  expect(verifyCurrentPage("")).toBeTruthy();
+  testNumbers(verifyRegexCurrentPage);
+  expect(verifyRegexCurrentPage("1".repeat(10000))).toBeTruthy();
+  expect(verifyRegexCurrentPage("")).toBeTruthy();
 
-  expect(verifyCurrentPage("1".repeat(10001))).toBeFalsy();
+  expect(verifyRegexCurrentPage("1".repeat(10001))).toBeFalsy();
 });
 
 test("verifies string is formatted as notes", () => {
-  testVariousChars(verifyPageNotes);
-  expect(verifyPageNotes("c".repeat(100000000))).toBeTruthy();
-  expect(verifyPageNotes("")).toBeTruthy();
+  testVariousChars(verifyRegexPageNotes);
+  expect(verifyRegexPageNotes("c".repeat(100000000))).toBeTruthy();
+  expect(verifyRegexPageNotes("")).toBeTruthy();
 
-  expect(verifyPageNotes("d".repeat(100000001))).toBeFalsy();
+  expect(verifyRegexPageNotes("d".repeat(100000001))).toBeFalsy();
 });
 
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
