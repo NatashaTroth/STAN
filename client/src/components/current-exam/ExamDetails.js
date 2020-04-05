@@ -6,7 +6,7 @@ import { Redirect, useHistory } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
-import { GET_EXAM_QUERY } from "../../graphQL/queries"
+// import { GET_EXAM_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 import { gql } from "apollo-boost"
 import { Query } from "react-apollo"
@@ -15,22 +15,22 @@ import { Query } from "react-apollo"
 import Button from "../button/Button"
 
 // mapping query on client side ----------------
-// const GET_EXAM_QUERY = gql`
-//   query($id: ID!) {
-//     exams(id: $id) {
-//       id
-//       subject
-//       examDate
-//       startDate
-//       numberPages
-//       timePerPage
-//       currentPage
-//       notes
-//       pdfLink
-//       completed
-//     }
-//   }
-// `
+const GET_EXAM_QUERY = gql`
+  query($id: ID!) {
+    exam(id: $id) {
+      id
+      subject
+      examDate
+      startDate
+      numberPages
+      timePerPage
+      currentPage
+      notes
+      pdfLink
+      completed
+    }
+  }
+`
 
 const ExamDetails = props => {
   // get examId from props ----------------
@@ -38,9 +38,9 @@ const ExamDetails = props => {
   let history = useHistory()
 
   // query ----------------
-  //   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
-  //     variables: { id: examId },
-  //   })
+  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+    variables: { id: examId },
+  })
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -48,12 +48,10 @@ const ExamDetails = props => {
     return <Redirect to="/login" />
   }
 
-  //   if (loading) return <p>loading...</p>
-  //   if (error) return <p>error...</p>
+  if (loading) return <p>loading...</p>
+  if (error) return <p>error...</p>
 
-  //   if (data && data.exams) {
-  //     console.log(data.exams)
-  //   }
+  console.log(data)
 
   return (
     <div className="exam-details">
