@@ -2,6 +2,7 @@
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
+
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -10,7 +11,7 @@ import {
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 
-import { AuthenticationError, ApolloError } from "apollo-server";
+import { ApolloError } from "apollo-server";
 import { handleResolverError } from "../helpers/errorHandling";
 
 //TODO: Authentication
