@@ -109,6 +109,4 @@ deployment:client:
     - CI=false npm run build
 
   only:
-    #TODO: CHANGE AFTER TESTED
-    # - master
-    - development
+    - master

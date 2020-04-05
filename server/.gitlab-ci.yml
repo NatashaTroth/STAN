@@ -107,6 +107,4 @@ deployment:server:
   dependencies:
     - deployment:client
   only:
-    #TODO: CHANGE AFTER TESTED
-    # - master
-    - development
+    - master
