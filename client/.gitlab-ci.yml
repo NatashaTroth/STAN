@@ -24,7 +24,7 @@ npm:client:
     # TODO: change when testing in client:
     - /^front-feature.*$/
 
-lint client:
+lint:client:
   stage: lint
   tags:
     - node
@@ -91,3 +91,24 @@ staging:client:
 
   only:
     - development
+
+deployment:client:
+  stage: deployment client
+  artifacts:
+    paths:
+      - server/public/
+    expire_in: 1 week
+  tags:
+    - node
+  script:
+    - rm -rf server/public
+    - mkdir server/public
+    - cd client/
+
+    # #TODO: remove CI=false - so it treats warnings as errors again
+    - CI=false npm run build
+
+  only:
+    #TODO: CHANGE AFTER TESTED
+    # - master
+    - /^back-feature.*$/
