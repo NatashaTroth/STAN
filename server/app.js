@@ -10,7 +10,7 @@ import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
-const path = require("path");
+import path from "path";
 
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
