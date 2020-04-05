@@ -173,6 +173,7 @@ function SignUp() {
                 buttonText="Login"
                 render={renderProps => (
                   <button
+                    type="button"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     className="stan-btn-secondary"
@@ -187,6 +188,7 @@ function SignUp() {
             </div>
             <div className="login__form__buttons__button-left">
               <Button
+                type="submit"
                 variant="button"
                 text="Sign up"
                 className="stan-btn-primary"
