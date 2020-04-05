@@ -31,7 +31,7 @@ export const GET_EXAMS_QUERY = gql`
 
 export const GET_EXAM_QUERY = gql`
   query($id: ID!) {
-    exams(id: $id) {
+    exam(id: $id) {
       id
       subject
       examDate

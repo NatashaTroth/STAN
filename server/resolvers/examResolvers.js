@@ -30,6 +30,7 @@ const examResolvers = {
       }
     },
     exam: async (root, args, context, info) => {
+      console.log("IN EXAM");
       try {
         if (!context.userInfo.isAuth) throw new Error("Unauthorised");
         const resp = await Exam.findOne({
