@@ -6,37 +6,19 @@ import { Redirect, useHistory } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
-// import { GET_EXAM_QUERY } from "../../graphQL/queries"
+import { GET_EXAM_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
-import { gql } from "apollo-boost"
-import { Query } from "react-apollo"
 
 // sub-components ----------------
 import Button from "../button/Button"
-
-// mapping query on client side ----------------
-const GET_EXAM_QUERY = gql`
-  query($id: ID!) {
-    exam(id: $id) {
-      id
-      subject
-      examDate
-      startDate
-      numberPages
-      timePerPage
-      currentPage
-      notes
-      pdfLink
-      completed
-    }
-  }
-`
 
 const ExamDetails = props => {
   // get examId from props ----------------
   let { examId } = props.location.state
   let history = useHistory()
 
+  // variables ----------------
+  let examDetails
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
@@ -48,10 +30,20 @@ const ExamDetails = props => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p>loading...</p>
+  if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...</p>
-
-  console.log(data)
+  if (data) {
+    examDetails = {
+      subject: data.exam.subject,
+      examDate: data.exam.examDate,
+      startDate: data.exam.startDate,
+      numberPages: data.exam.numberPages,
+      timePerPage: data.exam.timePerPage,
+      currentPage: data.exam.currentPage,
+      notes: data.exam.notes,
+      pdfLink: data.exam.pdfLink,
+    }
+  }
 
   return (
     <div className="exam-details">
@@ -59,15 +51,15 @@ const ExamDetails = props => {
         <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10">
-            <Button
-              variant="button"
-              onClick={() => {
-                history.goBack()
-              }}
-              className="exam-details__back-btn"
-            />
             <div className="exam-details__headline">
-              <h2>Computer Networks</h2>
+              <h2>{examDetails.subject}</h2>
+              <Button
+                variant="button"
+                onClick={() => {
+                  history.goBack()
+                }}
+                className="exam-details__headline--back-btn"
+              />
             </div>
 
             <div className="exam-details__inner box-content">
@@ -78,22 +70,23 @@ const ExamDetails = props => {
                 <div className="exam-details__inner--bar--edit">
                   <a href="">edit</a>
                 </div>
+                <span className="line"></span>
               </div>
 
               <div className="exam-details__inner--details">
                 <div className="col-md-4">
                   <div className="exam-details__inner--details--left">
                     <h4>Exam date</h4>
-                    <p>30.02.2020</p>
+                    <p>{examDetails.examDate}</p>
 
                     <h4>Start learning on</h4>
-                    <p>17.01.2020</p>
+                    <p>{examDetails.startDate}</p>
 
                     <h4>Amount of pages</h4>
-                    <p>890</p>
+                    <p>{examDetails.numberPages}</p>
 
                     <h4>Time per pages</h4>
-                    <p>7 min</p>
+                    <p>{examDetails.timePerPage} min</p>
 
                     <h4>Repeat</h4>
                     <p>1 time</p>
@@ -108,11 +101,11 @@ const ExamDetails = props => {
                   <div className="exam-details__inner--bottom">
                     <h4>Notes</h4>
 
-                    <p>
-                      Chapter 3 is the most important one, we do not need to
-                      study chapter 1; including calculation tasks; draw graphs;
-                      different colored pens for exam needed
-                    </p>
+                    {!examDetails.notes ? (
+                      <p>...</p>
+                    ) : (
+                      <p>{examDetails.notes}</p>
+                    )}
                   </div>
                 </div>
               </div>

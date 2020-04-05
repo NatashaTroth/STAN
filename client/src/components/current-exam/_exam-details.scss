@@ -1,39 +1,51 @@
 .exam-details {
-  &__back-btn {
-    position: relative;
-    border: none;
-    width: 50px;
-    height: 50px;
-    box-sizing: border-box;
-    line-height: 50px;
-    display: inline-block;
+  &__headline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 15px;
 
-    &:before,
-    &:after {
-      content: "";
-      position: absolute;
-      transform: rotate(-45deg);
-      margin-top: -50px/2;
-      margin-left: -10px/2;
-      display: block;
-      height: 10px;
+    &--back-btn {
+      position: relative;
+      border: none;
       width: 50px;
-      background-color: theme_color("dark");
-      transition: all 0.25s ease-out;
-    }
-    &:after {
-      transform: rotate(-135deg);
-    }
+      height: 50px;
+      box-sizing: border-box;
+      line-height: 50px;
+      display: inline-block;
+      padding-top: 58px;
 
-    &:hover {
       &:before,
       &:after {
-        transform: rotate(0deg);
+        content: "";
+        position: absolute;
+        transform: rotate(-45deg);
+        margin-top: -50px/2;
+        margin-left: -10px/2;
+        display: block;
+        height: 10px;
+        width: 50px;
+        background-color: theme_color("dark");
+        transition: all 0.25s ease-out;
+
+        @include media-breakpoint-down(md) {
+          height: 4px;
+        }
+        @include media-breakpoint-down(sm) {
+          width: 40px;
+        }
+      }
+      &:after {
+        transform: rotate(-135deg);
+      }
+
+      &:hover {
+        &:before,
+        &:after {
+          transform: rotate(0deg);
+        }
       }
     }
-  }
-  &__headline {
-    padding-bottom: 15px;
   }
 
   &__inner {
@@ -42,7 +54,21 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
+      padding: 18px;
+      position: relative;
+
+      .line {
+        position: absolute;
+        border-bottom: 3px solid theme_color("dark");
+        left: 1%;
+        right: 1%;
+        width: 98%;
+        height: 10px;
+      }
+    }
+
+    &--details {
+      padding: 15px;
     }
   }
 }
