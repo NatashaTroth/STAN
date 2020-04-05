@@ -111,4 +111,4 @@ deployment:client:
   only:
     #TODO: CHANGE AFTER TESTED
     # - master
-    - /^back-feature.*$/
+    - development

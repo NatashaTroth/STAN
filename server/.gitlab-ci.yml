@@ -109,4 +109,4 @@ deployment:server:
   only:
     #TODO: CHANGE AFTER TESTED
     # - master
-    - /^back-feature.*$/
+    - development
