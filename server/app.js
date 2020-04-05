@@ -68,6 +68,11 @@ app.post("/refresh_token", async (req, res) => {
   await handleRefreshToken(req, res);
 });
 
+//TODO: remove /graphql when deployed
+if (process.env.NODE_ENV === "production") {
+  //TODO: PUT STATIC AND CLIENT IN HERE
+}
+
 // app.options("*", cors(corsOptions));
 const apolloServer = new ApolloServer({
   schema,
