@@ -2,7 +2,7 @@
 //TODO: RAFACTOR
 import { User } from "../models";
 import {
-  UserInputError,
+  // UserInputError,
   AuthenticationError,
   ApolloError
 } from "apollo-server";
@@ -23,7 +23,7 @@ import {
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
-const userResolvers = {
+export const userResolvers = {
   Query: {
     //TODO: REMOVE
     users: (root, arg, { req, res, userInfo }, info) => {
@@ -119,8 +119,4 @@ const userResolvers = {
       }
     }
   }
-};
-
-module.exports = {
-  userResolvers
 };
