@@ -12,6 +12,11 @@ import { useQuery } from "@apollo/react-hooks"
 // sub-components ----------------
 import Button from "../button/Button"
 
+const formatDate = string => {
+  let options = { year: "numeric", month: "numeric", day: "numeric" }
+  return new Date(string).toLocaleDateString("en-GB", options)
+}
+
 const ExamDetails = props => {
   // get examId from props ----------------
   let { examId } = props.location.state
@@ -35,8 +40,8 @@ const ExamDetails = props => {
   if (data) {
     examDetails = {
       subject: data.exam.subject,
-      examDate: data.exam.examDate,
-      startDate: data.exam.startDate,
+      examDate: formatDate(data.exam.examDate),
+      startDate: formatDate(data.exam.startDate),
       numberPages: data.exam.numberPages,
       timePerPage: data.exam.timePerPage,
       currentPage: data.exam.currentPage,
