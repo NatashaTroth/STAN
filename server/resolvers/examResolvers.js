@@ -51,7 +51,7 @@ const examResolvers = {
     todaysChunks: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-
+        // fetchCurrentExams(context.userInfo.userId)
         const exams = await Exam.find({
           userId: context.userInfo.userId,
           completed: false
@@ -61,8 +61,7 @@ const examResolvers = {
           // return true;
           return startDateIsActive(new Date(exam.startDate));
         });
-        // console.log("In TODAYSCHUNKS");
-        // console.log();
+
         const chunks = currentExams.map(exam => {
           const daysLeft = getNumberOfDays(new Date(), exam.examDate);
           const numberPagesToday = numberOfPagesForChunk({
@@ -115,7 +114,12 @@ const examResolvers = {
     updateCurrentPage: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-        await handleCurrentPageInput(args.examId, context.UserInfo.userId);
+        const exam = await handleCurrentPageInput(
+          args.page,
+          args.examId,
+          context.userInfo.userId
+        );
+        if (exam.currentPage === args.page) return true;
 
         const resp = await Exam.updateOne(
           { _id: args.examId },

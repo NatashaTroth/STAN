@@ -9,6 +9,8 @@ import {
   verifyRegexPageNotes
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
+import { Exam } from "../models";
+
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -43,18 +45,17 @@ export function verifyExamInput(args) {
     throw new ApolloError("Time per page has to be higher than 0.");
 }
 
-export async function handleCurrentPageInput(examId, userId) {
+export async function handleCurrentPageInput(page, examId, userId) {
   const exam = await Exam.findOne({
-    _id: args.examId,
-    userId: context.userInfo.userId
+    _id: examId,
+    userId: userId
   });
   if (!exam) throw new ApolloError("There is no exam with that id.");
-  //TODO: MAKE SURE PAGE ISN'T HIGHER THAN MAX PAGES
-  if (exam.currentPage === args.page) return true;
-  if (args.page > exam.numberPages * exam.timesRepeat)
+  if (page > exam.numberPages * exam.timesRepeat)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
+  return exam;
 }
 
 function verifyUserInputFormat({
