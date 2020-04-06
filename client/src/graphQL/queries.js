@@ -21,6 +21,7 @@ export const GET_EXAMS_QUERY = gql`
       startDate
       numberPages
       timePerPage
+      timesRepeat
       currentPage
       notes
       pdfLink
@@ -38,6 +39,7 @@ export const GET_EXAM_QUERY = gql`
       startDate
       numberPages
       timePerPage
+      timesRepeat
       currentPage
       notes
       pdfLink
