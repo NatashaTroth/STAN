@@ -1,5 +1,4 @@
-// import { gql } from "apollo-server";
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const userQueries = gql`

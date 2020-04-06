@@ -1,11 +1,7 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-const { Exam } = require("../models");
-const { GraphQLScalarType } = require("graphql");
-const { Kind } = require("graphql/language");
-// const dayjs = require("dayjs");
-// import mongoose from "mongoose";
-// const { ObjectId } = require("mongodb");
-// const ObjectID = require("mongodb").ObjectID;
+import { Exam } from "../models";
+import { GraphQLScalarType } from "graphql";
+import { Kind } from "graphql/language";
 
 import {
   datesTimingIsValid,
@@ -14,10 +10,9 @@ import {
 } from "../helpers/dates";
 import { verifyUserInputFormat } from "../helpers/examHelpers";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-// const { verifyExamDate } = require("../helpers/verifyUserInput");
-const { AuthenticationError, ApolloError } = require("apollo-server");
 
-// const { JsonWebTokenError } = require("jsonwebtoken");
+import { ApolloError } from "apollo-server";
+import { handleResolverError } from "../helpers/errorHandling";
 
 //TODO: Authentication
 const examResolvers = {
@@ -31,16 +26,11 @@ const examResolvers = {
 
         return resp;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     exam: async (root, args, context, info) => {
+      console.log("IN EXAM");
       try {
         if (!context.userInfo.isAuth) throw new Error("Unauthorised");
         const resp = await Exam.findOne({
@@ -50,13 +40,7 @@ const examResolvers = {
 
         return resp;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     },
     todaysChunks: async (root, args, context, info) => {
@@ -91,7 +75,7 @@ const examResolvers = {
             duration,
             daysLeft,
             totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
-            totalChunks: getNumberOfDays(exam.startDate, exam.examDate),
+            // totalChunks: getNumberOfDays(exam.startDate, exam.examDate),
             numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
             notEnoughTime: false //TODO: IMPLEMENT
           };
@@ -105,13 +89,7 @@ const examResolvers = {
 
         // filter out where start date is in the past
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     }
   },
@@ -153,13 +131,7 @@ const examResolvers = {
         });
         if (!resp) throw new ApolloError("Unable to add exam.");
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new ApolloError(err.message);
-        throw err;
+        handleResolverError(err);
       }
       return true;
     },
@@ -190,13 +162,7 @@ const examResolvers = {
         if (resp.nModified === 0) return false;
         return true;
       } catch (err) {
-        if (
-          err.extensions &&
-          err.extensions.code &&
-          err.extensions.code !== "UNAUTHENTICATED"
-        )
-          throw new AuthenticationError(err.message);
-        throw err;
+        handleResolverError(err);
       }
     }
   },
