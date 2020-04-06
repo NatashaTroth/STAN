@@ -45,6 +45,11 @@
           transform: rotate(0deg);
         }
       }
+
+      &:hover,
+      &focus {
+        outline: none;
+      }
     }
   }
 
