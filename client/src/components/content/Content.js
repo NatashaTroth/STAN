@@ -17,6 +17,7 @@ import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamDetails from "../current-exam/ExamDetails"
 
+// transition ----------------
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 const Content = ({ location }) => {
@@ -27,7 +28,7 @@ const Content = ({ location }) => {
         <CSSTransition
           key={location.key}
           timeout={{ enter: 300, exit: 300 }}
-          classNames={"page, fade"}
+          classNames={"fade"}
         >
           <Switch location={location}>
             <Route exact path="/" component={Home} />
