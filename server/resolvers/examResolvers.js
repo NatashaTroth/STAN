@@ -58,7 +58,7 @@ export const examResolvers = {
         verifyExamInput(args, context.userInfo.userId);
         const processedArgs = prepareExamInputData(
           { ...args },
-          context.userInfo
+          context.userInfo.userId
         );
         await Exam.create(processedArgs);
       } catch (err) {
