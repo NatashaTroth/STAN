@@ -8,7 +8,11 @@ import {
   startDateIsActive,
   getNumberOfDays
 } from "../helpers/dates";
-import { prepareExamInputData, verifyExamInput } from "../helpers/examHelpers";
+import {
+  prepareExamInputData,
+  verifyExamInput,
+  handleCurrentPageInput
+} from "../helpers/examHelpers";
 import { deepCopyObject } from "../helpers/generalFunctions";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 
@@ -97,7 +101,7 @@ const examResolvers = {
     addExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-        verifyExamInput(args);
+        verifyExamInput(args, context.userInfo.userId);
         const processedArgs = prepareExamInputData(
           { ...args },
           context.userInfo
@@ -110,23 +114,9 @@ const examResolvers = {
     },
     updateCurrentPage: async (root, args, context, info) => {
       try {
-        // console.log(args.page);
-
         handleAuthentication(context.userInfo);
-        const exam = await Exam.findOne({
-          _id: args.examId,
-          userId: context.userInfo.userId
-        });
-        if (!exam) throw new ApolloError("There is no exam with that id.");
-        //TODO: MAKE SURE PAGE ISN'T HIGHER THAN MAX PAGES
+        await handleCurrentPageInput(args.examId, context.UserInfo.userId);
 
-        if (exam.currentPage === args.page) return true;
-        if (args.page > exam.numberPages * exam.timesRepeat)
-          throw new ApolloError(
-            "The entered current page is higher than the number of pages for this exam."
-          );
-
-        // user.mascot = mascot;
         const resp = await Exam.updateOne(
           { _id: args.examId },
           { currentPage: args.page }

@@ -15,7 +15,7 @@ import {
   getNumberOfDays
 } from "../helpers/dates";
 
-export function prepareExamInputData(args, userInfo) {
+export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
   if (!args.startDate || args.startDate.length <= 0) {
     args.startDate = new Date();
@@ -24,7 +24,7 @@ export function prepareExamInputData(args, userInfo) {
   args.startPage = args.startPage || 0;
   args.currentPage = args.startPage;
   args.completed = args.completed || false;
-  args.userId = userInfo.userId;
+  args.userId = userId;
 
   return args;
 }
@@ -41,6 +41,20 @@ export function verifyExamInput(args) {
   //TODO MOVE TO VERIFY USER INPUT
   if (args.timePerPage <= 0)
     throw new ApolloError("Time per page has to be higher than 0.");
+}
+
+export async function handleCurrentPageInput(examId, userId) {
+  const exam = await Exam.findOne({
+    _id: args.examId,
+    userId: context.userInfo.userId
+  });
+  if (!exam) throw new ApolloError("There is no exam with that id.");
+  //TODO: MAKE SURE PAGE ISN'T HIGHER THAN MAX PAGES
+  if (exam.currentPage === args.page) return true;
+  if (args.page > exam.numberPages * exam.timesRepeat)
+    throw new ApolloError(
+      "The entered current page is higher than the number of pages for this exam."
+    );
 }
 
 function verifyUserInputFormat({
