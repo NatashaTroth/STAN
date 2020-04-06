@@ -59,7 +59,7 @@ const Exams = () => {
       <div key={exam.id}>
         <Link
           to={{
-            pathname: `/exams/${exam.subject.toLowerCase()}`,
+            pathname: `/exams/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
             state: { examId: exam.id },
           }}
         >
@@ -102,7 +102,7 @@ const Exams = () => {
               <h2>Current Exams</h2>
             </div>
 
-            <div className="current-exams">{currentExamsList}</div>
+            <div className="exams__current-exams">{currentExamsList}</div>
 
             <div className="exams__toggle-archive">
               <button
@@ -116,7 +116,7 @@ const Exams = () => {
             </div>
 
             <div className={isArchiveOpen ? "show" : "close"}>
-              <div className="archive-exams">{archiveExamsList}</div>
+              <div className="exams__archive-exams">{archiveExamsList}</div>
             </div>
           </div>
           <div className="col-md-1"></div>
