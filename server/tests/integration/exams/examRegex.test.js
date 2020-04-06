@@ -19,70 +19,33 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
+  //TODO: PUT IN SEPARATE ITS, SO DONE IN SEPARATE ORDER?
   it("should use regex to filter out wrong add new exam input data", async () => {
     const { mutate } = createTestClient(server);
-
-    let resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "Maths",
-        examDate: new Date("2020-08-11"),
-        startDate: new Date("2020-08-05"),
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
-
-    expect(resp.data.addExam).toBeTruthy();
-
-    resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "",
-        examDate: new Date("2020-09-11"),
-        startDate: new Date("2020-08-05"),
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
-    expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Subject input has the wrong format"
-    );
-
-    resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "Maths",
-        examDate: "test",
-        startDate: new Date("2020-08-11"),
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
-    expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Exam date input has the wrong format"
-    );
 
     // let resp = await mutate({
     //   query: ADD_EXAM_MUTATION,
     //   variables: {
     //     subject: "Maths",
     //     examDate: new Date("2020-08-11"),
-    //     startDate: "test",
+    //     startDate: new Date("2020-08-05"),
+    //     numberPages: 5,
+    //     timePerPage: 5,
+    //     startPage: 6,
+    //     notes: "NOTES",
+    //     pdfLink: "klsdjfs",
+    //     completed: false
+    //   }
+    // });
+    // console.log(resp);
+    // expect(resp.data.addExam).toBeTruthy();
+
+    // resp = await mutate({
+    //   query: ADD_EXAM_MUTATION,
+    //   variables: {
+    //     subject: "",
+    //     examDate: new Date("2020-09-11"),
+    //     startDate: new Date("2020-08-05"),
     //     numberPages: 5,
     //     timePerPage: 5,
     //     startPage: 6,
@@ -93,27 +56,65 @@ describe("Test user resolver regex", () => {
     // });
     // expect(resp.data.addExam).toBeFalsy();
     // expect(resp.errors[0].message).toEqual(
-    //   "Study start date input has the wrong format"
+    //   "Subject input has the wrong format"
     // );
 
-    resp = await mutate({
-      query: ADD_EXAM_MUTATION,
-      variables: {
-        subject: "Maths",
-        examDate: new Date("2150-08-11"),
-        startDate: "",
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 6,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
+    // resp = await mutate({
+    //   query: ADD_EXAM_MUTATION,
+    //   variables: {
+    //     subject: "Maths",
+    //     examDate: "test",
+    //     startDate: new Date("2020-08-11"),
+    //     numberPages: 5,
+    //     timePerPage: 5,
+    //     startPage: 6,
+    //     notes: "NOTES",
+    //     pdfLink: "klsdjfs",
+    //     completed: false
+    //   }
+    // });
+    // expect(resp.data.addExam).toBeFalsy();
+    // expect(resp.errors[0].message).toEqual(
+    //   "Exam date input has the wrong format"
+    // );
 
-    expect(resp.data.addExam).toBeTruthy();
+    // // let resp = await mutate({
+    // //   query: ADD_EXAM_MUTATION,
+    // //   variables: {
+    // //     subject: "Maths",
+    // //     examDate: new Date("2020-08-11"),
+    // //     startDate: "test",
+    // //     numberPages: 5,
+    // //     timePerPage: 5,
+    // //     startPage: 6,
+    // //     notes: "NOTES",
+    // //     pdfLink: "klsdjfs",
+    // //     completed: false
+    // //   }
+    // // });
+    // // expect(resp.data.addExam).toBeFalsy();
+    // // expect(resp.errors[0].message).toEqual(
+    // //   "Study start date input has the wrong format"
+    // // );
 
-    resp = await mutate({
+    // resp = await mutate({
+    //   query: ADD_EXAM_MUTATION,
+    //   variables: {
+    //     subject: "Maths",
+    //     examDate: new Date("2150-08-11"),
+    //     startDate: "",
+    //     numberPages: 5,
+    //     timePerPage: 5,
+    //     startPage: 6,
+    //     notes: "NOTES",
+    //     pdfLink: "klsdjfs",
+    //     completed: false
+    //   }
+    // });
+
+    // expect(resp.data.addExam).toBeTruthy();
+
+    let resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",

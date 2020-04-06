@@ -8,9 +8,42 @@ import {
   verifyRegexCurrentPage,
   verifyRegexPageNotes
 } from "../helpers/verifyUserInput";
-import { AuthenticationError } from "apollo-server";
+import { AuthenticationError, ApolloError } from "apollo-server";
+import {
+  datesTimingIsValid,
+  startDateIsActive,
+  getNumberOfDays
+} from "../helpers/dates";
 
-export function verifyUserInputFormat({
+export function prepareExamInputData(args, userInfo) {
+  args.examDate = new Date(args.examDate);
+  if (!args.startDate || args.startDate.length <= 0) {
+    args.startDate = new Date();
+  }
+  args.timesRepeat = args.timesRepeat || 1;
+  args.startPage = args.startPage || 0;
+  args.currentPage = args.startPage;
+  args.completed = args.completed || false;
+  args.userId = userInfo.userId;
+
+  return args;
+}
+
+export function verifyExamInput(args) {
+  //regex
+  verifyUserInputFormat(args);
+
+  if (!datesTimingIsValid(args.startDate, args.examDate))
+    throw new ApolloError(
+      "Dates cannot be in the past and start learning date must be before exam date."
+    );
+
+  //TODO MOVE TO VERIFY USER INPUT
+  if (args.timePerPage <= 0)
+    throw new ApolloError("Time per page has to be higher than 0.");
+}
+
+function verifyUserInputFormat({
   subject,
   examDate,
   startDate,

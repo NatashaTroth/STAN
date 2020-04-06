@@ -8,7 +8,8 @@ import {
   startDateIsActive,
   getNumberOfDays
 } from "../helpers/dates";
-import { verifyUserInputFormat } from "../helpers/examHelpers";
+import { prepareExamInputData, verifyExamInput } from "../helpers/examHelpers";
+import { deepCopyObject } from "../helpers/generalFunctions";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 
 import { ApolloError } from "apollo-server";
@@ -23,11 +24,10 @@ const examResolvers = {
     exams: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-        const resp = await Exam.find({
+
+        return await Exam.find({
           userId: context.userInfo.userId
         });
-
-        return resp;
       } catch (err) {
         handleResolverError(err);
       }
@@ -35,12 +35,11 @@ const examResolvers = {
     exam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-        const resp = await Exam.findOne({
+
+        return await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
         });
-
-        return resp;
       } catch (err) {
         handleResolverError(err);
       }
@@ -96,40 +95,14 @@ const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      console.log(context.userInfo.isAuth);
-      handleAuthentication(context.userInfo);
       try {
-        verifyUserInputFormat(args);
-        if (!args.startDate || args.startDate.length <= 0) {
-          args.startDate = new Date();
-        }
-
-        args.examDate = new Date(args.examDate);
-        if (!datesTimingIsValid(args.startDate, args.examDate))
-          throw new ApolloError(
-            "Dates cannot be in the past and start learning date must be before exam date."
-          );
-
-        //TODO MOVE TO VERIFY USER INPUT
-        if (args.timePerPage <= 0)
-          throw new ApolloError("Time per page has to be higher than 0.");
-
-        args.userId = context.userInfo.userId;
-        args.currentPage = args.startPage;
-        const resp = await Exam.create({
-          subject: args.subject,
-          examDate: args.examDate,
-          startDate: args.startDate,
-          numberPages: args.numberPages,
-          timePerPage: args.timePerPage,
-          timesRepeat: args.timesRepeat || 1,
-          currentPage: args.currentPage || 0,
-          notes: args.notes,
-          pdfLink: args.pdfLink,
-          completed: args.completed || false,
-          userId: args.userId
-        });
-        if (!resp) throw new ApolloError("Unable to add exam.");
+        handleAuthentication(context.userInfo);
+        verifyExamInput(args);
+        const processedArgs = prepareExamInputData(
+          { ...args },
+          context.userInfo
+        );
+        await Exam.create(processedArgs);
       } catch (err) {
         handleResolverError(err);
       }
