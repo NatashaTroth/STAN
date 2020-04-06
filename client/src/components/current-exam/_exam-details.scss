@@ -79,15 +79,38 @@
         display: flex;
       }
 
-      &--left,
-      &--right {
+      &--left {
         div {
           padding: 10px;
         }
+      }
+      &--right {
+        margin: 10px;
+
+        // .bar {
+        //   display: flex;
+        //   flex-direction: row;
+        // }
       }
       &--bottom {
         padding: 10px;
       }
     }
   }
+}
+
+.exam-bar {
+  position: relative;
+  height: 15px;
+  width: 100%;
+  border: 2px solid theme_color("dark");
+}
+
+.filler {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: theme_color("dark");
+  height: 100%;
+  transition: width 0.3s ease-in;
 }

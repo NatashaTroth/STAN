@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -19,6 +19,8 @@ const formatDate = string => {
 }
 
 const ExamDetails = props => {
+  const [percentage, setPercentage] = useState(20)
+
   // get examId from props ----------------
   let { examId } = props.location.state
   let history = useHistory()
@@ -115,12 +117,27 @@ const ExamDetails = props => {
                     <div className="exam-details__inner--details--right">
                       <div className="deadline">
                         <h4>Days until deadline</h4>
+
+                        <div className="bar">
+                          <ExamBar percentage={percentage} />
+                          {/* <p>12 left</p> */}
+                        </div>
                       </div>
                       <div className="chunks">
                         <h4>Chunks left</h4>
+
+                        <div className="bar">
+                          <ExamBar percentage={percentage} />
+                          {/* <p>7 left</p> */}
+                        </div>
                       </div>
                       <div className="studied">
                         <h4>Studied</h4>
+
+                        <div className="bar">
+                          <ExamBar percentage={percentage} />
+                          {/* <p>23%</p> */}
+                        </div>
                       </div>
                       <div className="pages-studied">
                         <h4>Pages studied</h4>
@@ -153,6 +170,20 @@ const ExamDetails = props => {
         </div>
       </div>
     </div>
+  )
+}
+
+const ExamBar = props => {
+  return (
+    <div className="exam-bar">
+      <Filler percentage={props.percentage} />
+    </div>
+  )
+}
+
+const Filler = props => {
+  return (
+    <div className="filler" style={{ width: `${props.percentage}%` }}></div>
   )
 }
 
