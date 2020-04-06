@@ -74,31 +74,62 @@ const ExamDetails = props => {
               </div>
 
               <div className="exam-details__inner--details">
-                <div className="col-md-4">
-                  <div className="exam-details__inner--details--left">
-                    <h4>Exam date</h4>
-                    <p>{examDetails.examDate}</p>
+                <div class="exam-details__inner--details--flex-container">
+                  <div className="col-md-4">
+                    <div className="exam-details__inner--details--left">
+                      <div className="exam-date">
+                        <h4>Exam date</h4>
+                        <p>{examDetails.examDate}</p>
+                      </div>
 
-                    <h4>Start learning on</h4>
-                    <p>{examDetails.startDate}</p>
+                      <div className="start-date">
+                        <h4>Start learning on</h4>
+                        <p>{examDetails.startDate}</p>
+                      </div>
 
-                    <h4>Amount of pages</h4>
-                    <p>{examDetails.numberPages}</p>
+                      <div className="number-pages">
+                        <h4>Amount of pages</h4>
+                        <p>{examDetails.numberPages}</p>
+                      </div>
 
-                    <h4>Time per pages</h4>
-                    <p>{examDetails.timePerPage} min</p>
+                      <div className="time-per-pages">
+                        <h4>Time per pages</h4>
+                        <p>{examDetails.timePerPage} min</p>
+                      </div>
 
-                    <h4>Repeat</h4>
-                    <p>1 time</p>
+                      <div className="repeat">
+                        <h4>Repeat</h4>
+                        <p>1 time</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="exam-details__inner--details--right">
+                      <div class="deadline">
+                        <h4>Days until deadline</h4>
+                      </div>
+                      <div class="chunks">
+                        <h4>Chunks left</h4>
+                      </div>
+                      <div class="studied">
+                        <h4>Studied</h4>
+                      </div>
+                      <div class="pages-studied">
+                        <h4>Pages studied</h4>
+                        <p>
+                          {examDetails.currentPage}/{examDetails.numberPages}
+                        </p>
+                      </div>
+                      <div class="pdf">
+                        <h4>PDF file</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <div className="exam-details__inner--details-right"></div>
-                </div>
-
                 <div className="col-md-10">
-                  <div className="exam-details__inner--bottom">
+                  <div className="exam-details__inner--details--bottom">
                     <h4>Notes</h4>
 
                     {!examDetails.notes ? (

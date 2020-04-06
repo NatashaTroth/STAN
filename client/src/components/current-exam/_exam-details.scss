@@ -60,15 +60,29 @@
       .line {
         position: absolute;
         border-bottom: 3px solid theme_color("dark");
+        bottom: 0;
         left: 1%;
         right: 1%;
         width: 98%;
-        height: 50px;
       }
     }
 
     &--details {
-      padding: 15px;
+      padding: 10px;
+
+      &--flex-container {
+        display: flex;
+      }
+
+      &--left,
+      &--right {
+        div {
+          padding: 10px;
+        }
+      }
+      &--bottom {
+        padding: 10px;
+      }
     }
   }
 }
