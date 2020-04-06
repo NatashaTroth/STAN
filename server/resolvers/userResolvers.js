@@ -23,6 +23,16 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 
+import {
+  authenticateUser,
+  signUserUp,
+  logUserIn,
+  signUpGoogleUser,
+  revokeRefreshTokensForUser,
+  verifyGoogleIdToken,
+  verifyUserInputFormat
+} from "../helpers/userHelpers";
+
 //TODO: Authenticate Queries
 const userResolvers = {
   Query: {
@@ -58,9 +68,9 @@ const userResolvers = {
       return true;
     },
     login: async (parent, { email, password }, context) => {
-      if (context.userInfo.isAuth)
-        throw new AuthenticationError("Already logged in");
       try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in");
         verifyUserInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
@@ -70,15 +80,10 @@ const userResolvers = {
       }
     },
     signup: async (parent, { username, email, password, mascot }, context) => {
-      // console.log(JSON.stringify(context));
-      if (context.userInfo.isAuth)
-        throw new AuthenticationError("Already logged in");
-
       try {
-        // console.log("googlog: " + googleLogin);
-        // console.log(verifyRegexUsername(username));
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in");
         verifyUserInputFormat({ username, email, password });
-        // console.log("hiii " + username);
         const user = await signUserUp({
           username,
           email,
@@ -127,105 +132,6 @@ const userResolvers = {
     }
   }
 };
-
-//---------------------------------------HELPER FUNCTIONS---------------------------------------
-
-async function authenticateUser({ email, password }) {
-  const user = await User.findOne({ email: email });
-  if (!user)
-    throw new AuthenticationError("User with this email does not exist");
-
-  //in case user tries to login with google login data in normal login - cause no password!
-  if (user.googleLogin)
-    throw new AuthenticationError("User has to login with google");
-
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new AuthenticationError("Password is incorrect");
-  return user;
-}
-
-async function signUserUp({
-  username,
-  email,
-  password,
-  mascot,
-  googleId,
-  googleLogin
-}) {
-  const userWithEmail = await User.findOne({ email: email });
-  if (userWithEmail) throw new UserInputError("User with email already exists");
-  let hashedPassword;
-  if (googleLogin) hashedPassword = null;
-  else hashedPassword = await bcrypt.hash(password, 10);
-  const resp = await User.create({
-    username,
-    email,
-    password: hashedPassword,
-    mascot: mascot || 0,
-    googleId: googleId || "",
-    googleLogin: googleLogin || false
-  });
-
-  if (!resp) throw new AuthenticationError("User could not be created");
-  return resp;
-}
-
-function logUserIn({ user, context }) {
-  let userAccessToken = createAccessToken(user);
-  sendRefreshToken(context.res, createRefreshToken(user));
-  return userAccessToken;
-}
-
-function signUpGoogleUser(payload) {
-  return signUserUp({
-    username: payload.name,
-    email: payload.email,
-    password: null,
-    googleId: payload.sub,
-    googleLogin: true
-    // mascot: 1 //TODO GET MASCOT USER CHOSE
-  });
-}
-
-//TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
-async function revokeRefreshTokensForUser(userId) {
-  //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
-  try {
-    const user = await User.findOne({ _id: userId });
-    if (!user) throw new Error("This user does not exist");
-    await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
-    return true;
-  } catch (err) {
-    handleResolverError(err);
-  }
-}
-
-//source: https://developers.google.com/identity/sign-in/web/backend-auth
-async function verifyGoogleIdToken(token) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID
-  });
-  const payload = ticket.getPayload();
-  // const userid = payload["sub"];
-  return payload;
-  // If request specified a G Suite domain:
-  //const domain = payload['hd'];
-}
-
-function verifyUserInputFormat({ username, email, password, mascot }) {
-  // console.log(username);
-  if (typeof username !== "undefined" && !verifyRegexUsername(username))
-    throw new Error("Username input has the wrong format");
-  if (typeof email !== "undefined" && !verifyRegexEmail(email))
-    throw new Error("Email input has the wrong format");
-  if (typeof password !== "undefined" && !verifyRegexPassword(password))
-    throw new Error("Password input has the wrong format");
-  if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
-    throw new Error(
-      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2 "
-    );
-}
 
 module.exports = {
   userResolvers
