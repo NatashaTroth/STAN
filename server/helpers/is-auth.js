@@ -16,7 +16,7 @@ export async function isAuth(req) {
     if (user.tokenVersion !== decodedToken.tokenVersion)
       throw new AuthenticationError("Wrong token version");
 
-    return { isAuth: true, userId: decodedToken.userId };
+    return { isAuth: true, userId: decodedToken.userId, user };
   } catch (err) {
     console.error(err);
     return { isAuth: false, userId: "" };

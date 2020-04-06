@@ -126,22 +126,13 @@ const userResolvers = {
       try {
         handleAuthentication(userInfo);
         verifyUserInputFormat({ mascot: mascot.toString() });
-        //TODO: check, already done in isAuth
-        const user = await User.findOne({ _id: userInfo.userId });
-        if (!user) throw new ApolloError("This user does not exist");
-
-        if (user.mascot === mascot) return { successful: true, user: user };
-
-        // user.mascot = mascot;
+        if (userInfo.user.mascot === mascot) return true;
         const resp = await User.updateOne(
           { _id: userInfo.userId },
           { mascot: mascot }
         );
-
-        if (resp.nModified === 0) return { successful: false, user: user };
-
-        const updatedUser = await User.findOne({ _id: userInfo.userId });
-        return { successful: true, user: updatedUser };
+        if (resp.nModified === 0) return false;
+        return true;
       } catch (err) {
         handleResolverError(err);
       }
@@ -237,13 +228,15 @@ async function verifyGoogleIdToken(token) {
 function verifyUserInputFormat({ username, email, password, mascot }) {
   // console.log(username);
   if (typeof username !== "undefined" && !verifyRegexUsername(username))
-    throw new AuthenticationError("Username input has the wrong format");
+    throw new Error("Username input has the wrong format");
   if (typeof email !== "undefined" && !verifyRegexEmail(email))
-    throw new AuthenticationError("Email input has the wrong format");
+    throw new Error("Email input has the wrong format");
   if (typeof password !== "undefined" && !verifyRegexPassword(password))
-    throw new AuthenticationError("Password input has the wrong format");
+    throw new Error("Password input has the wrong format");
   if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
-    throw new AuthenticationError("Mascot input has the wrong format");
+    throw new Error(
+      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2 "
+    );
 }
 
 module.exports = {

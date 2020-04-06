@@ -16,7 +16,7 @@ const userType = gql`
     accessToken: String!
     tokenExpiration: Int!
   }
-  type UpdateResponse {
+  type UpdateUserResponse {
     successful: Boolean!
     user: User!
   }
