@@ -10,7 +10,7 @@ import {
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
-
+import { numberOfPagesForChunk } from "../helpers/chunks";
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -58,6 +58,45 @@ export async function handleCurrentPageInput(page, examId, userId) {
   return exam;
 }
 
+export async function fetchTodaysChunks(userId) {
+  const currentExams = await fetchCurrentExams(userId);
+  return fetchChunks(currentExams);
+}
+
+async function fetchCurrentExams(userId) {
+  const exams = await Exam.find({
+    userId: userId,
+    completed: false
+  });
+  const currentExams = exams.filter(exam => {
+    return startDateIsActive(new Date(exam.startDate));
+  });
+  return currentExams;
+}
+
+function fetchChunks(currentExams) {
+  return currentExams.map(exam => {
+    const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+    const numberPagesToday = numberOfPagesForChunk({
+      numberOfPages: exam.numberPages,
+      currentPage: exam.currentPage,
+      daysLeft,
+      repeat: exam.timesRepeat
+    });
+    const duration =
+      exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
+    return {
+      exam,
+      numberPagesToday,
+      duration,
+      daysLeft,
+      totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
+      numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
+      notEnoughTime: false //TODO: IMPLEMENT
+    };
+  });
+}
+
 function verifyUserInputFormat({
   subject,
   examDate,
@@ -68,8 +107,6 @@ function verifyUserInputFormat({
   currentPage,
   notes
   // pdfLink,
-  // completed,
-  // userId
 }) {
   let examOnlyDate = new Date(examDate).toLocaleDateString();
   let startOnlyDate = "";
