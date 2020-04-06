@@ -26,32 +26,20 @@ import {
 //TODO: Authenticate Queries
 const userResolvers = {
   Query: {
+    //TODO: REMOVE
     users: (root, arg, { req, res, userInfo }, info) => {
-      // if (!userInfo.isAuth) throw new Error("Unauthorised");
       return User.find({});
     },
+    //TODO: REMOVE
     user: (root, arg, context, info) => {
       return User.find({});
-
-      // return fetchOneData();
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
-      //TODO: return unauthorise important? returning null to avoid error when asking for current user in frontend and not logged in
-      // if (!userInfo.isAuth) throw new Error(" Unauthorised");
-      if (!userInfo.isAuth) return null;
-      // fetch header
-      const authorization = req.get("Authorization");
-      if (!authorization) return null;
       try {
-        //TODO: SAVE ALL PAYLOAD
-        //TODO: do i need to do all this?:s
-        const token = authorization.split(" ")[1];
-        const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        const user = await User.findOne({ _id: payload.userId });
-        if (user.tokenVersion !== payload.tokenVersion)
-          throw new AuthenticationError("Wrong token version");
-        return user;
+        if (!userInfo.isAuth) return null;
+        return userInfo.user;
       } catch (err) {
+        console.error(err.message);
         return null;
       }
     }
