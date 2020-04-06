@@ -1,20 +1,11 @@
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .exams {
-  .current-exams {
+  &__current-exams {
     display: flex;
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
   }
-  .archive-exams {
+  &__archive-exams {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -51,12 +42,5 @@
     .down {
       transform: rotate(45deg);
     }
-  }
-  .show {
-    animation: fadeIn 0.3s;
-  }
-  .close {
-    // display: none;
-    opacity: 0;
   }
 }

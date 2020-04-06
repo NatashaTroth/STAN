@@ -13,9 +13,13 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 import CurrentExam from "../../components/current-exam/CurrentExam"
 import { Link } from "react-router-dom"
 
+// animation ----------------
+import AnimateHeight from "react-animate-height"
+
 const Exams = () => {
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
+  const [height, setHeight] = useState(0)
   const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
@@ -89,6 +93,7 @@ const Exams = () => {
 
   const handleArchiveClick = () => {
     setArchiveExams(!isArchiveOpen)
+    setHeight(height === 0 ? "auto" : 0)
   }
 
   // return ----------------
@@ -115,9 +120,9 @@ const Exams = () => {
               <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
             </div>
 
-            <div className={isArchiveOpen ? "show" : "close"}>
+            <AnimateHeight duration={500} height={height}>
               <div className="exams__archive-exams">{archiveExamsList}</div>
-            </div>
+            </AnimateHeight>
           </div>
           <div className="col-md-1"></div>
         </div>
