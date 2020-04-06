@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
 import { Cube } from "react-preloaders"
-import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
