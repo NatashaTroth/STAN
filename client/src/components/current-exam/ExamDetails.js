@@ -12,6 +12,7 @@ import { useQuery } from "@apollo/react-hooks"
 // sub-components ----------------
 import Button from "../button/Button"
 
+// functions ----------------
 const formatDate = string => {
   let options = { year: "numeric", month: "numeric", day: "numeric" }
   return new Date(string).toLocaleDateString("en-GB", options)
@@ -24,6 +25,7 @@ const ExamDetails = props => {
 
   // variables ----------------
   let examDetails
+
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
@@ -79,7 +81,7 @@ const ExamDetails = props => {
               </div>
 
               <div className="exam-details__inner--details">
-                <div class="exam-details__inner--details--flex-container">
+                <div className="exam-details__inner--details--flex-container">
                   <div className="col-md-4">
                     <div className="exam-details__inner--details--left">
                       <div className="exam-date">
@@ -111,22 +113,22 @@ const ExamDetails = props => {
 
                   <div className="col-md-6">
                     <div className="exam-details__inner--details--right">
-                      <div class="deadline">
+                      <div className="deadline">
                         <h4>Days until deadline</h4>
                       </div>
-                      <div class="chunks">
+                      <div className="chunks">
                         <h4>Chunks left</h4>
                       </div>
-                      <div class="studied">
+                      <div className="studied">
                         <h4>Studied</h4>
                       </div>
-                      <div class="pages-studied">
+                      <div className="pages-studied">
                         <h4>Pages studied</h4>
                         <p>
                           {examDetails.currentPage}/{examDetails.numberPages}
                         </p>
                       </div>
-                      <div class="pdf">
+                      <div className="pdf">
                         <h4>PDF file</h4>
                       </div>
                     </div>

@@ -1,8 +1,8 @@
 import React from "react"
+// --------------------------------------------------------------
 
-// TODO: https://www.storyblok.com/tp/react-dynamic-component-from-json
-// https://learnwithparam.com/blog/dynamic-pages-in-react-router/
-function CurrentExam({ id, subject, currentStatus }) {
+function CurrentExam({ subject, currentStatus }) {
+  // return ----------------
   return (
     <div className="exam">
       <div className="exam__subject box-content">

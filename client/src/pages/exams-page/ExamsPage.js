@@ -55,9 +55,10 @@ const Exams = () => {
     })
   }
 
-  // function ----------------
+  // variables ----------------
   let currentExamsList, archiveExamsList
 
+  // function ----------------
   currentExamsList = currentExams.map(function(exam) {
     return (
       <div key={exam.id}>
