@@ -71,7 +71,7 @@ export function signUpGoogleUser(payload) {
   });
 }
 
-//TODO: don't make this available to users - the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+//TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 export async function revokeRefreshTokensForUser(userId) {
   //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
   try {

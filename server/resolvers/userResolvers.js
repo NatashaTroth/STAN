@@ -6,18 +6,7 @@ import {
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { createAccessToken, createRefreshToken } from "../authenticationTokens";
 import { sendRefreshToken } from "../authenticationTokens";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { OAuth2Client } from "google-auth-library";
-import {
-  verifyRegexEmail,
-  verifyRegexUsername,
-  verifyRegexPassword,
-  verifyRegexMascot
-} from "../helpers/verifyUserInput";
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import {
   handleResolverError,
   handleAuthentication
@@ -104,7 +93,6 @@ const userResolvers = {
         if (!payload)
           throw new AuthenticationError("Google id token was not verified.");
         let user = await User.findOne({ googleId: payload.sub });
-        // resp = authenticateGoogleUser(user); //if already got account don't think i need to authenticate user cause google already did that
 
         if (!user) user = await signUpGoogleUser(payload);
 
