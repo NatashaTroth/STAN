@@ -158,8 +158,9 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.data.currentUser).toBe(null);
   });
 
-  //TODO: TEST GOOGLE LOGIN
+  //TODO: TEST GOOGLE LOGIN??
   //TODO: TEST TOKEN VERSION
+  //TODO: TEST IS AUTH
 
   async function signUserUp(username, email, password, mascot) {
     const initialCount = await User.countDocuments();

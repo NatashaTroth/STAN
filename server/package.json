@@ -14,9 +14,10 @@
     "lint": "eslint \"**/*.js\" --quiet",
     "lintFix": "eslint \"**/*.js\" --fix",
     "build": "mkdir dist && babel app.js -d dist",
-    "test": "jest --watchAll",
+    "testTODOCHANGE": "jest --watchAll",
+    "test": "jest --watch --runInBand --detectOpenHandles",
     "ciTest": "jest",
-    "testUnit": "jest --watch ./tests/unit",
+    "testUnit": "jest --watch ./tests/unit --runInBand --detectOpenHandle",
     "testIntegration": "jest --watch ./tests/integration --runInBand --detectOpenHandles"
   },
   "author": "",

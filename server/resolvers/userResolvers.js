@@ -72,7 +72,13 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-        verifyUserInputFormat({ username, email, password });
+        if (!mascot) mascot = 0; //TODO: maybe move
+        verifyUserInputFormat({
+          username,
+          email,
+          password,
+          mascot: mascot.toString()
+        });
         // console.log("MASCOT: " + mascot)
         const user = await signUserUp({
           username,

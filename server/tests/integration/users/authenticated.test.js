@@ -36,6 +36,7 @@ describe("Test user sign up and login resolvers", () => {
   });
 
   afterAll(async () => {
+    await testLogout();
     await teardown();
   });
 
@@ -120,14 +121,16 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp2.errors[0].message).toEqual("Already logged in.");
   });
 
-  it("should log the user out", async () => {
-    //Already logged in
-    const resp = await mutate({
-      query: LOGOUT_MUTATION
+  async function testLogout() {
+    it("should log the user out", async () => {
+      //Already logged in
+      const resp = await mutate({
+        query: LOGOUT_MUTATION
+      });
+      expect(resp.data.logout).toBeTruthy();
     });
-    console.log(resp);
-    expect(resp.data.logout).toBeTruthy();
-  });
+  }
+
   //TEST ISAUTH ?
   //TODO: TEST TOKEN VERSION
 });

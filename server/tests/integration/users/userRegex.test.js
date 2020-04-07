@@ -108,6 +108,22 @@ describe("Test user resolver regex", () => {
     );
   });
 
+  it("should use regex to filter out wrong mascot format", async () => {
+    const resp = await mutate({
+      query: SIGNUP_MUTATION,
+      variables: {
+        username: "Stan",
+        email: "user3@stan.com",
+        password: "12345678",
+        mascot: 5
+      }
+    });
+    expect(resp.data.signup).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
+    );
+  });
+
   it("should pass the regex tests and login a user", async () => {
     const resp = await mutate({
       query: LOGIN_MUTATION,
