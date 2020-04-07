@@ -160,6 +160,10 @@
       }
       &--bottom {
         padding: 10px;
+
+        .notes p {
+          max-width: none;
+        }
       }
     }
   }

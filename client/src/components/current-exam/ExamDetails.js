@@ -187,11 +187,13 @@ const ExamDetails = props => {
                   <div className="exam-details__inner--details--bottom">
                     <h4>Notes</h4>
 
-                    {!examDetails.notes ? (
-                      <p>...</p>
-                    ) : (
-                      <p>{examDetails.notes}</p>
-                    )}
+                    <div className="notes">
+                      {!examDetails.notes ? (
+                        <p>...</p>
+                      ) : (
+                        <p>{examDetails.notes}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
