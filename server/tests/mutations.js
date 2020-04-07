@@ -1,6 +1,6 @@
-import { gql } from "apollo-server"; //to make queries
+import { gql } from "apollo-boost"; //to make queries
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String) {
     login(email: $email, password: $password) {
       user {
@@ -14,63 +14,15 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
-const SIGNUP_MUTATION = gql`
-  mutation(
-    $username: String!
-    $email: String!
-    $password: String
-    $mascot: Int
-  ) {
-    signup(
-      username: $username
-      email: $email
-      password: $password
-      mascot: $mascot
-    ) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
-    }
-  }
-`;
 
-const UPDATE_MASCOT_MUTATION = gql`
-  mutation($mascot: Int!) {
-    updateMascot(mascot: $mascot) {
-      successful
-      user {
-        mascot
-      }
-    }
-  }
-`;
-
-const LOGOUT_MUTATION = gql`
+export const LOGOUT_MUTATION = gql`
   mutation {
     logout
   }
 `;
 
-const GOOGLE_LOGIN_MUTATION = gql`
-  mutation($idToken: String!) {
-    googleLogin(idToken: $idToken) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
-    }
-  }
-`;
-
-//------------------Exam mutations:---------------
-const ADD_EXAM_MUTATION = gql`
+//!!Make sure the type in mutation here, is the same type as used by graphql
+export const ADD_EXAM_MUTATION = gql`
   mutation(
     $subject: String!
     $examDate: Date!
@@ -98,11 +50,57 @@ const ADD_EXAM_MUTATION = gql`
   }
 `;
 
-export {
-  LOGIN_MUTATION,
-  SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION,
-  LOGOUT_MUTATION,
-  GOOGLE_LOGIN_MUTATION,
-  ADD_EXAM_MUTATION
-};
+export const UPDATE_CURRENT_PAGE_MUTATION = gql`
+  mutation($examId: ID!, $page: Int!) {
+    updateCurrentPage(examId: $examId, page: $page)
+  }
+`;
+
+export const SIGNUP_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String
+    $mascot: Int
+  ) {
+    signup(
+      username: $username
+      email: $email
+      password: $password
+      mascot: $mascot
+    ) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`;
+
+export const UPDATE_MASCOT_MUTATION = gql`
+  mutation($mascot: Int!) {
+    updateMascot(mascot: $mascot) {
+      successful
+      user {
+        mascot
+      }
+    }
+  }
+`;
+
+export const GOOGLE_LOGIN_MUTATION = gql`
+  mutation($idToken: String!) {
+    googleLogin(idToken: $idToken) {
+      user {
+        id
+        username
+        email
+      }
+      accessToken
+      tokenExpiration
+    }
+  }
+`;
