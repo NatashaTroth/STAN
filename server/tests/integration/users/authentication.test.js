@@ -3,7 +3,7 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
 import { setup, teardown } from "../setup";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../mutations.js";
+import { SIGNUP_MUTATION } from "../../mutations.js";
 import { User } from "../../../models";
 
 // import { createTestClient } from "apollo-server-integration-testing";
