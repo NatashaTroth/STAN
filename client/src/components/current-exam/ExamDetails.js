@@ -12,19 +12,10 @@ import { useQuery } from "@apollo/react-hooks"
 // sub-components ----------------
 import Button from "../button/Button"
 
-// functions ----------------
-const formatDate = string => {
-  let options = { year: "numeric", month: "numeric", day: "numeric" }
-  return new Date(string).toLocaleDateString("en-GB", options)
-}
+// helpers ----------------
+import { getNumberOfDays, formatDate } from "../../helpers/dates"
 
 const ExamDetails = props => {
-  const [percentage, setPercentage] = useState(20)
-
-  useEffect(() => {
-    setPercentage(80)
-  }, [percentage])
-
   // get examId from props ----------------
   let { examId } = props.location.state
   let history = useHistory()
@@ -48,8 +39,8 @@ const ExamDetails = props => {
   if (data) {
     examDetails = {
       subject: data.exam.subject,
-      examDate: formatDate(data.exam.examDate),
-      startDate: formatDate(data.exam.startDate),
+      examDate: data.exam.examDate,
+      startDate: data.exam.startDate,
       numberPages: data.exam.numberPages,
       timePerPage: data.exam.timePerPage,
       timesRepeat: data.exam.timesRepeat,
@@ -58,6 +49,16 @@ const ExamDetails = props => {
       pdfLink: data.exam.pdfLink,
     }
   }
+
+  const daysUntilDeadline = getNumberOfDays(
+    new Date(),
+    new Date(examDetails.examDate)
+  )
+
+  const pagesPerChunk =
+    ((examDetails.numberPages - examDetails.currentPage) *
+      examDetails.timesRepeat) /
+    daysUntilDeadline
 
   return (
     <div className="exam-details">
@@ -102,12 +103,12 @@ const ExamDetails = props => {
                     <div className="exam-details__inner--details--left">
                       <div className="exam-date">
                         <h4>Exam date</h4>
-                        <p>{examDetails.examDate}</p>
+                        <p>{formatDate(examDetails.examDate)}</p>
                       </div>
 
                       <div className="start-date">
                         <h4>Start learning on</h4>
-                        <p>{examDetails.startDate}</p>
+                        <p>{formatDate(examDetails.startDate)}</p>
                       </div>
 
                       <div className="number-pages">
@@ -137,19 +138,30 @@ const ExamDetails = props => {
                         <h4>Days until deadline</h4>
 
                         <div className="bar">
-                          <ExamBar percentage={percentage} />
+                          <ExamBar
+                            percentage={(100 * daysUntilDeadline) / 30}
+                          />
                           <div className="bar--status">
-                            <p>12 left</p>
+                            <p>{daysUntilDeadline} days left</p>
                           </div>
                         </div>
                       </div>
                       <div className="chunks">
-                        <h4>Chunks left</h4>
+                        <h4>Pages left</h4>
 
                         <div className="bar">
-                          <ExamBar percentage={percentage} />
+                          <ExamBar
+                            percentage={
+                              (100 * pagesPerChunk) / examDetails.numberPages
+                            }
+                          />
                           <div className="bar--status">
-                            <p>7 left</p>
+                            <p>
+                              {Math.round(
+                                examDetails.numberPages - pagesPerChunk
+                              )}{" "}
+                              pages left
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -157,9 +169,20 @@ const ExamDetails = props => {
                         <h4>Studied</h4>
 
                         <div className="bar">
-                          <ExamBar percentage={percentage} />
+                          <ExamBar
+                            percentage={
+                              (100 * (examDetails.currentPage - 1)) /
+                              examDetails.numberPages
+                            }
+                          />
                           <div className="bar--status">
-                            <p>23%</p>
+                            <p>
+                              {(
+                                (100 * (examDetails.currentPage - 1)) /
+                                examDetails.numberPages
+                              ).toFixed(2)}
+                              %
+                            </p>
                           </div>
                         </div>
                       </div>
