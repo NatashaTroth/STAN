@@ -1,25 +1,18 @@
-import {
-  createAccessToken,
-  createRefreshToken
-} from "../../../helpers/authenticationTokens";
+import { createAccessToken } from "../../../helpers/authenticationTokens";
 import { isAuth } from "../../../helpers/is-auth";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import { createTestClient } from "apollo-server-testing";
+
 import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
 
 describe("Test user sign up and login resolvers", () => {
   let server;
-  let mutate;
-  let query;
+
   let testUser;
   beforeAll(async () => {
     await setupDb();
     testUser = await signUpTestUser();
     server = await setupApolloServer({ isAuth: false });
-    let client = createTestClient(server);
-    mutate = client.mutate;
-    query = client.query;
   });
 
   afterAll(async () => {
@@ -29,7 +22,7 @@ describe("Test user sign up and login resolvers", () => {
   it("tests isAuth", async () => {
     const headers = new Map();
 
-    const user = { id: testUser._id, tokenVersion: 0 };
+    const user = { id: testUser._id, accessTokenVersion: 0 };
     const accessToken = createAccessToken(user);
     const decodedToken = jwt.verify(
       accessToken,

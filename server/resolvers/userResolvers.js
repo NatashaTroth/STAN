@@ -17,7 +17,8 @@ import {
   signUserUp,
   logUserIn,
   signUpGoogleUser,
-  revokeRefreshTokensForUser,
+  invalidateRefreshTokens,
+  invalidateAccessTokens,
   verifyGoogleIdToken,
   verifyUserInputFormat
 } from "../helpers/userHelpers";
@@ -44,13 +45,18 @@ export const userResolvers = {
     }
   },
   Mutation: {
-    logout: (root, args, { req, res, userInfo }, info) => {
+    logout: async (root, args, { req, res, userInfo }, info) => {
       try {
         handleAuthentication(userInfo);
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
-        const resp = revokeRefreshTokensForUser(userInfo.userId);
-        if (!resp) throw new ApolloError("Unable to revoke refresh token.");
+        const respRefreshToken = await invalidateRefreshTokens(userInfo.userId);
+        if (!respRefreshToken)
+          throw new ApolloError("Unable to revoke refresh token.");
+        const respAccessToken = await invalidateAccessTokens(userInfo.userId);
+
+        if (!respAccessToken)
+          throw new ApolloError("Unable to revoke access token.");
       } catch (err) {
         throw new ApolloError(err.message);
       }

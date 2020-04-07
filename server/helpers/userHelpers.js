@@ -73,12 +73,29 @@ export function signUpGoogleUser(payload) {
 }
 
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
-export async function revokeRefreshTokensForUser(userId) {
+export async function invalidateRefreshTokens(userId) {
   //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
   try {
-    const user = await User.findOne({ _id: userId });
-    if (!user) throw new Error("This user does not exist.");
-    await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { refreshTokenVersion: 1 } }
+    );
+    if (resp.nModified === 0)
+      throw Error("Refresh token version was not increased.");
+
+    return true;
+  } catch (err) {
+    handleResolverError(err);
+  }
+}
+export async function invalidateAccessTokens(userId) {
+  try {
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { accessTokenVersion: 1 } }
+    );
+    if (resp.nModified === 0)
+      throw Error("Access token version was not increased.");
     return true;
   } catch (err) {
     handleResolverError(err);

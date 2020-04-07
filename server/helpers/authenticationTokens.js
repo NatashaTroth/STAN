@@ -5,6 +5,7 @@ import { ApolloError } from "apollo-server";
 
 export async function handleRefreshToken(req, res) {
   //read refresh cookie - validate that it's correct
+  //TODO: invalidate old refresh token  here too? although user is technically still logged in
   try {
     const payload = verifyRefreshToken(req);
     const user = await getUser(payload);
@@ -36,7 +37,7 @@ export const createAccessToken = user => {
     {
       userId: user.id,
       // googleLogin: user.googleLogin,
-      tokenVersion: user.tokenVersion
+      tokenVersion: user.accessTokenVersion
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -53,7 +54,7 @@ export const createRefreshToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(
-    { userId: user.id, tokenVersion: user.tokenVersion },
+    { userId: user.id, tokenVersion: user.refreshTokenVersion },
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: "7d"
@@ -70,7 +71,7 @@ function verifyRefreshToken(req) {
 async function getUser(payload) {
   const user = await User.findOne({ _id: payload.userId });
   if (!user) throw new Error("No refresh token in cookie");
-  if (user.tokenVersion !== payload.tokenVersion)
+  if (user.refreshTokenVersion !== payload.tokenVersion)
     throw new Error("No refresh token in cookie");
   return user;
 }

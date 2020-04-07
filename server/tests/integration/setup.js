@@ -1,7 +1,7 @@
 // import { createTestClient } from "apollo-server-testing";
 import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
-import { ApolloServer, UserInputError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express"; //UserInputError
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { User } from "../../models";
 import bcrypt from "bcrypt";
@@ -68,23 +68,23 @@ export async function setupDb() {
      */
 
 export async function signUpTestUser() {
-  try {
-    const hashedPassword = await bcrypt.hash("samantha", 10);
-    const user = await User.create({
-      username: "Samantha",
-      email: "samantha@stan.com",
-      password: hashedPassword,
-      mascot: 1,
-      googleId: "",
-      googleLogin: false
-    });
+  // try {
+  const hashedPassword = await bcrypt.hash("samantha", 10);
+  const user = await User.create({
+    username: "Samantha",
+    email: "samantha@stan.com",
+    password: hashedPassword,
+    mascot: 1,
+    googleId: "",
+    googleLogin: false
+  });
 
-    if (!user) throw new Error("Could not sign up a test user");
+  if (!user) throw new Error("Could not sign up a test user");
 
-    return user;
-  } catch (err) {
-    throw err;
-  }
+  return user;
+  // } catch (err) {
+  //   throw err;
+  // }
 }
 
 export async function teardown() {

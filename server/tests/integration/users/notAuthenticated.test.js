@@ -12,7 +12,6 @@ import {
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
-import { isAuth } from "../../../helpers/is-auth";
 import jwt from "jsonwebtoken";
 
 // import { createTestClient } from "apollo-server-integration-testing";

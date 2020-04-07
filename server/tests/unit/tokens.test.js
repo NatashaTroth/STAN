@@ -2,9 +2,8 @@ import {
   createAccessToken,
   createRefreshToken
 } from "../../helpers/authenticationTokens";
-import { isAuth } from "../../helpers/is-auth";
 import "dotenv/config";
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 test("Valid access token should be created", () => {
   let accessToken;
@@ -19,7 +18,7 @@ test("Valid access token should be created", () => {
     );
   }
 
-  const user = { id: "testUserId", tokenVersion: 0 };
+  const user = { id: "testUserId", accessTokenVersion: 0 };
   accessToken = createAccessToken(user);
   const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   expect(decodedToken).toBeTruthy();
@@ -51,7 +50,7 @@ test("Valid refresh token should be created", () => {
     );
   }
 
-  const user = { id: "testUserId", tokenVersion: 0 };
+  const user = { id: "testUserId", refreshTokenVersion: 0 };
   refreshToken = createRefreshToken(user);
   const decodedToken = jwt.verify(
     refreshToken,

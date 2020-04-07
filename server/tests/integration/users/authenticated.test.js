@@ -11,10 +11,6 @@ import {
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
-import { isAuth } from "../../../helpers/is-auth";
-import jwt from "jsonwebtoken";
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user sign up and login resolvers", () => {
   let server;
@@ -36,7 +32,6 @@ describe("Test user sign up and login resolvers", () => {
   });
 
   afterAll(async () => {
-    await testLogout();
     await teardown();
   });
 
@@ -44,7 +39,8 @@ describe("Test user sign up and login resolvers", () => {
       {
         googleId: '',
         mascot: 1,
-        tokenVersion: 0,
+        accessTokenVersion: 0,
+        refreshTokenVersion: 0,
         googleLogin: false,
         createdAt: 2020-04-07T13:39:55.593Z,
         _id: 5e8c82acb053b0c3482a8886,
@@ -121,16 +117,20 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp2.errors[0].message).toEqual("Already logged in.");
   });
 
-  async function testLogout() {
-    it("should log the user out", async () => {
-      //Already logged in
-      const resp = await mutate({
-        query: LOGOUT_MUTATION
-      });
-      expect(resp.data.logout).toBeTruthy();
-    });
-  }
+  it("should log the user out", async () => {
+    expect(testUser.accessTokenVersion).toBe(0);
+    expect(testUser.refreshTokenVersion).toBe(0);
 
-  //TEST ISAUTH ?
-  //TODO: TEST TOKEN VERSION
+    //Already logged in
+    const resp = await mutate({
+      query: LOGOUT_MUTATION
+    });
+    expect(resp.data.logout).toBeTruthy();
+
+    const user = await User.findOne({
+      _id: testUser._id
+    });
+    expect(user.accessTokenVersion).toBe(1);
+    expect(user.refreshTokenVersion).toBe(1);
+  });
 });
