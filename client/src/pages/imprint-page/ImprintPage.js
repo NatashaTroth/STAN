@@ -2,7 +2,10 @@ import React from "react"
 // --------------------------------------------------------------
 
 // image ----------------
-// import Stan from "../../images/mascots/imprintStan"
+import Stan from "../../images/mascots/imprintStan.svg"
+
+// sub-components
+import Image from "../../components/image/Image"
 
 function Imprint() {
   // return ----------------
@@ -14,10 +17,18 @@ function Imprint() {
           <div className="col-m-10">
             <div className="imprint__headline">
               <h2>Imprint</h2>
+              <Image
+                path={Stan}
+                alt="a mascot is holding up a letter"
+                className="imprint__headline--mascot"
+              />
             </div>
 
             <div className="imprint__content">
-              <p>This is a MultiMedia Project 3 by Natasha, Tra and Daniela.</p>
+              <p>
+                This is a MultiMedia Project 3 by Natasha, Tra and Daniela. And
+                I am Stan.
+              </p>
             </div>
 
             <div className="imprint__content">
@@ -32,29 +43,27 @@ function Imprint() {
             </div>
 
             <div className="imprint__content">
-              <p className="imprint__content--contact">
-                <strong>T </strong>
-                <a href="tel:+435022110" className="imprint__content--link">
-                  +43 50-2211-0
-                </a>
-              </p>
-              <p className="imprint__content--contact">
-                <strong>Mail </strong>
-                <a
-                  href="mailto:medien@fh-salzburg.ac.at"
-                  className="imprint__content--link"
-                >
-                  medien@fh-salzburg.ac.at
-                </a>
-              </p>
+              <div className="imprint__content--contact">
+                <p>
+                  <strong>T </strong>
+                  <a href="tel:+435022110" className="imprint__content--link">
+                    +43 50-2211-0
+                  </a>
+                </p>
+                <p>
+                  <strong>Mail </strong>
+                  <a
+                    href="mailto:medien@fh-salzburg.ac.at"
+                    className="imprint__content--link"
+                  >
+                    medien@fh-salzburg.ac.at
+                  </a>
+                </p>
+              </div>
             </div>
 
             <div className="imprint__content">
               <p>© 2020 FH Salzburg</p>
-
-              {/* <img src={Stan} alt="a mascot is holding up a letter" /> */}
-
-              <span className="imprint__content--line"></span>
             </div>
           </div>
           <div className="col-md-1"></div>

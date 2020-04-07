@@ -1,9 +1,21 @@
 .imprint {
   &__headline {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
     padding-bottom: 50px;
 
     @include media-breakpoint-down(sm) {
-      padding-bottom: 25px;
+      padding-bottom: 80px;
+    }
+
+    &--mascot {
+      width: 140px;
+      position: absolute;
+      right: 0;
+      bottom: -10px;
     }
   }
   &__content {
@@ -12,13 +24,9 @@
     &--contact {
       padding: 5px 0;
     }
+
     &--link {
       border-bottom: 1px solid theme-color("dark");
-    }
-    &--line {
-      width: 70%;
-      color: black;
-      height: 3px;
     }
   }
 }

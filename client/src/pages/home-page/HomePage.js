@@ -10,7 +10,7 @@ import Listing from "../../components/listing/Listing"
 import Dashboard from "../dashboard-page/DashboardPage"
 
 function Home() {
-  // mutation ----------------
+  // redirects ----------------
   let currentUser = useCurrentUserValue()
   if (currentUser !== undefined) {
     return <Dashboard />
