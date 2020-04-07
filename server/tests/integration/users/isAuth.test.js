@@ -6,13 +6,12 @@ import jwt from "jsonwebtoken";
 import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
 
 describe("Test user sign up and login resolvers", () => {
-  let server;
-
   let testUser;
+
   beforeAll(async () => {
     await setupDb();
     testUser = await signUpTestUser();
-    server = await setupApolloServer({ isAuth: false });
+    await setupApolloServer({ isAuth: false });
   });
 
   afterAll(async () => {
