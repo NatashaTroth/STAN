@@ -11,8 +11,9 @@ import {
 
 // mutation & queries ----------------
 import { useHistory, Redirect } from "react-router-dom"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
+import { GET_EXAMS_QUERY } from "../../graphQL/queries"
 
 // libraries ----------------
 import CountUp from "react-countup"
@@ -27,6 +28,9 @@ function UserAccount() {
   // history ----------------
   const history = useHistory()
 
+  // query ----------------
+  const { loading, error, data } = useQuery(GET_EXAMS_QUERY)
+
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
@@ -34,6 +38,21 @@ function UserAccount() {
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
+  }
+
+  // get all exams ----------------
+  let totalExams,
+    finishedExams = 0
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...</p>
+  if (data && data.exams) {
+    totalExams = data.exams.length
+
+    data.exams.forEach(exam => {
+      if (exam.completed) {
+        finishedExams++
+      }
+    })
   }
 
   // google logout ----------------
@@ -103,14 +122,24 @@ function UserAccount() {
 
                 <div className="user-account__container--left--bottom box-content">
                   <div className="total-exam">
-                    <CountUp start={0} end={10} duration={2.75} delay={0.5} />
+                    <CountUp
+                      start={0}
+                      end={totalExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
                     <p>
                       total exams <br /> to study
                     </p>
                   </div>
 
                   <div className="finished-exam">
-                    <CountUp start={0} end={2} duration={2.75} delay={0.5} />
+                    <CountUp
+                      start={0}
+                      end={finishedExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
                     <p>exams finished</p>
                   </div>
                 </div>
