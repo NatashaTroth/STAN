@@ -5,6 +5,7 @@ import { AuthenticationError } from "apollo-server";
 export async function isAuth(req) {
   try {
     const decodedToken = decodeAccessToken(req);
+    console.log("HERE");
     const user = await User.findOne({ _id: decodedToken.userId });
     if (!user) throw new AuthenticationError("User does not exist");
     if (user.tokenVersion !== decodedToken.tokenVersion)
@@ -18,6 +19,8 @@ export async function isAuth(req) {
 
 function decodeAccessToken(req) {
   const authHeader = req.get("Authorization");
+  console.log("yeah");
+  console.log(authHeader);
   if (!authHeader) throw new Error("Unauthorised"); //executes next function (if there is one)
   const token = authHeader.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
