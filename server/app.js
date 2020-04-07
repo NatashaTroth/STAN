@@ -105,9 +105,10 @@ apolloServer.applyMiddleware({ app, cors: false });
 
 // setup client render
 //TODO: DELETE LATER OR CHANGE TO /graphql
+app.use("/backend", express.static(__dirname + "/backend"));
 app.get("/backend", (req, res) => {
   // res.send("Welcome to STAN's backend");
-  res.sendFile(path.join(__dirname + "/backend/index.html"));
+  res.sendFile(path.resolve(__dirname, "backend", "index.html"));
 });
 app.use(express.static("public"));
 app.get("*", (req, res) => {
