@@ -166,7 +166,18 @@ const ExamDetails = props => {
                         </p>
                       </div>
                       <div className="pdf">
-                        <h4>PDF file</h4>
+                        <div className="pdf--file">
+                          <h4>PDF file</h4>
+
+                          <p>{examDetails.pdfLink}</p>
+                        </div>
+                        <a
+                          href={examDetails.pdfLink}
+                          target="_blank"
+                          className="stan-btn-secondary"
+                        >
+                          open
+                        </a>
                       </div>
                     </div>
                   </div>
