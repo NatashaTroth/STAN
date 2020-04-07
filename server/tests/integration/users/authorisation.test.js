@@ -20,6 +20,7 @@ describe("Test user sign up and login resolvers", () => {
   let mutate;
   let query;
   let testUser;
+  let client;
   beforeAll(async () => {
     await setupDb();
     testUser = await signUpTestUser();
@@ -28,7 +29,7 @@ describe("Test user sign up and login resolvers", () => {
       userId: testUser._id,
       user: testUser
     });
-    let client = createTestClient(server);
+    client = createTestClient(server);
     mutate = client.mutate;
     query = client.mutate;
   });
@@ -52,9 +53,7 @@ describe("Test user sign up and login resolvers", () => {
       }
      */
 
-  it("should update the mascot for a user", async () => {
-    console.log("TEST");
-
+  it("should fetch the current logged in user", async () => {
     const resp = await query({
       query: CURRENT_USER
     });
@@ -66,50 +65,33 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.data.currentUser.googleLogin).toBe(testUser.googleLogin);
   });
 
-  // it.skip("should update the mascot for a user", async () => {
-  //   const signupResp = await signUserUp(
-  //     "Stan1",
-  //     "user1@stan.com",
-  //     "12345678",
-  //     0
-  //   );
-  //   expect(signupResp.data.signup.user.mascot).toBe(0);
+  it("should update the mascot for a user", async () => {
+    const resp = await mutate({
+      query: UPDATE_MASCOT_MUTATION,
+      variables: {
+        mascot: 2
+      }
+    });
+    expect(resp.data.updateMascot).toBeTruthy();
 
-  //   const initialCount = await User.countDocuments();
-  //   const resp = await mutate({
-  //     query: UPDATE_MASCOT_MUTATION,
-  //     variables: {
-  //       mascot: 2
-  //     }
-  //   });
-  //   console.log(resp);
-  //   expect(resp.data.updateMascot).toBeTruthy();
+    const user = await User.findOne({
+      username: testUser.username,
+      email: testUser.email
+    });
+    expect(user).toBeTruthy();
+    expect(user.mascot).toBe(2);
 
-  //   const user = await User.findOne({
-  //     username: "Stan1",
-  //     email: "user1@stan.com"
-  //   });
-  //   expect(user).toBeTruthy();
-  //   expect(user.mascot).toBe(2);
-
-  //   const resp2 = await mutate({
-  //     query: UPDATE_MASCOT_MUTATION,
-  //     variables: {
-  //       mascot: 1
-  //     }
-  //   });
-  //   expect(resp2.data.updateMascot).toBeTruthy();
-
-  //   const user2 = await User.findOne({
-  //     username: "Stan1",
-  //     email: "user1@stan.com"
-  //   });
-  //   expect(user2).toBeTruthy();
-  //   expect(user2.mascot).toBe(1);
-
-  //   const newCount = await User.countDocuments();
-  //   expect(newCount).toBe(initialCount);
-  // });
+    const resp2 = await mutate({
+      query: UPDATE_MASCOT_MUTATION,
+      variables: {
+        mascot: 5
+      }
+    });
+    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.errors[0].message).toEqual(
+      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
+    );
+  });
 
   //TODO: TEST TOKEN VERSION
   it.skip("should not sign up a user if already logged in", async () => {
@@ -175,6 +157,15 @@ describe("Test user sign up and login resolvers", () => {
   //     expect(newCount).toBe(initialCount + 1);
   //     return resp;
   //   }
+
+  // async function updateApolloServer(isAuth, userId, user) {
+  //   server = await setupApolloServer({
+  //     isAuth,
+  //     userId,
+  //     user
+  //   });
+  //   await createTestClient(server);
+  // }
 });
 
 // function isOneMore(initialCount, newCount){

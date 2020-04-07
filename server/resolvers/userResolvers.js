@@ -88,6 +88,21 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
+    updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
+      try {
+        handleAuthentication(userInfo);
+        verifyUserInputFormat({ mascot: mascot.toString() });
+        if (userInfo.user.mascot === mascot) return true;
+        const resp = await User.updateOne(
+          { _id: userInfo.userId },
+          { mascot: mascot }
+        );
+        if (resp.nModified === 0) return false;
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
@@ -100,22 +115,6 @@ export const userResolvers = {
 
         const accessToken = logUserIn({ user, context });
         return { user, accessToken, tokenExpiration: 15 };
-      } catch (err) {
-        handleResolverError(err);
-      }
-    },
-
-    updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
-      try {
-        handleAuthentication(userInfo);
-        verifyUserInputFormat({ mascot: mascot.toString() });
-        if (userInfo.user.mascot === mascot) return true;
-        const resp = await User.updateOne(
-          { _id: userInfo.userId },
-          { mascot: mascot }
-        );
-        if (resp.nModified === 0) return false;
-        return true;
       } catch (err) {
         handleResolverError(err);
       }

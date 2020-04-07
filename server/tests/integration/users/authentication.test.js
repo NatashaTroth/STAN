@@ -19,11 +19,13 @@ import jwt from "jsonwebtoken";
 describe("Test user sign up and login resolvers", () => {
   let server;
   let mutate;
+  let query;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: false });
     let client = createTestClient(server);
     mutate = client.mutate;
+    query = client.query;
   });
 
   afterAll(async () => {
@@ -170,6 +172,14 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.errors[0].message).toEqual(
       "User with this email does not exist."
     );
+  });
+
+  it("should fetch the current user - which is null", async () => {
+    const resp = await query({
+      query: CURRENT_USER
+    });
+    expect(resp.data.currentUser).toBeFalsy();
+    expect(resp.data.currentUser).toBe(null);
   });
 
   //TODO: TEST GOOGLE LOGIN
