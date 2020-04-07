@@ -43,13 +43,15 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(user).toBeTruthy();
     console.log(JSON.stringify(user));
-    // console.log(JSON.stringify(resp.data.signup.user.id));
+    console.log(JSON.stringify(resp.data.signup.user));
     expect(user.id).toBe(resp.data.signup.user.id);
     expect(user.username).toBe(resp.data.signup.user.username);
     expect(user.email).toBe(resp.data.signup.user.email);
-    expect(user.username).toBe(resp.data.signup.user.username);
-    expect(user.username).toBe(resp.data.signup.user.username);
-    expect(user.username).toBe(resp.data.signup.user.username);
+    expect(user.mascot).toBe(resp.data.signup.user.mascot);
+    expect(user.googleId).toBe(resp.data.signup.user.googleId);
+    expect(user.googleLogin).toBe(resp.data.signup.user.googleLogin);
+
+    //TEST ACCESSTOKEN
   });
 });
 

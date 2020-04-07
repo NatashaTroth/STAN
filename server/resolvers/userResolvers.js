@@ -73,12 +73,14 @@ export const userResolvers = {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in");
         verifyUserInputFormat({ username, email, password });
+        // console.log("MASCOT: " + mascot)
         const user = await signUserUp({
           username,
           email,
           password,
           mascot
         });
+        // console.log()
 
         const accessToken = logUserIn({ user, context });
         return { user, accessToken, tokenExpiration: 15 };
