@@ -82,12 +82,7 @@ export const SIGNUP_MUTATION = gql`
 
 export const UPDATE_MASCOT_MUTATION = gql`
   mutation($mascot: Int!) {
-    updateMascot(mascot: $mascot) {
-      successful
-      user {
-        mascot
-      }
-    }
+    updateMascot(mascot: $mascot)
   }
 `
 
