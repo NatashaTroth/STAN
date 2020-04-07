@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react"
 import { BrowserRouter as Router, NavLink } from "react-router-dom"
 import { Cube } from "react-preloaders"
+import { getAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -28,7 +29,7 @@ const Navbar = () => {
   let currentUser
 
   if (loading) return <p className="loading">Loading...</p>
-  if (error) return <p>Error :(</p>
+  if (error) return <p>Error...</p>
   if (data && data.currentUser) {
     currentUser = data.currentUser
   }
@@ -54,7 +55,7 @@ const Navbar = () => {
       <Cube customLoading={loading} background="#ffffff" />
       <Router className="sidebar">
         <div className="burger">
-          <div className={isSideBarOpen ? "close" : "open"}>
+          <div className={isSideBarOpen ? "closeBurger" : "openBurger"}>
             <a href="/">
               <img src={Logo} alt="Stans Logo" className="burger__logo-img" />
             </a>
