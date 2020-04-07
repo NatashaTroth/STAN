@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 let mongod;
 
 async function setup({ isAuth, userId }) {
-  console.log("IN SETUP");
+  // console.log("IN SETUP");
   let server;
 
   try {

@@ -1,28 +1,27 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-
 import { setup, teardown } from "../setup";
 import { ADD_EXAM_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
-  //TODO: EXTRACT MONGODB CONNECTIONS
   let server;
+  let mutate;
   beforeAll(async () => {
     server = await setup({ isAuth: true, userId: "testUserId" });
-    // console.log(server);
+    let client = createTestClient(server);
+    mutate = client.mutate;
   });
 
   afterAll(async () => {
     await teardown();
   });
 
-  it("should use regex to filter out wrong add new exam input data", async () => {
-    const { mutate } = createTestClient(server);
-
-    let resp = await mutate({
+  //TODO: PUT IN SEPARATE ITS, SO DONE IN SEPARATE ORDER?
+  it("should pass the exam regex tests and add an exam", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
@@ -38,8 +37,10 @@ describe("Test user resolver regex", () => {
     });
 
     expect(resp.data.addExam).toBeTruthy();
+  });
 
-    resp = await mutate({
+  it("should use regex to filter out wrong subject format", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "",
@@ -57,8 +58,10 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Subject input has the wrong format"
     );
+  });
 
-    resp = await mutate({
+  it("should use regex to filter out wrong exam date format", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
@@ -76,27 +79,31 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Exam date input has the wrong format"
     );
+  });
 
-    // let resp = await mutate({
-    //   query: ADD_EXAM_MUTATION,
-    //   variables: {
-    //     subject: "Maths",
-    //     examDate: new Date("2020-08-11"),
-    //     startDate: "test",
-    //     numberPages: 5,
-    //     timePerPage: 5,
-    //     startPage: 6,
-    //     notes: "NOTES",
-    //     pdfLink: "klsdjfs",
-    //     completed: false
-    //   }
-    // });
-    // expect(resp.data.addExam).toBeFalsy();
-    // expect(resp.errors[0].message).toEqual(
-    //   "Study start date input has the wrong format"
-    // );
+  // it("should use regex to filter out wrong start date format", async () => {
+  //   let resp = await mutate({
+  //     query: ADD_EXAM_MUTATION,
+  //     variables: {
+  //       subject: "Maths",
+  //       examDate: new Date("2020-08-11"),
+  //       startDate: "test",
+  //       numberPages: 5,
+  //       timePerPage: 5,
+  //       startPage: 6,
+  //       notes: "NOTES",
+  //       pdfLink: "klsdjfs",
+  //       completed: false
+  //     }
+  //   });
+  //   expect(resp.data.addExam).toBeFalsy();
+  //   expect(resp.errors[0].message).toEqual(
+  //     "Study start date input has the wrong format"
+  //   );
+  // });
 
-    resp = await mutate({
+  it("should use regex to filter out wrong start date format", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
@@ -112,8 +119,10 @@ describe("Test user resolver regex", () => {
     });
 
     expect(resp.data.addExam).toBeTruthy();
+  });
 
-    resp = await mutate({
+  it("should use regex to filter out wrong time per page format", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
@@ -132,8 +141,10 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Time per page has to be higher than 0."
     );
+  });
 
-    resp = await mutate({
+  it("should use regex to filter out wrong notes format", async () => {
+    const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
