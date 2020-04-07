@@ -2,7 +2,7 @@ import React from "react"
 // --------------------------------------------------------------
 
 // image ----------------
-import Stan from "../../images/mascots/imprintStan.svg"
+import Stan from "../../images/mascots/iAmStan.svg"
 
 // sub-components
 import Image from "../../components/image/Image"
@@ -17,18 +17,16 @@ function Imprint() {
           <div className="col-m-10">
             <div className="imprint__headline">
               <h2>Imprint</h2>
+            </div>
+
+            <div className="imprint__content imprint-content">
+              <p>This is a MultiMedia Project 3 by Natasha, Tra and Daniela.</p>
+
               <Image
                 path={Stan}
                 alt="a mascot is holding up a letter"
-                className="imprint__headline--mascot"
+                className="imprint__content--mascot"
               />
-            </div>
-
-            <div className="imprint__content">
-              <p>
-                This is a MultiMedia Project 3 by Natasha, Tra and Daniela. And
-                I am Stan.
-              </p>
             </div>
 
             <div className="imprint__content">
