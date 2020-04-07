@@ -54,10 +54,10 @@ function AddNew() {
   }
 
   // query ----------------
-  const { loading, error, data } = useQuery(CURRENT_USER)
+  const { loading, error } = useQuery(CURRENT_USER)
 
   // mutation ----------------
-  const [addExam, { mutationData }] = useMutation(ADD_EXAM_MUTATION)
+  const [addExam] = useMutation(ADD_EXAM_MUTATION)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>

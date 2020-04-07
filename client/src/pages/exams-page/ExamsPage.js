@@ -23,8 +23,7 @@ const Exams = () => {
   const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
-  let currentExams = []
-  let archiveExams = []
+  let currentExams, archiveExams
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -35,24 +34,29 @@ const Exams = () => {
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...(</p>
   if (data && data.exams) {
-    data.exams.map(function(exam) {
+    currentExams = data.exams.map(function(exam) {
       if (!exam.completed) {
-        currentExams.push({
+        return {
           id: exam.id,
           subject: exam.subject,
           numberPages: exam.numberPages,
           currentPage: exam.currentPage,
           timesRepeat: exam.timesRepeat,
-        })
-      } else {
-        archiveExams.push({
-          id: exam.id,
-          subject: exam.subject,
-          numberPages: exam.numberPages,
-          currentPage: exam.currentPage,
-          timesRepeat: exam.timesRepeat,
-        })
+        }
       }
+      return null
+    })
+    archiveExams = data.exams.map(function(exam) {
+      if (exam.completed) {
+        return {
+          id: exam.id,
+          subject: exam.subject,
+          numberPages: exam.numberPages,
+          currentPage: exam.currentPage,
+          timesRepeat: exam.timesRepeat,
+        }
+      }
+      return null
     })
   }
 
@@ -61,36 +65,46 @@ const Exams = () => {
 
   // function ----------------
   currentExamsList = currentExams.map(function(exam) {
-    return (
-      <div key={exam.id}>
-        <Link
-          to={{
-            pathname: `/exams/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
-            state: { examId: exam.id },
-          }}
-        >
+    if (exam === null) {
+      return null
+    } else {
+      return (
+        <div key={exam.id}>
+          <Link
+            to={{
+              pathname: `/exams/${exam.subject
+                .toLowerCase()
+                .replace(/ /g, "-")}`,
+              state: { examId: exam.id },
+            }}
+          >
+            <CurrentExam
+              subject={exam.subject}
+              currentStatus={Math.round(
+                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+              )}
+            />
+          </Link>
+        </div>
+      )
+    }
+  })
+
+  archiveExamsList = archiveExams.map(function(exam) {
+    if (exam === null) {
+      return null
+    } else {
+      return (
+        <div key={exam.id}>
           <CurrentExam
             subject={exam.subject}
             currentStatus={Math.round(
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
           />
-        </Link>
-      </div>
-    )
-  })
-
-  archiveExamsList = archiveExams.map(function(exam) {
-    return (
-      <div key={exam.id}>
-        <CurrentExam
-          subject={exam.subject}
-          currentStatus={Math.round(
-            (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-          )}
-        />
-      </div>
-    )
+        </div>
+      )
+    }
   })
 
   const handleArchiveClick = () => {
