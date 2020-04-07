@@ -117,38 +117,33 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(resp2.data.updateMascot).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Already logged in.");
-
-    //TEST ISAUTH ?
-    //TODO: TEST TOKEN VERSION
   });
 
-  //   async function signUserUp(username, email, password, mascot) {
-  //     const initialCount = await User.countDocuments();
-  //     const resp = await mutate({
-  //       query: SIGNUP_MUTATION,
-  //       variables: {
-  //         username,
-  //         email,
-  //         password,
-  //         mascot: mascot || 0
-  //       }
-  //     });
-  //     expect(resp.data.signup).toBeTruthy();
-  //     const newCount = await User.countDocuments();
-  //     expect(newCount).toBe(initialCount + 1);
-  //     return resp;
-  //   }
+  it("should log user out", async () => {
+    //Already logged in
+    const resp = await mutate({
+      query: SIGNUP_MUTATION,
+      variables: {
+        username: "Stan",
+        email: "user@stan.com",
+        password: "12345678",
+        mascot: 1
+      }
+    });
+    expect(resp.data.updateMascot).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Already logged in.");
 
-  // async function updateApolloServer(isAuth, userId, user) {
-  //   server = await setupApolloServer({
-  //     isAuth,
-  //     userId,
-  //     user
-  //   });
-  //   await createTestClient(server);
-  // }
+    //Already logged in
+    const resp2 = await mutate({
+      query: LOGIN_MUTATION,
+      variables: {
+        email: "samantha@stan.com",
+        password: "samantha"
+      }
+    });
+    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.errors[0].message).toEqual("Already logged in.");
+  });
+  //TEST ISAUTH ?
+  //TODO: TEST TOKEN VERSION
 });
-
-// function isOneMore(initialCount, newCount){
-//   if()
-// }

@@ -72,51 +72,6 @@ describe("Test user sign up and login resolvers", () => {
     //TEST ISAUTH ?
   });
 
-  // it.skip("should update the mascot for a user", async () => {
-  //   const signupResp = await signUserUp(
-  //     "Stan1",
-  //     "user1@stan.com",
-  //     "12345678",
-  //     0
-  //   );
-  //   expect(signupResp.data.signup.user.mascot).toBe(0);
-
-  //   const initialCount = await User.countDocuments();
-  //   const resp = await mutate({
-  //     query: UPDATE_MASCOT_MUTATION,
-  //     variables: {
-  //       mascot: 2
-  //     }
-  //   });
-  //   console.log(resp);
-  //   expect(resp.data.updateMascot).toBeTruthy();
-
-  //   const user = await User.findOne({
-  //     username: "Stan1",
-  //     email: "user1@stan.com"
-  //   });
-  //   expect(user).toBeTruthy();
-  //   expect(user.mascot).toBe(2);
-
-  //   const resp2 = await mutate({
-  //     query: UPDATE_MASCOT_MUTATION,
-  //     variables: {
-  //       mascot: 1
-  //     }
-  //   });
-  //   expect(resp2.data.updateMascot).toBeTruthy();
-
-  //   const user2 = await User.findOne({
-  //     username: "Stan1",
-  //     email: "user1@stan.com"
-  //   });
-  //   expect(user2).toBeTruthy();
-  //   expect(user2.mascot).toBe(1);
-
-  //   const newCount = await User.countDocuments();
-  //   expect(newCount).toBe(initialCount);
-  // });
-
   it("should not sign the user up again with the same email address", async () => {
     await signUserUp("Stan2", "user2@stan.com", "12345678");
     const resp = await mutate({
@@ -130,6 +85,26 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(resp.data.signup).toBeFalsy();
     expect(resp.errors[0].message).toEqual("User with email already exists.");
+  });
+
+  it("should not update the mascot for a user", async () => {
+    const resp = await mutate({
+      query: UPDATE_MASCOT_MUTATION,
+      variables: {
+        mascot: 2
+      }
+    });
+    expect(resp.data.updateMascot).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+
+    const resp2 = await mutate({
+      query: UPDATE_MASCOT_MUTATION,
+      variables: {
+        mascot: 5
+      }
+    });
+    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.errors[0].message).toEqual("Unauthorised");
   });
 
   //_----------------------------------LOGIN----------------------------------
@@ -183,67 +158,7 @@ describe("Test user sign up and login resolvers", () => {
   });
 
   //TODO: TEST GOOGLE LOGIN
-
-  // it("should not login without a password", async () => {
-  //   await signUserUp("Stan4", "user4@stan.com", "12345678");
-  //   const resp = await mutate({
-  //     query: LOGIN_MUTATION,
-  //     variables: {
-  //       email: "user4@stan.com",
-  //       password: ""
-  //     }
-  //   });
-  //   expect(resp.data.login).toBeFalsy();
-  //   expect(resp.errors[0].message).toEqual("Password input has the wrong format.");
-  // });
-
   //TODO: TEST TOKEN VERSION
-  it.skip("should not sign up a user if already logged in", async () => {
-    // const initialCount = await User.countDocuments();
-    // const resp = await mutate({
-    //   query: SIGNUP_MUTATION,
-    //   variables: {
-    //     username: "Stan",
-    //     email: "user@stan.com",
-    //     password: "12345678",
-    //     mascot: 1
-    //   }
-    // });
-    // expect(resp.data.signup).toBeTruthy();
-    // const newCount = await User.countDocuments();
-    // expect(newCount).toBe(initialCount + 1);
-    // const user = await User.findOne({
-    //   username: "Stan",
-    //   email: "user@stan.com"
-    // });
-    // expect(user).toBeTruthy();
-    // expect(user.id).toBe(resp.data.signup.user.id);
-    // expect(user.username).toBe(resp.data.signup.user.username);
-    // expect(user.email).toBe(resp.data.signup.user.email);
-    // expect(user.mascot).toBe(resp.data.signup.user.mascot);
-    // expect(user.googleId).toBe(resp.data.signup.user.googleId);
-    // expect(user.googleLogin).toBe(resp.data.signup.user.googleLogin);
-    // //Test accesstoken
-    // expect(resp.data.signup.accessToken).toBeDefined();
-    // const decodedToken = jwt.verify(
-    //   resp.data.signup.accessToken,
-    //   process.env.ACCESS_TOKEN_SECRET
-    // );
-    // expect(decodedToken).toBeTruthy();
-    // expect(decodedToken.userId).toBe(user.id);
-    // expect(decodedToken.tokenVersion).toBe(0);
-    // //Already logged in
-    // const resp2 = await mutate({
-    //   query: SIGNUP_MUTATION,
-    //   variables: {
-    //     username: "Stan",
-    //     email: "user@stan.com",
-    //     password: "12345678",
-    //     mascot: 1
-    //   }
-    // });
-    //TEST ISAUTH ?
-  });
 
   async function signUserUp(username, email, password, mascot) {
     const initialCount = await User.countDocuments();
@@ -262,7 +177,3 @@ describe("Test user sign up and login resolvers", () => {
     return resp;
   }
 });
-
-// function isOneMore(initialCount, newCount){
-//   if()
-// }
