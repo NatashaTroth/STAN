@@ -173,12 +173,12 @@
   height: 15px;
   width: 100%;
   border: 2px solid theme_color("dark");
-}
 
-.filler {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: theme_color("dark");
-  height: 100%;
+  &__filler {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: theme_color("dark");
+    height: 100%;
+  }
 }

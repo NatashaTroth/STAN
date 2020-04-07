@@ -50,6 +50,7 @@ const ExamDetails = props => {
     }
   }
 
+  // calculation ----------------
   const daysUntilDeadline = getNumberOfDays(
     new Date(),
     new Date(examDetails.examDate)
@@ -118,7 +119,7 @@ const ExamDetails = props => {
 
                       <div className="time-per-pages">
                         <h4>Time per pages</h4>
-                        <p>{examDetails.timePerPage} min</p>
+                        <p>{examDetails.timePerPage} min.</p>
                       </div>
 
                       <div className="repeat">
@@ -233,17 +234,15 @@ const ExamDetails = props => {
   )
 }
 
+// progressbar component ----------------
 const ExamBar = props => {
   return (
     <div className="exam-bar">
-      <Filler percentage={props.percentage} />
+      <div
+        className="exam-bar__filler"
+        style={{ width: `${props.percentage}%` }}
+      ></div>
     </div>
-  )
-}
-
-const Filler = props => {
-  return (
-    <div className="filler" style={{ width: `${props.percentage}%` }}></div>
   )
 }
 
