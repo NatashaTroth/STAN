@@ -1,5 +1,3 @@
-//https://www.apollographql.com/docs/apollo-server/testing/testing/
-//https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
 import { setupApolloServer, setupDb, teardown } from "../setup";
@@ -14,7 +12,7 @@ import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
 import jwt from "jsonwebtoken";
 
-// import { createTestClient } from "apollo-server-integration-testing";
+//TODO: TEST GOOGLE LOGIN??
 
 describe("Test user sign up and login resolvers", () => {
   let server;
@@ -69,7 +67,6 @@ describe("Test user sign up and login resolvers", () => {
     expect(decodedToken).toBeTruthy();
     expect(decodedToken.userId).toBe(user.id);
     expect(decodedToken.tokenVersion).toBe(0);
-    //TEST ISAUTH ?
   });
 
   it("should not sign the user up again with the same email address", async () => {
@@ -157,10 +154,6 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.data.currentUser).toBe(null);
   });
 
-  //TODO: TEST GOOGLE LOGIN??
-  //TODO: TEST TOKEN VERSION
-  //TODO: TEST IS AUTH
-
   async function signUserUp(username, email, password, mascot) {
     const initialCount = await User.countDocuments();
     const resp = await mutate({
@@ -188,5 +181,3 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 });
-
-//todo: not logout...
