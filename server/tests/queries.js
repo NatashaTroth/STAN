@@ -1,6 +1,18 @@
-import { gql } from "apollo-server"; //to make queries
+import { gql } from "apollo-boost"; //to make queries
 
-const GET_EXAMS_QUERY = gql`
+//TODO IMPORTANT - DELETE AS SOON AS POSSIBLE
+export const GET_USERS_QUERY = gql`
+  {
+    users {
+      id
+      username
+      email
+      mascot
+    }
+  }
+`;
+
+export const GET_EXAMS_QUERY = gql`
   {
     exams {
       id
@@ -9,16 +21,61 @@ const GET_EXAMS_QUERY = gql`
       startDate
       numberPages
       timePerPage
+      timesRepeat
       currentPage
       notes
       pdfLink
       completed
-      userId
     }
   }
 `;
 
-const CURRENT_USER = gql`
+export const GET_EXAM_QUERY = gql`
+  query($id: ID!) {
+    exam(id: $id) {
+      id
+      subject
+      examDate
+      startDate
+      numberPages
+      timePerPage
+      timesRepeat
+      currentPage
+      notes
+      pdfLink
+      completed
+    }
+  }
+`;
+
+export const GET_TODAYS_CHUNKS = gql`
+  query {
+    todaysChunks {
+      exam {
+        id
+        subject
+        examDate
+        startDate
+        numberPages
+        # timePerPage
+        timesRepeat
+        currentPage
+        pdfLink
+      }
+      numberPagesToday
+      duration
+      daysLeft
+      totalNumberDays
+      # totalChunks
+      numberPagesWithRepeat
+      notEnoughTime
+    }
+  }
+`;
+
+//TODO: cache result of current user query - so you don't have to keep fetching it from the server - use apollo!
+//https://www.youtube.com/watch?v=25GS0MLT8JU 2:52:35
+export const CURRENT_USER = gql`
   query {
     currentUser {
       id
@@ -29,15 +86,3 @@ const CURRENT_USER = gql`
     }
   }
 `;
-
-const GET_TODAYS_CHUNKS = gql`
-  query {
-    todaysChunks {
-      subject
-      numberPages
-      duration
-    }
-  }
-`;
-
-export { GET_EXAMS_QUERY, CURRENT_USER, GET_TODAYS_CHUNKS };
