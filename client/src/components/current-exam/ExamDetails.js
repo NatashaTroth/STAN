@@ -51,15 +51,27 @@ const ExamDetails = props => {
   }
 
   // calculation ----------------
-  const daysUntilDeadline = getNumberOfDays(
-    new Date(),
+  const today = new Date()
+
+  const startDateUntilDeadline = getNumberOfDays(
+    new Date(examDetails.startDate),
     new Date(examDetails.examDate)
   )
 
-  const pagesPerChunk =
-    ((examDetails.numberPages - examDetails.currentPage) *
-      examDetails.timesRepeat) /
-    daysUntilDeadline
+  const daysUntilDeadline = getNumberOfDays(
+    today,
+    new Date(examDetails.examDate)
+  )
+
+  const daysAfterStartDate = getNumberOfDays(
+    new Date(examDetails.startDate),
+    today
+  )
+
+  // const pagesPerChunk =
+  //   ((examDetails.numberPages - examDetails.currentPage) *
+  //     examDetails.timesRepeat) /
+  //   daysUntilDeadline
 
   return (
     <div className="exam-details">
@@ -140,26 +152,31 @@ const ExamDetails = props => {
 
                         <div className="bar">
                           <ExamBar
-                            percentage={(100 * daysUntilDeadline) / 30}
+                            percentage={
+                              (100 * daysAfterStartDate) /
+                              startDateUntilDeadline
+                            }
                           />
                           <div className="bar--status">
                             <p>{daysUntilDeadline} days left</p>
                           </div>
                         </div>
                       </div>
-                      <div className="chunks">
+                      <div className="pages">
                         <h4>Pages left</h4>
 
                         <div className="bar">
                           <ExamBar
                             percentage={
-                              (100 * pagesPerChunk) / examDetails.numberPages
+                              (100 * examDetails.currentPage) /
+                              examDetails.numberPages
                             }
                           />
                           <div className="bar--status">
                             <p>
                               {Math.round(
-                                examDetails.numberPages - pagesPerChunk
+                                examDetails.numberPages -
+                                  examDetails.currentPage
                               )}{" "}
                               pages left
                             </p>
@@ -170,21 +187,13 @@ const ExamDetails = props => {
                         <h4>Studied</h4>
 
                         <div className="bar">
-                          <ExamBar
-                            percentage={
+                          <p>
+                            {(
                               (100 * (examDetails.currentPage - 1)) /
                               examDetails.numberPages
-                            }
-                          />
-                          <div className="bar--status">
-                            <p>
-                              {(
-                                (100 * (examDetails.currentPage - 1)) /
-                                examDetails.numberPages
-                              ).toFixed(2)}
-                              %
-                            </p>
-                          </div>
+                            ).toFixed(2)}
+                            % of 100%
+                          </p>
                         </div>
                       </div>
                       <div className="pages-studied">
