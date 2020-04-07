@@ -17,14 +17,14 @@ import { handleResolverError } from "../helpers/resolvers";
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
   if (!user)
-    throw new AuthenticationError("User with this email does not exist");
+    throw new AuthenticationError("User with this email does not exist.");
 
   //in case user tries to login with google login data in normal login - cause no password!
   if (user.googleLogin)
-    throw new AuthenticationError("User has to login with google");
+    throw new AuthenticationError("User has to login with google.");
 
   const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new AuthenticationError("Password is incorrect");
+  if (!valid) throw new AuthenticationError("Password is incorrect.");
   return user;
 }
 
@@ -37,7 +37,8 @@ export async function signUserUp({
   googleLogin
 }) {
   const userWithEmail = await User.findOne({ email: email });
-  if (userWithEmail) throw new UserInputError("User with email already exists");
+  if (userWithEmail)
+    throw new UserInputError("User with email already exists.");
   let hashedPassword;
   if (googleLogin) hashedPassword = null;
   else hashedPassword = await bcrypt.hash(password, 10);
@@ -50,7 +51,7 @@ export async function signUserUp({
     googleLogin: googleLogin || false
   });
 
-  if (!resp) throw new AuthenticationError("User could not be created");
+  if (!resp) throw new AuthenticationError("User could not be created.");
   return resp;
 }
 
@@ -76,7 +77,7 @@ export async function revokeRefreshTokensForUser(userId) {
   //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
   try {
     const user = await User.findOne({ _id: userId });
-    if (!user) throw new Error("This user does not exist");
+    if (!user) throw new Error("This user does not exist.");
     await User.updateOne({ _id: userId }, { $inc: { tokenVersion: 1 } });
     return true;
   } catch (err) {
@@ -96,13 +97,13 @@ export async function verifyGoogleIdToken(token) {
 
 export function verifyUserInputFormat({ username, email, password, mascot }) {
   if (typeof username !== "undefined" && !verifyRegexUsername(username))
-    throw new Error("Username input has the wrong format");
+    throw new Error("Username input has the wrong format.");
   if (typeof email !== "undefined" && !verifyRegexEmail(email))
-    throw new Error("Email input has the wrong format");
+    throw new Error("Email input has the wrong format.");
   if (typeof password !== "undefined" && !verifyRegexPassword(password))
-    throw new Error("Password input has the wrong format");
+    throw new Error("Password input has the wrong format.");
   if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
     throw new Error(
-      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2 "
+      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
 }

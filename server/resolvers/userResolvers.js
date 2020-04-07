@@ -50,7 +50,7 @@ export const userResolvers = {
         sendRefreshToken(res, "");
         //invalidate current refresh tokens for user
         const resp = revokeRefreshTokensForUser(userInfo.userId);
-        if (!resp) throw new ApolloError("Unable to revoke refresh token");
+        if (!resp) throw new ApolloError("Unable to revoke refresh token.");
       } catch (err) {
         throw new ApolloError(err.message);
       }
@@ -59,7 +59,7 @@ export const userResolvers = {
     login: async (parent, { email, password }, context) => {
       try {
         if (context.userInfo.isAuth)
-          throw new AuthenticationError("Already logged in");
+          throw new AuthenticationError("Already logged in.");
         verifyUserInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
@@ -71,7 +71,7 @@ export const userResolvers = {
     signup: async (parent, { username, email, password, mascot }, context) => {
       try {
         if (context.userInfo.isAuth)
-          throw new AuthenticationError("Already logged in");
+          throw new AuthenticationError("Already logged in.");
         verifyUserInputFormat({ username, email, password });
         // console.log("MASCOT: " + mascot)
         const user = await signUserUp({
