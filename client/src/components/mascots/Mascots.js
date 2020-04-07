@@ -29,7 +29,7 @@ function Mascots() {
   // form specific ----------------
   const onSubmit = async data => {
     data = mascotStore.mascot
-    handleMascot({ data, updateMascot, history })
+    handleMascot({ data, updateMascot })
   }
 
   // functions ----------------
@@ -94,7 +94,7 @@ function Mascots() {
 
 export default Mascots
 
-async function handleMascot({ data, updateMascot, history }) {
+async function handleMascot({ data, updateMascot }) {
   try {
     const resp = await updateMascot({
       variables: {

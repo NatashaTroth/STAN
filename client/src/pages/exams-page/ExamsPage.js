@@ -35,7 +35,6 @@ const Exams = () => {
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...(</p>
   if (data && data.exams) {
-    // TODO: repeat is missing
     data.exams.map(function(exam) {
       if (!exam.completed) {
         currentExams.push({
@@ -43,6 +42,7 @@ const Exams = () => {
           subject: exam.subject,
           numberPages: exam.numberPages,
           currentPage: exam.currentPage,
+          timesRepeat: exam.timesRepeat,
         })
       } else {
         archiveExams.push({
@@ -50,6 +50,7 @@ const Exams = () => {
           subject: exam.subject,
           numberPages: exam.numberPages,
           currentPage: exam.currentPage,
+          timesRepeat: exam.timesRepeat,
         })
       }
     })
@@ -71,7 +72,7 @@ const Exams = () => {
           <CurrentExam
             subject={exam.subject}
             currentStatus={Math.round(
-              (100 * exam.currentPage) / exam.numberPages
+              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
           />
         </Link>
@@ -85,7 +86,7 @@ const Exams = () => {
         <CurrentExam
           subject={exam.subject}
           currentStatus={Math.round(
-            (100 * exam.currentPage) / exam.numberPages
+            (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
           )}
         />
       </div>
