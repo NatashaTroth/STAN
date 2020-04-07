@@ -1,5 +1,4 @@
-// import { gql } from "apollo-server";
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const examQueries = gql`
@@ -12,10 +11,10 @@ const examQueries = gql`
   type Mutation {
     addExam(
       subject: String!
-      examDate: Date
+      examDate: Date!
       startDate: Date
-      numberPages: Int
-      timePerPage: Int
+      numberPages: Int!
+      timePerPage: Int!
       timesRepeat: Int
       startPage: Int
       notes: String

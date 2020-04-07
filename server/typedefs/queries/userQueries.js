@@ -1,5 +1,4 @@
-// import { gql } from "apollo-server";
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const userQueries = gql`
@@ -27,7 +26,7 @@ const userQueries = gql`
     logout: Boolean
     login(email: String!, password: String): AuthData
     googleLogin(idToken: String!): AuthData
-    updateMascot(mascot: Int!): UpdateResponse
+    updateMascot(mascot: Int!): Boolean
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean
   }

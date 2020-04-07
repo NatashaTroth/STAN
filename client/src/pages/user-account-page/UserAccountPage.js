@@ -37,8 +37,7 @@ function UserAccount() {
   }
 
   // google logout ----------------
-  //TODO: CHANGE WHEN CURRENT USER IN STORE - MAKE DYNAMIC - DOESN'T WORK PROPERLY WHEN QUERY CURRENT USER HERE
-  const currentUserGoogleLogin = false
+  const currentUserGoogleLogin = currentUser.googleLogin
   let logoutButton
   if (!currentUserGoogleLogin) {
     logoutButton = (
@@ -55,15 +54,15 @@ function UserAccount() {
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         buttonText="Logout"
         onLogoutSuccess={async () => logUserOut({ logout, client, history })}
-        // render={renderProps => (
-        //   <button
-        //     onClick={renderProps.onClick}
-        //     disabled={renderProps.disabled}
-        //     className="stan-btn-primary"
-        //   >
-        //     Logout
-        //   </button>
-        // )}
+        render={renderProps => (
+          <button
+            variant="button"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            Logout
+          </button>
+        )}
       ></GoogleLogout>
     )
   }

@@ -1,5 +1,4 @@
-// import { gql } from "apollo-server";
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
 const examType = gql`
@@ -11,9 +10,10 @@ const examType = gql`
     examDate: Date!
     startDate: Date
     numberPages: Int!
-    timePerPage: Int
-    timesRepeat: Int
-    currentPage: Int
+    timePerPage: Int!
+    timesRepeat: Int!
+    startPage: Int!
+    currentPage: Int!
     notes: String
     pdfLink: String
     completed: Boolean
@@ -29,7 +29,7 @@ const examType = gql`
     duration: Int
     daysLeft: Int!
     totalNumberDays: Int!
-    totalChunks: Int!
+    # totalChunks: Int!
     numberPagesWithRepeat: Int!
     notEnoughTime: Boolean!
   }

@@ -28,7 +28,7 @@ export const ADD_EXAM_MUTATION = gql`
     $examDate: Date!
     $startDate: Date
     $numberPages: Int!
-    $timePerPage: Int
+    $timePerPage: Int!
     $timesRepeat: Int
     $startPage: Int
     $notes: String
@@ -82,12 +82,7 @@ export const SIGNUP_MUTATION = gql`
 
 export const UPDATE_MASCOT_MUTATION = gql`
   mutation($mascot: Int!) {
-    updateMascot(mascot: $mascot) {
-      successful
-      user {
-        mascot
-      }
-    }
+    updateMascot(mascot: $mascot)
   }
 `
 

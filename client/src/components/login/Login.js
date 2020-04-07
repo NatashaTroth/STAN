@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
@@ -6,7 +6,6 @@ import { GoogleLogin } from "react-google-login"
 // mutation & queries
 import { useForm } from "react-hook-form"
 import { useMutation } from "@apollo/react-hooks"
-import { useHistory } from "react-router-dom"
 import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 
 // components
@@ -15,8 +14,6 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
 function Login() {
-  const history = useHistory()
-
   // localstorage popup event ----------------
   window.localStorage.setItem("popup-event", false)
 
@@ -44,8 +41,8 @@ function Login() {
   }
 
   // mutation ----------------
-  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
-  const [login, { loginData }] = useMutation(LOGIN_MUTATION)
+  const [googleLogin] = useMutation(GOOGLE_LOGIN_MUTATION)
+  const [login] = useMutation(LOGIN_MUTATION)
 
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()

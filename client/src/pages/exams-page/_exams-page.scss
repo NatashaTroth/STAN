@@ -1,26 +1,22 @@
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .exams {
-  .current-exams {
+  &__current-exams {
     display: flex;
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
-    cursor: pointer;
   }
-  .archive-exams {
+  &__archive-exams {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    cursor: pointer;
-    transition: all 0.3s ease;
+
+    .exam {
+      transition: all 0.3s ease;
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
   &__toggle-archive {
     padding-bottom: 15px;
@@ -28,6 +24,7 @@
       border: none;
       color: theme-color("dark");
       transition: all 0.3s ease;
+
       &:focus {
         outline: none;
       }
@@ -53,12 +50,5 @@
     .down {
       transform: rotate(45deg);
     }
-  }
-  .show {
-    animation: fadeIn 0.3s;
-  }
-  .close {
-    // display: none;
-    opacity: 0;
   }
 }

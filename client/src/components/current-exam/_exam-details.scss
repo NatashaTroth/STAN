@@ -1,0 +1,184 @@
+.exam-details {
+  &__headline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+
+    &--back-btn {
+      position: relative;
+      border: none;
+      background: none;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        height: 10px;
+        width: 50px;
+        transform: rotate(-45deg);
+        background-color: theme_color("dark");
+        transition: all 0.25s ease-out;
+      }
+      &:after {
+        transform: rotate(-135deg);
+      }
+
+      &:hover {
+        &:before,
+        &:after {
+          transform: rotate(0deg);
+        }
+      }
+
+      &:hover,
+      &focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__inner {
+    &--bar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      position: relative;
+
+      &--right {
+        display: flex;
+        flex-direction: row;
+
+        .closeExam {
+          border: none;
+          padding: 0 0 0 10px;
+          display: none;
+          margin: 0;
+
+          // font style for close buttons
+          color: theme-color("dark");
+          font-family: $font-family-OpenSans-Regular;
+          @include rem(font-size, $font-size-16);
+          letter-spacing: 0;
+          @include rem(line-height, 22px);
+          transition: all 200ms ease-in-out;
+
+          &:hover,
+          &:focus,
+          &:active {
+            color: theme-color("primary-yellow");
+            text-decoration: none;
+            outline: none;
+          }
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $font-size-14);
+            @include rem(line-height, 18px);
+          }
+
+          @include media-breakpoint-down(md) {
+            display: block;
+          }
+        }
+      }
+
+      .line {
+        position: absolute;
+        border-bottom: 3px solid theme_color("dark");
+        bottom: 0;
+        left: 1%;
+        right: 1%;
+        width: 98%;
+      }
+    }
+
+    &--details {
+      padding: 10px;
+
+      &--flex-container {
+        display: flex;
+        flex-direction: row;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
+      }
+
+      &--left {
+        .exam-date,
+        .start-date,
+        .number-pages,
+        .time-per-pages,
+        .repeat {
+          padding: 10px;
+        }
+      }
+      &--right {
+        .deadline,
+        .pages,
+        .studied,
+        .pages-studied,
+        .pdf {
+          padding: 10px;
+        }
+
+        .bar {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          &--status {
+            padding-left: 15px;
+            min-width: 120px;
+          }
+        }
+
+        .pdf {
+          display: flex;
+          align-items: center;
+
+          a {
+            min-width: 90px;
+          }
+          &--file {
+            padding-right: 35px;
+          }
+        }
+      }
+      &--bottom {
+        padding: 10px;
+
+        .notes p {
+          max-width: none;
+        }
+      }
+    }
+  }
+}
+
+.exam-bar {
+  position: relative;
+  height: 15px;
+  width: 100%;
+  border: 2px solid theme_color("dark");
+
+  &__filler {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: theme_color("dark");
+    height: 100%;
+  }
+}

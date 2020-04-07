@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -22,8 +22,8 @@ function SignUp() {
   const { register, errors, handleSubmit } = useForm()
 
   // mutation ----------------
-  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
+  const [signup] = useMutation(SIGNUP_MUTATION)
+  const [googleLogin] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   // google signup ----------------
   const successGoogle = async response => {
@@ -173,6 +173,7 @@ function SignUp() {
                 buttonText="Login"
                 render={renderProps => (
                   <button
+                    type="button"
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     className="stan-btn-secondary"
@@ -187,6 +188,7 @@ function SignUp() {
             </div>
             <div className="login__form__buttons__button-left">
               <Button
+                type="submit"
                 variant="button"
                 text="Sign up"
                 className="stan-btn-primary"

@@ -1,8 +1,8 @@
 import React from "react"
+// --------------------------------------------------------------
 
-// TODO: https://www.storyblok.com/tp/react-dynamic-component-from-json
-// https://learnwithparam.com/blog/dynamic-pages-in-react-router/
 function CurrentExam({ subject, currentStatus }) {
+  // return ----------------
   return (
     <div className="exam">
       <div className="exam__subject box-content">
@@ -10,7 +10,7 @@ function CurrentExam({ subject, currentStatus }) {
           <h4>{subject}</h4>
         </div>
         <div className="exam__subject--current-status">
-          <p>completed {currentStatus}</p>
+          <p>completed {currentStatus}%</p>
         </div>
       </div>
     </div>

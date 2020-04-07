@@ -1,6 +1,6 @@
-import { gql } from "apollo-server"; //to make queries
+import { gql } from "apollo-boost"; //to make queries
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String) {
     login(email: $email, password: $password) {
       user {
@@ -14,7 +14,49 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
-const SIGNUP_MUTATION = gql`
+
+export const LOGOUT_MUTATION = gql`
+  mutation {
+    logout
+  }
+`;
+
+//!!Make sure the type in mutation here, is the same type as used by graphql
+export const ADD_EXAM_MUTATION = gql`
+  mutation(
+    $subject: String!
+    $examDate: Date!
+    $startDate: Date
+    $numberPages: Int!
+    $timePerPage: Int!
+    $timesRepeat: Int
+    $startPage: Int
+    $notes: String
+    $pdfLink: String
+    $completed: Boolean
+  ) {
+    addExam(
+      subject: $subject
+      examDate: $examDate
+      startDate: $startDate
+      numberPages: $numberPages
+      timePerPage: $timePerPage
+      timesRepeat: $timesRepeat
+      startPage: $startPage
+      notes: $notes
+      pdfLink: $pdfLink
+      completed: $completed
+    )
+  }
+`;
+
+export const UPDATE_CURRENT_PAGE_MUTATION = gql`
+  mutation($examId: ID!, $page: Int!) {
+    updateCurrentPage(examId: $examId, page: $page)
+  }
+`;
+
+export const SIGNUP_MUTATION = gql`
   mutation(
     $username: String!
     $email: String!
@@ -38,7 +80,7 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-const UPDATE_MASCOT_MUTATION = gql`
+export const UPDATE_MASCOT_MUTATION = gql`
   mutation($mascot: Int!) {
     updateMascot(mascot: $mascot) {
       successful
@@ -49,13 +91,7 @@ const UPDATE_MASCOT_MUTATION = gql`
   }
 `;
 
-const LOGOUT_MUTATION = gql`
-  mutation {
-    logout
-  }
-`;
-
-const GOOGLE_LOGIN_MUTATION = gql`
+export const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
     googleLogin(idToken: $idToken) {
       user {
@@ -68,41 +104,3 @@ const GOOGLE_LOGIN_MUTATION = gql`
     }
   }
 `;
-
-//------------------Exam mutations:---------------
-const ADD_EXAM_MUTATION = gql`
-  mutation(
-    $subject: String!
-    $examDate: Date!
-    $startDate: Date
-    $numberPages: Int!
-    $timePerPage: Int
-    $timesRepeat: Int
-    $startPage: Int
-    $notes: String
-    $pdfLink: String
-    $completed: Boolean
-  ) {
-    addExam(
-      subject: $subject
-      examDate: $examDate
-      startDate: $startDate
-      numberPages: $numberPages
-      timePerPage: $timePerPage
-      timesRepeat: $timesRepeat
-      startPage: $startPage
-      notes: $notes
-      pdfLink: $pdfLink
-      completed: $completed
-    )
-  }
-`;
-
-export {
-  LOGIN_MUTATION,
-  SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION,
-  LOGOUT_MUTATION,
-  GOOGLE_LOGIN_MUTATION,
-  ADD_EXAM_MUTATION
-};

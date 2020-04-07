@@ -1,5 +1,3 @@
-// import { gql } from "apollo-server";
-
 const { gql } = require("apollo-server");
 
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
@@ -18,7 +16,7 @@ const userType = gql`
     accessToken: String!
     tokenExpiration: Int!
   }
-  type UpdateResponse {
+  type UpdateUserResponse {
     successful: Boolean!
     user: User!
   }

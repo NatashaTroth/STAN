@@ -10,7 +10,7 @@ import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./authenticationTokens";
-const path = require("path");
+import path from "path";
 
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
@@ -55,7 +55,6 @@ const corsOptions = {
   credentials: true
 };
 
-console.log(corsOptions);
 app.use(cors(corsOptions));
 // app.use(express.static("publicServer"));
 // app.get("/", (req, res) => {
@@ -67,6 +66,11 @@ app.use(cors(corsOptions));
 app.post("/refresh_token", async (req, res) => {
   await handleRefreshToken(req, res);
 });
+
+//TODO: remove /graphql when deployed
+if (process.env.NODE_ENV === "production") {
+  //TODO: PUT STATIC AND CLIENT IN HERE
+}
 
 // app.options("*", cors(corsOptions));
 const apolloServer = new ApolloServer({
