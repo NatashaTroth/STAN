@@ -38,7 +38,7 @@ const examSchema = new Schema({
   },
   currentPage: {
     type: Number,
-    default: 0,
+    default: 1,
     required: true
   },
   notes: {

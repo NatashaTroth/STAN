@@ -1,14 +1,16 @@
 // import { createTestClient } from "apollo-server-testing";
 import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express"; //UserInputError
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { User } from "../../models";
+import bcrypt from "bcrypt";
 
 import mongoose from "mongoose";
 
 let mongod;
 
-async function setup({ isAuth, userId }) {
+export async function setupApolloServer({ isAuth, userId, user }) {
   // console.log("IN SETUP");
   let server;
 
@@ -26,9 +28,17 @@ async function setup({ isAuth, userId }) {
           }
         },
 
-        userInfo: { isAuth, userId }
+        userInfo: { isAuth, userId, user }
       })
     });
+  } catch (err) {
+    throw new Error("Apollo server not connected.");
+  }
+  return server;
+}
+
+export async function setupDb() {
+  try {
     mongod = new MongoMemoryServer();
     const uri = await mongod.getUri();
     await mongoose.connect(uri, {
@@ -37,19 +47,47 @@ async function setup({ isAuth, userId }) {
       useCreateIndex: true
     });
     // console.log("connected to db");
-  } catch (e) {
-    throw new Error("db not connected");
+  } catch (err) {
+    throw new Error("DB not connected.");
   }
-
-  return server;
 }
 
-async function teardown() {
+/** 
+      {
+        googleId: '',
+        mascot: 1,
+        tokenVersion: 0,
+        googleLogin: false,
+        createdAt: 2020-04-07T13:39:55.593Z,
+        _id: 5e8c82acb053b0c3482a8886,
+        username: 'Samantha',
+        email: 'samantha@stan.com',
+        password: '$2b$10$zxgEwVDhvnkNc2nQsmjhjOGQXb9bRXfVOm/qAAvjZwRPmCRwBf3u2',
+        __v: 0
+      }
+     */
+
+export async function signUpTestUser() {
+  // try {
+  const hashedPassword = await bcrypt.hash("samantha", 10);
+  const user = await User.create({
+    username: "Samantha",
+    email: "samantha@stan.com",
+    password: hashedPassword,
+    mascot: 1,
+    googleId: "",
+    googleLogin: false
+  });
+
+  if (!user) throw new Error("Could not sign up a test user");
+
+  return user;
+  // } catch (err) {
+  //   throw err;
+  // }
+}
+
+export async function teardown() {
   // console.log("IN TEARDOWN");
   await mongod.stop();
 }
-
-module.exports = {
-  setup,
-  teardown
-};

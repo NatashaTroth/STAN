@@ -72,6 +72,13 @@ test("verifies string is formatted as a mascot", () => {
   expect(verifyRegexMascot("1")).toBeTruthy();
   expect(verifyRegexMascot("2")).toBeTruthy();
 
+  for (let i = 3; i <= 500; i++) {
+    expect(verifyRegexMascot(i.toString())).toBeFalsy();
+  }
+  for (let i = -1; i >= -500; i--) {
+    expect(verifyRegexMascot(i.toString())).toBeFalsy();
+  }
+
   expect(verifyRegexMascot("e".repeat(30))).toBeFalsy();
   expect(verifyRegexMascot("g")).toBeFalsy();
   expect(verifyRegexMascot("")).toBeFalsy();

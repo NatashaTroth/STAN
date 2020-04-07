@@ -1,7 +1,8 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import { setup, teardown } from "../setup";
+import { setupApolloServer, setupDb, teardown } from "../setup";
+
 import { ADD_EXAM_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -10,7 +11,8 @@ describe("Test user resolver regex", () => {
   let server;
   let mutate;
   beforeAll(async () => {
-    server = await setup({ isAuth: true, userId: "testUserId" });
+    await setupDb();
+    server = await setupApolloServer({ isAuth: true, userId: "testUserId" });
     let client = createTestClient(server);
     mutate = client.mutate;
   });
@@ -56,7 +58,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Subject input has the wrong format"
+      "Subject input has the wrong format."
     );
   });
 
@@ -77,7 +79,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Exam date input has the wrong format"
+      "Exam date input has the wrong format."
     );
   });
 
@@ -98,7 +100,7 @@ describe("Test user resolver regex", () => {
   //   });
   //   expect(resp.data.addExam).toBeFalsy();
   //   expect(resp.errors[0].message).toEqual(
-  //     "Study start date input has the wrong format"
+  //     "Study start date input has the wrong format."
   //   );
   // });
 
@@ -143,7 +145,7 @@ describe("Test user resolver regex", () => {
     );
   });
 
-  it("should use regex to filter out wrong notes format", async () => {
+  it("should use regex to filter out wrong notes format.", async () => {
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
@@ -159,6 +161,6 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Notes input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Notes input has the wrong format.");
   });
 });

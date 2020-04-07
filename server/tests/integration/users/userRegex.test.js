@@ -2,7 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setup, teardown } from "../setup";
+import { setupApolloServer, setupDb, teardown } from "../setup";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -11,7 +11,8 @@ describe("Test user resolver regex", () => {
   let server;
   let mutate;
   beforeAll(async () => {
-    server = await setup({ isAuth: false });
+    await setupDb();
+    server = await setupApolloServer({ isAuth: false });
     let client = createTestClient(server);
     mutate = client.mutate;
   });
@@ -45,7 +46,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.signup).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Username input has the wrong format"
+      "Username input has the wrong format."
     );
   });
 
@@ -60,7 +61,7 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.signup).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Email input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
   it("should use regex to filter out wrong email format", async () => {
@@ -74,7 +75,7 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.signup).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Email input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
   it("should use regex to filter out wrong email format", async () => {
@@ -88,7 +89,7 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.signup).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Email input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
   it("should use regex to filter out wrong password format", async () => {
@@ -103,7 +104,23 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.signup).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Password input has the wrong format"
+      "Password input has the wrong format."
+    );
+  });
+
+  it("should use regex to filter out wrong mascot format", async () => {
+    const resp = await mutate({
+      query: SIGNUP_MUTATION,
+      variables: {
+        username: "Stan",
+        email: "user3@stan.com",
+        password: "12345678",
+        mascot: 5
+      }
+    });
+    expect(resp.data.signup).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
   });
 
@@ -127,7 +144,7 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.login).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Email input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
   it("should use regex to filter out wrong email format", async () => {
@@ -139,7 +156,7 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.login).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Email input has the wrong format");
+    expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
   it("should use regex to filter out wrong password format", async () => {
@@ -152,7 +169,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.login).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Password input has the wrong format"
+      "Password input has the wrong format."
     );
   });
 
@@ -166,7 +183,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.login).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Password input has the wrong format"
+      "Password input has the wrong format."
     );
   });
 });

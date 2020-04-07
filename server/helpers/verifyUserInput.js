@@ -17,7 +17,7 @@ export function verifyRegexPassword(string) {
 }
 
 export function verifyRegexMascot(string) {
-  return string.match(/[012]/);
+  return string.match(/^.{1}$/) && string.match(/[012]/);
 }
 
 export function verifyRegexSubject(string) {

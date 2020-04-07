@@ -25,7 +25,11 @@ const userSchema = new Schema(
       type: Number,
       default: 0
     },
-    tokenVersion: {
+    accessTokenVersion: {
+      type: Number,
+      default: 0
+    },
+    refreshTokenVersion: {
       type: Number,
       default: 0
     },
