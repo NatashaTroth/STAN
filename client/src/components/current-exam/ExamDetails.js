@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -20,6 +20,10 @@ const formatDate = string => {
 
 const ExamDetails = props => {
   const [percentage, setPercentage] = useState(20)
+
+  useEffect(() => {
+    setPercentage(80)
+  }, [percentage])
 
   // get examId from props ----------------
   let { examId } = props.location.state

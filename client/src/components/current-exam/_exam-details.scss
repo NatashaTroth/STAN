@@ -152,7 +152,6 @@
           a {
             min-width: 90px;
           }
-
           &--file {
             padding-right: 35px;
           }
@@ -182,5 +181,4 @@
   top: 0;
   background: theme_color("dark");
   height: 100%;
-  transition: width 0.3s ease-in;
 }
