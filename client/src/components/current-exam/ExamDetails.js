@@ -48,6 +48,7 @@ const ExamDetails = props => {
       startDate: formatDate(data.exam.startDate),
       numberPages: data.exam.numberPages,
       timePerPage: data.exam.timePerPage,
+      timesRepeat: data.exam.timesRepeat,
       currentPage: data.exam.currentPage,
       notes: data.exam.notes,
       pdfLink: data.exam.pdfLink,
@@ -76,8 +77,17 @@ const ExamDetails = props => {
                 <div className="exam-details__inner--bar--headline">
                   <h3>Exam details</h3>
                 </div>
-                <div className="exam-details__inner--bar--edit">
+                <div className="exam-details__inner--bar--right">
                   <a href="">edit</a>
+
+                  <Button
+                    variant="button"
+                    onClick={() => {
+                      history.goBack()
+                    }}
+                    className="closeExam"
+                    text="close"
+                  />
                 </div>
                 <span className="line"></span>
               </div>
@@ -108,19 +118,25 @@ const ExamDetails = props => {
 
                       <div className="repeat">
                         <h4>Repeat</h4>
-                        <p>1 time</p>
+                        {examDetails.timesRepeat > 1 ? (
+                          <p>{examDetails.timesRepeat} times</p>
+                        ) : (
+                          <p>{examDetails.timesRepeat} time</p>
+                        )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-8">
                     <div className="exam-details__inner--details--right">
                       <div className="deadline">
                         <h4>Days until deadline</h4>
 
                         <div className="bar">
                           <ExamBar percentage={percentage} />
-                          {/* <p>12 left</p> */}
+                          <div className="bar--status">
+                            <p>12 left</p>
+                          </div>
                         </div>
                       </div>
                       <div className="chunks">
@@ -128,7 +144,9 @@ const ExamDetails = props => {
 
                         <div className="bar">
                           <ExamBar percentage={percentage} />
-                          {/* <p>7 left</p> */}
+                          <div className="bar--status">
+                            <p>7 left</p>
+                          </div>
                         </div>
                       </div>
                       <div className="studied">
@@ -136,7 +154,9 @@ const ExamDetails = props => {
 
                         <div className="bar">
                           <ExamBar percentage={percentage} />
-                          {/* <p>23%</p> */}
+                          <div className="bar--status">
+                            <p>23%</p>
+                          </div>
                         </div>
                       </div>
                       <div className="pages-studied">
@@ -152,7 +172,7 @@ const ExamDetails = props => {
                   </div>
                 </div>
 
-                <div className="col-md-10">
+                <div className="col-md-12">
                   <div className="exam-details__inner--details--bottom">
                     <h4>Notes</h4>
 
