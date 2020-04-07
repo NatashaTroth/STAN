@@ -1,5 +1,4 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -21,11 +20,10 @@ import Button from "../button/Button"
 import Image from "../image/Image"
 
 function Mascots() {
-  const history = useHistory()
   const { handleSubmit } = useForm()
 
   // mutation ----------------
-  const [updateMascot, { id }] = useMutation(UPDATE_MASCOT_MUTATION)
+  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
   const mascotStore = { mascot: 0 }
 
   // form specific ----------------
@@ -111,7 +109,6 @@ async function handleMascot({ data, updateMascot, history }) {
     }
     // redirect
     window.localStorage.setItem("mascot-event", false)
-    history.push("/")
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN

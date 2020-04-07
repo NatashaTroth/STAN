@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Redirect, useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -67,11 +67,6 @@ const ExamDetails = props => {
     new Date(examDetails.startDate),
     today
   )
-
-  // const pagesPerChunk =
-  //   ((examDetails.numberPages - examDetails.currentPage) *
-  //     examDetails.timesRepeat) /
-  //   daysUntilDeadline
 
   return (
     <div className="exam-details">
@@ -169,7 +164,8 @@ const ExamDetails = props => {
                           <ExamBar
                             percentage={
                               (100 * examDetails.currentPage) /
-                              examDetails.numberPages
+                              (examDetails.numberPages *
+                                examDetails.timesRepeat)
                             }
                           />
                           <div className="bar--status">
@@ -188,10 +184,10 @@ const ExamDetails = props => {
 
                         <div className="bar">
                           <p>
-                            {(
+                            {Math.round(
                               (100 * (examDetails.currentPage - 1)) /
-                              examDetails.numberPages
-                            ).toFixed(2)}
+                                examDetails.numberPages
+                            )}
                             % of 100%
                           </p>
                         </div>

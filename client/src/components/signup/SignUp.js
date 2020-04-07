@@ -22,8 +22,8 @@ function SignUp() {
   const { register, errors, handleSubmit } = useForm()
 
   // mutation ----------------
-  const [signup, { mutationData }] = useMutation(SIGNUP_MUTATION)
-  const [googleLogin, { googleLoginData }] = useMutation(GOOGLE_LOGIN_MUTATION)
+  const [signup] = useMutation(SIGNUP_MUTATION)
+  const [googleLogin] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   // google signup ----------------
   const successGoogle = async response => {
