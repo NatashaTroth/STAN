@@ -1,7 +1,7 @@
 import {
   createAccessToken,
   createRefreshToken
-} from "../../authenticationTokens";
+} from "../../helpers/authenticationTokens";
 import "dotenv/config";
 import jwt, { decode } from "jsonwebtoken";
 
@@ -73,4 +73,11 @@ test("Valid refresh token should be created", () => {
   expect(Date.now() / 1000 + 600000 <= decodedToken.exp).toBeTruthy();
   //token should not be valid in 7 d
   expect(Date.now() / 1000 + 604800 <= decodedToken.exp).toBeFalsy();
+});
+
+test("isAuth", () => {
+  const headers = new Map();
+  headers.set("Authorization", "test");
+
+  expect(true).toBeTruthy();
 });

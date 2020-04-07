@@ -1,7 +1,7 @@
 import { User } from "../models";
 import { UserInputError, AuthenticationError } from "apollo-server";
-import { createAccessToken, createRefreshToken } from "../authenticationTokens";
-import { sendRefreshToken } from "../authenticationTokens";
+import { createAccessToken, createRefreshToken } from "./authenticationTokens";
+import { sendRefreshToken } from "./authenticationTokens";
 import bcrypt from "bcrypt";
 
 import { OAuth2Client } from "google-auth-library";

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "./models/index";
+import { User } from "../models/index";
 import { ApolloError } from "apollo-server";
 // import { createRefreshToken, createAccessToken } from "./auth";
 

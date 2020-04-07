@@ -9,7 +9,7 @@ import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
-import { handleRefreshToken } from "./authenticationTokens";
+import { handleRefreshToken } from "./helpers/authenticationTokens";
 import path from "path";
 
 // import { stanImage } from "./stanBackend.svg";

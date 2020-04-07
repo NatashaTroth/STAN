@@ -6,7 +6,7 @@ import {
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { sendRefreshToken } from "../authenticationTokens";
+import { sendRefreshToken } from "../helpers/authenticationTokens";
 import {
   handleResolverError,
   handleAuthentication
