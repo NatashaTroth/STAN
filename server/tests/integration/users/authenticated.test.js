@@ -6,7 +6,8 @@ import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION
+  UPDATE_MASCOT_MUTATION,
+  LOGOUT_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -119,30 +120,13 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp2.errors[0].message).toEqual("Already logged in.");
   });
 
-  it("should log user out", async () => {
+  it("should log the user out", async () => {
     //Already logged in
     const resp = await mutate({
-      query: SIGNUP_MUTATION,
-      variables: {
-        username: "Stan",
-        email: "user@stan.com",
-        password: "12345678",
-        mascot: 1
-      }
+      query: LOGOUT_MUTATION
     });
-    expect(resp.data.updateMascot).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Already logged in.");
-
-    //Already logged in
-    const resp2 = await mutate({
-      query: LOGIN_MUTATION,
-      variables: {
-        email: "samantha@stan.com",
-        password: "samantha"
-      }
-    });
-    expect(resp2.data.updateMascot).toBeFalsy();
-    expect(resp2.errors[0].message).toEqual("Already logged in.");
+    console.log(resp);
+    expect(resp.data.logout).toBeTruthy();
   });
   //TEST ISAUTH ?
   //TODO: TEST TOKEN VERSION

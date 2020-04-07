@@ -7,7 +7,8 @@ import { setupApolloServer, setupDb, teardown } from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION
+  UPDATE_MASCOT_MUTATION,
+  LOGOUT_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -176,4 +177,16 @@ describe("Test user sign up and login resolvers", () => {
     expect(newCount).toBe(initialCount + 1);
     return resp;
   }
+
+  it("should not log the user out - user isn't logged in", async () => {
+    //Already logged in
+    const resp = await mutate({
+      query: LOGOUT_MUTATION
+    });
+
+    expect(resp.data.logout).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
 });
+
+//todo: not logout...
