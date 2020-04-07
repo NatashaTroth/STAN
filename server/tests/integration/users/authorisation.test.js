@@ -93,52 +93,33 @@ describe("Test user sign up and login resolvers", () => {
     );
   });
 
-  //TODO: TEST TOKEN VERSION
-  it.skip("should not sign up a user if already logged in", async () => {
-    // const initialCount = await User.countDocuments();
-    // const resp = await mutate({
-    //   query: SIGNUP_MUTATION,
-    //   variables: {
-    //     username: "Stan",
-    //     email: "user@stan.com",
-    //     password: "12345678",
-    //     mascot: 1
-    //   }
-    // });
-    // expect(resp.data.signup).toBeTruthy();
-    // const newCount = await User.countDocuments();
-    // expect(newCount).toBe(initialCount + 1);
-    // const user = await User.findOne({
-    //   username: "Stan",
-    //   email: "user@stan.com"
-    // });
-    // expect(user).toBeTruthy();
-    // expect(user.id).toBe(resp.data.signup.user.id);
-    // expect(user.username).toBe(resp.data.signup.user.username);
-    // expect(user.email).toBe(resp.data.signup.user.email);
-    // expect(user.mascot).toBe(resp.data.signup.user.mascot);
-    // expect(user.googleId).toBe(resp.data.signup.user.googleId);
-    // expect(user.googleLogin).toBe(resp.data.signup.user.googleLogin);
-    // //Test accesstoken
-    // expect(resp.data.signup.accessToken).toBeDefined();
-    // const decodedToken = jwt.verify(
-    //   resp.data.signup.accessToken,
-    //   process.env.ACCESS_TOKEN_SECRET
-    // );
-    // expect(decodedToken).toBeTruthy();
-    // expect(decodedToken.userId).toBe(user.id);
-    // expect(decodedToken.tokenVersion).toBe(0);
-    // //Already logged in
-    // const resp2 = await mutate({
-    //   query: SIGNUP_MUTATION,
-    //   variables: {
-    //     username: "Stan",
-    //     email: "user@stan.com",
-    //     password: "12345678",
-    //     mascot: 1
-    //   }
-    // });
+  it("should not sign up or login a user if already logged in", async () => {
+    //Already logged in
+    const resp = await mutate({
+      query: SIGNUP_MUTATION,
+      variables: {
+        username: "Stan",
+        email: "user@stan.com",
+        password: "12345678",
+        mascot: 1
+      }
+    });
+    expect(resp.data.updateMascot).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Already logged in.");
+
+    //Already logged in
+    const resp2 = await mutate({
+      query: LOGIN_MUTATION,
+      variables: {
+        email: "samantha@stan.com",
+        password: "samantha"
+      }
+    });
+    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.errors[0].message).toEqual("Already logged in.");
+
     //TEST ISAUTH ?
+    //TODO: TEST TOKEN VERSION
   });
 
   //   async function signUserUp(username, email, password, mascot) {
