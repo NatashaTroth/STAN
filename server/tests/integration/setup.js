@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 
 let mongod;
 
-export async function setupApolloServer({ isAuth, userId }) {
+export async function setupApolloServer({ isAuth, userId, user }) {
   // console.log("IN SETUP");
   let server;
 
@@ -28,7 +28,7 @@ export async function setupApolloServer({ isAuth, userId }) {
           }
         },
 
-        userInfo: { isAuth, userId }
+        userInfo: { isAuth, userId, user }
       })
     });
   } catch (err) {

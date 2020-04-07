@@ -18,23 +18,52 @@ import jwt from "jsonwebtoken";
 describe("Test user sign up and login resolvers", () => {
   let server;
   let mutate;
+  let query;
+  let testUser;
   beforeAll(async () => {
     await setupDb();
-    const testUser = await signUpTestUser();
-
-    console.log(testUser);
-    server = await setupApolloServer({ isAuth: true, userId: testUser });
+    testUser = await signUpTestUser();
+    server = await setupApolloServer({
+      isAuth: true,
+      userId: testUser._id,
+      user: testUser
+    });
     let client = createTestClient(server);
     mutate = client.mutate;
+    query = client.mutate;
   });
 
   afterAll(async () => {
     await teardown();
   });
 
+  /** TESTUSER:
+      {
+        googleId: '',
+        mascot: 1,
+        tokenVersion: 0,
+        googleLogin: false,
+        createdAt: 2020-04-07T13:39:55.593Z,
+        _id: 5e8c82acb053b0c3482a8886,
+        username: 'Samantha',
+        email: 'samantha@stan.com',
+        password: '$2b$10$zxgEwVDhvnkNc2nQsmjhjOGQXb9bRXfVOm/qAAvjZwRPmCRwBf3u2',
+        __v: 0
+      }
+     */
+
   it("should update the mascot for a user", async () => {
-    console.log("HIIII");
-    expect(true).toBeTruthy();
+    console.log("TEST");
+
+    const resp = await query({
+      query: CURRENT_USER
+    });
+    expect(resp.data.currentUser).toBeTruthy();
+    expect(resp.data.currentUser.id.toString()).toBe(testUser._id.toString());
+    expect(resp.data.currentUser.username).toBe(testUser.username);
+    expect(resp.data.currentUser.email).toBe(testUser.email);
+    expect(resp.data.currentUser.mascot).toBe(testUser.mascot);
+    expect(resp.data.currentUser.googleLogin).toBe(testUser.googleLogin);
   });
 
   // it.skip("should update the mascot for a user", async () => {
@@ -130,22 +159,22 @@ describe("Test user sign up and login resolvers", () => {
     //TEST ISAUTH ?
   });
 
-  async function signUserUp(username, email, password, mascot) {
-    const initialCount = await User.countDocuments();
-    const resp = await mutate({
-      query: SIGNUP_MUTATION,
-      variables: {
-        username,
-        email,
-        password,
-        mascot: mascot || 0
-      }
-    });
-    expect(resp.data.signup).toBeTruthy();
-    const newCount = await User.countDocuments();
-    expect(newCount).toBe(initialCount + 1);
-    return resp;
-  }
+  //   async function signUserUp(username, email, password, mascot) {
+  //     const initialCount = await User.countDocuments();
+  //     const resp = await mutate({
+  //       query: SIGNUP_MUTATION,
+  //       variables: {
+  //         username,
+  //         email,
+  //         password,
+  //         mascot: mascot || 0
+  //       }
+  //     });
+  //     expect(resp.data.signup).toBeTruthy();
+  //     const newCount = await User.countDocuments();
+  //     expect(newCount).toBe(initialCount + 1);
+  //     return resp;
+  //   }
 });
 
 // function isOneMore(initialCount, newCount){
