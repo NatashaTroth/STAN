@@ -1,24 +1,24 @@
-.imprint-page {
-  &__heading {
-    margin-bottom: 50px;
+.imprint {
+  &__headline {
+    padding-bottom: 50px;
 
     @include media-breakpoint-down(sm) {
-      margin-bottom: 25px;
+      padding-bottom: 25px;
     }
   }
-  &__text {
+  &__content {
     margin: 25px 0;
-  }
-  &__contact {
-    display: flex;
-    flex-direction: column;
 
-    &__container {
-      margin: 5px 0;
-
-      &__link {
-        border-bottom: 1px solid theme-color("dark");
-      }
+    &--contact {
+      padding: 5px 0;
+    }
+    &--link {
+      border-bottom: 1px solid theme-color("dark");
+    }
+    &--line {
+      width: 70%;
+      color: black;
+      height: 3px;
     }
   }
 }
