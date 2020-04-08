@@ -26,15 +26,15 @@ export function verifyRegexSubject(string) {
   return string.match(/^.{1,50}$/);
 }
 
-export function verifyRegexExamDate(string) {
+export function verifyRegexDate(string) {
   if (!validateRegexDate(string)) return false;
   return true;
 }
-export function verifyRegexStudyStartDate(string) {
-  if (string.match(/^.{0}$/)) return true;
-  if (!validateRegexDate(string)) return false;
-  return true;
-}
+// export function verifyRegexStudyStartDate(string) {
+//   if (string.match(/^.{0}$/)) return true;
+//   if (!validateRegexDate(string)) return false;
+//   return true;
+// }
 
 export function verifyRegexPageAmount(string) {
   return string.match(/^\d{1,10000}$/);

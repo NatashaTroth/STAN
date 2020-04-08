@@ -12,7 +12,7 @@ const examQueries = gql`
     addExam(
       subject: String!
       examDate: Date!
-      startDate: Date
+      startDate: Date!
       numberPages: Int!
       timePerPage: Int!
       timesRepeat: Int

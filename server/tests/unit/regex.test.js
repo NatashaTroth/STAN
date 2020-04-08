@@ -4,8 +4,8 @@ const {
   verifyRegexPassword,
   verifyRegexMascot,
   verifyRegexSubject,
-  verifyRegexExamDate,
-  verifyRegexStudyStartDate,
+  verifyRegexDate,
+  // verifyRegexStudyStartDate,
   verifyRegexPageAmount,
   verifyRegexPageTime,
   verifyRegexPageRepeat,
@@ -94,15 +94,15 @@ test("verifies string is formatted as a subject", () => {
   expect(verifyRegexSubject("")).toBeFalsy();
 });
 
-test("verifies string is formatted as an exam date", () => {
-  dateTests(verifyRegexExamDate);
-  expect(verifyRegexExamDate("")).toBeFalsy();
+test("verifies string is formatted as a date", () => {
+  dateTests(verifyRegexDate);
+  expect(verifyRegexDate("")).toBeFalsy();
 });
 
-test("verifies string is formatted as a study start date", () => {
-  dateTests(verifyRegexStudyStartDate);
-  expect(verifyRegexStudyStartDate("")).toBeTruthy();
-});
+// test("verifies string is formatted as a study start date", () => {
+//   dateTests(verifyRegexStudyStartDate);
+//   expect(verifyRegexStudyStartDate("")).toBeTruthy();
+// });
 
 test("verifies string is formatted as a page amount", () => {
   testNumbers(verifyRegexPageAmount);

@@ -26,7 +26,7 @@ export const ADD_EXAM_MUTATION = gql`
   mutation(
     $subject: String!
     $examDate: Date!
-    $startDate: Date
+    $startDate: Date!
     $numberPages: Int!
     $timePerPage: Int!
     $timesRepeat: Int

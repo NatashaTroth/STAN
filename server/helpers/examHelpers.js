@@ -1,6 +1,6 @@
 import {
   verifyRegexSubject,
-  verifyRegexExamDate,
+  verifyRegexDate,
   verifyRegexStudyStartDate,
   verifyRegexPageAmount,
   verifyRegexPageTime,
@@ -101,8 +101,8 @@ function fetchChunks(currentExams) {
 
 function verifyNewExamInputFormat(args) {
   verifySubjectFormat(args.subject);
-  verifyExamDateFormat(args.examDate);
-  verifyStartDateFormat(args.startDate);
+  // verifyExamDateFormat(args.examDate); //already done in date scalar
+  // verifyStartDateFormat(args.startDate);
   verifyNumberPagesFormat(args.numberPages);
   verifyTimePerPageFormat(args.timePerPage);
   verifyTimesRepeatFormat(args.timesRepeat);
@@ -119,18 +119,15 @@ function verifySubjectFormat(subject) {
 
 function verifyExamDateFormat(examDate) {
   let examOnlyDate = new Date(examDate).toLocaleDateString();
-  if (!verifyRegexExamDate(examOnlyDate))
+  if (!verifyRegexDate(examOnlyDate))
     throw new AuthenticationError(
       "Exam date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
     );
 }
 
 function verifyStartDateFormat(startDate) {
-  let startOnlyDate = "";
-  if (startDate && startDate.length > 0)
-    startOnlyDate = new Date(startDate).toLocaleDateString();
-
-  if (startDate != null && !verifyRegexStudyStartDate(startOnlyDate))
+  let startOnlyDate = new Date(startDate).toLocaleDateString();
+  if (!verifyRegexDate(startOnlyDate))
     throw new AuthenticationError(
       "Study start date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
     );
