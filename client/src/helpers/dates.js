@@ -35,6 +35,21 @@ export function formatDate(string) {
   return new Date(string).toLocaleDateString("en-GB", options)
 }
 
+export function minuteToHours(num) {
+  let hours = num / 60
+  let roundedHours = Math.floor(hours)
+  let minutes = (hours - roundedHours) * 60
+  let roundedMinutes = Math.round(minutes)
+
+  let finalHour, finalMinute
+  if (roundedHours > 1) finalHour = roundedHours + " hours and "
+  if (roundedHours <= 1) finalHour = roundedHours + " hour and "
+  if (roundedMinutes > 1) finalMinute = roundedMinutes + " minutes"
+  if (roundedMinutes <= 1) finalMinute = roundedMinutes + " minute"
+
+  return finalHour + finalMinute
+}
+
 //------------------------HELPERS--------------------
 
 function datesAreNotPast(dates) {

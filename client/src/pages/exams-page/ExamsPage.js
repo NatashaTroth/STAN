@@ -1,22 +1,24 @@
 import React, { useState } from "react"
-import { Redirect } from "react-router-dom"
+import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
+
+// context ----------------
+import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
 import { GET_EXAMS_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // components ----------------
-import CurrentExam from "../../components/current-exam/CurrentExam"
-import { Link } from "react-router-dom"
+import Exam from "../../components/current-exam/Exam"
 
 // animation ----------------
 import AnimateHeight from "react-animate-height"
 
 const Exams = () => {
+  // router ----------------
+  let { url } = useRouteMatch()
+
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
   const [height, setHeight] = useState(0)
@@ -24,6 +26,7 @@ const Exams = () => {
 
   // variables ----------------
   let currentExams, archiveExams
+  let currentExamsList, archiveExamsList
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -60,10 +63,7 @@ const Exams = () => {
     })
   }
 
-  // variables ----------------
-  let currentExamsList, archiveExamsList
-
-  // function ----------------
+  // functions ----------------
   currentExamsList = currentExams.map(function(exam) {
     if (exam === null) {
       return null
@@ -72,13 +72,13 @@ const Exams = () => {
         <div key={exam.id}>
           <Link
             to={{
-              pathname: `/exams/${exam.subject
+              pathname: `${url}/${exam.subject
                 .toLowerCase()
                 .replace(/ /g, "-")}`,
               state: { examId: exam.id },
             }}
           >
-            <CurrentExam
+            <Exam
               subject={exam.subject}
               currentStatus={Math.round(
                 (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
@@ -95,8 +95,9 @@ const Exams = () => {
       return null
     } else {
       return (
+        // TODO: implement exam detail for archive section
         <div key={exam.id}>
-          <CurrentExam
+          <Exam
             subject={exam.subject}
             currentStatus={Math.round(
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
