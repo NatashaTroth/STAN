@@ -87,10 +87,10 @@ test("verifies string is formatted as a mascot", () => {
 test("verifies string is formatted as a subject", () => {
   testVariousChars(verifyRegexSubject);
   expect(verifyRegexSubject("Maths")).toBeTruthy();
-  expect(verifyRegexSubject("h".repeat(20))).toBeTruthy();
+  expect(verifyRegexSubject("h".repeat(50))).toBeTruthy();
   expect(verifyRegexSubject("k")).toBeTruthy();
 
-  expect(verifyRegexSubject("i".repeat(21))).toBeFalsy();
+  expect(verifyRegexSubject("i".repeat(51))).toBeFalsy();
   expect(verifyRegexSubject("")).toBeFalsy();
 });
 

@@ -37,7 +37,6 @@ describe("Test user resolver regex", () => {
         completed: false
       }
     });
-    console.log(resp);
     expect(resp.data.addExam).toBeTruthy();
   });
 
