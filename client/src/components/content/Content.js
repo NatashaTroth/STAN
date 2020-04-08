@@ -16,7 +16,7 @@ import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamsDetails from "../../components/current-exam/ExamDetails"
-import ExamsDetailsEdit from "../../components/current-exam/ExamDetailsEdit"
+// import ExamsDetailsEdit from "../../components/current-exam/ExamDetailsEdit"
 
 // transition ----------------
 import { TransitionGroup, CSSTransition } from "react-transition-group"
@@ -46,12 +46,6 @@ const Content = ({ location }) => {
               path="/exams/:subject"
               render={props => <ExamsDetails {...props} />}
             />
-            <Route
-              exact
-              path="/exams/:subject/edit"
-              render={props => <ExamsDetailsEdit {...props} />}
-            />
-
             <Route exact path="/profile" component={UserAccount} />
 
             <Route exact path="/imprint" component={Imprint} />
