@@ -14,8 +14,8 @@
     "lint": "eslint \"**/*.js\" --quiet",
     "lintFix": "eslint \"**/*.js\" --fix",
     "build": "mkdir dist && babel app.js -d dist",
-    "testTODOCHANGE": "jest --watchAll",
-    "test": "jest --watchAll --runInBand --detectOpenHandles",
+    "testTODOCHANGE": "jest --watchAll--runInBand --detectOpenHandles",
+    "test": "jest --watchAll",
     "ciTest": "jest",
     "testUnit": "jest --watch ./tests/unit --runInBand --detectOpenHandle",
     "testIntegration": "jest --watch ./tests/integration --runInBand --detectOpenHandles"
@@ -23,12 +23,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
+    "@babel/node": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "@babel/cli": "^7.8.4",
     "@babel/runtime": "^7.9.0",
-    "@babel/node": "^7.0.0",
     "@shelf/jest-mongodb": "^1.1.5",
     "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.5",
@@ -59,7 +59,8 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "query-string": "^6.11.1",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "weak-napi": "^1.0.3"
   },
   "devDependencies": {
     "babel-jest": "^23.4.2",

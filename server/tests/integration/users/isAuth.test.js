@@ -3,7 +3,13 @@ import { isAuth } from "../../../helpers/is-auth";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
-import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
+import {
+  setupApolloServer,
+  setupDb,
+  signUpTestUser,
+  clearDatabase,
+  teardown
+} from "../setup";
 
 describe("Test user sign up and login resolvers", () => {
   let testUser;
@@ -12,6 +18,10 @@ describe("Test user sign up and login resolvers", () => {
     await setupDb();
     testUser = await signUpTestUser();
     await setupApolloServer({ isAuth: false });
+  });
+
+  afterEach(async () => {
+    await clearDatabase();
   });
 
   afterAll(async () => {

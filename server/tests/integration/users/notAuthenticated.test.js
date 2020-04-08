@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, teardown } from "../setup";
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 
 import {
   LOGIN_MUTATION,
@@ -24,6 +24,10 @@ describe("Test user sign up and login resolvers", () => {
     let client = createTestClient(server);
     mutate = client.mutate;
     query = client.query;
+  });
+
+  afterEach(async () => {
+    await clearDatabase();
   });
 
   afterAll(async () => {

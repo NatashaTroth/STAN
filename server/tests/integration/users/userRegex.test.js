@@ -2,7 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, teardown } from "../setup";
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -15,6 +15,10 @@ describe("Test user resolver regex", () => {
     server = await setupApolloServer({ isAuth: false });
     let client = createTestClient(server);
     mutate = client.mutate;
+  });
+
+  afterEach(async () => {
+    await clearDatabase();
   });
 
   afterAll(async () => {
@@ -125,6 +129,17 @@ describe("Test user resolver regex", () => {
   });
 
   it("should pass the regex tests and login a user", async () => {
+    const respSignup = await mutate({
+      query: SIGNUP_MUTATION,
+      variables: {
+        username: "Stan",
+        email: "user@stan.com",
+        password: "12345678",
+        mascot: 1
+      }
+    });
+    expect(respSignup.data.signup).toBeTruthy();
+
     const resp = await mutate({
       query: LOGIN_MUTATION,
       variables: {

@@ -2,7 +2,13 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
+import {
+  setupApolloServer,
+  setupDb,
+  signUpTestUser,
+  clearDatabase,
+  teardown
+} from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
@@ -34,7 +40,11 @@ describe("Test user sign up and login resolvers", () => {
     query = client.mutate;
   });
 
+  // afterEach(async () => {
+  // });
+
   afterAll(async () => {
+    await clearDatabase();
     await teardown();
   });
 

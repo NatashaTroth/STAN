@@ -40,7 +40,7 @@ export async function setupApolloServer({ isAuth, userId, user }) {
 export async function setupDb() {
   try {
     mongod = new MongoMemoryServer();
-    const uri = await mongod.getUri();
+    const uri = await mongod.getConnectionString();
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -87,7 +87,23 @@ export async function signUpTestUser() {
   // }
 }
 
+export async function clearDatabase() {
+  const collections = mongoose.connection.collections;
+
+  for (const key in collections) {
+    const collection = collections[key];
+    await collection.deleteMany({});
+  }
+}
+
 export async function teardown() {
   // console.log("IN TEARDOWN");
+
+  await mongoose.connection.dropDatabase();
+  // await mongoose.connection.db.dropDatabase();
+  //await db.dropDatabase();
+  // await db.users.drop();
+  await mongoose.connection.close();
   await mongod.stop();
+  // await db.close();
 }
