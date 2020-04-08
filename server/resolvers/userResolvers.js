@@ -22,7 +22,7 @@ import {
   verifyGoogleIdToken,
   verifySignupInputFormat,
   verifyLoginInputFormat,
-  verifyMascotFormatFormat
+  verifyMascotInputFormat
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
@@ -105,7 +105,7 @@ export const userResolvers = {
     updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        verifyMascotFormatFormat({ mascot: mascot.toString() });
+        verifyMascotInputFormat({ mascot: mascot.toString() });
         if (userInfo.user.mascot === mascot) return true;
         const resp = await User.updateOne(
           { _id: userInfo.userId },

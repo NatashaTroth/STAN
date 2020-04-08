@@ -33,7 +33,8 @@ export function prepareExamInputData(args, userId) {
 
 export function verifyExamInput(args) {
   //regex
-  verifyUserInputFormat(args);
+  // verifyUserInputFormat(args);
+  verifyNewExamInputFormat(args);
 
   if (!datesTimingIsValid(args.startDate, args.examDate))
     throw new ApolloError(
@@ -97,73 +98,136 @@ function fetchChunks(currentExams) {
   });
 }
 
-function verifyUserInputFormat({
-  subject,
-  examDate,
-  startDate,
-  numberPages,
-  timePerPage,
-  timesRepeat,
-  currentPage,
-  notes
-  // pdfLink,
-}) {
+function verifyNewExamInputFormat(args) {
+  verifySubjectFormat(args.subject);
+  verifyExamDateFormat(args.examDate);
+  verifyStartDateFormat(args.startDate);
+  verifyNumberPagesFormat(args.numberPages);
+  verifyTimePerPageFormat(args.timePerPage);
+  verifyTimesRepeatFormat(args.timesRepeat);
+  verifyCurrentPageFormat(args.currentPage);
+  verifyNotesFormat(args.notes);
+}
+
+function verifySubjectFormat(subject) {
+  if (!verifyRegexSubject(subject))
+    throw new AuthenticationError("Subject input has the wrong format.");
+}
+
+function verifyExamDateFormat(examDate) {
   let examOnlyDate = new Date(examDate).toLocaleDateString();
+  if (!verifyRegexExamDate(examOnlyDate))
+    throw new AuthenticationError("Exam date input has the wrong format.");
+}
+
+function verifyStartDateFormat(startDate) {
   let startOnlyDate = "";
   if (startDate && startDate.length > 0)
     startOnlyDate = new Date(startDate).toLocaleDateString();
 
-  //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
-  if (typeof subject !== "undefined" && !verifyRegexSubject(subject))
-    throw new AuthenticationError("Subject input has the wrong format.");
-
-  if (typeof examDate !== "undefined" && !verifyRegexExamDate(examOnlyDate))
-    throw new AuthenticationError("Exam date input has the wrong format.");
-
-  if (
-    typeof startDate !== "undefined" &&
-    startDate != null &&
-    !verifyRegexStudyStartDate(startOnlyDate)
-  )
+  if (startDate != null && !verifyRegexStudyStartDate(startOnlyDate))
     throw new AuthenticationError(
       "Study start date input has the wrong format."
     );
+}
 
-  if (
-    typeof numberPages !== "undefined" &&
-    !verifyRegexPageAmount(numberPages.toString())
-  )
+function verifyNumberPagesFormat(numberPages) {
+  if (!verifyRegexPageAmount(numberPages.toString()))
     throw new AuthenticationError(
       "Number of pages input has the wrong format."
     );
+}
 
-  if (
-    typeof timePerPage !== "undefined" &&
-    timePerPage != null &&
-    !verifyRegexPageTime(timePerPage.toString())
-  )
+function verifyTimePerPageFormat(timePerPage) {
+  if (!verifyRegexPageTime(timePerPage.toString()))
     throw new AuthenticationError("Time per page input has the wrong format.");
+}
 
-  if (
-    typeof timesRepeat !== "undefined" &&
-    timesRepeat != null &&
-    !verifyRegexPageRepeat(timesRepeat.toString())
-  )
+function verifyTimesRepeatFormat(timesRepeat) {
+  if (timesRepeat != null && !verifyRegexPageRepeat(timesRepeat.toString()))
     throw new AuthenticationError(
       "Times to repeat input has the wrong format."
     );
+}
 
-  if (
-    typeof currentPage !== "undefined" &&
-    currentPage != null &&
-    !verifyRegexCurrentPage(currentPage.toString())
-  )
+//????? or startpage??
+function verifyCurrentPageFormat(currentPage) {
+  if (currentPage != null && !verifyRegexCurrentPage(currentPage.toString()))
     throw new AuthenticationError("Current page input has the wrong format.");
+}
 
-  if (
-    typeof notes !== "undefined" &&
-    notes != null &&
-    !verifyRegexPageNotes(notes)
-  )
+function verifyNotesFormat(notes) {
+  if (notes != null && !verifyRegexPageNotes(notes))
     throw new AuthenticationError("Notes input has the wrong format.");
 }
+
+// function verifyUserInputFormat({
+//   subject,
+//   examDate,
+//   startDate,
+//   numberPages,
+//   timePerPage,
+//   timesRepeat,
+//   currentPage,
+//   notes
+//   // pdfLink,
+// }) {
+//   // let examOnlyDate = new Date(examDate).toLocaleDateString();
+//   // let startOnlyDate = "";
+//   // if (startDate && startDate.length > 0)
+//   //   startOnlyDate = new Date(startDate).toLocaleDateString();
+
+//   //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
+//   // if (typeof subject !== "undefined" && !verifyRegexSubject(subject))
+//   //   throw new AuthenticationError("Subject input has the wrong format.");
+
+//   // if (typeof examDate !== "undefined" && !verifyRegexExamDate(examOnlyDate))
+//   //   throw new AuthenticationError("Exam date input has the wrong format.");
+
+//   // if (
+//   //   typeof startDate !== "undefined" &&
+//   //   startDate != null &&
+//   //   !verifyRegexStudyStartDate(startOnlyDate)
+//   // )
+//   //   throw new AuthenticationError(
+//   //     "Study start date input has the wrong format."
+//   //   );
+
+//   // if (
+//   //   typeof numberPages !== "undefined" &&
+//   //   !verifyRegexPageAmount(numberPages.toString())
+//   // )
+//   //   throw new AuthenticationError(
+//   //     "Number of pages input has the wrong format."
+//   //   );
+
+//   // if (
+//   //   typeof timePerPage !== "undefined" &&
+//   //   timePerPage != null &&
+//   //   !verifyRegexPageTime(timePerPage.toString())
+//   // )
+//   //   throw new AuthenticationError("Time per page input has the wrong format.");
+
+//   // if (
+//   //   typeof timesRepeat !== "undefined" &&
+//   //   timesRepeat != null &&
+//   //   !verifyRegexPageRepeat(timesRepeat.toString())
+//   // )
+//   //   throw new AuthenticationError(
+//   //     "Times to repeat input has the wrong format."
+//   //   );
+
+//   // if (
+//   //   typeof currentPage !== "undefined" &&
+//   //   currentPage != null &&
+//   //   !verifyRegexCurrentPage(currentPage.toString())
+//   // )
+//   //   throw new AuthenticationError("Current page input has the wrong format.");
+
+//   // if (
+//   //   typeof notes !== "undefined" &&
+//   //   notes != null &&
+//   //   !verifyRegexPageNotes(notes)
+//   // )
+//   //   throw new AuthenticationError("Notes input has the wrong format.");
+// }

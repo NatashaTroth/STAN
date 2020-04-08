@@ -124,7 +124,7 @@ export function verifyLoginInputFormat({ email, password }) {
   verifyPasswordFormat(password);
 }
 
-export function verifyMascotFormatFormat({ mascot }) {
+export function verifyMascotInputFormat({ mascot }) {
   verifyMascotFormat(mascot);
 }
 
