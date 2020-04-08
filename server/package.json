@@ -14,11 +14,11 @@
     "lint": "eslint \"**/*.js\" --quiet",
     "lintFix": "eslint \"**/*.js\" --fix",
     "build": "mkdir dist && babel app.js -d dist",
-    "testTODOCHANGE": "jest --watchAll--runInBand --detectOpenHandles",
-    "test": "jest --watchAll",
+    "testTODOCHANGE": "jest --watchAll--runInBand --detectOpenHandles --detectLeaks",
+    "test": "jest --watchAll --runInBand",
     "ciTest": "jest",
-    "testUnit": "jest --watch ./tests/unit --runInBand --detectOpenHandle",
-    "testIntegration": "jest --watch ./tests/integration --runInBand --detectOpenHandles"
+    "testUnit": "jest --watch ./tests/unit --runInBand",
+    "testIntegration": "jest --watch ./tests/integration --runInBand"
   },
   "author": "",
   "license": "ISC",
