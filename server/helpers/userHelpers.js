@@ -112,15 +112,53 @@ export async function verifyGoogleIdToken(token) {
   return payload;
 }
 
-export function verifyUserInputFormat({ username, email, password, mascot }) {
-  if (typeof username !== "undefined" && !verifyRegexUsername(username))
+export function verifySignupInputFormat({ username, email, password, mascot }) {
+  verifyUsernameFormat(username);
+  verifyEmailFormat(email);
+  verifyPasswordFormat(password);
+  verifyMascotFormat(mascot);
+}
+
+export function verifyLoginInputFormat({ email, password }) {
+  verifyEmailFormat(email);
+  verifyPasswordFormat(password);
+}
+
+export function verifyMascotFormatFormat({ mascot }) {
+  verifyMascotFormat(mascot);
+}
+
+function verifyUsernameFormat(username) {
+  if (!verifyRegexUsername(username))
     throw new Error("Username input has the wrong format.");
+}
+
+function verifyEmailFormat(email) {
   if (typeof email !== "undefined" && !verifyRegexEmail(email))
     throw new Error("Email input has the wrong format.");
+}
+
+function verifyPasswordFormat(password) {
   if (typeof password !== "undefined" && !verifyRegexPassword(password))
     throw new Error("Password input has the wrong format.");
+}
+
+function verifyMascotFormat(mascot) {
   if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
     throw new Error(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
 }
+
+// export function verifyUserInputFormat({ username, email, password, mascot }) {
+//   if (typeof username !== "undefined" && !verifyRegexUsername(username))
+//     throw new Error("Username input has the wrong format.");
+//   if (typeof email !== "undefined" && !verifyRegexEmail(email))
+//     throw new Error("Email input has the wrong format.");
+//   if (typeof password !== "undefined" && !verifyRegexPassword(password))
+//     throw new Error("Password input has the wrong format.");
+//   if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
+//     throw new Error(
+//       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
+//     );
+// }

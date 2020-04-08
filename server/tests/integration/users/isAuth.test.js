@@ -18,7 +18,7 @@ describe("Test user sign up and login resolvers", () => {
     await teardown();
   });
 
-  it("tests isAuth", async () => {
+  it("authorise the test User", async () => {
     const headers = new Map();
 
     const user = { id: testUser._id, accessTokenVersion: 0 };
@@ -42,5 +42,31 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.user.mascot).toBe(testUser.mascot);
     expect(resp.user.googleLogin).toBe(testUser.googleLogin);
     expect(true).toBeTruthy();
+  });
+
+  it("should return false, since the user does not exist", async () => {
+    const headers = new Map();
+
+    const user = { id: "wrongId", accessTokenVersion: 0 };
+    const accessToken = createAccessToken(user);
+    const decodedToken = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    expect(decodedToken).toBeTruthy();
+
+    headers.set("Authorization", "bearer " + accessToken);
+    const resp = await isAuth(headers);
+
+    expect(resp).toBeTruthy();
+    expect(resp.isAuth).toBeFalsy();
+  });
+
+  it("should return false, invalid access token", async () => {
+    const headers = new Map();
+    headers.set("Authorization", "bearer " + "made up token");
+    const resp = await isAuth(headers);
+    expect(resp).toBeTruthy();
+    expect(resp.isAuth).toBeFalsy();
   });
 });
