@@ -1,5 +1,5 @@
-import React from "react"
-import { Redirect, useHistory } from "react-router-dom"
+import React, { useState } from "react"
+import { Redirect, Link, useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -9,16 +9,22 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
+// components ----------------
+import ExamDetailsEdit from "../current-exam/ExamDetailsEdit"
+
 // sub-components ----------------
 import Button from "../button/Button"
 
 // helpers ----------------
-import { getNumberOfDays, formatDate } from "../../helpers/dates"
+import { getNumberOfDays, formatDate, minuteToHours } from "../../helpers/dates"
 
 const ExamDetails = props => {
+  // router & states ----------------
+  let history = useHistory()
+  let [edit, openEdit] = useState(false)
+
   // get examId from props ----------------
   let { examId } = props.location.state
-  let history = useHistory()
 
   // variables ----------------
   let examDetails
@@ -38,6 +44,7 @@ const ExamDetails = props => {
   if (error) return <p>error...</p>
   if (data) {
     examDetails = {
+      id: data.exam.id,
       subject: data.exam.subject,
       examDate: data.exam.examDate,
       startDate: data.exam.startDate,
@@ -57,6 +64,11 @@ const ExamDetails = props => {
     today,
     new Date(examDetails.examDate)
   )
+
+  // functions ----------------
+  const handleEdit = () => {
+    openEdit(edit => !edit)
+  }
 
   return (
     <div className="exam-details">
@@ -81,45 +93,56 @@ const ExamDetails = props => {
                   <h3>Exam details</h3>
                 </div>
                 <div className="exam-details__inner--bar--right">
-                  <a href="">edit</a>
+                  <Button
+                    variant="button"
+                    onClick={handleEdit}
+                    className="editExam exam-btn"
+                    text="edit"
+                  />
 
                   <Button
                     variant="button"
                     onClick={() => {
                       history.goBack()
                     }}
-                    className="closeExam"
+                    className="closeExam exam-btn"
                     text="close"
                   />
                 </div>
                 <span className="line"></span>
               </div>
 
+              <div className={edit ? "showForm" : "hideForm"}>
+                <div className="exam-details__inner--form">
+                  <ExamDetailsEdit examId={examDetails.id} />
+                </div>
+              </div>
+
               <div className="exam-details__inner--details">
-                <div className="exam-details__inner--details--flex-container">
+                <div className="flex-container">
                   <div className="col-md-4">
                     <div className="exam-details__inner--details--left">
-                      <div className="exam-date">
+                      <div className="exam-data">
                         <h4>Exam date</h4>
                         <p>{formatDate(examDetails.examDate)}</p>
                       </div>
 
-                      <div className="start-date">
+                      <div className="exam-data">
                         <h4>Start learning on</h4>
                         <p>{formatDate(examDetails.startDate)}</p>
                       </div>
 
-                      <div className="number-pages">
+                      <div className="exam-data">
                         <h4>Amount of pages</h4>
                         <p>{examDetails.numberPages}</p>
                       </div>
 
-                      <div className="time-per-pages">
+                      <div className="exam-data">
                         <h4>Time per pages</h4>
                         <p>{examDetails.timePerPage} min.</p>
                       </div>
 
-                      <div className="repeat">
+                      <div className="exam-data">
                         <h4>Repeat</h4>
                         {examDetails.timesRepeat > 1 ? (
                           <p>{examDetails.timesRepeat} times</p>
@@ -132,27 +155,24 @@ const ExamDetails = props => {
 
                   <div className="col-md-8">
                     <div className="exam-details__inner--details--right">
-                      <div className="deadline">
+                      <div className="exam-data">
                         <h4>Days until deadline</h4>
-
-                        <div className="bar">
-                          <p>{todaysDayUntilDeadline} days left</p>
-                        </div>
+                        <p>{todaysDayUntilDeadline} days left</p>
                       </div>
-                      <div className="studied">
-                        <h4>TODO</h4>
-
-                        <div className="bar">
-                          <ExamBar percentage="0" />
-                          <div className="bar--status">
-                            <p>0</p>
-                          </div>
-                        </div>
+                      <div className="exam-data">
+                        <h4>Total learning effort</h4>
+                        <p>
+                          {minuteToHours(
+                            examDetails.numberPages *
+                              examDetails.timesRepeat *
+                              examDetails.timePerPage
+                          )}
+                        </p>
                       </div>
-                      <div className="pages">
+                      <div className="exam-pages">
                         <h4>Pages left</h4>
 
-                        <div className="bar">
+                        <div className="exam-pages__bar">
                           <ExamBar
                             percentage={
                               (100 * examDetails.currentPage) /
@@ -160,24 +180,25 @@ const ExamDetails = props => {
                                 examDetails.timesRepeat)
                             }
                           />
-                          <div className="bar--status">
+
+                          <div className="exam-pages__bar--status">
                             <p>
                               {Math.round(
                                 examDetails.numberPages -
                                   examDetails.currentPage
-                              )}{" "}
+                              )}
                               pages left
                             </p>
                           </div>
                         </div>
                       </div>
-                      <div className="pages-studied">
+                      <div className="exam-data">
                         <h4>Pages studied</h4>
                         <p>
                           {examDetails.currentPage}/{examDetails.numberPages}
                         </p>
                       </div>
-                      <div className="pdf">
+                      <div className="exam-data pdf">
                         <div className="pdf--file">
                           <h4>PDF file</h4>
 
