@@ -53,19 +53,9 @@ const ExamDetails = props => {
   // calculation ----------------
   const today = new Date()
 
-  const startDateUntilDeadline = getNumberOfDays(
-    new Date(examDetails.startDate),
-    new Date(examDetails.examDate)
-  )
-
-  const daysUntilDeadline = getNumberOfDays(
+  const todaysDayUntilDeadline = getNumberOfDays(
     today,
     new Date(examDetails.examDate)
-  )
-
-  const daysAfterStartDate = getNumberOfDays(
-    new Date(examDetails.startDate),
-    today
   )
 
   return (
@@ -146,14 +136,16 @@ const ExamDetails = props => {
                         <h4>Days until deadline</h4>
 
                         <div className="bar">
-                          <ExamBar
-                            percentage={
-                              (100 * daysAfterStartDate) /
-                              startDateUntilDeadline
-                            }
-                          />
+                          <p>{todaysDayUntilDeadline} days left</p>
+                        </div>
+                      </div>
+                      <div className="studied">
+                        <h4>TODO</h4>
+
+                        <div className="bar">
+                          <ExamBar percentage="0" />
                           <div className="bar--status">
-                            <p>{daysUntilDeadline} days left</p>
+                            <p>0</p>
                           </div>
                         </div>
                       </div>
@@ -177,19 +169,6 @@ const ExamDetails = props => {
                               pages left
                             </p>
                           </div>
-                        </div>
-                      </div>
-                      <div className="studied">
-                        <h4>Studied</h4>
-
-                        <div className="bar">
-                          <p>
-                            {Math.round(
-                              (100 * (examDetails.currentPage - 1)) /
-                                examDetails.numberPages
-                            )}
-                            % of 100%
-                          </p>
                         </div>
                       </div>
                       <div className="pages-studied">

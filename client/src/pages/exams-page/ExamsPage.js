@@ -16,9 +16,6 @@ import { Link } from "react-router-dom"
 // animation ----------------
 import AnimateHeight from "react-animate-height"
 
-// variable
-export let currentStatus = 0
-
 const Exams = () => {
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
@@ -92,8 +89,6 @@ const Exams = () => {
       )
     }
   })
-
-  console.log(currentStatus)
 
   archiveExamsList = archiveExams.map(function(exam) {
     if (exam === null) {
