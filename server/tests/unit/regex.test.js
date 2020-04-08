@@ -109,6 +109,7 @@ test("verifies string is formatted as a page amount", () => {
   expect(verifyRegexPageAmount("1".repeat(10000))).toBeTruthy();
 
   expect(verifyRegexPageAmount("1".repeat(10001))).toBeFalsy();
+  expect(verifyRegexPageAmount("-1")).toBeFalsy();
   expect(verifyRegexPageAmount("")).toBeFalsy();
 });
 
@@ -117,6 +118,7 @@ test("verifies string is formatted as a page time", () => {
   expect(verifyRegexPageTime("1".repeat(600))).toBeTruthy();
 
   expect(verifyRegexPageTime("1".repeat(601))).toBeFalsy();
+  expect(verifyRegexPageTime("-1")).toBeFalsy();
   expect(verifyRegexPageTime("")).toBeFalsy();
 });
 
@@ -126,6 +128,7 @@ test("verifies string is formatted as a page repeat", () => {
   expect(verifyRegexPageRepeat("")).toBeTruthy();
 
   expect(verifyRegexPageRepeat("1".repeat(1001))).toBeFalsy();
+  expect(verifyRegexPageRepeat("-1")).toBeFalsy();
 });
 
 test("verifies string is formatted as a current page", () => {
@@ -134,6 +137,7 @@ test("verifies string is formatted as a current page", () => {
   expect(verifyRegexCurrentPage("")).toBeTruthy();
 
   expect(verifyRegexCurrentPage("1".repeat(10001))).toBeFalsy();
+  expect(verifyRegexCurrentPage("-1")).toBeFalsy();
 });
 
 test("verifies string is formatted as notes", () => {

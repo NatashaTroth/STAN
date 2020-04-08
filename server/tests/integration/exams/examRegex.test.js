@@ -37,7 +37,7 @@ describe("Test user resolver regex", () => {
         completed: false
       }
     });
-
+    console.log(resp);
     expect(resp.data.addExam).toBeTruthy();
   });
 
@@ -58,7 +58,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Subject input has the wrong format."
+      "Subject input has the wrong format. It cannot be empty. Max length 50 characters."
     );
   });
 
@@ -79,7 +79,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Exam date input has the wrong format."
+      "Exam date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
     );
   });
 
@@ -100,7 +100,7 @@ describe("Test user resolver regex", () => {
   //   });
   //   expect(resp.data.addExam).toBeFalsy();
   //   expect(resp.errors[0].message).toEqual(
-  //     "Study start date input has the wrong format."
+  //     "Study start date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
   //   );
   // });
 
@@ -141,7 +141,7 @@ describe("Test user resolver regex", () => {
 
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Time per page has to be higher than 0."
+      "Time per page input has the wrong format. It must be a positive number and cannot be empty. Max length 600 characters."
     );
   });
 
@@ -161,6 +161,8 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Notes input has the wrong format.");
+    expect(resp.errors[0].message).toEqual(
+      "Notes input has the wrong format. It cannot exceed 100000000 characters."
+    );
   });
 });

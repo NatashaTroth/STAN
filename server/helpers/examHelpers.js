@@ -42,8 +42,9 @@ export function verifyExamInput(args) {
     );
 
   //TODO MOVE TO VERIFY USER INPUT
-  if (args.timePerPage <= 0)
-    throw new ApolloError("Time per page has to be higher than 0.");
+
+  //TODO: STARTPAGE CANNOT BE HIGHER THAN AMOUNT OF PAGES
+  // if(args.startPage)
 }
 
 export async function handleCurrentPageInput(page, examId, userId) {
@@ -111,13 +112,17 @@ function verifyNewExamInputFormat(args) {
 
 function verifySubjectFormat(subject) {
   if (!verifyRegexSubject(subject))
-    throw new AuthenticationError("Subject input has the wrong format.");
+    throw new AuthenticationError(
+      "Subject input has the wrong format. It cannot be empty. Max length 50 characters."
+    );
 }
 
 function verifyExamDateFormat(examDate) {
   let examOnlyDate = new Date(examDate).toLocaleDateString();
   if (!verifyRegexExamDate(examOnlyDate))
-    throw new AuthenticationError("Exam date input has the wrong format.");
+    throw new AuthenticationError(
+      "Exam date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
+    );
 }
 
 function verifyStartDateFormat(startDate) {
@@ -127,107 +132,42 @@ function verifyStartDateFormat(startDate) {
 
   if (startDate != null && !verifyRegexStudyStartDate(startOnlyDate))
     throw new AuthenticationError(
-      "Study start date input has the wrong format."
+      "Study start date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
     );
 }
 
 function verifyNumberPagesFormat(numberPages) {
   if (!verifyRegexPageAmount(numberPages.toString()))
     throw new AuthenticationError(
-      "Number of pages input has the wrong format."
+      "Number of pages input has the wrong format. It must be a positive number and cannot be empty. Max length 10000 characters."
     );
 }
 
 function verifyTimePerPageFormat(timePerPage) {
-  if (!verifyRegexPageTime(timePerPage.toString()))
-    throw new AuthenticationError("Time per page input has the wrong format.");
+  if (!verifyRegexPageTime(timePerPage.toString()) || timePerPage <= 0)
+    throw new AuthenticationError(
+      "Time per page input has the wrong format. It must be a positive number and cannot be empty. Max length 600 characters."
+    );
 }
 
 function verifyTimesRepeatFormat(timesRepeat) {
   if (timesRepeat != null && !verifyRegexPageRepeat(timesRepeat.toString()))
     throw new AuthenticationError(
-      "Times to repeat input has the wrong format."
+      "Times to repeat input has the wrong format. It must be a positive number.  Max length 1000 characters."
     );
 }
 
 //????? or startpage??
 function verifyCurrentPageFormat(currentPage) {
   if (currentPage != null && !verifyRegexCurrentPage(currentPage.toString()))
-    throw new AuthenticationError("Current page input has the wrong format.");
+    throw new AuthenticationError(
+      "Current page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
+    );
 }
 
 function verifyNotesFormat(notes) {
   if (notes != null && !verifyRegexPageNotes(notes))
-    throw new AuthenticationError("Notes input has the wrong format.");
+    throw new AuthenticationError(
+      "Notes input has the wrong format. It cannot exceed 100000000 characters."
+    );
 }
-
-// function verifyUserInputFormat({
-//   subject,
-//   examDate,
-//   startDate,
-//   numberPages,
-//   timePerPage,
-//   timesRepeat,
-//   currentPage,
-//   notes
-//   // pdfLink,
-// }) {
-//   // let examOnlyDate = new Date(examDate).toLocaleDateString();
-//   // let startOnlyDate = "";
-//   // if (startDate && startDate.length > 0)
-//   //   startOnlyDate = new Date(startDate).toLocaleDateString();
-
-//   //TODO: MAKE SURE CHECKED EVERYTHING THAT CAN BE NULL
-//   // if (typeof subject !== "undefined" && !verifyRegexSubject(subject))
-//   //   throw new AuthenticationError("Subject input has the wrong format.");
-
-//   // if (typeof examDate !== "undefined" && !verifyRegexExamDate(examOnlyDate))
-//   //   throw new AuthenticationError("Exam date input has the wrong format.");
-
-//   // if (
-//   //   typeof startDate !== "undefined" &&
-//   //   startDate != null &&
-//   //   !verifyRegexStudyStartDate(startOnlyDate)
-//   // )
-//   //   throw new AuthenticationError(
-//   //     "Study start date input has the wrong format."
-//   //   );
-
-//   // if (
-//   //   typeof numberPages !== "undefined" &&
-//   //   !verifyRegexPageAmount(numberPages.toString())
-//   // )
-//   //   throw new AuthenticationError(
-//   //     "Number of pages input has the wrong format."
-//   //   );
-
-//   // if (
-//   //   typeof timePerPage !== "undefined" &&
-//   //   timePerPage != null &&
-//   //   !verifyRegexPageTime(timePerPage.toString())
-//   // )
-//   //   throw new AuthenticationError("Time per page input has the wrong format.");
-
-//   // if (
-//   //   typeof timesRepeat !== "undefined" &&
-//   //   timesRepeat != null &&
-//   //   !verifyRegexPageRepeat(timesRepeat.toString())
-//   // )
-//   //   throw new AuthenticationError(
-//   //     "Times to repeat input has the wrong format."
-//   //   );
-
-//   // if (
-//   //   typeof currentPage !== "undefined" &&
-//   //   currentPage != null &&
-//   //   !verifyRegexCurrentPage(currentPage.toString())
-//   // )
-//   //   throw new AuthenticationError("Current page input has the wrong format.");
-
-//   // if (
-//   //   typeof notes !== "undefined" &&
-//   //   notes != null &&
-//   //   !verifyRegexPageNotes(notes)
-//   // )
-//   //   throw new AuthenticationError("Notes input has the wrong format.");
-// }

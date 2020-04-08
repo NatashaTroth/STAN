@@ -1,3 +1,5 @@
+//TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
+
 import { User } from "../models";
 import { UserInputError, AuthenticationError } from "apollo-server";
 import { createAccessToken, createRefreshToken } from "./authenticationTokens";
@@ -130,7 +132,9 @@ export function verifyMascotInputFormat({ mascot }) {
 
 function verifyUsernameFormat(username) {
   if (!verifyRegexUsername(username))
-    throw new Error("Username input has the wrong format.");
+    throw new Error(
+      "Username input has the wrong format. It cannot be empty. Max length 30 characters."
+    );
 }
 
 function verifyEmailFormat(email) {
@@ -140,7 +144,9 @@ function verifyEmailFormat(email) {
 
 function verifyPasswordFormat(password) {
   if (typeof password !== "undefined" && !verifyRegexPassword(password))
-    throw new Error("Password input has the wrong format.");
+    throw new Error(
+      "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
+    );
 }
 
 function verifyMascotFormat(mascot) {
@@ -149,16 +155,3 @@ function verifyMascotFormat(mascot) {
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
 }
-
-// export function verifyUserInputFormat({ username, email, password, mascot }) {
-//   if (typeof username !== "undefined" && !verifyRegexUsername(username))
-//     throw new Error("Username input has the wrong format.");
-//   if (typeof email !== "undefined" && !verifyRegexEmail(email))
-//     throw new Error("Email input has the wrong format.");
-//   if (typeof password !== "undefined" && !verifyRegexPassword(password))
-//     throw new Error("Password input has the wrong format.");
-//   if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
-//     throw new Error(
-//       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
-//     );
-// }
