@@ -14,6 +14,7 @@ import { numberOfPagesForChunk } from "../helpers/chunks";
 import {
   datesTimingIsValid,
   startDateIsActive,
+  isTheSameDay,
   getNumberOfDays
 } from "../helpers/dates";
 
@@ -34,6 +35,12 @@ export function prepareExamInputData(args, userId) {
 export function verifyExamInput(args) {
   //regex
   verifyNewExamInputFormat(args);
+
+  if (isTheSameDay(args.startDate, args.examDate)) {
+    throw new ApolloError(
+      "Careful! You shouldn't start learning on the same day as the test. Start date should be at least 1 day before the test."
+    );
+  }
 
   if (!datesTimingIsValid(args.startDate, args.examDate))
     throw new ApolloError(

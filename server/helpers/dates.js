@@ -13,6 +13,10 @@ export function startDateIsActive(startDate) {
   return isToday(startDate) || dayjs(startDate).isBefore(dayjs());
 }
 
+export function isTheSameDay(startDate, examDate) {
+  return dayjs(startDate).isSame(dayjs(examDate));
+}
+
 export function getNumberOfDays(startDate, examDate) {
   //source: https://stackoverflow.com/a/2627493 &  https://stackoverflow.com/a/17727953
   const start = Date.UTC(

@@ -14,6 +14,9 @@ test("verifies datesTimingIsValid", () => {
   expect(
     datesTimingIsValid(new Date("2120.12.01"), new Date("2221.12.03"))
   ).toBeTruthy();
+  // expect(
+  //   datesTimingIsValid(new Date("2020.12.02"), new Date("2020.12.02"))
+  // ).toBeTruthy();
   expect(
     datesTimingIsValid(new Date("2020.12.02"), new Date("2020.12.01"))
   ).toBeFalsy();

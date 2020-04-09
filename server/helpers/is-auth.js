@@ -12,7 +12,7 @@ export async function isAuth(req) {
       throw new AuthenticationError("Wrong token version.");
     return { isAuth: true, userId: decodedToken.userId, user };
   } catch (err) {
-    console.error(err.message);
+    // console.error(err.message);
     return { isAuth: false, userId: "" };
   }
 }

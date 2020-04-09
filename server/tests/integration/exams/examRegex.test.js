@@ -1,7 +1,7 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, teardown } from "../setup";
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 
 import { ADD_EXAM_MUTATION } from "../../mutations.js";
 
@@ -17,27 +17,65 @@ describe("Test user resolver regex", () => {
     mutate = client.mutate;
   });
 
+  afterEach(async () => {
+    await clearDatabase();
+  });
+
   afterAll(async () => {
     await teardown();
   });
 
-  //TODO: PUT IN SEPARATE ITS, SO DONE IN SEPARATE ORDER?
   it("should pass the exam regex tests and add an exam", async () => {
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("2020-08-11"),
-        startDate: new Date("2020-08-05"),
+        examDate: new Date("2120-08-11"),
+        startDate: new Date("2120-08-05"),
         numberPages: 5,
         timePerPage: 5,
-        startPage: 6,
+        startPage: 4,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
       }
     });
+    expect(resp.data.addExam).toBeTruthy();
+  });
 
+  it("should pass the exam regex tests and add an exam", async () => {
+    const resp = await mutate({
+      query: ADD_EXAM_MUTATION,
+      variables: {
+        subject: "Maths",
+        examDate: new Date("2120/08/11"),
+        startDate: new Date("2120/08/05"),
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+    expect(resp.data.addExam).toBeTruthy();
+  });
+
+  it("should pass the exam regex tests and add an exam", async () => {
+    const resp = await mutate({
+      query: ADD_EXAM_MUTATION,
+      variables: {
+        subject: "Maths",
+        examDate: new Date("2120.08.11"),
+        startDate: new Date("2120.08.05"),
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
     expect(resp.data.addExam).toBeTruthy();
   });
 
@@ -46,8 +84,8 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "",
-        examDate: new Date("2020-09-11"),
-        startDate: new Date("2020-08-05"),
+        examDate: new Date("2120-09-11"),
+        startDate: new Date("2120-08-05"),
         numberPages: 5,
         timePerPage: 5,
         startPage: 6,
@@ -68,7 +106,7 @@ describe("Test user resolver regex", () => {
       variables: {
         subject: "Maths",
         examDate: "test",
-        startDate: new Date("2020-08-11"),
+        startDate: new Date("2120-08-11"),
         numberPages: 5,
         timePerPage: 5,
         startPage: 6,
@@ -89,7 +127,7 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("2020-08-11"),
+        examDate: new Date("2120-08-11"),
         startDate: "test",
         numberPages: 5,
         timePerPage: 5,
@@ -133,8 +171,8 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("2020-08-11"),
-        startDate: new Date("2020-08-05"),
+        examDate: new Date("2120-08-11"),
+        startDate: new Date("2120-08-05"),
         numberPages: 5,
         timePerPage: 0,
         startPage: null,
@@ -155,8 +193,8 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "Maths",
-        examDate: new Date("2020-08-11"),
-        startDate: new Date("2020-08-05"),
+        examDate: new Date("2120-08-11"),
+        startDate: new Date("2120-08-05"),
         numberPages: 5,
         timePerPage: 5,
         startPage: 6,

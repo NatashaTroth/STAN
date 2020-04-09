@@ -94,6 +94,7 @@ export async function clearDatabase() {
     const collection = collections[key];
     await collection.deleteMany({});
   }
+  await mongoose.connection.dropDatabase();
 }
 
 export async function teardown() {
