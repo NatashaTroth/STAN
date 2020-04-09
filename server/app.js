@@ -29,25 +29,14 @@ mongoose
   .catch(e => console.error(e.message));
 
 app.use(cookieParser());
-// app.use(isAuth);
-// app.use(cors); //add origin & credentials
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true
-//   })
-//
 
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 });
 
+//TODO - ONLY FOR DEVELOPMENT
 let origin = "http://localhost:3000";
-
-// app.configure("production", () => {
-//   origin = "/public";
-// });
 
 const corsOptions = {
   // preflightContinue: true,
@@ -56,11 +45,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.use(express.static("publicServer"));
-// app.get("/", (req, res) => {
-//   // res.send("Welcome to STAN's backend");
-//   res.sendFile(path.join(__dirname + "/index.html"));
-// });
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
@@ -69,12 +53,9 @@ app.post("/refresh_token", async (req, res) => {
 
 //TODO: remove /graphql when deployed
 if (process.env.NODE_ENV === "production") {
-  // setup client render
-  //TODO: DELETE LATER OR CHANGE TO /graphql
-  //TODO: IN DEVELOPMENT MAKE IT THE ROOT
+  //TODO: CHANGE TO /graphql
   app.use("/backend", express.static(__dirname + "/backend"));
   app.get("/backend", (req, res) => {
-    // res.send("Welcome to STAN's backend");
     res.sendFile(path.resolve(__dirname, "backend", "index.html"));
   });
   app.use(express.static("public"));
@@ -88,7 +69,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// app.options("*", cors(corsOptions));
 const apolloServer = new ApolloServer({
   schema,
   context: async ({ req, res }) => ({
@@ -116,7 +96,7 @@ const apolloServer = new ApolloServer({
   }
   // cors: corsOptions
 });
-// apolloServer.applyMiddleware({ app });
+
 apolloServer.applyMiddleware({ app, cors: false });
 
 app.listen({ port: PORT }, () =>

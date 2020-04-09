@@ -87,6 +87,7 @@ function fetchChunks(currentExams) {
       daysLeft,
       repeat: exam.timesRepeat
     });
+    console.log(daysLeft);
     const duration =
       exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
     return {

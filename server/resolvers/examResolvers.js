@@ -53,7 +53,9 @@ export const examResolvers = {
       try {
         //TODO: SORTBY
         handleAuthentication(context.userInfo);
-        return await fetchTodaysChunks(context.userInfo.userId);
+        const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        // console.log(chunks);
+        return chunks;
       } catch (err) {
         handleResolverError(err);
       }
@@ -75,6 +77,7 @@ export const examResolvers = {
       return true;
     },
     updateCurrentPage: async (root, args, context, info) => {
+      //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(context.userInfo);
         const exam = await handleCurrentPageInput(

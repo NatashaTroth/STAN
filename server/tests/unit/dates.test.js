@@ -31,17 +31,19 @@ test("verifies datesTimingIsValid", () => {
 
 test("verifies startDateIsActive", () => {
   expect(startDateIsActive(new Date("1990.12.01"))).toBeTruthy();
-  expect(startDateIsActive(new Date(new Date() - 1))).toBeTruthy();
+  expect(startDateIsActive(getFutureDay(new Date(), -1))).toBeTruthy();
   expect(startDateIsActive(new Date())).toBeTruthy();
   expect(startDateIsActive(new Date("1990.12.01"))).toBeTruthy();
-  expect(startDateIsActive(new Date(new Date() + 1))).toBeTruthy();
+  expect(startDateIsActive(getFutureDay(new Date(), 1))).toBeFalsy();
 });
 
 test("verifies isTheSameDay", () => {
   expect(
     isTheSameDay(new Date("1990.12.01"), new Date("1990.12.01"))
   ).toBeTruthy();
-  expect(isTheSameDay(new Date(new Date() - 1), new Date())).toBeFalsy();
+  expect(
+    isTheSameDay(new Date("1990.12.05"), new Date("1990.12.01"))
+  ).toBeFalsy();
 });
 
 test("verifies numberOfDaysLeft", () => {
@@ -55,3 +57,12 @@ test("verifies numberOfDaysLeft", () => {
     9
   );
 });
+
+function getFutureDay(date, numberDaysInFuture) {
+  const nextDay = new Date(date);
+  console.log(nextDay);
+  nextDay.setDate(date.getDate() + numberDaysInFuture);
+  console.log(nextDay);
+
+  return new Date(nextDay);
+}
