@@ -27,10 +27,10 @@ const examType = gql`
     exam: Exam!
     numberPagesToday: Int!
     duration: Int
-    daysLeft: Int!
+    daysLeft: Int! #incl. today
     totalNumberDays: Int!
     # totalChunks: Int!
-    numberPagesWithRepeat: Int!
+    numberPagesWithRepeat: Int! #exam.pages*repeat
     notEnoughTime: Boolean!
   }
 `;

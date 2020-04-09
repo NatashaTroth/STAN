@@ -32,15 +32,15 @@ describe("Test user resolver regex", () => {
     testExams = await addTestExams();
   });
 
-  afterEach(async () => {
-    await clearDatabase();
-  });
+  // afterEach(async () => {
+  //   await clearDatabase();
+  // });
 
   afterAll(async () => {
     await teardown();
   });
 
-  it("should fetch the test exam", async () => {
+  it("should correctly fetch today's chunks", async () => {
     // const { exam1, exam2, exam3, exam4 } = addTestExams();
     // const exam1 = aaddTestExams();
     // console.log(testExams);
@@ -113,6 +113,27 @@ describe("Test user resolver regex", () => {
     });
   });
 
+  it("should not fetch today's chunks, since dates are the same (however should never occur)", async () => {
+    const exam = await addTestExam({
+      subject: "Wrong",
+      examDate: new Date(),
+      startDate: new Date()
+    });
+
+    const resp = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Start date and exam date were the same for Wrong."
+    );
+
+    const removeResp = await Exam.deleteOne({ _id: exam._id });
+
+    expect(removeResp.deletedCount).toBe(1);
+  });
+
   async function addTestExams() {
     const exam1 = await addTestExam({
       subject: "Biology"
@@ -142,6 +163,7 @@ describe("Test user resolver regex", () => {
       examDate: getFutureDay(new Date(), 30),
       startDate: getFutureDay(new Date(), 51)
     });
+
     // return exam1;
     return { exam1, exam2, exam3, exam4 };
   }

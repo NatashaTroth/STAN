@@ -86,13 +86,18 @@ async function fetchCurrentExams(userId) {
 function fetchChunks(currentExams) {
   return currentExams.map(exam => {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+    //but should never come to this - but to avoid Infinity error
+    if (daysLeft <= 0)
+      throw new ApolloError(
+        "Start date and exam date were the same for " + exam.subject + "."
+      );
     const numberPagesToday = numberOfPagesForChunk({
       numberOfPages: exam.numberPages,
       currentPage: exam.currentPage,
       daysLeft,
       repeat: exam.timesRepeat
     });
-    console.log(daysLeft);
+
     const duration =
       exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
     return {
