@@ -3,18 +3,28 @@
 import { createTestClient } from "apollo-server-testing";
 import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 
-import { ADD_EXAM_MUTATION } from "../../mutations.js";
+import {
+  ADD_EXAM_MUTATION,
+  UPDATE_CURRENT_PAGE_MUTATION
+} from "../../mutations.js";
+import {
+  GET_EXAM_QUERY,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS
+} from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
+  let query;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: false });
     let client = createTestClient(server);
     mutate = client.mutate;
+    query = client.query;
   });
 
   afterEach(async () => {
@@ -43,4 +53,46 @@ describe("Test user resolver regex", () => {
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
+
+  it("should not be able to update the current page", async () => {
+    const resp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: "testId",
+        page: 5
+      }
+    });
+
+    expect(resp.data.updateCurrentPage).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not be able to fetch an exam", async () => {
+    const resp = await query({
+      query: GET_EXAM_QUERY,
+      variables: {
+        id: "testId"
+      }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not be able to fetch exams", async () => {
+    const resp = await query({
+      query: GET_EXAMS_QUERY
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not be able to fetch todays chunks", async () => {
+    const resp = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  //TODO ADD NEWER RESOLVERS
 });

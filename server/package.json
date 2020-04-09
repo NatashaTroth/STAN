@@ -15,7 +15,7 @@
     "lintFix": "eslint \"**/*.js\" --fix",
     "build": "mkdir dist && babel app.js -d dist",
     "testTODOCHANGE": "jest --watchAll--runInBand --detectOpenHandles --detectLeaks",
-    "test": "jest --watchAll --runInBand",
+    "test": "node --expose-gc ./node_modules/.bin/jest --watchAll --runInBand",
     "ciTest": "jest",
     "testUnit": "jest --watch ./tests/unit --runInBand",
     "testIntegration": "jest --watch ./tests/integration --runInBand"

@@ -22,6 +22,7 @@ export const examResolvers = {
   Query: {
     exams: async (root, args, context, info) => {
       try {
+        //TODO: SORT BY Alphabet
         handleAuthentication(context.userInfo);
 
         return await Exam.find({
@@ -45,6 +46,7 @@ export const examResolvers = {
     },
     todaysChunks: async (root, args, context, info) => {
       try {
+        //TODO: SORTBY
         handleAuthentication(context.userInfo);
         return await fetchTodaysChunks(context.userInfo.userId);
       } catch (err) {

@@ -1,9 +1,19 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
+import {
+  setupApolloServer,
+  setupDb,
+  // addTestExam,
+  clearDatabase,
+  teardown
+} from "../setup";
+import { Exam } from "../../../models";
 
-import { ADD_EXAM_MUTATION } from "../../mutations.js";
+import {
+  ADD_EXAM_MUTATION,
+  UPDATE_CURRENT_PAGE_MUTATION
+} from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
@@ -12,7 +22,7 @@ describe("Test user resolver regex", () => {
   let mutate;
   beforeAll(async () => {
     await setupDb();
-    server = await setupApolloServer({ isAuth: true, userId: "testUserId" });
+    server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
   });
@@ -26,21 +36,42 @@ describe("Test user resolver regex", () => {
   });
 
   it("should add an exam", async () => {
+    const initialCount = await Exam.countDocuments();
+
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
-        subject: "German",
+        subject: "MyStanTestExam",
         examDate: "2122-08-11",
         startDate: "2122-08-05",
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
-        notes: "NOTES",
+        notes: "My Test Notes",
         pdfLink: "klsdjfs",
         completed: false
       }
     });
     expect(resp.data.addExam).toBeTruthy();
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount + 1);
+
+    const exam = await Exam.findOne({
+      subject: "MyStanTestExam"
+    });
+
+    expect(exam).toBeTruthy();
+    expect(exam.subject).toBe("MyStanTestExam");
+    expect(exam.examDate.toString()).toBe(new Date("2122-08-11").toString());
+    expect(exam.startDate.toString()).toBe(new Date("2122-08-05").toString());
+    expect(exam.numberPages).toBe(5);
+    expect(exam.timePerPage).toBe(5);
+    expect(exam.timesRepeat).toBe(1);
+    expect(exam.startPage).toBe(4);
+    expect(exam.currentPage).toBe(4);
+    //TODO: PDF LINK
+    expect(exam.notes).toBe("My Test Notes");
+    expect(exam.completed).toBe(false);
 
     const resp2 = await mutate({
       query: ADD_EXAM_MUTATION,
@@ -57,6 +88,8 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp2.data.addExam).toBeTruthy();
+    const newCount2 = await Exam.countDocuments();
+    expect(newCount2).toBe(initialCount + 2);
 
     const resp3 = await mutate({
       query: ADD_EXAM_MUTATION,
@@ -73,9 +106,13 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp3.data.addExam).toBeTruthy();
+    const newCount3 = await Exam.countDocuments();
+    expect(newCount3).toBe(initialCount + 3);
   });
 
   it("should not add an exam, since start date is after exam date", async () => {
+    const initialCount = await Exam.countDocuments();
+
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
@@ -94,9 +131,13 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Dates cannot be in the past and start learning date must be before exam date."
     );
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount);
   });
 
   it("should not add an exam, since start date is the same as exam date", async () => {
+    const initialCount = await Exam.countDocuments();
+
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
@@ -115,9 +156,13 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Careful! You shouldn't start learning on the same day as the test. Start date should be at least 1 day before the test."
     );
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount);
   });
 
   it("should not add an exam, since dates are in the past", async () => {
+    const initialCount = await Exam.countDocuments();
+
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
@@ -136,9 +181,13 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Dates cannot be in the past and start learning date must be before exam date."
     );
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount);
   });
 
   it("should not add an exam, since start page is higher than number of pages", async () => {
+    const initialCount = await Exam.countDocuments();
+
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
       variables: {
@@ -157,5 +206,7 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "Start page cannot higher than the number of pages."
     );
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount);
   });
 });
