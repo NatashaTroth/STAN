@@ -50,6 +50,8 @@
   }
 
   &__inner {
+    padding: 20px;
+
     .hideForm,
     .hideExamDetails {
       display: none;
@@ -64,15 +66,16 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      padding: 18px;
-      position: relative;
+      border-bottom: 3px solid theme_color("dark");
+      padding: 5px 0;
+      margin: 5px;
 
       &--right {
         display: flex;
         flex-direction: row;
 
         .exam-btn {
-          // font style for close buttons
+          // font style for all buttons
           color: theme-color("dark");
           font-family: $font-family-OpenSans-Regular;
           @include rem(font-size, $font-size-16);
@@ -116,19 +119,10 @@
           }
         }
       }
-
-      .line {
-        position: absolute;
-        border-bottom: 3px solid theme_color("dark");
-        bottom: 0;
-        left: 1%;
-        right: 1%;
-        width: 98%;
-      }
     }
-    &--details {
-      padding: 10px;
 
+    &--details {
+      padding: 20px 0;
       .flex-container {
         display: flex;
         flex-direction: row;
