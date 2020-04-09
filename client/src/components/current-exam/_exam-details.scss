@@ -69,9 +69,17 @@
       padding: 5px 0;
       margin: 5px;
 
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+
       &--right {
         display: flex;
         flex-direction: row;
+
+        @include media-breakpoint-down(sm) {
+          justify-content: center;
+        }
 
         // font style for all buttons
         .exam-btn {
@@ -82,6 +90,10 @@
           letter-spacing: 0;
           @include rem(line-height, 22px);
           transition: all 200ms ease-in-out;
+
+          border: none;
+          padding: 0 0 0 10px;
+          margin: 0;
 
           &:hover,
           &:focus,
@@ -94,23 +106,17 @@
           @include media-breakpoint-down(sm) {
             @include rem(font-size, $font-size-14);
             @include rem(line-height, 18px);
+
+            padding: 10px;
           }
         }
 
         .closeExam {
-          border: none;
-          padding: 0 0 0 10px;
           display: none;
-          margin: 0;
 
           @include media-breakpoint-down(md) {
             display: block;
           }
-        }
-        .editExam {
-          border: none;
-          padding: 0 0 0 10px;
-          margin: 0;
         }
         .delete-btn {
           color: theme_color("error-hover");

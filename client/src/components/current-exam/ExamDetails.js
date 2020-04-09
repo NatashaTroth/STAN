@@ -114,7 +114,7 @@ const ExamDetails = () => {
                           <Button
                             variant="button"
                             onClick={handleEdit}
-                            className="editExam exam-btn"
+                            className="exam-btn"
                             text="edit"
                           />
                         </div>
@@ -127,7 +127,7 @@ const ExamDetails = () => {
                           <Button
                             variant="button"
                             onClick={handleEdit}
-                            className="editExam exam-btn"
+                            className="exam-btn"
                             text="back"
                           />
                         </div>
@@ -141,7 +141,7 @@ const ExamDetails = () => {
                         >
                           <Button
                             variant="button"
-                            className="editExam exam-btn delete-btn"
+                            className="exam-btn delete-btn"
                             text="delete"
                           />
                         </div>
@@ -213,13 +213,12 @@ const ExamDetails = () => {
                                   <p>{todaysDayUntilDeadline} days left</p>
                                 </div>
                                 <div className="exam-data">
-                                  <h4>Total learning effort</h4>
+                                  <h4>Studied</h4>
                                   <p>
-                                    {minuteToHours(
-                                      examDetails.numberPages *
-                                        examDetails.timesRepeat *
-                                        examDetails.timePerPage
-                                    )}
+                                    {(100 * examDetails.currentPage) /
+                                      (examDetails.numberPages *
+                                        examDetails.timesRepeat)}
+                                    % of 100%
                                   </p>
                                 </div>
                                 <div className="exam-pages">
