@@ -1,6 +1,7 @@
 const {
   datesTimingIsValid,
   startDateIsActive,
+  isTheSameDay,
   getNumberOfDays
 } = require("../../helpers/dates");
 
@@ -34,6 +35,13 @@ test("verifies startDateIsActive", () => {
   expect(startDateIsActive(new Date())).toBeTruthy();
   expect(startDateIsActive(new Date("1990.12.01"))).toBeTruthy();
   expect(startDateIsActive(new Date(new Date() + 1))).toBeTruthy();
+});
+
+test("verifies isTheSameDay", () => {
+  expect(
+    isTheSameDay(new Date("1990.12.01"), new Date("1990.12.01"))
+  ).toBeTruthy();
+  expect(isTheSameDay(new Date(new Date() - 1), new Date())).toBeFalsy();
 });
 
 test("verifies numberOfDaysLeft", () => {

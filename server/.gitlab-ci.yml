@@ -56,6 +56,9 @@ unit-testing:server:
   stage: test
   tags:
     - node
+  variables:
+    ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
+    REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
   script:
     - cd server/
     - echo "Running unit tests ..."

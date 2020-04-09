@@ -10,6 +10,7 @@ import {
   fetchTodaysChunks
 } from "../helpers/examHelpers";
 
+import { verifyRegexDate } from "../helpers/verifyUserInput";
 // import { ApolloError } from "apollo-server";
 import {
   handleResolverError,
@@ -21,11 +22,14 @@ export const examResolvers = {
   Query: {
     exams: async (root, args, context, info) => {
       try {
+        //TODO: SORT BY Alphabet
         handleAuthentication(context.userInfo);
 
-        return await Exam.find({
+        const resp = await Exam.find({
           userId: context.userInfo.userId
-        });
+        }).sort({ subject: "asc" });
+        if (!resp) return [];
+        return resp;
       } catch (err) {
         handleResolverError(err);
       }
@@ -34,16 +38,20 @@ export const examResolvers = {
       try {
         handleAuthentication(context.userInfo);
 
-        return await Exam.findOne({
+        const resp = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
         });
+
+        if (!resp) return {};
+        return resp;
       } catch (err) {
         handleResolverError(err);
       }
     },
     todaysChunks: async (root, args, context, info) => {
       try {
+        //TODO: SORTBY
         handleAuthentication(context.userInfo);
         return await fetchTodaysChunks(context.userInfo.userId);
       } catch (err) {
@@ -90,11 +98,18 @@ export const examResolvers = {
   },
   Date: new GraphQLScalarType({
     name: "Date",
-    description: "Custom description for the date scalar",
+    description: "GraphqL date scalar",
     parseValue(value) {
-      //TODO: not sure if this is good for examDate
-      // console.log("in parse date");
-      if (!value || value.length <= 0) return new Date();
+      if (value instanceof Date) return value;
+      if (
+        !value ||
+        value.length <= 0 ||
+        isNaN(Date.parse(value)) ||
+        !verifyRegexDate(value.toString())
+      )
+        throw new Error(
+          "Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -"
+        );
       return new Date(value); // value from the client
     },
     serialize(value) {

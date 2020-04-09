@@ -17,22 +17,24 @@ export function verifyRegexPassword(string) {
 }
 
 export function verifyRegexMascot(string) {
-  return string.match(/[012]/);
+  return string.match(/^.{1}$/) && string.match(/[012]/);
 }
+
+//--------------EXAMS--------------
 
 export function verifyRegexSubject(string) {
-  return string.match(/^.{1,20}$/);
+  return string.match(/^.{1,50}$/);
 }
 
-export function verifyRegexExamDate(string) {
+export function verifyRegexDate(string) {
   if (!validateRegexDate(string)) return false;
   return true;
 }
-export function verifyRegexStudyStartDate(string) {
-  if (string.match(/^.{0}$/)) return true;
-  if (!validateRegexDate(string)) return false;
-  return true;
-}
+// export function verifyRegexStudyStartDate(string) {
+//   if (string.match(/^.{0}$/)) return true;
+//   if (!validateRegexDate(string)) return false;
+//   return true;
+// }
 
 export function verifyRegexPageAmount(string) {
   return string.match(/^\d{1,10000}$/);
@@ -58,9 +60,9 @@ export function verifyRegexPageNotes(string) {
 }
 
 function validateRegexDate(string) {
-  let regexDateOne = /^(0?[1-9]|[12][0-9]|3[01])[-|/|.](0?[1-9]|1[012])[-|/|.]\d{4}$/;
-  let regexDateTwo = /^\d{4}[-|/|.](0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])$/;
-  let regexDateThree = /^(0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])[-|/|.]\d{4}$/;
+  let regexDateOne = /^(0?[1-9]|[12][0-9]|3[01])[-|/|.](0?[1-9]|1[012])[-|/|.]\d{4}$/; //dd/mm/yyyy
+  let regexDateTwo = /^\d{4}[-|/|.](0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])$/; //yyyy/mm/dd
+  let regexDateThree = /^(0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])[-|/|.]\d{4}$/; //mm/dd/yyyy
   if (
     !string.match(regexDateOne) &&
     !string.match(regexDateTwo) &&

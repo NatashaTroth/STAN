@@ -27,7 +27,7 @@ function Login() {
       })
       //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
       if (resp && resp.data && resp.data.googleLogin)
-        setAccessToken(resp.data.googleLogin.accessToken)
+        setAccessToken(resp.data.googleLogin)
       else throw new Error("The google login failed")
 
       window.location.reload()
@@ -181,7 +181,7 @@ async function handleLogin({ formData, login }) {
     })
 
     if (resp && resp.data && resp.data.login) {
-      setAccessToken(resp.data.login.accessToken)
+      setAccessToken(resp.data.login)
     } else {
       // displays server error (backend)
       throw new Error("The login failed")
