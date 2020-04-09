@@ -74,7 +74,7 @@ describe("Test user resolver regex", () => {
         id: "testId"
       }
     });
-    expect(resp.data).toBeFalsy();
+    expect(resp.data.exam).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 
@@ -82,7 +82,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_EXAMS_QUERY
     });
-    expect(resp.data).toBeFalsy();
+    expect(resp.data.exams).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 

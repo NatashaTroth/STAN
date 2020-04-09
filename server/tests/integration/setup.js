@@ -112,6 +112,7 @@ export async function clearDatabase() {
     await collection.deleteMany({});
   }
   await mongoose.connection.dropDatabase();
+  if (global.gc) global.gc();
 }
 
 export async function teardown() {

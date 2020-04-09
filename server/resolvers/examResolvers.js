@@ -25,9 +25,11 @@ export const examResolvers = {
         //TODO: SORT BY Alphabet
         handleAuthentication(context.userInfo);
 
-        return await Exam.find({
+        const resp = await Exam.find({
           userId: context.userInfo.userId
-        });
+        }).sort({ subject: "asc" });
+        if (!resp) return [];
+        return resp;
       } catch (err) {
         handleResolverError(err);
       }
@@ -36,10 +38,13 @@ export const examResolvers = {
       try {
         handleAuthentication(context.userInfo);
 
-        return await Exam.findOne({
+        const resp = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
         });
+
+        if (!resp) return {};
+        return resp;
       } catch (err) {
         handleResolverError(err);
       }

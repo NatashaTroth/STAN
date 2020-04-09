@@ -62,7 +62,6 @@ describe("Test user resolver regex", () => {
 
     expect(exam).toBeTruthy();
     expect(exam.currentPage).toBe(1);
-    console.log(exam._id);
 
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
@@ -72,7 +71,6 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
-    console.log(updateResp);
 
     const newExam = await Exam.findOne({
       subject: "Editable Exam"
@@ -92,5 +90,17 @@ describe("Test user resolver regex", () => {
     expect(updateResp2.errors[0].message).toEqual(
       "The entered current page is higher than the number of pages for this exam."
     );
+  });
+
+  it("should not update current page, examId doesn't exist", async () => {
+    const resp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: "5e8ef5f1800a7ded589961a4", //false Id
+        page: 5
+      }
+    });
+    expect(resp.data.updateCurrentPage).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("There is no exam with that id.");
   });
 });
