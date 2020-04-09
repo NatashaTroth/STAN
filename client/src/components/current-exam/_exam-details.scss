@@ -50,6 +50,15 @@
   }
 
   &__inner {
+    .hideForm,
+    .hideExamDetails {
+      display: none;
+    }
+    .showForm,
+    .showExamDetails {
+      display: block;
+    }
+
     &--bar {
       display: flex;
       flex-direction: row;
@@ -100,6 +109,12 @@
           padding: 0 0 0 10px;
           margin: 0;
         }
+        .delete-btn {
+          color: theme_color("error-hover");
+          &:hover {
+            color: theme_color("error-hover");
+          }
+        }
       }
 
       .line {
@@ -111,17 +126,6 @@
         width: 98%;
       }
     }
-
-    &--form {
-      .hideForm {
-        display: none;
-      }
-      .showForm {
-        display: block;
-        z-index: 5;
-      }
-    }
-
     &--details {
       padding: 10px;
 

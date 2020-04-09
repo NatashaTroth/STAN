@@ -78,6 +78,7 @@ const ExamDetails = props => {
           <div className="col-md-10">
             <div className="exam-details__headline">
               <h2>{examDetails.subject}</h2>
+
               <Button
                 variant="button"
                 onClick={() => {
@@ -92,13 +93,31 @@ const ExamDetails = props => {
                 <div className="exam-details__inner--bar--headline">
                   <h3>Exam details</h3>
                 </div>
+
                 <div className="exam-details__inner--bar--right">
-                  <Button
-                    variant="button"
-                    onClick={handleEdit}
-                    className="editExam exam-btn"
-                    text="edit"
-                  />
+                  <div className={edit ? "hideExamDetails" : "showExamDetails"}>
+                    <Button
+                      variant="button"
+                      onClick={handleEdit}
+                      className="editExam exam-btn"
+                      text="edit"
+                    />
+                  </div>
+
+                  <div className={edit ? "showExamDetails" : "hideExamDetails"}>
+                    <Button
+                      variant="button"
+                      onClick={handleEdit}
+                      className="editExam exam-btn"
+                      text="back"
+                    />
+
+                    <Button
+                      variant="button"
+                      className="editExam exam-btn delete-btn"
+                      text="delete"
+                    />
+                  </div>
 
                   <Button
                     variant="button"
@@ -118,114 +137,116 @@ const ExamDetails = props => {
                 </div>
               </div>
 
-              <div className="exam-details__inner--details">
-                <div className="flex-container">
-                  <div className="col-md-4">
-                    <div className="exam-details__inner--details--left">
-                      <div className="exam-data">
-                        <h4>Exam date</h4>
-                        <p>{formatDate(examDetails.examDate)}</p>
-                      </div>
+              <div className={edit ? "hideExamDetails" : "showExamDetails"}>
+                <div className="exam-details__inner--details">
+                  <div className="flex-container">
+                    <div className="col-md-4">
+                      <div className="exam-details__inner--details--left">
+                        <div className="exam-data">
+                          <h4>Exam date</h4>
+                          <p>{formatDate(examDetails.examDate)}</p>
+                        </div>
 
-                      <div className="exam-data">
-                        <h4>Start learning on</h4>
-                        <p>{formatDate(examDetails.startDate)}</p>
-                      </div>
+                        <div className="exam-data">
+                          <h4>Start learning on</h4>
+                          <p>{formatDate(examDetails.startDate)}</p>
+                        </div>
 
-                      <div className="exam-data">
-                        <h4>Amount of pages</h4>
-                        <p>{examDetails.numberPages}</p>
-                      </div>
+                        <div className="exam-data">
+                          <h4>Amount of pages</h4>
+                          <p>{examDetails.numberPages}</p>
+                        </div>
 
-                      <div className="exam-data">
-                        <h4>Time per pages</h4>
-                        <p>{examDetails.timePerPage} min.</p>
-                      </div>
+                        <div className="exam-data">
+                          <h4>Time per pages</h4>
+                          <p>{examDetails.timePerPage} min.</p>
+                        </div>
 
-                      <div className="exam-data">
-                        <h4>Repeat</h4>
-                        {examDetails.timesRepeat > 1 ? (
-                          <p>{examDetails.timesRepeat} times</p>
-                        ) : (
-                          <p>{examDetails.timesRepeat} time</p>
-                        )}
+                        <div className="exam-data">
+                          <h4>Repeat</h4>
+                          {examDetails.timesRepeat > 1 ? (
+                            <p>{examDetails.timesRepeat} times</p>
+                          ) : (
+                            <p>{examDetails.timesRepeat} time</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="col-md-8">
-                    <div className="exam-details__inner--details--right">
-                      <div className="exam-data">
-                        <h4>Days until deadline</h4>
-                        <p>{todaysDayUntilDeadline} days left</p>
-                      </div>
-                      <div className="exam-data">
-                        <h4>Total learning effort</h4>
-                        <p>
-                          {minuteToHours(
-                            examDetails.numberPages *
-                              examDetails.timesRepeat *
-                              examDetails.timePerPage
-                          )}
-                        </p>
-                      </div>
-                      <div className="exam-pages">
-                        <h4>Pages left</h4>
+                    <div className="col-md-8">
+                      <div className="exam-details__inner--details--right">
+                        <div className="exam-data">
+                          <h4>Days until deadline</h4>
+                          <p>{todaysDayUntilDeadline} days left</p>
+                        </div>
+                        <div className="exam-data">
+                          <h4>Total learning effort</h4>
+                          <p>
+                            {minuteToHours(
+                              examDetails.numberPages *
+                                examDetails.timesRepeat *
+                                examDetails.timePerPage
+                            )}
+                          </p>
+                        </div>
+                        <div className="exam-pages">
+                          <h4>Pages left</h4>
 
-                        <div className="exam-pages__bar">
-                          <ExamBar
-                            percentage={
-                              (100 * examDetails.currentPage) /
-                              (examDetails.numberPages *
-                                examDetails.timesRepeat)
-                            }
-                          />
+                          <div className="exam-pages__bar">
+                            <ExamBar
+                              percentage={
+                                (100 * examDetails.currentPage) /
+                                (examDetails.numberPages *
+                                  examDetails.timesRepeat)
+                              }
+                            />
 
-                          <div className="exam-pages__bar--status">
-                            <p>
-                              {Math.round(
-                                examDetails.numberPages -
-                                  examDetails.currentPage
-                              )}
-                              pages left
-                            </p>
+                            <div className="exam-pages__bar--status">
+                              <p>
+                                {Math.round(
+                                  examDetails.numberPages -
+                                    examDetails.currentPage
+                                )}
+                                pages left
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="exam-data">
-                        <h4>Pages studied</h4>
-                        <p>
-                          {examDetails.currentPage}/{examDetails.numberPages}
-                        </p>
-                      </div>
-                      <div className="exam-data pdf">
-                        <div className="pdf--file">
-                          <h4>PDF file</h4>
-
-                          <p>{examDetails.pdfLink}</p>
+                        <div className="exam-data">
+                          <h4>Pages studied</h4>
+                          <p>
+                            {examDetails.currentPage}/{examDetails.numberPages}
+                          </p>
                         </div>
-                        <a
-                          href={examDetails.pdfLink}
-                          target="_blank"
-                          className="stan-btn-secondary"
-                        >
-                          open
-                        </a>
+                        <div className="exam-data pdf">
+                          <div className="pdf--file">
+                            <h4>PDF file</h4>
+
+                            <p>{examDetails.pdfLink}</p>
+                          </div>
+                          <a
+                            href={examDetails.pdfLink}
+                            target="_blank"
+                            className="stan-btn-secondary"
+                          >
+                            open
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="col-md-12">
-                  <div className="exam-details__inner--details--bottom">
-                    <h4>Notes</h4>
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--details--bottom">
+                      <h4>Notes</h4>
 
-                    <div className="notes">
-                      {!examDetails.notes ? (
-                        <p>...</p>
-                      ) : (
-                        <p>{examDetails.notes}</p>
-                      )}
+                      <div className="notes">
+                        {!examDetails.notes ? (
+                          <p>...</p>
+                        ) : (
+                          <p>{examDetails.notes}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
