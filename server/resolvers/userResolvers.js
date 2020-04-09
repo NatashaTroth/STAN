@@ -71,7 +71,8 @@ export const userResolvers = {
         verifyLoginInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
-        return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        // return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
@@ -97,7 +98,8 @@ export const userResolvers = {
         // console.log()
 
         const accessToken = logUserIn({ user, context });
-        return { user, accessToken, tokenExpiration: 15 };
+        // return { user, accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
@@ -128,7 +130,8 @@ export const userResolvers = {
         if (!user) user = await signUpGoogleUser(payload);
 
         const accessToken = logUserIn({ user, context });
-        return { user, accessToken, tokenExpiration: 15 };
+        // return { user, accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }

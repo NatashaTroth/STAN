@@ -115,7 +115,8 @@ describe("Test user sign up and login resolvers", () => {
         mascot: 1
       }
     });
-    expect(resp.data.updateMascot).toBeFalsy();
+
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Already logged in.");
 
     //Already logged in
@@ -126,7 +127,7 @@ describe("Test user sign up and login resolvers", () => {
         password: "samantha"
       }
     });
-    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.data).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Already logged in.");
   });
 

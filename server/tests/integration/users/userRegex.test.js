@@ -48,7 +48,8 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Username input has the wrong format. It cannot be empty. Max length 30 characters."
     );
@@ -64,7 +65,7 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
@@ -78,7 +79,7 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
@@ -92,7 +93,7 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
@@ -106,7 +107,7 @@ describe("Test user resolver regex", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
     );
@@ -122,7 +123,7 @@ describe("Test user resolver regex", () => {
         mascot: 5
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
@@ -158,7 +159,7 @@ describe("Test user resolver regex", () => {
         password: "12345678"
       }
     });
-    expect(resp.data.login).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
@@ -170,7 +171,7 @@ describe("Test user resolver regex", () => {
         password: "12345678"
       }
     });
-    expect(resp.data.login).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Email input has the wrong format.");
   });
 
@@ -182,7 +183,7 @@ describe("Test user resolver regex", () => {
         password: "1234567"
       }
     });
-    expect(resp.data.login).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
     );
@@ -196,7 +197,7 @@ describe("Test user resolver regex", () => {
         password: ""
       }
     });
-    expect(resp.data.login).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
     );
