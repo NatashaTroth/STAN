@@ -26,7 +26,8 @@ const Exams = () => {
 
   // variables ----------------
   let currentExams, archiveExams
-  let currentExamsList, archiveExamsList
+  let currentExamsList = []
+  let archiveExamsList = []
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -37,82 +38,68 @@ const Exams = () => {
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...(</p>
   if (data && data.exams) {
-    currentExams = data.exams.map(function(exam) {
+    data.exams.forEach(exam => {
       if (!exam.completed) {
-        return {
+        currentExamsList.push({
           id: exam.id,
           subject: exam.subject,
           numberPages: exam.numberPages,
           currentPage: exam.currentPage,
           timesRepeat: exam.timesRepeat,
-        }
-      }
-      return null
-    })
-    archiveExams = data.exams.map(function(exam) {
-      if (exam.completed) {
-        return {
+        })
+      } else {
+        archiveExamsList.push({
           id: exam.id,
           subject: exam.subject,
           numberPages: exam.numberPages,
           currentPage: exam.currentPage,
           timesRepeat: exam.timesRepeat,
-        }
+        })
       }
-      return null
     })
   }
 
   // functions ----------------
-  currentExamsList = currentExams.map(function(exam) {
-    if (exam === null) {
-      return null
-    } else {
-      return (
-        <div key={exam.id}>
-          <Link
-            to={{
-              pathname: `${url}/${exam.subject
-                .toLowerCase()
-                .replace(/ /g, "-")}?id=${exam.id}`,
-            }}
-          >
-            <Exam
-              subject={exam.subject}
-              currentStatus={Math.round(
-                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-              )}
-            />
-          </Link>
-        </div>
-      )
-    }
+  currentExams = currentExamsList.map(function(exam) {
+    return (
+      <div key={exam.id}>
+        <Link
+          to={{
+            pathname: `${url}/${exam.subject
+              .toLowerCase()
+              .replace(/ /g, "-")}?id=${exam.id}`,
+          }}
+        >
+          <Exam
+            subject={exam.subject}
+            currentStatus={Math.round(
+              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+            )}
+          />
+        </Link>
+      </div>
+    )
   })
 
-  archiveExamsList = archiveExams.map(function(exam) {
-    if (exam === null) {
-      return null
-    } else {
-      return (
-        // TODO: implement exam detail for archive section
-        <div key={exam.id}>
-          <Link
-            to={{
-              pathname: `${url}/${exam.subject
-                .toLowerCase()
-                .replace(/ /g, "-")}?id=${exam.id}`,
-            }}
-          >
-            <Exam
-              subject={exam.subject}
-              currentStatus={Math.round(
-                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-              )}
-            />
-          </Link>
-        </div>
-      )
-    }
+  archiveExams = archiveExamsList.map(function(exam) {
+    return (
+      <div key={exam.id}>
+        <Link
+          to={{
+            pathname: `${url}/${exam.subject
+              .toLowerCase()
+              .replace(/ /g, "-")}?id=${exam.id}`,
+          }}
+        >
+          <Exam
+            subject={exam.subject}
+            currentStatus={Math.round(
+              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+            )}
+          />
+        </Link>
+      </div>
+    )
   })
 
   const handleArchiveClick = () => {
@@ -161,7 +148,7 @@ const Exams = () => {
                 </div>
               </div>
             ) : (
-              <div className="exams__current-exams">{currentExamsList}</div>
+              <div className="exams__currentExams">{currentExams}</div>
             )}
 
             <div className="exams__toggle-archive">
@@ -176,7 +163,22 @@ const Exams = () => {
             </div>
 
             <AnimateHeight duration={500} height={height}>
-              <div className="exams__archive-exams">{archiveExamsList}</div>
+              {archiveExamsList.length === 0 ? (
+                <div className="exams__empty">
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-md-3">
+                        <div className="exams__empty--pastExams box-content">
+                          <p>no past exams</p>
+                        </div>
+                      </div>
+                      <div className="col-md-9"></div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="exams__archiveExams">{archiveExams}</div>
+              )}
             </AnimateHeight>
           </div>
           <div className="col-md-1"></div>
