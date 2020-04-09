@@ -14,6 +14,7 @@ import ExamDetailsEdit from "../current-exam/ExamDetailsEdit"
 
 // sub-components ----------------
 import Button from "../button/Button"
+import ExamBar from "../progressbar/ProgressBar"
 
 // helpers ----------------
 import { getNumberOfDays, formatDate, minuteToHours } from "../../helpers/dates"
@@ -70,6 +71,7 @@ const ExamDetails = props => {
     openEdit(edit => !edit)
   }
 
+  // return ----------------
   return (
     <div className="exam-details">
       <div className="container-fluid">
@@ -211,7 +213,7 @@ const ExamDetails = props => {
 
                                   <div className="exam-pages__bar">
                                     <ExamBar
-                                      percentage={
+                                      value={
                                         (100 * examDetails.currentPage) /
                                         (examDetails.numberPages *
                                           examDetails.timesRepeat)
@@ -282,18 +284,6 @@ const ExamDetails = props => {
           <div className="col-md-1"></div>
         </div>
       </div>
-    </div>
-  )
-}
-
-// progressbar component ----------------
-const ExamBar = props => {
-  return (
-    <div className="exam-bar">
-      <div
-        className="exam-bar__filler"
-        style={{ width: `${props.percentage}%` }}
-      ></div>
     </div>
   )
 }
