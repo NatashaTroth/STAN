@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, teardown } from "../setup";
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 
 import {
   LOGIN_MUTATION,
@@ -26,6 +26,10 @@ describe("Test user sign up and login resolvers", () => {
     query = client.query;
   });
 
+  afterEach(async () => {
+    await clearDatabase();
+  });
+
   afterAll(async () => {
     await teardown();
   });
@@ -41,6 +45,7 @@ describe("Test user sign up and login resolvers", () => {
         mascot: 1
       }
     });
+
     expect(resp.data.signup).toBeTruthy();
 
     const newCount = await User.countDocuments();
@@ -50,18 +55,19 @@ describe("Test user sign up and login resolvers", () => {
       username: "Stan",
       email: "user@stan.com"
     });
+
     expect(user).toBeTruthy();
-    expect(user.id).toBe(resp.data.signup.user.id);
-    expect(user.username).toBe(resp.data.signup.user.username);
-    expect(user.email).toBe(resp.data.signup.user.email);
-    expect(user.mascot).toBe(resp.data.signup.user.mascot);
-    expect(user.googleId).toBe(resp.data.signup.user.googleId);
-    expect(user.googleLogin).toBe(resp.data.signup.user.googleLogin);
+    // expect(user.id).toBe(resp.data.signup.user.id);
+    expect(user.username).toBe("Stan");
+    expect(user.email).toBe("user@stan.com");
+    expect(user.mascot).toBe(1);
+    expect(user.googleId).toBe("");
+    expect(user.googleLogin).toBe(false);
 
     //Test accesstoken
-    expect(resp.data.signup.accessToken).toBeDefined();
+    expect(resp.data.signup).toBeDefined();
     const decodedToken = jwt.verify(
-      resp.data.signup.accessToken,
+      resp.data.signup,
       process.env.ACCESS_TOKEN_SECRET
     );
     expect(decodedToken).toBeTruthy();
@@ -80,7 +86,7 @@ describe("Test user sign up and login resolvers", () => {
         mascot: 1
       }
     });
-    expect(resp.data.signup).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("User with email already exists.");
   });
 
@@ -100,6 +106,7 @@ describe("Test user sign up and login resolvers", () => {
         mascot: 5
       }
     });
+
     expect(resp2.data.updateMascot).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Unauthorised");
   });
@@ -122,13 +129,19 @@ describe("Test user sign up and login resolvers", () => {
     expect(newCount).toBe(initialCount);
 
     //Test accesstoken
-    expect(resp.data.login.accessToken).toBeDefined();
+    expect(resp.data.login).toBeDefined();
     const decodedToken = jwt.verify(
-      resp.data.login.accessToken,
+      resp.data.login,
       process.env.ACCESS_TOKEN_SECRET
     );
     expect(decodedToken).toBeTruthy();
-    expect(decodedToken.userId).toBe(resp.data.login.user.id);
+
+    const user = await User.findOne({
+      email: "user3@stan.com"
+    });
+
+    expect(user).toBeTruthy();
+    expect(decodedToken.userId).toBe(user.id);
     expect(decodedToken.tokenVersion).toBe(0);
   });
 
@@ -140,7 +153,7 @@ describe("Test user sign up and login resolvers", () => {
         password: "12345678"
       }
     });
-    expect(resp.data.login).toBeFalsy();
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "User with this email does not exist."
     );

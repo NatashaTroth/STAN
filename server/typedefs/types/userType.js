@@ -10,12 +10,12 @@ const userType = gql`
     mascot: Int!
     googleLogin: Boolean
   }
-  type AuthData {
-    # userId: ID!
-    user: User!
-    accessToken: String!
-    tokenExpiration: Int!
-  }
+  # type AuthData {
+  #   # userId: ID!
+  #   user: User!
+  #   accessToken: String!
+  #   tokenExpiration: Int!
+  # }
   type UpdateUserResponse {
     successful: Boolean!
     user: User!

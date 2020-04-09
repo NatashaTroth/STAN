@@ -40,7 +40,7 @@ export async function setupApolloServer({ isAuth, userId, user }) {
 export async function setupDb() {
   try {
     mongod = new MongoMemoryServer();
-    const uri = await mongod.getUri();
+    const uri = await mongod.getConnectionString();
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -68,7 +68,6 @@ export async function setupDb() {
      */
 
 export async function signUpTestUser() {
-  // try {
   const hashedPassword = await bcrypt.hash("samantha", 10);
   const user = await User.create({
     username: "Samantha",
@@ -82,12 +81,51 @@ export async function signUpTestUser() {
   if (!user) throw new Error("Could not sign up a test user");
 
   return user;
-  // } catch (err) {
-  //   throw err;
-  // }
+}
+
+// export async function addTestExam() {
+//   const exam = await Exam.create({
+//     subject: "Samantha's Exam",
+//     examDate: "2522-04-11",
+//     startDate: "2522-04-05",
+//     numberPages: 50,
+//     timePerPage: 5,
+//     startPage: 1,
+//     currentPage: 1,
+//     timesRepeat: 2,
+//     notes: "Samantha's notes",
+//     pdfLink: "samanthas-link.stan",
+//     completed: false,
+//     userId: "samanthasId"
+//   });
+
+//   if (!exam) throw new Error("Could not add a test exam");
+
+//   return exam;
+// }
+
+export async function clearDatabase() {
+  const collections = mongoose.connection.collections;
+
+  for (const key in collections) {
+    const collection = collections[key];
+    await collection.deleteMany({});
+  }
+  await mongoose.connection.dropDatabase();
+  if (global.gc) global.gc();
 }
 
 export async function teardown() {
   // console.log("IN TEARDOWN");
+  // await mongoose.connection.db.dropDatabase();
+  //await db.dropDatabase();
+  // await db.users.drop();
+  // await db.close();
+
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
   await mongod.stop();
+  // mongoose = "";
+  // mongod = "";
+  global.gc();
 }

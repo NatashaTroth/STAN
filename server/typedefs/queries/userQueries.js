@@ -22,10 +22,10 @@ const userQueries = gql`
       password: String
       mascot: Int
       googleLogin: Boolean
-    ): AuthData
+    ): String!
     logout: Boolean
-    login(email: String!, password: String): AuthData
-    googleLogin(idToken: String!): AuthData
+    login(email: String!, password: String): String!
+    googleLogin(idToken: String!): String!
     updateMascot(mascot: Int!): Boolean
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean

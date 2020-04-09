@@ -3,8 +3,8 @@ import { gql } from "apollo-server";
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const examQueries = gql`
   type Query {
-    exams: [Exam]!
-    exam(id: ID!): Exam!
+    exams: [Exam]
+    exam(id: ID!): Exam
     todaysChunks: [Chunk]!
   }
 
@@ -12,7 +12,7 @@ const examQueries = gql`
     addExam(
       subject: String!
       examDate: Date!
-      startDate: Date
+      startDate: Date!
       numberPages: Int!
       timePerPage: Int!
       timesRepeat: Int

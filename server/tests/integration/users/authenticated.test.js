@@ -2,7 +2,13 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, signUpTestUser, teardown } from "../setup";
+import {
+  setupApolloServer,
+  setupDb,
+  signUpTestUser,
+  clearDatabase,
+  teardown
+} from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
@@ -11,6 +17,9 @@ import {
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
+import { createAccessToken } from "../../../helpers/authenticationTokens";
+import jwt from "jsonwebtoken";
+import { isAuth } from "../../../helpers/is-auth";
 
 describe("Test user sign up and login resolvers", () => {
   let server;
@@ -31,7 +40,11 @@ describe("Test user sign up and login resolvers", () => {
     query = client.mutate;
   });
 
+  // afterEach(async () => {
+  // });
+
   afterAll(async () => {
+    await clearDatabase();
     await teardown();
   });
 
@@ -102,7 +115,8 @@ describe("Test user sign up and login resolvers", () => {
         mascot: 1
       }
     });
-    expect(resp.data.updateMascot).toBeFalsy();
+
+    expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Already logged in.");
 
     //Already logged in
@@ -113,13 +127,26 @@ describe("Test user sign up and login resolvers", () => {
         password: "samantha"
       }
     });
-    expect(resp2.data.updateMascot).toBeFalsy();
+    expect(resp2.data).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Already logged in.");
   });
 
   it("should log the user out", async () => {
     expect(testUser.accessTokenVersion).toBe(0);
     expect(testUser.refreshTokenVersion).toBe(0);
+    const accessToken = createAccessToken(testUser);
+    expect(accessToken).toBeTruthy();
+    const decodedToken = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    expect(decodedToken).toBeTruthy();
+    expect(decodedToken.userId).toBe(testUser.id);
+    expect(decodedToken.tokenVersion).toBe(0);
+    const headers = new Map();
+    headers.set("Authorization", "bearer " + accessToken);
+    const isAuthResp = await isAuth(headers);
+    expect(isAuthResp).toBeTruthy();
 
     //Already logged in
     const resp = await mutate({
@@ -132,5 +159,13 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(user.accessTokenVersion).toBe(1);
     expect(user.refreshTokenVersion).toBe(1);
+
+    const headers2 = new Map();
+    headers2.set("Authorization", "bearer " + accessToken);
+    let isAuthResp2;
+
+    isAuthResp2 = await isAuth(headers2);
+    expect(isAuthResp2).toBeTruthy();
+    expect(isAuthResp2.isAuth).toBeFalsy();
   });
 });

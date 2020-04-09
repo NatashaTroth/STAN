@@ -69,7 +69,23 @@ app.post("/refresh_token", async (req, res) => {
 
 //TODO: remove /graphql when deployed
 if (process.env.NODE_ENV === "production") {
-  //TODO: PUT STATIC AND CLIENT IN HERE
+  // setup client render
+  //TODO: DELETE LATER OR CHANGE TO /graphql
+  //TODO: IN DEVELOPMENT MAKE IT THE ROOT
+  app.use("/backend", express.static(__dirname + "/backend"));
+  app.get("/backend", (req, res) => {
+    // res.send("Welcome to STAN's backend");
+    res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+  });
+  app.use(express.static("public"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "public", "index.html"));
+  });
+} else {
+  app.use("/backend", express.static(__dirname + "/backend"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+  });
 }
 
 // app.options("*", cors(corsOptions));
@@ -102,17 +118,6 @@ const apolloServer = new ApolloServer({
 });
 // apolloServer.applyMiddleware({ app });
 apolloServer.applyMiddleware({ app, cors: false });
-
-// setup client render
-//TODO: DELETE LATER OR CHANGE TO /graphql
-app.get("/backend", (req, res) => {
-  // res.send("Welcome to STAN's backend");
-  res.sendFile(path.join(__dirname + "/backend/index.html"));
-});
-app.use(express.static("public"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
-});
 
 app.listen({ port: PORT }, () =>
   console.log(

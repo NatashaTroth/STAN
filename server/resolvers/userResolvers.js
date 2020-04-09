@@ -20,7 +20,9 @@ import {
   invalidateRefreshTokens,
   invalidateAccessTokens,
   verifyGoogleIdToken,
-  verifyUserInputFormat
+  verifySignupInputFormat,
+  verifyLoginInputFormat,
+  verifyMascotInputFormat
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
@@ -66,10 +68,11 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-        verifyUserInputFormat({ email, password });
+        verifyLoginInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, context });
-        return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        // return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
@@ -79,7 +82,7 @@ export const userResolvers = {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
         if (!mascot) mascot = 0; //TODO: maybe move
-        verifyUserInputFormat({
+        verifySignupInputFormat({
           username,
           email,
           password,
@@ -95,7 +98,8 @@ export const userResolvers = {
         // console.log()
 
         const accessToken = logUserIn({ user, context });
-        return { user, accessToken, tokenExpiration: 15 };
+        // return { user, accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
@@ -103,7 +107,7 @@ export const userResolvers = {
     updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        verifyUserInputFormat({ mascot: mascot.toString() });
+        verifyMascotInputFormat({ mascot: mascot.toString() });
         if (userInfo.user.mascot === mascot) return true;
         const resp = await User.updateOne(
           { _id: userInfo.userId },
@@ -126,7 +130,8 @@ export const userResolvers = {
         if (!user) user = await signUpGoogleUser(payload);
 
         const accessToken = logUserIn({ user, context });
-        return { user, accessToken, tokenExpiration: 15 };
+        // return { user, accessToken, tokenExpiration: 15 };
+        return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
