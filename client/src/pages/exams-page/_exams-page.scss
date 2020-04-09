@@ -1,4 +1,19 @@
 .exams {
+  &__empty {
+    &__content {
+      padding: 40px;
+      text-align: center;
+      margin: 40px 0;
+
+      &--text {
+        padding: 25px 0;
+      }
+      &--btn {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
   &__current-exams {
     display: flex;
     flex-direction: row;
@@ -19,7 +34,7 @@
     }
   }
   &__toggle-archive {
-    padding-bottom: 15px;
+    padding: 20px 0;
     &--button {
       border: none;
       color: theme-color("dark");

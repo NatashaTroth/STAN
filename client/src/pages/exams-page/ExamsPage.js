@@ -65,47 +65,44 @@ const Exams = () => {
 
   // functions ----------------
   currentExamsList = currentExams.map(function(exam) {
-    if (exam === null) {
-      return null
-    } else {
-      return (
-        <div key={exam.id}>
-          <Link
-            to={{
-              pathname: `${url}/${exam.subject
-                .toLowerCase()
-                .replace(/ /g, "-")}`,
-              state: { examId: exam.id },
-            }}
-          >
-            <Exam
-              subject={exam.subject}
-              currentStatus={Math.round(
-                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-              )}
-            />
-          </Link>
-        </div>
-      )
-    }
-  })
-
-  archiveExamsList = archiveExams.map(function(exam) {
-    if (exam === null) {
-      return null
-    } else {
-      return (
-        // TODO: implement exam detail for archive section
-        <div key={exam.id}>
+    return (
+      <div key={exam.id}>
+        <Link
+          to={{
+            pathname: `${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
+            state: { examId: exam.id },
+          }}
+        >
           <Exam
             subject={exam.subject}
             currentStatus={Math.round(
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
           />
-        </div>
-      )
-    }
+        </Link>
+      </div>
+    )
+  })
+
+  archiveExamsList = archiveExams.map(function(exam) {
+    return (
+      // TODO: implement exam detail for archive section
+      <div key={exam.id}>
+        <Link
+          to={{
+            pathname: `${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
+            state: { examId: exam.id },
+          }}
+        >
+          <Exam
+            subject={exam.subject}
+            currentStatus={Math.round(
+              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+            )}
+          />
+        </Link>
+      </div>
+    )
   })
 
   const handleArchiveClick = () => {
@@ -124,7 +121,38 @@ const Exams = () => {
               <h2>Current Exams</h2>
             </div>
 
-            <div className="exams__current-exams">{currentExamsList}</div>
+            {currentExamsList.length === 0 ? (
+              <div className="exams__empty">
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-md-2"></div>
+                    <div className="col-md-6">
+                      <div className="exams__empty__content box-content">
+                        <div className="exams__empty__content--headline">
+                          <h3>no open exams</h3>
+                        </div>
+
+                        <div className="exams__empty__content--text">
+                          <p>
+                            Are you sure there are no exams you need to study
+                            for?
+                          </p>
+                        </div>
+
+                        <div className="exams__empty__content--btn">
+                          <Link to="/add-new" className="stan-btn-primary">
+                            Add exam
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-2"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="exams__current-exams">{currentExamsList}</div>
+            )}
 
             <div className="exams__toggle-archive">
               <button

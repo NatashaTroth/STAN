@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Redirect, Link, useHistory } from "react-router-dom"
+import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -27,9 +27,6 @@ const ExamDetails = props => {
   // get examId from props ----------------
   let { examId } = props.location.state
 
-  // variables ----------------
-  let examDetails
-
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
@@ -38,6 +35,14 @@ const ExamDetails = props => {
   // redirects ----------------
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
+    return <Redirect to="/login" />
+  }
+
+  // variables ----------------
+  let examDetails
+
+  // get examId from props ----------------
+  if (props.location.state === undefined) {
     return <Redirect to="/login" />
   }
 
