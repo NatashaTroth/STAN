@@ -10,23 +10,17 @@ import {
 } from "../setup";
 import { Exam } from "../../../models";
 
-import {
-  ADD_EXAM_MUTATION,
-  UPDATE_CURRENT_PAGE_MUTATION
-} from "../../mutations.js";
 import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
-  let mutate;
   let query;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
-    mutate = client.mutate;
     query = client.mutate;
   });
 

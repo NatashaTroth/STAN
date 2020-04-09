@@ -3,7 +3,7 @@ import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express"; //UserInputError
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { User, Exam } from "../../models";
+import { User } from "../../models";
 import bcrypt from "bcrypt";
 
 import mongoose from "mongoose";

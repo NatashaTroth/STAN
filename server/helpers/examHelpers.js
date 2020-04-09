@@ -1,7 +1,5 @@
 import {
   verifyRegexSubject,
-  verifyRegexDate,
-  verifyRegexStudyStartDate,
   verifyRegexPageAmount,
   verifyRegexPageTime,
   verifyRegexPageRepeat,
