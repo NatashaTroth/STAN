@@ -33,7 +33,6 @@ export function prepareExamInputData(args, userId) {
 
 export function verifyExamInput(args) {
   //regex
-  // verifyUserInputFormat(args);
   verifyNewExamInputFormat(args);
 
   if (!datesTimingIsValid(args.startDate, args.examDate))
@@ -41,10 +40,8 @@ export function verifyExamInput(args) {
       "Dates cannot be in the past and start learning date must be before exam date."
     );
 
-  //TODO MOVE TO VERIFY USER INPUT
-
-  //TODO: STARTPAGE CANNOT BE HIGHER THAN AMOUNT OF PAGES
-  // if(args.startPage)
+  if (args.startPage && args.startPage > args.numberPages)
+    throw new ApolloError("Start page cannot higher than the number of pages.");
 }
 
 export async function handleCurrentPageInput(page, examId, userId) {
@@ -101,12 +98,10 @@ function fetchChunks(currentExams) {
 
 function verifyNewExamInputFormat(args) {
   verifySubjectFormat(args.subject);
-  // verifyExamDateFormat(args.examDate); //already done in date scalar
-  // verifyStartDateFormat(args.startDate);
   verifyNumberPagesFormat(args.numberPages);
   verifyTimePerPageFormat(args.timePerPage);
   verifyTimesRepeatFormat(args.timesRepeat);
-  verifyCurrentPageFormat(args.currentPage);
+  verifyStartPageFormat(args.startPage);
   verifyNotesFormat(args.notes);
 }
 
@@ -114,22 +109,6 @@ function verifySubjectFormat(subject) {
   if (!verifyRegexSubject(subject))
     throw new AuthenticationError(
       "Subject input has the wrong format. It cannot be empty. Max length 50 characters."
-    );
-}
-
-function verifyExamDateFormat(examDate) {
-  let examOnlyDate = new Date(examDate).toLocaleDateString();
-  if (!verifyRegexDate(examOnlyDate))
-    throw new AuthenticationError(
-      "Exam date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
-    );
-}
-
-function verifyStartDateFormat(startDate) {
-  let startOnlyDate = new Date(startDate).toLocaleDateString();
-  if (!verifyRegexDate(startOnlyDate))
-    throw new AuthenticationError(
-      "Study start date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / - "
     );
 }
 
@@ -154,11 +133,10 @@ function verifyTimesRepeatFormat(timesRepeat) {
     );
 }
 
-//????? or startpage??
-function verifyCurrentPageFormat(currentPage) {
+function verifyStartPageFormat(currentPage) {
   if (currentPage != null && !verifyRegexCurrentPage(currentPage.toString()))
     throw new AuthenticationError(
-      "Current page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
+      "Start page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
     );
 }
 

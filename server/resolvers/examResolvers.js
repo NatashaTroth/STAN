@@ -54,7 +54,6 @@ export const examResolvers = {
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
-      // console.log("EXAM RESOLVERS");
       try {
         handleAuthentication(context.userInfo);
         verifyExamInput(args, context.userInfo.userId);
@@ -94,7 +93,6 @@ export const examResolvers = {
     name: "Date",
     description: "GraphqL date scalar",
     parseValue(value) {
-      // if (!value || value.length <= 0) return new Date();
       if (value instanceof Date) return value;
       if (
         !value ||
