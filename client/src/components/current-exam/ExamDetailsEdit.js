@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Redirect, useHistory } from "react-router"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -16,14 +16,24 @@ import Input from "../../components/input/Input"
 import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 
+// TODO: update current exam with mutation
+// TODO: add old subject values in input field
 const ExamDetailsEdit = ({ examId }) => {
-  // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
+
+  // state ----------------
+  const [subject, setSubject] = useState()
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
   })
+
+  // mutation ----------------
+  //  const [updateExam] = useMutation()
+
+  // variables ----------------
+  let examDetails = []
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -31,9 +41,32 @@ const ExamDetailsEdit = ({ examId }) => {
     return <Redirect to="/login" />
   }
 
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...</p>
+  if (data && data.exam) {
+    examDetails = {
+      subject: data.exam.subject,
+      examDate: data.exam.examDate,
+      startDate: data.exam.startDate,
+      numberPages: data.exam.numberPages,
+      timePerPage: data.exam.timePerPage,
+      timesRepeat: data.exam.timesRepeat,
+      currentPage: data.exam.currentPage,
+      notes: data.exam.notes,
+      pdfLink: data.exam.pdfLink,
+    }
+  }
+
+  console.log(subject)
+
+  // form specific ----------------
+  const onSubmit = async data => {
+    // handleExam({ data, updateExam })
+  }
+
   return (
     <form
-      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       id="add-exam"
       className="add-new__form"
     >
@@ -46,7 +79,7 @@ const ExamDetailsEdit = ({ examId }) => {
               className="add-new__form__element__label input-required"
             ></Label>
             <Input
-              className="add-new__form__element__input"
+              className="add-new__form__element__input examEdit__form__left--subject"
               type="text"
               id="subject"
               label="exam_subject"
@@ -243,50 +276,51 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
         </div>
 
-        <div className="col-md-6 add-new__right">
-          <div className="add-new__form__element">
-            <Label
-              for="page-notes"
-              text="Notes"
-              className="add-new__form__element__label"
-            ></Label>
-            <Textarea
-              className="add-new__form__element__input"
-              id="page-notes"
-              label="exam_page_notes"
-              placeholder="..."
-              ref={register({
-                required: false,
-                maxLength: 100000000,
-              })}
-            ></Textarea>
-            {errors.exam_page_notes &&
-              errors.exam_page_notes.type === "maxLength" && (
-                <span className="error">
-                  The maximal length is 100.000.000 characters
-                </span>
-              )}
+        <div className="col-md-6 add-new__right examEdit__form__right">
+          <div className="examEdit__form__right--top">
+            <div className="add-new__form__element">
+              <Label
+                for="page-notes"
+                text="Notes"
+                className="add-new__form__element__label"
+              ></Label>
+              <Textarea
+                className="add-new__form__element__input"
+                id="page-notes"
+                label="exam_page_notes"
+                placeholder="..."
+                ref={register({
+                  required: false,
+                  maxLength: 100000000,
+                })}
+              ></Textarea>
+              {errors.exam_page_notes &&
+                errors.exam_page_notes.type === "maxLength" && (
+                  <span className="error">
+                    The maximal length is 100.000.000 characters
+                  </span>
+                )}
+            </div>
+
+            <div className="add-new__form__element examEdit__form__right--top--pdf">
+              <Label
+                for="pdf-link"
+                text="Pdf link"
+                className="add-new__form__element__label"
+              ></Label>
+              <Input
+                className="add-new__form__element__input"
+                type="text"
+                id="pdf-link"
+                label="exam_pdf_upload"
+                ref={register({
+                  required: false,
+                })}
+              />
+            </div>
           </div>
 
-          <div className="add-new__form__element">
-            <Label
-              for="pdf-upload"
-              text="Upload PDF file"
-              className="add-new__form__element__label"
-            ></Label>
-            <Input
-              className="add-new__form__element__input"
-              type="file"
-              accept="application/pdf, .pdf"
-              id="pdf-upload"
-              label="exam_pdf_upload"
-              ref={register({
-                required: false,
-              })}
-            />
-          </div>
-
-          <div className="add-new__form__submit">
+          <div className="add-new__form__submit examEdit__form__right--bottom--btn">
             <Button
               className="add-new__form__element__btn stan-btn-primary"
               variant="button"
@@ -300,3 +334,46 @@ const ExamDetailsEdit = ({ examId }) => {
 }
 
 export default ExamDetailsEdit
+
+async function handleExam({ data, updateExam }) {
+  try {
+    const resp = await updateExam({
+      // variables: {
+      //   mascot: data,
+      // },
+    })
+
+    // const resp = await addExam({
+    //   variables: {
+    //     subject: formData.exam_subject,
+    //     examDate: formData.exam_date,
+    //     startDate: formData.exam_start_date,
+    //     numberPages: parseInt(formData.exam_page_amount),
+    //     startPage: parseInt(formData.exam_page_current),
+    //     timePerPage: parseInt(formData.exam_page_time),
+    //     timesRepeat: parseInt(formData.exam_page_repeat),
+    //     notes: formData.exam_page_notes,
+    //     // pdfLink: formData.exam_pdf_upload,
+    //     pdfLink: "TODO: CHANGE LATER",
+    //     completed: false,
+    //   },
+    //   refetchQueries: [
+    //     { query: GET_EXAMS_QUERY },
+    //     { query: GET_TODAYS_CHUNKS },
+    //   ],
+    // })
+
+    // if (resp && resp.data && resp.data.updateMascot) {
+    //   console.log("success: saved new mascot")
+    // } else {
+    //   throw new Error("failed: saved new mascot")
+    // }
+
+    // redirect
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}
