@@ -51,7 +51,7 @@ export const examResolvers = {
     },
     todaysChunks: async (root, args, context, info) => {
       try {
-        //TODO: SORTBY
+        //TODO: SORTBY EXAM DATE
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
         // console.log(chunks);

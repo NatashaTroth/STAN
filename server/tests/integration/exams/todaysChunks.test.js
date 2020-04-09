@@ -48,7 +48,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS
     });
-    console.log(JSON.stringify(resp));
+    // console.log(JSON.stringify(resp));
 
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
@@ -74,38 +74,43 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    // expect(testExams.exam1).toEqual(
-    //   expect.objectContaining({
-    //     exam: {
-    //       id: "5e8f6e50e7c2eb5dae5ada5f",
-    //       subject: "Biology",
-    //       examDate: "2020-04-14T18:49:52.022Z",
-    //       startDate: "2020-04-09T18:49:52.045Z",
-    //       numberPages: 50,
-    //       timesRepeat: 1,
-    //       currentPage: 1,
-    //       pdfLink: "samanthas-link.stan"
-    //     },
-    //     numberPagesToday: 10,
-    //     duration: 50,
-    //     daysLeft: 5,
-    //     totalNumberDays: 5,
-    //     numberPagesWithRepeat: 50,
-    //     notEnoughTime: false
-    //   })
-    // );
+    expect(resp.data.todaysChunks[1]).toMatchObject({
+      exam: {
+        id: testExams.exam2._id.toString(),
+        subject: testExams.exam2.subject,
+        examDate: testExams.exam2.examDate,
+        startDate: testExams.exam2.startDate,
+        numberPages: testExams.exam2.numberPages,
+        timesRepeat: testExams.exam2.timesRepeat,
+        currentPage: testExams.exam2.currentPage,
+        pdfLink: testExams.exam2.pdfLink
+      },
+      numberPagesToday: 18,
+      duration: 180,
+      daysLeft: 2,
+      totalNumberDays: 7,
+      numberPagesWithRepeat: 84,
+      notEnoughTime: false
+    });
 
-    // expect(exam.subject).toBe(resp.data.exam.subject);
-    // expect(exam.examDate.toString()).toBe(resp.data.exam.examDate.toString());
-    // expect(exam.startDate.toString()).toBe(resp.data.exam.startDate.toString());
-    // expect(exam.numberPages).toBe(resp.data.exam.numberPages);
-    // expect(exam.timePerPage).toBe(resp.data.exam.timePerPage);
-    // expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
-    // expect(exam.startPage).toBe(resp.data.exam.startPage);
-    // expect(exam.currentPage).toBe(resp.data.exam.currentPage);
-    // expect(exam.pdfLink).toBe(resp.data.exam.pdfLink);
-    // expect(exam.notes).toBe(resp.data.exam.notes);
-    // expect(exam.completed).toBe(resp.data.exam.completed);
+    expect(resp.data.todaysChunks[2]).toMatchObject({
+      exam: {
+        id: testExams.exam3._id.toString(),
+        subject: testExams.exam3.subject,
+        examDate: testExams.exam3.examDate,
+        startDate: testExams.exam3.startDate,
+        numberPages: testExams.exam3.numberPages,
+        timesRepeat: testExams.exam3.timesRepeat,
+        currentPage: testExams.exam3.currentPage,
+        pdfLink: testExams.exam3.pdfLink
+      },
+      numberPagesToday: 1401,
+      duration: 14010,
+      daysLeft: 1,
+      totalNumberDays: 21,
+      numberPagesWithRepeat: 3000,
+      notEnoughTime: false
+    });
   });
 
   async function addTestExams() {
@@ -119,6 +124,7 @@ describe("Test user resolver regex", () => {
       numberPages: 42,
       timePerPage: 10,
       startPage: 7,
+      currentPage: 50,
       timesRepeat: 2
     });
     const exam3 = await addTestExam({
@@ -128,16 +134,13 @@ describe("Test user resolver regex", () => {
       numberPages: 600,
       timePerPage: 10,
       startPage: 8,
+      currentPage: 1600,
       timesRepeat: 5
     });
     const exam4 = await addTestExam({
       subject: "Dance",
       examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51),
-      numberPages: 600,
-      timePerPage: 10,
-      startPage: 8,
-      timesRepeat: 5
+      startDate: getFutureDay(new Date(), 51)
     });
     // return exam1;
     return { exam1, exam2, exam3, exam4 };
@@ -150,6 +153,7 @@ describe("Test user resolver regex", () => {
     numberPages,
     timePerPage,
     startPage,
+    currentPage,
     timesRepeat
   }) {
     //TODO: WHEN EXAMDATE AND STARTDATE THE SAME - GET INFINITY NUMBER PAGES - MAKE SURE IT DOESN'T HAPPEN!!!!!
@@ -160,7 +164,7 @@ describe("Test user resolver regex", () => {
       numberPages: numberPages || 50,
       timePerPage: timePerPage || 5,
       startPage: startPage || 1,
-      currentPage: startPage,
+      currentPage: currentPage || startPage || 1,
       timesRepeat: timesRepeat || 1,
       notes: "Samantha's notes",
       pdfLink: "samanthas-link.stan",
@@ -175,10 +179,7 @@ describe("Test user resolver regex", () => {
 
   function getFutureDay(date, numberDaysInFuture) {
     const nextDay = new Date(date);
-    console.log(nextDay);
     nextDay.setDate(date.getDate() + numberDaysInFuture);
-    console.log(nextDay);
-
     return new Date(nextDay);
   }
 });

@@ -90,6 +90,18 @@ describe("Test user resolver regex", () => {
     expect(updateResp2.errors[0].message).toEqual(
       "The entered current page is higher than the number of pages for this exam."
     );
+
+    const updateResp3 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: exam._id.toString(),
+        page: 0
+      }
+    });
+    expect(updateResp3.data.updateCurrentPage).toBeFalsy();
+    expect(updateResp3.errors[0].message).toEqual(
+      "The entered current page is lower than the start page for this exam."
+    );
   });
 
   it("should not update current page, examId doesn't exist", async () => {
