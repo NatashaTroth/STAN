@@ -65,44 +65,54 @@ const Exams = () => {
 
   // functions ----------------
   currentExamsList = currentExams.map(function(exam) {
-    return (
-      <div key={exam.id}>
-        <Link
-          to={{
-            pathname: `${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
-            state: { examId: exam.id },
-          }}
-        >
-          <Exam
-            subject={exam.subject}
-            currentStatus={Math.round(
-              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-            )}
-          />
-        </Link>
-      </div>
-    )
+    if (exam === null) {
+      return null
+    } else {
+      return (
+        <div key={exam.id}>
+          <Link
+            to={{
+              pathname: `${url}/${exam.subject
+                .toLowerCase()
+                .replace(/ /g, "-")}?id=${exam.id}`,
+            }}
+          >
+            <Exam
+              subject={exam.subject}
+              currentStatus={Math.round(
+                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+              )}
+            />
+          </Link>
+        </div>
+      )
+    }
   })
 
   archiveExamsList = archiveExams.map(function(exam) {
-    return (
-      // TODO: implement exam detail for archive section
-      <div key={exam.id}>
-        <Link
-          to={{
-            pathname: `${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}`,
-            state: { examId: exam.id },
-          }}
-        >
-          <Exam
-            subject={exam.subject}
-            currentStatus={Math.round(
-              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-            )}
-          />
-        </Link>
-      </div>
-    )
+    if (exam === null) {
+      return null
+    } else {
+      return (
+        // TODO: implement exam detail for archive section
+        <div key={exam.id}>
+          <Link
+            to={{
+              pathname: `${url}/${exam.subject
+                .toLowerCase()
+                .replace(/ /g, "-")}?id=${exam.id}`,
+            }}
+          >
+            <Exam
+              subject={exam.subject}
+              currentStatus={Math.round(
+                (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+              )}
+            />
+          </Link>
+        </div>
+      )
+    }
   })
 
   const handleArchiveClick = () => {

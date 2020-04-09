@@ -41,11 +41,7 @@ const Content = ({ location }) => {
             <Route exact path="/add-new" component={AddNew} />
             <Route exact path="/calendar" component={Calendar} />
             <Route exact path="/exams" component={Exams} />
-            <Route
-              exact
-              path="/exams/:subject"
-              render={props => <ExamsDetails {...props} />}
-            />
+            <Route exact path="/exams/:subject" component={ExamsDetails} />
             <Route exact path="/profile" component={UserAccount} />
 
             <Route exact path="/imprint" component={Imprint} />

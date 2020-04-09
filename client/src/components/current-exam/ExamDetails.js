@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
+import queryString from "query-string"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -19,17 +20,20 @@ import ExamBar from "../progressbar/ProgressBar"
 // helpers ----------------
 import { getNumberOfDays, formatDate, minuteToHours } from "../../helpers/dates"
 
-const ExamDetails = props => {
+const getParamId = location => {
+  let params = queryString.parse(location.search)
+  return params.id
+}
+
+const ExamDetails = () => {
   // router & states ----------------
   let history = useHistory()
   let [edit, openEdit] = useState(false)
-
-  // get examId from props ----------------
-  let { examId } = props.location.state
+  const location = useLocation()
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
-    variables: { id: examId },
+    variables: { id: getParamId(location) },
   })
 
   // redirects ----------------
@@ -40,14 +44,8 @@ const ExamDetails = props => {
 
   // variables ----------------
   let examDetails
-
-  // get examId from props ----------------
-  if (props.location.state === undefined) {
-    return <Redirect to="/login" />
-  }
-
   if (loading) return <p className="loading">loading...</p>
-  if (error) return <p>error...</p>
+  if (error) window.location.reload()
   if (data) {
     examDetails = {
       id: data.exam.id,
