@@ -58,6 +58,7 @@ const ExamDetails = () => {
       currentPage: data.exam.currentPage,
       notes: data.exam.notes,
       pdfLink: data.exam.pdfLink,
+      completed: data.exam.completed,
     }
   }
 
@@ -105,7 +106,9 @@ const ExamDetails = () => {
                       <div className="exam-details__inner--bar--right">
                         <div
                           className={
-                            edit ? "hideExamDetails" : "showExamDetails"
+                            edit || examDetails.completed
+                              ? "hideExamDetails"
+                              : "showExamDetails"
                           }
                         >
                           <Button
@@ -127,7 +130,15 @@ const ExamDetails = () => {
                             className="editExam exam-btn"
                             text="back"
                           />
+                        </div>
 
+                        <div
+                          className={
+                            edit || examDetails.completed
+                              ? "showExamDetails"
+                              : "hideExamDetails"
+                          }
+                        >
                           <Button
                             variant="button"
                             className="editExam exam-btn delete-btn"

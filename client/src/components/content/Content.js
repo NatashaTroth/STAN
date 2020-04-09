@@ -16,7 +16,6 @@ import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamsDetails from "../../components/current-exam/ExamDetails"
-// import ExamsDetailsEdit from "../../components/current-exam/ExamDetailsEdit"
 
 // transition ----------------
 import { TransitionGroup, CSSTransition } from "react-transition-group"
@@ -46,7 +45,6 @@ const Content = ({ location }) => {
 
             <Route exact path="/imprint" component={Imprint} />
             <Route exact path="/data-policy" component={DataPolicy} />
-
             <Route path="*" component={NoMatch404} />
           </Switch>
         </CSSTransition>
