@@ -17,16 +17,15 @@
       outline: none;
     }
 
-    // @include media-breakpoint-down(sm) {
-    //   width: 305px;
-    //   height: 305px;
-    //   margin: 15px 0;
-    // }
+    @include media-breakpoint-down(md) {
+      width: 240px;
+      height: 240px;
+    }
 
-    // @include media-breakpoint-down(md) {
-    //   width: 250px;
-    //   height: 250px;
-    // }
+    @include media-breakpoint-down(sm) {
+      width: 270px;
+      height: 270px;
+    }
 
     &--headline {
       position: absolute;
