@@ -1,4 +1,4 @@
-.calendar {
+.examsCalendar {
   .fc-left {
     h2 {
       margin-top: 5rem;
@@ -21,14 +21,11 @@
     justify-content: space-between;
     align-items: flex-end;
   }
-  .fc-today-button {
-    display: none;
-  }
   .fc-button-group {
     button {
       background-color: white;
       border: none;
-      color: black;
+      color: theme_color("dark");
       font-size: 20px;
       padding: 0;
       padding-left: 10px;
@@ -39,11 +36,81 @@
     border: 4px solid theme-color("dark");
     box-shadow: 10px 10px 0px -2px theme-color("dark");
   }
-  .fc-title {
-    color: theme_color("primary-yellow");
-  }
   .fc-event {
     border: none;
     background-color: transparent;
+  }
+  .fc-day {
+    border-left: 2px solid theme-color("dark");
+  }
+  .fc-day-header {
+    border-left: 2px solid theme-color("dark");
+    span {
+      text-transform: lowercase;
+      font-family: $font-family-BasierCircle-Bold;
+    }
+  }
+  .fc-day-number {
+    font-family: $font-family-BasierCircle-Bold;
+    padding: 6px;
+  }
+  .fc-row table {
+    border-left: 2px solid theme-color("dark");
+    border-top: 2px solid theme-color("dark");
+    border-right: 2px solid theme-color("dark");
+  }
+  .fc-more-cell {
+    padding-top: 15px;
+    .fc-more {
+      font-size: 12px;
+    }
+  }
+  .fc-today-button {
+    border: none;
+    background: none;
+    color: theme_color("dark");
+    opacity: 1;
+    font-family: $font-family-BasierCircle-Bold;
+    cursor: pointer;
+    @include rem(font-size, $h4-font-size);
+    @include rem(letter-spacing, 1px);
+    @include rem(line-height, $h4-line-height);
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, $h4-font-size-mobile);
+      @include rem(line-height, $h4-line-height-mobile);
+      @include rem(letter-spacing, 0.5px);
+    }
+
+    &:focus,
+    &:active {
+      background: none;
+      outline: none;
+      border: none;
+      box-shadow: none;
+      color: theme_color("dark");
+    }
+
+    .fc-prev-button {
+      &:focus,
+      &:active {
+        background: none;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        color: theme_color("dark");
+      }
+    }
+
+    .fc-next-button {
+      &:focus,
+      &:active {
+        background: none;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        color: theme_color("dark");
+      }
+    }
   }
 }

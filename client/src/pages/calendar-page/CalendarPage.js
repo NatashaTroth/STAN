@@ -1,35 +1,98 @@
 import React from "react"
+import { Redirect } from "react-router"
 // --------------------------------------------------------------
 
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
-import { Redirect } from "react-router"
 
 // libraries ----------------
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
+import { Tooltip } from "reactstrap"
 
 // TODO: https://fullcalendar.io/docs/react
-const Calendar = () => {
+const ExamsCalendar = () => {
   // redirects ----------------
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }
+
+  // color: '#ff00ac'
+  /*
+  eventRender: function (event, element, view) {
+   if (event.color) {
+       element.css('background-color', event.color)
+   }
+}
+  */
+  const events = [
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "All Day Event",
+      description: "description for All Day Event",
+      start: "2020-04-01",
+    },
+    {
+      title: "Long Event",
+      description: "description for Long Event",
+      start: "2020-04-07",
+      end: "2020-04-10",
+    },
+  ]
+
+  const eventRender = info => {
+    let tooltip = new Tooltip(info.el, {
+      title: info.event.extendedProps.description,
+      placement: "top",
+      trigger: "hover",
+      container: "body",
+      target: "",
+    })
+  }
+
   return (
-    <div className="calendar">
+    <div className="examsCalendar">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <FullCalendar
-              className=""
+              defaultDate={new Date()}
               defaultView="dayGridMonth"
               plugins={[dayGridPlugin]}
-              events={[
-                { title: "Test Event", date: "2020-03-14" },
-                { title: "Test Event", date: "2020-03-16" },
-              ]}
+              events={events}
+              eventLimit={true}
+              eventRender={eventRender}
             />
           </div>
           <div className="col-md-1"></div>
@@ -39,4 +102,4 @@ const Calendar = () => {
   )
 }
 
-export default Calendar
+export default ExamsCalendar
