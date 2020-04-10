@@ -12,8 +12,6 @@ import { useQuery } from "@apollo/react-hooks"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"
-import Input from "../../components/input/Input"
-import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 
 // TODO: update current exam with mutation
