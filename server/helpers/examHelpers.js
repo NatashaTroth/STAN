@@ -76,7 +76,7 @@ async function fetchCurrentExams(userId) {
   const exams = await Exam.find({
     userId: userId,
     completed: false
-  });
+  }).sort({ examDate: "asc" });
   const currentExams = exams.filter(exam => {
     return startDateIsActive(new Date(exam.startDate));
   });

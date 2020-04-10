@@ -52,8 +52,8 @@ describe("Test user resolver regex", () => {
     expect(resp.data.todaysChunks.length).toBe(3);
 
     // resp.data.todaysChunks[0].examDate.
-    resp.data.todaysChunks[0].exam.id.toString();
-    expect(resp.data.todaysChunks[0]).toMatchObject({
+    // resp.data.todaysChunks[2].exam.id.toString();
+    expect(resp.data.todaysChunks[2]).toMatchObject({
       exam: {
         id: testExams.exam1._id.toString(),
         subject: testExams.exam1.subject,
@@ -91,7 +91,7 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunks[2]).toMatchObject({
+    expect(resp.data.todaysChunks[0]).toMatchObject({
       exam: {
         id: testExams.exam3._id.toString(),
         subject: testExams.exam3.subject,
