@@ -60,9 +60,6 @@ test("verifies numberOfDaysLeft", () => {
 
 function getFutureDay(date, numberDaysInFuture) {
   const nextDay = new Date(date);
-  console.log(nextDay);
   nextDay.setDate(date.getDate() + numberDaysInFuture);
-  console.log(nextDay);
-
   return new Date(nextDay);
 }

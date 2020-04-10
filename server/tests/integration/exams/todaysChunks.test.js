@@ -130,7 +130,27 @@ describe("Test user resolver regex", () => {
     );
 
     const removeResp = await Exam.deleteOne({ _id: exam._id });
+    expect(removeResp.deletedCount).toBe(1);
+  });
 
+  it("should not fetch today's chunks, since current page is higher than total amount of pages (however should never occur)", async () => {
+    const exam = await addTestExam({
+      subject: "Wrong",
+      currentPage: 50,
+      numberPages: 20,
+      timesRepeat: 1
+    });
+
+    const resp = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "The current page is higher than the number of pages for this exam."
+    );
+
+    const removeResp = await Exam.deleteOne({ _id: exam._id });
     expect(removeResp.deletedCount).toBe(1);
   });
 

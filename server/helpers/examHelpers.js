@@ -91,6 +91,10 @@ function fetchChunks(currentExams) {
       throw new ApolloError(
         "Start date and exam date were the same for " + exam.subject + "."
       );
+    if (exam.currentPage > exam.numberPages * exam.timesRepeat)
+      throw new ApolloError(
+        "The current page is higher than the number of pages for this exam."
+      );
     const numberPagesToday = numberOfPagesForChunk({
       numberOfPages: exam.numberPages,
       currentPage: exam.currentPage,
