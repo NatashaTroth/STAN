@@ -15,7 +15,7 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
-import ExamDetails from "../current-exam/ExamDetails"
+import ExamsDetails from "../../components/current-exam/ExamDetails"
 
 // transition ----------------
 import { TransitionGroup, CSSTransition } from "react-transition-group"
@@ -36,18 +36,15 @@ const Content = ({ location }) => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/popup" component={LoginPopUp} />
-            <Route exact path="/imprint" component={Imprint} />
-            <Route exact path="/data-policy" component={DataPolicy} />
 
             <Route exact path="/add-new" component={AddNew} />
             <Route exact path="/calendar" component={Calendar} />
-            <Route exact path="/profile" component={UserAccount} />
             <Route exact path="/exams" component={Exams} />
-            <Route
-              path="/:subject"
-              render={props => <ExamDetails {...props} />}
-            />
+            <Route exact path="/exams/:subject" component={ExamsDetails} />
+            <Route exact path="/profile" component={UserAccount} />
 
+            <Route exact path="/imprint" component={Imprint} />
+            <Route exact path="/data-policy" component={DataPolicy} />
             <Route path="*" component={NoMatch404} />
           </Switch>
         </CSSTransition>

@@ -1,0 +1,30 @@
+.examEdit {
+  &__form {
+    justify-content: space-between;
+    &__left--subject {
+      max-width: 350px;
+
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
+    }
+    &__right {
+      &--top {
+        justify-content: flex-start;
+
+        &--pdf {
+          padding-top: 25px;
+        }
+      }
+      &--bottom {
+        &--btn {
+          padding: 25px;
+
+          @include media-breakpoint-down(sm) {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}

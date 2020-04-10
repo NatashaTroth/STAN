@@ -1,11 +1,33 @@
 .exams {
-  &__current-exams {
+  &__empty {
+    &__content {
+      padding: 40px;
+      text-align: center;
+      margin: 40px 0;
+
+      &--text {
+        padding: 25px 0;
+      }
+      &--btn {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    &--pastExams {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+  }
+
+  &__currentExams {
     display: flex;
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
   }
-  &__archive-exams {
+  &__archiveExams {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -18,8 +40,10 @@
       }
     }
   }
+
   &__toggle-archive {
-    padding-bottom: 15px;
+    padding: 20px 0;
+
     &--button {
       border: none;
       color: theme-color("dark");
@@ -29,6 +53,7 @@
         outline: none;
       }
     }
+
     i {
       border: solid theme_color("dark");
       border-width: 0 3px 3px 0;
@@ -41,6 +66,7 @@
         margin-bottom: 2px;
       }
     }
+
     .arrow {
       transition: transform 0.2s;
     }

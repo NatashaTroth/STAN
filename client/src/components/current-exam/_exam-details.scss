@@ -50,31 +50,50 @@
   }
 
   &__inner {
+    padding: 20px;
+
+    .hideForm,
+    .hideExamDetails {
+      display: none;
+    }
+    .showForm,
+    .showExamDetails {
+      display: block;
+    }
     &--bar {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      padding: 18px;
-      position: relative;
+      border-bottom: 3px solid theme_color("dark");
+      padding: 5px 0;
+      margin: 5px;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
 
       &--right {
         display: flex;
         flex-direction: row;
 
-        .closeExam {
-          border: none;
-          padding: 0 0 0 10px;
-          display: none;
-          margin: 0;
+        @include media-breakpoint-down(sm) {
+          justify-content: center;
+        }
 
-          // font style for close buttons
+        // font style for all buttons
+        .exam-btn {
+          background: none;
           color: theme-color("dark");
           font-family: $font-family-OpenSans-Regular;
           @include rem(font-size, $font-size-16);
           letter-spacing: 0;
           @include rem(line-height, 22px);
           transition: all 200ms ease-in-out;
+
+          border: none;
+          padding: 0 0 0 10px;
+          margin: 0;
 
           &:hover,
           &:focus,
@@ -87,98 +106,93 @@
           @include media-breakpoint-down(sm) {
             @include rem(font-size, $font-size-14);
             @include rem(line-height, 18px);
+
+            padding: 10px;
           }
+        }
+
+        .closeExam {
+          display: none;
 
           @include media-breakpoint-down(md) {
             display: block;
           }
         }
-      }
-
-      .line {
-        position: absolute;
-        border-bottom: 3px solid theme_color("dark");
-        bottom: 0;
-        left: 1%;
-        right: 1%;
-        width: 98%;
+        .delete-btn {
+          color: theme_color("error-hover");
+          &:hover {
+            color: theme_color("error-hover");
+          }
+        }
       }
     }
 
     &--details {
-      padding: 10px;
-
-      &--flex-container {
-        display: flex;
-        flex-direction: row;
-
-        @include media-breakpoint-down(sm) {
-          flex-direction: column;
-        }
-      }
+      padding: 20px 0;
 
       &--left {
-        .exam-date,
-        .start-date,
-        .number-pages,
-        .time-per-pages,
-        .repeat {
-          padding: 10px;
+        .exam-data {
+          padding: 10px 0;
         }
       }
       &--right {
-        .deadline,
-        .pages,
-        .studied,
-        .pages-studied,
-        .pdf {
-          padding: 10px;
+        .exam-data {
+          padding: 10px 0;
         }
 
-        .bar {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          &--status {
-            padding-left: 15px;
-            min-width: 120px;
+        .exam-pages {
+          padding: 10px 0;
+
+          &__bar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            @include media-breakpoint-down(md) {
+              flex-direction: column;
+              align-items: flex-end;
+            }
+            &--status {
+              padding-left: 10px;
+              min-width: 140px;
+
+              @include media-breakpoint-down(md) {
+                min-width: 0px;
+              }
+            }
           }
         }
 
         .pdf {
           display: flex;
+          flex-direction: row;
           align-items: center;
+
+          @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: flex-start;
+          }
 
           a {
             min-width: 90px;
           }
           &--file {
             padding-right: 35px;
+
+            @include media-breakpoint-down(md) {
+              padding-bottom: 15px;
+            }
           }
         }
       }
+
       &--bottom {
-        padding: 10px;
+        padding: 10px 0;
 
         .notes p {
           max-width: none;
         }
       }
     }
-  }
-}
-
-.exam-bar {
-  position: relative;
-  height: 15px;
-  width: 100%;
-  border: 2px solid theme_color("dark");
-
-  &__filler {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: theme_color("dark");
-    height: 100%;
   }
 }

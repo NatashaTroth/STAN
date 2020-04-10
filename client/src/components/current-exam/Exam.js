@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-function CurrentExam({ subject, currentStatus }) {
+function Exam({ subject, currentStatus }) {
   // return ----------------
   return (
     <div className="exam">
@@ -17,4 +17,4 @@ function CurrentExam({ subject, currentStatus }) {
   )
 }
 
-export default CurrentExam
+export default Exam

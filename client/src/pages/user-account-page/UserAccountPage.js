@@ -11,8 +11,9 @@ import {
 
 // mutation & queries ----------------
 import { useHistory, Redirect } from "react-router-dom"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
+import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 
 // libraries ----------------
 import CountUp from "react-countup"
@@ -27,6 +28,15 @@ function UserAccount() {
   // history ----------------
   const history = useHistory()
 
+  // query ----------------
+  // TODO: fetch only one query per component
+  const { data, error, loading } = useQuery(GET_TODAYS_CHUNKS)
+  const {
+    data: examsData,
+    error: examsError,
+    loading: examsLoading,
+  } = useQuery(GET_EXAMS_QUERY)
+
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
@@ -35,6 +45,47 @@ function UserAccount() {
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }
+
+  // get and count all exams and todays chunks ----------------
+  let totalExams,
+    finishedExams = 0
+  let completedDuration = []
+
+  if (loading || examsLoading) return <p className="loading">loading...</p>
+  if (error || examsError) return <p>error...</p>
+  if (data || examsData) {
+    totalExams = examsData.exams.length
+
+    data.todaysChunks.forEach(exam => {
+      // get all durations ----------------
+      completedDuration.push(exam.duration)
+    })
+
+    examsData.exams.forEach(exam => {
+      // count finished exams ----------------
+      if (exam.completed) {
+        finishedExams++
+      }
+    })
+  }
+
+  // sum up all durations ----------------
+  const totalSum = completedDuration.reduce(
+    (previousDuration, currentDuration) => previousDuration + currentDuration,
+    0
+  )
+
+  // moods ----------------
+  // TODO: dynamic!
+  let mood = "okay"
+  // TODO: currentState sollte zwischen 0 - 100 sein
+  let currentState = 101
+
+  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
+  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
+  else if (currentState >= 50 && currentState <= 69) mood = "okay"
+  else if (currentState >= 70 && currentState <= 89) mood = "happy"
+  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
 
   // google logout ----------------
   const currentUserGoogleLogin = currentUser.googleLogin
@@ -76,7 +127,14 @@ function UserAccount() {
           <div className="col-md-10">
             <div className="user-account__headline">
               <CurrentUserContext.Consumer>
-                {currentUser => <h2>{currentUser.username}'s account</h2>}
+                {currentUser => {
+                  let username = currentUser.username
+                  if (username.slice(-1) === "s") {
+                    return <h2>{username}' account</h2>
+                  } else {
+                    return <h2>{username}'s account</h2>
+                  }
+                }}
               </CurrentUserContext.Consumer>
             </div>
 
@@ -103,14 +161,24 @@ function UserAccount() {
 
                 <div className="user-account__container--left--bottom box-content">
                   <div className="total-exam">
-                    <CountUp start={0} end={10} duration={2.75} delay={0.5} />
+                    <CountUp
+                      start={0}
+                      end={totalExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
                     <p>
                       total exams <br /> to study
                     </p>
                   </div>
 
                   <div className="finished-exam">
-                    <CountUp start={0} end={2} duration={2.75} delay={0.5} />
+                    <CountUp
+                      start={0}
+                      end={finishedExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
                     <p>exams finished</p>
                   </div>
                 </div>
@@ -119,7 +187,7 @@ function UserAccount() {
               <div className="user-account__container--right">
                 <div className="user-account__container--right--top box-content">
                   <h4>current state:</h4>
-                  <p>okay</p>
+                  <p>{mood}</p>
                 </div>
 
                 <div className="user-account__container--right--bottom box-content">
@@ -134,7 +202,9 @@ function UserAccount() {
                     <CurrentUserContext.Consumer>
                       {currentUser => (
                         <Image
-                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-0.svg`)}
                           text=""
                         />
                       )}
@@ -143,7 +213,9 @@ function UserAccount() {
                     <CurrentUserContext.Consumer>
                       {currentUser => (
                         <Image
-                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-1.svg`)}
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-1.svg`)}
                           text=""
                         />
                       )}
@@ -152,7 +224,9 @@ function UserAccount() {
                     <CurrentUserContext.Consumer>
                       {currentUser => (
                         <Image
-                          path={require(`../../images/mascots/user-mascot/${currentUser.mascot}-2.svg`)}
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-2.svg`)}
                           text=""
                         />
                       )}
