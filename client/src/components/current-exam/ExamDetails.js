@@ -18,7 +18,7 @@ import Button from "../button/Button"
 import ExamBar from "../progressbar/ProgressBar"
 
 // helpers ----------------
-import { getNumberOfDays, formatDate, minuteToHours } from "../../helpers/dates"
+import { getNumberOfDays, formatDate } from "../../helpers/dates"
 
 const getParamId = location => {
   let params = queryString.parse(location.search)

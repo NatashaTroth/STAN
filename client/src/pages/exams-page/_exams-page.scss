@@ -1,4 +1,7 @@
 .exams {
+  &__headline {
+    padding-bottom: 40px;
+  }
   &__empty {
     &__content {
       padding: 40px;
@@ -48,6 +51,7 @@
       border: none;
       color: theme-color("dark");
       transition: all 0.3s ease;
+      background: none;
 
       &:focus {
         outline: none;
