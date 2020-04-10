@@ -5,17 +5,15 @@ import {
   setupApolloServer,
   setupDb,
   // addTestExam,
-  clearDatabase,
+  // clearDatabase,
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
 
-import {
-  GET_TODAYS_CHUNKS,
-  GET_EXAMS_QUERY,
-  GET_EXAM_QUERY
-} from "../../queries.js";
-import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
+import { GET_TODAYS_CHUNKS } from "../../queries.js";
+
+//TODO: ADD THIS TO THIS TEST TOO?
+// import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
