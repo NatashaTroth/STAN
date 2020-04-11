@@ -11,7 +11,7 @@ import {
 import { Exam } from "../../../models";
 
 import { GET_CALENDAR_CHUNKS } from "../../queries.js";
-import { fetchCalendarChunks } from "../../../helpers/examHelpers";
+// import { fetchCalendarChunks } from "../../../helpers/examHelpers";
 
 //TODO: ADD THIS TO THIS TEST TOO?
 // import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
