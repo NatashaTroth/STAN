@@ -6,11 +6,13 @@ import { Redirect } from "react-router"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // libraries ----------------
-import FullCalendar from "@fullcalendar/react"
-import dayGridPlugin from "@fullcalendar/daygrid"
-import { Tooltip } from "reactstrap"
+import { Calendar, momentLocalizer } from "react-big-calendar"
+import moment from "moment"
+import { OverlayTrigger } from "react-bootstrap"
+import { Popover } from "react-bootstrap"
 
-// TODO: https://fullcalendar.io/docs/react
+const localizer = momentLocalizer(moment)
+
 const ExamsCalendar = () => {
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -18,50 +20,43 @@ const ExamsCalendar = () => {
     return <Redirect to="/login" />
   }
 
-  // color: '#ff00ac'
-  /*
-  eventRender: function (event, element, view) {
-   if (event.color) {
-       element.css('background-color', event.color)
-   }
-}
-  */
   const events = [
     {
       title: "All Day Event",
       description: "description for All Day Event",
       start: "2020-04-01",
+      end: "2020-04-01",
     },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
-    {
-      title: "All Day Event",
-      description: "description for All Day Event",
-      start: "2020-04-01",
-    },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
+    // {
+    //   title: "All Day Event",
+    //   description: "description for All Day Event",
+    //   start: "2020-04-01",
+    // },
     {
       title: "Long Event",
       description: "description for Long Event",
@@ -70,14 +65,29 @@ const ExamsCalendar = () => {
     },
   ]
 
-  const eventRender = info => {
-    let tooltip = new Tooltip(info.el, {
-      title: info.event.extendedProps.description,
-      placement: "top",
-      trigger: "hover",
-      container: "body",
-      target: "",
-    })
+  const Event = ({ event }) => {
+    let popoverClickRootClose = (
+      <Popover id="popover-trigger-click-root-close" style={{ zIndex: 10000 }}>
+        <strong>{event.description}</strong>
+      </Popover>
+    )
+
+    return (
+      <div>
+        <div>
+          <OverlayTrigger
+            id="help"
+            trigger="click"
+            rootClose
+            container={this}
+            placement="top"
+            overlay={popoverClickRootClose}
+          >
+            <div>{event.title}</div>
+          </OverlayTrigger>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -86,13 +96,17 @@ const ExamsCalendar = () => {
         <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10">
-            <FullCalendar
-              defaultDate={new Date()}
-              defaultView="dayGridMonth"
-              plugins={[dayGridPlugin]}
+            <Calendar
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 900 }}
               events={events}
-              eventLimit={true}
-              eventRender={eventRender}
+              defaultDate={moment().toDate()}
+              localizer={localizer}
+              components={{
+                event: Event,
+              }}
+              views={["month"]}
             />
           </div>
           <div className="col-md-1"></div>

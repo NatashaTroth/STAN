@@ -1,115 +1,137 @@
 .examsCalendar {
-  .fc-left {
-    h2 {
-      margin-top: 5rem;
-      color: theme-color("dark");
-      font-family: $font-family-BasierCircle-Bold;
-      @include rem(font-size, $h2-font-size);
-      @include rem(letter-spacing, 0);
-      @include rem(line-height, $h2-line-height);
+  .rbc-calendar {
+    .rbc-toolbar {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-end;
+
+      // h2 for month title
+      .rbc-toolbar-label {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 5rem;
+        color: theme-color("dark");
+        font-family: $font-family-BasierCircle-Bold;
+        @include rem(font-size, $h2-font-size);
+        @include rem(letter-spacing, 0);
+        @include rem(line-height, $h2-line-height);
+
+        @include media-breakpoint-down(sm) {
+          margin-top: 2rem;
+          @include rem(font-size, $h2-font-size-mobile);
+          @include rem(line-height, $h2-line-height-mobile);
+          @include rem(letter-spacing, 0);
+        }
+      }
+
+      // today, prev and next buttons
+      .rbc-btn-group {
+        button {
+          border: none;
+          background: none;
+          outline: none;
+          text-transform: lowercase;
+
+          // font styling
+          color: theme-color("dark");
+          font-family: $font-family-BasierCircle-SemiBold;
+          @include rem(font-size, $h4-font-size);
+          @include rem(letter-spacing, 1px);
+          @include rem(line-height, $h4-line-height);
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $h4-font-size-mobile);
+            @include rem(line-height, $h4-line-height-mobile);
+            @include rem(letter-spacing, 0.5px);
+          }
+        }
+      }
+
+      // right and left arrow
+      button:nth-child(2) {
+        color: transparent;
+
+        &:after {
+          content: "";
+          border: solid theme_color("dark");
+          border-width: 0 4px 4px 0;
+          display: inline-block;
+          padding: 5px;
+          transform: rotate(135deg);
+        }
+      }
+      button:nth-child(3) {
+        color: transparent;
+
+        &:after {
+          content: "";
+          border: solid theme_color("dark");
+          border-width: 0 4px 4px 0;
+          display: inline-block;
+          padding: 5px;
+          transform: rotate(-45deg);
+        }
+      }
+    }
+
+    .rbc-month-view {
+      // box-content
+      margin-bottom: 30px;
+      margin-top: 10px;
+      border: 4px solid theme-color("dark");
+      box-shadow: 10px 10px 0px -2px theme-color("dark");
 
       @include media-breakpoint-down(sm) {
-        @include rem(font-size, $h2-font-size-mobile);
-        @include rem(line-height, $h2-line-height-mobile);
-        @include rem(letter-spacing, 0);
+        margin-bottom: 20px;
       }
-    }
-  }
-  .fc-toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-  .fc-button-group {
-    button {
-      background-color: white;
-      border: none;
-      color: theme_color("dark");
-      font-size: 20px;
-      padding: 0;
-      padding-left: 10px;
-    }
-  }
-  .fc-view {
-    margin-bottom: 30px;
-    border: 4px solid theme-color("dark");
-    box-shadow: 10px 10px 0px -2px theme-color("dark");
-  }
-  .fc-event {
-    border: none;
-    background-color: transparent;
-  }
-  .fc-day {
-    border-left: 2px solid theme-color("dark");
-  }
-  .fc-day-header {
-    border-left: 2px solid theme-color("dark");
-    span {
-      text-transform: lowercase;
-      font-family: $font-family-BasierCircle-Bold;
-    }
-  }
-  .fc-day-number {
-    font-family: $font-family-BasierCircle-Bold;
-    padding: 6px;
-  }
-  .fc-row table {
-    border-left: 2px solid theme-color("dark");
-    border-top: 2px solid theme-color("dark");
-    border-right: 2px solid theme-color("dark");
-  }
-  .fc-more-cell {
-    padding-top: 15px;
-    .fc-more {
-      font-size: 12px;
-    }
-  }
-  .fc-today-button {
-    border: none;
-    background: none;
-    color: theme_color("dark");
-    opacity: 1;
-    font-family: $font-family-BasierCircle-Bold;
-    cursor: pointer;
-    @include rem(font-size, $h4-font-size);
-    @include rem(letter-spacing, 1px);
-    @include rem(line-height, $h4-line-height);
 
-    @include media-breakpoint-down(sm) {
-      @include rem(font-size, $h4-font-size-mobile);
-      @include rem(line-height, $h4-line-height-mobile);
-      @include rem(letter-spacing, 0.5px);
-    }
+      .rbc-month-header {
+        text-transform: lowercase;
+        border-bottom: 2px solid theme_color("dark");
+        border-right: 1px solid theme_color("dark");
+        border-left: 1px solid theme_color("dark");
 
-    &:focus,
-    &:active {
-      background: none;
-      outline: none;
-      border: none;
-      box-shadow: none;
-      color: theme_color("dark");
-    }
-
-    .fc-prev-button {
-      &:focus,
-      &:active {
-        background: none;
-        outline: none;
-        border: none;
-        box-shadow: none;
-        color: theme_color("dark");
+        .rbc-header {
+          // weekdays
+          border: 1px solid theme_color("dark");
+          span {
+            font-family: $font-family-BasierCircle-Bold;
+          }
+        }
       }
-    }
 
-    .fc-next-button {
-      &:focus,
-      &:active {
-        background: none;
-        outline: none;
-        border: none;
-        box-shadow: none;
-        color: theme_color("dark");
+      .rbc-month-row {
+        border: 1px solid theme_color("dark");
+        .rbc-day-bg {
+          border-right: 1px solid theme_color("dark");
+          border-left: 1px solid theme_color("dark");
+        }
+        .rbc-row {
+          .rbc-date-cell {
+            // date number in cell
+            margin: 5px;
+            a {
+              font-family: $font-family-BasierCircle-Bold;
+              @include rem(font-size, $font-size-14);
+              letter-spacing: 0;
+              @include rem(line-height, 20px);
+              margin: 0;
+            }
+          }
+          .rbc-event {
+            // event in cell
+            background: none;
+            color: theme_color("dark");
+            font-family: $font-family-OpenSans-Regular;
+            @include rem(font-size, $font-size-14);
+            letter-spacing: 0;
+            @include rem(line-height, 20px);
+            margin: 0;
+          }
+        }
+        .rbc-today {
+          background-color: theme_color("primary-blue");
+        }
       }
     }
   }
