@@ -75,6 +75,25 @@ export const GET_TODAYS_CHUNKS = gql`
   }
 `;
 
+export const GET_CALENDAR_CHUNKS = gql`
+  query {
+    calendarChunks {
+      subject
+      start
+      end
+      details {
+        examDate
+        currentPage
+        numberPagesLeftTotal
+        numberPagesPerDay
+        durationTotal
+        durationPerDay
+      }
+      color
+    }
+  }
+`;
+
 //TODO: cache result of current user query - so you don't have to keep fetching it from the server - use apollo!
 //https://www.youtube.com/watch?v=25GS0MLT8JU 2:52:35
 export const CURRENT_USER = gql`

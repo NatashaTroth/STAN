@@ -7,7 +7,8 @@ import {
   prepareExamInputData,
   verifyExamInput,
   handleCurrentPageInput,
-  fetchTodaysChunks
+  fetchTodaysChunks,
+  fetchCalendarChunks
 } from "../helpers/examHelpers";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -54,6 +55,18 @@ export const examResolvers = {
         //TODO: SORTBY EXAM DATE
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        // console.log(chunks);
+        return chunks;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    calendarChunks: async (root, args, context, info) => {
+      try {
+        //{ title: "Test Event", date: "2020-03-16" }
+        //TODO: SORTBY EXAM DATE
+        handleAuthentication(context.userInfo);
+        const chunks = await fetchCalendarChunks(context.userInfo.userId);
         // console.log(chunks);
         return chunks;
       } catch (err) {

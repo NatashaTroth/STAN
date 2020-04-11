@@ -33,6 +33,23 @@ const examType = gql`
     numberPagesWithRepeat: Int! #exam.pages*repeat
     notEnoughTime: Boolean!
   }
+
+  type CalendarChunkDetails {
+    examDate: Date!
+    currentPage: Int!
+    numberPagesLeftTotal: Int!
+    numberPagesPerDay: Int!
+    durationTotal: Int!
+    durationPerDay: Int!
+  }
+
+  type CalendarChunk {
+    subject: String!
+    start: Date!
+    end: Date!
+    details: CalendarChunkDetails!
+    color: String!
+  }
 `;
 
 module.exports = { examType };

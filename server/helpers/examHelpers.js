@@ -69,7 +69,16 @@ export async function handleCurrentPageInput(page, examId, userId) {
 
 export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
-  return fetchChunks(currentExams);
+  return getTodaysChunks(currentExams);
+}
+
+export async function fetchCalendarChunks(userId) {
+  const exams = await Exam.find({
+    userId: userId,
+    completed: false
+  }).sort({ subject: "asc" });
+  // const currentExams = await fetchCurrentExams(userId);
+  return getCalendarChunks(exams);
 }
 
 async function fetchCurrentExams(userId) {
@@ -83,7 +92,7 @@ async function fetchCurrentExams(userId) {
   return currentExams;
 }
 
-function fetchChunks(currentExams) {
+function getTodaysChunks(currentExams) {
   return currentExams.map(exam => {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
     //but should never come to this - but to avoid Infinity error
@@ -114,6 +123,75 @@ function fetchChunks(currentExams) {
       notEnoughTime: false //TODO: IMPLEMENT
     };
   });
+}
+
+function getCalendarChunks(exams) {
+  //divide by days left
+  // const headers = new Map();
+  // header.set("Authorization", "test");
+  const chunks = [];
+  // console.log(JSON.stringify(exams));
+
+  for (let i = 0; i < exams.length; i++) {
+    const exam = exams[i];
+    const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+    const numberPagesLeftTotal =
+      exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
+    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+
+    chunks.push({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal,
+        numberPagesPerDay,
+        durationTotal: numberPagesLeftTotal * exam.timePerPage,
+        durationPerDay: numberPagesPerDay * exam.timePerPage
+      },
+      //TODO: GENERATE
+      color: generateSubjectColor(exam)
+    });
+
+    // for(let d = 0; d < daysLeft; d++){
+    //   chunks.push({ title: exam.subject, date: "2020-03-16" })
+    // }
+  }
+  return chunks;
+}
+
+//TODO: SAVE IN DB - DO IN ADD EXAM
+function generateSubjectColor(exam) {
+  const hexChars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  const colorNumbers = [];
+  colorNumbers.push(
+    Math.ceil(exam.subject.length * (Math.random() + 1)) % hexChars.length
+  );
+  colorNumbers.push(
+    (exam.examDate.getDay() + exam.examDate.getMonth()) % hexChars.length
+  );
+  colorNumbers.push(
+    (exam.startDate.getDay() + exam.startDate.getMonth()) % hexChars.length
+  );
+  colorNumbers.push((exam.numberPages * exam.timesRepeat) % hexChars.length);
+  colorNumbers.push(exam.timePerPage % hexChars.length);
+  colorNumbers.push(
+    (colorNumbers[0] +
+      colorNumbers[1] +
+      colorNumbers[2] +
+      colorNumbers[3] +
+      colorNumbers[4]) %
+      hexChars.length
+  );
+
+  let color = "#";
+
+  colorNumbers.forEach(colorNumber => {
+    color += hexChars[colorNumber].toString();
+  });
+  return color;
 }
 
 function verifyNewExamInputFormat(args) {
