@@ -36,8 +36,7 @@
 @import "components/progressbar/progress-bar";
 
 // Calendar
-@import "~@fullcalendar/core/main.css";
-@import "~@fullcalendar/daygrid/main.css";
+@import "react-big-calendar/lib/sass/styles";
 
 // Sub-Components
 @import "components/input/input";
