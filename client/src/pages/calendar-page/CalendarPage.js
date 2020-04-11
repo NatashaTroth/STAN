@@ -45,23 +45,21 @@ const ExamsCalendar = () => {
   const Event = ({ event }) => {
     let popoverClick = (
       <Popover
-        id="popover-trigger-click-root-close"
         style={{
           zIndex: 100,
           padding: "18px",
           border: "1px solid black",
           borderRadius: "0",
-          fontSize: "12px",
         }}
       >
-        <p>
+        <p className="popover-text">
           <strong>{event.subject}</strong>
         </p>
-        <p>Deadline: {event.details.examDate}</p>
-        <p>
+        <p className="popover-text">Deadline: {event.details.examDate}</p>
+        <p className="popover-text">
           Page {event.details.currentPage} to {event.details.numberPagesToday}
         </p>
-        <p>Duration: {event.details.duration}</p>
+        <p className="popover-text">Duration: {event.details.duration}</p>
       </Popover>
     )
 

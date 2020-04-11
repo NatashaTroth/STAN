@@ -2,13 +2,13 @@
   .rbc-calendar {
     .rbc-toolbar {
       display: flex;
-      flex-direction: row-reverse;
-      align-items: flex-end;
+      flex-direction: column-reverse;
 
       // h2 for month title
       .rbc-toolbar-label {
+        width: 100%;
         display: flex;
-        justify-content: flex-start;
+        align-content: flex-start;
         margin-top: 5rem;
         color: theme-color("dark");
         font-family: $font-family-BasierCircle-Bold;
@@ -26,11 +26,19 @@
 
       // today, prev and next buttons
       .rbc-btn-group {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 10px;
+
         button {
           border: none;
           background: none;
           outline: none;
           text-transform: lowercase;
+          border-radius: 0;
+          padding-left: 0;
+          padding-right: 0;
 
           // font styling
           color: theme-color("dark");
@@ -52,9 +60,33 @@
         }
       }
 
+      // today button
+      button:nth-child(1) {
+        position: relative;
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+          right: 0;
+          width: 100%;
+          height: 3px;
+          margin-top: 2px;
+          background: theme_color("dark");
+          transition: width 0.2s ease;
+        }
+        &:hover {
+          &:after {
+            width: 0;
+            right: 0;
+            background: theme_color("dark");
+          }
+        }
+      }
+
       // right and left arrow
       button:nth-child(2) {
         color: transparent;
+        text-transform: uppercase;
 
         &:after {
           content: "";
@@ -67,6 +99,7 @@
       }
       button:nth-child(3) {
         color: transparent;
+        text-transform: uppercase;
 
         &:after {
           content: "";
@@ -145,7 +178,8 @@
           }
           .rbc-selected {
             &:focus,
-            &:active {
+            &:active,
+            &:hover {
               outline: none;
             }
           }
@@ -158,14 +192,15 @@
   }
 }
 
+// display window for exam details
 .bs-popover-top {
   > .arrow {
     &:before {
       border-top-color: theme_color("dark");
     }
   }
+}
 
-  p  {
-    font-size: 12px;
-  }
+.popover-text {
+  font-size: 12px !important;
 }
