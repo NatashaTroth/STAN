@@ -29,7 +29,10 @@
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        padding-top: 10px;
+
+        @include media-breakpoint-down(xl) {
+          padding-top: 10px;
+        }
 
         button {
           border: none;
@@ -169,7 +172,7 @@
             margin: 0;
           }
           .rbc-show-more {
-            padding: 3px;
+            padding: 15px 5px;
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, 12px);
             letter-spacing: 0;

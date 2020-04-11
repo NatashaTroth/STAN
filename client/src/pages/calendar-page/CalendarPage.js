@@ -5,6 +5,10 @@ import { Redirect } from "react-router"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
+// query ----------------
+import { useQuery } from "@apollo/react-hooks"
+import { GET_CALENDAR_CHUNKS } from "../../graphQL/queries"
+
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
@@ -21,26 +25,38 @@ moment.locale("en-gb", {
 const localizer = momentLocalizer(moment)
 
 const ExamsCalendar = () => {
+  // query ----------------
+  const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
+  let exams = []
+
   // redirects ----------------
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
   }
 
-  const exams = [
-    {
-      subject: "Computer Networking",
-      start: "2020-04-01",
-      end: "2020-04-03",
-      details: {
-        examDate: "30/04/2020",
-        currentPage: "7",
-        numberPagesToday: "20",
-        duration: "3 min.",
-      },
-      color: "#ef7a20",
-    },
-  ]
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...</p>
+  if (data && data.calendarChunks) {
+    exams = data.calendarChunks
+  }
+
+  console.log(exams)
+
+  // const exams = [
+  //   {
+  //     subject: "Computer Networking",
+  //     start: "2020-04-01",
+  //     end: "2020-04-03",
+  //     details: {
+  //       examDate: "30/04/2020",
+  //       currentPage: "7",
+  //       numberPagesToday: "20",
+  //       duration: "3 min.",
+  //     },
+  //     color: "#ef7a20",
+  //   },
+  // ]
 
   const Event = ({ event }) => {
     let popoverClick = (
@@ -57,9 +73,15 @@ const ExamsCalendar = () => {
         </p>
         <p className="popover-text">Deadline: {event.details.examDate}</p>
         <p className="popover-text">
-          Page {event.details.currentPage} to {event.details.numberPagesToday}
+          Page {event.details.currentPage} to{" "}
+          {event.details.numberPagesLeftTotal}
         </p>
-        <p className="popover-text">Duration: {event.details.duration}</p>
+        <p className="popover-text">
+          Duration per day: {event.details.durationPerDay} min.
+        </p>
+        <p className="popover-text">
+          Duration total: {event.details.durationTotal} min.
+        </p>
       </Popover>
     )
 
@@ -98,10 +120,15 @@ const ExamsCalendar = () => {
               defaultDate={moment().toDate()}
               localizer={localizer}
               formats={weekDayFormats}
+              views={["month"]}
               components={{
                 event: Event,
               }}
-              views={["month"]}
+              eventPropGetter={event => ({
+                style: {
+                  backgroundColor: event.color,
+                },
+              })}
             />
           </div>
           <div className="col-md-1"></div>
