@@ -16,6 +16,7 @@ const examType = gql`
     currentPage: Int!
     notes: String
     pdfLink: String
+    color: String!
     completed: Boolean
     userId: ID!
   }

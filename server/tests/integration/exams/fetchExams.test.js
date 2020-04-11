@@ -122,6 +122,7 @@ describe("Test user resolver regex", () => {
       timesRepeat: 2,
       notes: "Samantha's notes",
       pdfLink: "samanthas-link.stan",
+      color: "#FFFFFF",
       completed: false,
       userId: "samanthasId"
     });

@@ -27,8 +27,9 @@ export function prepareExamInputData(args, userId) {
   args.currentPage = args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
+  args.color = generateSubjectColor(args);
 
-  return args;
+  return { ...args };
 }
 
 export function verifyExamInput(args) {
@@ -159,8 +160,7 @@ function getCalendarChunks(exams) {
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
         durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
       },
-      //TODO: SAVE IN DB
-      color: generateSubjectColor(exam)
+      color: exam.color
     });
   }
   return chunks;

@@ -60,9 +60,8 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 17.5,
         durationTotal: 350,
         durationPerDay: 175
-      }
-      //TODO
-      // color: generateSubjectColor(exam)
+      },
+      color: exam.color
     });
 
     exam = testExams.exam1;
@@ -77,8 +76,8 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 10,
         durationTotal: 250,
         durationPerDay: 50
-      }
-      // color: generateSubjectColor(exam)
+      },
+      color: exam.color
     });
 
     exam = testExams.exam3;
@@ -93,8 +92,8 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 1401,
         durationTotal: 14010,
         durationPerDay: 14010
-      }
-      // color: generateSubjectColor(exam)
+      },
+      color: exam.color
     });
 
     exam = testExams.exam4;
@@ -109,14 +108,15 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 2.38,
         durationTotal: 250,
         durationPerDay: 12
-      }
-      // color: generateSubjectColor(exam)
+      },
+      color: exam.color
     });
   });
 
   async function addTestExams() {
     const exam1 = await addTestExam({
-      subject: "Biology"
+      subject: "Biology",
+      color: "#979250"
     });
     const exam2 = await addTestExam({
       subject: "Archeology",
@@ -126,7 +126,8 @@ describe("Test user resolver regex", () => {
       timePerPage: 10,
       startPage: 7,
       currentPage: 50,
-      timesRepeat: 2
+      timesRepeat: 2,
+      color: "#2444A8"
     });
     const exam3 = await addTestExam({
       subject: "Chemistry",
@@ -136,12 +137,14 @@ describe("Test user resolver regex", () => {
       timePerPage: 10,
       startPage: 8,
       currentPage: 1600,
-      timesRepeat: 5
+      timesRepeat: 5,
+      color: "#2328A9"
     });
     const exam4 = await addTestExam({
       subject: "Dance",
       examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51)
+      startDate: getFutureDay(new Date(), 51),
+      color: "#85625A"
     });
 
     // return exam1;
@@ -156,9 +159,9 @@ describe("Test user resolver regex", () => {
     timePerPage,
     startPage,
     currentPage,
-    timesRepeat
+    timesRepeat,
+    color
   }) {
-    //TODO: WHEN EXAMDATE AND STARTDATE THE SAME - GET INFINITY NUMBER PAGES - MAKE SURE IT DOESN'T HAPPEN!!!!!
     const exam = await Exam.create({
       subject: subject || "Test Subject",
       examDate: examDate || getFutureDay(new Date(), 5),
@@ -170,6 +173,7 @@ describe("Test user resolver regex", () => {
       timesRepeat: timesRepeat || 1,
       notes: "Samantha's notes",
       pdfLink: "samanthas-link.stan",
+      color: color || "#FFFFFF",
       completed: false,
       userId: "samanthasId"
     });
