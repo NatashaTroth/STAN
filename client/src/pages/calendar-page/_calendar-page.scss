@@ -44,6 +44,11 @@
             @include rem(line-height, $h4-line-height-mobile);
             @include rem(letter-spacing, 0.5px);
           }
+
+          &:active,
+          &:focus {
+            box-shadow: none;
+          }
         }
       }
 
@@ -56,7 +61,7 @@
           border: solid theme_color("dark");
           border-width: 0 4px 4px 0;
           display: inline-block;
-          padding: 5px;
+          padding: 4px;
           transform: rotate(135deg);
         }
       }
@@ -68,7 +73,7 @@
           border: solid theme_color("dark");
           border-width: 0 4px 4px 0;
           display: inline-block;
-          padding: 5px;
+          padding: 4px;
           transform: rotate(-45deg);
         }
       }
@@ -78,7 +83,7 @@
       // box-content
       margin-bottom: 30px;
       margin-top: 10px;
-      border: 4px solid theme-color("dark");
+      border: 2px solid theme-color("dark");
       box-shadow: 10px 10px 0px -2px theme-color("dark");
 
       @include media-breakpoint-down(sm) {
@@ -87,12 +92,13 @@
 
       .rbc-month-header {
         text-transform: lowercase;
-        border-bottom: 2px solid theme_color("dark");
         border-right: 1px solid theme_color("dark");
         border-left: 1px solid theme_color("dark");
+        border-top: 1px solid theme_color("dark");
 
         .rbc-header {
           // weekdays
+          padding: 5px;
           border: 1px solid theme_color("dark");
           span {
             font-family: $font-family-BasierCircle-Bold;
@@ -103,8 +109,8 @@
       .rbc-month-row {
         border: 1px solid theme_color("dark");
         .rbc-day-bg {
-          border-right: 1px solid theme_color("dark");
-          border-left: 1px solid theme_color("dark");
+          border-right: 0.5px solid theme_color("dark");
+          border-left: 0.5px solid theme_color("dark");
         }
         .rbc-row {
           .rbc-date-cell {
@@ -120,13 +126,28 @@
           }
           .rbc-event {
             // event in cell
-            background: none;
-            color: theme_color("dark");
+            background: theme_color("primary-blue-dark");
+            color: theme_color("light");
+            border-radius: 0;
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, $font-size-14);
             letter-spacing: 0;
             @include rem(line-height, 20px);
             margin: 0;
+          }
+          .rbc-show-more {
+            padding: 3px;
+            font-family: $font-family-OpenSans-Regular;
+            @include rem(font-size, 12px);
+            letter-spacing: 0;
+            @include rem(line-height, 20px);
+            margin: 0;
+          }
+          .rbc-selected {
+            &:focus,
+            &:active {
+              outline: none;
+            }
           }
         }
         .rbc-today {
@@ -134,5 +155,17 @@
         }
       }
     }
+  }
+}
+
+.bs-popover-top {
+  > .arrow {
+    &:before {
+      border-top-color: theme_color("dark");
+    }
+  }
+
+  p  {
+    font-size: 12px;
   }
 }

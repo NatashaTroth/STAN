@@ -11,6 +11,13 @@ import moment from "moment"
 import { OverlayTrigger } from "react-bootstrap"
 import { Popover } from "react-bootstrap"
 
+moment.locale("en-gb", {
+  week: {
+    dow: 1,
+    doy: 1,
+  },
+})
+
 const localizer = momentLocalizer(moment)
 
 const ExamsCalendar = () => {
@@ -20,74 +27,63 @@ const ExamsCalendar = () => {
     return <Redirect to="/login" />
   }
 
-  const events = [
+  const exams = [
     {
-      title: "All Day Event",
-      description: "description for All Day Event",
+      subject: "Computer Networking",
       start: "2020-04-01",
-      end: "2020-04-01",
-    },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    // {
-    //   title: "All Day Event",
-    //   description: "description for All Day Event",
-    //   start: "2020-04-01",
-    // },
-    {
-      title: "Long Event",
-      description: "description for Long Event",
-      start: "2020-04-07",
-      end: "2020-04-10",
+      end: "2020-04-03",
+      details: {
+        examDate: "30/04/2020",
+        currentPage: "7",
+        numberPagesToday: "20",
+        duration: "3 min.",
+      },
+      color: "#ef7a20",
     },
   ]
 
   const Event = ({ event }) => {
-    let popoverClickRootClose = (
-      <Popover id="popover-trigger-click-root-close" style={{ zIndex: 10000 }}>
-        <strong>{event.description}</strong>
+    let popoverClick = (
+      <Popover
+        id="popover-trigger-click-root-close"
+        style={{
+          zIndex: 100,
+          padding: "18px",
+          border: "1px solid black",
+          borderRadius: "0",
+          fontSize: "12px",
+        }}
+      >
+        <p>
+          <strong>{event.subject}</strong>
+        </p>
+        <p>Deadline: {event.details.examDate}</p>
+        <p>
+          Page {event.details.currentPage} to {event.details.numberPagesToday}
+        </p>
+        <p>Duration: {event.details.duration}</p>
       </Popover>
     )
 
     return (
-      <div>
-        <div>
-          <OverlayTrigger
-            id="help"
-            trigger="click"
-            rootClose
-            container={this}
-            placement="top"
-            overlay={popoverClickRootClose}
-          >
-            <div>{event.title}</div>
-          </OverlayTrigger>
-        </div>
+      <div className="overlay">
+        <OverlayTrigger
+          id="help"
+          rootClose
+          trigger="click"
+          container={this}
+          placement="top"
+          overlay={popoverClick}
+        >
+          <div>{event.subject}</div>
+        </OverlayTrigger>
       </div>
     )
+  }
+
+  // display full name of weekdays ----------------
+  const weekDayFormats = {
+    weekdayFormat: "dddd",
   }
 
   return (
@@ -100,9 +96,10 @@ const ExamsCalendar = () => {
               startAccessor="start"
               endAccessor="end"
               style={{ height: 900 }}
-              events={events}
+              events={exams}
               defaultDate={moment().toDate()}
               localizer={localizer}
+              formats={weekDayFormats}
               components={{
                 event: Event,
               }}
