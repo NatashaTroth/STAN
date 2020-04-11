@@ -135,14 +135,14 @@ function getCalendarChunks(exams) {
 
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
-    const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+
+    //TODO - BETWEEN STARTDATE OR TODAY
+    let dayToStartCounting = exam.startDate;
+    if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
+    const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
+
     const numberPagesLeftTotal =
       exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    console.log(numberPagesLeftTotal);
-    // console.log(
-    //   Math.round((numberPagesLeftTotal / daysLeft + Number.EPSILON) * 100) / 100
-    // );
-    // console.log(numberPagesLeftTotal / daysLeft);
     const numberPagesPerDay = roundToTwoDecimals(
       numberPagesLeftTotal / daysLeft
     );
@@ -157,15 +157,11 @@ function getCalendarChunks(exams) {
         numberPagesLeftTotal,
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
-        durationPerDay: Math.round(numberPagesPerDay * exam.timePerPage)
+        durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
       },
-      //TODO: GENERATE
+      //TODO: SAVE IN DB
       color: generateSubjectColor(exam)
     });
-
-    // for(let d = 0; d < daysLeft; d++){
-    //   chunks.push({ title: exam.subject, date: "2020-03-16" })
-    // }
   }
   return chunks;
 }

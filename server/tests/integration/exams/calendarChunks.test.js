@@ -39,33 +39,79 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it("should correctly fetch today's chunks", async () => {
+  it("should correctly fetch the calendar chunks", async () => {
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
     });
     // console.log(JSON.stringify(resp));
 
     expect(resp.data.calendarChunks).toBeTruthy();
-    expect(resp.data.calendarChunks.length).toBe(3);
+    expect(resp.data.calendarChunks.length).toBe(4);
 
-    // expect(resp.data.todaysChunks[2]).toMatchObject({
-    //   exam: {
-    //     id: testExams.exam1._id.toString(),
-    //     subject: testExams.exam1.subject,
-    //     examDate: testExams.exam1.examDate,
-    //     startDate: testExams.exam1.startDate,
-    //     numberPages: testExams.exam1.numberPages,
-    //     timesRepeat: testExams.exam1.timesRepeat,
-    //     currentPage: testExams.exam1.currentPage,
-    //     pdfLink: testExams.exam1.pdfLink
-    //   },
-    //   numberPagesToday: 10,
-    //   duration: 50,
-    //   daysLeft: 5,
-    //   totalNumberDays: 5,
-    //   numberPagesWithRepeat: 50,
-    //   notEnoughTime: false
-    // });
+    let exam = testExams.exam2;
+    expect(resp.data.calendarChunks[0]).toMatchObject({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal: 35,
+        numberPagesPerDay: 17.5,
+        durationTotal: 350,
+        durationPerDay: 175
+      }
+      //TODO
+      // color: generateSubjectColor(exam)
+    });
+
+    exam = testExams.exam1;
+    expect(resp.data.calendarChunks[1]).toMatchObject({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal: 50,
+        numberPagesPerDay: 10,
+        durationTotal: 250,
+        durationPerDay: 50
+      }
+      // color: generateSubjectColor(exam)
+    });
+
+    exam = testExams.exam3;
+    expect(resp.data.calendarChunks[2]).toMatchObject({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal: 1401,
+        numberPagesPerDay: 1401,
+        durationTotal: 14010,
+        durationPerDay: 14010
+      }
+      // color: generateSubjectColor(exam)
+    });
+
+    exam = testExams.exam4;
+    expect(resp.data.calendarChunks[3]).toMatchObject({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal: 50,
+        numberPagesPerDay: 2.38,
+        durationTotal: 250,
+        durationPerDay: 12
+      }
+      // color: generateSubjectColor(exam)
+    });
   });
 
   async function addTestExams() {
