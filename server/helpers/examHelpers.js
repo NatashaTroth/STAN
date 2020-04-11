@@ -9,6 +9,7 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 import { numberOfPagesForChunk } from "../helpers/chunks";
+import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -137,7 +138,14 @@ function getCalendarChunks(exams) {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
     const numberPagesLeftTotal =
       exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+    console.log(numberPagesLeftTotal);
+    // console.log(
+    //   Math.round((numberPagesLeftTotal / daysLeft + Number.EPSILON) * 100) / 100
+    // );
+    // console.log(numberPagesLeftTotal / daysLeft);
+    const numberPagesPerDay = roundToTwoDecimals(
+      numberPagesLeftTotal / daysLeft
+    );
 
     chunks.push({
       subject: exam.subject,
@@ -149,7 +157,7 @@ function getCalendarChunks(exams) {
         numberPagesLeftTotal,
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
-        durationPerDay: numberPagesPerDay * exam.timePerPage
+        durationPerDay: Math.round(numberPagesPerDay * exam.timePerPage)
       },
       //TODO: GENERATE
       color: generateSubjectColor(exam)
