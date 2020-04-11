@@ -103,6 +103,7 @@
       button:nth-child(3) {
         color: transparent;
         text-transform: uppercase;
+        padding-right: 5px;
 
         &:after {
           content: "";
@@ -172,7 +173,7 @@
             margin: 0;
           }
           .rbc-show-more {
-            padding: 15px 5px;
+            padding: 12px 5px;
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, 12px);
             letter-spacing: 0;
@@ -192,6 +193,15 @@
         }
       }
     }
+  }
+}
+
+// popup show more
+.rbc-overlay {
+  border: 2px solid theme_color("dark") !important;
+  box-shadow: none !important;
+  .rbc-overlay-header {
+    border-bottom: 2px solid theme_color("dark") !important;
   }
 }
 

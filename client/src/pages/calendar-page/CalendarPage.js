@@ -9,6 +9,9 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_CALENDAR_CHUNKS } from "../../graphQL/queries"
 
+// helpers ----------------
+import { formatDate, minuteToHours } from "../../helpers/dates"
+
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
@@ -41,46 +44,32 @@ const ExamsCalendar = () => {
     exams = data.calendarChunks
   }
 
-  console.log(exams)
-
-  // const exams = [
-  //   {
-  //     subject: "Computer Networking",
-  //     start: "2020-04-01",
-  //     end: "2020-04-03",
-  //     details: {
-  //       examDate: "30/04/2020",
-  //       currentPage: "7",
-  //       numberPagesToday: "20",
-  //       duration: "3 min.",
-  //     },
-  //     color: "#ef7a20",
-  //   },
-  // ]
-
   const Event = ({ event }) => {
     let popoverClick = (
       <Popover
         style={{
           zIndex: 100,
           padding: "18px",
-          border: "1px solid black",
+          border: "2px solid black",
           borderRadius: "0",
         }}
       >
         <p className="popover-text">
           <strong>{event.subject}</strong>
         </p>
-        <p className="popover-text">Deadline: {event.details.examDate}</p>
+        <p className="popover-text">
+          Deadline: {formatDate(event.details.examDate)}
+        </p>
         <p className="popover-text">
           Page {event.details.currentPage} to{" "}
           {event.details.numberPagesLeftTotal}
         </p>
         <p className="popover-text">
-          Duration per day: {event.details.durationPerDay} min.
+          Duration per day: <br></br>{" "}
+          {minuteToHours(event.details.durationPerDay)}
         </p>
         <p className="popover-text">
-          Duration total: {event.details.durationTotal} min.
+          Duration total: <br></br> {minuteToHours(event.details.durationTotal)}
         </p>
       </Popover>
     )
@@ -113,6 +102,7 @@ const ExamsCalendar = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <Calendar
+              popup
               startAccessor="start"
               endAccessor="end"
               style={{ height: 900 }}
@@ -120,6 +110,7 @@ const ExamsCalendar = () => {
               defaultDate={moment().toDate()}
               localizer={localizer}
               formats={weekDayFormats}
+              defaultView={"month"}
               views={["month"]}
               components={{
                 event: Event,
