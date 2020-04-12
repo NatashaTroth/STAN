@@ -16,6 +16,7 @@ const examType = gql`
     currentPage: Int!
     notes: String
     pdfLink: String
+    color: String!
     completed: Boolean
     userId: ID!
   }
@@ -38,7 +39,7 @@ const examType = gql`
     examDate: Date!
     currentPage: Int!
     numberPagesLeftTotal: Int!
-    numberPagesPerDay: Int!
+    numberPagesPerDay: Float!
     durationTotal: Int!
     durationPerDay: Int!
   }

@@ -9,6 +9,7 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 import { numberOfPagesForChunk } from "../helpers/chunks";
+import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   startDateIsActive,
@@ -26,8 +27,9 @@ export function prepareExamInputData(args, userId) {
   args.currentPage = args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
+  args.color = generateSubjectColor(args);
 
-  return args;
+  return { ...args };
 }
 
 export function verifyExamInput(args) {
@@ -134,10 +136,17 @@ function getCalendarChunks(exams) {
 
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
-    const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+
+    //TODO - BETWEEN STARTDATE OR TODAY
+    let dayToStartCounting = exam.startDate;
+    if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
+    const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
+
     const numberPagesLeftTotal =
       exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+    const numberPagesPerDay = roundToTwoDecimals(
+      numberPagesLeftTotal / daysLeft
+    );
 
     chunks.push({
       subject: exam.subject,
@@ -149,15 +158,10 @@ function getCalendarChunks(exams) {
         numberPagesLeftTotal,
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
-        durationPerDay: numberPagesPerDay * exam.timePerPage
+        durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
       },
-      //TODO: GENERATE
-      color: generateSubjectColor(exam)
+      color: exam.color
     });
-
-    // for(let d = 0; d < daysLeft; d++){
-    //   chunks.push({ title: exam.subject, date: "2020-03-16" })
-    // }
   }
   return chunks;
 }
