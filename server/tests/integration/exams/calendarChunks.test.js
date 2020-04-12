@@ -57,9 +57,9 @@ describe("Test user resolver regex", () => {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 35,
-        numberPagesPerDay: 17.5,
+        numberPagesPerDay: 18,
         durationTotal: 350,
-        durationPerDay: 175
+        durationPerDay: 180
       },
       color: exam.color
     });
@@ -105,9 +105,9 @@ describe("Test user resolver regex", () => {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 50,
-        numberPagesPerDay: 2.38,
+        numberPagesPerDay: 3,
         durationTotal: 250,
-        durationPerDay: 12
+        durationPerDay: 15
       },
       color: exam.color
     });
