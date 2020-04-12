@@ -27,6 +27,7 @@ moment.locale("en-gb", {
 
 const localizer = momentLocalizer(moment)
 
+// TODO: react-bootstrap warning in der console
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
