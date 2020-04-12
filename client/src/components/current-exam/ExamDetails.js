@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import queryString from "query-string"
 // --------------------------------------------------------------
 
 // context ----------------
