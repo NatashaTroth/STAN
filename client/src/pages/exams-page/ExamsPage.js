@@ -146,11 +146,11 @@ const Exams = () => {
               <div className="exams__currentExams">{currentExams}</div>
             )}
 
-            <div className="exams__toggle-archive">
+            <div className="exams__archiveExamsToggle">
               <button
                 variant="button"
                 onClick={handleArchiveClick}
-                className="exams__toggle-archive--button"
+                className="exams__archiveExamsToggle--button"
               >
                 <h3>Past exams</h3>
               </button>
