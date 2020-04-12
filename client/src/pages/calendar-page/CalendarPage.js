@@ -52,41 +52,42 @@ const ExamsCalendar = () => {
           padding: "18px",
           border: "2px solid black",
           borderRadius: "0",
+          width: "300px",
         }}
       >
         <p className="popover-text">
           <strong>{event.subject}</strong>
-        </p>
-        <p className="popover-text">
-          Deadline: {formatDate(event.details.examDate)}
-        </p>
-        <p className="popover-text">
-          Page {event.details.currentPage} to{" "}
+          <strong>Exam date:</strong> {formatDate(event.details.examDate)}
+          <br></br>
+          <strong>Current page: </strong>
+          {event.details.currentPage}
+          <br></br>
+          <strong>Total pages left: </strong>{" "}
           {event.details.numberPagesLeftTotal}
-        </p>
-        <p className="popover-text">
-          Duration per day: <br></br>{" "}
+          <br></br>
+          <strong>Pages per day to learn: </strong>{" "}
+          {event.details.numberPagesPerDay}
+          <br></br>
+          <strong>Duration per day:</strong>{" "}
           {minuteToHours(event.details.durationPerDay)}
-        </p>
-        <p className="popover-text">
-          Duration total: <br></br> {minuteToHours(event.details.durationTotal)}
+          <br></br>
+          <strong>Duration total:</strong>{" "}
+          {minuteToHours(event.details.durationTotal)}
         </p>
       </Popover>
     )
 
     return (
-      <div className="overlay">
-        <OverlayTrigger
-          id="help"
-          rootClose
-          trigger="click"
-          container={this}
-          placement="top"
-          overlay={popoverClick}
-        >
-          <div>{event.subject}</div>
-        </OverlayTrigger>
-      </div>
+      <OverlayTrigger
+        id="help"
+        rootClose
+        trigger="click"
+        container={this}
+        placement="top"
+        overlay={popoverClick}
+      >
+        <div>{event.subject}</div>
+      </OverlayTrigger>
     )
   }
 

@@ -118,7 +118,7 @@
 
     .rbc-month-view {
       // box-content
-      margin-bottom: 30px;
+      margin-bottom: 50px;
       margin-top: 10px;
       border: 2px solid theme-color("dark");
       box-shadow: 10px 10px 0px -2px theme-color("dark");
@@ -202,6 +202,17 @@
   box-shadow: none !important;
   .rbc-overlay-header {
     border-bottom: 2px solid theme_color("dark") !important;
+
+    // font size
+    font-family: $font-family-OpenSans-Regular;
+    @include rem(font-size, 12px);
+    letter-spacing: 0;
+    @include rem(line-height, 20px);
+    margin: 0;
+    padding: 5px 0px;
+  }
+  div:nth-child(2) {
+    margin-top: 10px;
   }
 }
 
@@ -211,9 +222,23 @@
     &:before {
       border-top-color: theme_color("dark");
     }
+    &:after {
+      border-width: 0.5rem 0.5rem 2px;
+    }
   }
 }
 
 .popover-text {
   font-size: 12px !important;
+  strong:nth-child(1) {
+    &:after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 2px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      background-color: theme_color("dark");
+    }
+  }
 }
