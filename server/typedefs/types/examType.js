@@ -39,7 +39,7 @@ const examType = gql`
     examDate: Date!
     currentPage: Int!
     numberPagesLeftTotal: Int!
-    numberPagesPerDay: Float!
+    numberPagesPerDay: Int!
     durationTotal: Int!
     durationPerDay: Int!
   }
