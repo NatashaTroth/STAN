@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 import queryString from "query-string"
 // --------------------------------------------------------------
@@ -21,8 +21,10 @@ import ExamBar from "../progressbar/ProgressBar"
 import { getNumberOfDays, formatDate } from "../../helpers/dates"
 
 const getParamId = location => {
-  let params = queryString.parse(location.search)
-  return params.id
+  const searchParams = new URLSearchParams(location.search)
+  return {
+    id: searchParams.get("id") || "0",
+  }
 }
 
 const ExamDetails = () => {
@@ -30,22 +32,23 @@ const ExamDetails = () => {
   let history = useHistory()
   let [edit, openEdit] = useState(false)
   const location = useLocation()
+  let paramId = getParamId(location)
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
-    variables: { id: getParamId(location) },
+    variables: { id: paramId.id },
   })
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  if (currentUser === undefined || paramId.id === "0") {
     return <Redirect to="/login" />
   }
 
   // variables ----------------
   let examDetails
   if (loading) return <p className="loading">loading...</p>
-  if (error) window.location.reload()
+  if (error) return <p>error...</p>
   if (data) {
     examDetails = {
       id: data.exam.id,
@@ -215,9 +218,11 @@ const ExamDetails = () => {
                                 <div className="exam-data">
                                   <h4>Studied</h4>
                                   <p>
-                                    {(100 * examDetails.currentPage) /
+                                    {(
+                                      (100 * examDetails.currentPage) /
                                       (examDetails.numberPages *
-                                        examDetails.timesRepeat)}
+                                        examDetails.timesRepeat)
+                                    ).toFixed(2)}
                                     % of 100%
                                   </p>
                                 </div>

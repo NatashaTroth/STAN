@@ -63,12 +63,10 @@ const Exams = () => {
   currentExams = currentExamsList.map(function(exam) {
     return (
       <div key={exam.id}>
-        <Link
-          to={{
-            pathname: `${url}/${exam.subject
-              .toLowerCase()
-              .replace(/ /g, "-")}?id=${exam.id}`,
-          }}
+        <a
+          href={`${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}?id=${
+            exam.id
+          }`}
         >
           <Exam
             subject={exam.subject}
@@ -76,7 +74,7 @@ const Exams = () => {
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
           />
-        </Link>
+        </a>
       </div>
     )
   })
@@ -84,12 +82,10 @@ const Exams = () => {
   archiveExams = archiveExamsList.map(function(exam) {
     return (
       <div key={exam.id}>
-        <Link
-          to={{
-            pathname: `${url}/${exam.subject
-              .toLowerCase()
-              .replace(/ /g, "-")}?id=${exam.id}`,
-          }}
+        <a
+          href={`${url}/${exam.subject.toLowerCase().replace(/ /g, "-")}?id=${
+            exam.id
+          }`}
         >
           <Exam
             subject={exam.subject}
@@ -97,7 +93,7 @@ const Exams = () => {
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
           />
-        </Link>
+        </a>
       </div>
     )
   })

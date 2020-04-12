@@ -4,6 +4,8 @@ import {
   CURRENT_USER,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS,
+  GET_CALENDAR_CHUNKS,
+  GET_EXAM_QUERY,
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
@@ -38,6 +40,8 @@ function AddNew() {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS },
+          { query: GET_CALENDAR_CHUNKS },
+          { query: GET_EXAM_QUERY },
         ],
       })
 
