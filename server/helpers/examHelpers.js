@@ -9,7 +9,7 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 import { numberOfPagesForChunk } from "../helpers/chunks";
-import { roundToTwoDecimals } from "../helpers/generalHelpers";
+// import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   startDateIsActive,
