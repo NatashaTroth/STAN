@@ -16,9 +16,6 @@ import ExamDetailsInfo from "../current-exam/ExamDetailsInfo"
 // sub-components ----------------
 import Button from "../button/Button"
 
-// helpers ----------------
-import { getNumberOfDays, formatDate } from "../../helpers/dates"
-
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)
   return {
