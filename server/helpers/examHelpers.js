@@ -144,9 +144,7 @@ function getCalendarChunks(exams) {
 
     const numberPagesLeftTotal =
       exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    const numberPagesPerDay = roundToTwoDecimals(
-      numberPagesLeftTotal / daysLeft
-    );
+    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
 
     chunks.push({
       subject: exam.subject,
