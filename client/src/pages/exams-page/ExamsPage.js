@@ -122,7 +122,6 @@ const Exams = () => {
               <div className="exams__empty">
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-md-2"></div>
                     <div className="col-md-6">
                       <div className="exams__empty__content box-content">
                         <div className="exams__empty__content--headline">
@@ -142,8 +141,8 @@ const Exams = () => {
                           </Link>
                         </div>
                       </div>
+                      <div className="col-md-6"></div>
                     </div>
-                    <div className="col-md-2"></div>
                   </div>
                 </div>
               </div>
@@ -167,12 +166,12 @@ const Exams = () => {
                 <div className="exams__empty">
                   <div className="container-fluid">
                     <div className="row">
-                      <div className="col-md-3">
+                      <div className="col-md-4">
                         <div className="exams__empty--pastExams box-content">
                           <p>no past exams</p>
                         </div>
                       </div>
-                      <div className="col-md-9"></div>
+                      <div className="col-md-8"></div>
                     </div>
                   </div>
                 </div>
