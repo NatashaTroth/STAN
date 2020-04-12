@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react"
-import { BrowserRouter as Router, NavLink } from "react-router-dom"
+import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import { Cube } from "react-preloaders"
 // --------------------------------------------------------------
 
@@ -34,8 +34,7 @@ const Navbar = () => {
   }
 
   // variables ----------------
-  let body,
-    backdrop = null
+  let backdrop = null
 
   // functions & conditions ----------------
   const handleClickSidebar = () => {
@@ -55,24 +54,23 @@ const Navbar = () => {
       <Router className="sidebar">
         <div className="burger">
           <div className={isSideBarOpen ? "closeBurger" : "openBurger"}>
-            <a href="/">
+            <Link to="/">
               <img src={Logo} alt="Stans Logo" className="burger__logo-img" />
-            </a>
+            </Link>
             <BurgerButton click={handleClickSidebar} />
           </div>
         </div>
         <nav className={isSideBarOpen ? "showNav" : "closeNav"}>
           <div className="sidebar__items">
             <div className="sidebar__items__logo">
-              <a href="/">
+              <Link to="/">
                 <img
                   src={Logo}
                   alt="Stans Logo"
                   className="sidebar__items__logo--img"
                 />
-              </a>
+              </Link>
             </div>
-            {body}
             <ul className="sidebar__items__list">
               <div className="sidebar__items__list__menu-top">
                 {!currentUser ? (

@@ -9,7 +9,7 @@ function NoMatch404() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <div className="col-md-8">
+          <div className="col-md-10">
             <h2 className="nomatch__headline">Awww...Don't Cry.</h2>
             <h3 className="nomatch__sub-headline">It's just a 404 Error!</h3>
             <p className="nomatch__content">

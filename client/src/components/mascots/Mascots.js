@@ -42,48 +42,50 @@ function Mascots() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2"></div>
-          <div className="col-md-7 mascots__inner">
-            <div className="mascots__inner__heading">
-              <h2>Almost there...</h2>
-            </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mascots__inner--box box-content"
-            >
-              <div className="mascots__inner--box__sub-heading">
-                <p>
-                  Choose your mascot, <br />
-                  you can change it afterwards in your profile
-                </p>
+          <div className="col-md-7">
+            <div className="mascots__inner">
+              <div className="mascots__inner__heading">
+                <h2>Almost there...</h2>
               </div>
-
-              <div className="mascots__inner--box__carousel">
-                <Carousel
-                  showStatus={false}
-                  showThumbs={false}
-                  useKeyboardArrows={true}
-                  onChange={handleMascotCallback}
-                >
-                  <Image path={VeryHappyMascot} text="a very happy mascot" />
-                  <Image
-                    path={VeryHappyGirlyMascot}
-                    text="a very happy girly mascot"
-                  />
-                  <Image
-                    path={VeryHappyCleverMascot}
-                    text="a very happy clever mascot"
-                  />
-                </Carousel>
-
-                <div className="mascots__inner__btn">
-                  <Button
-                    variant="button"
-                    text="Save"
-                    className="stan-btn-primary"
-                  />
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mascots__inner--box box-content"
+              >
+                <div className="mascots__inner--box__sub-heading">
+                  <p>
+                    Choose your mascot, <br />
+                    you can change it afterwards in your profile
+                  </p>
                 </div>
-              </div>
-            </form>
+
+                <div className="mascots__inner--box__carousel">
+                  <Carousel
+                    showStatus={false}
+                    showThumbs={false}
+                    useKeyboardArrows={true}
+                    onChange={handleMascotCallback}
+                  >
+                    <Image path={VeryHappyMascot} text="a very happy mascot" />
+                    <Image
+                      path={VeryHappyGirlyMascot}
+                      text="a very happy girly mascot"
+                    />
+                    <Image
+                      path={VeryHappyCleverMascot}
+                      text="a very happy clever mascot"
+                    />
+                  </Carousel>
+
+                  <div className="mascots__inner__btn">
+                    <Button
+                      variant="button"
+                      text="Save"
+                      className="stan-btn-primary"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
           <div className="col-md-3"></div>
         </div>
