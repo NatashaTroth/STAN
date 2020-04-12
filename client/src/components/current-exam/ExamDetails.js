@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -11,10 +11,10 @@ import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
 import ExamDetailsEdit from "../current-exam/ExamDetailsEdit"
+import ExamDetailsInfo from "../current-exam/ExamDetailsInfo"
 
 // sub-components ----------------
 import Button from "../button/Button"
-import ExamBar from "../progressbar/ProgressBar"
 
 // helpers ----------------
 import { getNumberOfDays, formatDate } from "../../helpers/dates"
@@ -49,28 +49,8 @@ const ExamDetails = () => {
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...</p>
   if (data) {
-    examDetails = {
-      id: data.exam.id,
-      subject: data.exam.subject,
-      examDate: data.exam.examDate,
-      startDate: data.exam.startDate,
-      numberPages: data.exam.numberPages,
-      timePerPage: data.exam.timePerPage,
-      timesRepeat: data.exam.timesRepeat,
-      currentPage: data.exam.currentPage,
-      notes: data.exam.notes,
-      pdfLink: data.exam.pdfLink,
-      completed: data.exam.completed,
-    }
+    examDetails = data.exam
   }
-
-  // calculation ----------------
-  const today = new Date()
-
-  const todaysDayUntilDeadline = getNumberOfDays(
-    today,
-    new Date(examDetails.examDate)
-  )
 
   // functions ----------------
   const handleEdit = () => {
@@ -106,194 +86,55 @@ const ExamDetails = () => {
                       </div>
 
                       <div className="exam-details__inner--bar--right">
-                        <div
-                          className={
-                            edit || examDetails.completed
-                              ? "hideExamDetails"
-                              : "showExamDetails"
-                          }
-                        >
+                        {!edit && !examDetails.completed ? (
                           <Button
                             variant="button"
                             onClick={handleEdit}
                             className="exam-btn"
                             text="edit"
                           />
-                        </div>
+                        ) : null}
 
-                        <div
-                          className={
-                            edit ? "showExamDetails" : "hideExamDetails"
-                          }
-                        >
+                        {edit && !examDetails.completed ? (
                           <Button
                             variant="button"
                             onClick={handleEdit}
                             className="exam-btn"
                             text="back"
                           />
-                        </div>
+                        ) : null}
 
-                        <div
-                          className={
-                            edit || examDetails.completed
-                              ? "showExamDetails"
-                              : "hideExamDetails"
-                          }
-                        >
+                        {edit || examDetails.completed ? (
                           <Button
                             variant="button"
                             className="exam-btn delete-btn"
                             text="delete"
                           />
-                        </div>
+                        ) : null}
 
                         <Button
                           variant="button"
                           onClick={() => {
                             history.goBack()
                           }}
-                          className="closeExam exam-btn"
+                          className="exam-btn close-btn"
                           text="close"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="col-md-12">
-                    <div className={edit ? "showForm" : "hideForm"}>
-                      <div className="exam-details__inner--form">
-                        <ExamDetailsEdit examId={examDetails.id} />
-                      </div>
+                  {edit ? (
+                    <div className="col-md-12">
+                      <ExamDetailsEdit examId={examDetails.id} />
                     </div>
-                  </div>
+                  ) : null}
 
-                  <div className="col-md-12">
-                    <div
-                      className={edit ? "hideExamDetails" : "showExamDetails"}
-                    >
-                      <div className="exam-details__inner--details">
-                        <div className="container-fluid">
-                          <div className="row">
-                            <div className="col-md-4">
-                              <div className="exam-details__inner--details--left">
-                                <div className="exam-data">
-                                  <h4>Exam date</h4>
-                                  <p>{formatDate(examDetails.examDate)}</p>
-                                </div>
-
-                                <div className="exam-data">
-                                  <h4>Start learning on</h4>
-                                  <p>{formatDate(examDetails.startDate)}</p>
-                                </div>
-
-                                <div className="exam-data">
-                                  <h4>Amount of pages</h4>
-                                  <p>{examDetails.numberPages}</p>
-                                </div>
-
-                                <div className="exam-data">
-                                  <h4>Time per pages</h4>
-                                  <p>{examDetails.timePerPage} min.</p>
-                                </div>
-
-                                <div className="exam-data">
-                                  <h4>Repeat</h4>
-                                  {examDetails.timesRepeat > 1 ? (
-                                    <p>{examDetails.timesRepeat} times</p>
-                                  ) : (
-                                    <p>{examDetails.timesRepeat} time</p>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="col-md-8">
-                              <div className="exam-details__inner--details--right">
-                                <div className="exam-data">
-                                  <h4>Days until deadline</h4>
-                                  <p>{todaysDayUntilDeadline} days left</p>
-                                </div>
-                                <div className="exam-data">
-                                  <h4>Studied</h4>
-                                  <p>
-                                    {(
-                                      (100 * examDetails.currentPage) /
-                                      (examDetails.numberPages *
-                                        examDetails.timesRepeat)
-                                    ).toFixed(2)}
-                                    % of 100%
-                                  </p>
-                                </div>
-                                <div className="exam-pages">
-                                  <h4>Pages left</h4>
-
-                                  <div className="exam-pages__bar">
-                                    <ExamBar
-                                      value={
-                                        (100 * examDetails.currentPage) /
-                                        (examDetails.numberPages *
-                                          examDetails.timesRepeat)
-                                      }
-                                    />
-
-                                    <div className="exam-pages__bar--status">
-                                      <p>
-                                        {Math.round(
-                                          examDetails.numberPages -
-                                            examDetails.currentPage
-                                        )}{" "}
-                                        pages left
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="exam-data">
-                                  <h4>Pages studied</h4>
-                                  <p>
-                                    {examDetails.currentPage}/
-                                    {examDetails.numberPages}
-                                  </p>
-                                </div>
-                                <div className="exam-data pdf">
-                                  <div className="pdf--file">
-                                    <h4>PDF file</h4>
-
-                                    <p>{examDetails.pdfLink}</p>
-                                  </div>
-                                  <a
-                                    href={examDetails.pdfLink}
-                                    target="_blank"
-                                    className="stan-btn-secondary"
-                                  >
-                                    open
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="exam-details__inner--details--bottom">
-                          <div className="container-fluid">
-                            <div className="row">
-                              <div className="col-md-12">
-                                <h4>Notes</h4>
-
-                                <div className="notes">
-                                  {!examDetails.notes ? (
-                                    <p>...</p>
-                                  ) : (
-                                    <p>{examDetails.notes}</p>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  {!edit ? (
+                    <div className="col-md-12">
+                      <ExamDetailsInfo examDetails={examDetails} />
                     </div>
-                  </div>
+                  ) : null}
                 </div>
               </div>
             </div>

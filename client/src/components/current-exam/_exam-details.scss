@@ -52,14 +52,6 @@
   &__inner {
     padding: 20px;
 
-    .hideForm,
-    .hideExamDetails {
-      display: none;
-    }
-    .showForm,
-    .showExamDetails {
-      display: block;
-    }
     &--bar {
       display: flex;
       flex-direction: row;
@@ -95,10 +87,12 @@
           padding: 0 0 0 10px;
           margin: 0;
 
+          &:hover {
+            color: theme-color("primary-yellow");
+          }
           &:hover,
           &:focus,
           &:active {
-            color: theme-color("primary-yellow");
             text-decoration: none;
             outline: none;
           }
@@ -111,7 +105,7 @@
           }
         }
 
-        .closeExam {
+        .close-btn {
           display: none;
 
           @include media-breakpoint-down(md) {
