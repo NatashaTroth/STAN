@@ -66,10 +66,10 @@ const ExamsCalendar = () => {
           <strong>Total pages left: </strong>{" "}
           {event.details.numberPagesLeftTotal}
           <br></br>
-          <strong>Pages per day to learn: </strong>{" "}
+          <strong>Pages per day to learn: </strong> ca.{" "}
           {event.details.numberPagesPerDay}
           <br></br>
-          <strong>Duration per day:</strong>{" "}
+          <strong>Duration per day:</strong> ca.{" "}
           {minuteToHours(event.details.durationPerDay)}
           <br></br>
           <strong>Duration total:</strong>{" "}
