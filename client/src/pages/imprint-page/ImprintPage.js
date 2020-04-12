@@ -10,7 +10,7 @@ import Image from "../../components/image/Image"
 function Imprint() {
   // return ----------------
   return (
-    <div className="imprint-page">
+    <div className="imprint">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
@@ -19,17 +19,17 @@ function Imprint() {
               <h2>Imprint</h2>
             </div>
 
-            <div className="imprint__content imprint-content">
+            <div className="imprint__team">
               <p>This is a MultiMedia Project 3 by Natasha, Tra and Daniela.</p>
 
               <Image
                 path={Stan}
                 alt="a mascot is holding up a letter"
-                className="imprint__content--mascot"
+                className="imprint__team--mascot"
               />
             </div>
 
-            <div className="imprint__content">
+            <div className="imprint__address">
               <p>
                 Fachhochschule Salzburg GmbH
                 <br></br>
@@ -40,11 +40,14 @@ function Imprint() {
               </p>
             </div>
 
-            <div className="imprint__content">
-              <div className="imprint__content--contact">
+            <div className="imprint__contact-details">
+              <div className="imprint__contact-details--block">
                 <p>
                   <strong>T </strong>
-                  <a href="tel:+435022110" className="imprint__content--link">
+                  <a
+                    href="tel:+435022110"
+                    className="imprint__contact-details--link"
+                  >
                     +43 50-2211-0
                   </a>
                 </p>
@@ -60,7 +63,7 @@ function Imprint() {
               </div>
             </div>
 
-            <div className="imprint__content">
+            <div className="imprint__copyright">
               <p>© 2020 FH Salzburg</p>
             </div>
           </div>

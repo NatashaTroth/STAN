@@ -9,6 +9,7 @@
 
 .imprint {
   &__headline {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -19,18 +20,8 @@
       padding-bottom: 80px;
     }
   }
-  .imprint-content {
-    position: relative;
-  }
-  &__content {
-    margin: 25px 0;
 
-    &--contact p {
-      padding: 5px 0;
-    }
-    &--link {
-      border-bottom: 1px solid theme-color("dark");
-    }
+  &__team {
     &--mascot {
       width: 280px;
       position: absolute;
@@ -46,6 +37,23 @@
 
       @include media-breakpoint-down(sm) {
         display: none;
+      }
+    }
+  }
+  &__team,
+  &__address,
+  &__contact-details,
+  &__copyright {
+    margin: 25px 0;
+  }
+
+  &__contact-details {
+    &--link {
+      border-bottom: 1px solid theme-color("dark");
+    }
+    &--block {
+      p {
+        padding: 5px 0;
       }
     }
   }
