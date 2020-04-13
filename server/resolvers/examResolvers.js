@@ -91,7 +91,6 @@ export const examResolvers = {
     updateExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-
         const processedArgs = await handleUpdateExamInput(
           args,
           context.userInfo.userId

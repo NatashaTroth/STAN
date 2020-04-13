@@ -5,12 +5,14 @@ import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 
 import {
   ADD_EXAM_MUTATION,
-  UPDATE_CURRENT_PAGE_MUTATION
+  UPDATE_CURRENT_PAGE_MUTATION,
+  UPDATE_EXAM_MUTATION
 } from "../../mutations.js";
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS
+  GET_TODAYS_CHUNKS,
+  GET_CALENDAR_CHUNKS
 } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -94,5 +96,29 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 
+  it("should not be able to fetch calendar chunks", async () => {
+    const resp = await query({
+      query: GET_CALENDAR_CHUNKS
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not update the exam", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: "id",
+        subject: "Editable Exam",
+        examDate: "2122-08-11",
+        startDate: "2122-08-05",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 1
+      }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
   //TODO ADD NEWER RESOLVERS
 });
