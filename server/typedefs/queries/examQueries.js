@@ -31,11 +31,11 @@ const examQueries = gql`
       startDate: Date!
       numberPages: Int!
       timePerPage: Int!
-      timesRepeat: Int!
-      startPage: Int!
-      notes: String!
-      pdfLink: String!
-      completed: Boolean!
+      timesRepeat: Int
+      startPage: Int
+      notes: String
+      pdfLink: String
+      completed: Boolean
     ): Exam!
 
     updateCurrentPage(examId: ID!, page: Int!): Boolean

@@ -41,6 +41,48 @@ export const ADD_EXAM_MUTATION = gql`
   }
 `
 
+export const UPDATE_EXAM_MUTATION = gql`
+  mutation(
+    $id: ID!
+    $subject: String!
+    $examDate: Date!
+    $startDate: Date!
+    $numberPages: Int!
+    $timePerPage: Int!
+    $timesRepeat: Int
+    $startPage: Int
+    $notes: String
+    $pdfLink: String
+    $completed: Boolean
+  ) {
+    updateExam(
+      id: $id
+      subject: $subject
+      examDate: $examDate
+      startDate: $startDate
+      numberPages: $numberPages
+      timePerPage: $timePerPage
+      timesRepeat: $timesRepeat
+      startPage: $startPage
+      notes: $notes
+      pdfLink: $pdfLink
+      completed: $completed
+    ) {
+      id
+      subject
+      examDate
+      startDate
+      numberPages
+      timePerPage
+      timesRepeat
+      startPage
+      notes
+      pdfLink
+      completed
+    }
+  }
+`
+
 export const UPDATE_CURRENT_PAGE_MUTATION = gql`
   mutation($examId: ID!, $page: Int!) {
     updateCurrentPage(examId: $examId, page: $page)
