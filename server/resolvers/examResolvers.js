@@ -8,7 +8,8 @@ import {
   verifyExamInput,
   handleCurrentPageInput,
   fetchTodaysChunks,
-  fetchCalendarChunks
+  fetchCalendarChunks,
+  handleUpdateExamInput
 } from "../helpers/examHelpers";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -17,6 +18,7 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import { ApolloError } from "apollo-server";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -86,10 +88,30 @@ export const examResolvers = {
       }
       return true;
     },
+    updateExam: async (root, args, context, info) => {
+      try {
+        handleAuthentication(context.userInfo);
+        const processedArgs = await handleUpdateExamInput(
+          args,
+          context.userInfo.userId
+        );
+        const resp = await Exam.updateOne(
+          { _id: args.id },
+          { ...processedArgs }
+        );
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The exam couldn't be updated.");
+        const updatedExam = await Exam.findOne({ _id: args.id });
+        return updatedExam;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     updateCurrentPage: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(context.userInfo);
+        //TODO: IS USER AUTHORISED TO UPDATE THIS EXAM
         const exam = await handleCurrentPageInput(
           args.page,
           args.examId,

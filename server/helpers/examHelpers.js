@@ -28,6 +28,7 @@ export function prepareExamInputData(args, userId) {
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
+  args.updatedAt = new Date();
 
   return { ...args };
 }
@@ -49,6 +50,20 @@ export function verifyExamInput(args) {
 
   if (args.startPage && args.startPage > args.numberPages)
     throw new ApolloError("Start page cannot higher than the number of pages.");
+}
+
+export async function handleUpdateExamInput(args, userId) {
+  const exam = await Exam.findOne({
+    _id: args.id,
+    userId: userId
+  });
+  if (!exam)
+    throw new ApolloError(
+      "No exam exists with this exam id: " + args.id + " for this user."
+    );
+
+  verifyExamInput(args, userId);
+  return prepareExamInputData({ ...args }, userId);
 }
 
 export async function handleCurrentPageInput(page, examId, userId) {
