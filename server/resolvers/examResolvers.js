@@ -8,7 +8,8 @@ import {
   verifyExamInput,
   handleCurrentPageInput,
   fetchTodaysChunks,
-  fetchCalendarChunks
+  fetchCalendarChunks,
+  handleUpdateExamInput
 } from "../helpers/examHelpers";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -90,22 +91,11 @@ export const examResolvers = {
     updateExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-        //TODO PROBLEM: IF EXAM NOT CHANGED - BUT USER CLICKS ON UPDATE - WON'T UPDATE CAUSE OF NMODIFIED
-        const exam = await Exam.findOne({
-          _id: args.id,
-          userId: context.userInfo.userId
-        });
-        if (!exam)
-          throw new ApolloError(
-            "No exam exists with this exam id: " + args.id + " for this user."
-          );
 
-        verifyExamInput(args, context.userInfo.userId);
-        const processedArgs = prepareExamInputData(
-          { ...args },
+        const processedArgs = await handleUpdateExamInput(
+          args,
           context.userInfo.userId
         );
-
         const resp = await Exam.updateOne(
           { _id: args.id },
           { ...processedArgs }
