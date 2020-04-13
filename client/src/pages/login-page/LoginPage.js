@@ -27,6 +27,7 @@ function LoginPage() {
             </p>
           </div>
           <div className="col-md-1"></div>
+
           <div className="col-md-2"></div>
           <div className="col-md-8 login__form-container">
             <LoginForm />
