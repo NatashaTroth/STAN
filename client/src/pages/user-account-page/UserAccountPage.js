@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
@@ -20,6 +20,9 @@ import CountUp from "react-countup"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
+// components ----------------
+import UserAccountEdit from "./UserAccountEdit"
+
 // sub components ----------------
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
@@ -27,6 +30,8 @@ import Image from "../../components/image/Image"
 function UserAccount() {
   // history ----------------
   const history = useHistory()
+
+  const [edit, openEdit] = useState(false)
 
   // query ----------------
   // TODO: fetch only one query per component
@@ -44,6 +49,11 @@ function UserAccount() {
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
+  }
+
+  // functions ----------------
+  const handleEdit = () => {
+    openEdit(edit => !edit)
   }
 
   // get and count all exams and todays chunks ----------------
@@ -142,109 +152,121 @@ function UserAccount() {
         </div>
       </div>
 
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-1"></div>
-          <div className="col-md-5">
-            <div className="user-account__container--left">
-              <div className="user-account__container--left--top box-content">
-                <div className="user-data">
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <h3>{currentUser.username}</h3>}
-                  </CurrentUserContext.Consumer>
-
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <p>{currentUser.email}</p>}
-                  </CurrentUserContext.Consumer>
-                </div>
-
-                <div className="buttons">
-                  <Button variant="button" text="edit" />
-                  {logoutButton}
-                </div>
-              </div>
-
-              <div className="user-account__container--left--bottom box-content">
-                <div className="total-exam">
-                  <CountUp
-                    start={0}
-                    end={totalExams}
-                    duration={2.75}
-                    delay={0.5}
-                  />
-                  <p>
-                    total exams <br /> to study
-                  </p>
-                </div>
-
-                <div className="finished-exam">
-                  <CountUp
-                    start={0}
-                    end={finishedExams}
-                    duration={2.75}
-                    delay={0.5}
-                  />
-                  <p>exams finished</p>
-                </div>
-              </div>
+      {edit ? (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-1"></div>
+            <div className="col-md-9">
+              <UserAccountEdit />
             </div>
+            <div className="col-md-2"></div>
           </div>
-
-          <div className="col-md-4">
-            <div className="user-account__container--right">
-              <div className="user-account__container--right--top box-content">
-                <h4>current state:</h4>
-                <p>{mood}</p>
-              </div>
-
-              <div className="user-account__container--right--bottom box-content">
-                <Carousel
-                  showStatus={false}
-                  showThumbs={false}
-                  infiniteLoop={true}
-                  showIndicators={false}
-                  autoPlay={true}
-                  showArrows={false}
-                >
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-0.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
-
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-1.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
-
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-2.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
-                </Carousel>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-2"></div>
         </div>
-      </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-1"></div>
+            <div className="col-md-5">
+              <div className="user-account__container--left">
+                <div className="user-account__container--left--top box-content">
+                  <div className="user-data">
+                    <CurrentUserContext.Consumer>
+                      {currentUser => <h3>{currentUser.username}</h3>}
+                    </CurrentUserContext.Consumer>
+
+                    <CurrentUserContext.Consumer>
+                      {currentUser => <p>{currentUser.email}</p>}
+                    </CurrentUserContext.Consumer>
+                  </div>
+
+                  <div className="buttons">
+                    <Button variant="button" text="edit" onClick={handleEdit} />
+                    {logoutButton}
+                  </div>
+                </div>
+
+                <div className="user-account__container--left--bottom box-content">
+                  <div className="total-exam">
+                    <CountUp
+                      start={0}
+                      end={totalExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
+                    <p>
+                      total exams <br /> to study
+                    </p>
+                  </div>
+
+                  <div className="finished-exam">
+                    <CountUp
+                      start={0}
+                      end={finishedExams}
+                      duration={2.75}
+                      delay={0.5}
+                    />
+                    <p>exams finished</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="user-account__container--right">
+                <div className="user-account__container--right--top box-content">
+                  <h4>current state:</h4>
+                  <p>{mood}</p>
+                </div>
+
+                <div className="user-account__container--right--bottom box-content">
+                  <Carousel
+                    showStatus={false}
+                    showThumbs={false}
+                    infiniteLoop={true}
+                    showIndicators={false}
+                    autoPlay={true}
+                    showArrows={false}
+                  >
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <Image
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-0.svg`)}
+                          text=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <Image
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-1.svg`)}
+                          text=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+
+                    <CurrentUserContext.Consumer>
+                      {currentUser => (
+                        <Image
+                          path={require(`../../images/mascots/${
+                            currentUser.mascot
+                          }-${mood.replace(/ /g, "")}-2.svg`)}
+                          text=""
+                        />
+                      )}
+                    </CurrentUserContext.Consumer>
+                  </Carousel>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2"></div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
