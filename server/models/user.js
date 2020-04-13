@@ -37,8 +37,11 @@ const userSchema = new Schema(
       type: Boolean,
       default: false
     },
-    //TODO: updated at
     createdAt: {
+      type: Date,
+      default: new Date()
+    },
+    updatedAt: {
       type: Date,
       default: new Date()
     }

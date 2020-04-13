@@ -28,6 +28,7 @@ export function prepareExamInputData(args, userId) {
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
+  args.updatedAt = new Date();
 
   return { ...args };
 }

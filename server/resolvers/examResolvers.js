@@ -17,6 +17,7 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import { ApolloError } from "apollo-server";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -86,10 +87,42 @@ export const examResolvers = {
       }
       return true;
     },
+    updateExam: async (root, args, context, info) => {
+      try {
+        handleAuthentication(context.userInfo);
+        //TODO PROBLEM: IF EXAM NOT CHANGED - BUT USER CLICKS ON UPDATE - WON'T UPDATE CAUSE OF NMODIFIED
+        const exam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+        if (!exam)
+          throw new ApolloError(
+            "No exam exists with this exam id: " + args.id + " for this user."
+          );
+
+        verifyExamInput(args, context.userInfo.userId);
+        const processedArgs = prepareExamInputData(
+          { ...args },
+          context.userInfo.userId
+        );
+
+        const resp = await Exam.updateOne(
+          { _id: args.id },
+          { ...processedArgs }
+        );
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The exam couldn't be updated.");
+        const updatedExam = await Exam.findOne({ _id: args.id });
+        return updatedExam;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     updateCurrentPage: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(context.userInfo);
+        //TODO: IS USER AUTHORISED TO UPDATE THIS EXAM
         const exam = await handleCurrentPageInput(
           args.page,
           args.examId,
