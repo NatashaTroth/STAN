@@ -98,7 +98,7 @@ const ExamsCalendar = () => {
   }
 
   return (
-    <div className="examsCalendar">
+    <div className="exams-calendar">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
