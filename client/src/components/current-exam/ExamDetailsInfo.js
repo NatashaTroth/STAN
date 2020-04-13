@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
