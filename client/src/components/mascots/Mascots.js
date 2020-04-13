@@ -42,23 +42,27 @@ function Mascots() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2"></div>
+          <div className="col-md-10">
+            <div className="mascots__heading">
+              <h2>One more thing...</h2>
+            </div>
+          </div>
+
+          <div className="col-md-2"></div>
           <div className="col-md-7">
             <div className="mascots__inner">
-              <div className="mascots__inner__heading">
-                <h2>Almost there...</h2>
-              </div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="mascots__inner--box box-content"
+                className="mascots__inner--form box-content"
               >
-                <div className="mascots__inner--box__sub-heading">
+                <div className="mascots__inner--form__sub-heading">
                   <p>
                     Choose your mascot, <br />
                     you can change it afterwards in your profile
                   </p>
                 </div>
 
-                <div className="mascots__inner--box__carousel">
+                <div className="mascots__inner--form__carousel">
                   <Carousel
                     showStatus={false}
                     showThumbs={false}
@@ -76,7 +80,7 @@ function Mascots() {
                     />
                   </Carousel>
 
-                  <div className="mascots__inner__btn">
+                  <div className="mascots__inner--form__button">
                     <Button
                       variant="button"
                       text="Save"

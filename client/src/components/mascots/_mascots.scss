@@ -58,24 +58,21 @@
       }
     }
   }
+  &__heading {
+    padding-bottom: 20px;
+  }
   &__inner {
-    &--box {
+    &--form {
       padding: 30px;
       &__sub-heading {
         display: flex;
         justify-content: center;
-
-        p {
-          text-align: center;
-        }
+        text-align: center;
       }
-    }
-    &__heading {
-      padding-bottom: 20px;
-    }
-    &__btn {
-      display: flex;
-      justify-content: flex-end;
+      &__button {
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 }
