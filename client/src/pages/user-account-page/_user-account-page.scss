@@ -1,70 +1,44 @@
 .user-account {
   &__headline {
     padding-bottom: 60px;
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 40px;
+    }
   }
   &__container {
-    display: grid;
-    grid-template-areas: "top-left top-right" "bottom-left bottom-right";
-    grid-gap: 20px;
-
-    @include media-breakpoint-down(lg) {
-      grid-template-areas: "top";
-    }
-
     &--left {
       &--top {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 40px;
-        min-width: 500px;
 
-        @include media-breakpoint-down(lg) {
-          min-width: 0px;
-        }
-
-        &--user-data {
+        .user-data {
           display: flex;
-          flex-direction: row;
-          align-items: center;
-          flex-wrap: wrap;
-          img {
-            width: 140px;
-          }
-          .user-data {
-            display: flex;
-            flex-direction: column;
-            padding: 5px;
-          }
+          flex-direction: column;
+          padding: 40px;
         }
-        &--buttons {
-          text-align: right;
+        .buttons {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          padding: 10px;
+
           button {
             border: none;
             text-transform: lowercase;
-            position: relative;
-            padding: 0;
-            margin: 4px !important;
+            transition: all 0.3s ease;
+            background: none;
 
-            &:after {
-              content: "";
-              position: absolute;
-              width: 0;
-              height: 3px;
-              display: block;
-              right: 0;
-              background: theme_color("dark");
-              transition: width 0.3s ease;
+            &:hover {
+              color: theme_color("primary-yellow");
             }
-            &:hover:after {
-              width: 100%;
-              left: 0;
-              background: theme_color("dark");
-            }
-            &:focus {
+            &:focus,
+            &:active {
               outline: none;
             }
 
+            // font styling
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, $font-size-16);
             letter-spacing: 0;
@@ -84,36 +58,57 @@
         flex-direction: row;
         justify-content: space-around;
         padding: 40px;
-        text-align: center;
 
-        .total-exam span,
-        .finished-exam span {
-          color: theme_color("primary-blue-dark");
-          font-family: $font-family-BasierCircle-Bold;
-          @include rem(font-size, $h1-font-size);
-          @include rem(line-height, $h1-line-height);
-          @include rem(letter-spacing, 0);
+        @include media-breakpoint-down(1024px) {
+          flex-direction: column;
+          padding: 20px;
+        }
 
-          @include media-breakpoint-down(sm) {
-            @include rem(font-size, $h1-font-size-mobile);
-            @include rem(line-height, $h1-line-height-mobile);
+        @include media-breakpoint-down(sm) {
+          flex-direction: row;
+        }
+
+        // font styling
+        .total-exam,
+        .finished-exam {
+          padding: 10px;
+
+          p {
+            text-align: center;
+          }
+
+          span {
+            display: flex;
+            justify-content: center;
+            color: theme_color("primary-blue-dark");
+            font-family: $font-family-BasierCircle-Bold;
+            @include rem(font-size, $h1-font-size);
+            @include rem(line-height, $h1-line-height);
             @include rem(letter-spacing, 0);
+
+            @include media-breakpoint-down(sm) {
+              @include rem(font-size, $h1-font-size-mobile);
+              @include rem(line-height, $h1-line-height-mobile);
+              @include rem(letter-spacing, 0);
+            }
           }
         }
       }
     }
+
     &--right {
       &--top {
-        padding: 40px;
+        padding: 44px;
       }
       &--bottom {
-        padding: 10px;
+        // padding: 10px;
         display: flex;
         justify-content: center;
 
         .carousel {
           .slide {
             background: none;
+            padding: 15px;
 
             img {
               width: 235px;
