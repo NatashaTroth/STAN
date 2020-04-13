@@ -51,30 +51,33 @@ const Navbar = () => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Cube customLoading={loading} background="#ffffff" />
-      <Router className="sidebar">
+      <Router className="navigation">
         <div className="burger">
-          <div className={isSideBarOpen ? "closeBurger" : "openBurger"}>
+          <div className={isSideBarOpen ? "close-burger" : "open-burger"}>
             <Link to="/">
-              <img src={Logo} alt="Stans Logo" className="burger__logo-img" />
+              <img src={Logo} alt="Stans Logo" className="burger__logo" />
             </Link>
             <BurgerButton click={handleClickSidebar} />
           </div>
         </div>
-        <nav className={isSideBarOpen ? "showNav" : "closeNav"}>
-          <div className="sidebar__items">
-            <div className="sidebar__items__logo">
+
+        <nav
+          className={
+            isSideBarOpen ? "show-responsive-nav" : "close-responsive-nav"
+          }
+        >
+          <div className="navigation__items">
+            <div className="navigation__items--logo">
               <Link to="/">
-                <img
-                  src={Logo}
-                  alt="Stans Logo"
-                  className="sidebar__items__logo--img"
-                />
+                <img src={Logo} alt="Stans Logo" />
               </Link>
             </div>
-            <ul className="sidebar__items__list">
-              <div className="sidebar__items__list__menu-top">
+
+            <ul className="navigation__items--list">
+              <div className="menu-top">
+                {/* HOME & DASHBOARD */}
                 {!currentUser ? (
-                  <li className="list-item list-item--logged-out">
+                  <li className="">
                     <NavLink
                       strict
                       to="/"
@@ -85,38 +88,8 @@ const Navbar = () => {
                       Home
                     </NavLink>
                   </li>
-                ) : null}
-
-                {!currentUser ? (
-                  <li className="list-item list-item--logged-out">
-                    <NavLink
-                      strict
-                      to="/about"
-                      exact
-                      activeClassName="active"
-                      onClick={closeSidebar}
-                    >
-                      About
-                    </NavLink>
-                  </li>
-                ) : null}
-
-                {!currentUser ? (
-                  <li className="list-item list-item--logged-out">
-                    <NavLink
-                      strict
-                      to="/login"
-                      exact
-                      activeClassName="active"
-                      onClick={closeSidebar}
-                    >
-                      Login
-                    </NavLink>
-                  </li>
-                ) : null}
-
-                {currentUser ? (
-                  <li className="sidebar__items__list__menu-top__dashboard list-item list-item--logged-in">
+                ) : (
+                  <li className="dashboard">
                     <NavLink
                       strict
                       to="/"
@@ -127,10 +100,23 @@ const Navbar = () => {
                       Dashboard
                     </NavLink>
                   </li>
-                ) : null}
+                )}
 
-                {currentUser ? (
-                  <li className="sidebar__items__list__menu-top__add-new list-item list-item--logged-in">
+                {/* ABOUT & ADD NEW */}
+                {!currentUser ? (
+                  <li className="">
+                    <NavLink
+                      strict
+                      to="/about"
+                      exact
+                      activeClassName="active"
+                      onClick={closeSidebar}
+                    >
+                      About
+                    </NavLink>
+                  </li>
+                ) : (
+                  <li className="add-new">
                     <NavLink
                       strict
                       to="/add-new"
@@ -141,10 +127,23 @@ const Navbar = () => {
                       Add New
                     </NavLink>
                   </li>
-                ) : null}
+                )}
 
-                {currentUser ? (
-                  <li className="sidebar__items__list__menu-top__calendar list-item list-item--logged-in">
+                {/* LOGIN & Calendar */}
+                {!currentUser ? (
+                  <li className="">
+                    <NavLink
+                      strict
+                      to="/login"
+                      exact
+                      activeClassName="active"
+                      onClick={closeSidebar}
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                ) : (
+                  <li className="calendar">
                     <NavLink
                       strict
                       to="/calendar"
@@ -155,10 +154,11 @@ const Navbar = () => {
                       Calendar
                     </NavLink>
                   </li>
-                ) : null}
+                )}
 
+                {/* Exams */}
                 {currentUser ? (
-                  <li className="sidebar__items__list__menu-top__exams list-item list-item--logged-in">
+                  <li className="exams">
                     <NavLink
                       strict
                       to="/exams"
@@ -172,9 +172,10 @@ const Navbar = () => {
                 ) : null}
               </div>
 
-              <div className="sidebar__items__list__menu-bottom">
+              <div className="menu-bottom">
+                {/* USER PROFILE */}
                 {currentUser ? (
-                  <li>
+                  <li className="profile">
                     <NavLink
                       strict
                       to="/profile"
@@ -191,8 +192,9 @@ const Navbar = () => {
                   </li>
                 ) : null}
 
-                <li>Dark mode</li>
-                <li>
+                {/* PUBLIC ROUTES */}
+                <li className="dark-mode">Dark mode</li>
+                <li className="imprint">
                   <NavLink
                     strict
                     to="/imprint"
@@ -203,7 +205,7 @@ const Navbar = () => {
                     Imprint
                   </NavLink>
                 </li>
-                <li>
+                <li className="data-policy">
                   <NavLink
                     strict
                     to="/data-policy"
