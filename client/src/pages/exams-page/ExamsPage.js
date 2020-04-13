@@ -113,7 +113,15 @@ const Exams = () => {
             <div className="exams__headline">
               <h2>Current Exams</h2>
             </div>
+          </div>
+          <div className="col-md-1"></div>
+        </div>
+      </div>
 
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
             {currentExamsList.length === 0 ? (
               <div className="exams__empty">
                 <div className="container-fluid">
