@@ -10,7 +10,7 @@ import {
 } from "../setup";
 import { Exam } from "../../../models";
 
-import { ADD_EXAM_MUTATION, UPDATE_EXAM_MUTATION } from "../../mutations.js";
+import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
