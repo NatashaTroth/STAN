@@ -59,8 +59,11 @@ const examSchema = new Schema({
     type: String,
     required: true
   },
-  //TODO: updated at
   createdAt: {
+    type: Date,
+    default: new Date()
+  },
+  updatedAt: {
     type: Date,
     default: new Date()
   }

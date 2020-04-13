@@ -90,11 +90,11 @@ export const examResolvers = {
     updateExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
-
-        //CHECK USER ID THAT IS OK TO CHANGE THIS ONE
-
         //TODO PROBLEM: IF EXAM NOT CHANGED - BUT USER CLICKS ON UPDATE - WON'T UPDATE CAUSE OF NMODIFIED
-        const exam = await Exam.findOne({ _id: args.id });
+        const exam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
         if (!exam)
           throw new ApolloError(
             "No exam exists with this exam id: " + args.id + " for this user."
@@ -105,24 +105,18 @@ export const examResolvers = {
           { ...args },
           context.userInfo.userId
         );
-        console.log(JSON.stringify(processedArgs));
+
         const resp = await Exam.updateOne(
           { _id: args.id },
           { ...processedArgs }
         );
-        console.log(resp);
-        if (resp.nModified === 0)
+        if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
-        // if (resp.ok === 0)
-        //   throw new ApolloError(
-        //     "There was a problem and the exam couldn't be updated."
-        //   );
         const updatedExam = await Exam.findOne({ _id: args.id });
         return updatedExam;
       } catch (err) {
         handleResolverError(err);
       }
-      return true;
     },
     updateCurrentPage: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
