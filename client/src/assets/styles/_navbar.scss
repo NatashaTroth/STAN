@@ -10,18 +10,17 @@
 }
 
 .show-responsive-nav {
+  @include media-breakpoint-down(sm) {
+    .navigation__items {
+      max-width: 100%;
+    }
+  }
   @include media-breakpoint-down(md) {
     .navigation__items {
       max-width: 70%;
       transform: translate3d(0px, 0px, 0px);
       visibility: visible;
       transition: all 0.5s ease-in-out;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
-    .navigation__items {
-      max-width: 100%;
     }
   }
 }
@@ -74,7 +73,7 @@
         @include rem(letter-spacing, 1px);
         @include rem(font-size, 18px);
 
-        &.active {
+        &:active {
           color: theme-color("primary-yellow");
         }
       }
@@ -112,7 +111,7 @@
           }
         }
         .exams {
-          &::before {
+          &:before {
             content: url("../../images/icons/exams.svg");
             width: 27px;
             height: 31px;

@@ -115,10 +115,10 @@ const ExamDetailsInfo = ({ examDetails }) => {
         </div>
       </div>
 
-      <div className="exam-details__inner--details--bottom">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="exam-details__inner--details--bottom">
               <h4>Notes</h4>
 
               <div className="notes">
