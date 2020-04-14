@@ -18,20 +18,27 @@ function LoginPopUp() {
   // return ----------------
   return (
     <div className="popup">
-      <div className="popup__container">
-        <div className="popup__headline">
-          <h4>Not Logged In</h4>
-        </div>
-
-        <div className="popup__content">
-          <div className="popup__content__paragraph">
-            <p>Please log in to continue.</p>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-4"></div>
+          <div className="col-md-4">
+            <div className="popup__inner box-content">
+              <div className="popup__inner--headline">
+                <h4>Not Logged In</h4>
+              </div>
+              <div className="popup__inner--content">
+                <div className="text">
+                  <p>Please log in to continue.</p>
+                </div>
+                <div className="login-btn">
+                  <a href="/login" className="stan-btn-secondary">
+                    Login
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="popup__content--btn">
-            <a href="/login" className="stan-btn-secondary">
-              Login
-            </a>
-          </div>
+          <div className="col-md-4"></div>
         </div>
       </div>
     </div>

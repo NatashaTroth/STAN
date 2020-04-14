@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
@@ -20,6 +20,9 @@ import CountUp from "react-countup"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
+// components ----------------
+import UserAccountEdit from "./UserAccountEdit"
+
 // sub components ----------------
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
@@ -27,6 +30,8 @@ import Image from "../../components/image/Image"
 function UserAccount() {
   // history ----------------
   const history = useHistory()
+
+  const [edit, openEdit] = useState(false)
 
   // query ----------------
   // TODO: fetch only one query per component
@@ -44,6 +49,11 @@ function UserAccount() {
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
+  }
+
+  // functions ----------------
+  const handleEdit = () => {
+    openEdit(edit => !edit)
   }
 
   // get and count all exams and todays chunks ----------------
@@ -124,7 +134,7 @@ function UserAccount() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <div className="col-md-10">
+          <div className="col-md-9">
             <div className="user-account__headline">
               <CurrentUserContext.Consumer>
                 {currentUser => {
@@ -137,24 +147,40 @@ function UserAccount() {
                 }}
               </CurrentUserContext.Consumer>
             </div>
+          </div>
+          <div className="col-md-2"></div>
+        </div>
+      </div>
 
-            <div className="user-account__container">
+      {edit ? (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-1"></div>
+            <div className="col-lg-9">
+              <UserAccountEdit />
+            </div>
+            <div className="col-lg-2"></div>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-1"></div>
+            <div className="col-md-5">
               <div className="user-account__container--left">
                 <div className="user-account__container--left--top box-content">
-                  <div className="user-account__container--left--top--user-data">
-                    <div className="user-data">
-                      <CurrentUserContext.Consumer>
-                        {currentUser => <h3>{currentUser.username}</h3>}
-                      </CurrentUserContext.Consumer>
+                  <div className="user-data">
+                    <CurrentUserContext.Consumer>
+                      {currentUser => <h3>{currentUser.username}</h3>}
+                    </CurrentUserContext.Consumer>
 
-                      <CurrentUserContext.Consumer>
-                        {currentUser => <p>{currentUser.email}</p>}
-                      </CurrentUserContext.Consumer>
-                    </div>
+                    <CurrentUserContext.Consumer>
+                      {currentUser => <p>{currentUser.email}</p>}
+                    </CurrentUserContext.Consumer>
                   </div>
 
-                  <div className="user-account__container--left--top--buttons">
-                    <Button variant="button" text="edit" />
+                  <div className="buttons">
+                    <Button variant="button" text="edit" onClick={handleEdit} />
                     {logoutButton}
                   </div>
                 </div>
@@ -183,7 +209,9 @@ function UserAccount() {
                   </div>
                 </div>
               </div>
+            </div>
 
+            <div className="col-md-4">
               <div className="user-account__container--right">
                 <div className="user-account__container--right--top box-content">
                   <h4>current state:</h4>
@@ -235,28 +263,10 @@ function UserAccount() {
                 </div>
               </div>
             </div>
+            <div className="col-md-2"></div>
           </div>
-          <div className="col-md-1"></div>
         </div>
-      </div>
-
-      {/* <button
-        onClick={async () => {
-          //reset refresh token
-          await logout()
-          //reset access token
-          setAccessToken("")
-
-          //logout all other tabs
-          // localStorage.setItem("logout-event", Date.now())
-
-          //resçlo client- always good after logout
-          history.push("/login")
-          window.location.reload()
-        }}
-      >
-        Logout
-      </button> */}
+      )}
     </div>
   )
 }

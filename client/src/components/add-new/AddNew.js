@@ -41,7 +41,6 @@ function AddNew() {
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS },
           { query: GET_CALENDAR_CHUNKS },
-          { query: GET_EXAM_QUERY },
         ],
       })
 
