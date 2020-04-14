@@ -5,43 +5,42 @@ import {
   setupApolloServer,
   setupDb,
   // addTestExam,
-  clearDatabase,
+  // clearDatabase,
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
 
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
 
-// import { createTestClient } from "apollo-server-integration-testing";
+//TODO TEST REGEX HERE TOO?
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
-  let testExams;
+  let testExam;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
-    testExams = await addTestExams();
+    testExam = await addTestExam();
   });
 
-  afterEach(async () => {
-    await clearDatabase();
-  });
+  // afterEach(async () => {
+  //   await clearDatabase();
+  // });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should update the exam correctly", async () => {
-    expect(true).toBeTruthy();
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
-        id: testExams.exam1._id.toString(),
+        id: testExam._id.toString(),
         subject: "Editable Exam",
         examDate: "2122-08-11",
         startDate: "2122-08-05",
@@ -54,81 +53,156 @@ describe("Test user resolver regex", () => {
     expect(resp.data.updateExam).toBeTruthy();
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
-
     expect(resp.data.updateExam).toBeTruthy();
-
     expect(resp.data.updateExam.subject).toBe("Editable Exam");
 
     const editedExam = await Exam.findOne({
-      _id: testExams.exam1._id.toString()
+      _id: testExam._id.toString()
     });
+
     expect(editedExam).toBeTruthy();
     expect(editedExam.subject).toBe("Editable Exam");
   });
 
-  //TODO ADD MORE TESTS
-
-  async function addTestExams() {
-    const exam1 = await addTestExam({
-      subject: "Biology",
-      color: "#979250"
-    });
-    const exam2 = await addTestExam({
-      subject: "Archeology",
-      examDate: getFutureDay(new Date(), 2),
-      startDate: getFutureDay(new Date(), -5),
-      numberPages: 42,
-      timePerPage: 10,
-      startPage: 7,
-      currentPage: 50,
-      timesRepeat: 2,
-      color: "#2444A8"
-    });
-    const exam3 = await addTestExam({
-      subject: "Chemistry",
-      examDate: getFutureDay(new Date(), 1),
-      startDate: getFutureDay(new Date(), -20),
-      numberPages: 600,
-      timePerPage: 10,
-      startPage: 8,
-      currentPage: 1600,
-      timesRepeat: 5,
-      color: "#2328A9"
-    });
-    const exam4 = await addTestExam({
-      subject: "Dance",
-      examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51),
-      color: "#85625A"
+  it("should not update the exam, since the exam doesn't exist", async () => {
+    let falseId = "5e923a29a39c7738fb50e632";
+    if (testExam._id.toString() === falseId)
+      falseId = "5e923a29a39c7738fb50e635";
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: falseId,
+        subject: "German",
+        examDate: "2122-08-05",
+        startDate: "2122-08-11",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
     });
 
-    // return exam1;
-    return { exam1, exam2, exam3, exam4 };
-  }
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "No exam exists with this exam id: " + falseId + " for this user."
+    );
+  });
 
-  async function addTestExam({
-    subject,
-    examDate,
-    startDate,
-    numberPages,
-    timePerPage,
-    startPage,
-    currentPage,
-    timesRepeat,
-    color
-  }) {
+  it("should not update the exam, since start date is after exam date", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: "German",
+        examDate: "2122-08-05",
+        startDate: "2122-08-11",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Dates cannot be in the past and start learning date must be before exam date."
+    );
+  });
+
+  it("should not update the exam, since start date is the same as exam date", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: "German",
+        examDate: "2122-08-05",
+        startDate: "2122-08-05",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Careful! You shouldn't start learning on the same day as the test. Start date should be at least 1 day before the test."
+    );
+  });
+
+  it("should not update the exam, since dates are in the past", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: "German",
+        examDate: "1922-08-05",
+        startDate: "1922-08-11",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Dates cannot be in the past and start learning date must be before exam date."
+    );
+  });
+
+  it("should not update the exam, since start page is higher than number of pages", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: "German",
+        examDate: "2122-08-05",
+        startDate: "2122-08-02",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 40,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Start page cannot higher than the number of pages."
+    );
+  });
+
+  //_----------------------------HELPERS-------------------
+
+  // async function addTestExams() {
+  //   const exam1 = await addTestExam({
+  //     subject: "Biology",
+  //     color: "#979250"
+  //   });
+
+  //   return exam1;
+  // }
+
+  async function addTestExam() {
     const exam = await Exam.create({
-      subject: subject || "Test Subject",
-      examDate: examDate || getFutureDay(new Date(), 5),
-      startDate: startDate || new Date(),
-      numberPages: numberPages || 50,
-      timePerPage: timePerPage || 5,
-      startPage: startPage || 1,
-      currentPage: currentPage || startPage || 1,
-      timesRepeat: timesRepeat || 1,
+      subject: "Test Subject",
+      examDate: getFutureDay(new Date(), 5),
+      startDate: new Date(),
+      numberPages: 50,
+      timePerPage: 5,
+      startPage: 1,
+      currentPage: 1,
+      timesRepeat: 1,
       notes: "Samantha's notes",
       pdfLink: "samanthas-link.stan",
-      color: color || "#FFFFFF",
+      color: "#FFFFFF",
       completed: false,
       userId: "samanthasId"
     });
