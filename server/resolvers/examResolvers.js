@@ -124,7 +124,6 @@ export const examResolvers = {
           { currentPage: args.page, updatedAt: new Date() }
         );
 
-        // if (resp.nModified === 0) return false;
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The current page couldn't be updated.");
         return true;
