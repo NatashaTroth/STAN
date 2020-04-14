@@ -2,9 +2,6 @@ import React from "react"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // components ----------------
 import Button from "../../components/button/Button"
 import Label from "../../components/label/Label"
@@ -35,7 +32,17 @@ const UserAccountEdit = () => {
     <div className="user-account__edit box-content">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-xl-12">
+            <div className="user-account__edit--heading">
+              <div className="user-account__edit--heading--sub-heading">
+                <h3>edit your profile details</h3>
+              </div>
+              <div className="user-account__edit--heading--delete-btn">
+                <a href="#">Delete</a>
+              </div>
+            </div>
+          </div>
+          <div className="col-xl-6">
             <form
               //   onSubmit={handleSubmit(onSubmit)}
               className="user-account__edit--form"
@@ -83,7 +90,7 @@ const UserAccountEdit = () => {
               <div className="add-new__form__element">
                 <Label
                   htmlFor="password"
-                  text="password"
+                  text="Password"
                   className="add-new__form__element__label input-required"
                 />
 
@@ -159,14 +166,11 @@ const UserAccountEdit = () => {
                   //   })}
                 />
               </div>
-
-              <div className="user-account__edit--form--delete-btn">
-                <a href="#">Delete account</a>
-              </div>
             </form>
           </div>
-          <div className="col-md-6">
-            <div className="user-account__edit--form__carousel">
+
+          <div className="col-xl-6">
+            <div className="user-account__edit__carousel">
               <h4>Choose your mascot</h4>
 
               <Carousel

@@ -155,11 +155,11 @@ function UserAccount() {
       {edit ? (
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-1"></div>
-            <div className="col-md-9">
+            <div className="col-lg-1"></div>
+            <div className="col-lg-9">
               <UserAccountEdit />
             </div>
-            <div className="col-md-2"></div>
+            <div className="col-lg-2"></div>
           </div>
         </div>
       ) : (
