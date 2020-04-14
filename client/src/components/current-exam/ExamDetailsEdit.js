@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMutation } from "react"
 import { Redirect } from "react-router"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -6,8 +6,12 @@ import { useForm } from "react-hook-form"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
-// queries ----------------
+// queries & mutation ----------------
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
+import {
+  UPDATE_EXAM_MUTATION,
+  DELETE_EXAM_MUTATION,
+} from "../../graphQL/mutations"
 import { useQuery } from "@apollo/react-hooks"
 
 // sub-components ----------------
@@ -16,7 +20,7 @@ import Button from "../../components/button/Button"
 
 // TODO: update current exam with mutation
 const ExamDetailsEdit = ({ examId }) => {
-  // variables ----------------
+  // variables & set default variables in form ----------------
   let defaultValues
   const { register, errors, handleSubmit } = useForm({ defaultValues })
 
@@ -25,8 +29,9 @@ const ExamDetailsEdit = ({ examId }) => {
     variables: { id: examId },
   })
 
-  // mutation ----------------
-  //  const [updateExam] = useMutation()
+  // mutations ----------------
+  const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
+  // const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -50,9 +55,11 @@ const ExamDetailsEdit = ({ examId }) => {
     }
   }
 
+  console.log(updateExam)
+
   // form specific ----------------
-  const onSubmit = async data => {
-    // handleExam({ data, updateExam })
+  const onSubmit = async formData => {
+    handleExam({ examId, formData, updateExam })
   }
 
   return (
@@ -343,39 +350,33 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ data, updateExam }) {
+async function handleExam({ examId, formData, updateExam }) {
   try {
     const resp = await updateExam({
-      // variables: {
-      //   mascot: data,
-      // },
+      id: examId,
+      subject: formData.exam_subject,
+      examDate: formData.exam_date,
+      startDate: formData.exam_start_date,
+      numberPages: parseInt(formData.exam_page_amount),
+      timePerPage: parseInt(formData.exam_page_time),
+      timesRepeat: parseInt(formData.exam_page_repeat),
+      startPage: parseInt(formData.exam_page_current),
+      notes: formData.exam_page_notes,
+      pdfLink: formData.exam_pdf_upload,
+      completed: false,
     })
 
-    // const resp = await addExam({
-    //   variables: {
-    //     subject: formData.exam_subject,
-    //     examDate: formData.exam_date,
-    //     startDate: formData.exam_start_date,
-    //     numberPages: parseInt(formData.exam_page_amount),
-    //     startPage: parseInt(formData.exam_page_current),
-    //     timePerPage: parseInt(formData.exam_page_time),
-    //     timesRepeat: parseInt(formData.exam_page_repeat),
-    //     notes: formData.exam_page_notes,
-    //     // pdfLink: formData.exam_pdf_upload,
-    //     pdfLink: "TODO: CHANGE LATER",
-    //     completed: false,
-    //   },
-    //   refetchQueries: [
-    //     { query: GET_EXAMS_QUERY },
-    //     { query: GET_TODAYS_CHUNKS },
-    //   ],
-    // })
+    // (refetchQueries: [
+    //   // { query: GET_EXAMS_QUERY },
+    // // { query: GET_TODAYS_CHUNKS },
+    // // { query: GET_CALENDAR_CHUNKS }
+    // ]
 
-    // if (resp && resp.data && resp.data.updateMascot) {
-    //   console.log("success: saved new mascot")
-    // } else {
-    //   throw new Error("failed: saved new mascot")
-    // }
+    if (resp && resp.data && resp.data.updateMascot) {
+      console.log("success: saved exam")
+    } else {
+      throw new Error("failed: saved exam")
+    }
 
     // redirect
     window.location.reload()
