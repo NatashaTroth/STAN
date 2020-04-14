@@ -111,7 +111,7 @@ export const examResolvers = {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(context.userInfo);
-        //TODO: IS USER AUTHORISED TO UPDATE THIS EXAM
+
         const exam = await handleCurrentPageInput(
           args.page,
           args.examId,
@@ -121,10 +121,12 @@ export const examResolvers = {
 
         const resp = await Exam.updateOne(
           { _id: args.examId },
-          { currentPage: args.page }
+          { currentPage: args.page, updatedAt: new Date() }
         );
 
-        if (resp.nModified === 0) return false;
+        // if (resp.nModified === 0) return false;
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The current page couldn't be updated.");
         return true;
       } catch (err) {
         handleResolverError(err);

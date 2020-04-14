@@ -109,11 +109,13 @@ export const userResolvers = {
         handleAuthentication(userInfo);
         verifyMascotInputFormat({ mascot: mascot.toString() });
         if (userInfo.user.mascot === mascot) return true;
+
         const resp = await User.updateOne(
           { _id: userInfo.userId },
-          { mascot: mascot }
+          { mascot: mascot, updatedAt: new Date() }
         );
-        if (resp.nModified === 0) return false;
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The mascot couldn't be updated.");
         return true;
       } catch (err) {
         handleResolverError(err);

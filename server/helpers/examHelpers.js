@@ -71,7 +71,10 @@ export async function handleCurrentPageInput(page, examId, userId) {
     _id: examId,
     userId: userId
   });
-  if (!exam) throw new ApolloError("There is no exam with that id.");
+  if (!exam)
+    throw new ApolloError(
+      "There is no exam with the id: " + examId + " for that user."
+    );
   if (page < exam.startPage)
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
