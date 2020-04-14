@@ -124,8 +124,33 @@ export const examResolvers = {
           { currentPage: args.page, updatedAt: new Date() }
         );
 
-        if (resp.ok === 0 || resp.nModified === 0)
+        if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    deleteExam: async (root, args, context, info) => {
+      //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
+      try {
+        handleAuthentication(context.userInfo);
+        //TODO ASK - WHETHER TO CHECK FIRST IF EXAM EXISTS
+        const exam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+        if (!exam)
+          throw new ApolloError(
+            "No exam exists with this exam id: " + args.id + " for this user."
+          );
+        const resp = await Exam.deleteOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+        // console.log(resp);
+        if (resp.ok !== 1 || resp.deletedCount !== 1)
+          throw new ApolloError("The exam couldn't be deleted");
         return true;
       } catch (err) {
         handleResolverError(err);

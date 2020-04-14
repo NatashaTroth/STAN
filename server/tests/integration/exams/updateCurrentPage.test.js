@@ -5,7 +5,7 @@ import {
   setupApolloServer,
   setupDb,
   // addTestExam,
-  clearDatabase,
+  // clearDatabase,
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
