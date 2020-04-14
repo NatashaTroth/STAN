@@ -5,14 +5,14 @@ import {
   setupApolloServer,
   setupDb,
   // addTestExam,
-  clearDatabase,
+  // clearDatabase,
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
 
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
 
-// import { createTestClient } from "apollo-server-integration-testing";
+//TODO TEST REGEX HERE TOO?
 
 describe("Test user resolver regex", () => {
   let server;
@@ -64,7 +64,33 @@ describe("Test user resolver regex", () => {
     expect(editedExam.subject).toBe("Editable Exam");
   });
 
-  it("should not update an exam, since start date is after exam date", async () => {
+  it("should not update the exam, since the exam doesn't exist", async () => {
+    let falseId = "5e923a29a39c7738fb50e632";
+    if (testExam._id.toString() === falseId)
+      falseId = "5e923a29a39c7738fb50e635";
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: falseId,
+        subject: "German",
+        examDate: "2122-08-05",
+        startDate: "2122-08-11",
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 4,
+        notes: "NOTES",
+        pdfLink: "klsdjfs",
+        completed: false
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "No exam exists with this exam id: " + falseId + " for this user."
+    );
+  });
+
+  it("should not update the exam, since start date is after exam date", async () => {
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
