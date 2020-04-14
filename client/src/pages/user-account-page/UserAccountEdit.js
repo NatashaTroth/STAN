@@ -35,7 +35,7 @@ const UserAccountEdit = () => {
     <div className="user-account__edit box-content">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-5">
+          <div className="col-md-6">
             <form
               //   onSubmit={handleSubmit(onSubmit)}
               className="user-account__edit--form"
@@ -159,10 +159,16 @@ const UserAccountEdit = () => {
                   //   })}
                 />
               </div>
+
+              <div className="user-account__edit--form--delete-btn">
+                <a href="#">Delete account</a>
+              </div>
             </form>
           </div>
-          <div className="col-md-4">
-            <div className="user-account__edit--mascot">
+          <div className="col-md-6">
+            <div className="user-account__edit--form__carousel">
+              <h4>Choose your mascot</h4>
+
               <Carousel
                 showStatus={false}
                 showThumbs={false}
@@ -180,7 +186,7 @@ const UserAccountEdit = () => {
                 />
               </Carousel>
 
-              <div className="mascots__inner__btn">
+              <div className="user-account__edit--form__button">
                 <Button
                   variant="button"
                   text="Save"

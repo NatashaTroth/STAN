@@ -1,5 +1,91 @@
-.user-account__edit {
-  &--form {
-    padding: 20px;
+.user-account {
+  &__edit {
+    &--form {
+      padding: 20px;
+
+      &--delete-btn {
+        margin-top: 90px;
+        text-transform: uppercase;
+
+        a {
+          font-family: $font-family-BasierCircle-SemiBold;
+          color: theme_color("error-hover");
+        }
+      }
+
+      &__button {
+        margin-top: 160px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      &__carousel {
+        margin: 25px 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .carousel {
+          .control-dots {
+            padding-bottom: 20px;
+            padding: 10px;
+            .dot {
+              visibility: hidden;
+              &:before {
+                visibility: visible;
+              }
+            }
+          }
+          .slide {
+            background: none;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            &:before {
+              content: "";
+            }
+            img {
+              width: 220px;
+            }
+          }
+          .control-arrow {
+            opacity: 1 !important;
+            &:hover {
+              background: none !important;
+            }
+          }
+          .control-next {
+            &:before {
+              content: "";
+              margin: 0;
+              border: solid black !important;
+              border-width: 0 5px 5px 0 !important;
+              display: inline-block;
+              padding: 10px;
+              transform: rotate(-45deg);
+              transition: transform 0.3s ease-out;
+            }
+            &:hover {
+              transform: translateX(4px);
+            }
+          }
+          .control-prev {
+            &:before {
+              content: "";
+              margin: 0;
+              border: solid black !important;
+              border-width: 0 5px 5px 0 !important;
+              display: inline-block;
+              padding: 10px;
+              transform: rotate(135deg);
+              transition: transform 0.2s ease-out;
+            }
+            &:hover {
+              transform: translateX(-4px);
+            }
+          }
+        }
+      }
+    }
   }
 }
