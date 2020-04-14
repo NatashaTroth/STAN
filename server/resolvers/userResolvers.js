@@ -1,6 +1,6 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 //TODO: RAFACTOR
-import { User } from "../models";
+import { User, Exam } from "../models";
 import {
   // UserInputError,
   AuthenticationError,
@@ -50,15 +50,7 @@ export const userResolvers = {
     logout: async (root, args, { req, res, userInfo }, info) => {
       try {
         handleAuthentication(userInfo);
-        sendRefreshToken(res, "");
-        //invalidate current refresh tokens for user
-        const respRefreshToken = await invalidateRefreshTokens(userInfo.userId);
-        if (!respRefreshToken)
-          throw new ApolloError("Unable to revoke refresh token.");
-        const respAccessToken = await invalidateAccessTokens(userInfo.userId);
-
-        if (!respAccessToken)
-          throw new ApolloError("Unable to revoke access token.");
+        await logUserOut(res, userInfo.userId);
       } catch (err) {
         throw new ApolloError(err.message);
       }
@@ -137,6 +129,52 @@ export const userResolvers = {
       } catch (err) {
         handleResolverError(err);
       }
+    },
+    deleteUser: async (parent, args, context) => {
+      try {
+        handleAuthentication(context.userInfo);
+        //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
+        await deleteUsersData(context.userInfo.userId);
+
+        // await logUserOut(context.res, context.userInfo.userId);
+        await deleteUser(context.userInfo.userId);
+
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
     }
   }
 };
+
+//TODO MOVE TO HELPERS FILE
+async function logUserOut(res, userId) {
+  sendRefreshToken(res, "");
+
+  //invalidate current refresh tokens for user
+  const respRefreshToken = await invalidateRefreshTokens(userId);
+
+  if (!respRefreshToken)
+    throw new ApolloError("Unable to revoke refresh token.");
+  const respAccessToken = await invalidateAccessTokens(userId);
+
+  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
+}
+
+async function deleteUsersData(userId) {
+  const respDeleteExams = await Exam.deleteMany({
+    userId
+  });
+
+  if (respDeleteExams.ok !== 1)
+    throw new ApolloError("The user's data couldn't be deleted");
+}
+
+async function deleteUser(userId) {
+  const resp = await User.deleteOne({
+    _id: userId
+  });
+
+  if (resp.ok !== 1 || resp.deletedCount !== 1)
+    throw new ApolloError("The user couldn't be deleted");
+}

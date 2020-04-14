@@ -27,6 +27,7 @@ const userQueries = gql`
     login(email: String!, password: String): String!
     googleLogin(idToken: String!): String!
     updateMascot(mascot: Int!): Boolean
+    deleteUser: Boolean
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean
   }

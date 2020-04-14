@@ -130,3 +130,9 @@ export const GOOGLE_LOGIN_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_USER_MUTATION = gql`
+  mutation {
+    deleteUser
+  }
+`;
