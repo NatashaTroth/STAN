@@ -1,0 +1,58 @@
+.user-account {
+  &__edit {
+    &--form {
+      margin: 40px 15px;
+
+      &__button {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 55px;
+
+        @include media-breakpoint-down(sm) {
+          justify-content: center;
+        }
+      }
+    }
+
+    &__carousel {
+      margin: 40px 25px;
+      display: flex;
+      flex-direction: column;
+
+      h4 {
+        padding-bottom: 20px;
+      }
+    }
+
+    &--heading {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-bottom: 3px solid theme_color("black");
+      padding: 15px 0 5px 0;
+      margin: 5px;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column-reverse;
+      }
+
+      &--sub-heading {
+        h3 {
+          color: theme_color("primary-blue-dark");
+        }
+      }
+      &--delete-btn {
+        text-transform: uppercase;
+
+        @include media-breakpoint-down(sm) {
+          text-align: right;
+          padding-bottom: 15px;
+        }
+        a {
+          font-family: $font-family-BasierCircle-SemiBold;
+          color: theme_color("error-hover");
+        }
+      }
+    }
+  }
+}

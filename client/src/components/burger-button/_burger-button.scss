@@ -13,16 +13,16 @@
     display: none;
   }
 
-  &__logo-img {
+  &__logo {
     width: 70%;
   }
-  .openBurger {
+  .open-burger {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .closeBurger {
+  .close-burger {
     z-index: 300;
     width: 100%;
     display: flex;
