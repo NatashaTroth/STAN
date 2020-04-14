@@ -52,6 +52,20 @@ export function verifyExamInput(args) {
     throw new ApolloError("Start page cannot higher than the number of pages.");
 }
 
+export async function handleUpdateExamInput(args, userId) {
+  const exam = await Exam.findOne({
+    _id: args.id,
+    userId: userId
+  });
+  if (!exam)
+    throw new ApolloError(
+      "No exam exists with this exam id: " + args.id + " for this user."
+    );
+
+  verifyExamInput(args, userId);
+  return prepareExamInputData({ ...args }, userId);
+}
+
 export async function handleCurrentPageInput(page, examId, userId) {
   const exam = await Exam.findOne({
     _id: examId,
