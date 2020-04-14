@@ -27,9 +27,9 @@ describe("Test user resolver regex", () => {
     mutate = client.mutate;
   });
 
-  afterEach(async () => {
-    await clearDatabase();
-  });
+  // afterEach(async () => {
+  //   await clearDatabase();
+  // });
 
   afterAll(async () => {
     await teardown();
@@ -113,6 +113,8 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(resp.data.updateCurrentPage).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("There is no exam with that id.");
+    expect(resp.errors[0].message).toEqual(
+      "There is no exam with the id: 5e8ef5f1800a7ded589961a4 for that user."
+    );
   });
 });
