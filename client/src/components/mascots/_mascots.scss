@@ -1,4 +1,26 @@
 .mascots {
+  &__heading {
+    padding-bottom: 20px;
+  }
+  &__inner {
+    &--form {
+      padding: 30px;
+      &__sub-heading {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      &__button {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+// MASCOTS BASIC STYLING
+.user-account__edit__carousel,
+.mascots {
   .carousel {
     .control-dots {
       padding-bottom: 20px;
@@ -55,23 +77,6 @@
       }
       &:hover {
         transform: translateX(-4px);
-      }
-    }
-  }
-  &__heading {
-    padding-bottom: 20px;
-  }
-  &__inner {
-    &--form {
-      padding: 30px;
-      &__sub-heading {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-      }
-      &__button {
-        display: flex;
-        justify-content: flex-end;
       }
     }
   }
