@@ -1,4 +1,5 @@
-import React, { useMutation } from "react"
+import React, { useEffect } from "react"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Redirect } from "react-router"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -12,7 +13,6 @@ import {
   UPDATE_EXAM_MUTATION,
   DELETE_EXAM_MUTATION,
 } from "../../graphQL/mutations"
-import { useQuery } from "@apollo/react-hooks"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"
@@ -22,7 +22,38 @@ import Button from "../../components/button/Button"
 const ExamDetailsEdit = ({ examId }) => {
   // variables & set default variables in form ----------------
   let defaultValues
-  const { register, errors, handleSubmit } = useForm({ defaultValues })
+  const { register, errors, watch, setValue, handleSubmit } = useForm({
+    defaultValues,
+  })
+
+  const {
+    subject,
+    examDate,
+    startDate,
+    numberPages,
+    currentPage,
+    timePerPage,
+    timesRepeat,
+    notes,
+    pdfLink,
+  } = watch()
+
+  useEffect(() => {
+    register({ name: "subject" })
+    register({ name: "examDate" })
+    register({ name: "startDate" })
+    register({ name: "numberPages" })
+    register({ name: "currentPage" })
+    register({ name: "timePerPage" })
+    register({ name: "timesRepeat" })
+    register({ name: "notes" })
+    register({ name: "pdfLink" })
+  }, [register])
+
+  const handleChange = (name, e) => {
+    e.persist()
+    setValue(name, e.target.value)
+  }
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
@@ -31,7 +62,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // mutations ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
-  // const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
+  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -54,8 +85,6 @@ const ExamDetailsEdit = ({ examId }) => {
       pdfLink: data.exam.pdfLink,
     }
   }
-
-  console.log(updateExam)
 
   // form specific ----------------
   const onSubmit = async formData => {
@@ -81,8 +110,8 @@ const ExamDetailsEdit = ({ examId }) => {
               type="text"
               id="subject"
               label="exam_subject"
-              defaultValue={defaultValues.subject}
-              name="subject"
+              value={subject}
+              onChange={handleChange.bind(null, "subject")}
               required
               ref={register({
                 required: true,
@@ -105,7 +134,7 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="add-new__form__container add-new__form__container--numbers">
             <div className="add-new__form__element">
               <Label
-                for="exam-date"
+                htmlFor="exam-date"
                 text="Exam date"
                 className="add-new__form__element__label input-required"
               />
@@ -114,8 +143,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="date"
                 id="exam-date"
                 label="exam_date"
-                defaultValue={defaultValues.examDate}
-                name="examDate"
+                value={examDate}
+                onChange={handleChange.bind(null, "examDate")}
                 required
                 ref={register({
                   required: true,
@@ -128,7 +157,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="add-new__form__element">
               <Label
-                for="study-start-date"
+                htmlFor="study-start-date"
                 text="Start learning on"
                 className="add-new__form__element__label input-required"
               />
@@ -137,8 +166,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="date"
                 id="study-start-date"
                 label="exam_start_date"
-                defaultValue={defaultValues.startDate}
-                name="startDate"
+                onChange={handleChange.bind(null, "startDate")}
+                value={startDate}
                 required
                 ref={register({
                   required: false,
@@ -149,7 +178,7 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="add-new__form__container add-new__form__container--numbers">
             <div className="add-new__form__element">
               <Label
-                for="page-amount"
+                htmlFor="page-amount"
                 text="Amount of pages"
                 className="add-new__form__element__label input-required"
               />
@@ -159,8 +188,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-amount"
                 label="exam_page_amount"
-                defaultValue={defaultValues.numberPages}
-                name="numberPages"
+                onChange={handleChange.bind(null, "numberPages")}
+                value={numberPages}
                 required
                 ref={register({
                   required: true,
@@ -186,7 +215,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="add-new__form__element">
               <Label
-                for="page-current"
+                htmlFor="page-current"
                 text="Start page"
                 className="add-new__form__element__label"
               />
@@ -196,8 +225,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-current"
                 label="exam_page_current"
-                defaultValue={defaultValues.currentPage}
-                name="currentPage"
+                onChange={handleChange.bind(null, "currentPage")}
+                value={currentPage}
                 ref={register({
                   min: 1,
                   max: 10000,
@@ -219,7 +248,7 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="add-new__form__container add-new__form__container--numbers">
             <div className="add-new__form__element">
               <Label
-                for="page-time"
+                htmlFor="page-time"
                 text="Time per page (min)"
                 className="add-new__form__element__label input-required"
               ></Label>
@@ -229,8 +258,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-time"
                 label="exam_page_time"
-                defaultValue={defaultValues.timePerPage}
-                name="timePerPage"
+                onChange={handleChange.bind(null, "timePerPage")}
+                value={timePerPage}
                 ref={register({
                   required: true,
                   min: 1,
@@ -259,7 +288,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="add-new__form__element">
               <Label
-                for="page-repeat"
+                htmlFor="page-repeat"
                 text="Repeat"
                 className="add-new__form__element__label"
               />
@@ -268,8 +297,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="number"
                 id="page-repeat"
                 label="exam_page_repeat"
-                defaultValue={defaultValues.timesRepeat}
-                name="timesRepeat"
+                onChange={handleChange.bind(null, "timesRepeat")}
+                value={timesRepeat}
                 ref={register({
                   required: false,
                   min: 1,
@@ -292,7 +321,7 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="examEdit__form__right--top">
             <div className="add-new__form__element">
               <Label
-                for="page-notes"
+                htmlFor="page-notes"
                 text="Notes"
                 className="add-new__form__element__label"
               />
@@ -300,8 +329,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 className="add-new__form__element__input"
                 id="page-notes"
                 label="exam_page_notes"
-                defaultValue={defaultValues.notes}
-                name="notes"
+                onChange={handleChange.bind(null, "notes")}
+                value={notes}
                 ref={register({
                   required: false,
                   maxLength: 100000000,
@@ -317,7 +346,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="add-new__form__element examEdit__form__right--top--pdf">
               <Label
-                for="pdf-link"
+                htmlFor="pdf-link"
                 text="Pdf link"
                 className="add-new__form__element__label"
               ></Label>
@@ -326,8 +355,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="text"
                 id="pdf-link"
                 label="exam_pdf_upload"
-                defaultValue={defaultValues.pdfLink}
-                name="pdfLink"
+                onChange={handleChange.bind(null, "pdfLink")}
+                value={pdfLink}
                 ref={register({
                   required: false,
                 })}
@@ -354,15 +383,15 @@ async function handleExam({ examId, formData, updateExam }) {
   try {
     const resp = await updateExam({
       id: examId,
-      subject: formData.exam_subject,
-      examDate: formData.exam_date,
-      startDate: formData.exam_start_date,
-      numberPages: parseInt(formData.exam_page_amount),
-      timePerPage: parseInt(formData.exam_page_time),
-      timesRepeat: parseInt(formData.exam_page_repeat),
+      subject: formData.subject,
+      examDate: formData.examDate,
+      startDate: formData.startDate,
+      numberPages: parseInt(formData.numberPages),
+      timePerPage: parseInt(formData.timePerPage),
+      timesRepeat: parseInt(formData.timesRepeat),
       startPage: parseInt(formData.exam_page_current),
-      notes: formData.exam_page_notes,
-      pdfLink: formData.exam_pdf_upload,
+      notes: formData.notes,
+      pdfLink: formData.pdfLink,
       completed: false,
     })
 
