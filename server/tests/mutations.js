@@ -83,6 +83,12 @@ export const UPDATE_EXAM_MUTATION = gql`
   }
 `;
 
+export const DELETE_EXAM_MUTATION = gql`
+  mutation($id: ID!) {
+    deleteExam(id: $id)
+  }
+`;
+
 export const UPDATE_CURRENT_PAGE_MUTATION = gql`
   mutation($examId: ID!, $page: Int!) {
     updateCurrentPage(examId: $examId, page: $page)
