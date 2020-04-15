@@ -2,6 +2,12 @@ import React from "react"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
+// context ----------------
+import {
+  CurrentUserContext,
+  useCurrentUserValue,
+} from "../../components/STAN/STAN"
+
 // components ----------------
 import Button from "../../components/button/Button"
 import Label from "../../components/label/Label"
@@ -21,7 +27,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 const UserAccountEdit = () => {
   //   const { register, errors, handleSubmit } = useForm()
 
-  //   const currentUser = useCurrentUserValue()
+  const currentUser = useCurrentUserValue()
+
+  console.log()
 
   // functions ----------------
   const handleMascotCallback = id => {
@@ -45,13 +53,13 @@ const UserAccountEdit = () => {
           <div className="col-xl-6">
             <form
               //   onSubmit={handleSubmit(onSubmit)}
-              className="user-account__edit--form"
+              className="form"
             >
-              <div className="add-new__form__element">
+              <div className="form__element">
                 <Label
                   htmlFor="name"
                   text="Name"
-                  className="add-new__form__element__label input-required"
+                  className="form__element__label input-required"
                 />
 
                 <input
@@ -67,11 +75,11 @@ const UserAccountEdit = () => {
                 />
               </div>
 
-              <div className="add-new__form__element">
+              <div className="form__element">
                 <Label
                   htmlFor="email"
                   text="Email"
-                  className="add-new__form__element__label input-required"
+                  className="form__element__label input-required"
                 />
 
                 <input
@@ -87,85 +95,93 @@ const UserAccountEdit = () => {
                 />
               </div>
 
-              <div className="add-new__form__element">
-                <Label
-                  htmlFor="password"
-                  text="Password"
-                  className="add-new__form__element__label input-required"
-                />
+              {!currentUser.googleLogin ? (
+                <div className="form__element">
+                  <Label
+                    htmlFor="password"
+                    text="Password"
+                    className="form__element__label input-required"
+                  />
 
-                <input
-                  type="password"
-                  id="password"
-                  label="password"
-                  required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
-                />
-              </div>
+                  <input
+                    type="password"
+                    id="password"
+                    label="password"
+                    required
+                    //   ref={register({
+                    //     required: true,
+                    //     minLength: 1,
+                    //     maxLength: 20,
+                    //   })}
+                  />
+                </div>
+              ) : null}
 
-              <div className="add-new__form__element">
-                <Label
-                  htmlFor="current-password"
-                  text="Current password"
-                  className="add-new__form__element__label input-required"
-                />
+              {!currentUser.googleLogin ? (
+                <div className="form__element">
+                  <Label
+                    htmlFor="current-password"
+                    text="Current password"
+                    className="form__element__label input-required"
+                  />
 
-                <input
-                  type="password"
-                  id="current-password"
-                  label="current-password"
-                  required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
-                />
-              </div>
+                  <input
+                    type="password"
+                    id="current-password"
+                    label="current-password"
+                    required
+                    //   ref={register({
+                    //     required: true,
+                    //     minLength: 1,
+                    //     maxLength: 20,
+                    //   })}
+                  />
+                </div>
+              ) : null}
 
-              <div className="add-new__form__element">
-                <Label
-                  htmlFor="new-password"
-                  text="New password"
-                  className="add-new__form__element__label input-required"
-                />
+              {!currentUser.googleLogin ? (
+                <div className="form__element">
+                  <Label
+                    htmlFor="new-password"
+                    text="New password"
+                    className="form__element__label input-required"
+                  />
 
-                <input
-                  type="password"
-                  id="new-password"
-                  label="new-password"
-                  required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
-                />
-              </div>
+                  <input
+                    type="password"
+                    id="new-password"
+                    label="new-password"
+                    required
+                    //   ref={register({
+                    //     required: true,
+                    //     minLength: 1,
+                    //     maxLength: 20,
+                    //   })}
+                  />
+                </div>
+              ) : null}
 
-              <div className="add-new__form__element">
-                <Label
-                  htmlFor="retype-password"
-                  text="Retype new password"
-                  className="add-new__form__element__label input-required"
-                />
+              {!currentUser.googleLogin ? (
+                <div className="form__element">
+                  <Label
+                    htmlFor="retype-password"
+                    text="Retype new password"
+                    className="form__element__label input-required"
+                  />
 
-                <input
-                  type="password"
-                  id="retype-password"
-                  label="retype-password"
-                  required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
-                />
-              </div>
+                  <input
+                    type="password"
+                    id="retype-password"
+                    label="retype-password"
+                    required
+                    //   ref={register({
+                    //     required: true,
+                    //     minLength: 1,
+                    //     maxLength: 20,
+                    //   })}
+                  />
+                </div>
+              ) : null}
             </form>
           </div>
 
