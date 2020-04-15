@@ -30,10 +30,10 @@ const userQueries = gql`
     updateUser(
       username: String!
       email: String!
-      password: String!
+      password: String
       newPassword: String
       mascot: Int!
-    ): String!
+    ): User!
 
     updateMascot(mascot: Int!): Boolean
     deleteUser: Boolean
