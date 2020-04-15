@@ -9,12 +9,8 @@ import {
   clearDatabase,
   teardown
 } from "../setup";
-import {
-  LOGIN_MUTATION,
-  SIGNUP_MUTATION,
-  UPDATE_MASCOT_MUTATION,
-  LOGOUT_MUTATION
-} from "../../mutations.js";
+import { DELETE_USER_MUTATION } from "../../mutations.js";
+
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
 import { createAccessToken } from "../../../helpers/authenticationTokens";
@@ -64,108 +60,32 @@ describe("Test user sign up and login resolvers", () => {
       }
      */
 
-  it("should fetch the current logged in user", async () => {
-    const resp = await query({
-      query: CURRENT_USER
-    });
-    expect(resp.data.currentUser).toBeTruthy();
-    expect(resp.data.currentUser.id.toString()).toBe(testUser._id.toString());
-    expect(resp.data.currentUser.username).toBe(testUser.username);
-    expect(resp.data.currentUser.email).toBe(testUser.email);
-    expect(resp.data.currentUser.mascot).toBe(testUser.mascot);
-    expect(resp.data.currentUser.googleLogin).toBe(testUser.googleLogin);
-  });
+  it("should logout & delete the current logged in user, as well as delete all their data (exams,  tokens...)", async () => {
+    const initialCount = await User.countDocuments();
+    const initialUser = await User.findOne({ _id: testUser._id.toString() });
+    expect(initialUser).toBeTruthy();
 
-  it("should update the mascot for a user", async () => {
     const resp = await mutate({
-      query: UPDATE_MASCOT_MUTATION,
+      query: DELETE_USER_MUTATION,
       variables: {
-        mascot: 2
-      }
-    });
-    expect(resp.data.updateMascot).toBeTruthy();
-
-    const user = await User.findOne({
-      username: testUser.username,
-      email: testUser.email
-    });
-    expect(user).toBeTruthy();
-    expect(user.mascot).toBe(2);
-
-    const resp2 = await mutate({
-      query: UPDATE_MASCOT_MUTATION,
-      variables: {
-        mascot: 5
-      }
-    });
-    expect(resp2.data.updateMascot).toBeFalsy();
-    expect(resp2.errors[0].message).toEqual(
-      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
-    );
-  });
-
-  it("should not sign up or login a user if already logged in", async () => {
-    //Already logged in
-    const resp = await mutate({
-      query: SIGNUP_MUTATION,
-      variables: {
-        username: "Stan",
-        email: "user@stan.com",
-        password: "12345678",
-        mascot: 1
+        id: testUser._id.toString()
       }
     });
 
-    expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Already logged in.");
+    expect(resp.data).toBeTruthy();
+    const newCount = await User.countDocuments();
+    expect(newCount).toBe(initialCount - 1);
 
-    //Already logged in
-    const resp2 = await mutate({
-      query: LOGIN_MUTATION,
-      variables: {
-        email: "samantha@stan.com",
-        password: "samantha"
-      }
+    const userAfterDelete = await User.findOne({
+      _id: testUser._id.toString()
     });
-    expect(resp2.data).toBeFalsy();
-    expect(resp2.errors[0].message).toEqual("Already logged in.");
-  });
+    console.log(userAfterDelete);
+    expect(userAfterDelete).toBeFalsy();
 
-  it("should log the user out", async () => {
-    expect(testUser.accessTokenVersion).toBe(0);
-    expect(testUser.refreshTokenVersion).toBe(0);
-    const accessToken = createAccessToken(testUser);
-    expect(accessToken).toBeTruthy();
-    const decodedToken = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-    expect(decodedToken).toBeTruthy();
-    expect(decodedToken.userId).toBe(testUser.id);
-    expect(decodedToken.tokenVersion).toBe(0);
-    const headers = new Map();
-    headers.set("Authorization", "bearer " + accessToken);
-    const isAuthResp = await isAuth(headers);
-    expect(isAuthResp).toBeTruthy();
-
-    //Already logged in
-    const resp = await mutate({
-      query: LOGOUT_MUTATION
-    });
-    expect(resp.data.logout).toBeTruthy();
-
-    const user = await User.findOne({
-      _id: testUser._id
-    });
-    expect(user.accessTokenVersion).toBe(1);
-    expect(user.refreshTokenVersion).toBe(1);
-
-    const headers2 = new Map();
-    headers2.set("Authorization", "bearer " + accessToken);
-    let isAuthResp2;
-
-    isAuthResp2 = await isAuth(headers2);
-    expect(isAuthResp2).toBeTruthy();
-    expect(isAuthResp2.isAuth).toBeFalsy();
+    // const respCurrentUser = await query({
+    //   query: CURRENT_USER
+    // });
+    // expect(respCurrentUser.data.currentUser).toBeFalsy();
+    // expect(respCurrentUser.data.currentUser).toBe(null);
   });
 });
