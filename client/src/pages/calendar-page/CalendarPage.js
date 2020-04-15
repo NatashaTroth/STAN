@@ -12,6 +12,9 @@ import { GET_CALENDAR_CHUNKS } from "../../graphQL/queries"
 // helpers ----------------
 import { formatDate, minuteToHours } from "../../helpers/dates"
 
+// components ----------------
+import QueryError from "../../components/error/Error"
+
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
@@ -40,7 +43,7 @@ const ExamsCalendar = () => {
   }
 
   if (loading) return <p className="loading">loading...</p>
-  if (error) return <p>error...</p>
+  if (error) return <QueryError />
   if (data && data.calendarChunks) {
     exams = data.calendarChunks
   }
