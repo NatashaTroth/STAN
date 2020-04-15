@@ -346,7 +346,8 @@ html body {
     }
   }
 
-  #success-container {
+  #success-container,
+  #success-container-edit-exam {
     display: none;
 
     .success {

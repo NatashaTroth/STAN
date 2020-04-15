@@ -386,6 +386,10 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
         </div>
       </div>
+
+      <div className="col-md-12" id="success-container-edit-exam">
+        <p className="success">the changes were successfully saved</p>
+      </div>
     </form>
   )
 }
@@ -411,13 +415,16 @@ async function handleExam({ examId, data, updateExam }) {
     })
 
     if (resp && resp.data && resp.data.updateExam) {
-      console.log("success: saved exam")
+      document.getElementById("success-container-edit-exam").style.display =
+        "block"
     } else {
-      throw new Error("failed: saved exam")
+      throw new Error("exam could not be saved.")
     }
 
     // redirect
-    window.location.reload()
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
