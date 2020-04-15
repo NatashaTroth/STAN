@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Redirect } from "react-router"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -6,36 +7,23 @@ import { useForm } from "react-hook-form"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
-// queries ----------------
+// queries & mutation ----------------
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
+import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
-// TODO: update current exam with mutation
 const ExamDetailsEdit = ({ examId }) => {
   // variables ----------------
   let defaultValues
-  const { register, errors, handleSubmit } = useForm({ defaultValues })
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
   })
 
-  // mutation ----------------
-  //  const [updateExam] = useMutation()
-
-  // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
-    return <Redirect to="/login" />
-  }
-
-  if (loading) return <p className="loading">loading...</p>
-  if (error) return <p>error...</p>
   if (data && data.exam) {
     defaultValues = {
       subject: data.exam.subject,
@@ -50,32 +38,77 @@ const ExamDetailsEdit = ({ examId }) => {
     }
   }
 
-  // form specific ----------------
-  const onSubmit = async data => {
-    // handleExam({ data, updateExam })
+  // set default variables in form and make it editable ----------------
+  const { register, errors, watch, setValue, handleSubmit } = useForm({
+    defaultValues,
+  })
+
+  const {
+    subject,
+    examDate,
+    startDate,
+    numberPages,
+    currentPage,
+    timePerPage,
+    timesRepeat,
+    notes,
+    pdfLink,
+  } = watch()
+
+  useEffect(() => {
+    register({ exam: "subject" })
+    register({ exam: "examDate" })
+    register({ exam: "startDate" })
+    register({ exam: "numberPages" })
+    register({ exam: "currentPage" })
+    register({ exam: "timePerPage" })
+    register({ exam: "timesRepeat" })
+    register({ exam: "notes" })
+    register({ exam: "pdfLink" })
+  }, [register])
+
+  // mutation ----------------
+  const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
+
+  // redirects ----------------
+  const currentUser = useCurrentUserValue()
+  if (currentUser === undefined) {
+    return <Redirect to="/login" />
   }
 
+  // functions ----------------
+  const handleChange = (exam, e) => {
+    e.persist()
+    setValue(exam, e.target.value)
+  }
+
+  const onSubmit = data => {
+    handleExam({ examId, data, updateExam })
+  }
+
+  // error handling ----------------
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...</p>
+
+  // return ----------------
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      id="add-exam"
-      className="add-new__form"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="row">
-        <div className="col-md-6 add-new__left">
-          <div className="add-new__form__element">
+        <div className="col-md-6 form__left">
+          <div className="form__element">
             <Label
               htmlFor="subject"
               text="Subject"
-              className="add-new__form__element__label input-required"
+              className="form__element__label input-required"
             />
             <input
-              className="add-new__form__element__input examEdit__form__left--subject"
+              className="form__element__input"
               type="text"
               id="subject"
               label="exam_subject"
-              defaultValue={defaultValues.subject}
+              value={subject}
               name="subject"
+              onChange={handleChange.bind(null, "subject")}
               required
               ref={register({
                 required: true,
@@ -95,20 +128,21 @@ const ExamDetailsEdit = ({ examId }) => {
                 <span className="error"> Maximum 20 characters allowed</span>
               )}
           </div>
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
-                for="exam-date"
+                htmlFor="exam-date"
                 text="Exam date"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="date"
                 id="exam-date"
                 label="exam_date"
-                defaultValue={defaultValues.examDate}
                 name="examDate"
+                value={examDate}
+                onChange={handleChange.bind(null, "examDate")}
                 required
                 ref={register({
                   required: true,
@@ -119,19 +153,20 @@ const ExamDetailsEdit = ({ examId }) => {
               )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
-                for="study-start-date"
+                htmlFor="study-start-date"
                 text="Start learning on"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="date"
                 id="study-start-date"
                 label="exam_start_date"
-                defaultValue={defaultValues.startDate}
                 name="startDate"
+                onChange={handleChange.bind(null, "startDate")}
+                value={startDate}
                 required
                 ref={register({
                   required: false,
@@ -139,21 +174,22 @@ const ExamDetailsEdit = ({ examId }) => {
               />
             </div>
           </div>
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
-                for="page-amount"
+                htmlFor="page-amount"
                 text="Amount of pages"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-amount"
                 label="exam_page_amount"
-                defaultValue={defaultValues.numberPages}
                 name="numberPages"
+                onChange={handleChange.bind(null, "numberPages")}
+                value={numberPages}
                 required
                 ref={register({
                   required: true,
@@ -177,20 +213,21 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
-                for="page-current"
+                htmlFor="page-current"
                 text="Start page"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-current"
                 label="exam_page_current"
-                defaultValue={defaultValues.currentPage}
                 name="currentPage"
+                onChange={handleChange.bind(null, "currentPage")}
+                value={currentPage}
                 ref={register({
                   min: 1,
                   max: 10000,
@@ -209,21 +246,22 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
           </div>
 
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
-                for="page-time"
+                htmlFor="page-time"
                 text="Time per page (min)"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               ></Label>
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-time"
                 label="exam_page_time"
-                defaultValue={defaultValues.timePerPage}
                 name="timePerPage"
+                onChange={handleChange.bind(null, "timePerPage")}
+                value={timePerPage}
                 ref={register({
                   required: true,
                   min: 1,
@@ -250,19 +288,20 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
-                for="page-repeat"
+                htmlFor="page-repeat"
                 text="Repeat"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 id="page-repeat"
                 label="exam_page_repeat"
-                defaultValue={defaultValues.timesRepeat}
                 name="timesRepeat"
+                onChange={handleChange.bind(null, "timesRepeat")}
+                value={timesRepeat}
                 ref={register({
                   required: false,
                   min: 1,
@@ -281,20 +320,21 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
         </div>
 
-        <div className="col-md-6 add-new__right examEdit__form__right">
-          <div className="examEdit__form__right--top">
-            <div className="add-new__form__element">
+        <div className="col-md-6 form__right">
+          <div className="form__right--top">
+            <div className="form__element">
               <Label
-                for="page-notes"
+                htmlFor="page-notes"
                 text="Notes"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <textarea
-                className="add-new__form__element__input"
+                className="form__element__input"
                 id="page-notes"
                 label="exam_page_notes"
-                defaultValue={defaultValues.notes}
                 name="notes"
+                onChange={handleChange.bind(null, "notes")}
+                value={notes}
                 ref={register({
                   required: false,
                   maxLength: 100000000,
@@ -308,19 +348,20 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element examEdit__form__right--top--pdf">
+            <div className="form__element">
               <Label
-                for="pdf-link"
+                htmlFor="pdf-link"
                 text="Pdf link"
-                className="add-new__form__element__label"
+                className="form__element__label"
               ></Label>
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="text"
                 id="pdf-link"
                 label="exam_pdf_upload"
-                defaultValue={defaultValues.pdfLink}
                 name="pdfLink"
+                onChange={handleChange.bind(null, "pdfLink")}
+                value={pdfLink}
                 ref={register({
                   required: false,
                 })}
@@ -328,14 +369,24 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
           </div>
 
-          <div className="add-new__form__submit examEdit__form__right--bottom--btn">
+          <div className="form__submit">
             <Button
-              className="add-new__form__element__btn stan-btn-primary"
+              className="form__element__btn stan-btn-primary"
               variant="button"
               text="Save"
             />
           </div>
         </div>
+      </div>
+
+      <div className="col-md-12" id="success-container-edit-exam">
+        <p className="success">the changes were successfully saved</p>
+      </div>
+
+      <div className="col-md-12" id="success-container-error-exam">
+        <p className="error">
+          Oops! an error occurred whilst updating stan's memory
+        </p>
       </div>
     </form>
   )
@@ -343,42 +394,36 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ data, updateExam }) {
+async function handleExam({ examId, data, updateExam }) {
   try {
     const resp = await updateExam({
-      // variables: {
-      //   mascot: data,
-      // },
+      variables: {
+        id: examId,
+        subject: data.subject,
+        examDate: data.examDate,
+        startDate: data.startDate,
+        numberPages: parseInt(data.numberPages),
+        timePerPage: parseInt(data.timePerPage),
+        timesRepeat: parseInt(data.timesRepeat),
+        startPage: parseInt(data.currentPage),
+        notes: data.notes,
+        pdfLink: data.pdfLink,
+        completed: false,
+      },
     })
 
-    // const resp = await addExam({
-    //   variables: {
-    //     subject: formData.exam_subject,
-    //     examDate: formData.exam_date,
-    //     startDate: formData.exam_start_date,
-    //     numberPages: parseInt(formData.exam_page_amount),
-    //     startPage: parseInt(formData.exam_page_current),
-    //     timePerPage: parseInt(formData.exam_page_time),
-    //     timesRepeat: parseInt(formData.exam_page_repeat),
-    //     notes: formData.exam_page_notes,
-    //     // pdfLink: formData.exam_pdf_upload,
-    //     pdfLink: "TODO: CHANGE LATER",
-    //     completed: false,
-    //   },
-    //   refetchQueries: [
-    //     { query: GET_EXAMS_QUERY },
-    //     { query: GET_TODAYS_CHUNKS },
-    //   ],
-    // })
-
-    // if (resp && resp.data && resp.data.updateMascot) {
-    //   console.log("success: saved new mascot")
-    // } else {
-    //   throw new Error("failed: saved new mascot")
-    // }
+    if (resp && resp.data && resp.data.updateExam) {
+      document.getElementById("success-container-edit-exam").style.display =
+        "block"
+    } else {
+      document.getElementById("success-container-error-exam").style.display =
+        "block"
+    }
 
     // redirect
-    window.location.reload()
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)

@@ -7,6 +7,7 @@
 @import "./assets/styles/fonts";
 @import "./assets/styles/buttons";
 @import "./assets/styles/navbar";
+@import "./assets/styles//form";
 
 // Pages
 @import "pages/add-new-page/add-new-page";
@@ -30,7 +31,6 @@
 @import "components/login-popup/login-popup";
 @import "components/current-exam/exam";
 @import "components/current-exam/exam-details";
-@import "components/current-exam/exam-details-edit";
 @import "components/mascots/mascots";
 @import "components/today/today";
 @import "components/content/page-transition";

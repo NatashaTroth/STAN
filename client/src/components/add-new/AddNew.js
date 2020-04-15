@@ -79,18 +79,18 @@ function AddNew() {
               // onSubmit={handleSubmit}
               onSubmit={handleSubmit(onSubmit)}
               id="add-exam"
-              className="add-new__form"
+              className="form"
             >
               <div className="row">
-                <div className="col-md-6 add-new__left">
-                  <div className="add-new__form__element">
+                <div className="col-md-6 form__left">
+                  <div className="form__element">
                     <Label
                       for="subject"
                       text="Subject"
-                      className="add-new__form__element__label input-required"
+                      className="form__element__label input-required"
                     ></Label>
                     <Input
-                      className="add-new__form__element__input"
+                      className="form__element__input"
                       type="text"
                       id="subject"
                       label="exam_subject"
@@ -121,15 +121,15 @@ function AddNew() {
                         </span>
                       )}
                   </div>
-                  <div className="add-new__form__container add-new__form__container--numbers">
-                    <div className="add-new__form__element">
+                  <div className="form__container form__container--numbers">
+                    <div className="form__element">
                       <Label
                         for="exam-date"
                         text="Exam date"
-                        className="add-new__form__element__label input-required"
+                        className="form__element__label input-required"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="date"
                         id="exam-date"
                         label="exam_date"
@@ -145,14 +145,14 @@ function AddNew() {
                         )}
                     </div>
 
-                    <div className="add-new__form__element">
+                    <div className="form__element">
                       <Label
                         for="study-start-date"
                         text="Start learning on"
-                        className="add-new__form__element__label"
+                        className="form__element__label"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="date"
                         id="study-start-date"
                         label="exam_start_date"
@@ -163,15 +163,15 @@ function AddNew() {
                       />
                     </div>
                   </div>
-                  <div className="add-new__form__container add-new__form__container--numbers">
-                    <div className="add-new__form__element">
+                  <div className="form__container form__container--numbers">
+                    <div className="form__element">
                       <Label
                         for="page-amount"
                         text="Amount of pages"
-                        className="add-new__form__element__label input-required"
+                        className="form__element__label input-required"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="number"
                         min="0"
                         id="page-amount"
@@ -200,14 +200,14 @@ function AddNew() {
                         )}
                     </div>
 
-                    <div className="add-new__form__element">
+                    <div className="form__element">
                       <Label
                         for="page-current"
                         text="Start page"
-                        className="add-new__form__element__label"
+                        className="form__element__label"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="number"
                         min="0"
                         id="page-current"
@@ -231,15 +231,15 @@ function AddNew() {
                     </div>
                   </div>
 
-                  <div className="add-new__form__container add-new__form__container--numbers">
-                    <div className="add-new__form__element">
+                  <div className="form__container form__container--numbers">
+                    <div className="form__element">
                       <Label
                         for="page-time"
                         text="Time per page (min)"
-                        className="add-new__form__element__label input-required"
+                        className="form__element__label input-required"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="number"
                         min="0"
                         id="page-time"
@@ -271,14 +271,14 @@ function AddNew() {
                         )}
                     </div>
 
-                    <div className="add-new__form__element">
+                    <div className="form__element">
                       <Label
                         for="page-repeat"
                         text="Repeat"
-                        className="add-new__form__element__label"
+                        className="form__element__label"
                       ></Label>
                       <Input
-                        className="add-new__form__element__input"
+                        className="form__element__input"
                         type="number"
                         id="page-repeat"
                         label="exam_page_repeat"
@@ -306,53 +306,55 @@ function AddNew() {
                   </div>
                 </div>
 
-                <div className="col-md-6 add-new__right">
-                  <div className="add-new__form__element">
-                    <Label
-                      for="page-notes"
-                      text="Notes"
-                      className="add-new__form__element__label"
-                    ></Label>
-                    <Textarea
-                      className="add-new__form__element__input"
-                      id="page-notes"
-                      label="exam_page_notes"
-                      placeholder="..."
-                      ref={register({
-                        required: false,
-                        maxLength: 100000000,
-                      })}
-                    ></Textarea>
-                    {errors.exam_page_notes &&
-                      errors.exam_page_notes.type === "maxLength" && (
-                        <span className="error">
-                          The maximal length is 100.000.000 characters
-                        </span>
-                      )}
+                <div className="col-md-6 form__right">
+                  <div className="form__right--top">
+                    <div className="form__element">
+                      <Label
+                        for="page-notes"
+                        text="Notes"
+                        className="form__element__label"
+                      ></Label>
+                      <Textarea
+                        className="form__element__input"
+                        id="page-notes"
+                        label="exam_page_notes"
+                        placeholder="..."
+                        ref={register({
+                          required: false,
+                          maxLength: 100000000,
+                        })}
+                      ></Textarea>
+                      {errors.exam_page_notes &&
+                        errors.exam_page_notes.type === "maxLength" && (
+                          <span className="error">
+                            The maximal length is 100.000.000 characters
+                          </span>
+                        )}
+                    </div>
+
+                    {/* TODO: implement file link or upload */}
+                    {/* <div className="form__element">
+                      <Label
+                        for="pdf-upload"
+                        text="Upload PDF file"
+                        className="form__element__label"
+                      ></Label>
+                      <Input
+                        className="form__element__input"
+                        type="file"
+                        accept="application/pdf, .pdf"
+                        id="pdf-upload"
+                        label="exam_pdf_upload"
+                        ref={register({
+                          required: false,
+                        })}
+                      />
+                    </div> */}
                   </div>
 
-                  {/* TODO: implement file link or upload */}
-                  {/* <div className="add-new__form__element">
-                    <Label
-                      for="pdf-upload"
-                      text="Upload PDF file"
-                      className="add-new__form__element__label"
-                    ></Label>
-                    <Input
-                      className="add-new__form__element__input"
-                      type="file"
-                      accept="application/pdf, .pdf"
-                      id="pdf-upload"
-                      label="exam_pdf_upload"
-                      ref={register({
-                        required: false,
-                      })}
-                    />
-                  </div> */}
-
-                  <div className="add-new__form__submit">
+                  <div className="form__submit">
                     <Button
-                      className="add-new__form__element__btn stan-btn-primary"
+                      className="form__element__btn stan-btn-primary"
                       variant="button"
                       text="Add"
                     />
