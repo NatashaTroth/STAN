@@ -1,0 +1,12 @@
+.query-error {
+  &__inner {
+    &--headline {
+      padding-bottom: 50px;
+    }
+    &--button {
+      margin: 45px 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
