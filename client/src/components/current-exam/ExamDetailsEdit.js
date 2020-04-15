@@ -18,10 +18,30 @@ import {
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
-// TODO: update current exam with mutation
 const ExamDetailsEdit = ({ examId }) => {
-  // variables & set default variables in form ----------------
+  // variables ----------------
   let defaultValues
+
+  // query ----------------
+  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+    variables: { id: examId },
+  })
+
+  if (data && data.exam) {
+    defaultValues = {
+      subject: data.exam.subject,
+      examDate: new Date(data.exam.examDate).toISOString().substr(0, 10),
+      startDate: new Date(data.exam.startDate).toISOString().substr(0, 10),
+      numberPages: data.exam.numberPages,
+      timePerPage: data.exam.timePerPage,
+      timesRepeat: data.exam.timesRepeat,
+      currentPage: data.exam.currentPage,
+      notes: data.exam.notes,
+      pdfLink: data.exam.pdfLink,
+    }
+  }
+
+  // set default variables in form and make it editable ----------------
   const { register, errors, watch, setValue, handleSubmit } = useForm({
     defaultValues,
   })
@@ -39,26 +59,16 @@ const ExamDetailsEdit = ({ examId }) => {
   } = watch()
 
   useEffect(() => {
-    register({ name: "subject" })
-    register({ name: "examDate" })
-    register({ name: "startDate" })
-    register({ name: "numberPages" })
-    register({ name: "currentPage" })
-    register({ name: "timePerPage" })
-    register({ name: "timesRepeat" })
-    register({ name: "notes" })
-    register({ name: "pdfLink" })
+    register({ exam: "subject" })
+    register({ exam: "examDate" })
+    register({ exam: "startDate" })
+    register({ exam: "numberPages" })
+    register({ exam: "currentPage" })
+    register({ exam: "timePerPage" })
+    register({ exam: "timesRepeat" })
+    register({ exam: "notes" })
+    register({ exam: "pdfLink" })
   }, [register])
-
-  const handleChange = (name, e) => {
-    e.persist()
-    setValue(name, e.target.value)
-  }
-
-  // query ----------------
-  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
-    variables: { id: examId },
-  })
 
   // mutations ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
@@ -70,27 +80,21 @@ const ExamDetailsEdit = ({ examId }) => {
     return <Redirect to="/login" />
   }
 
+  // functions ----------------
+  const handleChange = (exam, e) => {
+    e.persist()
+    setValue(exam, e.target.value)
+  }
+
+  const onSubmit = data => {
+    handleExam({ examId, data, updateExam })
+  }
+
+  // error handling ----------------
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...</p>
-  if (data && data.exam) {
-    defaultValues = {
-      subject: data.exam.subject,
-      examDate: new Date(data.exam.examDate).toISOString().substr(0, 10),
-      startDate: new Date(data.exam.startDate).toISOString().substr(0, 10),
-      numberPages: data.exam.numberPages,
-      timePerPage: data.exam.timePerPage,
-      timesRepeat: data.exam.timesRepeat,
-      currentPage: data.exam.currentPage,
-      notes: data.exam.notes,
-      pdfLink: data.exam.pdfLink,
-    }
-  }
 
-  // form specific ----------------
-  const onSubmit = async formData => {
-    handleExam({ examId, formData, updateExam })
-  }
-
+  // return ----------------
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -111,6 +115,7 @@ const ExamDetailsEdit = ({ examId }) => {
               id="subject"
               label="exam_subject"
               value={subject}
+              name="subject"
               onChange={handleChange.bind(null, "subject")}
               required
               ref={register({
@@ -143,6 +148,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="date"
                 id="exam-date"
                 label="exam_date"
+                name="examDate"
                 value={examDate}
                 onChange={handleChange.bind(null, "examDate")}
                 required
@@ -166,6 +172,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="date"
                 id="study-start-date"
                 label="exam_start_date"
+                name="startDate"
                 onChange={handleChange.bind(null, "startDate")}
                 value={startDate}
                 required
@@ -188,6 +195,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-amount"
                 label="exam_page_amount"
+                name="numberPages"
                 onChange={handleChange.bind(null, "numberPages")}
                 value={numberPages}
                 required
@@ -225,6 +233,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-current"
                 label="exam_page_current"
+                name="currentPage"
                 onChange={handleChange.bind(null, "currentPage")}
                 value={currentPage}
                 ref={register({
@@ -258,6 +267,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="page-time"
                 label="exam_page_time"
+                name="timePerPage"
                 onChange={handleChange.bind(null, "timePerPage")}
                 value={timePerPage}
                 ref={register({
@@ -297,6 +307,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="number"
                 id="page-repeat"
                 label="exam_page_repeat"
+                name="timesRepeat"
                 onChange={handleChange.bind(null, "timesRepeat")}
                 value={timesRepeat}
                 ref={register({
@@ -329,6 +340,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 className="add-new__form__element__input"
                 id="page-notes"
                 label="exam_page_notes"
+                name="notes"
                 onChange={handleChange.bind(null, "notes")}
                 value={notes}
                 ref={register({
@@ -355,6 +367,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 type="text"
                 id="pdf-link"
                 label="exam_pdf_upload"
+                name="pdfLink"
                 onChange={handleChange.bind(null, "pdfLink")}
                 value={pdfLink}
                 ref={register({
@@ -379,29 +392,25 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ examId, formData, updateExam }) {
+async function handleExam({ examId, data, updateExam }) {
   try {
     const resp = await updateExam({
-      id: examId,
-      subject: formData.subject,
-      examDate: formData.examDate,
-      startDate: formData.startDate,
-      numberPages: parseInt(formData.numberPages),
-      timePerPage: parseInt(formData.timePerPage),
-      timesRepeat: parseInt(formData.timesRepeat),
-      startPage: parseInt(formData.exam_page_current),
-      notes: formData.notes,
-      pdfLink: formData.pdfLink,
-      completed: false,
+      variables: {
+        id: examId,
+        subject: data.subject,
+        examDate: data.examDate,
+        startDate: data.startDate,
+        numberPages: parseInt(data.numberPages),
+        timePerPage: parseInt(data.timePerPage),
+        timesRepeat: parseInt(data.timesRepeat),
+        startPage: parseInt(data.currentPage),
+        notes: data.notes,
+        pdfLink: data.pdfLink,
+        completed: false,
+      },
     })
 
-    // (refetchQueries: [
-    //   // { query: GET_EXAMS_QUERY },
-    // // { query: GET_TODAYS_CHUNKS },
-    // // { query: GET_CALENDAR_CHUNKS }
-    // ]
-
-    if (resp && resp.data && resp.data.updateMascot) {
+    if (resp && resp.data && resp.data.updateExam) {
       console.log("success: saved exam")
     } else {
       throw new Error("failed: saved exam")
