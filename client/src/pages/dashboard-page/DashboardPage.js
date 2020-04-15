@@ -9,6 +9,7 @@ import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
 import Mascots from "../../components/mascots/Mascots"
+import QueryError from "../../components/error/Error"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
@@ -24,10 +25,10 @@ function Dashboard() {
   }
 
   // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
-  if (chunkLoading) return <p>Loading...</p>
-  if (chunkError) return <p>Error :(</p>
+  if (loading) return <p className="loading">Loading...</p>
+  if (error) return <QueryError />
+  if (chunkLoading) return <p className="loading">Loading...</p>
+  if (chunkError) return <QueryError />
 
   // query data ----------------
   let usersToDos

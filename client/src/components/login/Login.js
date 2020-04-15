@@ -14,7 +14,7 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
 function Login() {
-  // localstorage popup event ----------------
+  // local-storage popup event ----------------
   window.localStorage.setItem("popup-event", false)
 
   // google login ----------------
@@ -178,7 +178,6 @@ async function handleLogin({ formData, login }) {
         password: formData.password,
       },
     })
-
     if (resp && resp.data && resp.data.login) {
       setAccessToken(resp.data.login)
     } else {
@@ -189,7 +188,6 @@ async function handleLogin({ formData, login }) {
     window.location.reload()
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    console.error(err)
   }
 }
