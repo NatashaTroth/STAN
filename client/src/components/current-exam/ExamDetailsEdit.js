@@ -14,6 +14,7 @@ import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 // sub-components ----------------
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import QueryError from "../../components/error/Error"
 
 const ExamDetailsEdit = ({ examId }) => {
   // variables ----------------
@@ -88,7 +89,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // error handling ----------------
   if (loading) return <p className="loading">loading...</p>
-  if (error) return <p>error...</p>
+  if (error) return <QueryError />
 
   // return ----------------
   return (
