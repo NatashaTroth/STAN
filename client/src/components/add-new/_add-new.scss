@@ -5,58 +5,10 @@
   .container-fluid {
     padding: 0;
   }
-
-  &__left {
-  }
-  &__right {
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-  }
-
   &__heading {
     font-family: $font-family-BasierCircle-Bold;
     border-bottom: 3px solid theme-color("dark");
     padding: 5px 0;
     margin: 5px;
-  }
-
-  &__form {
-    &__container {
-      display: flex;
-      flex-direction: row;
-
-      @include media-breakpoint-down(lg) {
-        flex-direction: column;
-      }
-
-      &--numbers {
-        .add-new__form__element {
-          @include media-breakpoint-down(xl) {
-            width: 150px;
-          }
-          @include media-breakpoint-down(lg) {
-            width: auto;
-          }
-        }
-      }
-    }
-
-    &__element {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      margin: 25px 25px;
-
-      &__label {
-      }
-      &__input {
-      }
-    }
-
-    &__submit {
-      display: flex;
-      justify-content: flex-end;
-    }
   }
 }

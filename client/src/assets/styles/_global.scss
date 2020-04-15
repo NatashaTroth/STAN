@@ -346,8 +346,7 @@ html body {
     }
   }
 
-  #success-container,
-  #success-container-edit-exam {
+  #success-container {
     display: none;
 
     .success {
@@ -357,6 +356,33 @@ html body {
 
       @include media-breakpoint-down(md) {
         text-align: left;
+      }
+    }
+  }
+
+  #success-container-edit-exam,
+  #success-container-error-exam {
+    display: none;
+
+    .success {
+      color: theme-color("success");
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      max-width: none;
+
+      @include media-breakpoint-down(md) {
+        justify-content: flex-start;
+      }
+    }
+    .error {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      max-width: none;
+
+      @include media-breakpoint-down(md) {
+        justify-content: flex-start;
       }
     }
   }

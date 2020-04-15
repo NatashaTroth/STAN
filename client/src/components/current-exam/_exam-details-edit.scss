@@ -2,8 +2,6 @@
   &__form {
     justify-content: space-between;
     &__left--subject {
-      max-width: 350px;
-
       @include media-breakpoint-down(sm) {
         max-width: 100%;
       }

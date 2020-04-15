@@ -96,21 +96,17 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // return ----------------
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      id="add-exam"
-      className="add-new__form"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <div className="row">
-        <div className="col-md-6 add-new__left">
-          <div className="add-new__form__element">
+        <div className="col-md-6 form__left">
+          <div className="form__element">
             <Label
               htmlFor="subject"
               text="Subject"
-              className="add-new__form__element__label input-required"
+              className="form__element__label input-required"
             />
             <input
-              className="add-new__form__element__input examEdit__form__left--subject"
+              className="form__element__input examEdit__form__left--subject"
               type="text"
               id="subject"
               label="exam_subject"
@@ -136,15 +132,15 @@ const ExamDetailsEdit = ({ examId }) => {
                 <span className="error"> Maximum 20 characters allowed</span>
               )}
           </div>
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
                 htmlFor="exam-date"
                 text="Exam date"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="date"
                 id="exam-date"
                 label="exam_date"
@@ -161,14 +157,14 @@ const ExamDetailsEdit = ({ examId }) => {
               )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
                 htmlFor="study-start-date"
                 text="Start learning on"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="date"
                 id="study-start-date"
                 label="exam_start_date"
@@ -182,15 +178,15 @@ const ExamDetailsEdit = ({ examId }) => {
               />
             </div>
           </div>
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
                 htmlFor="page-amount"
                 text="Amount of pages"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-amount"
@@ -221,14 +217,14 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
                 htmlFor="page-current"
                 text="Start page"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-current"
@@ -254,15 +250,15 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
           </div>
 
-          <div className="add-new__form__container add-new__form__container--numbers">
-            <div className="add-new__form__element">
+          <div className="form__container form__container--numbers">
+            <div className="form__element">
               <Label
                 htmlFor="page-time"
                 text="Time per page (min)"
-                className="add-new__form__element__label input-required"
+                className="form__element__label input-required"
               ></Label>
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 min="0"
                 id="page-time"
@@ -296,14 +292,14 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
                 htmlFor="page-repeat"
                 text="Repeat"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="number"
                 id="page-repeat"
                 label="exam_page_repeat"
@@ -328,16 +324,16 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
         </div>
 
-        <div className="col-md-6 add-new__right examEdit__form__right">
+        <div className="col-md-6 form__right examEdit__form__right">
           <div className="examEdit__form__right--top">
-            <div className="add-new__form__element">
+            <div className="form__element">
               <Label
                 htmlFor="page-notes"
                 text="Notes"
-                className="add-new__form__element__label"
+                className="form__element__label"
               />
               <textarea
-                className="add-new__form__element__input"
+                className="form__element__input"
                 id="page-notes"
                 label="exam_page_notes"
                 name="notes"
@@ -356,14 +352,14 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="add-new__form__element examEdit__form__right--top--pdf">
+            <div className="form__element examEdit__form__right--top--pdf">
               <Label
                 htmlFor="pdf-link"
                 text="Pdf link"
-                className="add-new__form__element__label"
+                className="form__element__label"
               ></Label>
               <input
-                className="add-new__form__element__input"
+                className="form__element__input"
                 type="text"
                 id="pdf-link"
                 label="exam_pdf_upload"
@@ -377,9 +373,9 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
           </div>
 
-          <div className="add-new__form__submit examEdit__form__right--bottom--btn">
+          <div className="form__submit examEdit__form__right--bottom--btn">
             <Button
-              className="add-new__form__element__btn stan-btn-primary"
+              className="form__element__btn stan-btn-primary"
               variant="button"
               text="Save"
             />
@@ -389,6 +385,12 @@ const ExamDetailsEdit = ({ examId }) => {
 
       <div className="col-md-12" id="success-container-edit-exam">
         <p className="success">the changes were successfully saved</p>
+      </div>
+
+      <div className="col-md-12" id="success-container-error-exam">
+        <p className="error">
+          Oops! an error occurred whilst updating stan's memory
+        </p>
       </div>
     </form>
   )
@@ -418,7 +420,8 @@ async function handleExam({ examId, data, updateExam }) {
       document.getElementById("success-container-edit-exam").style.display =
         "block"
     } else {
-      throw new Error("exam could not be saved.")
+      document.getElementById("success-container-error-exam").style.display =
+        "block"
     }
 
     // redirect
