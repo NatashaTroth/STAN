@@ -135,9 +135,10 @@ export const userResolvers = {
         handleAuthentication(context.userInfo);
         //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
         await deleteUsersData(context.userInfo.userId);
+        sendRefreshToken(context.res, "");
 
-        // await logUserOut(context.res, context.userInfo.userId);
         await deleteUser(context.userInfo.userId);
+        // await logUserOut(context.res, context.userInfo.userId);
 
         return true;
       } catch (err) {

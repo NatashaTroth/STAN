@@ -6,7 +6,6 @@ import { AuthenticationError } from "apollo-server";
 export async function isAuth(req) {
   try {
     const decodedToken = decodeAccessToken(req);
-    console.log(decodedToken);
     const user = await User.findOne({ _id: decodedToken.userId });
     if (!user) throw new AuthenticationError("User does not exist.");
     if (user.accessTokenVersion !== decodedToken.tokenVersion)
