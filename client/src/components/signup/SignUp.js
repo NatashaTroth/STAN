@@ -141,7 +141,41 @@ function SignUp() {
               type="password"
               id="password"
               label="password"
-              placeholder="********"
+              required
+              ref={register({
+                required: true,
+                minLength: 8,
+                maxLength: 30,
+                pattern: /^.{8,30}$/,
+              })}
+            />
+            {errors.password && errors.password.type === "required" && (
+              <span className="error">This field is required</span>
+            )}
+            {errors.password && errors.password.type === "minLength" && (
+              <span className="error"> Minimum 8 characters required</span>
+            )}
+            {errors.password && errors.password.type === "maxLength" && (
+              <span className="error"> Maximum 30 characters allowed</span>
+            )}
+            {errors.password && errors.password.type === "pattern" && (
+              <span className="error">
+                The password needs to be between 8 and 30 characters long
+              </span>
+            )}
+          </div>
+
+          <div className="login__form__element">
+            <Label
+              for="retype_password"
+              text="Retype password"
+              className="login__form__element__label input-required"
+            ></Label>
+            <Input
+              className="login__form__element__input"
+              type="password"
+              id="retype_password"
+              label="retype_password"
               required
               ref={register({
                 required: true,

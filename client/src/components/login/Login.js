@@ -101,7 +101,6 @@ function Login() {
               type="password"
               id="password"
               label="password"
-              placeholder=""
               required
               ref={register({
                 required: true,
