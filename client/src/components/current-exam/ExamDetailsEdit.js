@@ -106,7 +106,7 @@ const ExamDetailsEdit = ({ examId }) => {
               className="form__element__label input-required"
             />
             <input
-              className="form__element__input examEdit__form__left--subject"
+              className="form__element__input"
               type="text"
               id="subject"
               label="exam_subject"
@@ -324,8 +324,8 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
         </div>
 
-        <div className="col-md-6 form__right examEdit__form__right">
-          <div className="examEdit__form__right--top">
+        <div className="col-md-6 form__right">
+          <div class="form__right--top">
             <div className="form__element">
               <Label
                 htmlFor="page-notes"
@@ -352,7 +352,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__element examEdit__form__right--top--pdf">
+            <div className="form__element">
               <Label
                 htmlFor="pdf-link"
                 text="Pdf link"
@@ -373,7 +373,7 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
           </div>
 
-          <div className="form__submit examEdit__form__right--bottom--btn">
+          <div className="form__submit">
             <Button
               className="form__element__btn stan-btn-primary"
               variant="button"

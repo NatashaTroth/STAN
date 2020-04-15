@@ -307,48 +307,50 @@ function AddNew() {
                 </div>
 
                 <div className="col-md-6 form__right">
-                  <div className="form__element">
-                    <Label
-                      for="page-notes"
-                      text="Notes"
-                      className="form__element__label"
-                    ></Label>
-                    <Textarea
-                      className="form__element__input"
-                      id="page-notes"
-                      label="exam_page_notes"
-                      placeholder="..."
-                      ref={register({
-                        required: false,
-                        maxLength: 100000000,
-                      })}
-                    ></Textarea>
-                    {errors.exam_page_notes &&
-                      errors.exam_page_notes.type === "maxLength" && (
-                        <span className="error">
-                          The maximal length is 100.000.000 characters
-                        </span>
-                      )}
-                  </div>
+                  <div className="form__right--top">
+                    <div className="form__element">
+                      <Label
+                        for="page-notes"
+                        text="Notes"
+                        className="form__element__label"
+                      ></Label>
+                      <Textarea
+                        className="form__element__input"
+                        id="page-notes"
+                        label="exam_page_notes"
+                        placeholder="..."
+                        ref={register({
+                          required: false,
+                          maxLength: 100000000,
+                        })}
+                      ></Textarea>
+                      {errors.exam_page_notes &&
+                        errors.exam_page_notes.type === "maxLength" && (
+                          <span className="error">
+                            The maximal length is 100.000.000 characters
+                          </span>
+                        )}
+                    </div>
 
-                  {/* TODO: implement file link or upload */}
-                  {/* <div className="form__element">
-                    <Label
-                      for="pdf-upload"
-                      text="Upload PDF file"
-                      className="form__element__label"
-                    ></Label>
-                    <Input
-                      className="form__element__input"
-                      type="file"
-                      accept="application/pdf, .pdf"
-                      id="pdf-upload"
-                      label="exam_pdf_upload"
-                      ref={register({
-                        required: false,
-                      })}
-                    />
-                  </div> */}
+                    {/* TODO: implement file link or upload */}
+                    {/* <div className="form__element">
+                      <Label
+                        for="pdf-upload"
+                        text="Upload PDF file"
+                        className="form__element__label"
+                      ></Label>
+                      <Input
+                        className="form__element__input"
+                        type="file"
+                        accept="application/pdf, .pdf"
+                        id="pdf-upload"
+                        label="exam_pdf_upload"
+                        ref={register({
+                          required: false,
+                        })}
+                      />
+                    </div> */}
+                  </div>
 
                   <div className="form__submit">
                     <Button
