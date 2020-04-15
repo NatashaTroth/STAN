@@ -25,10 +25,12 @@ const getParamId = location => {
 }
 
 const ExamDetails = () => {
-  // router & states ----------------
-  let history = useHistory()
+  // states ----------------
   let [edit, openEdit] = useState(false)
   let [popup, openPopup] = useState(false)
+
+  // routes ----------------
+  let history = useHistory()
   const location = useLocation()
   let paramId = getParamId(location)
 
