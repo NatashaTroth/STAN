@@ -370,6 +370,7 @@ html body {
       flex-direction: row;
       justify-content: flex-end;
       max-width: none;
+      margin-top: 20px;
 
       @include media-breakpoint-down(md) {
         justify-content: flex-start;
@@ -380,6 +381,7 @@ html body {
       flex-direction: row;
       justify-content: flex-end;
       max-width: none;
+      margin-top: 20px;
 
       @include media-breakpoint-down(md) {
         justify-content: flex-start;

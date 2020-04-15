@@ -212,12 +212,26 @@
 
       &--headline {
         padding-bottom: 30px;
+
+        @include media-breakpoint-down(xs) {
+          text-align: center;
+        }
       }
 
       &--buttons {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+
+        @include media-breakpoint-down(xs) {
+          flex-direction: column;
+        }
+
+        @include media-breakpoint-down(md) {
+          button {
+            margin: 5px 5px;
+          }
+        }
       }
     }
   }
