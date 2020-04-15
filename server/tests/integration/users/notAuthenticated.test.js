@@ -6,7 +6,8 @@ import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
   UPDATE_MASCOT_MUTATION,
-  LOGOUT_MUTATION
+  LOGOUT_MUTATION,
+  DELETE_USER_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -109,6 +110,14 @@ describe("Test user sign up and login resolvers", () => {
 
     expect(resp2.data.updateMascot).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not delete the user", async () => {
+    const resp = await mutate({
+      query: DELETE_USER_MUTATION
+    });
+    expect(resp.data.deleteUser).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 
   //_----------------------------------LOGIN----------------------------------

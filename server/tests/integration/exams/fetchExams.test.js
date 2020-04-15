@@ -21,7 +21,7 @@ describe("Test user resolver regex", () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
-    query = client.mutate;
+    query = client.query;
   });
 
   afterEach(async () => {
