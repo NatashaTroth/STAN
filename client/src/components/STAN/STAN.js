@@ -11,6 +11,7 @@ import { useQuery } from "@apollo/react-hooks"
 import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
+import QueryError from "../error/Error"
 
 // images & logos ----------------
 import Image from "../../components/image/Image"
@@ -28,7 +29,7 @@ const Navbar = () => {
   let currentUser
 
   if (loading) return <p className="loading">Loading...</p>
-  if (error) return <p>Error...</p>
+  if (error) return <QueryError />
   if (data && data.currentUser) {
     currentUser = data.currentUser
   }
