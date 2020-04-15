@@ -22,6 +22,15 @@
     &__inner {
       display: flex;
       flex-direction: column;
+
+      #signup-error {
+        display: none;
+        margin-bottom: 20px;
+        .error {
+          display: flex;
+          justify-content: center;
+        }
+      }
     }
 
     &__element {

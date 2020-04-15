@@ -53,13 +53,23 @@ function SignUp() {
 
   // form specific ----------------
   const onSubmit = async formData => {
-    handleSignup({ formData, signup })
+    if (formData.password === formData.retype_password) {
+      handleSignup({ formData, signup })
+    } else {
+      document.getElementById("signup-error").style.display = "block"
+    }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
         <div className="col-md-12 login__form__inner">
+          <div id="signup-error">
+            <div className="error">
+              <p>please make sure your passwords match</p>
+            </div>
+          </div>
+
           <div className="login__form__element">
             <Label
               for="username"
@@ -80,20 +90,20 @@ function SignUp() {
                 pattern: /^.{1,30}$/,
               })}
             />
-            {errors.username && errors.username.type === "required" && (
+            {errors.username && errors.username.type === "required" ? (
               <span className="error">This field is required</span>
-            )}
-            {errors.username && errors.username.type === "minLength" && (
+            ) : null}
+            {errors.username && errors.username.type === "minLength" ? (
               <span className="error"> Minimum 8 character required</span>
-            )}
-            {errors.username && errors.username.type === "maxLength" && (
+            ) : null}
+            {errors.username && errors.username.type === "maxLength" ? (
               <span className="error"> Maximum 30 characters allowed</span>
-            )}
-            {errors.username && errors.username.type === "pattern" && (
+            ) : null}
+            {errors.username && errors.username.type === "pattern" ? (
               <span className="error">
                 The username needs to be between 1 and 30 characters long
               </span>
-            )}
+            ) : null}
           </div>
 
           <div className="login__form__element">
@@ -116,18 +126,18 @@ function SignUp() {
                 pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
               })}
             />
-            {errors.email && errors.email.type === "required" && (
+            {errors.email && errors.email.type === "required" ? (
               <span className="error">This field is required</span>
-            )}
-            {errors.email && errors.email.type === "minLength" && (
+            ) : null}
+            {errors.email && errors.email.type === "minLength" ? (
               <span className="error"> Minimum 1 character required</span>
-            )}
-            {errors.email && errors.email.type === "maxLength" && (
+            ) : null}
+            {errors.email && errors.email.type === "maxLength" ? (
               <span className="error"> Maximum 30 characters allowed</span>
-            )}
-            {errors.email && errors.email.type === "pattern" && (
+            ) : null}
+            {errors.email && errors.email.type === "pattern" ? (
               <span className="error">This is no valid e-mail address</span>
-            )}
+            ) : null}
           </div>
 
           <div className="login__form__element">
@@ -149,20 +159,20 @@ function SignUp() {
                 pattern: /^.{8,30}$/,
               })}
             />
-            {errors.password && errors.password.type === "required" && (
+            {errors.password && errors.password.type === "required" ? (
               <span className="error">This field is required</span>
-            )}
-            {errors.password && errors.password.type === "minLength" && (
+            ) : null}
+            {errors.password && errors.password.type === "minLength" ? (
               <span className="error"> Minimum 8 characters required</span>
-            )}
-            {errors.password && errors.password.type === "maxLength" && (
+            ) : null}
+            {errors.password && errors.password.type === "maxLength" ? (
               <span className="error"> Maximum 30 characters allowed</span>
-            )}
-            {errors.password && errors.password.type === "pattern" && (
+            ) : null}
+            {errors.password && errors.password.type === "pattern" ? (
               <span className="error">
                 The password needs to be between 8 and 30 characters long
               </span>
-            )}
+            ) : null}
           </div>
 
           <div className="login__form__element">
@@ -184,20 +194,20 @@ function SignUp() {
                 pattern: /^.{8,30}$/,
               })}
             />
-            {errors.password && errors.password.type === "required" && (
+            {errors.password && errors.password.type === "required" ? (
               <span className="error">This field is required</span>
-            )}
-            {errors.password && errors.password.type === "minLength" && (
+            ) : null}
+            {errors.password && errors.password.type === "minLength" ? (
               <span className="error"> Minimum 8 characters required</span>
-            )}
-            {errors.password && errors.password.type === "maxLength" && (
+            ) : null}
+            {errors.password && errors.password.type === "maxLength" ? (
               <span className="error"> Maximum 30 characters allowed</span>
-            )}
-            {errors.password && errors.password.type === "pattern" && (
+            ) : null}
+            {errors.password && errors.password.type === "pattern" ? (
               <span className="error">
                 The password needs to be between 8 and 30 characters long
               </span>
-            )}
+            ) : null}
           </div>
 
           <div className="login__form__buttons">
@@ -256,6 +266,7 @@ async function handleSignup({ formData, signup }) {
         mascot: 0,
       },
     })
+
     if (resp && resp.data && resp.data.signup) {
       setAccessToken(resp.data.signup)
       console.log("saved access token after signup")
