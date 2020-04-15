@@ -59,8 +59,12 @@ const ExamDetails = () => {
     openEdit(edit => !edit)
   }
 
-  const handleExam = () => {
+  const handlePopup = () => {
     openPopup(popup => !popup)
+  }
+
+  const handleDeletion = () => {
+    examDeletion({ paramId, deleteExam, history })
   }
 
   // return ----------------
@@ -113,7 +117,7 @@ const ExamDetails = () => {
                         {edit || examDetails.completed ? (
                           <Button
                             variant="button"
-                            onClick={handleExam}
+                            onClick={handlePopup}
                             className="exam-btn delete-btn"
                             text="delete"
                           />
@@ -151,11 +155,15 @@ const ExamDetails = () => {
                         </div>
 
                         <div className="exam-details__popup--inner--buttons">
-                          <Button className="stan-btn-secondary" text="Yes" />
+                          <Button
+                            className="stan-btn-secondary"
+                            text="Yes"
+                            onClick={handleDeletion}
+                          />
                           <Button
                             className="stan-btn-primary"
                             text="No"
-                            onClick={handleExam}
+                            onClick={handlePopup}
                           />
                         </div>
                       </div>
@@ -166,6 +174,14 @@ const ExamDetails = () => {
             </div>
           </div>
           <div className="col-md-1"></div>
+          <div className="col-md-12" id="success-container-edit-exam">
+            <p className="success">the exam was successfully deleted</p>
+          </div>
+          <div className="col-md-12" id="success-container-error-exam">
+            <p className="error">
+              Oops! an error occurred whilst deleting stan's memory
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -173,3 +189,28 @@ const ExamDetails = () => {
 }
 
 export default ExamDetails
+
+async function examDeletion({ paramId, deleteExam, history }) {
+  try {
+    const resp = await deleteExam({
+      variables: {
+        id: paramId.id,
+      },
+    })
+
+    if (resp && resp.data && resp.data.deleteExam) {
+      document.getElementById("success-container-edit-exam").style.display =
+        "block"
+    } else {
+      document.getElementById("success-container-error-exam").style.display =
+        "block"
+    }
+
+    history.push("/exams")
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}
