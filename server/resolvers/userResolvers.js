@@ -11,6 +11,7 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import bcrypt from "bcrypt";
 
 import {
   authenticateUser,
@@ -116,6 +117,8 @@ export const userResolvers = {
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
         const payload = await verifyGoogleIdToken(idToken);
         if (!payload)
           throw new AuthenticationError("Google id token was not verified.");
@@ -125,6 +128,67 @@ export const userResolvers = {
 
         const accessToken = logUserIn({ user, context });
         // return { user, accessToken, tokenExpiration: 15 };
+        return accessToken;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    updateUser: async (
+      parent,
+      { username, email, password, newPassword, mascot },
+      context
+    ) => {
+      try {
+        handleAuthentication(context.userInfo);
+        //TODO - EXTRA TREATMENT GOOGLE??
+
+        const user = await User.findOne({ _id: context.userInfo.userId });
+        const valid = await bcrypt.compare(password, user.password);
+        if (!valid) throw new AuthenticationError("Password is incorrect.");
+
+        let passwordToSave = password;
+        if (newPassword) {
+          passwordToSave = newPassword;
+        }
+        console.log("1");
+        verifySignupInputFormat({
+          username,
+          email,
+          password: passwordToSave,
+          mascot: mascot.toString()
+        });
+        console.log("2");
+
+        const updatedUser = {
+          username,
+          email,
+          password: await bcrypt.hash(passwordToSave, 10),
+          mascot,
+          updatedAt: new Date()
+        };
+        // user.username = username;
+        // user.email = email;
+        // user.password = await bcrypt.hash(passwordToSave, 10);
+        // user.mascot = mascot;
+        // user.updatedAt = new Date();
+        console.log("3");
+        console.log(JSON.stringify(user));
+
+        const resp = await User.updateOne(
+          { _id: context.userInfo.userId.toString() },
+          { ...updatedUser }
+        );
+
+        console.log("4");
+        console.log(resp);
+
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The user couldn't be updated.");
+        const newUser = await User.findOne({ _id: context.userInfo.userId });
+
+        console.log("6");
+        const accessToken = logUserIn({ user: { ...newUser }, context });
+        console.log("7");
         return accessToken;
       } catch (err) {
         handleResolverError(err);
