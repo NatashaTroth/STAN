@@ -7,7 +7,8 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
+import { DELETE_EXAM_MUTATION } from "../../graphQL/mutations"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // components ----------------
 import ExamDetailsEdit from "../current-exam/ExamDetailsEdit"
@@ -27,6 +28,7 @@ const ExamDetails = () => {
   // router & states ----------------
   let history = useHistory()
   let [edit, openEdit] = useState(false)
+  let [popup, openPopup] = useState(false)
   const location = useLocation()
   let paramId = getParamId(location)
 
@@ -34,6 +36,9 @@ const ExamDetails = () => {
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: paramId.id },
   })
+
+  // mutation ----------------
+  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -52,6 +57,10 @@ const ExamDetails = () => {
   // functions ----------------
   const handleEdit = () => {
     openEdit(edit => !edit)
+  }
+
+  const handleExam = () => {
+    openPopup(popup => !popup)
   }
 
   // return ----------------
@@ -104,6 +113,7 @@ const ExamDetails = () => {
                         {edit || examDetails.completed ? (
                           <Button
                             variant="button"
+                            onClick={handleExam}
                             className="exam-btn delete-btn"
                             text="delete"
                           />
@@ -130,6 +140,25 @@ const ExamDetails = () => {
                   {!edit ? (
                     <div className="col-md-12">
                       <ExamDetailsInfo examDetails={examDetails} />
+                    </div>
+                  ) : null}
+
+                  {popup ? (
+                    <div className="exam-details__popup">
+                      <div className="exam-details__popup--inner box-content">
+                        <div className="exam-details__popup--inner--headline">
+                          <h4>Are you sure you want to delete this exam?</h4>
+                        </div>
+
+                        <div className="exam-details__popup--inner--buttons">
+                          <Button className="stan-btn-secondary" text="Yes" />
+                          <Button
+                            className="stan-btn-primary"
+                            text="No"
+                            onClick={handleExam}
+                          />
+                        </div>
+                      </div>
                     </div>
                   ) : null}
                 </div>

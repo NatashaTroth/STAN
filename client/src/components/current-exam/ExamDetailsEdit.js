@@ -9,10 +9,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries & mutation ----------------
 import { GET_EXAM_QUERY } from "../../graphQL/queries"
-import {
-  UPDATE_EXAM_MUTATION,
-  DELETE_EXAM_MUTATION,
-} from "../../graphQL/mutations"
+import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"
@@ -70,9 +67,8 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "pdfLink" })
   }, [register])
 
-  // mutations ----------------
+  // mutation ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
-  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -325,7 +321,7 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
 
         <div className="col-md-6 form__right">
-          <div class="form__right--top">
+          <div className="form__right--top">
             <div className="form__element">
               <Label
                 htmlFor="page-notes"
