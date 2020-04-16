@@ -217,8 +217,8 @@ async function examDeletion({ paramId, deleteExam, history }) {
         "block"
     }
 
-    history.push("/exams")
-    window.location.reload()
+    // redirect ----------------
+    window.location.href = "/exams"
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
