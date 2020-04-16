@@ -424,7 +424,7 @@ async function handleExam({ examId, data, updateExam }) {
     // redirect
     setTimeout(() => {
       window.location.reload()
-    }, 2000)
+    }, 1000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
