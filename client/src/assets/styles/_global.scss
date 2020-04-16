@@ -363,7 +363,9 @@ html body {
   #success-container-edit-exam,
   #error-container-edit-exam,
   #success-container-delete-user,
-  #error-container-delete-user {
+  #error-container-delete-user,
+  #success-container-edit-user,
+  #error-container-edit-user {
     display: none;
 
     .success {
