@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
@@ -295,7 +295,7 @@ async function examDeletion({ currentUser, deleteUser }) {
 
     // redirect
     setTimeout(() => {
-      window.location.reload()
+      window.location.href = "/sign-up"
     }, 2000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
