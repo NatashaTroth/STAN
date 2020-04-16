@@ -141,10 +141,12 @@ export const userResolvers = {
     ) => {
       try {
         handleAuthentication(context.userInfo);
+        const user = context.userInfo.user;
+        if (user.googleLogin)
+          throw new ApolloError("Cannot update Google Login user account.");
         //TODO - EXTRA TREATMENT GOOGLE??
 
         // const user = await User.findOne({ _id: context.userInfo.userId });
-        const user = context.userInfo.user;
         // console.log(user1.password);
         // console.log(user.password);
 
