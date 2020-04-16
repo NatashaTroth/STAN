@@ -52,6 +52,7 @@ function AddNew() {
         throw new Error("The exam could not be added")
       }
     } catch (err) {
+      // TODO: display error message
       console.error(err.message)
     }
   }

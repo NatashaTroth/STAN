@@ -567,7 +567,7 @@ async function editUser({ mascotStore, formData, updateUser }) {
       document.getElementById("success-container-edit-user").style.display =
         "block"
     } else {
-      throw new Error("The user changes were failed.")
+      throw new Error("Cannot save user changes.")
     }
 
     // redirect

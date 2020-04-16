@@ -417,7 +417,7 @@ async function handleExam({ examId, data, updateExam }) {
       document.getElementById("success-container-edit-exam").style.display =
         "block"
     } else {
-      throw new Error()
+      throw new Error("Cannot edit current exam.")
     }
 
     // redirect ----------------

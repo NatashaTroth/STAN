@@ -119,7 +119,8 @@ async function handleMascot({ data, updateMascot }) {
     } else {
       throw new Error()
     }
-    // redirect
+
+    // redirect ----------------
     window.localStorage.setItem("mascot-event", false)
     window.location.reload()
   } catch (err) {

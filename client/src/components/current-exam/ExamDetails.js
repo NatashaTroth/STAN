@@ -213,7 +213,7 @@ async function examDeletion({ paramId, deleteExam }) {
       document.getElementById("success-container-exam-detail").style.display =
         "block"
     } else {
-      throw new Error()
+      throw new Error("The deletion of current exam failed.")
     }
 
     // redirect ----------------
