@@ -185,10 +185,10 @@ const ExamDetails = () => {
             </div>
           </div>
           <div className="col-md-1"></div>
-          <div className="col-md-12" id="success-container-edit-exam">
+          <div className="col-md-12" id="success-container-exam-detail">
             <p className="success">the exam was successfully deleted</p>
           </div>
-          <div className="col-md-12" id="success-container-error-exam">
+          <div className="col-md-12" id="error-container-exam-detail">
             <p className="error">
               Oops! an error occurred whilst deleting stan's memory
             </p>
@@ -210,10 +210,10 @@ async function examDeletion({ paramId, deleteExam, history }) {
     })
 
     if (resp && resp.data && resp.data.deleteExam) {
-      document.getElementById("success-container-edit-exam").style.display =
+      document.getElementById("success-container-exam-detail").style.display =
         "block"
     } else {
-      document.getElementById("success-container-error-exam").style.display =
+      document.getElementById("error-container-exam-detail").style.display =
         "block"
     }
 

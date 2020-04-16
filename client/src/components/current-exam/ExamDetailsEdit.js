@@ -417,7 +417,7 @@ async function handleExam({ examId, data, updateExam }) {
       document.getElementById("success-container-edit-exam").style.display =
         "block"
     } else {
-      document.getElementById("success-container-error-exam").style.display =
+      document.getElementById("error-container-edit-exam").style.display =
         "block"
     }
 

@@ -104,7 +104,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 </div>
                 <a
                   href={examDetails.pdfLink}
-                  target="_blank"
+                  // target="_blank"
                   className="stan-btn-secondary"
                 >
                   open
