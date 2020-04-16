@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost" //to make queries
 
-//TODO IMPORTANT - DELETE AS SOON AS POSSIBLE
+//TODO: IMPORTANT - DELETE AS SOON AS POSSIBLE
 export const GET_USERS_QUERY = gql`
   {
     users {

@@ -8,7 +8,10 @@ import { useForm } from "react-hook-form"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // mutations ----------------
-import { DELETE_USER_MUTATION } from "../../graphQL/mutations"
+import {
+  DELETE_USER_MUTATION,
+  UPDATE_MASCOT_MUTATION,
+} from "../../graphQL/mutations"
 import { useMutation } from "@apollo/react-hooks"
 
 // components ----------------
@@ -31,11 +34,12 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 const UserAccountEdit = () => {
   // variables ----------------
   let defaultValues
-  let mascotStore = {}
+  const mascotStore = { mascot: 0 }
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
   // const [updateUser = useMutation()
+  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
 
   // state ----------------
   const [deleteProfile, setDeletion] = useState(false)
@@ -65,12 +69,16 @@ const UserAccountEdit = () => {
 
   const onSubmit = formData => {
     // handleExam({ mascotStore, formData, updateUser })
+
+    if (currentUser.googleLogin) {
+      formData = mascotStore.mascot
+      handleMascot({ formData, updateMascot })
+    }
   }
 
+  // functions ----------------
   const handleMascotCallback = id => {
-    mascotStore = {
-      mascotId: id,
-    }
+    mascotStore.mascot = id
   }
 
   const handleUser = () => {
@@ -90,111 +98,111 @@ const UserAccountEdit = () => {
               <div className="user-account__edit--heading--sub-heading">
                 <h3>edit your profile details</h3>
               </div>
-              {!currentUser.googleLogin ? (
-                <div className="user-account__edit--heading--delete-btn">
-                  <Button onClick={handleUser} text="Delete" />
-                </div>
-              ) : null}
+
+              <div className="user-account__edit--heading--delete-btn">
+                <Button onClick={handleUser} text="Delete" />
+              </div>
             </div>
           </div>
           <div className="col-xl-12">
             <form onSubmit={handleSubmit(onSubmit)} className="form">
               <div className="container-fluid">
                 <div className="row">
-                  <div className="col-xl-6">
-                    <div className="form__element">
-                      <Label
-                        htmlFor="username"
-                        text="Name"
-                        className="form__element__label input-required"
-                      />
+                  {!currentUser.googleLogin ? (
+                    <div className="col-xl-6">
+                      <div className="form__element">
+                        <Label
+                          htmlFor="username"
+                          text="Name"
+                          className="form__element__label input-required"
+                        />
 
-                      <input
-                        type="text"
-                        id="username"
-                        label="username"
-                        name="username"
-                        value={username}
-                        onChange={handleChange.bind(null, "username")}
-                        required
-                        ref={register({
-                          required: true,
-                          minLength: 1,
-                          maxLength: 30,
-                          pattern: /^.{1,30}$/,
-                        })}
-                      />
+                        <input
+                          type="text"
+                          id="username"
+                          label="username"
+                          name="username"
+                          value={username}
+                          onChange={handleChange.bind(null, "username")}
+                          required
+                          ref={register({
+                            required: true,
+                            minLength: 1,
+                            maxLength: 30,
+                            pattern: /^.{1,30}$/,
+                          })}
+                        />
 
-                      {errors.username &&
-                      errors.username.type === "required" ? (
-                        <span className="error">This field is required</span>
-                      ) : null}
-                      {errors.username &&
-                      errors.username.type === "minLength" ? (
-                        <span className="error">
-                          {" "}
-                          Minimum 8 character required
-                        </span>
-                      ) : null}
-                      {errors.username &&
-                      errors.username.type === "maxLength" ? (
-                        <span className="error">
-                          {" "}
-                          Maximum 30 characters allowed
-                        </span>
-                      ) : null}
-                      {errors.username && errors.username.type === "pattern" ? (
-                        <span className="error">
-                          The username needs to be between 1 and 30 characters
-                          long
-                        </span>
-                      ) : null}
-                    </div>
+                        {errors.username &&
+                        errors.username.type === "required" ? (
+                          <span className="error">This field is required</span>
+                        ) : null}
+                        {errors.username &&
+                        errors.username.type === "minLength" ? (
+                          <span className="error">
+                            {" "}
+                            Minimum 8 character required
+                          </span>
+                        ) : null}
+                        {errors.username &&
+                        errors.username.type === "maxLength" ? (
+                          <span className="error">
+                            {" "}
+                            Maximum 30 characters allowed
+                          </span>
+                        ) : null}
+                        {errors.username &&
+                        errors.username.type === "pattern" ? (
+                          <span className="error">
+                            The username needs to be between 1 and 30 characters
+                            long
+                          </span>
+                        ) : null}
+                      </div>
 
-                    <div className="form__element">
-                      <Label
-                        htmlFor="email"
-                        text="Email"
-                        className="form__element__label input-required"
-                      />
+                      <div className="form__element">
+                        <Label
+                          htmlFor="email"
+                          text="Email"
+                          className="form__element__label input-required"
+                        />
 
-                      <input
-                        type="email"
-                        id="email"
-                        label="email"
-                        name="email"
-                        value={email}
-                        onChange={handleChange.bind(null, "email")}
-                        required
-                        ref={register({
-                          required: true,
-                          minLength: 1,
-                          maxLength: 50,
-                          pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
-                        })}
-                      />
+                        <input
+                          type="email"
+                          id="email"
+                          label="email"
+                          name="email"
+                          value={email}
+                          onChange={handleChange.bind(null, "email")}
+                          required
+                          ref={register({
+                            required: true,
+                            minLength: 1,
+                            maxLength: 50,
+                            pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
+                          })}
+                        />
 
-                      {errors.email && errors.email.type === "required" && (
-                        <span className="error">This field is required</span>
-                      )}
-                      {errors.email && errors.email.type === "minLength" && (
-                        <span className="error">
-                          Minimum 1 character required
-                        </span>
-                      )}
-                      {errors.email && errors.email.type === "maxLength" && (
-                        <span className="error">
-                          Maximum 50 characters allowed
-                        </span>
-                      )}
-                      {errors.email && errors.email.type === "pattern" && (
-                        <span className="error">
-                          This is no valid e-mail address
-                        </span>
-                      )}
-                    </div>
+                        {errors.email && errors.email.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
+                        {errors.email && errors.email.type === "minLength" && (
+                          <span className="error">
+                            Minimum 1 character required
+                          </span>
+                        )}
+                        {errors.email && errors.email.type === "maxLength" && (
+                          <span className="error">
+                            Maximum 50 characters allowed
+                          </span>
+                        )}
+                        {errors.email && errors.email.type === "pattern" && (
+                          <span className="error">
+                            This is no valid e-mail address
+                          </span>
+                        )}
+                      </div>
 
-                    {!currentUser.googleLogin ? (
                       <div className="form__element">
                         <Label
                           htmlFor="password"
@@ -242,9 +250,7 @@ const UserAccountEdit = () => {
                           </span>
                         ) : null}
                       </div>
-                    ) : null}
 
-                    {!currentUser.googleLogin ? (
                       <div className="form__element">
                         <Label
                           htmlFor="currentPassword"
@@ -292,9 +298,7 @@ const UserAccountEdit = () => {
                           </span>
                         ) : null}
                       </div>
-                    ) : null}
 
-                    {!currentUser.googleLogin ? (
                       <div className="form__element">
                         <Label
                           htmlFor="newPassword"
@@ -342,9 +346,7 @@ const UserAccountEdit = () => {
                           </span>
                         ) : null}
                       </div>
-                    ) : null}
 
-                    {!currentUser.googleLogin ? (
                       <div className="form__element">
                         <Label
                           htmlFor="retypePassword"
@@ -392,43 +394,80 @@ const UserAccountEdit = () => {
                           </span>
                         ) : null}
                       </div>
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
 
-                  <div className="col-xl-6">
-                    <div className="user-account__edit__carousel">
-                      <h4>Choose your mascot</h4>
+                  {!currentUser.googleLogin ? (
+                    <div className="col-xl-6">
+                      <div className="user-account__edit__carousel">
+                        <h4>Choose your mascot</h4>
 
-                      <Carousel
-                        showStatus={false}
-                        showThumbs={false}
-                        useKeyboardArrows={true}
-                        onChange={handleMascotCallback}
-                        selectedItem={currentUser.mascot}
-                      >
-                        <Image
-                          path={VeryHappyMascot}
-                          text="a very happy mascot"
-                        />
-                        <Image
-                          path={VeryHappyGirlyMascot}
-                          text="a very happy girly mascot"
-                        />
-                        <Image
-                          path={VeryHappyCleverMascot}
-                          text="a very happy clever mascot"
-                        />
-                      </Carousel>
+                        <Carousel
+                          showStatus={false}
+                          showThumbs={false}
+                          useKeyboardArrows={true}
+                          onChange={handleMascotCallback}
+                          selectedItem={currentUser.mascot}
+                        >
+                          <Image
+                            path={VeryHappyMascot}
+                            text="a very happy mascot"
+                          />
+                          <Image
+                            path={VeryHappyGirlyMascot}
+                            text="a very happy girly mascot"
+                          />
+                          <Image
+                            path={VeryHappyCleverMascot}
+                            text="a very happy clever mascot"
+                          />
+                        </Carousel>
 
-                      <div className="user-account__edit--form__button">
-                        <Button
-                          variant="button"
-                          text="Save"
-                          className="stan-btn-primary"
-                        />
+                        <div className="user-account__edit--form__button">
+                          <Button
+                            variant="button"
+                            text="Save"
+                            className="stan-btn-primary"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="col-xl-12">
+                      <div className="user-account__edit__carousel">
+                        <h4>Choose your mascot</h4>
+
+                        <Carousel
+                          showStatus={false}
+                          showThumbs={false}
+                          useKeyboardArrows={true}
+                          onChange={handleMascotCallback}
+                          selectedItem={currentUser.mascot}
+                        >
+                          <Image
+                            path={VeryHappyMascot}
+                            text="a very happy mascot"
+                          />
+                          <Image
+                            path={VeryHappyGirlyMascot}
+                            text="a very happy girly mascot"
+                          />
+                          <Image
+                            path={VeryHappyCleverMascot}
+                            text="a very happy clever mascot"
+                          />
+                        </Carousel>
+
+                        <div className="user-account__edit--form__button">
+                          <Button
+                            variant="button"
+                            text="Save"
+                            className="stan-btn-primary"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </form>
@@ -535,9 +574,32 @@ async function editUser({ mascotStore, formData, updateUser }) {
     // redirect
     setTimeout(() => {
       window.location.reload()
-    }, 2000)
+    }, 1000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)
+  }
+}
+
+async function handleMascot({ formData, updateMascot }) {
+  try {
+    const resp = await updateMascot({
+      variables: {
+        mascot: formData,
+      },
+    })
+
+    if (resp && resp.data && resp.data.updateMascot) {
+      console.log("success: saved new mascot")
+    } else {
+      throw new Error("failed: saved new mascot")
+    }
+
+    // redirect
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
   }
 }
