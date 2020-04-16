@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
+import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -27,10 +28,12 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 const UserAccountEdit = () => {
-  //   const { register, errors, handleSubmit } = useForm()
+  // variables ----------------
+  let defaultValues
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
+  // const [updateUser = useMutation()
 
   // state ----------------
   const [deleteProfile, setDeletion] = useState(false)
@@ -38,7 +41,30 @@ const UserAccountEdit = () => {
   // context ----------------
   const currentUser = useCurrentUserValue()
 
+  // set default variables in form and make it editable ----------------
+  const { register, errors, watch, setValue, handleSubmit } = useForm({
+    defaultValues: {
+      username: currentUser.username,
+      email: currentUser.email,
+    },
+  })
+
+  const { username, email } = watch()
+  useEffect(() => {
+    register({ user: "username" })
+    register({ user: "email" })
+  }, [register])
+
   // functions ----------------
+  const handleChange = (user, e) => {
+    e.persist()
+    setValue(user, e.target.value)
+  }
+
+  const onSubmit = data => {
+    // handleExam({ examId, data, updateExam })
+  }
+
   const handleMascotCallback = id => {
     // mascotStore.mascot = id
   }
@@ -60,33 +86,35 @@ const UserAccountEdit = () => {
               <div className="user-account__edit--heading--sub-heading">
                 <h3>edit your profile details</h3>
               </div>
-              <div className="user-account__edit--heading--delete-btn">
-                <Button onClick={handleUser} text="Delete" />
-              </div>
+              {!currentUser.googleLogin ? (
+                <div className="user-account__edit--heading--delete-btn">
+                  <Button onClick={handleUser} text="Delete" />
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="col-xl-6">
-            <form
-              //   onSubmit={handleSubmit(onSubmit)}
-              className="form"
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className="form">
               <div className="form__element">
                 <Label
-                  htmlFor="name"
+                  htmlFor="username"
                   text="Name"
                   className="form__element__label input-required"
                 />
 
                 <input
                   type="text"
-                  id="name"
-                  label="name"
+                  id="username"
+                  label="username"
+                  name="username"
+                  value={username}
+                  onChange={handleChange.bind(null, "username")}
                   required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
+                  ref={register({
+                    required: true,
+                    minLength: 1,
+                    maxLength: 20,
+                  })}
                 />
               </div>
 
@@ -101,12 +129,15 @@ const UserAccountEdit = () => {
                   type="email"
                   id="email"
                   label="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange.bind(null, "email")}
                   required
-                  //   ref={register({
-                  //     required: true,
-                  //     minLength: 1,
-                  //     maxLength: 20,
-                  //   })}
+                  ref={register({
+                    required: true,
+                    minLength: 1,
+                    maxLength: 20,
+                  })}
                 />
               </div>
 
@@ -122,12 +153,13 @@ const UserAccountEdit = () => {
                     type="password"
                     id="password"
                     label="password"
+                    name="password"
                     required
-                    //   ref={register({
-                    //     required: true,
-                    //     minLength: 1,
-                    //     maxLength: 20,
-                    //   })}
+                    ref={register({
+                      required: true,
+                      minLength: 1,
+                      maxLength: 20,
+                    })}
                   />
                 </div>
               ) : null}
@@ -135,21 +167,22 @@ const UserAccountEdit = () => {
               {!currentUser.googleLogin ? (
                 <div className="form__element">
                   <Label
-                    htmlFor="current-password"
+                    htmlFor="currentPassword"
                     text="Current password"
                     className="form__element__label input-required"
                   />
 
                   <input
                     type="password"
-                    id="current-password"
-                    label="current-password"
+                    id="currentPassword"
+                    label="currentPassword"
+                    name="currentPassword"
                     required
-                    //   ref={register({
-                    //     required: true,
-                    //     minLength: 1,
-                    //     maxLength: 20,
-                    //   })}
+                    ref={register({
+                      required: true,
+                      minLength: 1,
+                      maxLength: 20,
+                    })}
                   />
                 </div>
               ) : null}
@@ -157,21 +190,22 @@ const UserAccountEdit = () => {
               {!currentUser.googleLogin ? (
                 <div className="form__element">
                   <Label
-                    htmlFor="new-password"
+                    htmlFor="newPassword"
                     text="New password"
                     className="form__element__label input-required"
                   />
 
                   <input
                     type="password"
-                    id="new-password"
-                    label="new-password"
+                    id="newPassword"
+                    label="newPassword"
+                    name="newPassword"
                     required
-                    //   ref={register({
-                    //     required: true,
-                    //     minLength: 1,
-                    //     maxLength: 20,
-                    //   })}
+                    ref={register({
+                      required: true,
+                      minLength: 1,
+                      maxLength: 20,
+                    })}
                   />
                 </div>
               ) : null}
@@ -179,21 +213,22 @@ const UserAccountEdit = () => {
               {!currentUser.googleLogin ? (
                 <div className="form__element">
                   <Label
-                    htmlFor="retype-password"
+                    htmlFor="retypePassword"
                     text="Retype new password"
                     className="form__element__label input-required"
                   />
 
                   <input
                     type="password"
-                    id="retype-password"
-                    label="retype-password"
+                    id="retypePassword"
+                    label="retypePassword"
+                    name="retypePassword"
                     required
-                    //   ref={register({
-                    //     required: true,
-                    //     minLength: 1,
-                    //     maxLength: 20,
-                    //   })}
+                    ref={register({
+                      required: true,
+                      minLength: 1,
+                      maxLength: 20,
+                    })}
                   />
                 </div>
               ) : null}

@@ -86,9 +86,8 @@ function UserAccount() {
   )
 
   // moods ----------------
-  // TODO: dynamic!
+  // TODO: dynamic! currentState sollte zwischen 0 - 100 sein
   let mood = "okay"
-  // TODO: currentState sollte zwischen 0 - 100 sein
   let currentState = 101
 
   if (currentState >= 0 && currentState <= 19) mood = "very stressed"
