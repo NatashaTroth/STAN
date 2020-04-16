@@ -33,7 +33,7 @@ function SignUp() {
           idToken: response.tokenId,
         },
       })
-      //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
+
       if (resp && resp.data && resp.data.googleLogin)
         setAccessToken(resp.data.googleLogin)
       else throw new Error("The google login failed")
@@ -41,14 +41,19 @@ function SignUp() {
       history.push("/")
       window.location.reload()
     } catch (err) {
-      //TODO: USER DEN ERROR MITTEILEN
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-sign-up-error")
+
+      if (err.message === undefined || err.message === null) {
+        element[0].innerHTML = "The google login failed."
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
   const failureGoogle = response => {
-    // console.log(JSON.stringify(response.Qt.Ad))
-    // TODO: USER MITTEILEN
-    console.error("Google login failed")
+    let failureGoogleResponse = JSON.stringify(response.Qt.Ad)
+    let element = document.getElementsByClassName("graphql-sign-up-error")
+    element[0].innerHTML = failureGoogleResponse
   }
 
   // form specific ----------------
@@ -65,9 +70,13 @@ function SignUp() {
       <div className="row">
         <div className="col-md-12 login__form__inner">
           <div id="signup-error">
-            <div className="error">
-              <p>please make sure your passwords match</p>
+            <div className="error sign-up-error">
+              <p>Please make sure your passwords match.</p>
             </div>
+          </div>
+
+          <div className="error-handling-form">
+            <p className="graphql-sign-up-error"></p>
           </div>
 
           <div className="login__form__element">
@@ -271,15 +280,19 @@ async function handleSignup({ formData, signup }) {
       setAccessToken(resp.data.signup)
       console.log("saved access token after signup")
     } else {
-      // displays server error (backend)
       throw new Error("The sign up failed")
     }
-    // redirect
+
+    // redirect ----------------
     window.localStorage.setItem("mascot-event", true)
     window.location.reload()
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName("graphql-sign-up-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }

@@ -26,19 +26,27 @@ function Login() {
           idToken: response.tokenId,
         },
       })
-      //TODO: the errors returned from verifying the google token id in the backend can return some complicated errors - better give user more simple error messages
+
       if (resp && resp.data && resp.data.googleLogin)
         setAccessToken(resp.data.googleLogin)
       else throw new Error("The google login failed")
 
       window.location.reload()
     } catch (err) {
-      //TODO: USER DEN ERROR MITTEILEN
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-login-error")
+
+      if (err.message === undefined || err.message === null) {
+        element[0].innerHTML = "The google login failed."
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
+
   const failureGoogle = response => {
-    console.log(JSON.stringify(response.Qt.Ad))
+    let failureGoogleResponse = JSON.stringify(response.Qt.Ad)
+    let element = document.getElementsByClassName("graphql-login-error")
+    element[0].innerHTML = failureGoogleResponse
   }
 
   // mutation ----------------
@@ -55,6 +63,9 @@ function Login() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
+        <div className="error-handling-form">
+          <p className="graphql-login-error"></p>
+        </div>
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
             <Label
@@ -182,13 +193,18 @@ async function handleLogin({ formData, login }) {
     if (resp && resp.data && resp.data.login) {
       setAccessToken(resp.data.login)
     } else {
-      // displays server error (backend)
       throw new Error("The login failed")
     }
-    // redirect
+
+    // redirect ----------------
     window.location.reload()
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err)
+    let element = document.getElementsByClassName("graphql-login-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }

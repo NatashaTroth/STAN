@@ -346,6 +346,16 @@ html body {
     }
   }
 
+  .error-handling-form {
+    width: 100%;
+    p {
+      color: theme_color("error-hover");
+      text-align: center;
+      padding-bottom: 20px;
+      max-width: none;
+    }
+  }
+
   #success-container,
   #success-container-exam-detail,
   #error-container-exam-detail,
