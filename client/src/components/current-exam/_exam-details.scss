@@ -62,7 +62,8 @@
       margin: 5px;
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
+        flex-direction: column-reverse;
+        align-items: flex-start;
       }
 
       &--right {
@@ -70,7 +71,8 @@
         flex-direction: row;
 
         @include media-breakpoint-down(sm) {
-          justify-content: center;
+          align-self: flex-end;
+          padding-bottom: 10px;
         }
 
         // font style for all buttons
@@ -100,8 +102,6 @@
           @include media-breakpoint-down(sm) {
             @include rem(font-size, $font-size-14);
             @include rem(line-height, 18px);
-
-            padding: 10px;
           }
         }
 
