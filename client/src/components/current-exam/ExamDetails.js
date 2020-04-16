@@ -37,7 +37,7 @@ const ExamDetails = () => {
 
   // query ----------------
   const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
-    variables: { id: paramId.id },
+    // variables: { id: paramId.id },
   })
 
   // mutation ----------------

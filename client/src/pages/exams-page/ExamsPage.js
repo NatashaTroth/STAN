@@ -11,7 +11,6 @@ import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
 import Exam from "../../components/current-exam/Exam"
-import QueryError from "../../components/error/Error"
 
 // animation ----------------
 import AnimateHeight from "react-animate-height"
@@ -37,7 +36,6 @@ const Exams = () => {
   }
 
   if (loading) return <p className="loading">loading...</p>
-  if (error) return <QueryError />
   if (data && data.exams) {
     data.exams.forEach(exam => {
       if (!exam.completed) {
@@ -113,6 +111,10 @@ const Exams = () => {
           <div className="col-md-10">
             <div className="exams__headline">
               <h2>Current Exams</h2>
+            </div>
+
+            <div class="error-handling-queries">
+              <p class="error">{error}</p>
             </div>
           </div>
           <div className="col-md-1"></div>

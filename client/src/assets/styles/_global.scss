@@ -346,7 +346,8 @@ html body {
     }
   }
 
-  .error-handling-form {
+  .error-handling-form,
+  .error-handling-queries {
     width: 100%;
     p {
       color: theme_color("error-hover");
