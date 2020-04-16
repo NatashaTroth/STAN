@@ -70,6 +70,7 @@ describe("Test user resolver regex", () => {
     await addTestExam("Biology");
     await addTestExam("Archeology");
     await addTestExam("Dance");
+    await addTestExam("English", "NotSamanthasId");
     const exam = await addTestExam("Chemistry");
 
     const resp = await query({
@@ -110,7 +111,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.exams.length).toBe(0);
   });
 
-  async function addTestExam(subject) {
+  async function addTestExam(subject, userId) {
     const exam = await Exam.create({
       subject: subject,
       examDate: "2522-04-11",
@@ -124,7 +125,7 @@ describe("Test user resolver regex", () => {
       pdfLink: "samanthas-link.stan",
       color: "#FFFFFF",
       completed: false,
-      userId: "samanthasId"
+      userId: userId || "samanthasId"
     });
 
     if (!exam) throw new Error("Could not add a test exam");

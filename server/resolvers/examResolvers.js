@@ -72,6 +72,24 @@ export const examResolvers = {
       } catch (err) {
         handleResolverError(err);
       }
+    },
+    examsCount: async (root, args, context, info) => {
+      try {
+        handleAuthentication(context.userInfo);
+        const currentExams = await Exam.countDocuments({
+          userId: context.userInfo.userId,
+          completed: false
+        });
+        const finishedExams = await Exam.countDocuments({
+          userId: context.userInfo.userId,
+          completed: true
+        });
+
+        //TODO: ERROR HANDLING?
+        return { currentExams, finishedExams };
+      } catch (err) {
+        handleResolverError(err);
+      }
     }
   },
   Mutation: {
