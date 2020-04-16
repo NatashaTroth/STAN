@@ -3,6 +3,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 export function datesTimingIsValid(startDate, examDate) {
+  // console.log(datesAreNotPast([startDate, examDate]));
+  // console.log(startDateIsBeforeExamDate(startDate, examDate));
   return (
     datesAreNotPast([startDate, examDate]) &&
     startDateIsBeforeExamDate(startDate, examDate)
@@ -13,8 +15,8 @@ export function startDateIsActive(startDate) {
   return isToday(startDate) || dayjs(startDate).isBefore(dayjs());
 }
 
-export function isTheSameDay(startDate, examDate) {
-  return dayjs(startDate).isSame(dayjs(examDate));
+export function isTheSameDay(date1, date2) {
+  return dayjs(date1).isSame(dayjs(date2));
 }
 
 export function getNumberOfDays(startDate, examDate) {
@@ -36,7 +38,8 @@ export function getNumberOfDays(startDate, examDate) {
 
 //------------------------HELPERS--------------------
 
-function datesAreNotPast(dates) {
+//TODO: TEST
+export function datesAreNotPast(dates) {
   for (let i = 0; i < dates.length; i++) {
     // console.log(dates[i]);
 
@@ -48,7 +51,8 @@ function datesAreNotPast(dates) {
   return true;
 }
 
-function startDateIsBeforeExamDate(startDate, examDate) {
+export function startDateIsBeforeExamDate(startDate, examDate) {
+  // console.log(startDate, examDate);
   return dayjs(startDate).isBefore(dayjs(examDate));
 }
 

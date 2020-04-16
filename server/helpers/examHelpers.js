@@ -14,7 +14,8 @@ import {
   datesTimingIsValid,
   startDateIsActive,
   isTheSameDay,
-  getNumberOfDays
+  getNumberOfDays,
+  startDateIsBeforeExamDate
 } from "../helpers/dates";
 
 export function prepareExamInputData(args, userId) {
@@ -43,13 +44,22 @@ export function verifyExamInput(args) {
     );
   }
 
-  if (!datesTimingIsValid(args.startDate, args.examDate))
+  if (args.startPage && args.startPage > args.numberPages)
+    throw new ApolloError("Start page cannot higher than the number of pages.");
+}
+
+export function verifyAddExamDates(startDate, examDate) {
+  if (!datesTimingIsValid(startDate, examDate))
     throw new ApolloError(
       "Dates cannot be in the past and start learning date must be before exam date."
     );
+}
 
-  if (args.startPage && args.startPage > args.numberPages)
-    throw new ApolloError("Start page cannot higher than the number of pages.");
+export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
+  if (isTheSameDay(startDate, oldStartDate)) {
+    if (!startDateIsBeforeExamDate(startDate, examDate))
+      throw new ApolloError("Start learning date must be before exam date.");
+  } else verifyAddExamDates(startDate, examDate);
 }
 
 export async function handleUpdateExamInput(args, userId) {
@@ -62,7 +72,10 @@ export async function handleUpdateExamInput(args, userId) {
       "No exam exists with this exam id: " + args.id + " for this user."
     );
   //TODO: CHANGE NOT GOOD - MIGHT NOT BE START DATE, AND ORIGINAL STARTDATE MIGHT BE IN THE PAST
+  // console.log("HERE");
+  // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
+  verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
   return prepareExamInputData({ ...args }, userId);
 }
 
@@ -146,11 +159,7 @@ function getTodaysChunks(currentExams) {
 }
 
 function getCalendarChunks(exams) {
-  //divide by days left
-  // const headers = new Map();
-  // header.set("Authorization", "test");
   const chunks = [];
-  // console.log(JSON.stringify(exams));
 
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];

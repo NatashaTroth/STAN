@@ -9,7 +9,8 @@ import {
   handleCurrentPageInput,
   fetchTodaysChunks,
   fetchCalendarChunks,
-  handleUpdateExamInput
+  handleUpdateExamInput,
+  verifyAddExamDates
 } from "../helpers/examHelpers";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -78,6 +79,7 @@ export const examResolvers = {
       try {
         handleAuthentication(context.userInfo);
         verifyExamInput(args, context.userInfo.userId);
+        verifyAddExamDates(args.startDate, args.examDate);
         const processedArgs = prepareExamInputData(
           { ...args },
           context.userInfo.userId
