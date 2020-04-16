@@ -11,6 +11,7 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import bcrypt from "bcrypt";
 
 import {
   authenticateUser,
@@ -116,9 +117,12 @@ export const userResolvers = {
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
         const payload = await verifyGoogleIdToken(idToken);
         if (!payload)
           throw new AuthenticationError("Google id token was not verified.");
+
         let user = await User.findOne({ googleId: payload.sub });
 
         if (!user) user = await signUpGoogleUser(payload);
@@ -126,6 +130,42 @@ export const userResolvers = {
         const accessToken = logUserIn({ user, context });
         // return { user, accessToken, tokenExpiration: 15 };
         return accessToken;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    updateUser: async (
+      parent,
+      { username, email, password, newPassword, mascot },
+      context
+    ) => {
+      try {
+        handleAuthentication(context.userInfo);
+        const user = context.userInfo.user;
+        if (user.googleLogin)
+          throw new ApolloError("Cannot update Google Login user account.");
+
+        await validatePassword(password, user.password);
+
+        let passwordToSave = newPassword || password;
+        // if (newPassword) passwordToSave = newPassword;
+
+        verifySignupInputFormat({
+          username,
+          email,
+          password: passwordToSave,
+          mascot: mascot.toString()
+        });
+
+        await updateUserInDatabase(
+          context.userInfo.userId,
+          username,
+          email,
+          passwordToSave,
+          mascot
+        );
+
+        return await User.findOne({ _id: context.userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }
@@ -178,4 +218,33 @@ async function deleteUser(userId) {
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
     throw new ApolloError("The user couldn't be deleted");
+}
+
+async function validatePassword(inputPassword, userPassword) {
+  const valid = await bcrypt.compare(inputPassword, userPassword);
+  if (!valid) throw new AuthenticationError("Password is incorrect.");
+}
+
+async function updateUserInDatabase(
+  userId,
+  username,
+  email,
+  passwordToSave,
+  mascot
+) {
+  const updatedUser = {
+    username,
+    email,
+    password: await bcrypt.hash(passwordToSave, 10),
+    mascot,
+    updatedAt: new Date()
+  };
+
+  const resp = await User.updateOne(
+    { _id: userId.toString() },
+    { ...updatedUser }
+  );
+
+  if (resp.ok === 0 || resp.nModified === 0)
+    throw new ApolloError("The user couldn't be updated.");
 }

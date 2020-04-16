@@ -61,7 +61,7 @@ export async function handleUpdateExamInput(args, userId) {
     throw new ApolloError(
       "No exam exists with this exam id: " + args.id + " for this user."
     );
-
+  //TODO: CHANGE NOT GOOD - MIGHT NOT BE START DATE, AND ORIGINAL STARTDATE MIGHT BE IN THE PAST
   verifyExamInput(args, userId);
   return prepareExamInputData({ ...args }, userId);
 }

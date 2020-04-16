@@ -123,6 +123,30 @@ export const GOOGLE_LOGIN_MUTATION = gql`
   }
 `
 
+export const UPDATE_USER_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String
+    $newPassword: String
+    $mascot: Int
+  ) {
+    updateUser(
+      username: $username
+      email: $email
+      password: $password
+      newPassword: $newPassword
+      mascot: $mascot
+    ) {
+      id
+      username
+      email
+      mascot
+      googleLogin
+    }
+  }
+`
+
 export const DELETE_USER_MUTATION = gql`
   mutation {
     deleteUser

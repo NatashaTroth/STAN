@@ -121,6 +121,13 @@ export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyMascotFormat(mascot);
 }
 
+// export function updateUser({ username, email, password, mascot }) {
+//   verifyUsernameFormat(username);
+//   verifyEmailFormat(email);
+//   verifyPasswordFormat(password);
+//   verifyMascotFormat(mascot);
+// }
+
 export function verifyLoginInputFormat({ email, password }) {
   verifyEmailFormat(email);
   verifyPasswordFormat(password);
