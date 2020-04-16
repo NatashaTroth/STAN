@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -48,9 +49,9 @@ function Home() {
             </div>
 
             <div className="home__btn">
-              <a href="/sign-up" className="stan-btn-double">
+              <Link to="/sign-up" className="stan-btn-double">
                 Start now
-              </a>
+              </Link>
             </div>
             <div className="col-md-1"></div>
           </div>

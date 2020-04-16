@@ -1,5 +1,6 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
+import { Link } from "react-router-dom"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
@@ -158,9 +159,9 @@ function Login() {
             <p className="login__form__redirect-signup__text">
               not registered?
             </p>{" "}
-            <a href="/sign-up" className="login__form__redirect-signup__link">
+            <Link to="/sign-up" className="login__form__redirect-signup__link">
               sign up
-            </a>
+            </Link>
           </div>
         </div>
       </div>

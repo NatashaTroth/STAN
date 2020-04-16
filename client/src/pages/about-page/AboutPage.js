@@ -1,5 +1,6 @@
 import React from "react"
 import { Redirect } from "react-router"
+import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -47,9 +48,9 @@ function About() {
                       learning chunks.
                     </p>
                     <div className="about__content__btn">
-                      <a href="/sign-up" className="stan-btn-double">
+                      <Link to="/sign-up" className="stan-btn-double">
                         Join stan
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

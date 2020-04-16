@@ -1,6 +1,6 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -244,9 +244,9 @@ function SignUp() {
             <p className="login__form__redirect-signup__text">
               already have an account?
             </p>
-            <a href="/login" className="login__form__redirect-signup__link">
+            <Link to="/login" className="login__form__redirect-signup__link">
               login
-            </a>
+            </Link>
           </div>
         </div>
       </div>
