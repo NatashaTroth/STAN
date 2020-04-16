@@ -86,7 +86,7 @@ const UserAccountEdit = () => {
   }
 
   const handleDeletion = () => {
-    examDeletion({ currentUser, deleteUser })
+    // userDeletion({ currentUser, deleteUser })
   }
 
   return (
@@ -498,12 +498,8 @@ const UserAccountEdit = () => {
                     <p className="success">
                       your account was successfully deleted
                     </p>
-                  </div>
 
-                  <div className="col-md-12" id="error-container-delete-user">
-                    <p className="error">
-                      Oops! an error occurred whilst deleting stan's memory
-                    </p>
+                    <p className="error graphql-user-delete-error"></p>
                   </div>
                 </div>
               </div>
@@ -512,12 +508,13 @@ const UserAccountEdit = () => {
 
           <div className="col-md-12" id="success-container-edit-user">
             <p className="success">the changes were successfully saved</p>
+
+            <p className="error graphql-user-edit-error"></p>
           </div>
 
-          <div className="col-md-12" id="error-container-edit-user">
-            <p className="error">
-              Oops! an error occurred whilst updating stan's memory
-            </p>
+          <div className="col-md-12" id="success-container-edit-mascot">
+            <p className="success">the new mascot was successfully saved</p>
+            <p className="error graphql-user-mascot-edit-error"></p>
           </div>
         </div>
       </div>
@@ -527,7 +524,7 @@ const UserAccountEdit = () => {
 
 export default UserAccountEdit
 
-async function examDeletion({ currentUser, deleteUser }) {
+async function userDeletion({ currentUser, deleteUser }) {
   try {
     const resp = await deleteUser({
       currentUser,
@@ -538,8 +535,7 @@ async function examDeletion({ currentUser, deleteUser }) {
       document.getElementById("success-container-delete-user").style.display =
         "block"
     } else {
-      document.getElementById("error-container-delete-user").style.display =
-        "block"
+      throw new Error("Cannot delete current user.")
     }
 
     // reset mascot event ----------------
@@ -550,9 +546,13 @@ async function examDeletion({ currentUser, deleteUser }) {
       window.location.href = "/sign-up"
     }, 2000)
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName("graphql-user-delete-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }
 
@@ -567,8 +567,7 @@ async function editUser({ mascotStore, formData, updateUser }) {
       document.getElementById("success-container-edit-user").style.display =
         "block"
     } else {
-      document.getElementById("error-container-edit-user").style.display =
-        "block"
+      throw new Error("The user changes were failed.")
     }
 
     // redirect
@@ -576,8 +575,13 @@ async function editUser({ mascotStore, formData, updateUser }) {
       window.location.reload()
     }, 1000)
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
+    let element = document.getElementsByClassName("graphql-user-edit-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }
 
@@ -590,16 +594,23 @@ async function handleMascot({ formData, updateMascot }) {
     })
 
     if (resp && resp.data && resp.data.updateMascot) {
-      console.log("success: saved new mascot")
+      document.getElementById("success-container-edit-mascot").style.display =
+        "block"
     } else {
-      throw new Error("failed: saved new mascot")
+      throw new Error("Cannot save the selected mascot.")
     }
 
     // redirect
     window.location.reload()
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName(
+      "graphql-user-mascot-edit-error"
+    )
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }
