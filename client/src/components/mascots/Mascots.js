@@ -92,6 +92,12 @@ function Mascots() {
             </div>
           </div>
           <div className="col-md-3"></div>
+
+          <div className="col-md-12">
+            <div className="error-handling-form">
+              <p className="graphql-mascots-error"></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -111,14 +117,18 @@ async function handleMascot({ data, updateMascot }) {
     if (resp && resp.data && resp.data.updateMascot) {
       console.log("success: saved new mascot")
     } else {
-      throw new Error("failed: saved new mascot")
+      throw new Error()
     }
     // redirect
     window.localStorage.setItem("mascot-event", false)
     window.location.reload()
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName("graphql-mascots-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }
