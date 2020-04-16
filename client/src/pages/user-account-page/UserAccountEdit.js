@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useHistory } from "react-router-dom"
+import { setAccessToken } from "../../accessToken"
 // --------------------------------------------------------------
 
 // context ----------------
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+import { useCurrentUserValue } from "../../components/STAN/STAN"
+
+// mutations ----------------
+import { DELETE_USER_MUTATION } from "../../graphQL/mutations"
+import { useMutation } from "@apollo/react-hooks"
 
 // components ----------------
 import Button from "../../components/button/Button"
@@ -20,20 +23,36 @@ import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
 import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
-// libraries
+// libraries ----------------
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 const UserAccountEdit = () => {
+  // history ----------------
+  const history = useHistory()
+
   //   const { register, errors, handleSubmit } = useForm()
 
-  const currentUser = useCurrentUserValue()
+  // mutations ----------------
+  const [deleteUser] = useMutation(DELETE_USER_MUTATION)
 
-  console.log()
+  // state ----------------
+  const [deleteProfile, setDeletion] = useState(false)
+
+  // context ----------------
+  const currentUser = useCurrentUserValue()
 
   // functions ----------------
   const handleMascotCallback = id => {
     // mascotStore.mascot = id
+  }
+
+  const handleUser = () => {
+    setDeletion(deleteProfile => !deleteProfile)
+  }
+
+  const handleDeletion = () => {
+    examDeletion({ currentUser, deleteUser, history })
   }
 
   return (
@@ -46,7 +65,7 @@ const UserAccountEdit = () => {
                 <h3>edit your profile details</h3>
               </div>
               <div className="user-account__edit--heading--delete-btn">
-                <a href="#">Delete</a>
+                <Button onClick={handleUser} text="Delete" />
               </div>
             </div>
           </div>
@@ -215,6 +234,31 @@ const UserAccountEdit = () => {
               </div>
             </div>
           </div>
+
+          {deleteProfile ? (
+            <div className="col-xl-12">
+              <div className="user-account__edit--popup">
+                <div className="user-account__edit--popup--inner box-content">
+                  <div className="user-account__edit--popup--inner--headline">
+                    <h4>Are you sure you want to delete this account?</h4>
+                  </div>
+
+                  <div className="user-account__edit--popup--inner--buttons">
+                    <Button
+                      className="stan-btn-secondary"
+                      text="Yes"
+                      onClick={handleDeletion}
+                    />
+                    <Button
+                      className="stan-btn-primary"
+                      text="No"
+                      onClick={handleUser}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
@@ -222,3 +266,27 @@ const UserAccountEdit = () => {
 }
 
 export default UserAccountEdit
+
+async function examDeletion({ currentUser, deleteUser, history }) {
+  try {
+    const resp = await deleteUser({
+      currentUser,
+    })
+
+    if (resp && resp.data && resp.data.deleteUser) {
+      setAccessToken("")
+      console.log("deleted user successfully")
+    } else {
+      console.log("delete user failed")
+    }
+
+    // reset mascot event ----------------
+    window.localStorage.setItem("mascot-event", false)
+
+    window.location.reload()
+  } catch (err) {
+    //TODO: USER DEN ERROR MITTEILEN
+    console.error(err.message)
+    // console.log(err)
+  }
+}
