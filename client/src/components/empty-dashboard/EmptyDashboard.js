@@ -1,6 +1,7 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
 function EmptyDashboard() {
@@ -21,13 +22,14 @@ function EmptyDashboard() {
             <p className="empty-dashboard__text">
               Are you sure there are no exams you need to study for?
             </p>
-            <a
+            <Link
+              to="/add-new"
               href="/add-new"
               className="empty-dashboard__btn stan-btn-primary"
             >
               {" "}
               Add exam
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ function AddNewPage() {
 
           <div className="col-md-1"></div>
           <div className="col-md-10">
-            <AddNew></AddNew>
+            <AddNew />
           </div>
           <div className="col-md-1"></div>
         </div>
