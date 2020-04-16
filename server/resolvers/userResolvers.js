@@ -144,17 +144,11 @@ export const userResolvers = {
         const user = context.userInfo.user;
         if (user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
-        //TODO - EXTRA TREATMENT GOOGLE??
 
-        // const user = await User.findOne({ _id: context.userInfo.userId });
-        // console.log(user1.password);
-        // console.log(user.password);
+        await validatePassword(password, user.password);
 
-        const valid = await bcrypt.compare(password, user.password);
-        if (!valid) throw new AuthenticationError("Password is incorrect.");
-
-        let passwordToSave = password;
-        if (newPassword) passwordToSave = newPassword;
+        let passwordToSave = newPassword || password;
+        // if (newPassword) passwordToSave = newPassword;
 
         verifySignupInputFormat({
           username,
@@ -163,21 +157,13 @@ export const userResolvers = {
           mascot: mascot.toString()
         });
 
-        const updatedUser = {
+        await updateUserInDatabase(
+          context.userInfo.userId,
           username,
           email,
-          password: await bcrypt.hash(passwordToSave, 10),
-          mascot,
-          updatedAt: new Date()
-        };
-
-        const resp = await User.updateOne(
-          { _id: context.userInfo.userId.toString() },
-          { ...updatedUser }
+          passwordToSave,
+          mascot
         );
-
-        if (resp.ok === 0 || resp.nModified === 0)
-          throw new ApolloError("The user couldn't be updated.");
 
         return await User.findOne({ _id: context.userInfo.userId });
       } catch (err) {
@@ -232,4 +218,33 @@ async function deleteUser(userId) {
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
     throw new ApolloError("The user couldn't be deleted");
+}
+
+async function validatePassword(inputPassword, userPassword) {
+  const valid = await bcrypt.compare(inputPassword, userPassword);
+  if (!valid) throw new AuthenticationError("Password is incorrect.");
+}
+
+async function updateUserInDatabase(
+  userId,
+  username,
+  email,
+  passwordToSave,
+  mascot
+) {
+  const updatedUser = {
+    username,
+    email,
+    password: await bcrypt.hash(passwordToSave, 10),
+    mascot,
+    updatedAt: new Date()
+  };
+
+  const resp = await User.updateOne(
+    { _id: userId.toString() },
+    { ...updatedUser }
+  );
+
+  if (resp.ok === 0 || resp.nModified === 0)
+    throw new ApolloError("The user couldn't be updated.");
 }
