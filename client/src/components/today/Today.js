@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/react-hooks"
 import { GET_USERS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -185,9 +186,9 @@ function Today(props) {
                 <div className="today__container__buttons">
                   {/* open notes or link */}
                   {/* TODO: add link to exam */}
-                  <a href="/exams" className="today__container__buttons__open">
+                  <Link to="/exams" className="today__container__buttons__open">
                     open notes
-                  </a>
+                  </Link>
 
                   <div className="today__container__buttons__submit">
                     {/* pages done */}
