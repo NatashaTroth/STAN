@@ -346,20 +346,7 @@ html body {
     }
   }
 
-  #success-container {
-    display: none;
-
-    .success {
-      color: theme-color("success");
-      margin: 20px 0 0 0;
-      text-align: right;
-
-      @include media-breakpoint-down(md) {
-        text-align: left;
-      }
-    }
-  }
-
+  #success-container,
   #success-container-edit-exam,
   #error-container-edit-exam,
   #success-container-delete-user,
