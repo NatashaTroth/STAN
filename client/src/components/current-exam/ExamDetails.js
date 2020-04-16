@@ -67,7 +67,7 @@ const ExamDetails = () => {
   }
 
   const handleDeletion = () => {
-    examDeletion({ paramId, deleteExam, history })
+    examDeletion({ paramId, deleteExam })
   }
 
   // return ----------------
@@ -188,10 +188,10 @@ const ExamDetails = () => {
           <div className="col-md-12" id="success-container-exam-detail">
             <p className="success">the exam was successfully deleted</p>
           </div>
-          <div className="col-md-12" id="error-container-exam-detail">
-            <p className="error">
-              Oops! an error occurred whilst deleting stan's memory
-            </p>
+          <div className="col-md-12">
+            <div className="error-handling-form">
+              <p className="graphql-exam-details-error"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -201,7 +201,7 @@ const ExamDetails = () => {
 
 export default ExamDetails
 
-async function examDeletion({ paramId, deleteExam, history }) {
+async function examDeletion({ paramId, deleteExam }) {
   try {
     const resp = await deleteExam({
       variables: {
@@ -213,15 +213,18 @@ async function examDeletion({ paramId, deleteExam, history }) {
       document.getElementById("success-container-exam-detail").style.display =
         "block"
     } else {
-      document.getElementById("error-container-exam-detail").style.display =
-        "block"
+      throw new Error()
     }
 
     // redirect ----------------
     window.location.href = "/exams"
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName("graphql-exam-details-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }

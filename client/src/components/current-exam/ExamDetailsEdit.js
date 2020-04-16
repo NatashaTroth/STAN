@@ -384,10 +384,10 @@ const ExamDetailsEdit = ({ examId }) => {
         <p className="success">the changes were successfully saved</p>
       </div>
 
-      <div className="col-md-12" id="error-container-edit-exam">
-        <p className="error">
-          Oops! an error occurred whilst updating stan's memory
-        </p>
+      <div className="col-md-12">
+        <div className="error-handling-form">
+          <p className="graphql-exam-details-edit-error"></p>
+        </div>
       </div>
     </form>
   )
@@ -417,17 +417,22 @@ async function handleExam({ examId, data, updateExam }) {
       document.getElementById("success-container-edit-exam").style.display =
         "block"
     } else {
-      document.getElementById("error-container-edit-exam").style.display =
-        "block"
+      throw new Error()
     }
 
-    // redirect
+    // redirect ----------------
     setTimeout(() => {
       window.location.reload()
     }, 1000)
   } catch (err) {
-    //TODO: USER DEN ERROR MITTEILEN
-    console.error(err.message)
-    // console.log(err)
+    let element = document.getElementsByClassName(
+      "graphql-exam-details-edit-error"
+    )
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
   }
 }
