@@ -1,6 +1,6 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-//TODO: RAFACTOR
-import { User, Exam } from "../models";
+
+import { User } from "../models";
 import {
   // UserInputError,
   AuthenticationError,
@@ -11,19 +11,21 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
-import bcrypt from "bcrypt";
 
 import {
   authenticateUser,
   signUserUp,
   logUserIn,
   signUpGoogleUser,
-  invalidateRefreshTokens,
-  invalidateAccessTokens,
   verifyGoogleIdToken,
   verifySignupInputFormat,
   verifyLoginInputFormat,
-  verifyMascotInputFormat
+  verifyMascotInputFormat,
+  logUserOut,
+  deleteUsersData,
+  deleteUser,
+  validatePassword,
+  updateUserInDatabase
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
@@ -74,24 +76,23 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-        if (!mascot) mascot = 0; //TODO: maybe move
+        if (!mascot) mascot = 0;
         verifySignupInputFormat({
           username,
           email,
           password,
           mascot: mascot.toString()
         });
-        // console.log("MASCOT: " + mascot)
+
         const user = await signUserUp({
           username,
           email,
           password,
           mascot
         });
-        // console.log()
 
         const accessToken = logUserIn({ user, context });
-        // return { user, accessToken, tokenExpiration: 15 };
+
         return accessToken;
       } catch (err) {
         handleResolverError(err);
@@ -146,17 +147,13 @@ export const userResolvers = {
           throw new ApolloError("Cannot update Google Login user account.");
 
         await validatePassword(password, user.password);
-
         let passwordToSave = newPassword || password;
-        // if (newPassword) passwordToSave = newPassword;
-
         verifySignupInputFormat({
           username,
           email,
           password: passwordToSave,
           mascot: mascot.toString()
         });
-
         await updateUserInDatabase(
           context.userInfo.userId,
           username,
@@ -178,7 +175,6 @@ export const userResolvers = {
         sendRefreshToken(context.res, "");
 
         await deleteUser(context.userInfo.userId);
-        // await logUserOut(context.res, context.userInfo.userId);
 
         return true;
       } catch (err) {
@@ -187,64 +183,3 @@ export const userResolvers = {
     }
   }
 };
-
-//TODO MOVE TO HELPERS FILE
-async function logUserOut(res, userId) {
-  sendRefreshToken(res, "");
-
-  //invalidate current refresh tokens for user
-  const respRefreshToken = await invalidateRefreshTokens(userId);
-
-  if (!respRefreshToken)
-    throw new ApolloError("Unable to revoke refresh token.");
-  const respAccessToken = await invalidateAccessTokens(userId);
-
-  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
-}
-
-async function deleteUsersData(userId) {
-  const respDeleteExams = await Exam.deleteMany({
-    userId
-  });
-
-  if (respDeleteExams.ok !== 1)
-    throw new ApolloError("The user's data couldn't be deleted");
-}
-
-async function deleteUser(userId) {
-  const resp = await User.deleteOne({
-    _id: userId
-  });
-
-  if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError("The user couldn't be deleted");
-}
-
-async function validatePassword(inputPassword, userPassword) {
-  const valid = await bcrypt.compare(inputPassword, userPassword);
-  if (!valid) throw new AuthenticationError("Password is incorrect.");
-}
-
-async function updateUserInDatabase(
-  userId,
-  username,
-  email,
-  passwordToSave,
-  mascot
-) {
-  const updatedUser = {
-    username,
-    email,
-    password: await bcrypt.hash(passwordToSave, 10),
-    mascot,
-    updatedAt: new Date()
-  };
-
-  const resp = await User.updateOne(
-    { _id: userId.toString() },
-    { ...updatedUser }
-  );
-
-  if (resp.ok === 0 || resp.nModified === 0)
-    throw new ApolloError("The user couldn't be updated.");
-}
