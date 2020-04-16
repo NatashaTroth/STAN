@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { setAccessToken } from "../../accessToken"
-import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -28,9 +27,6 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 const UserAccountEdit = () => {
-  // history ----------------
-  const history = useHistory()
-
   //   const { register, errors, handleSubmit } = useForm()
 
   // mutations ----------------
@@ -52,7 +48,7 @@ const UserAccountEdit = () => {
   }
 
   const handleDeletion = () => {
-    examDeletion({ currentUser, deleteUser, history })
+    examDeletion({ currentUser, deleteUser })
   }
 
   return (
@@ -279,7 +275,7 @@ const UserAccountEdit = () => {
 
 export default UserAccountEdit
 
-async function examDeletion({ currentUser, deleteUser, history }) {
+async function examDeletion({ currentUser, deleteUser }) {
   try {
     const resp = await deleteUser({
       currentUser,
