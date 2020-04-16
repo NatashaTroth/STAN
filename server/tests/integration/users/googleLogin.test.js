@@ -15,7 +15,7 @@ import { UPDATE_USER_MUTATION } from "../../mutations.js";
 describe("Test user sign up and login resolvers", () => {
   let server;
   let mutate;
-  let query;
+
   let testUser;
   let client;
   beforeAll(async () => {
@@ -29,7 +29,6 @@ describe("Test user sign up and login resolvers", () => {
     });
     client = createTestClient(server);
     mutate = client.mutate;
-    query = client.query;
   });
 
   // afterEach(async () => {
