@@ -384,7 +384,7 @@ const ExamDetailsEdit = ({ examId }) => {
         <p className="success">the changes were successfully saved</p>
       </div>
 
-      <div className="col-md-12" id="success-container-error-exam">
+      <div className="col-md-12" id="error-container-edit-exam">
         <p className="error">
           Oops! an error occurred whilst updating stan's memory
         </p>

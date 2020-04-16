@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
+import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -255,6 +255,18 @@ const UserAccountEdit = () => {
                       onClick={handleUser}
                     />
                   </div>
+
+                  <div className="col-md-12" id="success-container-delete-user">
+                    <p className="success">
+                      your account was successfully deleted
+                    </p>
+                  </div>
+
+                  <div className="col-md-12" id="error-container-delete-user">
+                    <p className="error">
+                      Oops! an error occurred whilst deleting stan's memory
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -275,15 +287,20 @@ async function examDeletion({ currentUser, deleteUser, history }) {
 
     if (resp && resp.data && resp.data.deleteUser) {
       setAccessToken("")
-      console.log("deleted user successfully")
+      document.getElementById("success-container-delete-user").style.display =
+        "block"
     } else {
-      console.log("delete user failed")
+      document.getElementById("error-container-delete-user").style.display =
+        "block"
     }
 
     // reset mascot event ----------------
     window.localStorage.setItem("mascot-event", false)
 
-    window.location.reload()
+    // redirect
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     //TODO: USER DEN ERROR MITTEILEN
     console.error(err.message)

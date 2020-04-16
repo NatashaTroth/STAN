@@ -1,5 +1,6 @@
 .user-account {
   &__edit {
+    padding: 20px;
     &--form {
       margin: 40px 15px;
 
@@ -115,6 +116,15 @@
             button {
               margin: 5px 5px;
             }
+          }
+        }
+
+        #success-container-delete-user,
+        #error-container-delete-user {
+          .success,
+          .error {
+            display: flex;
+            justify-content: center;
           }
         }
       }
