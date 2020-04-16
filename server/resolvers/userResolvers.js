@@ -122,6 +122,7 @@ export const userResolvers = {
         const payload = await verifyGoogleIdToken(idToken);
         if (!payload)
           throw new AuthenticationError("Google id token was not verified.");
+
         let user = await User.findOne({ googleId: payload.sub });
 
         if (!user) user = await signUpGoogleUser(payload);
@@ -142,14 +143,16 @@ export const userResolvers = {
         handleAuthentication(context.userInfo);
         //TODO - EXTRA TREATMENT GOOGLE??
 
-        const user = await User.findOne({ _id: context.userInfo.userId });
+        // const user = await User.findOne({ _id: context.userInfo.userId });
+        const user = context.userInfo.user;
+        // console.log(user1.password);
+        // console.log(user.password);
+
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) throw new AuthenticationError("Password is incorrect.");
 
         let passwordToSave = password;
-        if (newPassword) {
-          passwordToSave = newPassword;
-        }
+        if (newPassword) passwordToSave = newPassword;
 
         verifySignupInputFormat({
           username,

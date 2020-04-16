@@ -58,11 +58,8 @@ export async function signUserUp({
 }
 
 export function logUserIn({ user, context }) {
-  console.log("hello");
   let userAccessToken = createAccessToken(user);
-  console.log("hello1");
   sendRefreshToken(context.res, createRefreshToken(user));
-  console.log("hello2");
   return userAccessToken;
 }
 

@@ -129,7 +129,7 @@ export const UPDATE_USER_MUTATION = gql`
     $email: String!
     $password: String
     $newPassword: String
-    $mascot: Int
+    $mascot: Int!
   ) {
     updateUser(
       username: $username
