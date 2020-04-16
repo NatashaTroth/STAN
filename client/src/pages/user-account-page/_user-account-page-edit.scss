@@ -42,15 +42,31 @@
         }
       }
       &--delete-btn {
-        text-transform: uppercase;
-
         @include media-breakpoint-down(sm) {
           text-align: right;
           padding-bottom: 15px;
         }
-        a {
+        button {
           font-family: $font-family-BasierCircle-SemiBold;
           color: theme_color("error-hover");
+          border: none;
+          background: none;
+          box-shadow: none;
+          outline: none;
+          text-transform: uppercase;
+          padding: 0;
+          margin: 0;
+
+          @include rem(font-size, $font-size-16);
+          letter-spacing: 0;
+          @include rem(line-height, 22px);
+          margin: 0;
+          max-width: 65ch;
+
+          @include media-breakpoint-down(sm) {
+            @include rem(font-size, $font-size-14);
+            @include rem(line-height, 18px);
+          }
         }
       }
     }
