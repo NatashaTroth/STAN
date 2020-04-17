@@ -214,24 +214,24 @@ const UserAccountEdit = () => {
                           })}
                         />
 
-                        {errors.email && errors.email.type === "required" && (
+                        {errors.email && errors.email.type === "required" ? (
                           <span className="error">This field is required</span>
-                        )}
-                        {errors.email && errors.email.type === "minLength" && (
+                        ) : null}
+                        {errors.email && errors.email.type === "minLength" ? (
                           <span className="error">
                             Minimum 1 character required
                           </span>
-                        )}
-                        {errors.email && errors.email.type === "maxLength" && (
+                        ) : null}
+                        {errors.email && errors.email.type === "maxLength" ? (
                           <span className="error">
                             Maximum 50 characters allowed
                           </span>
-                        )}
-                        {errors.email && errors.email.type === "pattern" && (
+                        ) : null}
+                        {errors.email && errors.email.type === "pattern" ? (
                           <span className="error">
                             This is no valid e-mail address
                           </span>
-                        )}
+                        ) : null}
                       </div>
 
                       <div className="form__passwordToggle">
@@ -273,22 +273,22 @@ const UserAccountEdit = () => {
                               })}
                             />
 
-                            {errors.password &&
-                            errors.password.type === "minLength" ? (
+                            {errors.currentPassword &&
+                            errors.currentPassword.type === "minLength" ? (
                               <span className="error">
                                 {" "}
                                 Minimum 8 characters required
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "maxLength" ? (
+                            {errors.currentPassword &&
+                            errors.currentPassword.type === "maxLength" ? (
                               <span className="error">
                                 {" "}
                                 Maximum 30 characters allowed
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "pattern" ? (
+                            {errors.currentPassword &&
+                            errors.currentPassword.type === "pattern" ? (
                               <span className="error">
                                 The password needs to be between 8 and 30
                                 characters long
@@ -319,22 +319,22 @@ const UserAccountEdit = () => {
                               })}
                             />
 
-                            {errors.password &&
-                            errors.password.type === "minLength" ? (
+                            {errors.newPassword &&
+                            errors.newPassword.type === "minLength" ? (
                               <span className="error">
                                 {" "}
                                 Minimum 8 characters required
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "maxLength" ? (
+                            {errors.newPassword &&
+                            errors.newPassword.type === "maxLength" ? (
                               <span className="error">
                                 {" "}
                                 Maximum 30 characters allowed
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "pattern" ? (
+                            {errors.newPassword &&
+                            errors.newPassword.type === "pattern" ? (
                               <span className="error">
                                 The password needs to be between 8 and 30
                                 characters long
@@ -365,22 +365,22 @@ const UserAccountEdit = () => {
                               })}
                             />
 
-                            {errors.password &&
-                            errors.password.type === "minLength" ? (
+                            {errors.retypePassword &&
+                            errors.retypePassword.type === "minLength" ? (
                               <span className="error">
                                 {" "}
                                 Minimum 8 characters required
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "maxLength" ? (
+                            {errors.retypePassword &&
+                            errors.retypePassword.type === "maxLength" ? (
                               <span className="error">
                                 {" "}
                                 Maximum 30 characters allowed
                               </span>
                             ) : null}
-                            {errors.password &&
-                            errors.password.type === "pattern" ? (
+                            {errors.retypePassword &&
+                            errors.retypePassword.type === "pattern" ? (
                               <span className="error">
                                 The password needs to be between 8 and 30
                                 characters long
