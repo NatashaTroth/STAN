@@ -29,8 +29,13 @@ export async function authenticateUser({ email, password }) {
   if (user.googleLogin)
     throw new AuthenticationError("User has to login with google.");
 
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new AuthenticationError("Password is incorrect.");
+  try {
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new AuthenticationError("Password is incorrect.");
+  } catch (err) {
+    throw new AuthenticationError("Password is incorrect.");
+  }
+
   return user;
 }
 
@@ -150,8 +155,12 @@ export async function deleteUser(userId) {
 }
 
 export async function validatePassword(inputPassword, userPassword) {
-  const valid = await bcrypt.compare(inputPassword, userPassword);
-  if (!valid) throw new AuthenticationError("Password is incorrect.");
+  try {
+    const valid = await bcrypt.compare(inputPassword, userPassword);
+    if (!valid) throw new AuthenticationError("Password is incorrect.");
+  } catch (err) {
+    throw new AuthenticationError("Password is incorrect.");
+  }
 }
 
 export async function updateUserInDatabase(
@@ -178,11 +187,38 @@ export async function updateUserInDatabase(
     throw new ApolloError("The user couldn't be updated.");
 }
 
+export function userWantsPasswordUpdating(password, newPassword) {
+  return (
+    (password && password.length > 0) || (newPassword && newPassword.length > 0)
+  );
+}
+
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);
   verifyPasswordFormat(password);
   verifyMascotFormat(mascot);
+}
+
+export function verifyUpdateUserInputFormat({
+  username,
+  email,
+  password,
+  mascot
+}) {
+  verifyUsernameFormat(username);
+  verifyEmailFormat(email);
+  verifyMascotFormat(mascot);
+}
+
+export function verifyUpdatePasswordInputFormat(password) {
+  try {
+    verifyPasswordFormat(password);
+  } catch (err) {
+    throw new Error(
+      "New password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
+    );
+  }
 }
 
 // export function updateUser({ username, email, password, mascot }) {
@@ -209,19 +245,19 @@ function verifyUsernameFormat(username) {
 }
 
 function verifyEmailFormat(email) {
-  if (typeof email !== "undefined" && !verifyRegexEmail(email))
+  if (!verifyRegexEmail(email))
     throw new Error("Email input has the wrong format.");
 }
 
 function verifyPasswordFormat(password) {
-  if (typeof password !== "undefined" && !verifyRegexPassword(password))
+  if (!verifyRegexPassword(password))
     throw new Error(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
     );
 }
 
 function verifyMascotFormat(mascot) {
-  if (typeof mascot !== "undefined" && !verifyRegexMascot(mascot))
+  if (!verifyRegexMascot(mascot))
     throw new Error(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );

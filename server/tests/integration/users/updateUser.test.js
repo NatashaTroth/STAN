@@ -14,7 +14,7 @@ import { UPDATE_USER_MUTATION } from "../../mutations.js";
 import { User } from "../../../models";
 import bcrypt from "bcrypt";
 
-describe("Test user sign up and login resolvers", () => {
+describe("Test update user resolver", () => {
   let server;
   let mutate;
 
@@ -118,8 +118,6 @@ describe("Test user sign up and login resolvers", () => {
       variables: {
         username: testUser.username,
         email: testUser.email,
-        password: "samantha",
-
         mascot: testUser.mascot
       }
     });
@@ -131,6 +129,54 @@ describe("Test user sign up and login resolvers", () => {
     });
   });
 
+  it("should not update the password, since new password is missing", async () => {
+    const resp = await mutate({
+      query: UPDATE_USER_MUTATION,
+      variables: {
+        username: testUser.username,
+        email: testUser.email,
+        password: "samantha",
+        mascot: testUser.mascot
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "New password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
+    );
+  });
+
+  it("should not update the password, since password is missing or wrong", async () => {
+    const resp = await mutate({
+      query: UPDATE_USER_MUTATION,
+      variables: {
+        username: testUser.username,
+        email: testUser.email,
+        newPassword: "samantha",
+
+        mascot: testUser.mascot
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Password is incorrect.");
+
+    // const resp2 = await mutate({
+    //   query: UPDATE_USER_MUTATION,
+    //   variables: {
+    //     username: testUser.username,
+    //     email: testUser.email,
+    //     password: "incorrect",
+    //     newPassword: "samantha",
+
+    //     mascot: testUser.mascot
+    //   }
+    // });
+
+    // expect(resp2.data).toBeFalsy();
+    // expect(resp2.errors[0].message).toEqual("Password is incorrect.");
+  });
+
   it("should not update the current user, since the password is incorrect", async () => {
     const resp = await mutate({
       query: UPDATE_USER_MUTATION,
@@ -138,21 +184,7 @@ describe("Test user sign up and login resolvers", () => {
         username: "Samantha's new username",
         email: "newSamantha@node.com",
         password: "wrong password",
-        mascot: 2
-      }
-    });
-
-    expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Password is incorrect.");
-  });
-
-  it("should only update certain fields since the user logged in with a google account", async () => {
-    const resp = await mutate({
-      query: UPDATE_USER_MUTATION,
-      variables: {
-        username: "Samantha's new username",
-        email: "newSamantha@node.com",
-        password: "wrong password",
+        newPassword: "doesn't matter",
         mascot: 2
       }
     });
