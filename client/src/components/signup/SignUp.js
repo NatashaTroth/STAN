@@ -58,6 +58,8 @@ function SignUp() {
   // form specific ----------------
   const onSubmit = async formData => {
     if (formData.password === formData.retype_password) {
+      document.getElementById("signup-error").style.display = "none"
+
       handleSignup({ formData, signup })
     } else {
       document.getElementById("signup-error").style.display = "block"
