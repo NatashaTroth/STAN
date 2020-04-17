@@ -25,8 +25,8 @@ function Dashboard() {
   }
 
   // error handling ----------------
-  if (loading) return <p className="loading">Loading...</p>
-  if (error) return <QueryError />
+  if (loading) return <p>Loading...</p>
+  if (error) return <QueryError errorMessage={error.message} />
   if (chunkLoading) return <p className="loading">Loading...</p>
   if (chunkError) return <QueryError />
 

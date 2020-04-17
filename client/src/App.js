@@ -56,7 +56,7 @@ const App = () => {
   }, [])
 
   if (loading) {
-    return <div className="loading">loading...</div>
+    return <p>loading...</p>
   }
 
   return (

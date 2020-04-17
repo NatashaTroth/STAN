@@ -18,6 +18,15 @@
     &--headline {
       padding-bottom: 20px;
     }
+    &--text {
+      p {
+        padding: 15px 0;
+
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
     &--button {
       margin-top: 20px;
       display: flex;

@@ -13,7 +13,7 @@ function TodayGoals(props) {
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
-  if (error) return <QueryError />
+  if (error) return <QueryError errorMessage={error.message} />
 
   // query data ----------------
   let subject

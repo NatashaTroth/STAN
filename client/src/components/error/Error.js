@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const QueryError = () => {
+const QueryError = ({ errorMessage }) => {
   // return ----------------
   return (
     <div className="query-error">
@@ -14,9 +14,16 @@ const QueryError = () => {
 
             <div className="query-error__inner--text">
               <p>
-                The server isn't responding. We are working on getting this
-                fixed as soon as we can.
+                The server isn't responding. You might just need to refresh the
+                page or login again. If you still see this error message, please
+                contact us at{" "}
+                <a href="mailto:medien@fh-salzburg.ac.at">
+                  medien@fh-salzburg.ac.at
+                </a>
+                .
               </p>
+
+              <p className="error">{errorMessage}</p>
             </div>
 
             <div className="query-error__inner--button">

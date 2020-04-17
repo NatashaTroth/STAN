@@ -77,6 +77,10 @@ const ExamDetailsEdit = ({ examId }) => {
     return <Redirect to="/login" />
   }
 
+  // error handling ----------------
+  if (loading) return <p>loading...</p>
+  if (error) return <QueryError errorMessage={error.message} />
+
   // functions ----------------
   const handleChange = (exam, e) => {
     e.persist()
@@ -86,10 +90,6 @@ const ExamDetailsEdit = ({ examId }) => {
   const onSubmit = data => {
     handleExam({ examId, data, updateExam })
   }
-
-  // error handling ----------------
-  if (loading) return <p className="loading">loading...</p>
-  if (error) return <QueryError />
 
   // return ----------------
   return (

@@ -42,8 +42,8 @@ const ExamsCalendar = () => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p className="loading">loading...</p>
-  if (error) return <QueryError />
+  if (loading) return <p>loading...</p>
+  if (error) return <QueryError errorMessage={error.message} />
   if (data && data.calendarChunks) {
     exams = data.calendarChunks
   }

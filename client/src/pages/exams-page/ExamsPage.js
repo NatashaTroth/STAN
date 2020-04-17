@@ -35,7 +35,7 @@ const Exams = () => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p className="loading">loading...</p>
+  if (loading) return <p>loading...</p>
   if (data && data.exams) {
     data.exams.forEach(exam => {
       if (!exam.completed) {

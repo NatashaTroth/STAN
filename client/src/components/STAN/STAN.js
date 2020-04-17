@@ -28,8 +28,8 @@ const Navbar = () => {
   const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
-  if (loading) return <p className="loading">Loading...</p>
-  if (error) return <QueryError />
+  if (loading) return <p>Loading...</p>
+  if (error) return <QueryError errorMessage={error.message} />
   if (data && data.currentUser) {
     currentUser = data.currentUser
   }
