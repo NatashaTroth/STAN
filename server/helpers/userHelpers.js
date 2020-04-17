@@ -28,13 +28,13 @@ export async function authenticateUser({ email, password }) {
   //in case user tries to login with google login data in normal login - cause no password!
   if (user.googleLogin)
     throw new AuthenticationError("User has to login with google.");
-
-  try {
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) throw new AuthenticationError("Password is incorrect.");
-  } catch (err) {
-    throw new AuthenticationError("Password is incorrect.");
-  }
+  await validatePassword(password, user.password);
+  // try {
+  //   const valid = await bcrypt.compare(password, user.password);
+  //   if (!valid) throw new AuthenticationError("Password is incorrect.");
+  // } catch (err) {
+  //   throw new AuthenticationError("Password is incorrect.");
+  // }
 
   return user;
 }
