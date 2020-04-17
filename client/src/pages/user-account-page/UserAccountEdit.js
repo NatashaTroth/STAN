@@ -34,7 +34,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 // animation ----------------
 import AnimateHeight from "react-animate-height"
 
-// TODO: add updateUser mutation
+// TODO: testing
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }

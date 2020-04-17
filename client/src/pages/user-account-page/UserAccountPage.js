@@ -13,7 +13,11 @@ import {
 import { useHistory, Redirect } from "react-router-dom"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
-import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import {
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS,
+  GET_EXAMS_COUNT,
+} from "../../graphQL/queries"
 
 // libraries ----------------
 import CountUp from "react-countup"
@@ -34,13 +38,8 @@ function UserAccount() {
   const [edit, openEdit] = useState(false)
 
   // query ----------------
-  // TODO: fetch only one query per component
-  const { data, error, loading } = useQuery(GET_TODAYS_CHUNKS)
-  const {
-    data: examsData,
-    error: examsError,
-    loading: examsLoading,
-  } = useQuery(GET_EXAMS_QUERY)
+  // TODO: make current state dynamic
+  const { data, error, loading } = useQuery(GET_EXAMS_COUNT)
 
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
@@ -57,33 +56,22 @@ function UserAccount() {
   }
 
   // get and count all exams and todays chunks ----------------
-  let totalExams,
+  let currentExams,
     finishedExams = 0
   let completedDuration = []
 
-  if (loading || examsLoading) return <p className="loading">loading...</p>
-  if (error || examsError) return <p>error...</p>
-  if (data || examsData) {
-    totalExams = examsData.exams.length
-
-    data.todaysChunks.forEach(exam => {
-      // get all durations ----------------
-      completedDuration.push(exam.duration)
-    })
-
-    examsData.exams.forEach(exam => {
-      // count finished exams ----------------
-      if (exam.completed) {
-        finishedExams++
-      }
-    })
+  if (loading) return <p className="loading">loading...</p>
+  if (error) return <p>error...</p>
+  if (data) {
+    currentExams = data.examsCount.currentExams
+    finishedExams = data.examsCount.finishedExams
   }
 
   // sum up all durations ----------------
-  const totalSum = completedDuration.reduce(
-    (previousDuration, currentDuration) => previousDuration + currentDuration,
-    0
-  )
+  // const totalSum = completedDuration.reduce(
+  //   (previousDuration, currentDuration) => previousDuration + currentDuration,
+  //   0
+  // )
 
   // moods ----------------
   // TODO: dynamic! currentState sollte zwischen 0 - 100 sein
@@ -188,7 +176,7 @@ function UserAccount() {
                   <div className="total-exam">
                     <CountUp
                       start={0}
-                      end={totalExams}
+                      end={currentExams}
                       duration={2.75}
                       delay={0.5}
                     />
