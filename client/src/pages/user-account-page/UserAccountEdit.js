@@ -34,7 +34,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 // animation ----------------
 import AnimateHeight from "react-animate-height"
 
-// TODO: testing
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
@@ -514,13 +513,14 @@ const UserAccountEdit = () => {
                     />
                   </div>
 
+                  <div className="col-md-12">
+                    <p className="error graphql-user-delete-error"></p>
+                  </div>
+
                   <div className="col-md-12" id="success-container-delete-user">
                     <p className="success">
                       your account was successfully deleted
                     </p>
-                  </div>
-                  <div className="col-md-12">
-                    <p className="error graphql-user-delete-error"></p>
                   </div>
                 </div>
               </div>
@@ -568,8 +568,6 @@ async function userDeletion({ currentUser, deleteUser }) {
 
 async function editUser({ mascotId, formData, updateUser }) {
   try {
-    console.log(mascotId)
-    console.log(formData)
     const resp = await updateUser({
       variables: {
         username: formData.username,

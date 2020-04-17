@@ -1,5 +1,8 @@
 .user-account {
   &__edit {
+    padding: 20px;
+
+    // styling for success & error messages
     .success-edit-user {
       margin-top: 0 !important;
     }
@@ -9,11 +12,17 @@
     }
     .graphql-user-edit-error,
     .graphql-user-mascot-edit-erro,
-    #retype-password-error {
+    #retype-password-error,
+    .graphql-user-mascot-edit-error {
       padding-left: 25px;
     }
 
-    padding: 20px;
+    .graphql-user-delete-error {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
     &--form {
       margin: 40px 15px;
 
@@ -116,7 +125,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: theme_color("light");
-        padding: 40px;
+        padding: 50px;
 
         &--headline {
           padding-bottom: 30px;
@@ -147,7 +156,6 @@
           .error {
             display: flex;
             justify-content: center;
-            padding-top: 10px;
           }
         }
       }
