@@ -68,6 +68,7 @@ describe("Test user sign up and login resolvers", () => {
         id: testUser._id.toString()
       }
     });
+
     //check user was deleted
     expect(respDelete.data).toBeTruthy();
     const newCount = await User.countDocuments();

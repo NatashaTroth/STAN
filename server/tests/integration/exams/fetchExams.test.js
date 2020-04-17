@@ -10,7 +10,11 @@ import {
 } from "../setup";
 import { Exam } from "../../../models";
 
-import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../queries.js";
+import {
+  GET_EXAM_QUERY,
+  GET_EXAMS_QUERY,
+  GET_EXAMS_COUNT
+} from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
@@ -70,6 +74,7 @@ describe("Test user resolver regex", () => {
     await addTestExam("Biology");
     await addTestExam("Archeology");
     await addTestExam("Dance");
+    await addTestExam("English", "NotSamanthasId");
     const exam = await addTestExam("Chemistry");
 
     const resp = await query({
@@ -110,7 +115,32 @@ describe("Test user resolver regex", () => {
     expect(resp.data.exams.length).toBe(0);
   });
 
-  async function addTestExam(subject) {
+  it("should fetch the exam counts correctly", async () => {
+    await addTestExam("Biology");
+    await addTestExam("Archeology");
+    await addTestExam("Dance");
+    await addTestExam("English", "samanthasId", true);
+    await addTestExam("Chemistry");
+    const resp = await query({
+      query: GET_EXAMS_COUNT
+    });
+
+    expect(resp.data.examsCount).toBeTruthy();
+    expect(resp.data.examsCount.currentExams).toBe(4);
+    expect(resp.data.examsCount.finishedExams).toBe(1);
+  });
+
+  it("should fetch the exam counts correctly (even though there are no exams)", async () => {
+    const resp = await query({
+      query: GET_EXAMS_COUNT
+    });
+
+    expect(resp.data.examsCount).toBeTruthy();
+    expect(resp.data.examsCount.currentExams).toBe(0);
+    expect(resp.data.examsCount.finishedExams).toBe(0);
+  });
+
+  async function addTestExam(subject, userId, completed) {
     const exam = await Exam.create({
       subject: subject,
       examDate: "2522-04-11",
@@ -123,8 +153,8 @@ describe("Test user resolver regex", () => {
       notes: "Samantha's notes",
       pdfLink: "samanthas-link.stan",
       color: "#FFFFFF",
-      completed: false,
-      userId: "samanthasId"
+      completed: completed || false,
+      userId: userId || "samanthasId"
     });
 
     if (!exam) throw new Error("Could not add a test exam");

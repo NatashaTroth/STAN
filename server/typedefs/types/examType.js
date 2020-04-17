@@ -51,6 +51,11 @@ const examType = gql`
     details: CalendarChunkDetails!
     color: String!
   }
+
+  type ExamsCount {
+    currentExams: Int!
+    finishedExams: Int!
+  }
 `;
 
 module.exports = { examType };

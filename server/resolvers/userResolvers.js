@@ -1,6 +1,6 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-//TODO: RAFACTOR
-import { User, Exam } from "../models";
+
+import { User } from "../models";
 import {
   // UserInputError,
   AuthenticationError,
@@ -17,12 +17,15 @@ import {
   signUserUp,
   logUserIn,
   signUpGoogleUser,
-  invalidateRefreshTokens,
-  invalidateAccessTokens,
   verifyGoogleIdToken,
   verifySignupInputFormat,
   verifyLoginInputFormat,
-  verifyMascotInputFormat
+  verifyMascotInputFormat,
+  logUserOut,
+  deleteUsersData,
+  deleteUser,
+  validatePassword,
+  updateUserInDatabase
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
@@ -73,24 +76,23 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-        if (!mascot) mascot = 0; //TODO: maybe move
+        if (!mascot) mascot = 0;
         verifySignupInputFormat({
           username,
           email,
           password,
           mascot: mascot.toString()
         });
-        // console.log("MASCOT: " + mascot)
+
         const user = await signUserUp({
           username,
           email,
           password,
           mascot
         });
-        // console.log()
 
         const accessToken = logUserIn({ user, context });
-        // return { user, accessToken, tokenExpiration: 15 };
+
         return accessToken;
       } catch (err) {
         handleResolverError(err);
@@ -116,9 +118,12 @@ export const userResolvers = {
     googleLogin: async (parent, { idToken }, context) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
         const payload = await verifyGoogleIdToken(idToken);
         if (!payload)
           throw new AuthenticationError("Google id token was not verified.");
+
         let user = await User.findOne({ googleId: payload.sub });
 
         if (!user) user = await signUpGoogleUser(payload);
@@ -126,6 +131,38 @@ export const userResolvers = {
         const accessToken = logUserIn({ user, context });
         // return { user, accessToken, tokenExpiration: 15 };
         return accessToken;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    updateUser: async (
+      parent,
+      { username, email, password, newPassword, mascot },
+      context
+    ) => {
+      try {
+        handleAuthentication(context.userInfo);
+        const user = context.userInfo.user;
+        if (user.googleLogin)
+          throw new ApolloError("Cannot update Google Login user account.");
+
+        await validatePassword(password, user.password);
+        let passwordToSave = newPassword || password;
+        verifySignupInputFormat({
+          username,
+          email,
+          password: passwordToSave,
+          mascot: mascot.toString()
+        });
+        await updateUserInDatabase(
+          context.userInfo.userId,
+          username,
+          email,
+          passwordToSave,
+          mascot
+        );
+
+        return await User.findOne({ _id: context.userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }
@@ -138,7 +175,6 @@ export const userResolvers = {
         sendRefreshToken(context.res, "");
 
         await deleteUser(context.userInfo.userId);
-        // await logUserOut(context.res, context.userInfo.userId);
 
         return true;
       } catch (err) {
@@ -147,35 +183,3 @@ export const userResolvers = {
     }
   }
 };
-
-//TODO MOVE TO HELPERS FILE
-async function logUserOut(res, userId) {
-  sendRefreshToken(res, "");
-
-  //invalidate current refresh tokens for user
-  const respRefreshToken = await invalidateRefreshTokens(userId);
-
-  if (!respRefreshToken)
-    throw new ApolloError("Unable to revoke refresh token.");
-  const respAccessToken = await invalidateAccessTokens(userId);
-
-  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
-}
-
-async function deleteUsersData(userId) {
-  const respDeleteExams = await Exam.deleteMany({
-    userId
-  });
-
-  if (respDeleteExams.ok !== 1)
-    throw new ApolloError("The user's data couldn't be deleted");
-}
-
-async function deleteUser(userId) {
-  const resp = await User.deleteOne({
-    _id: userId
-  });
-
-  if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError("The user couldn't be deleted");
-}

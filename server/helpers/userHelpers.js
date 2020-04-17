@@ -1,7 +1,11 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
-import { User } from "../models";
-import { UserInputError, AuthenticationError } from "apollo-server";
+import { User, Exam } from "../models";
+import {
+  UserInputError,
+  AuthenticationError,
+  ApolloError
+} from "apollo-server";
 import { createAccessToken, createRefreshToken } from "./authenticationTokens";
 import { sendRefreshToken } from "./authenticationTokens";
 import bcrypt from "bcrypt";
@@ -114,12 +118,79 @@ export async function verifyGoogleIdToken(token) {
   return payload;
 }
 
+export async function logUserOut(res, userId) {
+  sendRefreshToken(res, "");
+
+  //invalidate current refresh tokens for user
+  const respRefreshToken = await invalidateRefreshTokens(userId);
+
+  if (!respRefreshToken)
+    throw new ApolloError("Unable to revoke refresh token.");
+  const respAccessToken = await invalidateAccessTokens(userId);
+
+  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
+}
+
+export async function deleteUsersData(userId) {
+  const respDeleteExams = await Exam.deleteMany({
+    userId
+  });
+
+  if (respDeleteExams.ok !== 1)
+    throw new ApolloError("The user's data couldn't be deleted");
+}
+
+export async function deleteUser(userId) {
+  const resp = await User.deleteOne({
+    _id: userId
+  });
+
+  if (resp.ok !== 1 || resp.deletedCount !== 1)
+    throw new ApolloError("The user couldn't be deleted");
+}
+
+export async function validatePassword(inputPassword, userPassword) {
+  const valid = await bcrypt.compare(inputPassword, userPassword);
+  if (!valid) throw new AuthenticationError("Password is incorrect.");
+}
+
+export async function updateUserInDatabase(
+  userId,
+  username,
+  email,
+  passwordToSave,
+  mascot
+) {
+  const updatedUser = {
+    username,
+    email,
+    password: await bcrypt.hash(passwordToSave, 10),
+    mascot,
+    updatedAt: new Date()
+  };
+
+  const resp = await User.updateOne(
+    { _id: userId.toString() },
+    { ...updatedUser }
+  );
+
+  if (resp.ok === 0 || resp.nModified === 0)
+    throw new ApolloError("The user couldn't be updated.");
+}
+
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);
   verifyPasswordFormat(password);
   verifyMascotFormat(mascot);
 }
+
+// export function updateUser({ username, email, password, mascot }) {
+//   verifyUsernameFormat(username);
+//   verifyEmailFormat(email);
+//   verifyPasswordFormat(password);
+//   verifyMascotFormat(mascot);
+// }
 
 export function verifyLoginInputFormat({ email, password }) {
   verifyEmailFormat(email);

@@ -12,7 +12,8 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS,
-  GET_CALENDAR_CHUNKS
+  GET_CALENDAR_CHUNKS,
+  GET_EXAMS_COUNT
 } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -116,6 +117,14 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 1
       }
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not fetch the exam counts", async () => {
+    const resp = await query({
+      query: GET_EXAMS_COUNT
     });
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");

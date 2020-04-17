@@ -18,12 +18,14 @@ describe("Test user resolver regex", () => {
   let server;
   let mutate;
   let testExam;
+  let testExamStartDatePast;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
     testExam = await addTestExam();
+    testExamStartDatePast = await addTestExam(getFutureDay(new Date(), -5));
   });
 
   // afterEach(async () => {
@@ -62,6 +64,56 @@ describe("Test user resolver regex", () => {
 
     expect(editedExam).toBeTruthy();
     expect(editedExam.subject).toBe("Editable Exam");
+  });
+
+  it("should update the exam correctly, even thought original unchanged startDate is in the past", async () => {
+    const initialCount = await Exam.countDocuments();
+
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExamStartDatePast._id.toString(),
+        subject: "Editable Exam 2",
+        examDate: "2122-08-11",
+        startDate: testExamStartDatePast.startDate,
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 1
+      }
+    });
+
+    expect(resp.data.updateExam).toBeTruthy();
+    const newCount = await Exam.countDocuments();
+    expect(newCount).toBe(initialCount);
+    expect(resp.data.updateExam).toBeTruthy();
+    expect(resp.data.updateExam.subject).toBe("Editable Exam 2");
+
+    const editedExam = await Exam.findOne({
+      _id: testExamStartDatePast._id.toString()
+    });
+
+    expect(editedExam).toBeTruthy();
+    expect(editedExam.subject).toBe("Editable Exam 2");
+  });
+
+  it("should not update the exam correctly, even thought original unchanged startDate is in the past, it is now after the exam date", async () => {
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExamStartDatePast._id.toString(),
+        subject: "Editable Exam 2",
+        examDate: "1999-08-11",
+        startDate: testExamStartDatePast.startDate,
+        numberPages: 5,
+        timePerPage: 5,
+        startPage: 1
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      "Start learning date must be before exam date."
+    );
   });
 
   it("should not update the exam, since the exam doesn't exist", async () => {
@@ -157,28 +209,6 @@ describe("Test user resolver regex", () => {
     );
   });
 
-  it("should not update the exam, since start page is higher than number of pages", async () => {
-    const resp = await mutate({
-      query: UPDATE_EXAM_MUTATION,
-      variables: {
-        id: testExam._id.toString(),
-        subject: "German",
-        examDate: "2122-08-05",
-        startDate: "2122-08-02",
-        numberPages: 5,
-        timePerPage: 5,
-        startPage: 40,
-        notes: "NOTES",
-        pdfLink: "klsdjfs",
-        completed: false
-      }
-    });
-    expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Start page cannot higher than the number of pages."
-    );
-  });
-
   //_----------------------------HELPERS-------------------
 
   // async function addTestExams() {
@@ -190,11 +220,11 @@ describe("Test user resolver regex", () => {
   //   return exam1;
   // }
 
-  async function addTestExam() {
+  async function addTestExam(startDate) {
     const exam = await Exam.create({
       subject: "Test Subject",
       examDate: getFutureDay(new Date(), 5),
-      startDate: new Date(),
+      startDate: startDate || new Date(),
       numberPages: 50,
       timePerPage: 5,
       startPage: 1,

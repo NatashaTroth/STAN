@@ -7,6 +7,7 @@ const examQueries = gql`
     exam(id: ID!): Exam
     todaysChunks: [Chunk]!
     calendarChunks: [CalendarChunk]!
+    examsCount: ExamsCount!
   }
 
   type Mutation {

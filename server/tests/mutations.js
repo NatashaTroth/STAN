@@ -119,14 +119,30 @@ export const UPDATE_MASCOT_MUTATION = gql`
 
 export const GOOGLE_LOGIN_MUTATION = gql`
   mutation($idToken: String!) {
-    googleLogin(idToken: $idToken) {
-      user {
-        id
-        username
-        email
-      }
-      accessToken
-      tokenExpiration
+    googleLogin(idToken: $idToken)
+  }
+`;
+
+export const UPDATE_USER_MUTATION = gql`
+  mutation(
+    $username: String!
+    $email: String!
+    $password: String
+    $newPassword: String
+    $mascot: Int!
+  ) {
+    updateUser(
+      username: $username
+      email: $email
+      password: $password
+      newPassword: $newPassword
+      mascot: $mascot
+    ) {
+      id
+      username
+      email
+      mascot
+      googleLogin
     }
   }
 `;
