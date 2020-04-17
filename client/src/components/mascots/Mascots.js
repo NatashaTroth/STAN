@@ -41,15 +41,15 @@ function Mascots() {
     <div className="mascots">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-2"></div>
-          <div className="col-md-10">
+          <div className="col-lg-2"></div>
+          <div className="col-lg-10">
             <div className="mascots__heading">
               <h2>One more thing...</h2>
             </div>
           </div>
 
-          <div className="col-md-2"></div>
-          <div className="col-md-7">
+          <div className="col-lg-2"></div>
+          <div className="col-lg-7">
             <div className="mascots__inner">
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -68,6 +68,7 @@ function Mascots() {
                     showThumbs={false}
                     useKeyboardArrows={true}
                     onChange={handleMascotCallback}
+                    mobile={true}
                   >
                     <Image path={VeryHappyMascot} text="a very happy mascot" />
                     <Image
@@ -91,7 +92,7 @@ function Mascots() {
               </form>
             </div>
           </div>
-          <div className="col-md-3"></div>
+          <div className="col-lg-3"></div>
 
           <div className="col-md-12">
             <div className="error-handling-form">
