@@ -99,6 +99,7 @@ export async function invalidateRefreshTokens(userId) {
     handleResolverError(err);
   }
 }
+//TODO: MOVE TOKEN HELPERS TO TOKEN FILE
 export async function invalidateAccessTokens(userId) {
   try {
     const resp = await User.updateOne(
@@ -156,8 +157,9 @@ export async function deleteUser(userId) {
 
 export async function validatePassword(inputPassword, userPassword) {
   try {
+    if (!verifyRegexPassword(inputPassword)) throw new Error();
     const valid = await bcrypt.compare(inputPassword, userPassword);
-    if (!valid) throw new AuthenticationError("Password is incorrect.");
+    if (!valid) throw new Error();
   } catch (err) {
     throw new AuthenticationError("Password is incorrect.");
   }
@@ -249,7 +251,7 @@ function verifyEmailFormat(email) {
     throw new Error("Email input has the wrong format.");
 }
 
-function verifyPasswordFormat(password) {
+export function verifyPasswordFormat(password) {
   if (!verifyRegexPassword(password))
     throw new Error(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."

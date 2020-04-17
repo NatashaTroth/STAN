@@ -23,6 +23,7 @@ import {
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
   verifyUpdatePasswordInputFormat,
+  verifyPasswordFormat,
   logUserOut,
   deleteUsersData,
   deleteUser,
@@ -148,7 +149,6 @@ export const userResolvers = {
         const user = context.userInfo.user;
         if (user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
-
         verifyUpdateUserInputFormat({
           username,
           email,
