@@ -13,11 +13,7 @@ import {
 import { useHistory, Redirect } from "react-router-dom"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
-import {
-  GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS,
-  GET_EXAMS_COUNT,
-} from "../../graphQL/queries"
+import { GET_EXAMS_COUNT } from "../../graphQL/queries"
 
 // libraries ----------------
 import CountUp from "react-countup"
@@ -55,10 +51,9 @@ function UserAccount() {
     openEdit(edit => !edit)
   }
 
-  // get and count all exams and todays chunks ----------------
+  // count all exams ----------------
   let currentExams,
     finishedExams = 0
-  let completedDuration = []
 
   if (loading) return <p className="loading">loading...</p>
   if (error) return <p>error...</p>
@@ -67,14 +62,7 @@ function UserAccount() {
     finishedExams = data.examsCount.finishedExams
   }
 
-  // sum up all durations ----------------
-  // const totalSum = completedDuration.reduce(
-  //   (previousDuration, currentDuration) => previousDuration + currentDuration,
-  //   0
-  // )
-
   // moods ----------------
-  // TODO: dynamic! currentState sollte zwischen 0 - 100 sein
   let mood = "okay"
   let currentState = 101
 
@@ -111,7 +99,7 @@ function UserAccount() {
             Logout
           </button>
         )}
-      ></GoogleLogout>
+      />
     )
   }
 
