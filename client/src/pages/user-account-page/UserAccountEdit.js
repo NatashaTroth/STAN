@@ -11,6 +11,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 import {
   DELETE_USER_MUTATION,
   UPDATE_MASCOT_MUTATION,
+  UPDATE_USER_MUTATION,
 } from "../../graphQL/mutations"
 import { useMutation } from "@apollo/react-hooks"
 
@@ -38,7 +39,7 @@ const UserAccountEdit = () => {
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
-  // const [updateUser = useMutation()
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION)
   const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
 
   // state ----------------
@@ -68,8 +69,11 @@ const UserAccountEdit = () => {
   }
 
   const onSubmit = formData => {
-    // handleExam({ mascotStore, formData, updateUser })
+    // standard login ----------------
+    let mascotId = mascotStore.mascot
+    editUser({ mascotId, formData, updateUser })
 
+    // google login ----------------
     if (currentUser.googleLogin) {
       formData = mascotStore.mascot
       handleMascot({ formData, updateMascot })
@@ -86,7 +90,7 @@ const UserAccountEdit = () => {
   }
 
   const handleDeletion = () => {
-    // userDeletion({ currentUser, deleteUser })
+    userDeletion({ currentUser, deleteUser })
   }
 
   return (
@@ -201,54 +205,6 @@ const UserAccountEdit = () => {
                             This is no valid e-mail address
                           </span>
                         )}
-                      </div>
-
-                      <div className="form__element">
-                        <Label
-                          htmlFor="password"
-                          text="Password"
-                          className="form__element__label"
-                        />
-
-                        <input
-                          type="password"
-                          id="password"
-                          label="password"
-                          name="password"
-                          // required
-                          ref={register({
-                            // required: true,
-                            minLength: 8,
-                            maxLength: 30,
-                            pattern: /^.{8,30}$/,
-                          })}
-                        />
-
-                        {/* {errors.password &&
-                        errors.password.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null} */}
-                        {errors.password &&
-                        errors.password.type === "minLength" ? (
-                          <span className="error">
-                            {" "}
-                            Minimum 8 characters required
-                          </span>
-                        ) : null}
-                        {errors.password &&
-                        errors.password.type === "maxLength" ? (
-                          <span className="error">
-                            {" "}
-                            Maximum 30 characters allowed
-                          </span>
-                        ) : null}
-                        {errors.password &&
-                        errors.password.type === "pattern" ? (
-                          <span className="error">
-                            The password needs to be between 8 and 30 characters
-                            long
-                          </span>
-                        ) : null}
                       </div>
 
                       <div className="form__element">
@@ -556,11 +512,16 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotStore, formData, updateUser }) {
+async function editUser({ mascotId, formData, updateUser }) {
   try {
     const resp = await updateUser({
-      // variables: {
-      // }
+      variables: {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        newPassword: formData.newPassword,
+        mascot: mascotId,
+      },
     })
 
     if (resp && resp.data && resp.data.updateUser) {
@@ -570,10 +531,10 @@ async function editUser({ mascotStore, formData, updateUser }) {
       throw new Error("Cannot save user changes.")
     }
 
-    // redirect
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000)
+    // redirect ----------------
+    // setTimeout(() => {
+    //   window.location.reload()
+    // }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
 
