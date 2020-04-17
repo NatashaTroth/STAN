@@ -4,6 +4,10 @@
       margin-top: 0 !important;
     }
 
+    #retype-password-error {
+      display: none;
+    }
+
     padding: 20px;
     &--form {
       margin: 40px 15px;
@@ -20,7 +24,7 @@
     }
 
     &__carousel {
-      margin: 40px 25px;
+      margin: 25px 25px;
       display: flex;
       flex-direction: column;
 
@@ -142,6 +146,52 @@
           }
         }
       }
+    }
+  }
+}
+
+.form {
+  &__element {
+    &--headline {
+      padding-bottom: 20px;
+    }
+  }
+  &__passwordToggle {
+    padding: 20px 0;
+
+    &--button {
+      border: none;
+      color: theme-color("dark");
+      transition: all 0.3s ease;
+      background: none;
+      padding-left: 25px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    i {
+      border: solid theme_color("dark");
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      margin-bottom: 2px;
+      margin-left: 8px;
+
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 2px;
+      }
+    }
+
+    .arrow {
+      transition: transform 0.2s;
+    }
+    .right {
+      transform: rotate(-45deg);
+    }
+    .down {
+      transform: rotate(45deg);
     }
   }
 }
