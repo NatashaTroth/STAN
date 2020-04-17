@@ -21,11 +21,14 @@ import {
   verifySignupInputFormat,
   verifyLoginInputFormat,
   verifyMascotInputFormat,
+  verifyUpdateUserInputFormat,
+  verifyUpdatePasswordInputFormat,
   logUserOut,
   deleteUsersData,
   deleteUser,
   validatePassword,
-  updateUserInDatabase
+  updateUserInDatabase,
+  userWantsPasswordUpdating
 } from "../helpers/userHelpers";
 
 //TODO: Authenticate Queries
@@ -145,15 +148,18 @@ export const userResolvers = {
         const user = context.userInfo.user;
         if (user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
-
-        await validatePassword(password, user.password);
-        let passwordToSave = newPassword || password;
-        verifySignupInputFormat({
+        verifyUpdateUserInputFormat({
           username,
           email,
-          password: passwordToSave,
           mascot: mascot.toString()
         });
+        let passwordToSave = user.password;
+        if (userWantsPasswordUpdating(password, newPassword)) {
+          await validatePassword(password, user.password);
+          verifyUpdatePasswordInputFormat(newPassword);
+          passwordToSave = newPassword;
+        }
+
         await updateUserInDatabase(
           context.userInfo.userId,
           username,
