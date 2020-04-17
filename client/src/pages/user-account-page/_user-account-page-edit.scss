@@ -7,6 +7,11 @@
     #retype-password-error {
       display: none;
     }
+    .graphql-user-edit-error,
+    .graphql-user-mascot-edit-erro,
+    #retype-password-error {
+      padding-left: 25px;
+    }
 
     padding: 20px;
     &--form {

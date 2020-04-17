@@ -80,6 +80,8 @@ const UserAccountEdit = () => {
     } else {
       // standard login ----------------
       if (formData.newPassword === formData.retypePassword) {
+        document.getElementById("retype-password-error").style.display = "none"
+
         let mascotId = mascotStore.mascot
         editUser({ mascotId, formData, updateUser })
       } else {
@@ -170,7 +172,7 @@ const UserAccountEdit = () => {
                         errors.username.type === "minLength" ? (
                           <span className="error">
                             {" "}
-                            Minimum 8 character required
+                            Minimum 1 character required
                           </span>
                         ) : null}
                         {errors.username &&
@@ -399,7 +401,10 @@ const UserAccountEdit = () => {
                           showStatus={false}
                           showThumbs={false}
                           useKeyboardArrows={true}
-                          onChange={handleMascotCallback}
+                          onChange={e => {
+                            handleMascotCallback(e)
+                          }}
+                          selectedItem={currentUser.mascot}
                         >
                           <Image
                             path={VeryHappyMascot}
