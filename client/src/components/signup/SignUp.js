@@ -38,7 +38,6 @@ function SignUp() {
         setAccessToken(resp.data.googleLogin)
       else throw new Error("The google login failed")
 
-      history.push("/")
       window.location.reload()
     } catch (err) {
       let element = document.getElementsByClassName("graphql-sign-up-error")
