@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -34,7 +34,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 // TODO: add updateUser mutation
 const UserAccountEdit = () => {
   // variables ----------------
-  let defaultValues
   const mascotStore = { mascot: 0 }
 
   // mutations ----------------
@@ -69,14 +68,14 @@ const UserAccountEdit = () => {
   }
 
   const onSubmit = formData => {
-    // standard login ----------------
-    let mascotId = mascotStore.mascot
-    editUser({ mascotId, formData, updateUser })
-
     // google login ----------------
     if (currentUser.googleLogin) {
       formData = mascotStore.mascot
       handleMascot({ formData, updateMascot })
+    } else {
+      // standard login ----------------
+      let mascotId = mascotStore.mascot
+      editUser({ mascotId, formData, updateUser })
     }
   }
 
@@ -93,6 +92,7 @@ const UserAccountEdit = () => {
     userDeletion({ currentUser, deleteUser })
   }
 
+  // return ----------------
   return (
     <div className="user-account__edit box-content">
       <div className="container-fluid">
@@ -104,7 +104,14 @@ const UserAccountEdit = () => {
               </div>
 
               <div className="user-account__edit--heading--delete-btn">
-                <Button onClick={handleUser} text="Delete" />
+                <Link to="/profile" className="back-button">
+                  Back
+                </Link>
+                <Button
+                  className="delete-button"
+                  onClick={handleUser}
+                  text="Delete"
+                />
               </div>
             </div>
           </div>
@@ -117,7 +124,7 @@ const UserAccountEdit = () => {
                       <div className="form__element">
                         <Label
                           htmlFor="username"
-                          text="Name"
+                          text="Username"
                           className="form__element__label input-required"
                         />
 
@@ -207,7 +214,7 @@ const UserAccountEdit = () => {
                         )}
                       </div>
 
-                      <div className="form__element">
+                      {/* <div className="form__element">
                         <Label
                           htmlFor="currentPassword"
                           text="Current password"
@@ -219,19 +226,13 @@ const UserAccountEdit = () => {
                           id="currentPassword"
                           label="currentPassword"
                           name="currentPassword"
-                          // required
                           ref={register({
-                            // required: true,
                             minLength: 8,
                             maxLength: 30,
                             pattern: /^.{8,30}$/,
                           })}
                         />
 
-                        {/* {errors.password &&
-                        errors.password.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null} */}
                         {errors.password &&
                         errors.password.type === "minLength" ? (
                           <span className="error">
@@ -253,9 +254,9 @@ const UserAccountEdit = () => {
                             long
                           </span>
                         ) : null}
-                      </div>
+                      </div> */}
 
-                      <div className="form__element">
+                      {/* <div className="form__element">
                         <Label
                           htmlFor="newPassword"
                           text="New password"
@@ -267,19 +268,13 @@ const UserAccountEdit = () => {
                           id="newPassword"
                           label="newPassword"
                           name="newPassword"
-                          // required
                           ref={register({
-                            // required: true,
                             minLength: 8,
                             maxLength: 30,
                             pattern: /^.{8,30}$/,
                           })}
                         />
 
-                        {/* {errors.password &&
-                        errors.password.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null} */}
                         {errors.password &&
                         errors.password.type === "minLength" ? (
                           <span className="error">
@@ -301,9 +296,9 @@ const UserAccountEdit = () => {
                             long
                           </span>
                         ) : null}
-                      </div>
+                      </div> */}
 
-                      <div className="form__element">
+                      {/* <div className="form__element">
                         <Label
                           htmlFor="retypePassword"
                           text="Retype new password"
@@ -315,19 +310,13 @@ const UserAccountEdit = () => {
                           id="retypePassword"
                           label="retypePassword"
                           name="retypePassword"
-                          // required
                           ref={register({
-                            // required: true,
                             minLength: 8,
                             maxLength: 30,
                             pattern: /^.{8,30}$/,
                           })}
                         />
 
-                        {/* {errors.password &&
-                        errors.password.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null} */}
                         {errors.password &&
                         errors.password.type === "minLength" ? (
                           <span className="error">
@@ -349,7 +338,7 @@ const UserAccountEdit = () => {
                             long
                           </span>
                         ) : null}
-                      </div>
+                      </div> */}
                     </div>
                   ) : null}
 
@@ -363,7 +352,6 @@ const UserAccountEdit = () => {
                           showThumbs={false}
                           useKeyboardArrows={true}
                           onChange={handleMascotCallback}
-                          selectedItem={currentUser.mascot}
                         >
                           <Image
                             path={VeryHappyMascot}
@@ -424,6 +412,23 @@ const UserAccountEdit = () => {
                       </div>
                     </div>
                   )}
+
+                  <div className="col-md-12" id="success-container-edit-user">
+                    <p className="success success-edit-user">
+                      the changes were successfully saved
+                    </p>
+                  </div>
+
+                  <div className="col-md-12" id="success-container-edit-mascot">
+                    <p className="success success-edit-user">
+                      the new mascot was successfully saved
+                    </p>
+                  </div>
+
+                  <div className="col-md-12">
+                    <p className="error graphql-user-edit-error"></p>
+                    <p className="error graphql-user-mascot-edit-error"></p>
+                  </div>
                 </div>
               </div>
             </form>
@@ -454,24 +459,14 @@ const UserAccountEdit = () => {
                     <p className="success">
                       your account was successfully deleted
                     </p>
-
+                  </div>
+                  <div className="col-md-12">
                     <p className="error graphql-user-delete-error"></p>
                   </div>
                 </div>
               </div>
             </div>
           ) : null}
-
-          <div className="col-md-12" id="success-container-edit-user">
-            <p className="success">the changes were successfully saved</p>
-
-            <p className="error graphql-user-edit-error"></p>
-          </div>
-
-          <div className="col-md-12" id="success-container-edit-mascot">
-            <p className="success">the new mascot was successfully saved</p>
-            <p className="error graphql-user-mascot-edit-error"></p>
-          </div>
         </div>
       </div>
     </div>
@@ -497,10 +492,10 @@ async function userDeletion({ currentUser, deleteUser }) {
     // reset mascot event ----------------
     window.localStorage.setItem("mascot-event", false)
 
-    // redirect
+    // redirect ----------------
     setTimeout(() => {
       window.location.href = "/sign-up"
-    }, 2000)
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-delete-error")
 
@@ -561,8 +556,10 @@ async function handleMascot({ formData, updateMascot }) {
       throw new Error("Cannot save the selected mascot.")
     }
 
-    // redirect
-    window.location.reload()
+    // redirect ----------------
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-user-mascot-edit-error"

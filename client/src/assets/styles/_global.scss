@@ -378,6 +378,7 @@ html body {
       }
     }
     .error {
+      color: theme-color("error-hover");
       display: flex;
       flex-direction: row;
       justify-content: flex-end;

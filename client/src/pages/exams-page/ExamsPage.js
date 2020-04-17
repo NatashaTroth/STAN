@@ -113,8 +113,8 @@ const Exams = () => {
               <h2>Current Exams</h2>
             </div>
 
-            <div class="error-handling-queries">
-              <p class="error">{error}</p>
+            <div className="error-handling-queries">
+              <p className="error">{error}</p>
             </div>
           </div>
           <div className="col-md-1"></div>

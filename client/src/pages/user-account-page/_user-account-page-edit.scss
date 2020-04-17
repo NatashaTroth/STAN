@@ -1,5 +1,9 @@
 .user-account {
   &__edit {
+    .success-edit-user {
+      margin-top: 0 !important;
+    }
+
     padding: 20px;
     &--form {
       margin: 40px 15px;
@@ -43,20 +47,30 @@
         }
       }
       &--delete-btn {
+        .back-button {
+          transition: all 0.3s ease;
+          &:hover {
+            color: theme_color("primary-yellow");
+          }
+        }
+        .delete-button {
+          color: theme_color("error-hover");
+          margin-left: 10px;
+        }
         @include media-breakpoint-down(sm) {
           text-align: right;
           padding-bottom: 15px;
         }
+        a,
         button {
-          font-family: $font-family-BasierCircle-SemiBold;
-          color: theme_color("error-hover");
           border: none;
           background: none;
           box-shadow: none;
           outline: none;
-          text-transform: uppercase;
+          text-transform: lowercase;
           padding: 0;
-          margin: 0;
+          margin-left: 0;
+          font-family: $font-family-OpenSans-Regular;
 
           @include rem(font-size, $font-size-16);
           letter-spacing: 0;
