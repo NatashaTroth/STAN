@@ -574,7 +574,7 @@ async function editUser({ mascotId, formData, updateUser }) {
       variables: {
         username: formData.username,
         email: formData.email,
-        password: formData.password,
+        password: formData.currentPassword,
         newPassword: formData.newPassword,
         mascot: mascotId,
       },

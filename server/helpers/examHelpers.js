@@ -129,6 +129,7 @@ function getTodaysChunks(currentExams) {
   return currentExams.map(exam => {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
     //but should never come to this - but to avoid Infinity error
+    //TODO: REMOVE
     if (daysLeft <= 0)
       throw new ApolloError(
         "Start date and exam date were the same for " + exam.subject + "."
