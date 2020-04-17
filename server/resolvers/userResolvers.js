@@ -23,7 +23,6 @@ import {
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
   verifyUpdatePasswordInputFormat,
-  verifyPasswordFormat,
   logUserOut,
   deleteUsersData,
   deleteUser,
