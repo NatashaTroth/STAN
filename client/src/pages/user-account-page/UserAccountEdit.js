@@ -60,6 +60,8 @@ const UserAccountEdit = () => {
   })
 
   const { username, email } = watch()
+
+  // use effect ----------------
   useEffect(() => {
     register({ user: "username" })
     register({ user: "email" })
@@ -437,7 +439,9 @@ const UserAccountEdit = () => {
                           showStatus={false}
                           showThumbs={false}
                           useKeyboardArrows={true}
-                          onChange={handleMascotCallback}
+                          onChange={e => {
+                            handleMascotCallback(e)
+                          }}
                           selectedItem={currentUser.mascot}
                         >
                           <Image
@@ -466,13 +470,13 @@ const UserAccountEdit = () => {
                   )}
 
                   <div className="col-md-12" id="success-container-edit-user">
-                    <p className="success success-edit-user">
+                    <p className="success">
                       the changes were successfully saved
                     </p>
                   </div>
 
                   <div className="col-md-12" id="success-container-edit-mascot">
-                    <p className="success success-edit-user">
+                    <p className="success">
                       the new mascot was successfully saved
                     </p>
                   </div>

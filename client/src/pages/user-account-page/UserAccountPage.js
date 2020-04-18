@@ -47,15 +47,11 @@ function UserAccount() {
     return <Redirect to="/login" />
   }
 
-  // functions ----------------
-  const handleEdit = () => {
-    openEdit(edit => !edit)
-  }
-
   // count all exams ----------------
   let currentExams,
     finishedExams = 0
 
+  // error handling and get data ----------------
   if (loading) return <p>loading...</p>
   if (error) return <QueryError errorMessage={error.message} />
   if (data) {
@@ -81,7 +77,7 @@ function UserAccount() {
       <Button
         variant="button"
         className=""
-        onClick={async () => logUserOut({ logout, client, history })}
+        onClick={async () => logUserOut({ logout, client })}
         text="Logout"
       />
     )
@@ -90,7 +86,7 @@ function UserAccount() {
       <GoogleLogout
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         buttonText="Logout"
-        onLogoutSuccess={async () => logUserOut({ logout, client, history })}
+        onLogoutSuccess={async () => logUserOut({ logout, client })}
         render={renderProps => (
           <button
             variant="button"
@@ -102,6 +98,11 @@ function UserAccount() {
         )}
       />
     )
+  }
+
+  // functions ----------------
+  const handleEdit = () => {
+    openEdit(edit => !edit)
   }
 
   // return ----------------
@@ -249,7 +250,7 @@ function UserAccount() {
 
 export default UserAccount
 
-async function logUserOut({ logout, client, history }) {
+async function logUserOut({ logout, client }) {
   // reset refresh token ----------------
   await logout()
 

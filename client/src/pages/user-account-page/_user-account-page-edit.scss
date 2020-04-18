@@ -2,26 +2,45 @@
   &__edit {
     padding: 20px;
 
-    // styling for success & error messages
-    .success-edit-user {
-      margin-top: 0 !important;
-    }
-
+    // ERROR HANDLING
     #retype-password-error {
       display: none;
-    }
-    .graphql-user-edit-error,
-    .graphql-user-mascot-edit-erro,
-    #retype-password-error,
-    .graphql-user-mascot-edit-error {
       padding-left: 25px;
     }
 
+    // edit user & mascot
+    #success-container-edit-user,
+    #success-container-edit-mascot {
+      display: none;
+      .success {
+        display: flex;
+        justify-content: flex-end;
+        margin: 0 25px;
+        max-width: none;
+      }
+    }
+    .graphql-user-edit-error,
+    .graphql-user-mascot-edit-error {
+      display: flex;
+      justify-content: flex-end;
+      max-width: none;
+      margin: 0 25px;
+    }
+
+    // delete user
     .graphql-user-delete-error {
       display: flex;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 30px;
     }
+    #success-container-delete-user {
+      display: none;
+      .success {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    // ----------------------------
 
     &--form {
       margin: 40px 15px;
@@ -148,14 +167,6 @@
             button {
               margin: 5px 5px;
             }
-          }
-        }
-
-        #success-container-delete-user {
-          .success,
-          .error {
-            display: flex;
-            justify-content: center;
           }
         }
       }
