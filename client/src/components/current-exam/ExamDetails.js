@@ -174,6 +174,19 @@ const ExamDetails = () => {
                                   onClick={handlePopup}
                                 />
                               </div>
+
+                              <div className="col-md-12">
+                                <p className="error graphql-exam-details-error"></p>
+                              </div>
+
+                              <div
+                                className="col-md-12"
+                                id="success-container-exam-detail"
+                              >
+                                <p className="success">
+                                  the exam was successfully deleted
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -185,14 +198,6 @@ const ExamDetails = () => {
             </div>
           </div>
           <div className="col-md-1"></div>
-          <div className="col-md-12" id="success-container-exam-detail">
-            <p className="success">the exam was successfully deleted</p>
-          </div>
-          <div className="col-md-12">
-            <div className="error-handling-form">
-              <p className="graphql-exam-details-error"></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -217,8 +222,11 @@ async function examDeletion({ paramId, deleteExam }) {
     }
 
     // redirect ----------------
-    window.location.href = "/exams"
+    setTimeout(() => {
+      window.location.href = "/exams"
+    }, 1000)
   } catch (err) {
+    // error handling ----------------
     let element = document.getElementsByClassName("graphql-exam-details-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {

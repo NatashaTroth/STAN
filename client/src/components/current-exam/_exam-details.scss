@@ -206,9 +206,28 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      padding: 40px;
+      padding: 50px;
       transform: translate(-50%, -50%);
       background-color: theme_color("light");
+
+      // ERROR HANDLING
+      .graphql-exam-details-error {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      #success-container-exam-detail {
+        display: none;
+
+        .success {
+          color: theme-color("success");
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      // ----------------
 
       &--headline {
         padding-bottom: 30px;
