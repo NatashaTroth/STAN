@@ -1,0 +1,46 @@
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+
+const todaysChunksSchema = new Schema({
+  examId: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: String,
+    required: true
+  },
+  numberPages: {
+    type: Number,
+    required: true
+  },
+  timePerPage: {
+    type: Number,
+    required: true
+  },
+  startPage: {
+    type: Number,
+    default: 1,
+    required: true
+  },
+  currentPage: {
+    type: Number,
+    default: 1,
+    required: true
+  },
+  completed: {
+    type: Boolean,
+    default: false
+  },
+  createdAt: {
+    type: Date,
+    default: new Date()
+  },
+  updatedAt: {
+    type: Date,
+    default: new Date()
+  }
+});
+
+module.exports = mongoose.model("TodaysChunks", todaysChunksSchema);
+// export default mongoose.model('User', userSchema)

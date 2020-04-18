@@ -102,7 +102,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
 
 export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
-  return getTodaysChunks(currentExams);
+  return calculateTodaysChunks(currentExams);
 }
 
 export async function fetchCalendarChunks(userId) {
@@ -125,7 +125,7 @@ async function fetchCurrentExams(userId) {
   return currentExams;
 }
 
-function getTodaysChunks(currentExams) {
+function calculateTodaysChunks(currentExams) {
   return currentExams.map(exam => {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
     //but should never come to this - but to avoid Infinity error
