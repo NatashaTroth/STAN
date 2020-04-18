@@ -52,4 +52,20 @@
       justify-content: center;
     }
   }
+
+  // ERROR HANDLING - EDIT EXAM
+  .graphql-exam-details-edit-error {
+    margin-top: 20px;
+    text-align: right;
+    max-width: none;
+  }
+
+  #success-container-edit-exam {
+    display: none;
+    .success {
+      text-align: right;
+      max-width: none;
+    }
+  }
+  // ----------------
 }
