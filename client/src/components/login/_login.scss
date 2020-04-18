@@ -1,5 +1,14 @@
 .login {
   &__form {
+    // ERROR HANDLING
+    .error-handling-form {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    // -----------------------
+
     display: flex;
     flex-direction: column;
     padding: 80px 100px;

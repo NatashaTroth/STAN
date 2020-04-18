@@ -64,7 +64,7 @@ function Login() {
     <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
       <div className="row">
         <div className="error-handling-form">
-          <p className="graphql-login-error"></p>
+          <p className="error graphql-login-error"></p>
         </div>
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
@@ -199,6 +199,7 @@ async function handleLogin({ formData, login }) {
     // redirect ----------------
     window.location.reload()
   } catch (err) {
+    // error handling ----------------
     let element = document.getElementsByClassName("graphql-login-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
