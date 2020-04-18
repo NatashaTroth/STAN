@@ -17,6 +17,10 @@
         justify-content: flex-end;
         margin: 0 25px;
         max-width: none;
+
+        @include media-breakpoint-down(sm) {
+          justify-content: center;
+        }
       }
     }
     .graphql-user-edit-error,
@@ -25,6 +29,10 @@
       justify-content: flex-end;
       max-width: none;
       margin: 0 25px;
+
+      @include media-breakpoint-down(sm) {
+        justify-content: center;
+      }
     }
 
     // delete user
