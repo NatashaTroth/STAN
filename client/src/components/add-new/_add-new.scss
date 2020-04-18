@@ -11,4 +11,22 @@
     padding: 5px 0;
     margin: 5px;
   }
+
+  // ERROR HANDLING
+  #success-container-add-new {
+    display: none;
+
+    .success {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      max-width: none;
+      margin-top: 20px;
+
+      @include media-breakpoint-down(sm) {
+        justify-content: center;
+      }
+    }
+  }
+  // -----------------
 }

@@ -302,6 +302,11 @@ html body {
     margin-top: 2px;
   }
 
+  .success {
+    color: theme-color("success");
+    margin-top: 2px;
+  }
+
   .loading {
     visibility: hidden;
   }
@@ -343,51 +348,6 @@ html body {
 
     @include media-breakpoint-down(sm) {
       @include rem(font-size, 18px);
-    }
-  }
-
-  .error-handling-form,
-  .error-handling-queries {
-    width: 100%;
-    p {
-      color: theme_color("error-hover");
-      text-align: center;
-      padding-bottom: 20px;
-      max-width: none;
-    }
-  }
-
-  #success-container,
-  #success-container-exam-detail,
-  #success-container-edit-exam,
-  #success-container-delete-user,
-  #success-container-edit-user,
-  #success-container-edit-mascot {
-    display: none;
-
-    .success {
-      color: theme-color("success");
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      max-width: none;
-      margin-top: 20px;
-
-      @include media-breakpoint-down(md) {
-        justify-content: flex-start;
-      }
-    }
-    .error {
-      color: theme-color("error-hover");
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      max-width: none;
-      margin-top: 20px;
-
-      @include media-breakpoint-down(md) {
-        justify-content: flex-start;
-      }
     }
   }
 }

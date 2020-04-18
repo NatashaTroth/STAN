@@ -364,7 +364,7 @@ function AddNew() {
               </div>
             </form>
           </div>
-          <div className="col-md-12" id="success-container">
+          <div className="col-md-12" id="success-container-add-new">
             <p className="success">the exam was successfully added</p>
           </div>
         </div>
