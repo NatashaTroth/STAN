@@ -380,14 +380,12 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
       </div>
 
-      <div className="col-md-12" id="success-container-edit-exam">
-        <p className="success">the changes were successfully saved</p>
+      <div className="col-md-12">
+        <p className="error graphql-exam-details-edit-error"></p>
       </div>
 
-      <div className="col-md-12">
-        <div className="error-handling-form">
-          <p className="graphql-exam-details-edit-error"></p>
-        </div>
+      <div className="col-md-12" id="success-container-edit-exam">
+        <p className="success">the changes were successfully saved</p>
       </div>
     </form>
   )
