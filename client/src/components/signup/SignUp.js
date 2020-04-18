@@ -77,7 +77,7 @@ function SignUp() {
           </div>
 
           <div className="error-handling-form">
-            <p className="graphql-sign-up-error"></p>
+            <p className="error graphql-sign-up-error"></p>
           </div>
 
           <div className="login__form__element">
