@@ -41,13 +41,13 @@
   align-items: flex-end;
   border-bottom: 4px solid theme_color("dark");
 
-  @include media-breakpoint-down(xs) {
-    flex-direction: row-reverse !important;
-  }
-
   @include media-breakpoint-down(lg) {
     margin-bottom: 50px;
     flex-direction: column;
+  }
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: row-reverse;
   }
 
   .carousel {
