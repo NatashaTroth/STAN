@@ -60,7 +60,7 @@ function UserAccount() {
   }
 
   // moods ----------------
-  let mood = "okay"
+  let mood = "very stressed"
   let currentState = 101
 
   if (currentState >= 0 && currentState <= 19) mood = "very stressed"
