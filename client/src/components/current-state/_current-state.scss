@@ -35,15 +35,46 @@
 }
 
 .current-state {
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: right;
+  align-items: flex-end;
+  border-bottom: 4px solid theme_color("dark");
+
+  @include media-breakpoint-down(xs) {
+    flex-direction: row-reverse !important;
+  }
+
+  @include media-breakpoint-down(lg) {
+    margin-bottom: 50px;
+    flex-direction: column;
+  }
+
   .carousel {
+    width: 150px !important;
     .slide {
+      padding: 10px 0;
+      margin-top: 45px;
+
       &:hover {
         animation: shake 0.5s;
         animation-iteration-count: infinite;
       }
       img {
-        width: 150px;
+        width: 120px;
       }
+
+      @include media-breakpoint-down(sm) {
+        margin-top: 0;
+      }
+    }
+  }
+
+  &__motivation {
+    padding: 10px 10px 10px 0;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 0;
     }
   }
 }
