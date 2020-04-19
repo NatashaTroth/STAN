@@ -10,6 +10,7 @@ import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
 import Mascots from "../../components/mascots/Mascots"
 import QueryError from "../../components/error/Error"
+import CurrentState from "../../components/current-state/CurrentState"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
@@ -77,7 +78,7 @@ function Dashboard() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
-          <div className="col-md-5">
+          <div className="col-md-6">
             <CurrentUserContext.Consumer>
               {currentUser => (
                 <h2 className="dashboard-page__heading">
@@ -89,16 +90,8 @@ function Dashboard() {
           </div>
           {/* Mascot */}
           <div className="col-md-5">
-            {/* <CurrentUserContext.Consumer>
-              {currentUser => (
-                <img
-                  src={require(`../../images/mascots/user-mascot/${currentUser.mascot}-0.svg`)}
-                  alt=""
-                />
-              )}
-            </CurrentUserContext.Consumer> */}
+            <CurrentState />
           </div>
-          <div className="col-md-1"></div>
         </div>
       </div>
       {/* dashboard content */}
