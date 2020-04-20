@@ -59,7 +59,7 @@ export const userResolvers = {
       try {
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
-        await fetchTodaysChunks(context.userInfo.userId);
+        const chunks = await fetchTodaysChunks(context.userInfo.userId);
         // return calculateUserState(chunks);
         return "VERY_HAPPY";
       } catch (err) {
