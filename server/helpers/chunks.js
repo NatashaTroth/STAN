@@ -95,7 +95,7 @@ function calculateTodaysChunks(currentExams) {
       numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
       notEnoughTime: false //TODO: IMPLEMENT
     };
-    addTodaysChunkToDatabase(chunk, exam.userId);
+    // addTodaysChunkToDatabase(chunk, exam.userId);
     return chunk;
   });
 }

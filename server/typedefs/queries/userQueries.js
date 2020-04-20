@@ -1,12 +1,12 @@
 import { gql } from "apollo-server";
-
+//  TODO: CHECK WHAT IS REQUIRED AND WHAT ISN't
 //TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const userQueries = gql`
   type Query {
     users: [User]!
     user(id: ID!): User
     currentUser: User
-    currentUserState: Int
+    currentUserState: String!
   }
 
   type Mutation {

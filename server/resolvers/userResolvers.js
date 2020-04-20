@@ -32,8 +32,8 @@ import {
   calculateUserState
 } from "../helpers/userHelpers";
 
+import { fetchTodaysChunks, fetchCalendarChunks } from "../helpers/chunks";
 //TODO CHANGE
-import { fetchCurrentExams } from "../helpers/examHelpers";
 
 //TODO: Authenticate Queries
 export const userResolvers = {
@@ -60,7 +60,8 @@ export const userResolvers = {
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
-        return calculateUserState(chunks);
+        // return calculateUserState(chunks);
+        return "VERY_HAPPY";
       } catch (err) {
         handleResolverError(err);
       }
