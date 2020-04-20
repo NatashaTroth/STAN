@@ -13,7 +13,11 @@ import {
   verifyAddExamDates
 } from "../helpers/examHelpers";
 
-import { fetchTodaysChunks, fetchCalendarChunks } from "../helpers/chunks";
+import {
+  fetchTodaysChunks,
+  fetchCalendarChunks,
+  getTodaysExamProgress
+} from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
 // import { ApolloError } from "apollo-server";
@@ -90,6 +94,18 @@ export const examResolvers = {
 
         //TODO: ERROR HANDLING?
         return { currentExams, finishedExams };
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    todaysExamProgress: async (parent, args, context) => {
+      try {
+        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+        handleAuthentication(context.userInfo);
+        return await getTodaysExamProgress(context.userInfo.userId);
+        // return calculateUserState(chunks);
+        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
+        // return "VERY_HAPPY";
       } catch (err) {
         handleResolverError(err);
       }

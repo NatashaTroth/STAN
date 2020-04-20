@@ -10,7 +10,7 @@ const todaysChunkCacheSchema = new Schema({
     type: String,
     required: true
   },
-  numberPages: {
+  numberPagesToday: {
     type: Number,
     required: true
   },

@@ -54,18 +54,6 @@ export const userResolvers = {
         console.error(err.message);
         return null;
       }
-    },
-    currentUserState: async (parent, args, context) => {
-      try {
-        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
-        handleAuthentication(context.userInfo);
-        return await getCurrentUserState(context.userInfo.userId);
-        // return calculateUserState(chunks);
-        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
-        // return "VERY_HAPPY";
-      } catch (err) {
-        handleResolverError(err);
-      }
     }
   },
   Mutation: {

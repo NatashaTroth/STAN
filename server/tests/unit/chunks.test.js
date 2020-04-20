@@ -1,4 +1,4 @@
-import { numberOfPagesForChunk, durationLeft } from "../../helpers/chunks";
+import { numberOfPagesForChunk, durationCompleted } from "../../helpers/chunks";
 
 test("the number of pages for each chunk is correct", () => {
   expect(
@@ -87,41 +87,98 @@ test("that correct Error is thrown with NaN inputs", () => {
   }
 });
 
-test("the duration left is correct", () => {
+test("the duration completed is correct", () => {
   //can use "nice/dividable" numbers since when creating today's chunks the page number is rounded before multiplied with timePerPage (both ints, not floats)
   expect(
-    durationLeft({
+    durationCompleted({
       duration: 450,
       startPage: 5,
       currentPage: 10,
       numberPages: 15
     })
-  ).toBe(300);
+  ).toBe(150);
 
   expect(
-    durationLeft({
+    durationCompleted({
       duration: 50,
       startPage: 1,
       currentPage: 5,
       numberPages: 10
     })
-  ).toBe(30);
+  ).toBe(20);
 
   expect(
-    durationLeft({
+    durationCompleted({
       duration: 6,
       startPage: 1,
       currentPage: 2,
       numberPages: 3
     })
-  ).toBe(4);
+  ).toBe(2);
 
   expect(
-    durationLeft({
+    durationCompleted({
       duration: 400,
       startPage: 1,
       currentPage: 1,
       numberPages: 200
     })
+  ).toBe(0);
+
+  //current page means, this page still needs to be learned -> therefore 201 means page 200 is completed
+  expect(
+    durationCompleted({
+      duration: 400,
+      startPage: 1,
+      currentPage: 201,
+      numberPages: 200
+    })
+  ).toBe(400);
+  expect(
+    durationCompleted({
+      duration: 60,
+      startPage: 1,
+      currentPage: 60,
+      numberPages: 4
+    })
   ).toBe(400);
 });
+
+// test("the duration left is correct", () => {
+//   //can use "nice/dividable" numbers since when creating today's chunks the page number is rounded before multiplied with timePerPage (both ints, not floats)
+//   expect(
+//     durationLeft({
+//       duration: 450,
+//       startPage: 5,
+//       currentPage: 10,
+//       numberPages: 15
+//     })
+//   ).toBe(300);
+
+//   expect(
+//     durationLeft({
+//       duration: 50,
+//       startPage: 1,
+//       currentPage: 5,
+//       numberPages: 10
+//     })
+//   ).toBe(30);
+
+//   expect(
+//     durationLeft({
+//       duration: 6,
+//       startPage: 1,
+//       currentPage: 2,
+//       numberPages: 3
+//     })
+//   ).toBe(4);
+
+//   expect(
+//     durationLeft({
+//       duration: 400,
+//       startPage: 1,
+//       currentPage: 1,
+//       numberPages: 200
+//     })
+//   ).toBe(400);
+// });

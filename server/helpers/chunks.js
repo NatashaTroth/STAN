@@ -116,13 +116,14 @@ async function addTodaysChunkToDatabase(chunk, userId) {
     const resp = await TodaysChunkCache.create({
       examId: chunk.exam.id,
       userId,
-      numberPages: chunk.numberPagesToday,
+      numberPagesToday: chunk.numberPagesToday,
       duration: chunk.duration,
       startPage: chunk.exam.currentPage,
       currentPage: chunk.exam.currentPage,
       completed: false
     });
-    console.log(resp);
+    if (!resp) throw new Error();
+    // console.log(resp);
   } catch (err) {
     console.log(err);
     throw new Error("Could not add todays chunk to db");
@@ -162,15 +163,110 @@ function getCalendarChunks(exams) {
   return chunks;
 }
 
-export function durationLeft({
+export async function getTodaysExamProgress(userId) {
+  //TODO: INDEX userid
+  let todaysChunks = await TodaysChunkCache.find({ userId });
+  if (!todaysChunks || todaysChunks.length <= 0)
+    todaysChunks = await fetchTodaysChunks(userId);
+
+  return calculateExamProgress(todaysChunks);
+}
+
+//TODO: EXPORT TO CHUNKS.JS?
+function calculateExamProgress(chunks) {
+  //TODO: HANDLE Chunk COMPLETED
+  let totalDuration = 0;
+  let totalDurationCompleted = 0;
+  chunks.forEach(chunk => {
+    // {
+    //   "exam": {
+    //     "id": "5e988b6dfb66edc7290debb1",
+    //     "subject": "Maths",
+    //     "examDate": "2020-05-05T00:00:00.000Z",
+    //     "startDate": "2020-04-20T00:00:00.000Z",
+    //     "numberPages": 53,
+    //     "timesRepeat": 1,
+    //     "currentPage": 0,
+    //     "pdfLink": "TODO: CHANGE LATER"
+    //   },
+    //   "numberPagesToday": 4,
+    //   "duration": 16,
+    //   "daysLeft": 15,
+    //   "totalNumberDays": 15,
+    //   "numberPagesWithRepeat": 53,
+    //   "notEnoughTime": false
+    // }
+    //TODO: CACHE AND NOT CACHE OBEJECTS SHOULD LOOK THE SAME SO DON'T HAVE ALL THIS:
+    totalDuration += chunk.duration;
+    // console.log(chunk.currentPage);
+    let currentPage;
+    if (chunk.exam) currentPage = chunk.exam.currentPage;
+    else currentPage = chunk.currentPage;
+    let startPage = chunk.startPage;
+    if (!"startPage" in chunk) startPage = currentPage;
+    totalDurationCompleted += durationCompleted({
+      duration: chunk.duration,
+      startPage,
+      currentPage: currentPage,
+      numberPages: chunk.numberPagesToday
+    });
+    // console.log(chunk.duration);
+    // console.log(startPage); //16
+
+    // console.log(currentPage);
+    // console.log(chunk.numberPagesToday);
+  });
+  // console.log("-----------");
+  //duration ..... 100%
+  //duration completed ... x
+
+  // console.log(totalDuration);
+  // console.log(totalDurationCompleted);
+  if (totalDuration === 0) return 0;
+  // console.log((100 / totalDuration) * totalDurationCompleted);
+  return Math.round((100 / totalDuration) * totalDurationCompleted);
+}
+
+// export function calculateUserState(chunks){
+//   let totalDuration
+//   chunks.forEach(chunk => {
+//     // type TodaysChunk {
+//     //   exam: Exam!
+//     //   numberPagesToday: Int!
+//     //   duration: Int
+//     //   daysLeft: Int! #incl. today
+//     //   totalNumberDays: Int!
+//     //   numberPagesWithRepeat: Int! #exam.pages*repeat
+//     //   notEnoughTime: Boolean!
+//     // }
+
+//   })
+// }
+
+export function durationCompleted({
   duration,
   startPage,
   currentPage,
   numberPages
 }) {
+  console.log("here");
   const timePerPage = duration / numberPages;
-  const endPage = startPage + numberPages - 1;
-  const numberOfpagesLeft = endPage - currentPage + 1;
+  // const endPage = startPage + numberPages - 1;
+  // const numberOfpagesLeft = endPage - currentPage + 1;
+  const numberOfpagesCompleted = currentPage - startPage;
 
-  return numberOfpagesLeft * timePerPage;
+  return numberOfpagesCompleted * timePerPage;
 }
+
+// export function durationLeft({
+//   duration,
+//   startPage,
+//   currentPage,
+//   numberPages
+// }) {
+//   const timePerPage = duration / numberPages;
+//   const endPage = startPage + numberPages - 1;
+//   const numberOfpagesLeft = endPage - currentPage + 1;
+
+//   return numberOfpagesLeft * timePerPage;
+// }

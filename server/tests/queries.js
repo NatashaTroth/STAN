@@ -109,9 +109,9 @@ export const CURRENT_USER = gql`
   }
 `;
 
-export const GET_CURRENT_USER_STATE = gql`
+export const GET_TODAYS_EXAM_PROGRESS = gql`
   query {
-    currentUserState
+    todaysExamProgress
   }
 `;
 
