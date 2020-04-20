@@ -5,7 +5,7 @@ const examQueries = gql`
   type Query {
     exams: [Exam]
     exam(id: ID!): Exam
-    todaysChunks: [Chunk]!
+    todaysChunks: [TodaysChunk]!
     calendarChunks: [CalendarChunk]!
     examsCount: ExamsCount!
   }

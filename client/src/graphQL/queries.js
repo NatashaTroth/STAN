@@ -107,6 +107,12 @@ export const CURRENT_USER = gql`
     }
   }
 `
+export const GET_CURRENT_USER_STATE = gql`
+  query {
+    currentUserState
+  }
+`
+
 export const GET_EXAMS_COUNT = gql`
   query {
     examsCount {

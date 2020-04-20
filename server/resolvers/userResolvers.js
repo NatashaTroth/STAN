@@ -29,7 +29,11 @@ import {
   validatePassword,
   updateUserInDatabase,
   userWantsPasswordUpdating
+  // calculateUserState
 } from "../helpers/userHelpers";
+
+import { fetchTodaysChunks } from "../helpers/chunks";
+//TODO CHANGE
 
 //TODO: Authenticate Queries
 export const userResolvers = {
@@ -49,6 +53,17 @@ export const userResolvers = {
       } catch (err) {
         console.error(err.message);
         return null;
+      }
+    },
+    currentUserState: async (parent, args, context) => {
+      try {
+        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+        handleAuthentication(context.userInfo);
+        const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        // return calculateUserState(chunks);
+        return "VERY_HAPPY";
+      } catch (err) {
+        handleResolverError(err);
       }
     }
   },
@@ -173,6 +188,7 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
+
     deleteUser: async (parent, args, context) => {
       try {
         handleAuthentication(context.userInfo);

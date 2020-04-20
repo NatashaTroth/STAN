@@ -47,7 +47,7 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
     // console.log(JSON.stringify(resp));
-
+    // console.log(resp);
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
 
