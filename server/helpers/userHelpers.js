@@ -195,6 +195,22 @@ export function userWantsPasswordUpdating(password, newPassword) {
   );
 }
 
+// export function calculateUserState(chunks){
+//   let totalDuration
+//   chunks.forEach(chunk => {
+//     // type TodaysChunk {
+//     //   exam: Exam!
+//     //   numberPagesToday: Int!
+//     //   duration: Int
+//     //   daysLeft: Int! #incl. today
+//     //   totalNumberDays: Int!
+//     //   numberPagesWithRepeat: Int! #exam.pages*repeat
+//     //   notEnoughTime: Boolean!
+//     // }
+
+//   })
+// }
+
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);

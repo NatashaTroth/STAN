@@ -6,6 +6,7 @@ const userQueries = gql`
     users: [User]!
     user(id: ID!): User
     currentUser: User
+    currentUserState: Int
   }
 
   type Mutation {

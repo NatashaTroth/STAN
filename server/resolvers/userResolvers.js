@@ -28,8 +28,12 @@ import {
   deleteUser,
   validatePassword,
   updateUserInDatabase,
-  userWantsPasswordUpdating
+  userWantsPasswordUpdating,
+  calculateUserState
 } from "../helpers/userHelpers";
+
+//TODO CHANGE
+import { fetchCurrentExams } from "../helpers/examHelpers";
 
 //TODO: Authenticate Queries
 export const userResolvers = {
@@ -49,6 +53,16 @@ export const userResolvers = {
       } catch (err) {
         console.error(err.message);
         return null;
+      }
+    },
+    currentUserState: async (parent, args, context) => {
+      try {
+        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+        handleAuthentication(context.userInfo);
+        const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        return calculateUserState(chunks);
+      } catch (err) {
+        handleResolverError(err);
       }
     }
   },
@@ -173,6 +187,7 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
+
     deleteUser: async (parent, args, context) => {
       try {
         handleAuthentication(context.userInfo);
