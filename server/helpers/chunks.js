@@ -203,7 +203,9 @@ function calculateExamProgress(chunks) {
     if (chunk.exam) currentPage = chunk.exam.currentPage;
     else currentPage = chunk.currentPage;
     let startPage = chunk.startPage;
-    if (!"startPage" in chunk) startPage = currentPage;
+    if (!Object.prototype.hasOwnProperty.call(chunk, "startPage"))
+      startPage = currentPage;
+
     totalDurationCompleted += durationCompleted({
       duration: chunk.duration,
       startPage,
@@ -211,7 +213,7 @@ function calculateExamProgress(chunks) {
       numberPages: chunk.numberPagesToday
     });
     // console.log(chunk.duration);
-    // console.log(startPage); //16
+    console.log(startPage); //16
 
     // console.log(currentPage);
     // console.log(chunk.numberPagesToday);
@@ -249,7 +251,8 @@ export function durationCompleted({
   currentPage,
   numberPages
 }) {
-  console.log("here");
+  // console.log("here");
+  // console.log(startPage);
   const timePerPage = duration / numberPages;
   // const endPage = startPage + numberPages - 1;
   // const numberOfpagesLeft = endPage - currentPage + 1;
