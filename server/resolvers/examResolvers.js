@@ -7,11 +7,13 @@ import {
   prepareExamInputData,
   verifyExamInput,
   handleCurrentPageInput,
-  fetchTodaysChunks,
-  fetchCalendarChunks,
+  // fetchTodaysChunks,
+  // fetchCalendarChunks,
   handleUpdateExamInput,
   verifyAddExamDates
 } from "../helpers/examHelpers";
+
+import { fetchTodaysChunks, fetchCalendarChunks } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
 // import { ApolloError } from "apollo-server";

@@ -7,7 +7,7 @@ import {
   verifyRegexPageNotes
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
-import { Exam } from "../models";
+import { Exam, TodaysChunkCache } from "../models";
 import { numberOfPagesForChunk } from "../helpers/chunks";
 // import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
@@ -100,99 +100,103 @@ export async function handleCurrentPageInput(page, examId, userId) {
   return exam;
 }
 
-export async function fetchTodaysChunks(userId) {
-  const currentExams = await fetchCurrentExams(userId);
-  return calculateTodaysChunks(currentExams);
-}
+// export async function fetchTodaysChunks(userId) {
+//   const currentExams = await fetchCurrentExams(userId);
+//   const chunks = calculateTodaysChunks(currentExams);
+//   await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
 
-export async function fetchCalendarChunks(userId) {
-  const exams = await Exam.find({
-    userId: userId,
-    completed: false
-  }).sort({ subject: "asc" });
-  // const currentExams = await fetchCurrentExams(userId);
-  return getCalendarChunks(exams);
-}
+//   return chunks;
+// }
 
-async function fetchCurrentExams(userId) {
-  const exams = await Exam.find({
-    userId: userId,
-    completed: false
-  }).sort({ examDate: "asc" });
-  const currentExams = exams.filter(exam => {
-    return startDateIsActive(new Date(exam.startDate));
-  });
-  return currentExams;
-}
+// export async function fetchCalendarChunks(userId) {
+//   const exams = await Exam.find({
+//     userId: userId,
+//     completed: false
+//   }).sort({ subject: "asc" });
+//   // const currentExams = await fetchCurrentExams(userId);
+//   return getCalendarChunks(exams);
+// }
 
-function calculateTodaysChunks(currentExams) {
-  return currentExams.map(exam => {
-    const daysLeft = getNumberOfDays(new Date(), exam.examDate);
-    //but should never come to this - but to avoid Infinity error
-    //TODO: REMOVE
-    if (daysLeft <= 0)
-      throw new ApolloError(
-        "Start date and exam date were the same for " + exam.subject + "."
-      );
-    if (exam.currentPage > exam.numberPages * exam.timesRepeat)
-      throw new ApolloError(
-        "The current page is higher than the number of pages for this exam."
-      );
-    const numberPagesToday = numberOfPagesForChunk({
-      numberOfPages: exam.numberPages,
-      currentPage: exam.currentPage,
-      daysLeft,
-      repeat: exam.timesRepeat
-    });
+// async function fetchCurrentExams(userId) {
+//   const exams = await Exam.find({
+//     userId: userId,
+//     completed: false
+//   }).sort({ examDate: "asc" });
+//   const currentExams = exams.filter(exam => {
+//     return startDateIsActive(new Date(exam.startDate));
+//   });
+//   return currentExams;
+// }
 
-    const duration =
-      exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
-    return {
-      exam,
-      numberPagesToday,
-      duration,
-      daysLeft,
-      totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
-      numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
-      notEnoughTime: false //TODO: IMPLEMENT
-    };
-  });
-}
+// function calculateTodaysChunks(currentExams) {
+//   return currentExams.map(exam => {
+//     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+//     //but should never come to this - but to avoid Infinity error
+//     //TODO: REMOVE
+//     if (daysLeft <= 0)
+//       throw new ApolloError(
+//         "Start date and exam date were the same for " + exam.subject + "."
+//       );
+//     if (exam.currentPage > exam.numberPages * exam.timesRepeat)
+//       throw new ApolloError(
+//         "The current page is higher than the number of pages for this exam."
+//       );
+//     const numberPagesToday = numberOfPagesForChunk({
+//       numberOfPages: exam.numberPages,
+//       currentPage: exam.currentPage,
+//       daysLeft,
+//       repeat: exam.timesRepeat
+//     });
 
-function getCalendarChunks(exams) {
-  const chunks = [];
+//     const duration =
+//       exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
+//     const chunk = {
+//       exam,
+//       numberPagesToday,
+//       duration,
+//       daysLeft,
+//       totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
+//       numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
+//       notEnoughTime: false //TODO: IMPLEMENT
+//     };
+//     // addtodaysChunkToDatabase()
+//     return chunk;
+//   });
+// }
 
-  for (let i = 0; i < exams.length; i++) {
-    const exam = exams[i];
+// function getCalendarChunks(exams) {
+//   const chunks = [];
 
-    //TODO - BETWEEN STARTDATE OR TODAY
-    let dayToStartCounting = exam.startDate;
-    if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
-    const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
+//   for (let i = 0; i < exams.length; i++) {
+//     const exam = exams[i];
 
-    const numberPagesLeftTotal =
-      exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+//     //TODO - BETWEEN STARTDATE OR TODAY
+//     let dayToStartCounting = exam.startDate;
+//     if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
+//     const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
 
-    chunks.push({
-      subject: exam.subject,
-      start: exam.startDate,
-      end: exam.examDate,
-      details: {
-        examDate: exam.examDate,
-        currentPage: exam.currentPage,
-        numberPagesLeftTotal,
-        numberPagesPerDay,
-        durationTotal: numberPagesLeftTotal * exam.timePerPage,
-        durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
-      },
-      color: exam.color
-    });
-  }
-  return chunks;
-}
+//     const numberPagesLeftTotal =
+//       exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
+//     const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
 
-//TODO: SAVE IN DB - DO IN ADD EXAM
+//     chunks.push({
+//       subject: exam.subject,
+//       start: exam.startDate,
+//       end: exam.examDate,
+//       details: {
+//         examDate: exam.examDate,
+//         currentPage: exam.currentPage,
+//         numberPagesLeftTotal,
+//         numberPagesPerDay,
+//         durationTotal: numberPagesLeftTotal * exam.timePerPage,
+//         durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
+//       },
+//       color: exam.color
+//     });
+//   }
+//   return chunks;
+// }
+
 function generateSubjectColor(exam) {
   const hexChars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   const colorNumbers = [];
