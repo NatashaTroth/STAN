@@ -78,7 +78,7 @@ const Navbar = () => {
               <div className="menu-top">
                 {/* HOME & DASHBOARD */}
                 {!currentUser ? (
-                  <li className="">
+                  <li className="logged-out home">
                     <NavLink
                       strict
                       to="/"
@@ -90,7 +90,7 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : (
-                  <li className="dashboard">
+                  <li className="logged-in dashboard">
                     <NavLink
                       strict
                       to="/"
@@ -105,7 +105,7 @@ const Navbar = () => {
 
                 {/* ABOUT & ADD NEW */}
                 {!currentUser ? (
-                  <li className="">
+                  <li className="logged-out about">
                     <NavLink
                       strict
                       to="/about"
@@ -117,7 +117,7 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : (
-                  <li className="add-new">
+                  <li className="logged-in add-new">
                     <NavLink
                       strict
                       to="/add-new"
@@ -132,7 +132,7 @@ const Navbar = () => {
 
                 {/* LOGIN & Calendar */}
                 {!currentUser ? (
-                  <li className="">
+                  <li className="logged-out login">
                     <NavLink
                       strict
                       to="/login"
@@ -144,7 +144,7 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : (
-                  <li className="calendar">
+                  <li className="logged-in calendar">
                     <NavLink
                       strict
                       to="/calendar"
@@ -159,7 +159,7 @@ const Navbar = () => {
 
                 {/* Exams */}
                 {currentUser ? (
-                  <li className="exams">
+                  <li className="logged-in exams">
                     <NavLink
                       strict
                       to="/exams"
