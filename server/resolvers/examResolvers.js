@@ -1,5 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-import { Exam } from "../models";
+import { Exam, TodaysChunkCache } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
@@ -59,6 +59,7 @@ export const examResolvers = {
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
         // console.log(chunks);
+
         return chunks;
       } catch (err) {
         handleResolverError(err);

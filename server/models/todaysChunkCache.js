@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const todaysChunksSchema = new Schema({
+const todaysChunkCacheSchema = new Schema({
   examId: {
     type: String,
     required: true
@@ -42,5 +42,5 @@ const todaysChunksSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("TodaysChunks", todaysChunksSchema);
+module.exports = mongoose.model("TodaysChunkCache", todaysChunkCacheSchema);
 // export default mongoose.model('User', userSchema)

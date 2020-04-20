@@ -22,7 +22,7 @@ const examType = gql`
   }
 
   # duration in minutes
-  type Chunk {
+  type TodaysChunk {
     # examId: ID!
     # subject: String!
     exam: Exam!
