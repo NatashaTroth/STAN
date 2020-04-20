@@ -1,6 +1,6 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
-import { User, Exam } from "../models";
+import { User, Exam, TodaysChunksCache } from "../models";
 import {
   UserInputError,
   AuthenticationError,
@@ -19,6 +19,7 @@ import {
 } from "../helpers/verifyUserInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/resolvers";
+import { durationLeft } from "../helpers/chunks";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -137,6 +138,7 @@ export async function logUserOut(res, userId) {
   if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
 }
 
+//TODAY: export exam.deletemany into examhelpers
 export async function deleteUsersData(userId) {
   const respDeleteExams = await Exam.deleteMany({
     userId
@@ -193,6 +195,45 @@ export function userWantsPasswordUpdating(password, newPassword) {
   return (
     (password && password.length > 0) || (newPassword && newPassword.length > 0)
   );
+}
+
+export async function getCurrentUserState(userId) {
+  //TODO: INDEX userid
+  let todaysChunks = await TodaysChunksCache.find({ userId });
+  if (!todaysChunks || todaysChunks.length <= 0)
+    todaysChunks = await fetchTodaysChunks(context.userInfo.userId);
+  return calculateUserState(todaysChunks);
+}
+
+//TODO: EXPORT TO CHUNKS.JS?
+function calculateUserState(chunks) {
+  //TODO: HANDLE Chunk COMPLETED
+
+  chunks.forEach(chunk => {
+    // {
+    //   "exam": {
+    //     "id": "5e988b6dfb66edc7290debb1",
+    //     "subject": "Maths",
+    //     "examDate": "2020-05-05T00:00:00.000Z",
+    //     "startDate": "2020-04-20T00:00:00.000Z",
+    //     "numberPages": 53,
+    //     "timesRepeat": 1,
+    //     "currentPage": 0,
+    //     "pdfLink": "TODO: CHANGE LATER"
+    //   },
+    //   "numberPagesToday": 4,
+    //   "duration": 16,
+    //   "daysLeft": 15,
+    //   "totalNumberDays": 15,
+    //   "numberPagesWithRepeat": 53,
+    //   "notEnoughTime": false
+    // }
+
+    //duration ..... 100%
+    //duration left ... x
+
+    durationLeft(duration, currentPage, numberPagesToday);
+  });
 }
 
 // export function calculateUserState(chunks){

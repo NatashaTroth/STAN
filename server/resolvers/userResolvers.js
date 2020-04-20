@@ -32,7 +32,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-import { fetchTodaysChunks } from "../helpers/chunks";
+// import { fetchTodaysChunks } from "../helpers/chunks";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -59,9 +59,10 @@ export const userResolvers = {
       try {
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
-        await fetchTodaysChunks(context.userInfo.userId);
+        return await getCurrentUserState(context.userInfo.userId);
         // return calculateUserState(chunks);
-        return "VERY_HAPPY";
+        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
+        // return "VERY_HAPPY";
       } catch (err) {
         handleResolverError(err);
       }

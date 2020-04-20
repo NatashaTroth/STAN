@@ -112,11 +112,12 @@ async function addTodaysChunkToDatabase(chunk, userId) {
   //   "notEnoughTime": false
   // }
   try {
+    //TODO: HANDLE Chunk COMPLETED
     const resp = await TodaysChunkCache.create({
       examId: chunk.exam.id,
       userId,
       numberPages: chunk.numberPagesToday,
-      totalDuration: chunk.duration,
+      duration: chunk.duration,
       startPage: chunk.exam.currentPage,
       currentPage: chunk.exam.currentPage,
       completed: false
@@ -159,4 +160,17 @@ function getCalendarChunks(exams) {
     });
   }
   return chunks;
+}
+
+export function durationLeft({
+  duration,
+  startPage,
+  currentPage,
+  numberPages
+}) {
+  const timePerPage = duration / numberPages;
+  const endPage = startPage + numberPages - 1;
+  const numberOfpagesLeft = endPage - currentPage + 1;
+
+  return numberOfpagesLeft * timePerPage;
 }

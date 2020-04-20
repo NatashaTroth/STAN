@@ -18,7 +18,7 @@ const todaysChunkCacheSchema = new Schema({
   //   type: Number,
   //   required: true
   // },
-  totalDuration: {
+  duration: {
     type: Number,
     required: true
   },

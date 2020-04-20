@@ -1,4 +1,4 @@
-import { numberOfPagesForChunk } from "../../helpers/chunks";
+import { numberOfPagesForChunk, durationLeft } from "../../helpers/chunks";
 
 test("the number of pages for each chunk is correct", () => {
   expect(
@@ -85,4 +85,43 @@ test("that correct Error is thrown with NaN inputs", () => {
       "Not all arguments for numberOfPagesForChunk are numbers."
     );
   }
+});
+
+test("the duration left is correct", () => {
+  //can use "nice/dividable" numbers since when creating today's chunks the page number is rounded before multiplied with timePerPage (both ints, not floats)
+  expect(
+    durationLeft({
+      duration: 450,
+      startPage: 5,
+      currentPage: 10,
+      numberPages: 15
+    })
+  ).toBe(300);
+
+  expect(
+    durationLeft({
+      duration: 50,
+      startPage: 1,
+      currentPage: 5,
+      numberPages: 10
+    })
+  ).toBe(30);
+
+  expect(
+    durationLeft({
+      duration: 6,
+      startPage: 1,
+      currentPage: 2,
+      numberPages: 3
+    })
+  ).toBe(4);
+
+  expect(
+    durationLeft({
+      duration: 400,
+      startPage: 1,
+      currentPage: 1,
+      numberPages: 200
+    })
+  ).toBe(400);
 });
