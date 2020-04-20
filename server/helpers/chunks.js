@@ -1,21 +1,13 @@
-import {
-  verifyRegexSubject,
-  verifyRegexPageAmount,
-  verifyRegexPageTime,
-  verifyRegexPageRepeat,
-  verifyRegexCurrentPage,
-  verifyRegexPageNotes
-} from "../helpers/verifyUserInput";
-import { AuthenticationError, ApolloError } from "apollo-server";
-import { Exam, TodaysChunkCache } from "../models";
+import { ApolloError } from "apollo-server";
+import { Exam } from "../models";
 
 // import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
-  datesTimingIsValid,
+  // datesTimingIsValid,
   startDateIsActive,
-  isTheSameDay,
-  getNumberOfDays,
-  startDateIsBeforeExamDate
+  // isTheSameDay,
+  getNumberOfDays
+  // startDateIsBeforeExamDate
 } from "../helpers/dates";
 
 export function numberOfPagesForChunk({
@@ -100,41 +92,41 @@ function calculateTodaysChunks(currentExams) {
   });
 }
 
-async function addTodaysChunkToDatabase(chunk, userId) {
-  // {
-  //   "exam": {
-  //     "id": "5e988b6dfb66edc7290debb1",
-  //     "subject": "Maths",
-  //     "examDate": "2020-05-05T00:00:00.000Z",
-  //     "startDate": "2020-04-20T00:00:00.000Z",
-  //     "numberPages": 53,
-  //     "timesRepeat": 1,
-  //     "currentPage": 0,
-  //     "pdfLink": "TODO: CHANGE LATER"
-  //   },
-  //   "numberPagesToday": 4,
-  //   "duration": 16,
-  //   "daysLeft": 15,
-  //   "totalNumberDays": 15,
-  //   "numberPagesWithRepeat": 53,
-  //   "notEnoughTime": false
-  // }
-  try {
-    const resp = await TodaysChunkCache.create({
-      examId: chunk.exam.id,
-      userId,
-      numberPages: chunk.numberPagesToday,
-      totalDuration: chunk.duration,
-      startPage: chunk.exam.currentPage,
-      currentPage: chunk.exam.currentPage,
-      completed: false
-    });
-    console.log(resp);
-  } catch (err) {
-    console.log(err);
-    throw new Error("Could not add todays chunk to db");
-  }
-}
+// async function addTodaysChunkToDatabase(chunk, userId) {
+//   // {
+//   //   "exam": {
+//   //     "id": "5e988b6dfb66edc7290debb1",
+//   //     "subject": "Maths",
+//   //     "examDate": "2020-05-05T00:00:00.000Z",
+//   //     "startDate": "2020-04-20T00:00:00.000Z",
+//   //     "numberPages": 53,
+//   //     "timesRepeat": 1,
+//   //     "currentPage": 0,
+//   //     "pdfLink": "TODO: CHANGE LATER"
+//   //   },
+//   //   "numberPagesToday": 4,
+//   //   "duration": 16,
+//   //   "daysLeft": 15,
+//   //   "totalNumberDays": 15,
+//   //   "numberPagesWithRepeat": 53,
+//   //   "notEnoughTime": false
+//   // }
+//   try {
+//     const resp = await TodaysChunkCache.create({
+//       examId: chunk.exam.id,
+//       userId,
+//       numberPages: chunk.numberPagesToday,
+//       totalDuration: chunk.duration,
+//       startPage: chunk.exam.currentPage,
+//       currentPage: chunk.exam.currentPage,
+//       completed: false
+//     });
+//     console.log(resp);
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error("Could not add todays chunk to db");
+//   }
+// }
 
 function getCalendarChunks(exams) {
   const chunks = [];

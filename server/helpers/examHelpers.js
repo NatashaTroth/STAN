@@ -7,14 +7,14 @@ import {
   verifyRegexPageNotes
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
-import { Exam, TodaysChunkCache } from "../models";
-import { numberOfPagesForChunk } from "../helpers/chunks";
+import { Exam } from "../models";
+
 // import { roundToTwoDecimals } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
-  startDateIsActive,
+  // startDateIsActive,
   isTheSameDay,
-  getNumberOfDays,
+  // getNumberOfDays,
   startDateIsBeforeExamDate
 } from "../helpers/dates";
 

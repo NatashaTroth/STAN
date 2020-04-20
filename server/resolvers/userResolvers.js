@@ -28,11 +28,11 @@ import {
   deleteUser,
   validatePassword,
   updateUserInDatabase,
-  userWantsPasswordUpdating,
-  calculateUserState
+  userWantsPasswordUpdating
+  // calculateUserState
 } from "../helpers/userHelpers";
 
-import { fetchTodaysChunks, fetchCalendarChunks } from "../helpers/chunks";
+import { fetchTodaysChunks } from "../helpers/chunks";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -59,7 +59,7 @@ export const userResolvers = {
       try {
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
-        const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        await fetchTodaysChunks(context.userInfo.userId);
         // return calculateUserState(chunks);
         return "VERY_HAPPY";
       } catch (err) {

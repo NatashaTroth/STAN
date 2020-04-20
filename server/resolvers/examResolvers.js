@@ -1,5 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-import { Exam, TodaysChunkCache } from "../models";
+import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
