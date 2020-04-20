@@ -163,17 +163,18 @@ function getCalendarChunks(exams) {
   return chunks;
 }
 
-export async function getTodaysExamProgress(userId) {
+export async function getTodaysChunkProgress(userId) {
   //TODO: INDEX userid
   let todaysChunks = await TodaysChunkCache.find({ userId });
   if (!todaysChunks || todaysChunks.length <= 0)
     todaysChunks = await fetchTodaysChunks(userId);
+  // console.log(todaysChunks);
 
-  return calculateExamProgress(todaysChunks);
+  return calculateChunkProgress(todaysChunks);
 }
 
 //TODO: EXPORT TO CHUNKS.JS?
-function calculateExamProgress(chunks) {
+function calculateChunkProgress(chunks) {
   //TODO: HANDLE Chunk COMPLETED
   let totalDuration = 0;
   let totalDurationCompleted = 0;
@@ -203,8 +204,12 @@ function calculateExamProgress(chunks) {
     if (chunk.exam) currentPage = chunk.exam.currentPage;
     else currentPage = chunk.currentPage;
     let startPage = chunk.startPage;
-    if (!Object.prototype.hasOwnProperty.call(chunk, "startPage"))
-      startPage = currentPage;
+    // console.log(startPage);
+    //todo: not working
+    // if (!Object.prototype.hasOwnProperty.call(chunk, "startPage")) {
+    //   console.log("in if");
+    //   startPage = currentPage;
+    // }
 
     totalDurationCompleted += durationCompleted({
       duration: chunk.duration,
@@ -212,20 +217,21 @@ function calculateExamProgress(chunks) {
       currentPage: currentPage,
       numberPages: chunk.numberPagesToday
     });
+    // console.log(".........");
     // console.log(chunk.duration);
-    console.log(startPage); //16
+    // console.log(startPage); //16
 
     // console.log(currentPage);
     // console.log(chunk.numberPagesToday);
   });
-  // console.log("-----------");
+  console.log("-----------");
   //duration ..... 100%
   //duration completed ... x
 
-  // console.log(totalDuration);
-  // console.log(totalDurationCompleted);
+  console.log(totalDuration);
+  console.log(totalDurationCompleted);
   if (totalDuration === 0) return 0;
-  // console.log((100 / totalDuration) * totalDurationCompleted);
+  console.log((100 / totalDuration) * totalDurationCompleted);
   return Math.round((100 / totalDuration) * totalDurationCompleted);
 }
 

@@ -16,7 +16,7 @@ import {
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  getTodaysExamProgress
+  getTodaysChunkProgress
 } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -98,11 +98,11 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    todaysExamProgress: async (parent, args, context) => {
+    todaysChunksProgress: async (parent, args, context) => {
       try {
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
-        return await getTodaysExamProgress(context.userInfo.userId);
+        return await getTodaysChunkProgress(context.userInfo.userId);
         // return calculateUserState(chunks);
         // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
         // return "VERY_HAPPY";

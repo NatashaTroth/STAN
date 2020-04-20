@@ -108,9 +108,9 @@ export const CURRENT_USER = gql`
   }
 `
 
-export const GET_TODAYS_EXAM_PROGRESS = gql`
+export const GET_TODAYS_CHUNKS_PROGRESS = gql`
   query {
-    todaysExamProgress
+    todaysChunksProgress
   }
 `
 
