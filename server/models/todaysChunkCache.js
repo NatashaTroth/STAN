@@ -14,7 +14,11 @@ const todaysChunkCacheSchema = new Schema({
     type: Number,
     required: true
   },
-  timePerPage: {
+  // timePerPage: {
+  //   type: Number,
+  //   required: true
+  // },
+  totalDuration: {
     type: Number,
     required: true
   },
