@@ -10,6 +10,9 @@ import SubHeading from "../../components/sub-heading/SubHeading"
 import Listing from "../../components/listing/Listing"
 import Dashboard from "../dashboard-page/DashboardPage"
 
+// libraries ----------------
+import Particles from "react-particles-js"
+
 function Home() {
   // redirects ----------------
   let currentUser = useCurrentUserValue()
@@ -56,6 +59,64 @@ function Home() {
             <div className="col-md-1"></div>
           </div>
           <div className="col-md-1"></div>
+
+          {/* TODO: particles examples: https://rpj.bembi.org/ */}
+          <Particles
+            params={{
+              particles: {
+                number: {
+                  value: 160,
+                  density: {
+                    enable: false,
+                  },
+                },
+                color: {
+                  value: "#979797",
+                },
+                size: {
+                  value: 3,
+                  random: true,
+                  anim: {
+                    speed: 4,
+                    size_min: 0.3,
+                  },
+                },
+                line_linked: {
+                  enable: false,
+                },
+                move: {
+                  random: true,
+                  speed: 1,
+                  direction: "top",
+                  out_mode: "out",
+                },
+              },
+              interactivity: {
+                events: {
+                  onhover: {
+                    enable: true,
+                    mode: "bubble",
+                  },
+                  onclick: {
+                    enable: true,
+                    mode: "repulse",
+                  },
+                },
+                modes: {
+                  bubble: {
+                    distance: 250,
+                    duration: 2,
+                    size: 0,
+                    opacity: 0,
+                  },
+                  repulse: {
+                    distance: 400,
+                    duration: 4,
+                  },
+                },
+              },
+            }}
+          />
         </div>
       </div>
     </div>
