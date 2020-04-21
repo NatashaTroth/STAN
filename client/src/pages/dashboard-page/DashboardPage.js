@@ -10,6 +10,7 @@ import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
 import Mascots from "../../components/mascots/Mascots"
 import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
 import CurrentState from "../../components/current-state/CurrentState"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
@@ -26,9 +27,9 @@ function Dashboard() {
   }
 
   // error handling ----------------
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (chunkLoading) return <p className="loading">Loading...</p>
+  if (chunkLoading) return <Loading />
   if (chunkError) return <QueryError errorMessage={chunkError.message} />
 
   // query data ----------------

@@ -6,13 +6,14 @@ import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // components ----------------
 import TodaySubject from "../../components/today-subject/TodaySubject"
 import QueryError from "../error/Error"
+import Loading from "../loading/Loading"
 
 function TodayGoals(props) {
   // query ----------------
   const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
 
   // error handling ----------------
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
   // query data ----------------

@@ -14,6 +14,7 @@ import { formatDate, minuteToHours } from "../../helpers/dates"
 
 // components ----------------
 import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
 
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
@@ -42,7 +43,7 @@ const ExamsCalendar = () => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p>loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.calendarChunks) {
     exams = data.calendarChunks

@@ -36,6 +36,7 @@ function UserAccount() {
   const [edit, openEdit] = useState(false)
 
   // query ----------------
+  // TODO: use compose to combine queries
   const {
     data: dataExamsCount,
     error: errorExamsCount,
