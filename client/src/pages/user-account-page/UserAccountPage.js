@@ -10,7 +10,7 @@ import {
 } from "../../components/STAN/STAN"
 
 // mutation & queries ----------------
-import { useHistory, Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
