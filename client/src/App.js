@@ -9,6 +9,7 @@ import { client } from "./apolloClient"
 
 // components
 import STAN from "./components/STAN/STAN"
+import Loading from "./components/loading/Loading"
 
 import { Cube } from "react-preloaders"
 
@@ -57,9 +58,7 @@ const App = () => {
     // localStorage.removeItem("logout-event")
   }, [])
 
-  if (loading) {
-    return <p>loading...</p>
-  }
+  if (loading) return <Loading />
 
   return (
     <ApolloProvider client={client}>
