@@ -55,9 +55,9 @@ function Imprint() {
                   <strong>Mail </strong>
                   <a
                     href="mailto:medien@fh-salzburg.ac.at"
-                    className="imprint__content--link"
+                    className="imprint__contact-details--link"
                   >
-                    medien@fh-salzburg.ac.at
+                    stan.studyplan@gmail.com
                   </a>
                 </p>
               </div>

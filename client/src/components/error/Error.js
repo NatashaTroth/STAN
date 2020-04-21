@@ -18,7 +18,7 @@ const QueryError = ({ errorMessage }) => {
                 page or login again. If you still see this error message, please
                 contact us at{" "}
                 <a href="mailto:medien@fh-salzburg.ac.at">
-                  medien@fh-salzburg.ac.at
+                  stan.studyplan@gmail.com
                 </a>
                 .
               </p>
