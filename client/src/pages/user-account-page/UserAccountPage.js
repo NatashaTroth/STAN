@@ -13,7 +13,10 @@ import {
 import { useHistory, Redirect } from "react-router-dom"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
-import { GET_EXAMS_COUNT } from "../../graphQL/queries"
+import {
+  GET_EXAMS_COUNT,
+  GET_TODAYS_CHUNKS_PROGRESS,
+} from "../../graphQL/queries"
 
 // libraries ----------------
 import CountUp from "react-countup"
@@ -29,14 +32,20 @@ import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
 function UserAccount() {
-  // history ----------------
-  const history = useHistory()
-
+  // state ----------------
   const [edit, openEdit] = useState(false)
 
   // query ----------------
-  // TODO: make current state dynamic
-  const { data, error, loading } = useQuery(GET_EXAMS_COUNT)
+  const {
+    data: dataExamsCount,
+    error: errorExamsCount,
+    loading: loadingExamsCount,
+  } = useQuery(GET_EXAMS_COUNT)
+  const {
+    data: dataChunksProgress,
+    error: errorChunksProgress,
+    loading: loadingChunksProgress,
+  } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
 
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
@@ -49,25 +58,36 @@ function UserAccount() {
 
   // count all exams ----------------
   let currentExams,
-    finishedExams = 0
+    finishedExams,
+    todaysChunksProgress = 0
 
   // error handling and get data ----------------
-  if (loading) return <p>loading...</p>
-  if (error) return <QueryError errorMessage={error.message} />
-  if (data) {
-    currentExams = data.examsCount.currentExams
-    finishedExams = data.examsCount.finishedExams
+  if (loadingExamsCount || loadingChunksProgress) return <p>loading...</p>
+  if (errorExamsCount) {
+    return <QueryError errorMessage={errorExamsCount.message} />
+  }
+  if (errorChunksProgress) {
+    return <QueryError errorMessage={errorChunksProgress.message} />
+  }
+  if (dataExamsCount || dataChunksProgress) {
+    currentExams = dataExamsCount.examsCount.currentExams
+    finishedExams = dataExamsCount.examsCount.finishedExams
+    todaysChunksProgress = dataChunksProgress.todaysChunksProgress
   }
 
   // moods ----------------
-  let mood = "very stressed"
-  let currentState = 101
+  let mood = "okay"
 
-  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
-  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
-  else if (currentState >= 50 && currentState <= 69) mood = "okay"
-  else if (currentState >= 70 && currentState <= 89) mood = "happy"
-  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
+  if (todaysChunksProgress >= 0 && todaysChunksProgress <= 19)
+    mood = "very stressed"
+  else if (todaysChunksProgress >= 20 && todaysChunksProgress <= 49)
+    mood = "stressed"
+  else if (todaysChunksProgress >= 50 && todaysChunksProgress <= 69)
+    mood = "okay"
+  else if (todaysChunksProgress >= 70 && todaysChunksProgress <= 89)
+    mood = "happy"
+  else if (todaysChunksProgress >= 90 && todaysChunksProgress <= 100)
+    mood = "very happy"
 
   // google logout ----------------
   const currentUserGoogleLogin = currentUser.googleLogin
