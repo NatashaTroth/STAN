@@ -10,6 +10,8 @@ import { client } from "./apolloClient"
 // components
 import STAN from "./components/STAN/STAN"
 
+import { Cube } from "react-preloaders"
+
 const RedirectPopup = () => {
   return (
     <Router>
@@ -56,7 +58,7 @@ const App = () => {
   }, [])
 
   if (loading) {
-    return <p className="loading">loading...</p>
+    return <p>loading...</p>
   }
 
   return (
@@ -66,6 +68,7 @@ const App = () => {
       </header>
 
       <STAN />
+      <Cube customLoading={loading} background="#ffffff" />
     </ApolloProvider>
   )
 }
