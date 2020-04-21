@@ -229,8 +229,13 @@
   }
 }
 
+.bs-popover-top,
+.bs-popover-auto[x-placement^="top"] {
+  margin-bottom: 0;
+}
+
 .popover-text {
-  font-size: 12px !important;
+  font-size: 14px !important;
   strong:nth-child(1) {
     &:after {
       content: "";
