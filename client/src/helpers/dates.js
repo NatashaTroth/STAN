@@ -42,10 +42,10 @@ export function minuteToHours(num) {
   let roundedMinutes = Math.round(minutes)
 
   let finalHour, finalMinute
-  if (roundedHours > 1) finalHour = roundedHours + " hours "
-  if (roundedHours <= 1) finalHour = roundedHours + " hour "
-  if (roundedMinutes > 1) finalMinute = roundedMinutes + " minutes"
-  if (roundedMinutes <= 1) finalMinute = roundedMinutes + " minute"
+  if (roundedHours > 1) finalHour = roundedHours + " hrs "
+  if (roundedHours <= 1) finalHour = roundedHours + " hr "
+  if (roundedMinutes > 1) finalMinute = roundedMinutes + " min"
+  if (roundedMinutes <= 1) finalMinute = roundedMinutes + " mins"
   if (roundedHours === 0) finalHour = ""
   if (roundedMinutes === 0) finalMinute = ""
 
