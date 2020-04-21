@@ -56,8 +56,8 @@ async function fetchCurrentExams(userId) {
   return currentExams;
 }
 
-function calculateTodaysChunks(currentExams) {
-  return currentExams.map(exam => {
+async function calculateTodaysChunks(currentExams) {
+  const chunks = currentExams.map(async exam => {
     const daysLeft = getNumberOfDays(new Date(), exam.examDate);
     //but should never come to this - but to avoid Infinity error
     //TODO: REMOVE
@@ -87,12 +87,14 @@ function calculateTodaysChunks(currentExams) {
       numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
       notEnoughTime: false //TODO: IMPLEMENT
     };
-    addTodaysChunkToDatabase(chunk, exam.userId);
+    await addTodaysChunkToDatabase(chunk, exam.userId);
     return chunk;
   });
+  return await Promise.all(chunks);
 }
 
 async function addTodaysChunkToDatabase(chunk, userId) {
+  // console.log("Adding to db");
   // {
   //   "exam": {
   //     "id": "5e988b6dfb66edc7290debb1",
@@ -123,6 +125,8 @@ async function addTodaysChunkToDatabase(chunk, userId) {
       completed: false
     });
     if (!resp) throw new Error();
+    // console.log("Added to db");
+
     // console.log(resp);
   } catch (err) {
     console.log(err);
@@ -165,9 +169,13 @@ function getCalendarChunks(exams) {
 
 export async function getTodaysChunkProgress(userId) {
   //TODO: INDEX userid
+  // console.log("here1");
   let todaysChunks = await TodaysChunkCache.find({ userId });
+  // console.log(todaysChunks);
+
   if (!todaysChunks || todaysChunks.length <= 0)
     todaysChunks = await fetchTodaysChunks(userId);
+  // console.log(todaysChunks);
   // console.log(todaysChunks);
 
   return calculateChunkProgress(todaysChunks);
@@ -206,6 +214,10 @@ function calculateChunkProgress(chunks) {
     let startPage = chunk.startPage;
     // console.log(startPage);
     //todo: not working
+    if (startPage == null) {
+      // console.log("in if");
+      startPage = currentPage;
+    }
     // if (!Object.prototype.hasOwnProperty.call(chunk, "startPage")) {
     //   console.log("in if");
     //   startPage = currentPage;
@@ -218,6 +230,14 @@ function calculateChunkProgress(chunks) {
       numberPages: chunk.numberPagesToday
     });
     // console.log(".........");
+    // console.log(
+    //   durationCompleted({
+    //     duration: chunk.duration,
+    //     startPage,
+    //     currentPage: currentPage,
+    //     numberPages: chunk.numberPagesToday
+    //   })
+    // );
     // console.log(chunk.duration);
     // console.log(startPage); //16
 
@@ -231,7 +251,7 @@ function calculateChunkProgress(chunks) {
   console.log(totalDuration);
   console.log(totalDurationCompleted);
   if (totalDuration === 0) return 0;
-  console.log((100 / totalDuration) * totalDurationCompleted);
+  // console.log((100 / totalDuration) * totalDurationCompleted);
   return Math.round((100 / totalDuration) * totalDurationCompleted);
 }
 
