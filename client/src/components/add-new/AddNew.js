@@ -46,7 +46,8 @@ function AddNew() {
 
       if (resp && resp.data && resp.data.addExam) {
         // success message ----------------
-        document.getElementById("success-container").style.display = "block"
+        document.getElementById("success-container-add-new").style.display =
+          "block"
       } else {
         // displays server error (backend)
         throw new Error("The exam could not be added")
