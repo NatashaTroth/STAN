@@ -59,9 +59,15 @@ const ExamsCalendar = () => {
           width: "300px",
         }}
       >
-        <p className="popover-text">
-          <strong>{event.subject}</strong>
-          <strong>Exam date:</strong> {formatDate(event.details.examDate)}
+        <Popover.Title as="h4">{event.subject}</Popover.Title>
+        <Popover.Content>
+          <strong>
+            Exam date:{" "}
+            <span className="exam-date">
+              {" "}
+              {formatDate(event.details.examDate)}
+            </span>
+          </strong>
           <br></br>
           <strong>Current page: </strong>
           {event.details.currentPage}
@@ -77,7 +83,7 @@ const ExamsCalendar = () => {
           <br></br>
           <strong>Duration total:</strong>{" "}
           {minuteToHours(event.details.durationTotal)}
-        </p>
+        </Popover.Content>
       </Popover>
     )
 

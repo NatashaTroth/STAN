@@ -56,11 +56,6 @@
             @include rem(line-height, $h4-line-height-mobile);
             @include rem(letter-spacing, 0.5px);
           }
-
-          &:active,
-          &:focus {
-            box-shadow: none;
-          }
         }
       }
 
@@ -167,7 +162,7 @@
             background: theme_color("primary-blue-dark");
             color: theme_color("light");
             border-radius: 0;
-            font-family: $font-family-OpenSans-Regular;
+            // font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, $font-size-14);
             letter-spacing: 0;
             @include rem(line-height, 20px);
@@ -180,13 +175,6 @@
             letter-spacing: 0;
             @include rem(line-height, 20px);
             margin: 0;
-          }
-          .rbc-selected {
-            &:focus,
-            &:active,
-            &:hover {
-              outline: none;
-            }
           }
         }
         .rbc-today {
@@ -201,24 +189,52 @@
 .rbc-overlay {
   border: 2px solid theme_color("dark") !important;
   box-shadow: none !important;
+  top: -182px !important;
+  // h4
   .rbc-overlay-header {
     border-bottom: 2px solid theme_color("dark") !important;
+    padding: 8px 12px !important;
+    text-transform: lowercase;
 
     // font size
+    font-family: $font-family-BasierCircle-SemiBold;
+    @include rem(font-size, $h5-font-size);
+    @include rem(letter-spacing, 0);
+    @include rem(line-height, $h5-line-height);
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, $h5-font-size-mobile);
+      @include rem(line-height, $h5-line-height-mobile);
+      @include rem(letter-spacing, 0);
+    }
+  }
+  .rbc-event-content {
+    // font size
     font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, 12px);
+    @include rem(font-size, $font-size-14);
     letter-spacing: 0;
     @include rem(line-height, 20px);
     margin: 0;
-    padding: 5px 0px;
   }
   div:nth-child(2) {
     margin-top: 10px;
   }
 }
 
-// display window for exam details
+// display popup for exam details
 .bs-popover-top {
+  padding: 0 !important;
+
+  .popover-header {
+    background: none !important;
+    border-bottom: 2px solid theme_color("dark") !important;
+  }
+  .popover-body {
+    font-family: $font-family-OpenSans-Regular;
+    .exam-date {
+      color: theme_color("error-hover");
+    }
+  }
   > .arrow {
     &:before {
       border-top-color: theme_color("dark");
@@ -229,22 +245,9 @@
   }
 }
 
+// to prevent warning in console
 .bs-popover-top,
 .bs-popover-auto[x-placement^="top"] {
   margin-bottom: 0;
-}
-
-.popover-text {
-  font-size: 14px !important;
-  strong:nth-child(1) {
-    &:after {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 2px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      background-color: theme_color("dark");
-    }
-  }
+  bottom: 8px !important;
 }
