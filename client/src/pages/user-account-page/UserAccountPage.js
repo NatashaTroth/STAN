@@ -41,10 +41,11 @@ function UserAccount() {
     error: errorExamsCount,
     loading: loadingExamsCount,
   } = useQuery(GET_EXAMS_COUNT)
+  // TODO: FALSCHE QUERY
   const {
-    data: dataChunksProgress,
-    error: errorChunksProgress,
-    loading: loadingChunksProgress,
+    data: dataCurrentState,
+    error: errorCurrentState,
+    loading: loadingCurrentState,
   } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
 
   // mutation ----------------
@@ -59,35 +60,30 @@ function UserAccount() {
   // count all exams ----------------
   let currentExams,
     finishedExams,
-    todaysChunksProgress = 0
+    currentState = 0
 
   // error handling and get data ----------------
-  if (loadingExamsCount || loadingChunksProgress) return <p>loading...</p>
+  if (loadingExamsCount || loadingCurrentState) return <p>loading...</p>
   if (errorExamsCount) {
     return <QueryError errorMessage={errorExamsCount.message} />
   }
-  if (errorChunksProgress) {
-    return <QueryError errorMessage={errorChunksProgress.message} />
+  if (errorCurrentState) {
+    return <QueryError errorMessage={errorCurrentState.message} />
   }
-  if (dataExamsCount || dataChunksProgress) {
+  if (dataExamsCount || dataCurrentState) {
     currentExams = dataExamsCount.examsCount.currentExams
     finishedExams = dataExamsCount.examsCount.finishedExams
-    todaysChunksProgress = dataChunksProgress.todaysChunksProgress
+    currentState = dataCurrentState.todaysChunksProgress
   }
 
   // moods ----------------
   let mood = "okay"
 
-  if (todaysChunksProgress >= 0 && todaysChunksProgress <= 19)
-    mood = "very stressed"
-  else if (todaysChunksProgress >= 20 && todaysChunksProgress <= 49)
-    mood = "stressed"
-  else if (todaysChunksProgress >= 50 && todaysChunksProgress <= 69)
-    mood = "okay"
-  else if (todaysChunksProgress >= 70 && todaysChunksProgress <= 89)
-    mood = "happy"
-  else if (todaysChunksProgress >= 90 && todaysChunksProgress <= 100)
-    mood = "very happy"
+  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
+  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
+  else if (currentState >= 50 && currentState <= 69) mood = "okay"
+  else if (currentState >= 70 && currentState <= 89) mood = "happy"
+  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
 
   // google logout ----------------
   const currentUserGoogleLogin = currentUser.googleLogin
