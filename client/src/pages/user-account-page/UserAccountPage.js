@@ -41,7 +41,6 @@ function UserAccount() {
     error: errorExamsCount,
     loading: loadingExamsCount,
   } = useQuery(GET_EXAMS_COUNT)
-  // TODO: FALSCHE QUERY
   const {
     data: dataCurrentState,
     error: errorCurrentState,
@@ -77,13 +76,7 @@ function UserAccount() {
   }
 
   // moods ----------------
-  let mood = "okay"
-
-  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
-  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
-  else if (currentState >= 50 && currentState <= 69) mood = "okay"
-  else if (currentState >= 70 && currentState <= 89) mood = "happy"
-  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
+  let mood = currentMood(currentState)
 
   // google logout ----------------
   const currentUserGoogleLogin = currentUser.googleLogin
@@ -279,4 +272,16 @@ async function logUserOut({ logout, client }) {
   // logout all other tabs ----------------
   localStorage.setItem("logout-event", Date.now())
   window.location.reload()
+}
+
+export const currentMood = currentState => {
+  let mood
+
+  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
+  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
+  else if (currentState >= 50 && currentState <= 69) mood = "okay"
+  else if (currentState >= 70 && currentState <= 89) mood = "happy"
+  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
+
+  return mood
 }

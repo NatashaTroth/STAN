@@ -8,10 +8,11 @@ import {
 } from "../../components/STAN/STAN"
 
 // query ----------------
-// import { GET_CURRENT_USER_STATE } from "../../graphQL/queries"
+import { GET_TODAYS_CHUNKS_PROGRESS } from "../../graphQL/queries"
 
 // components ----------------
 import Image from "../../components/image/Image"
+import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
@@ -22,22 +23,23 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useQuery } from "@apollo/react-hooks"
 import QueryError from "../error/Error"
 
+// random number ----------------
 const random = Math.floor(Math.random() * 3)
 
 const CurrentState = () => {
   // query ----------------
-  // const { data, loading, error } = useQuery(GET_CURRENT_USER_STATE)
+  const { data, loading, error } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
 
   // variables ----------------
   let mood = "okay"
   let motivation
 
   // error handling ----------------
-  // if (loading) return <p>loading...</p>
-  // if (error) return <QueryError errorMessage={error.message} />
-  // if (data) {
-  //   mood = data
-  // }
+  if (loading) return <p>loading...</p>
+  if (error) return <QueryError errorMessage={error.message} />
+  if (data) {
+    mood = currentMood(data.todaysChunksProgress)
+  }
 
   motivationalSayings.forEach(element => {
     if (mood === element.mood) {

@@ -29,7 +29,7 @@ function Dashboard() {
   if (loading) return <p>Loading...</p>
   if (error) return <QueryError errorMessage={error.message} />
   if (chunkLoading) return <p className="loading">Loading...</p>
-  if (chunkError) return <QueryError />
+  if (chunkError) return <QueryError errorMessage={chunkError.message} />
 
   // query data ----------------
   let usersToDos
