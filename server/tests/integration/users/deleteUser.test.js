@@ -6,7 +6,7 @@ import {
   setupApolloServer,
   setupDb,
   signUpTestUser,
-  addTestExam,
+  // addTestExam,
   addTestExams,
   clearDatabase,
   teardown
@@ -14,8 +14,8 @@ import {
 import { DELETE_USER_MUTATION } from "../../mutations.js";
 
 import { GET_EXAMS_QUERY } from "../../queries.js";
-import { User, Exam } from "../../../models";
-import { getNumberOfDays } from "../../../helpers/dates";
+import { User } from "../../../models";
+// import { getNumberOfDays } from "../../../helpers/dates";
 
 describe("Test user sign up and login resolvers", () => {
   let server;

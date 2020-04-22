@@ -4,12 +4,12 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  addTestExam,
+  // addTestExam,
   addTestExams,
   // clearDatabase,
   teardown
 } from "../setup";
-import { Exam, TodaysChunkCache } from "../../../models";
+import { TodaysChunkCache } from "../../../models";
 import { todaysChunkCacheEmpty } from "../../../helpers/chunks";
 
 import { GET_TODAYS_CHUNKS } from "../../queries.js";

@@ -9,10 +9,10 @@ import {
   clearDatabase,
   teardown
 } from "../setup";
-import { Exam, TodaysChunkCache } from "../../../models";
+import { TodaysChunkCache } from "../../../models";
 
 import {
-  GET_TODAYS_CHUNKS,
+  // GET_TODAYS_CHUNKS,
   GET_TODAYS_CHUNKS_PROGRESS
 } from "../../queries.js";
 
@@ -22,7 +22,7 @@ describe("Test user resolver regex", () => {
   let server;
   let query;
   let mutate;
-  let testExams;
+  // let testExams;
 
   beforeAll(async () => {
     await setupDb();
@@ -103,7 +103,7 @@ describe("Test user resolver regex", () => {
     // totalNumberDays: 5,
     // numberPagesWithRepeat: 50,
     // notEnoughTime: false
-    const updateResp1 = await mutate({
+    await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
         examId: testExams.exam1._id.toString(),

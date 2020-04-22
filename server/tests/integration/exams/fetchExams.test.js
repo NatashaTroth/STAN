@@ -8,7 +8,7 @@ import {
   clearDatabase,
   teardown
 } from "../setup";
-import { Exam } from "../../../models";
+// import { Exam } from "../../../models";
 
 import {
   GET_EXAM_QUERY,

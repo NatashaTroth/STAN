@@ -16,18 +16,18 @@
 //   "notEnoughTime": false,
 // }
 
-examId;
-userId;
-numberPagesToday;
-durationToday;
-startPage;
-currentPage;
-completed;
-createdAt;
-updatedAt;
+// examId;
+// userId;
+// numberPagesToday;
+// durationToday;
+// startPage;
+// currentPage;
+// completed;
+// createdAt;
+// updatedAt;
 
-daysLeft;
-notEnoughTime;
+// daysLeft;
+// notEnoughTime;
 
-const totalNumberDays = getNumberOfDays(finalStartDate, finalExamDate);
-import { getNumberOfDays } from "../../../helpers/dates";
+// const totalNumberDays = getNumberOfDays(finalStartDate, finalExamDate);
+// import { getNumberOfDays } from "../../../helpers/dates";
