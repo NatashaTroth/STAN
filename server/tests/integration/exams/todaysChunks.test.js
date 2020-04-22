@@ -4,7 +4,8 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
+  addTestExams,
   // clearDatabase,
   teardown
 } from "../setup";
@@ -48,7 +49,7 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
     // console.log(JSON.stringify(resp));
-    // console.log(resp);
+    // console.log(resp.data.todaysChunks[0].exam);
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
 
@@ -60,16 +61,17 @@ describe("Test user resolver regex", () => {
         subject: testExams.exam1.subject,
         examDate: testExams.exam1.examDate,
         startDate: testExams.exam1.startDate,
+        totalNumberDays: testExams.exam1.totalNumberDays,
+
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
         pdfLink: testExams.exam1.pdfLink
       },
       numberPagesToday: 10,
-      duration: 50,
+      durationToday: 50,
       daysLeft: 5,
-      totalNumberDays: 5,
-      numberPagesWithRepeat: 50,
+
       notEnoughTime: false
     });
 
@@ -79,16 +81,16 @@ describe("Test user resolver regex", () => {
         subject: testExams.exam2.subject,
         examDate: testExams.exam2.examDate,
         startDate: testExams.exam2.startDate,
+        totalNumberDays: testExams.exam2.totalNumberDays,
         numberPages: testExams.exam2.numberPages,
         timesRepeat: testExams.exam2.timesRepeat,
         currentPage: testExams.exam2.currentPage,
         pdfLink: testExams.exam2.pdfLink
       },
       numberPagesToday: 18,
-      duration: 180,
+      durationToday: 180,
       daysLeft: 2,
-      totalNumberDays: 7,
-      numberPagesWithRepeat: 84,
+
       notEnoughTime: false
     });
 
@@ -98,16 +100,16 @@ describe("Test user resolver regex", () => {
         subject: testExams.exam3.subject,
         examDate: testExams.exam3.examDate,
         startDate: testExams.exam3.startDate,
+        totalNumberDays: testExams.exam3.totalNumberDays,
         numberPages: testExams.exam3.numberPages,
         timesRepeat: testExams.exam3.timesRepeat,
         currentPage: testExams.exam3.currentPage,
         pdfLink: testExams.exam3.pdfLink
       },
       numberPagesToday: 1401,
-      duration: 14010,
+      durationToday: 14010,
       daysLeft: 1,
-      totalNumberDays: 21,
-      numberPagesWithRepeat: 3000,
+
       notEnoughTime: false
     });
   });
@@ -177,79 +179,79 @@ describe("Test user resolver regex", () => {
   //   expect(removeResp.deletedCount).toBe(1);
   // });
 
-  async function addTestExams() {
-    const exam1 = await addTestExam({
-      subject: "Biology",
-      color: "#979250"
-    });
-    const exam2 = await addTestExam({
-      subject: "Archeology",
-      examDate: getFutureDay(new Date(), 2),
-      startDate: getFutureDay(new Date(), -5),
-      numberPages: 42,
-      timePerPage: 10,
-      startPage: 7,
-      currentPage: 50,
-      timesRepeat: 2,
-      color: "#2444A8"
-    });
-    const exam3 = await addTestExam({
-      subject: "Chemistry",
-      examDate: getFutureDay(new Date(), 1),
-      startDate: getFutureDay(new Date(), -20),
-      numberPages: 600,
-      timePerPage: 10,
-      startPage: 8,
-      currentPage: 1600,
-      timesRepeat: 5,
-      color: "#2328A9"
-    });
-    const exam4 = await addTestExam({
-      subject: "Dance",
-      examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51),
-      color: "#85625A"
-    });
+  // async function addTestExams() {
+  //   const exam1 = await addTestExam({
+  //     subject: "Biology",
+  //     color: "#979250"
+  //   });
+  //   const exam2 = await addTestExam({
+  //     subject: "Archeology",
+  //     examDate: getFutureDay(new Date(), 2),
+  //     startDate: getFutureDay(new Date(), -5),
+  //     numberPages: 42,
+  //     timePerPage: 10,
+  //     startPage: 7,
+  //     currentPage: 50,
+  //     timesRepeat: 2,
+  //     color: "#2444A8"
+  //   });
+  //   const exam3 = await addTestExam({
+  //     subject: "Chemistry",
+  //     examDate: getFutureDay(new Date(), 1),
+  //     startDate: getFutureDay(new Date(), -20),
+  //     numberPages: 600,
+  //     timePerPage: 10,
+  //     startPage: 8,
+  //     currentPage: 1600,
+  //     timesRepeat: 5,
+  //     color: "#2328A9"
+  //   });
+  //   const exam4 = await addTestExam({
+  //     subject: "Dance",
+  //     examDate: getFutureDay(new Date(), 30),
+  //     startDate: getFutureDay(new Date(), 51),
+  //     color: "#85625A"
+  //   });
 
-    // return exam1;
-    return { exam1, exam2, exam3, exam4 };
-  }
+  //   // return exam1;
+  //   return { exam1, exam2, exam3, exam4 };
+  // }
 
-  async function addTestExam({
-    subject,
-    examDate,
-    startDate,
-    numberPages,
-    timePerPage,
-    startPage,
-    currentPage,
-    timesRepeat,
-    color
-  }) {
-    const exam = await Exam.create({
-      subject: subject || "Test Subject",
-      examDate: examDate || getFutureDay(new Date(), 5),
-      startDate: startDate || new Date(),
-      numberPages: numberPages || 50,
-      timePerPage: timePerPage || 5,
-      startPage: startPage || 1,
-      currentPage: currentPage || startPage || 1,
-      timesRepeat: timesRepeat || 1,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: color || "#FFFFFF",
-      completed: false,
-      userId: "samanthasId"
-    });
+  // async function addTestExam({
+  //   subject,
+  //   examDate,
+  //   startDate,
+  //   numberPages,
+  //   timePerPage,
+  //   startPage,
+  //   currentPage,
+  //   timesRepeat,
+  //   color
+  // }) {
+  //   const exam = await Exam.create({
+  //     subject: subject || "Test Subject",
+  //     examDate: examDate || getFutureDay(new Date(), 5),
+  //     startDate: startDate || new Date(),
+  //     numberPages: numberPages || 50,
+  //     timePerPage: timePerPage || 5,
+  //     startPage: startPage || 1,
+  //     currentPage: currentPage || startPage || 1,
+  //     timesRepeat: timesRepeat || 1,
+  //     notes: "Samantha's notes",
+  //     pdfLink: "samanthas-link.stan",
+  //     color: color || "#FFFFFF",
+  //     completed: false,
+  //     userId: "samanthasId"
+  //   });
 
-    if (!exam) throw new Error("Could not add a test exam");
+  //   if (!exam) throw new Error("Could not add a test exam");
 
-    return exam;
-  }
+  //   return exam;
+  // }
 
-  function getFutureDay(date, numberDaysInFuture) {
-    const nextDay = new Date(date);
-    nextDay.setDate(date.getDate() + numberDaysInFuture);
-    return new Date(nextDay);
-  }
+  // function getFutureDay(date, numberDaysInFuture) {
+  //   const nextDay = new Date(date);
+  //   nextDay.setDate(date.getDate() + numberDaysInFuture);
+  //   return new Date(nextDay);
+  // }
 });

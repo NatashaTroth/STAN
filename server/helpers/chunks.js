@@ -1,3 +1,4 @@
+//TODO CHANGE ORDER of all the functions
 import { ApolloError } from "apollo-server";
 import { Exam, TodaysChunkCache } from "../models";
 
@@ -32,69 +33,40 @@ export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   //if not in database
-  chunks = calculateTodaysChunks(currentExams);
+  // chunks = calculateTodaysChunks(currentExams);
 
-  // if (await todaysChunkCacheEmpty(userId)) {
-  //   console.log("cache empty");
-  //   chunks = calculateTodaysChunks(currentExams);
-  //   //TODO
-  //   // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
-  // } else {
-  //   console.log("cache not empty");
+  if (await todaysChunkCacheEmpty(userId)) {
+    console.log("cache empty");
+    chunks = calculateTodaysChunks(currentExams);
+    //TODO
+    // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
+  } else {
+    console.log("cache not empty");
 
-  //   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
+    let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
 
-  //   chunks = createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
-  // }
-
+    chunks = createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
+    console.log("here");
+    console.log(chunks);
+  }
   return chunks;
 }
 
-//TODO CHANGE ORDER
 async function fetchTodaysChunksFromCache(userId) {
   return await TodaysChunkCache.find({ userId });
 }
 
 function createTodaysChunksFromCache(currentExams, todaysChunks) {
   console.log("in createTodaysChunksFromCache");
-  todaysChunks.map(chunk => {
+  return todaysChunks.map(chunk => {
     const exam = currentExams.find(exam => exam.id === chunk.examId);
-    const {
-      numberPagesToday,
-      duration,
-      daysLeft,
-      totalNumberDays,
-      numberPagesWithRepeat,
-      notEnoughTime
-    } = chunk;
-    // {
-    //   "exam": {
-    //     "id": "5e988b6dfb66edc7290debb1",
-    //     "subject": "Maths",
-    //     "examDate": "2020-05-05T00:00:00.000Z",
-    //     "startDate": "2020-04-20T00:00:00.000Z",
-    //     "numberPages": 53,
-    //     "timesRepeat": 1,
-    //     "currentPage": 0,
-    //     "pdfLink": "TODO: CHANGE LATER"
-    //   },
-    //   "numberPagesToday": 5,
-    //   "duration": 20,
-    //   "daysLeft": 13,
-    //   "totalNumberDays": 15,
-    //   "numberPagesWithRepeat": 53,
-    //   "notEnoughTime": false
 
-    // return {};
-    //TODO: EXTRACT TO AVOID DUPLICATES
     return {
       exam,
-      numberPagesToday,
-      duration,
-      daysLeft, //MISSING,
-      totalNumberDays, //MISSING,
-      numberPagesWithRepeat, //MISSING,
-      notEnoughTime: false //TODO: IMPLEMENT
+      numberPagesToday: chunk.numberPagesToday,
+      durationToday: chunk.durationToday,
+      daysLeft: chunk.daysLeft,
+      notEnoughTime: chunk.notEnoughTime
     };
   });
 }
@@ -123,22 +95,35 @@ async function calculateTodaysChunks(currentExams) {
       daysLeft,
       repeat: exam.timesRepeat
     });
-    const duration =
+
+    const durationToday =
       exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
     const chunk = {
       exam,
       numberPagesToday,
-      duration,
+      durationToday,
       daysLeft,
-      // totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
-      numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
+      // timesRepeat,
       notEnoughTime: false //TODO: IMPLEMENT
     };
+
     await addTodaysChunkToDatabase(chunk, exam.userId);
+
     return chunk;
   });
   return await Promise.all(chunks);
 }
+
+// function createTodaysChunkObject(exam, ){
+//   return{
+//     exam,
+//     numberPagesToday,
+//     durationToday,
+//     daysLeft,
+//     // timesRepeat,
+//     notEnoughTime: false //TODO: IMPLEMENT
+//   };
+// }
 
 async function addTodaysChunkToDatabase(chunk, userId) {
   try {
@@ -147,9 +132,11 @@ async function addTodaysChunkToDatabase(chunk, userId) {
       examId: chunk.exam.id,
       userId,
       numberPagesToday: chunk.numberPagesToday,
-      duration: chunk.duration,
+      durationToday: chunk.durationToday,
       startPage: chunk.exam.currentPage,
       currentPage: chunk.exam.currentPage,
+      daysLeft: chunk.daysLeft,
+      notEnoughTime: chunk.notEnoughTime,
       completed: false
     });
     if (!resp) throw new Error();
@@ -158,6 +145,7 @@ async function addTodaysChunkToDatabase(chunk, userId) {
     // console.log(resp);
   } catch (err) {
     console.log(err);
+    console.log(err.message);
     throw new Error("Could not add todays chunk to db");
   }
 }
@@ -198,7 +186,7 @@ function calculateChunkProgress(chunks) {
     }
 
     totalDurationCompleted += durationCompleted({
-      duration: chunk.duration,
+      duration: chunk.durationToday,
       startPage,
       currentPage: currentPage,
       numberPages: chunk.numberPagesToday
@@ -244,19 +232,6 @@ export function durationCompleted({
 
   return numberOfpagesCompleted * timePerPage;
 }
-
-// export function durationLeft({
-//   duration,
-//   startPage,
-//   currentPage,
-//   numberPages
-// }) {
-//   const timePerPage = duration / numberPages;
-//   const endPage = startPage + numberPages - 1;
-//   const numberOfpagesLeft = endPage - currentPage + 1;
-
-//   return numberOfpagesLeft * timePerPage;
-// }
 
 export async function fetchCalendarChunks(userId) {
   const exams = await Exam.find({

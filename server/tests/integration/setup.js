@@ -3,8 +3,9 @@ import { typeDefs } from "../../typedefs";
 import { resolvers } from "../../resolvers";
 import { ApolloServer } from "apollo-server-express"; //UserInputError
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { User } from "../../models";
+import { User, Exam } from "../../models";
 import bcrypt from "bcrypt";
+import { getNumberOfDays } from "../../helpers/dates";
 
 import mongoose from "mongoose";
 
@@ -83,26 +84,91 @@ export async function signUpTestUser() {
   return user;
 }
 
-// export async function addTestExam() {
-//   const exam = await Exam.create({
-//     subject: "Samantha's Exam",
-//     examDate: "2522-04-11",
-//     startDate: "2522-04-05",
-//     numberPages: 50,
-//     timePerPage: 5,
-//     startPage: 1,
-//     currentPage: 1,
-//     timesRepeat: 2,
-//     notes: "Samantha's notes",
-//     pdfLink: "samanthas-link.stan",
-//     completed: false,
-//     userId: "samanthasId"
-//   });
+export async function addTestExam({
+  subject,
+  examDate,
+  startDate,
+  numberPages,
+  timePerPage,
+  startPage,
+  currentPage,
+  timesRepeat,
+  color,
+  userId,
+  completed
+}) {
+  const finalExamDate = examDate || getFutureDay(new Date(), 5);
+  const finalStartDate = startDate || new Date();
+  const totalNumberDays = getNumberOfDays(finalStartDate, finalExamDate);
+  const exam = await Exam.create({
+    subject: subject || "Biology",
+    examDate: finalExamDate,
+    startDate: finalStartDate,
+    totalNumberDays,
+    numberPages: numberPages || 50,
+    timePerPage: timePerPage || 5,
+    startPage: startPage || 1,
+    currentPage: currentPage || startPage || 1,
+    timesRepeat: timesRepeat || 1,
+    notes: "Samantha's notes",
+    pdfLink: "samanthas-link.stan",
+    color: color || "#FFFFFF",
+    completed: completed || false,
+    userId: userId || "samanthasId"
+  });
 
-//   if (!exam) throw new Error("Could not add a test exam");
+  if (!exam) throw new Error("Could not add a test exam");
 
-//   return exam;
-// }
+  return exam;
+}
+
+export function getFutureDay(date, numberDaysInFuture) {
+  const nextDay = new Date(date);
+  nextDay.setDate(date.getDate() + numberDaysInFuture);
+  return new Date(nextDay);
+}
+
+export async function addTestExams(userId) {
+  const exam1 = await addTestExam({
+    subject: "Biology",
+    color: "#979250",
+    userId
+  });
+  const exam2 = await addTestExam({
+    subject: "Archeology",
+    examDate: getFutureDay(new Date(), 2),
+    startDate: getFutureDay(new Date(), -5),
+    numberPages: 42,
+    timePerPage: 10,
+    startPage: 7,
+    currentPage: 50,
+    timesRepeat: 2,
+    color: "#2444A8",
+    userId
+  });
+  const exam3 = await addTestExam({
+    subject: "Chemistry",
+    examDate: getFutureDay(new Date(), 1),
+    startDate: getFutureDay(new Date(), -20),
+    numberPages: 600,
+    timePerPage: 10,
+    startPage: 8,
+    currentPage: 1600,
+    timesRepeat: 5,
+    color: "#2328A9",
+    userId
+  });
+  const exam4 = await addTestExam({
+    subject: "Dance",
+    examDate: getFutureDay(new Date(), 30),
+    startDate: getFutureDay(new Date(), 51),
+    color: "#85625A",
+    userId
+  });
+
+  // return exam1;
+  return { exam1, exam2, exam3, exam4 };
+}
 
 export async function clearDatabase() {
   const collections = mongoose.connection.collections;

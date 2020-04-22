@@ -4,7 +4,7 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
   clearDatabase,
   teardown
 } from "../setup";
@@ -71,11 +71,11 @@ describe("Test user resolver regex", () => {
   });
 
   it("should fetch all exams", async () => {
-    await addTestExam("Biology");
-    await addTestExam("Archeology");
-    await addTestExam("Dance");
-    await addTestExam("English", "NotSamanthasId");
-    const exam = await addTestExam("Chemistry");
+    await addTestExam({ subject: "Biology" });
+    await addTestExam({ subject: "Archeology" });
+    await addTestExam({ subject: "Dance" });
+    await addTestExam({ subject: "English", userId: "NotSamanthasId" });
+    const exam = await addTestExam({ subject: "Chemistry" });
 
     const resp = await query({
       query: GET_EXAMS_QUERY
@@ -116,11 +116,11 @@ describe("Test user resolver regex", () => {
   });
 
   it("should fetch the exam counts correctly", async () => {
-    await addTestExam("Biology");
-    await addTestExam("Archeology");
-    await addTestExam("Dance");
-    await addTestExam("English", "samanthasId", true);
-    await addTestExam("Chemistry");
+    await addTestExam({ subject: "Biology" });
+    await addTestExam({ subject: "Archeology" });
+    await addTestExam({ subject: "Dance" });
+    await addTestExam({ subject: "English", completed: true });
+    await addTestExam({ subject: "Chemistry" });
     const resp = await query({
       query: GET_EXAMS_COUNT
     });
@@ -140,25 +140,25 @@ describe("Test user resolver regex", () => {
     expect(resp.data.examsCount.finishedExams).toBe(0);
   });
 
-  async function addTestExam(subject, userId, completed) {
-    const exam = await Exam.create({
-      subject: subject,
-      examDate: "2522-04-11",
-      startDate: "2522-04-05",
-      numberPages: 50,
-      timePerPage: 5,
-      startPage: 1,
-      currentPage: 1,
-      timesRepeat: 2,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: "#FFFFFF",
-      completed: completed || false,
-      userId: userId || "samanthasId"
-    });
+  // async function addTestExam(subject, userId, completed) {
+  //   const exam = await Exam.create({
+  //     subject: subject,
+  //     examDate: "2522-04-11",
+  //     startDate: "2522-04-05",
+  //     numberPages: 50,
+  //     timePerPage: 5,
+  //     startPage: 1,
+  //     currentPage: 1,
+  //     timesRepeat: 2,
+  //     notes: "Samantha's notes",
+  //     pdfLink: "samanthas-link.stan",
+  //     color: "#FFFFFF",
+  //     completed: completed || false,
+  //     userId: userId || "samanthasId"
+  //   });
 
-    if (!exam) throw new Error("Could not add a test exam");
+  //   if (!exam) throw new Error("Could not add a test exam");
 
-    return exam;
-  }
+  //   return exam;
+  // }
 });
