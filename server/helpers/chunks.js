@@ -3,12 +3,9 @@
 import { Exam, TodaysChunkCache } from "../models";
 
 import {
-  // datesTimingIsValid,
   startDateIsActive,
-  // isTheSameDay,
   getNumberOfDays,
   date1IsBeforeDate2
-  // date1IsBeforeDate2
 } from "../helpers/dates";
 
 //---------------------------TODAY'S CHUNKS---------------------------
@@ -17,13 +14,11 @@ export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   //if not in database
-  // chunks = calculateTodaysChunks(currentExams);
+
   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
-  // console.log(todaysChunksFromCache);
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
     console.log("cache empty");
     chunks = await calculateTodaysChunks(currentExams);
-
     //TODO
     // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
   } else {
@@ -58,27 +53,20 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
     } else {
       console.log("invalid cache");
       //TODO: better to update the existing one
-      // const resp = await deleteThisChunkCache(chunk._id);
-      // console.log(resp);
+
       let newChunk = createTodaysChunkObject(exam);
 
       if (!chunk) {
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
-        // console.log("here:");
-        // console.log(chunk);
-        // console.log(newChunk);
         const updates = filterOutUpdatesInTodaysChunk(chunk, newChunk);
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           updates
         );
         newChunk = TodaysChunkCache.findOne({ _id: chunk._id });
-        // console.log(resp);
       }
       return newChunk;
-
-      // await addTodaysChunkToDatabase(returnChunk, exam.userId);
     }
   });
   const resp = await Promise.all(chunks);
@@ -91,8 +79,8 @@ function isChunkCacheValid(chunkUpdatedAt, examUpdatedAt) {
 }
 
 function filterOutUpdatesInTodaysChunk(chunk, newChunk) {
-  // const updates = {examId: newChunk.examId, userId:newChunk.userId}
-  const updates = { examId: newChunk.exam._id, userId: newChunk.exam.userId };
+  //TODO: refactor - ADD LOOP
+  const updates = {};
   if (chunk.numberPagesToday !== newChunk.numberPagesToday)
     updates.numberPagesToday = newChunk.numberPagesToday;
   if (chunk.durationToday !== newChunk.durationToday)
@@ -112,8 +100,8 @@ function filterOutUpdatesInTodaysChunk(chunk, newChunk) {
   // for (let key of Object.keys(chunk)) {
   //   if (chunk[key] !== newChunk[key]) updates[key] = newChunk[key];
   // }
-  console.log("updates:");
-  console.log(updates);
+  // console.log("updates:");
+  // console.log(updates);
   return updates;
 }
 
