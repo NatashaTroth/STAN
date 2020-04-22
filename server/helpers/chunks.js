@@ -32,13 +32,20 @@ export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   //if not in database
-  // if (await todaysChunkCacheEmpty(userId)) {
   chunks = calculateTodaysChunks(currentExams);
+
+  // if (await todaysChunkCacheEmpty(userId)) {
+  //   console.log("cache empty");
+  //   chunks = calculateTodaysChunks(currentExams);
+  //   //TODO
+  //   // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
   // } else {
+  //   console.log("cache not empty");
+
   //   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
+
   //   chunks = createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
   // }
-  // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
 
   return chunks;
 }
@@ -48,7 +55,49 @@ async function fetchTodaysChunksFromCache(userId) {
   return await TodaysChunkCache.find({ userId });
 }
 
-function createTodaysChunksFromCache(currentExams, todaysChunksFromCache) {}
+function createTodaysChunksFromCache(currentExams, todaysChunks) {
+  console.log("in createTodaysChunksFromCache");
+  todaysChunks.map(chunk => {
+    const exam = currentExams.find(exam => exam.id === chunk.examId);
+    const {
+      numberPagesToday,
+      duration,
+      daysLeft,
+      totalNumberDays,
+      numberPagesWithRepeat,
+      notEnoughTime
+    } = chunk;
+    // {
+    //   "exam": {
+    //     "id": "5e988b6dfb66edc7290debb1",
+    //     "subject": "Maths",
+    //     "examDate": "2020-05-05T00:00:00.000Z",
+    //     "startDate": "2020-04-20T00:00:00.000Z",
+    //     "numberPages": 53,
+    //     "timesRepeat": 1,
+    //     "currentPage": 0,
+    //     "pdfLink": "TODO: CHANGE LATER"
+    //   },
+    //   "numberPagesToday": 5,
+    //   "duration": 20,
+    //   "daysLeft": 13,
+    //   "totalNumberDays": 15,
+    //   "numberPagesWithRepeat": 53,
+    //   "notEnoughTime": false
+
+    // return {};
+    //TODO: EXTRACT TO AVOID DUPLICATES
+    return {
+      exam,
+      numberPagesToday,
+      duration,
+      daysLeft, //MISSING,
+      totalNumberDays, //MISSING,
+      numberPagesWithRepeat, //MISSING,
+      notEnoughTime: false //TODO: IMPLEMENT
+    };
+  });
+}
 
 async function fetchCurrentExams(userId) {
   const exams = await Exam.find({
@@ -62,7 +111,6 @@ async function fetchCurrentExams(userId) {
 }
 
 export async function todaysChunkCacheEmpty(userId) {
-  console.log(await TodaysChunkCache.countDocuments({ userId: samantha }));
   return (await TodaysChunkCache.countDocuments({ userId })) === 0;
 }
 
@@ -82,7 +130,7 @@ async function calculateTodaysChunks(currentExams) {
       numberPagesToday,
       duration,
       daysLeft,
-      totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
+      // totalNumberDays: getNumberOfDays(exam.startDate, exam.examDate),
       numberPagesWithRepeat: exam.numberPages * exam.timesRepeat,
       notEnoughTime: false //TODO: IMPLEMENT
     };

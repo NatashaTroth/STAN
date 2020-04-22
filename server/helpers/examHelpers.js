@@ -14,7 +14,7 @@ import {
   datesTimingIsValid,
   // startDateIsActive,
   isTheSameDay,
-  // getNumberOfDays,
+  getNumberOfDays,
   startDateIsBeforeExamDate
 } from "../helpers/dates";
 
@@ -29,6 +29,7 @@ export function prepareExamInputData(args, userId) {
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
+  args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
 
   return { ...args };

@@ -18,6 +18,10 @@ const examSchema = new Schema({
     default: new Date(),
     required: true
   },
+  totalNumberDays: {
+    type: Number,
+    required: true
+  },
   numberPages: {
     type: Number,
     required: true
