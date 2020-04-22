@@ -1,5 +1,5 @@
 //TODO CHANGE ORDER of all the functions
-import { ApolloError } from "apollo-server";
+// import { ApolloError } from "apollo-server";
 import { Exam, TodaysChunkCache } from "../models";
 
 // import { roundToTwoDecimals } from "../helpers/generalHelpers";
@@ -34,20 +34,15 @@ export async function fetchTodaysChunks(userId) {
   let chunks;
   //if not in database
   // chunks = calculateTodaysChunks(currentExams);
-
-  if (await todaysChunkCacheEmpty(userId)) {
-    console.log("cache empty");
+  let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
+  if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
+    // console.log("cache empty");
     chunks = calculateTodaysChunks(currentExams);
     //TODO
     // await TodaysChunkCache.insertMany(chunks).then(resp => console.log(resp));
   } else {
-    console.log("cache not empty");
-
-    let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
-
+    // console.log("cache not empty");
     chunks = createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
-    console.log("here");
-    console.log(chunks);
   }
   return chunks;
 }
@@ -153,11 +148,15 @@ async function addTodaysChunkToDatabase(chunk, userId) {
 export async function getTodaysChunkProgress(userId) {
   //TODO: INDEX userid
   // console.log("here1");
-  let todaysChunks = await TodaysChunkCache.find({ userId });
+  let todaysChunks = await fetchTodaysChunksFromCache(userId);
   // console.log(todaysChunks);
 
-  if (!todaysChunks || todaysChunks.length <= 0)
-    todaysChunks = await fetchTodaysChunks(userId);
+  if (!todaysChunks || todaysChunks.length <= 0) {
+    //TODO: CHANGE FOR PERFORMANCE - RETURN THE CHUNKS FROM fetchTodaysChunks
+    await fetchTodaysChunks(userId);
+
+    todaysChunks = await fetchTodaysChunksFromCache(userId);
+  }
   // console.log(todaysChunks);
   // console.log(todaysChunks);
 
@@ -166,29 +165,27 @@ export async function getTodaysChunkProgress(userId) {
 
 //TODO: EXPORT TO CHUNKS.JS?
 function calculateChunkProgress(chunks) {
+  // console.log("in calculateChunkProgress");
   //TODO: HANDLE Chunk COMPLETED
   let totalDuration = 0;
   let totalDurationCompleted = 0;
   chunks.forEach(chunk => {
     //INDEX USERID FOR TODAYSCHUNKS AND EXAMID FOR EXAMSs
     //TODO: CACHE AND NOT CACHE OBEJECTS SHOULD LOOK THE SAME SO DON'T HAVE ALL THIS:
-    totalDuration += chunk.duration;
-    // console.log(chunk.currentPage);
-    let currentPage;
-    if (chunk.exam) currentPage = chunk.exam.currentPage;
-    else currentPage = chunk.currentPage;
-    let startPage = chunk.startPage;
-    // console.log(startPage);
-    //todo: not working
-    if (startPage == null) {
-      // console.log("in if");
-      startPage = currentPage;
-    }
+    totalDuration += chunk.durationToday;
 
+    // let startPage = chunk.startPage;
+    // // console.log(startPage);
+    // //todo: not working
+    // if (startPage == null) {
+    //   // console.log("in if");
+    //   startPage = currentPage;
+    // }
+    // console.log(chunk);
     totalDurationCompleted += durationCompleted({
       duration: chunk.durationToday,
-      startPage,
-      currentPage: currentPage,
+      startPage: chunk.startPage,
+      currentPage: chunk.currentPage,
       numberPages: chunk.numberPagesToday
     });
     // console.log(".........");
@@ -200,10 +197,10 @@ function calculateChunkProgress(chunks) {
     //     numberPages: chunk.numberPagesToday
     //   })
     // );
-    // console.log(chunk.duration);
-    // console.log(startPage); //16
+    // console.log(chunk.durationToday);
+    // console.log(chunk.startPage); //16
 
-    // console.log(currentPage);
+    // console.log(chunk.currentPage);
     // console.log(chunk.numberPagesToday);
   });
   // console.log("-----------");
@@ -213,7 +210,7 @@ function calculateChunkProgress(chunks) {
   // console.log(totalDuration);
   // console.log(totalDurationCompleted);
   if (totalDuration === 0) return 0;
-  // console.log((100 / totalDuration) * totalDurationCompleted);
+  // console.log(Math.round((100 / totalDuration) * totalDurationCompleted));
   return Math.round((100 / totalDuration) * totalDurationCompleted);
 }
 

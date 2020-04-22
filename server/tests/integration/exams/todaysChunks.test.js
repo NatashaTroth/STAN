@@ -134,7 +134,7 @@ describe("Test user resolver regex", () => {
     ).toBe(3);
 
     const resp2 = await todaysChunkCacheEmpty("samanthasId");
-    console.log(resp2);
+
     expect(resp2).toBeFalsy();
   });
 

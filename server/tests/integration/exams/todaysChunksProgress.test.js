@@ -41,7 +41,7 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it("should correctly fetch today's chunks progress for the first time today", async () => {
+  it.only("should correctly fetch today's chunks progress for the first time today", async () => {
     const initialCount = await TodaysChunkCache.countDocuments();
 
     const testExam = await addOneTestExam();
@@ -56,6 +56,11 @@ describe("Test user resolver regex", () => {
     expect(newCount).toBe(initialCount + 1);
 
     // update current page to 3
+    // const respDeleteTodaysChunksCache = await TodaysChunkCache.deleteMany({
+    //   userId: "samanthasId"
+    // });
+    // expect(respDeleteTodaysChunksCache).toBeTruthy();
+
     const respUpdate = await TodaysChunkCache.updateOne(
       { examId: testExam._id.toString() },
       { currentPage: 3 }
@@ -66,6 +71,7 @@ describe("Test user resolver regex", () => {
     const resp2 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
+
     expect(resp2.data).toBeTruthy();
     //2 pages of 10 completed = 20%
     expect(resp2.data.todaysChunksProgress).toBe(20);
