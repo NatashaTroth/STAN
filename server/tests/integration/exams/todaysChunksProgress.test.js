@@ -9,7 +9,7 @@ import {
   clearDatabase,
   teardown
 } from "../setup";
-import { TodaysChunkCache } from "../../../models";
+import { Exam, TodaysChunkCache } from "../../../models";
 
 import {
   // GET_TODAYS_CHUNKS,
@@ -41,15 +41,17 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it.only("should correctly fetch today's chunks progress for the first time today", async () => {
+  it("should correctly fetch today's chunks progress for the first time today", async () => {
     const initialCount = await TodaysChunkCache.countDocuments();
 
-    const testExam = await addOneTestExam();
+    const testExam = await addTestExam({
+      subject: "Biology"
+    });
     const resp = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
 
-    // console.log(resp);
+    console.log(resp);
     expect(resp.data).toBeTruthy();
     expect(resp.data.todaysChunksProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
@@ -94,44 +96,60 @@ describe("Test user resolver regex", () => {
     //TODO: TEST COMPLETED
   });
 
-  it.skip("should correctly fetch today's chunks progress after updating current pages", async () => {
-    const testExams = await addTestExams();
-    //update current page of first exam
-    // numberPagesToday: 10,
-    // duration: 50,
-    // daysLeft: 5,
-    // totalNumberDays: 5,
-    // numberPagesWithRepeat: 50,
-    // notEnoughTime: false
-    await mutate({
-      query: UPDATE_CURRENT_PAGE_MUTATION,
-      variables: {
-        examId: testExams.exam1._id.toString(),
-        page: 5
-      }
+  it("should correctly fetch today's chunks progress after updating current pages", async () => {
+    //setup
+    const testExam = await addTestExam({
+      subject: "Biology"
     });
-    // expect(updateResp1.data.updateCurrentPage).toBeTruthy();
-    // const newExam = await Exam.findOne({
-    //   subject: "Biology"
-    // });
-    // console.log(newExam);
+    const initialCount = await TodaysChunkCache.countDocuments();
+    expect(initialCount).toBe(0);
+
+    //Current todays chunks progress should be 0
+    // console.log("FIRST FETCH");
 
     const resp1 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
-
+    // console.log(resp1);
     expect(resp1.data).toBeTruthy();
+    expect(resp1.data.todaysChunksProgress).toBe(0);
+    const newCount = await TodaysChunkCache.countDocuments();
+    expect(newCount).toBe(initialCount + 1);
+    // console.log(await TodaysChunkCache.find({}));
 
-    expect(resp1.data.todaysChunksProgress).not.toBe(0);
+    //Update page with mutation (changes the page in the exam)
+
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 3
+      }
+    });
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
+
+    //refetch progress - should have changed
+    console.log("SECOND FETCH");
+    const resp2 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+    // console.log("after second");
+    // console.log(await TodaysChunkCache.find({}));
+    console.log(resp2);
+    expect(resp2.data).toBeTruthy();
+    //2 pages of 10 completed = 20%
+    expect(resp2.data.todaysChunksProgress).toBe(20);
   });
 
-  //------------------------------------------- Helper functions ------------------------------------------
-  async function addOneTestExam() {
-    const exam1 = await addTestExam({
-      subject: "Biology",
-      color: "#979250"
-    });
+  //TODO: SHOULD WORK WITH CHANGED CURRENT PAGE EVEN IF TODAYS CHUNKS WEREN'T FETCHED YET - BUT UNLIKELY, ESPECIALLY IF WE FETCH TODAYSCHUNKS IMMEDIATLY
 
-    return exam1;
-  }
+  //------------------------------------------- Helper functions ------------------------------------------
+  // async function addOneTestExam() {
+  //   const exam1 = await addTestExam({
+  //     subject: "Biology",
+  //     color: "#979250"
+  //   });
+
+  //   return exam1;
+  // }
 });

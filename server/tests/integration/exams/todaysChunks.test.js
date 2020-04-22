@@ -48,6 +48,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS
     });
+    // console.log(resp);
     // console.log(JSON.stringify(resp));
     // console.log(resp.data.todaysChunks[0].exam);
     expect(resp.data.todaysChunks).toBeTruthy();

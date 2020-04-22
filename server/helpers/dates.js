@@ -4,10 +4,10 @@ dayjs.extend(relativeTime);
 
 export function datesTimingIsValid(startDate, examDate) {
   // console.log(datesAreNotPast([startDate, examDate]));
-  // console.log(startDateIsBeforeExamDate(startDate, examDate));
+  // console.log(date1IsBeforeDate2(startDate, examDate));
   return (
     datesAreNotPast([startDate, examDate]) &&
-    startDateIsBeforeExamDate(startDate, examDate)
+    date1IsBeforeDate2(startDate, examDate)
   );
 }
 
@@ -51,9 +51,9 @@ export function datesAreNotPast(dates) {
   return true;
 }
 
-export function startDateIsBeforeExamDate(startDate, examDate) {
+export function date1IsBeforeDate2(date1, date2) {
   // console.log(startDate, examDate);
-  return dayjs(startDate).isBefore(dayjs(examDate));
+  return dayjs(date1).isBefore(dayjs(date2));
 }
 
 //modified from https://flaviocopes.com/how-to-determine-date-is-today-javascript/

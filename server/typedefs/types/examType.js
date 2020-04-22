@@ -28,7 +28,7 @@ const examType = gql`
     # subject: String!
     exam: Exam!
     numberPagesToday: Int!
-    durationToday: Int
+    durationToday: Int!
     daysLeft: Int! #incl. today
     # totalChunks: Int!
     # numberPagesWithRepeat: Int! #exam.pages*repeat

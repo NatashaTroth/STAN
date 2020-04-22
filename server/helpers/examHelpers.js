@@ -15,7 +15,7 @@ import {
   // startDateIsActive,
   isTheSameDay,
   getNumberOfDays,
-  startDateIsBeforeExamDate
+  date1IsBeforeDate2
 } from "../helpers/dates";
 
 export function prepareExamInputData(args, userId) {
@@ -58,7 +58,7 @@ export function verifyAddExamDates(startDate, examDate) {
 
 export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
   if (isTheSameDay(startDate, oldStartDate)) {
-    if (!startDateIsBeforeExamDate(startDate, examDate))
+    if (!date1IsBeforeDate2(startDate, examDate))
       throw new ApolloError("Start learning date must be before exam date.");
   } else verifyAddExamDates(startDate, examDate);
 }

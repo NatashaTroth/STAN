@@ -148,6 +148,7 @@ export const examResolvers = {
     },
     updateCurrentPage: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
+      //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
       try {
         handleAuthentication(context.userInfo);
 
