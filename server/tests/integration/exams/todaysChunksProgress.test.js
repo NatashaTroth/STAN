@@ -130,3 +130,41 @@ describe("Test user resolver regex", () => {
 
   //TODO: SHOULD WORK WITH CHANGED CURRENT PAGE EVEN IF TODAYS CHUNKS WEREN'T FETCHED YET - BUT UNLIKELY, ESPECIALLY IF WE FETCH TODAYSCHUNKS IMMEDIATLY
 });
+
+it("should correctly fetch today's chunks progress when there are multiple exams", async () => {
+  //setup
+  const testExam = await addTestExams();
+  const initialCount = await TodaysChunkCache.countDocuments();
+  expect(initialCount).toBe(0);
+
+  //Current todays chunks progress should be 0
+  const resp1 = await query({
+    query: GET_TODAYS_CHUNKS_PROGRESS
+  });
+
+  expect(resp1.data).toBeTruthy();
+  expect(resp1.data.todaysChunksProgress).toBe(0);
+  const newCount = await TodaysChunkCache.countDocuments();
+  expect(newCount).toBe(initialCount + 1);
+
+  // //Update page with mutation (changes the page in the exam)
+  // const updateResp = await mutate({
+  //   query: UPDATE_CURRENT_PAGE_MUTATION,
+  //   variables: {
+  //     examId: testExam._id.toString(),
+  //     page: 3
+  //   }
+  // });
+  // expect(updateResp.data.updateCurrentPage).toBeTruthy();
+
+  // //refetch progress - should have changed
+  // const resp2 = await query({
+  //   query: GET_TODAYS_CHUNKS_PROGRESS
+  // });
+
+  // expect(resp2.data).toBeTruthy();
+  // //2 pages of 10 completed = 20%
+  // expect(resp2.data.todaysChunksProgress).toBe(20);
+});
+
+//TODO: SHOULD WORK WITH CHANGED CURRENT PAGE EVEN IF TODAYS CHUNKS WEREN'T FETCHED YET - BUT UNLIKELY, ESPECIALLY IF WE FETCH TODAYSCHUNKS IMMEDIATLY
