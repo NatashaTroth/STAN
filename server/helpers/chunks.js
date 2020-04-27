@@ -40,7 +40,7 @@ export async function fetchCalendarChunks(userId) {
   const exams = await Exam.find({
     userId: userId,
     completed: false
-  }).sort({ subject: "asc" });
+  }).sort({ examDate: "asc" });
   // const currentExams = await fetchCurrentExams(userId);
   return getCalendarChunks(exams);
 }
