@@ -48,25 +48,10 @@ describe("Test user resolver regex", () => {
 
     expect(resp.data.calendarChunks).toBeTruthy();
     expect(resp.data.calendarChunks.length).toBe(4);
-
-    let exam = testExams.exam2;
-    expect(resp.data.calendarChunks[0]).toMatchObject({
-      subject: exam.subject,
-      start: exam.startDate,
-      end: exam.examDate,
-      details: {
-        examDate: exam.examDate,
-        currentPage: exam.currentPage,
-        numberPagesLeftTotal: 35,
-        numberPagesPerDay: 18,
-        durationTotal: 350,
-        durationPerDay: 180
-      },
-      color: exam.color
-    });
+    let exam;
 
     exam = testExams.exam1;
-    expect(resp.data.calendarChunks[1]).toMatchObject({
+    expect(resp.data.calendarChunks[2]).toMatchObject({
       subject: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
@@ -81,8 +66,24 @@ describe("Test user resolver regex", () => {
       color: exam.color
     });
 
+    exam = testExams.exam2;
+    expect(resp.data.calendarChunks[1]).toMatchObject({
+      subject: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      details: {
+        examDate: exam.examDate,
+        currentPage: exam.currentPage,
+        numberPagesLeftTotal: 35,
+        numberPagesPerDay: 18,
+        durationTotal: 350,
+        durationPerDay: 180
+      },
+      color: exam.color
+    });
+
     exam = testExams.exam3;
-    expect(resp.data.calendarChunks[2]).toMatchObject({
+    expect(resp.data.calendarChunks[0]).toMatchObject({
       subject: exam.subject,
       start: exam.startDate,
       end: exam.examDate,

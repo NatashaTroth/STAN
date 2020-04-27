@@ -14,12 +14,13 @@ import { formatDate, minuteToHours } from "../../helpers/dates"
 
 // components ----------------
 import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
+import Button from "../../components/button/Button"
 
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
-import { OverlayTrigger } from "react-bootstrap"
-import { Popover } from "react-bootstrap"
+import { Popover, OverlayTrigger } from "react-bootstrap"
 
 moment.locale("en-gb", {
   week: {
@@ -30,7 +31,6 @@ moment.locale("en-gb", {
 
 const localizer = momentLocalizer(moment)
 
-// TODO: react-bootstrap warning in der console
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
@@ -42,7 +42,7 @@ const ExamsCalendar = () => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p>loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.calendarChunks) {
     exams = data.calendarChunks
@@ -59,9 +59,15 @@ const ExamsCalendar = () => {
           width: "300px",
         }}
       >
-        <p className="popover-text">
-          <strong>{event.subject}</strong>
-          <strong>Exam date:</strong> {formatDate(event.details.examDate)}
+        <Popover.Title as="h4">{event.subject}</Popover.Title>
+        <Popover.Content>
+          <strong>
+            Exam date:{" "}
+            <span className="exam-date">
+              {" "}
+              {formatDate(event.details.examDate)}
+            </span>
+          </strong>
           <br></br>
           <strong>Current page: </strong>
           {event.details.currentPage}
@@ -77,7 +83,7 @@ const ExamsCalendar = () => {
           <br></br>
           <strong>Duration total:</strong>{" "}
           {minuteToHours(event.details.durationTotal)}
-        </p>
+        </Popover.Content>
       </Popover>
     )
 

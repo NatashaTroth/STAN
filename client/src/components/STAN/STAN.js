@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
-import { Cube } from "react-preloaders"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -12,6 +11,7 @@ import BurgerButton from "../burger-button/BurgerButton"
 import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import QueryError from "../error/Error"
+import Loading from "../loading/Loading"
 
 // images & logos ----------------
 import Image from "../../components/image/Image"
@@ -28,7 +28,7 @@ const Navbar = () => {
   const { data, loading, error } = useQuery(CURRENT_USER)
   let currentUser
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.currentUser) {
     currentUser = data.currentUser
@@ -51,7 +51,6 @@ const Navbar = () => {
   // return ----------------
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Cube customLoading={loading} background="#ffffff" />
       <Router className="navigation">
         <div className="burger">
           <div className={isSideBarOpen ? "close-burger" : "open-burger"}>

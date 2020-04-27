@@ -17,6 +17,7 @@ import ExamDetailsInfo from "../current-exam/ExamDetailsInfo"
 // sub-components ----------------
 import Button from "../button/Button"
 import QueryError from "../error/Error"
+import Loading from "../loading/Loading"
 
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)
@@ -51,7 +52,7 @@ const ExamDetails = () => {
 
   // variables ----------------
   let examDetails
-  if (loading) return <p>loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data) {
     examDetails = data.exam

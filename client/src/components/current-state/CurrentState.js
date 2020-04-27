@@ -10,8 +10,9 @@ import {
 // query ----------------
 import { GET_TODAYS_CHUNKS_PROGRESS } from "../../graphQL/queries"
 
-// components ----------------
+// sub-components ----------------
 import Image from "../../components/image/Image"
+import Loading from "../../components/loading/Loading"
 import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 
 // motivational sayings ----------------
@@ -35,7 +36,7 @@ const CurrentState = () => {
   let motivation
 
   // error handling ----------------
-  if (loading) return <p>loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data) {
     mood = currentMood(data.todaysChunksProgress)

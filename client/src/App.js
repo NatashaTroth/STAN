@@ -9,6 +9,9 @@ import { client } from "./apolloClient"
 
 // components
 import STAN from "./components/STAN/STAN"
+import Loading from "./components/loading/Loading"
+
+import { Cube } from "react-preloaders"
 
 const RedirectPopup = () => {
   return (
@@ -55,9 +58,7 @@ const App = () => {
     // localStorage.removeItem("logout-event")
   }, [])
 
-  if (loading) {
-    return <p className="loading">loading...</p>
-  }
+  if (loading) return <Loading />
 
   return (
     <ApolloProvider client={client}>
@@ -66,6 +67,7 @@ const App = () => {
       </header>
 
       <STAN />
+      <Cube customLoading={loading} background="#ffffff" />
     </ApolloProvider>
   )
 }

@@ -34,7 +34,6 @@ export async function fetchTodaysChunks(userId) {
 async function fetchTodaysChunksFromCache(userId) {
   return await TodaysChunkCache.find({ userId });
 }
-
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   const chunks = currentExams.map(async exam => {
     const chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
@@ -250,7 +249,7 @@ export async function fetchCalendarChunks(userId) {
   const exams = await Exam.find({
     userId: userId,
     completed: false
-  }).sort({ subject: "asc" });
+  }).sort({ examDate: "asc" });
   return getCalendarChunks(exams);
 }
 

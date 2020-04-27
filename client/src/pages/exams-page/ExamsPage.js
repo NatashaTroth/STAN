@@ -12,9 +12,11 @@ import { useQuery } from "@apollo/react-hooks"
 // components ----------------
 import Exam from "../../components/current-exam/Exam"
 import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
 
 // animation ----------------
 import AnimateHeight from "react-animate-height"
+import { Cube } from "react-preloaders"
 
 const Exams = () => {
   // router ----------------
@@ -36,7 +38,7 @@ const Exams = () => {
     return <Redirect to="/login" />
   }
 
-  if (loading) return <p>loading...</p>
+  if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.exams) {
     data.exams.forEach(exam => {
