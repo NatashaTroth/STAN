@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Redirect } from "react-router"
+import { Redirect, useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -20,9 +20,10 @@ import Loading from "../../components/loading/Loading"
 const ExamDetailsEdit = ({ examId }) => {
   // variables ----------------
   let defaultValues
+  let history = useHistory()
 
   // query ----------------
-  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+  const { loading, error, data, refetch } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
   })
 
@@ -89,7 +90,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam })
+    handleExam({ examId, data, updateExam, history })
   }
 
   // return ----------------
@@ -376,6 +377,7 @@ const ExamDetailsEdit = ({ examId }) => {
               className="form__element__btn stan-btn-primary"
               variant="button"
               text="Save"
+              onClick={() => refetch()}
             />
           </div>
         </div>
@@ -394,7 +396,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ examId, data, updateExam }) {
+async function handleExam({ examId, data, updateExam, history }) {
   try {
     const resp = await updateExam({
       variables: {
@@ -421,7 +423,7 @@ async function handleExam({ examId, data, updateExam }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.reload()
+      history.push("/exams")
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(

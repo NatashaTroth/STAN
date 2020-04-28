@@ -6,7 +6,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
 import LoginForm from "../../components/login/Login"
-import { Redirect } from "react-router"
+import { Redirect } from "react-router-dom"
 
 function LoginPage() {
   const currentUser = useCurrentUserValue()

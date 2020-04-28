@@ -6,7 +6,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
 import SignUpForm from "../../components/signup/SignUp"
-import { Redirect } from "react-router"
+import { Redirect } from "react-router-dom"
 
 function SignUpPage() {
   // redirects ----------------

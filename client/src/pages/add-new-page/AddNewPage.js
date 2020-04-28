@@ -8,7 +8,7 @@ import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
 import AddNew from "../../components/add-new/AddNew"
-import { Redirect } from "react-router"
+import { Redirect } from "react-router-dom"
 
 function AddNewPage() {
   // query ----------------

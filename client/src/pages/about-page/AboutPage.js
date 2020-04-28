@@ -1,6 +1,5 @@
 import React from "react"
-import { Redirect } from "react-router"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // context ----------------
