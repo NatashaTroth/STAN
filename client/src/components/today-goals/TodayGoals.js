@@ -1,6 +1,6 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -10,9 +10,9 @@ import Loading from "../loading/Loading"
 
 function TodayGoals(props) {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
+  const { loading, error } = useQuery(GET_USERS_QUERY)
 
-  // error handling ----------------
+  // // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
@@ -21,8 +21,8 @@ function TodayGoals(props) {
   let duration
   let todaySubject
 
-  if (data && data.todaysChunks.length > 0) {
-    todaySubject = data.todaysChunks.map((element, index) => {
+  if (props.data && props.data.todaysChunks.length > 0) {
+    todaySubject = props.data.todaysChunks.map((element, index) => {
       subject = element.exam.subject
       duration = element.duration
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import { GET_USERS_QUERY } from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
@@ -22,11 +22,10 @@ function Today(props) {
 
   // query ----------------
   const { loading, error } = useQuery(GET_USERS_QUERY)
-  const { loadingChunks, errorChunks, data } = useQuery(GET_TODAYS_CHUNKS)
 
   // error handling ----------------
-  if (loading || loadingChunks) return <p>Loading...</p>
-  if (error || errorChunks) return <p>Error :(</p>
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
 
   // query data ----------------
   let deadline
@@ -48,16 +47,19 @@ function Today(props) {
   let noTime
   let noTimeMessage
 
-  if (data && data.todaysChunks.length > 0) {
-    noTime = data.todaysChunks[props.activeIndex].notEnoughTime
+  if (props.data && props.data.todaysChunks.length > 0) {
+    noTime = props.data.todaysChunks[props.activeIndex].notEnoughTime
     if (noTime) {
       noTimeMessage =
         "Info: You need to study faster to finish all pages until the exam!"
     }
 
-    subject = data.todaysChunks[props.activeIndex].exam.subject
+    subject = props.data.todaysChunks[props.activeIndex].exam.subject
 
-    deadline = data.todaysChunks[props.activeIndex].exam.examDate.slice(0, 10)
+    deadline = props.data.todaysChunks[props.activeIndex].exam.examDate.slice(
+      0,
+      10
+    )
     deadline = deadline
       .split("-")
       .reverse()
@@ -65,18 +67,20 @@ function Today(props) {
       .replace("-", "/")
       .replace("-", "/")
 
-    currentPage = data.todaysChunks[props.activeIndex].exam.currentPage
+    currentPage = props.data.todaysChunks[props.activeIndex].exam.currentPage
     amountPagesWithRepeat =
-      data.todaysChunks[props.activeIndex].numberPagesWithRepeat
-    lastPage = data.todaysChunks[props.activeIndex].exam.numberPages
+      props.data.todaysChunks[props.activeIndex].numberPagesWithRepeat
+    lastPage = props.data.todaysChunks[props.activeIndex].exam.numberPages
     realCurrentPage = currentPage % lastPage
 
-    numberPagesToday = data.todaysChunks[props.activeIndex].numberPagesToday
+    numberPagesToday =
+      props.data.todaysChunks[props.activeIndex].numberPagesToday
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
-    duration = data.todaysChunks[props.activeIndex].duration
+    duration = props.data.todaysChunks[props.activeIndex].duration
 
-    repetitionCycles = data.todaysChunks[props.activeIndex].exam.timesRepeat
+    repetitionCycles =
+      props.data.todaysChunks[props.activeIndex].exam.timesRepeat
     repetition = 1
     let repetitionCounter = Math.floor(currentPage / lastPage) + 1
     if (repetitionCounter <= repetitionCycles) {
@@ -85,8 +89,8 @@ function Today(props) {
       repetition = repetitionCycles
     }
 
-    daysLeft = data.todaysChunks[props.activeIndex].daysLeft
-    totalDays = data.todaysChunks[props.activeIndex].totalNumberDays
+    daysLeft = props.data.todaysChunks[props.activeIndex].daysLeft
+    totalDays = props.data.todaysChunks[props.activeIndex].totalNumberDays
     dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
 
     chunksTotal = totalDays
