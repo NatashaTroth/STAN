@@ -11,12 +11,14 @@ import { isAuth } from "./helpers/is-auth";
 import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./helpers/authenticationTokens";
 import path from "path";
+import compress from "compression";
 
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
 const connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(compress());
 //TODO: EXTRACT MONGODB CONNECTIONS
 
 mongoose
