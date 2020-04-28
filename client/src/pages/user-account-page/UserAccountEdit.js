@@ -592,7 +592,7 @@ async function editUser({ mascotId, formData, updateUser, history }) {
 
     // redirect ----------------
     setTimeout(() => {
-      history.push("/profile")
+      window.location.reload()
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
