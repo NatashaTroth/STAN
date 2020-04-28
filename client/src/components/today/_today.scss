@@ -210,10 +210,20 @@
             display: flex;
             align-items: center;
 
+            &__label {
+              @include media-breakpoint-down(xs) {
+                @include rem(font-size, 15px);
+              }
+            }
+
             &__input {
               min-width: initial;
-              width: 50px;
+              width: 60px;
               margin: 0 10px;
+
+              @include media-breakpoint-down(xs) {
+                margin: 0 7px;
+              }
             }
           }
           &__btn {

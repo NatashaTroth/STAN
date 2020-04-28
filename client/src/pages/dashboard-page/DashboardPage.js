@@ -20,7 +20,7 @@ function Dashboard() {
   const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
   const [activeElementIndex, setActiveElementIndex] = useState(0)
 
-  // mascot trigger
+  // mascot trigger ----------------
   const mascot = window.localStorage.getItem("mascot-event")
   if (mascot === "true") {
     return <Mascots />
@@ -48,11 +48,12 @@ function Dashboard() {
                 setActiveElementIndex(index)
               }}
               activeIndex={activeElementIndex}
+              data={data}
             ></TodayGoals>
           </div>
           <div className="col-xl-6 today-component-container">
             {/* Today */}
-            <Today activeIndex={activeElementIndex}></Today>
+            <Today activeIndex={activeElementIndex} data={data}></Today>
           </div>
           <div className="col-xl-2">{/* Today Progress */}</div>
         </div>

@@ -1,6 +1,6 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -10,27 +10,51 @@ import Loading from "../loading/Loading"
 
 function TodayGoals(props) {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS)
+  const { loading, error } = useQuery(GET_USERS_QUERY)
 
-  // error handling ----------------
+  // // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
   // query data ----------------
   let subject
-  let duration
   let todaySubject
+  let duration
+  let durationTime
+  let hours
+  let minutes
+  let totalDuration = 0
+  let totalDurationTime
+  let hoursTotal
+  let minutesTotal
 
-  if (data && data.todaysChunks.length > 0) {
-    todaySubject = data.todaysChunks.map((element, index) => {
+  if (props.data && props.data.todaysChunks.length > 0) {
+    todaySubject = props.data.todaysChunks.map((element, index) => {
       subject = element.exam.subject
       duration = element.duration
+      totalDuration += duration
+
+      if (duration >= 60) {
+        hours = Math.floor(duration / 60)
+        minutes = Math.floor(duration) - hours * 60
+        durationTime = hours + " hours " + minutes + " min"
+
+        hoursTotal = Math.floor(totalDuration / 60)
+        minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
+        totalDurationTime = hoursTotal + "h " + minutesTotal + "m"
+      } else {
+        minutes = duration
+        durationTime = minutes + " min"
+
+        minutesTotal = totalDuration
+        totalDurationTime = minutesTotal + "m"
+      }
 
       return (
         <TodaySubject
           key={index}
           subject={subject}
-          durationTime={duration + " min"}
+          durationTime={durationTime}
           onClick={e => {
             e.preventDefault()
             props.activeElementIndexChange(index)
@@ -50,9 +74,11 @@ function TodayGoals(props) {
             <div className="today-goals__container">
               <div className="today-goals__container__header">
                 <h3 className="today-goals__container__header__heading">
-                  Todays Goals
+                  Today's Goals
                 </h3>
-                <p className="today-goals__container__header__time">2:30h</p>
+                <p className="today-goals__container__header__time">
+                  {totalDurationTime}
+                </p>
               </div>
             </div>
             {/* Subjects */}
@@ -66,11 +92,3 @@ function TodayGoals(props) {
 }
 
 export default TodayGoals
-
-// function subjectEventClickHandler(event) {
-//   if (event.currentTarget.classList.value === "today-subject active-subject") {
-//     event.currentTarget.classList.remove("active-subject")
-//   } else {
-//     event.currentTarget.classList.add("active-subject")
-//   }
-// }

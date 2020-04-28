@@ -5,7 +5,6 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS,
   GET_CALENDAR_CHUNKS,
-  GET_EXAM_QUERY,
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
@@ -78,7 +77,6 @@ function AddNew() {
           </div>
           <div className="col-md-12">
             <form
-              // onSubmit={handleSubmit}
               onSubmit={handleSubmit(onSubmit)}
               id="add-exam"
               className="form"
