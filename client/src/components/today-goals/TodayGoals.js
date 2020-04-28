@@ -18,19 +18,43 @@ function TodayGoals(props) {
 
   // query data ----------------
   let subject
-  let duration
   let todaySubject
+  let duration
+  let durationTime
+  let hours
+  let minutes
+  let totalDuration = 0
+  let totalDurationTime
+  let hoursTotal
+  let minutesTotal
 
   if (props.data && props.data.todaysChunks.length > 0) {
     todaySubject = props.data.todaysChunks.map((element, index) => {
       subject = element.exam.subject
       duration = element.duration
+      totalDuration += duration
+
+      if (duration >= 60) {
+        hours = Math.floor(duration / 60)
+        minutes = Math.floor(duration) - hours * 60
+        durationTime = hours + " hours " + minutes + " min"
+
+        hoursTotal = Math.floor(totalDuration / 60)
+        minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
+        totalDurationTime = hoursTotal + "h " + minutesTotal + "m"
+      } else {
+        minutes = duration
+        durationTime = minutes + " min"
+
+        minutesTotal = totalDuration
+        totalDurationTime = minutesTotal + "m"
+      }
 
       return (
         <TodaySubject
           key={index}
           subject={subject}
-          durationTime={duration + " min"}
+          durationTime={durationTime}
           onClick={e => {
             e.preventDefault()
             props.activeElementIndexChange(index)
@@ -52,7 +76,9 @@ function TodayGoals(props) {
                 <h3 className="today-goals__container__header__heading">
                   Todays Goals
                 </h3>
-                <p className="today-goals__container__header__time">2:30h</p>
+                <p className="today-goals__container__header__time">
+                  {totalDurationTime}
+                </p>
               </div>
             </div>
             {/* Subjects */}
@@ -66,11 +92,3 @@ function TodayGoals(props) {
 }
 
 export default TodayGoals
-
-// function subjectEventClickHandler(event) {
-//   if (event.currentTarget.classList.value === "today-subject active-subject") {
-//     event.currentTarget.classList.remove("active-subject")
-//   } else {
-//     event.currentTarget.classList.add("active-subject")
-//   }
-// }

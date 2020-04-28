@@ -39,6 +39,9 @@ function Today(props) {
   let repetition
   let repetitionCycles
   let duration
+  let durationTime
+  let hours
+  let minutes
   let daysLeft
   let totalDays
   let dayPercentage
@@ -48,12 +51,6 @@ function Today(props) {
   let noTimeMessage
 
   if (props.data && props.data.todaysChunks.length > 0) {
-    noTime = props.data.todaysChunks[props.activeIndex].notEnoughTime
-    if (noTime) {
-      noTimeMessage =
-        "Info: You need to study faster to finish all pages until the exam!"
-    }
-
     subject = props.data.todaysChunks[props.activeIndex].exam.subject
 
     deadline = props.data.todaysChunks[props.activeIndex].exam.examDate.slice(
@@ -78,6 +75,20 @@ function Today(props) {
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
     duration = props.data.todaysChunks[props.activeIndex].duration
+    if (duration >= 60) {
+      hours = Math.floor(duration / 60)
+      minutes = Math.floor(duration) - hours * 60
+      durationTime = hours + " hours " + minutes + " min"
+    } else {
+      minutes = duration
+      durationTime = minutes + " min"
+    }
+
+    // noTime = props.data.todaysChunks[props.activeIndex].notEnoughTime
+    if (duration > 1440) {
+      noTimeMessage =
+        "Info: You need to study faster to finish all pages until the exam!"
+    }
 
     repetitionCycles =
       props.data.todaysChunks[props.activeIndex].exam.timesRepeat
@@ -142,7 +153,7 @@ function Today(props) {
                         Duration:
                       </p>
                       <p className="today__container__content__text">
-                        {duration} min
+                        {durationTime}
                       </p>
                     </div>
                   </div>
