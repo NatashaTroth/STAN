@@ -199,6 +199,8 @@
 
         &__form {
           display: flex;
+          flex-direction: column;
+          align-items: flex-end;
           margin: 0 0 15px 0;
 
           @include media-breakpoint-down(sm) {
@@ -206,14 +208,33 @@
             justify-content: flex-end;
           }
 
-          &__elements {
+          .error {
+            margin: 2px 0 0;
+          }
+
+          &__elements-container {
             display: flex;
             align-items: center;
 
-            &__input {
-              min-width: initial;
-              width: 50px;
-              margin: 0 10px;
+            &__elements {
+              display: flex;
+              align-items: center;
+
+              &__label {
+                @include media-breakpoint-down(xs) {
+                  @include rem(font-size, 15px);
+                }
+              }
+
+              &__input {
+                min-width: initial;
+                width: 60px;
+                margin: 0 10px;
+
+                @include media-breakpoint-down(xs) {
+                  margin: 0 7px;
+                }
+              }
             }
           }
           &__btn {
