@@ -1,6 +1,11 @@
 import React from "react"
-import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import {
+  CURRENT_USER,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS,
+  GET_CALENDAR_CHUNKS,
+} from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
@@ -16,12 +21,37 @@ function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = async formData => {}
-  // mutation ----------------
-  //   const [addChunkPages, { mutationData }] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
+  const onSubmit = async formData => {
+    try {
+      const resp = await updatePage({
+        variables: {
+          page: parseInt(formData.page_amount_studied),
+          examId: props.data.todaysChunks[props.activeIndex].exam.id,
+        },
+        // refetchQueries: [
+        //   { query: GET_EXAMS_QUERY },
+        //   { query: GET_TODAYS_CHUNKS },
+        //   { query: GET_CALENDAR_CHUNKS },
+        // ],
+      })
+      console.log("done")
 
+      if (resp && resp.data && resp.data.updatePage) {
+        // success message ----------------
+      } else {
+        // displays server error (backend)
+        throw new Error("The goal could not be marked as studied")
+      }
+    } catch (err) {
+      // TODO: display error message
+      console.error(err.message)
+    }
+  }
   // query ----------------
-  const { loading, error } = useQuery(GET_USERS_QUERY)
+  const { loading, error } = useQuery(CURRENT_USER)
+
+  // mutation ----------------
+  const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
 
   // error handling ----------------
   if (loading) return <p>Loading...</p>
@@ -208,14 +238,13 @@ function Today(props) {
                   <div className="today__container__buttons__submit">
                     {/* pages done */}
                     <form
-                      // onSubmit={handleSubmit}
                       onSubmit={handleSubmit(onSubmit)}
                       id="study-chunk"
                       className="today__container__buttons__submit__form"
                     >
                       <div className="today__container__buttons__submit__form__elements">
                         <Label
-                          for="page-amount-studied"
+                          for="page"
                           text="studied up to page:"
                           className="today__container__buttons__submit__form__elements__label"
                         ></Label>
@@ -223,22 +252,22 @@ function Today(props) {
                           className="today__container__buttons__submit__form__elements__input"
                           type="number"
                           min="0"
-                          id="page-amount-studied"
+                          id="page"
                           label="page_amount_studied"
                           placeholder={realCurrentPage}
                           ref={register({
-                            min: 1,
-                            max: { amountPagesWithRepeat },
+                            minLength: { realCurrentPage },
+                            maxLength: { amountPagesWithRepeat },
                           })}
                         />
                         {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "max" && (
+                          errors.page_amount_studied.type === "maxLength" && (
                             <span className="error">The maximum is 10.000</span>
                           )}
                         {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "min" && (
+                          errors.page_amount_studied.type === "minLength" && (
                             <span className="error">
-                              Only positive numbers are allowed
+                              The minimum page is today's start page.
                             </span>
                           )}
                       </div>
