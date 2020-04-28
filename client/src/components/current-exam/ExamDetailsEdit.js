@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Redirect, useHistory } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -20,7 +20,6 @@ import Loading from "../../components/loading/Loading"
 const ExamDetailsEdit = ({ examId }) => {
   // variables ----------------
   let defaultValues
-  let history = useHistory()
 
   // query ----------------
   const { loading, error, data, refetch } = useQuery(GET_EXAM_QUERY, {
@@ -90,7 +89,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam, history })
+    handleExam({ examId, data, updateExam })
   }
 
   // return ----------------
@@ -396,7 +395,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ examId, data, updateExam, history }) {
+async function handleExam({ examId, data, updateExam }) {
   try {
     const resp = await updateExam({
       variables: {
@@ -420,11 +419,6 @@ async function handleExam({ examId, data, updateExam, history }) {
     } else {
       throw new Error("Cannot edit current exam.")
     }
-
-    // redirect ----------------
-    setTimeout(() => {
-      history.push("/exams")
-    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-exam-details-edit-error"
