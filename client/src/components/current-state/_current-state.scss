@@ -50,6 +50,7 @@
 
   @include media-breakpoint-down(sm) {
     flex-direction: row-reverse;
+    margin-top: 2rem;
   }
 
   .carousel {
