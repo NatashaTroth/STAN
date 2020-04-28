@@ -74,7 +74,7 @@ function TodayGoals(props) {
             <div className="today-goals__container">
               <div className="today-goals__container__header">
                 <h3 className="today-goals__container__header__heading">
-                  Todays Goals
+                  Today's Goals
                 </h3>
                 <p className="today-goals__container__header__time">
                   {totalDurationTime}
