@@ -22,31 +22,57 @@ function Today(props) {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    try {
-      const resp = await updatePage({
-        variables: {
-          page: parseInt(formData.page_amount_studied),
-          examId: props.data.todaysChunks[props.activeIndex].exam.id,
-        },
-        // refetchQueries: [
-        //   { query: GET_EXAMS_QUERY },
-        //   { query: GET_TODAYS_CHUNKS },
-        //   { query: GET_CALENDAR_CHUNKS },
-        // ],
-      })
-      console.log("done")
-
-      if (resp && resp.data && resp.data.updatePage) {
-        // success message ----------------
-      } else {
-        // displays server error (backend)
-        throw new Error("The goal could not be marked as studied")
-      }
-    } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
-    }
+    // try {
+    //   const resp = await updatePage({
+    //     variables: {
+    //       page: parseInt(formData.page_amount_studied),
+    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
+    //     },
+    //     // refetchQueries: [
+    //     //   { query: GET_EXAMS_QUERY },
+    //     //   { query: GET_TODAYS_CHUNKS },
+    //     //   { query: GET_CALENDAR_CHUNKS },
+    //     // ],
+    //   })
+    //   console.log("done")
+    //   if (resp && resp.data && resp.data.updatePage) {
+    //     // success message ----------------
+    //   } else {
+    //     // displays server error (backend)
+    //     throw new Error("The goal could not be marked as studied")
+    //   }
+    // } catch (err) {
+    //   // TODO: display error message
+    //   console.error(err.message)
+    // }
   }
+
+  const onSubmitAll = async formData => {
+    // try {
+    //   const resp = await updatePage({
+    //     variables: {
+    //       page: chunkGoalPage,
+    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
+    //     },
+    //     // refetchQueries: [
+    //     //   { query: GET_EXAMS_QUERY },
+    //     //   { query: GET_TODAYS_CHUNKS },
+    //     //   { query: GET_CALENDAR_CHUNKS },
+    //     // ],
+    //   })
+    //   console.log("done all")
+    //   if (resp && resp.data && resp.data.updatePage) {
+    //     // success message ----------------
+    //   } else {
+    //     // displays server error (backend)
+    //     throw new Error("The goal could not be marked as studied")
+    //   }
+    // } catch (err) {
+    //   // TODO: display error message
+    //   console.error(err.message)
+    // }
+  }
+
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
 
@@ -277,14 +303,20 @@ function Today(props) {
                         text="save"
                       />
                     </form>
-                    {/* all done */}
-                    <div className="today__container__buttons__submit__all-done">
-                      <Button
-                        className="today__container__buttons__submit__all-done__btn stan-btn-primary"
-                        variant="button"
-                        text="goal studied"
-                      />
-                    </div>
+                    <form
+                      onSubmit={handleSubmit(onSubmitAll)}
+                      id="study-chunk-all"
+                      className="today__container__buttons__submit__form-all"
+                    >
+                      {/* all done */}
+                      <div className="today__container__buttons__submit__all-done">
+                        <Button
+                          className="today__container__buttons__submit__all-done__btn stan-btn-primary"
+                          variant="button"
+                          text="goal studied"
+                        />
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
