@@ -1,6 +1,11 @@
 import React from "react"
-import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import {
+  CURRENT_USER,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS,
+  GET_CALENDAR_CHUNKS,
+} from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
@@ -16,17 +21,67 @@ function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
-  const onSubmit = async formData => {}
-  // mutation ----------------
-  //   const [addChunkPages, { mutationData }] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
+  const onSubmit = async formData => {
+    // try {
+    //   const resp = await updatePage({
+    //     variables: {
+    //       page: parseInt(formData.page_amount_studied),
+    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
+    //     },
+    //     // refetchQueries: [
+    //     //   { query: GET_EXAMS_QUERY },
+    //     //   { query: GET_TODAYS_CHUNKS },
+    //     //   { query: GET_CALENDAR_CHUNKS },
+    //     // ],
+    //   })
+    //   console.log("done")
+    //   if (resp && resp.data && resp.data.updatePage) {
+    //     // success message ----------------
+    //   } else {
+    //     // displays server error (backend)
+    //     throw new Error("The goal could not be marked as studied")
+    //   }
+    // } catch (err) {
+    //   // TODO: display error message
+    //   console.error(err.message)
+    // }
+  }
+
+  const onSubmitAll = async formData => {
+    // try {
+    //   const resp = await updatePage({
+    //     variables: {
+    //       page: chunkGoalPage,
+    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
+    //     },
+    //     // refetchQueries: [
+    //     //   { query: GET_EXAMS_QUERY },
+    //     //   { query: GET_TODAYS_CHUNKS },
+    //     //   { query: GET_CALENDAR_CHUNKS },
+    //     // ],
+    //   })
+    //   console.log("done all")
+    //   if (resp && resp.data && resp.data.updatePage) {
+    //     // success message ----------------
+    //   } else {
+    //     // displays server error (backend)
+    //     throw new Error("The goal could not be marked as studied")
+    //   }
+    // } catch (err) {
+    //   // TODO: display error message
+    //   console.error(err.message)
+    // }
+  }
 
   // query ----------------
-  const { loading, error } = useQuery(GET_USERS_QUERY)
-  const { loadingChunks, errorChunks, data } = useQuery(GET_TODAYS_CHUNKS)
+  const { loading, error } = useQuery(CURRENT_USER)
+
+  // mutation ----------------
+  const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
 
   // error handling ----------------
-  if (loading || loadingChunks) return <p>Loading...</p>
-  if (error || errorChunks) return <p>Error :(</p>
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
 
   // query data ----------------
   let deadline
@@ -40,6 +95,9 @@ function Today(props) {
   let repetition
   let repetitionCycles
   let duration
+  let durationTime
+  let hours
+  let minutes
   let daysLeft
   let totalDays
   let dayPercentage
@@ -48,16 +106,13 @@ function Today(props) {
   let noTime
   let noTimeMessage
 
-  if (data && data.todaysChunks.length > 0) {
-    noTime = data.todaysChunks[props.activeIndex].notEnoughTime
-    if (noTime) {
-      noTimeMessage =
-        "Info: You need to study faster to finish all pages until the exam!"
-    }
+  if (props.data && props.data.todaysChunks.length > 0) {
+    subject = props.data.todaysChunks[props.activeIndex].exam.subject
 
-    subject = data.todaysChunks[props.activeIndex].exam.subject
-
-    deadline = data.todaysChunks[props.activeIndex].exam.examDate.slice(0, 10)
+    deadline = props.data.todaysChunks[props.activeIndex].exam.examDate.slice(
+      0,
+      10
+    )
     deadline = deadline
       .split("-")
       .reverse()
@@ -65,18 +120,34 @@ function Today(props) {
       .replace("-", "/")
       .replace("-", "/")
 
-    currentPage = data.todaysChunks[props.activeIndex].exam.currentPage
+    currentPage = props.data.todaysChunks[props.activeIndex].exam.currentPage
     amountPagesWithRepeat =
-      data.todaysChunks[props.activeIndex].numberPagesWithRepeat
-    lastPage = data.todaysChunks[props.activeIndex].exam.numberPages
+      props.data.todaysChunks[props.activeIndex].numberPagesWithRepeat
+    lastPage = props.data.todaysChunks[props.activeIndex].exam.numberPages
     realCurrentPage = currentPage % lastPage
 
-    numberPagesToday = data.todaysChunks[props.activeIndex].numberPagesToday
+    numberPagesToday =
+      props.data.todaysChunks[props.activeIndex].numberPagesToday
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
-    duration = data.todaysChunks[props.activeIndex].duration
+    duration = props.data.todaysChunks[props.activeIndex].duration
+    if (duration >= 60) {
+      hours = Math.floor(duration / 60)
+      minutes = Math.floor(duration) - hours * 60
+      durationTime = hours + " hours " + minutes + " min"
+    } else {
+      minutes = duration
+      durationTime = minutes + " min"
+    }
 
-    repetitionCycles = data.todaysChunks[props.activeIndex].exam.timesRepeat
+    // noTime = props.data.todaysChunks[props.activeIndex].notEnoughTime
+    if (duration > 1440) {
+      noTimeMessage =
+        "Info: You need to study faster to finish all pages until the exam!"
+    }
+
+    repetitionCycles =
+      props.data.todaysChunks[props.activeIndex].exam.timesRepeat
     repetition = 1
     let repetitionCounter = Math.floor(currentPage / lastPage) + 1
     if (repetitionCounter <= repetitionCycles) {
@@ -85,8 +156,8 @@ function Today(props) {
       repetition = repetitionCycles
     }
 
-    daysLeft = data.todaysChunks[props.activeIndex].daysLeft
-    totalDays = data.todaysChunks[props.activeIndex].totalNumberDays
+    daysLeft = props.data.todaysChunks[props.activeIndex].daysLeft
+    totalDays = props.data.todaysChunks[props.activeIndex].totalNumberDays
     dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
 
     chunksTotal = totalDays
@@ -138,7 +209,7 @@ function Today(props) {
                         Duration:
                       </p>
                       <p className="today__container__content__text">
-                        {duration} min
+                        {durationTime}
                       </p>
                     </div>
                   </div>
@@ -193,14 +264,13 @@ function Today(props) {
                   <div className="today__container__buttons__submit">
                     {/* pages done */}
                     <form
-                      // onSubmit={handleSubmit}
                       onSubmit={handleSubmit(onSubmit)}
                       id="study-chunk"
                       className="today__container__buttons__submit__form"
                     >
                       <div className="today__container__buttons__submit__form__elements">
                         <Label
-                          for="page-amount-studied"
+                          for="page"
                           text="studied up to page:"
                           className="today__container__buttons__submit__form__elements__label"
                         ></Label>
@@ -208,22 +278,22 @@ function Today(props) {
                           className="today__container__buttons__submit__form__elements__input"
                           type="number"
                           min="0"
-                          id="page-amount-studied"
+                          id="page"
                           label="page_amount_studied"
                           placeholder={realCurrentPage}
                           ref={register({
-                            min: 1,
-                            max: { amountPagesWithRepeat },
+                            minLength: { realCurrentPage },
+                            maxLength: { amountPagesWithRepeat },
                           })}
                         />
                         {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "max" && (
+                          errors.page_amount_studied.type === "maxLength" && (
                             <span className="error">The maximum is 10.000</span>
                           )}
                         {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "min" && (
+                          errors.page_amount_studied.type === "minLength" && (
                             <span className="error">
-                              Only positive numbers are allowed
+                              The minimum page is today's start page.
                             </span>
                           )}
                       </div>
@@ -233,14 +303,20 @@ function Today(props) {
                         text="save"
                       />
                     </form>
-                    {/* all done */}
-                    <div className="today__container__buttons__submit__all-done">
-                      <Button
-                        className="today__container__buttons__submit__all-done__btn stan-btn-primary"
-                        variant="button"
-                        text="goal studied"
-                      />
-                    </div>
+                    <form
+                      onSubmit={handleSubmit(onSubmitAll)}
+                      id="study-chunk-all"
+                      className="today__container__buttons__submit__form-all"
+                    >
+                      {/* all done */}
+                      <div className="today__container__buttons__submit__all-done">
+                        <Button
+                          className="today__container__buttons__submit__all-done__btn stan-btn-primary"
+                          variant="button"
+                          text="goal studied"
+                        />
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>

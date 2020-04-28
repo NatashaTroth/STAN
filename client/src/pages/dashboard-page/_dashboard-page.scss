@@ -1,5 +1,7 @@
 .dashboard-page {
   &__heading {
+    hyphens: auto;
+    word-break: break-all;
   }
   &__current-date {
     color: theme-color("primary-blue-dark");
