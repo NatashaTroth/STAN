@@ -18,7 +18,7 @@ import Button from "../../components/button/Button"
 
 function AddNew() {
   // form specific ----------------
-  const { register, errors, handleSubmit } = useForm()
+  const { register, errors, handleSubmit, reset } = useForm()
 
   const onSubmit = async formData => {
     try {
@@ -47,6 +47,8 @@ function AddNew() {
         // success message ----------------
         document.getElementById("success-container-add-new").style.display =
           "block"
+
+        reset({}) // reset form data
       } else {
         // displays server error (backend)
         throw new Error("The exam could not be added")
@@ -149,7 +151,7 @@ function AddNew() {
                       <Label
                         for="study-start-date"
                         text="Start learning on"
-                        className="form__element__label"
+                        className="form__element__label input-required"
                       ></Label>
                       <Input
                         className="form__element__input"
