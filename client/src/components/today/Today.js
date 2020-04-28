@@ -102,9 +102,7 @@ function Today(props) {
     deadline = deadline
       .split("-")
       .reverse()
-      .join("-")
-      .replace("-", "/")
-      .replace("-", "/")
+      .join("/")
 
     currentPage = props.data.todaysChunks[props.activeIndex].exam.currentPage
     amountPagesWithRepeat =
