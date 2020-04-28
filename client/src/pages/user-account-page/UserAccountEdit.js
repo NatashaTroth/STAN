@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -37,6 +37,7 @@ import AnimateHeight from "react-animate-height"
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
+  let history = useHistory()
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
@@ -84,7 +85,7 @@ const UserAccountEdit = () => {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = mascotStore.mascot
-        editUser({ mascotId, formData, updateUser })
+        editUser({ mascotId, formData, updateUser, history })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
@@ -570,7 +571,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser }) {
+async function editUser({ mascotId, formData, updateUser, history }) {
   try {
     const resp = await updateUser({
       variables: {
@@ -591,7 +592,7 @@ async function editUser({ mascotId, formData, updateUser }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.reload()
+      history.push("/profile")
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
