@@ -78,7 +78,7 @@ function Dashboard() {
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
-        <div className="row">
+        <div className="row dashboard-header">
           <div className="col-xl-1"></div>
           <div className="col-xl-7">
             <CurrentUserContext.Consumer>

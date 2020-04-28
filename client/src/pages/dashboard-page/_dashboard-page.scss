@@ -1,7 +1,21 @@
 .dashboard-page {
+  .dashboard-header {
+    @include media-breakpoint-down(lg) {
+      flex-direction: column-reverse;
+    }
+  }
+
   &__heading {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
     hyphens: auto;
-    word-break: break-all;
+
+    @include media-breakpoint-down(lg) {
+      margin-top: 0;
+    }
   }
   &__current-date {
     color: theme-color("primary-blue-dark");
