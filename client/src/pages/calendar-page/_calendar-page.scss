@@ -56,6 +56,13 @@
             @include rem(line-height, $h4-line-height-mobile);
             @include rem(letter-spacing, 0.5px);
           }
+
+          &:focus,
+          &:active {
+            box-shadow: none;
+            background: none;
+            outline: none;
+          }
         }
       }
 
@@ -125,14 +132,12 @@
 
       .rbc-month-header {
         text-transform: lowercase;
-        border-right: 1px solid theme_color("dark");
-        border-left: 1px solid theme_color("dark");
-        border-top: 1px solid theme_color("dark");
+        // border-top: 1px solid theme_color("dark");
 
         .rbc-header {
           // weekdays
           padding: 5px;
-          border: 1px solid theme_color("dark");
+          // border: 1px solid theme_color("dark");
           span {
             font-family: $font-family-BasierCircle-Bold;
           }
@@ -140,16 +145,18 @@
       }
 
       .rbc-month-row {
-        border: 1px solid theme_color("dark");
+        // border-top: 1px solid theme_color("dark");
         .rbc-day-bg {
-          border-right: 0.5px solid theme_color("dark");
-          border-left: 0.5px solid theme_color("dark");
+          // border-right: 0.5px solid theme_color("dark");
+          // border-left: 0.5px solid theme_color("dark");
+          // border-bottom: 0.5px solid theme_color("dark");
         }
         .rbc-row {
           .rbc-date-cell {
             // date number in cell
             margin: 5px;
             a {
+              color: theme_color("dark");
               font-family: $font-family-BasierCircle-Bold;
               @include rem(font-size, $font-size-14);
               letter-spacing: 0;
@@ -167,14 +174,33 @@
             letter-spacing: 0;
             @include rem(line-height, 20px);
             margin: 0;
+
+            &:focus {
+              outline: none;
+            }
           }
           .rbc-show-more {
-            padding: 12px 5px;
+            padding: 25px 5px;
             font-family: $font-family-OpenSans-Regular;
             @include rem(font-size, 12px);
             letter-spacing: 0;
             @include rem(line-height, 20px);
             margin: 0;
+          }
+          .rbc-row-segment {
+            padding: 0;
+            .rbc-show-more {
+              transition: all 0.3 ease;
+              &:hover,
+              &:active,
+              &:focus {
+                color: theme_color("dark");
+              }
+            }
+            &:focus,
+            &:active {
+              outline: none !important;
+            }
           }
         }
         .rbc-today {
@@ -189,7 +215,7 @@
 .rbc-overlay {
   border: 2px solid theme_color("dark") !important;
   box-shadow: none !important;
-  top: -182px !important;
+  top: -262px !important;
   // h4
   .rbc-overlay-header {
     border-bottom: 2px solid theme_color("dark") !important;
@@ -243,10 +269,4 @@
       border-width: 0.5rem 0.5rem 2px;
     }
   }
-}
-
-// to prevent warning in console
-.bs-popover-top,
-.bs-popover-auto[x-placement^="top"] {
-  bottom: 8px !important;
 }
