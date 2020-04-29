@@ -18,6 +18,7 @@ const Loading = lazy(() => import("../../components/loading/Loading"))
 const CurrentState = lazy(() =>
   import("../../components/current-state/CurrentState")
 )
+const Loading = lazy(() => import("../../components/loading/Loading"))
 
 function Dashboard() {
   // query ----------------
@@ -82,7 +83,7 @@ function Dashboard() {
   // return ----------------
   return (
     <div className="dashboard-page">
-      <Suspense fallback={<h1>loading…</h1>}>
+      <Suspense fallback={<Loading />}>
         <div className="container-fluid">
           <div className="row dashboard-header">
             <div className="col-xl-1"></div>
