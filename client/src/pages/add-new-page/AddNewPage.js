@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react"
+import React from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { Redirect } from "react-router-dom"
@@ -8,7 +8,7 @@ import { Redirect } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // components ----------------
-const AddNew = lazy(() => import("../../components/add-new/AddNew"))
+import AddNew from "../../components/add-new/AddNew"
 
 function AddNewPage() {
   // query ----------------
@@ -26,26 +26,24 @@ function AddNewPage() {
   // return ----------------
   return (
     <div className="add-new-page">
-      <Suspense fallback={<Loading />}>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-1"></div>
-            <div className="col-md-10">
-              <h2 className="add-new-page__heading">New exam</h2>
-              <p className="add-new-page__sub-heading">
-                enter all details about the exam
-              </p>
-            </div>
-            <div className="col-md-1"></div>
-
-            <div className="col-md-1"></div>
-            <div className="col-md-10">
-              <AddNew />
-            </div>
-            <div className="col-md-1"></div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
+            <h2 className="add-new-page__heading">New exam</h2>
+            <p className="add-new-page__sub-heading">
+              enter all details about the exam
+            </p>
           </div>
+          <div className="col-md-1"></div>
+
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
+            <AddNew />
+          </div>
+          <div className="col-md-1"></div>
         </div>
-      </Suspense>
+      </div>
     </div>
   )
 }

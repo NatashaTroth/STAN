@@ -4,11 +4,9 @@ import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
-const TodaySubject = lazy(() =>
-  import("../../components/today-subject/TodaySubject")
-)
-const QueryError = lazy(() => import("../error/Error"))
-const Loading = lazy(() => import("../loading/Loading"))
+import TodaySubject from "../../components/today-subject/TodaySubject"
+import QueryError from "../error/Error"
+import Loading from "../loading/Loading"
 
 function TodayGoals(props) {
   // query ----------------

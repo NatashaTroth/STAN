@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react"
+import React from "react"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -9,6 +9,8 @@ import { GET_TODAYS_CHUNKS_PROGRESS } from "../../graphQL/queries"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
+import Loading from "../../components/loading/Loading"
+import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
@@ -18,12 +20,6 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useQuery } from "@apollo/react-hooks"
 import QueryError from "../error/Error"
-
-// lazy loading ----------------
-const Loading = lazy(() => import("../../components/loading/Loading"))
-const { currentMood } = lazy(() =>
-  import("../../pages/user-account-page/UserAccountPage")
-)
 
 // random number ----------------
 const random = Math.floor(Math.random() * 3)
@@ -54,53 +50,51 @@ const CurrentState = () => {
   // return ----------------
   return (
     <div className="current-state">
-      <Suspense fallback={<Loading />}>
-        <Carousel
-          showStatus={false}
-          showThumbs={false}
-          infiniteLoop={true}
-          showIndicators={false}
-          autoPlay={true}
-          showArrows={false}
-        >
-          <CurrentUserContext.Consumer>
-            {currentUser => (
-              <Image
-                path={require(`../../images/mascots/${
-                  currentUser.mascot
-                }-${mood.replace(/ /g, "")}-0.svg`)}
-                text=""
-              />
-            )}
-          </CurrentUserContext.Consumer>
+      <Carousel
+        showStatus={false}
+        showThumbs={false}
+        infiniteLoop={true}
+        showIndicators={false}
+        autoPlay={true}
+        showArrows={false}
+      >
+        <CurrentUserContext.Consumer>
+          {currentUser => (
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-0.svg`)}
+              text=""
+            />
+          )}
+        </CurrentUserContext.Consumer>
 
-          <CurrentUserContext.Consumer>
-            {currentUser => (
-              <Image
-                path={require(`../../images/mascots/${
-                  currentUser.mascot
-                }-${mood.replace(/ /g, "")}-1.svg`)}
-                text=""
-              />
-            )}
-          </CurrentUserContext.Consumer>
+        <CurrentUserContext.Consumer>
+          {currentUser => (
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-1.svg`)}
+              text=""
+            />
+          )}
+        </CurrentUserContext.Consumer>
 
-          <CurrentUserContext.Consumer>
-            {currentUser => (
-              <Image
-                path={require(`../../images/mascots/${
-                  currentUser.mascot
-                }-${mood.replace(/ /g, "")}-2.svg`)}
-                text=""
-              />
-            )}
-          </CurrentUserContext.Consumer>
-        </Carousel>
+        <CurrentUserContext.Consumer>
+          {currentUser => (
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-2.svg`)}
+              text=""
+            />
+          )}
+        </CurrentUserContext.Consumer>
+      </Carousel>
 
-        <div className="current-state__motivation">
-          <p>{motivation}</p>
-        </div>
-      </Suspense>
+      <div className="current-state__motivation">
+        <p>{motivation}</p>
+      </div>
     </div>
   )
 }

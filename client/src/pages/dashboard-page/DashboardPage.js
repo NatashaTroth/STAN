@@ -1,23 +1,18 @@
-import React, { Suspense, lazy, useState } from "react"
+import React, { Suspense, useState } from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
+import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
+import TodayGoals from "../../components/today-goals/TodayGoals"
+import Today from "../../components/today/Today"
+import Mascots from "../../components/mascots/Mascots"
+import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
+import CurrentState from "../../components/current-state/CurrentState"
 import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
-
-const EmptyDashboard = lazy(() =>
-  import("../../components/empty-dashboard/EmptyDashboard")
-)
-const TodayGoals = lazy(() => import("../../components/today-goals/TodayGoals"))
-const Today = lazy(() => import("../../components/today/Today"))
-const Mascots = lazy(() => import("../../components/mascots/Mascots"))
-const QueryError = lazy(() => import("../../components/error/Error"))
-const Loading = lazy(() => import("../../components/loading/Loading"))
-const CurrentState = lazy(() =>
-  import("../../components/current-state/CurrentState")
-)
 
 function Dashboard() {
   // query ----------------
@@ -82,30 +77,28 @@ function Dashboard() {
   // return ----------------
   return (
     <div className="dashboard-page">
-      <Suspense fallback={<Loading />}>
-        <div className="container-fluid">
-          <div className="row dashboard-header">
-            <div className="col-xl-1"></div>
-            <div className="col-xl-7">
-              <CurrentUserContext.Consumer>
-                {currentUser => (
-                  <h2 className="dashboard-page__heading">
-                    Hello {currentUser.username}
-                  </h2>
-                )}
-              </CurrentUserContext.Consumer>
-              <p className="dashboard-page__current-date">{getCurrentDate()}</p>
-            </div>
-            {/* Mascot */}
-            <div className="col-xl-4">
-              <CurrentState />
-            </div>
+      <div className="container-fluid">
+        <div className="row dashboard-header">
+          <div className="col-xl-1"></div>
+          <div className="col-xl-7">
+            <CurrentUserContext.Consumer>
+              {currentUser => (
+                <h2 className="dashboard-page__heading">
+                  Hello {currentUser.username}
+                </h2>
+              )}
+            </CurrentUserContext.Consumer>
+            <p className="dashboard-page__current-date">{getCurrentDate()}</p>
+          </div>
+          {/* Mascot */}
+          <div className="col-xl-4">
+            <CurrentState />
           </div>
         </div>
-        {/* dashboard content */}
-        {usersToDos}
-        {/* ---------------- */}
-      </Suspense>
+      </div>
+      {/* dashboard content */}
+      {usersToDos}
+      {/* ---------------- */}
     </div>
   )
 }
