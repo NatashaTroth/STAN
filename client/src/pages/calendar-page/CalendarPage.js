@@ -19,7 +19,8 @@ import Loading from "../../components/loading/Loading"
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
-import { Popover, OverlayTrigger } from "react-bootstrap"
+import Popover from "react-bootstrap/Popover"
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
 moment.locale("en-gb", {
   week: {

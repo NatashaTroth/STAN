@@ -248,6 +248,5 @@
 // to prevent warning in console
 .bs-popover-top,
 .bs-popover-auto[x-placement^="top"] {
-  margin-bottom: 0;
   bottom: 8px !important;
 }
