@@ -21,7 +21,6 @@ const Content = ({ location }) => {
   // return ----------------
   return (
     <main className="content">
-      >
       <Switch location={location}>
         <Route exact path="/" component={Home} />
         <Route exact path="/about" component={About} />
