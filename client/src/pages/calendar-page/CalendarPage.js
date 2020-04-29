@@ -46,6 +46,14 @@ const ExamsCalendar = () => {
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.calendarChunks) {
     exams = data.calendarChunks
+    // TODO: implement exam in calendar
+    // exams = [
+    //   {
+    //     subject: "English",
+    //     start: "2020-04-29T00:00:00.000Z",
+    //     end: "2020-04-29T00:00:00.000Z",
+    //   },
+    // ]
   }
 
   const Event = ({ event }) => {
@@ -116,7 +124,7 @@ const ExamsCalendar = () => {
               popup
               startAccessor="start"
               endAccessor="end"
-              style={{ height: 900 }}
+              style={{ height: 1200 }}
               events={exams}
               defaultDate={moment().toDate()}
               localizer={localizer}
