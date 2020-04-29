@@ -15,7 +15,6 @@ import { formatDate, minuteToHours } from "../../helpers/dates"
 // components ----------------
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
-import Button from "../../components/button/Button"
 
 // libraries ----------------
 import { Calendar, momentLocalizer } from "react-big-calendar"

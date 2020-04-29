@@ -1,19 +1,14 @@
-import React from "react"
+import React, { lazy, Suspense } from "react"
 // --------------------------------------------------------------
 
 // context ----------------
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+import { CurrentUserContext } from "../../components/STAN/STAN"
 
 // query ----------------
 import { GET_TODAYS_CHUNKS_PROGRESS } from "../../graphQL/queries"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
-import Loading from "../../components/loading/Loading"
-import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
@@ -23,6 +18,12 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useQuery } from "@apollo/react-hooks"
 import QueryError from "../error/Error"
+
+// lazy loading ----------------
+const Loading = lazy(() => import("../../components/loading/Loading"))
+const { currentMood } = lazy(() =>
+  import("../../pages/user-account-page/UserAccountPage")
+)
 
 // random number ----------------
 const random = Math.floor(Math.random() * 3)
@@ -53,51 +54,53 @@ const CurrentState = () => {
   // return ----------------
   return (
     <div className="current-state">
-      <Carousel
-        showStatus={false}
-        showThumbs={false}
-        infiniteLoop={true}
-        showIndicators={false}
-        autoPlay={true}
-        showArrows={false}
-      >
-        <CurrentUserContext.Consumer>
-          {currentUser => (
-            <Image
-              path={require(`../../images/mascots/${
-                currentUser.mascot
-              }-${mood.replace(/ /g, "")}-0.svg`)}
-              text=""
-            />
-          )}
-        </CurrentUserContext.Consumer>
+      <Suspense fallback={<Loading />}>
+        <Carousel
+          showStatus={false}
+          showThumbs={false}
+          infiniteLoop={true}
+          showIndicators={false}
+          autoPlay={true}
+          showArrows={false}
+        >
+          <CurrentUserContext.Consumer>
+            {currentUser => (
+              <Image
+                path={require(`../../images/mascots/${
+                  currentUser.mascot
+                }-${mood.replace(/ /g, "")}-0.svg`)}
+                text=""
+              />
+            )}
+          </CurrentUserContext.Consumer>
 
-        <CurrentUserContext.Consumer>
-          {currentUser => (
-            <Image
-              path={require(`../../images/mascots/${
-                currentUser.mascot
-              }-${mood.replace(/ /g, "")}-1.svg`)}
-              text=""
-            />
-          )}
-        </CurrentUserContext.Consumer>
+          <CurrentUserContext.Consumer>
+            {currentUser => (
+              <Image
+                path={require(`../../images/mascots/${
+                  currentUser.mascot
+                }-${mood.replace(/ /g, "")}-1.svg`)}
+                text=""
+              />
+            )}
+          </CurrentUserContext.Consumer>
 
-        <CurrentUserContext.Consumer>
-          {currentUser => (
-            <Image
-              path={require(`../../images/mascots/${
-                currentUser.mascot
-              }-${mood.replace(/ /g, "")}-2.svg`)}
-              text=""
-            />
-          )}
-        </CurrentUserContext.Consumer>
-      </Carousel>
+          <CurrentUserContext.Consumer>
+            {currentUser => (
+              <Image
+                path={require(`../../images/mascots/${
+                  currentUser.mascot
+                }-${mood.replace(/ /g, "")}-2.svg`)}
+                text=""
+              />
+            )}
+          </CurrentUserContext.Consumer>
+        </Carousel>
 
-      <div className="current-state__motivation">
-        <p>{motivation}</p>
-      </div>
+        <div className="current-state__motivation">
+          <p>{motivation}</p>
+        </div>
+      </Suspense>
     </div>
   )
 }
