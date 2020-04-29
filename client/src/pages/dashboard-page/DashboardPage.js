@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react"
+import React, { useState } from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
