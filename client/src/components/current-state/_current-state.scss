@@ -39,7 +39,9 @@
   flex-direction: row-reverse;
   text-align: right;
   align-items: flex-end;
-  border-bottom: 4px solid theme_color("dark");
+  border-bottom: 3px solid theme_color("dark");
+  width: fit-content;
+  margin: 0 0 0 auto;
 
   @include media-breakpoint-down(lg) {
     margin-bottom: 50px;
@@ -48,6 +50,7 @@
 
   @include media-breakpoint-down(sm) {
     flex-direction: row-reverse;
+    margin-top: 2rem;
   }
 
   .carousel {
@@ -71,7 +74,7 @@
   }
 
   &__motivation {
-    padding: 10px 10px 10px 0;
+    padding: 10px 10px;
 
     @include media-breakpoint-down(lg) {
       padding-right: 0;

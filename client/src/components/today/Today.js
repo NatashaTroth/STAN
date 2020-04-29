@@ -22,55 +22,41 @@ function Today(props) {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async formData => {
-    // try {
-    //   const resp = await updatePage({
-    //     variables: {
-    //       page: parseInt(formData.page_amount_studied),
-    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
-    //     },
-    //     // refetchQueries: [
-    //     //   { query: GET_EXAMS_QUERY },
-    //     //   { query: GET_TODAYS_CHUNKS },
-    //     //   { query: GET_CALENDAR_CHUNKS },
-    //     // ],
-    //   })
-    //   console.log("done")
-    //   if (resp && resp.data && resp.data.updatePage) {
-    //     // success message ----------------
-    //   } else {
-    //     // displays server error (backend)
-    //     throw new Error("The goal could not be marked as studied")
-    //   }
-    // } catch (err) {
-    //   // TODO: display error message
-    //   console.error(err.message)
-    // }
+    try {
+      const resp = await updatePage({
+        variables: {
+          page: parseInt(formData.page_amount_studied),
+          examId: props.data.todaysChunks[props.activeIndex].exam.id,
+        },
+        refetchQueries: [
+          { query: GET_EXAMS_QUERY },
+          { query: GET_TODAYS_CHUNKS },
+          { query: GET_CALENDAR_CHUNKS },
+        ],
+      })
+    } catch (err) {
+      // TODO: display error message
+      console.error(err.message)
+    }
   }
 
   const onSubmitAll = async formData => {
-    // try {
-    //   const resp = await updatePage({
-    //     variables: {
-    //       page: chunkGoalPage,
-    //       examId: props.data.todaysChunks[props.activeIndex].exam.id,
-    //     },
-    //     // refetchQueries: [
-    //     //   { query: GET_EXAMS_QUERY },
-    //     //   { query: GET_TODAYS_CHUNKS },
-    //     //   { query: GET_CALENDAR_CHUNKS },
-    //     // ],
-    //   })
-    //   console.log("done all")
-    //   if (resp && resp.data && resp.data.updatePage) {
-    //     // success message ----------------
-    //   } else {
-    //     // displays server error (backend)
-    //     throw new Error("The goal could not be marked as studied")
-    //   }
-    // } catch (err) {
-    //   // TODO: display error message
-    //   console.error(err.message)
-    // }
+    try {
+      const resp = await updatePage({
+        variables: {
+          page: chunkGoalPage,
+          examId: props.data.todaysChunks[props.activeIndex].exam.id,
+        },
+        refetchQueries: [
+          { query: GET_EXAMS_QUERY },
+          { query: GET_TODAYS_CHUNKS },
+          { query: GET_CALENDAR_CHUNKS },
+        ],
+      })
+    } catch (err) {
+      // TODO: display error message
+      console.error(err.message)
+    }
   }
 
   // query ----------------
@@ -116,9 +102,7 @@ function Today(props) {
     deadline = deadline
       .split("-")
       .reverse()
-      .join("-")
-      .replace("-", "/")
-      .replace("-", "/")
+      .join("/")
 
     currentPage = props.data.todaysChunks[props.activeIndex].exam.currentPage
     amountPagesWithRepeat =
@@ -268,43 +252,52 @@ function Today(props) {
                       id="study-chunk"
                       className="today__container__buttons__submit__form"
                     >
-                      <div className="today__container__buttons__submit__form__elements">
-                        <Label
-                          for="page"
-                          text="studied up to page:"
-                          className="today__container__buttons__submit__form__elements__label"
-                        ></Label>
-                        <Input
-                          className="today__container__buttons__submit__form__elements__input"
-                          type="number"
-                          min="0"
-                          id="page"
-                          label="page_amount_studied"
-                          placeholder={realCurrentPage}
-                          ref={register({
-                            minLength: { realCurrentPage },
-                            maxLength: { amountPagesWithRepeat },
-                          })}
+                      <div className="today__container__buttons__submit__form__elements-container">
+                        <div className="today__container__buttons__submit__form__elements-container__elements">
+                          <Label
+                            for="page"
+                            text="studied up to page:"
+                            className="today__container__buttons__submit__form__elements-container__elements__label"
+                          ></Label>
+                          <Input
+                            className="today__container__buttons__submit__form__elements-container__elements__input"
+                            type="number"
+                            min="0"
+                            id="page"
+                            label="page_amount_studied"
+                            placeholder={realCurrentPage}
+                            ref={register({
+                              required: true,
+                              min: realCurrentPage,
+                              max: amountPagesWithRepeat,
+                            })}
+                          />
+                        </div>
+                        <Button
+                          className="today__container__buttons__submit__form__btn stan-btn-secondary"
+                          variant="button"
+                          text="save"
                         />
-                        {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "maxLength" && (
-                            <span className="error">The maximum is 10.000</span>
-                          )}
-                        {errors.page_amount_studied &&
-                          errors.page_amount_studied.type === "minLength" && (
-                            <span className="error">
-                              The minimum page is today's start page.
-                            </span>
-                          )}
                       </div>
-                      <Button
-                        className="today__container__buttons__submit__form__btn stan-btn-secondary"
-                        variant="button"
-                        text="save"
-                      />
+                      {errors.page_amount_studied &&
+                        errors.page_amount_studied.type === "required" && (
+                          <span className="error">
+                            Please enter a page number
+                          </span>
+                        )}
+                      {errors.page_amount_studied &&
+                        errors.page_amount_studied.type === "max" && (
+                          <span className="error">The maximum is 10.000</span>
+                        )}
+                      {errors.page_amount_studied &&
+                        errors.page_amount_studied.type === "min" && (
+                          <span className="error">
+                            The minimum page is today's start page
+                          </span>
+                        )}
                     </form>
                     <form
-                      onSubmit={handleSubmit(onSubmitAll)}
+                      onSubmit={onSubmitAll}
                       id="study-chunk-all"
                       className="today__container__buttons__submit__form-all"
                     >

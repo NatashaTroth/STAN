@@ -78,9 +78,9 @@ function Dashboard() {
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-1"></div>
-          <div className="col-md-7">
+        <div className="row dashboard-header">
+          <div className="col-xl-1"></div>
+          <div className="col-xl-7">
             <CurrentUserContext.Consumer>
               {currentUser => (
                 <h2 className="dashboard-page__heading">
@@ -91,7 +91,7 @@ function Dashboard() {
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
           {/* Mascot */}
-          <div className="col-md-4">
+          <div className="col-xl-4">
             <CurrentState />
           </div>
         </div>
