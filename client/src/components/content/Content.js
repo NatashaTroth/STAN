@@ -22,12 +22,13 @@ const LoginPopUp = lazy(() => import("../../components/login-popup/LoginPopUp"))
 const ExamsDetails = lazy(() =>
   import("../../components/current-exam/ExamDetails")
 )
+const Loading = lazy(() => import("../loading/Loading"))
 
 const Content = ({ location }) => {
   // return ----------------
   return (
     <main className="content">
-      <Suspense fallback={<h1>Still Loading…</h1>}>
+      <Suspense fallback={<Loading />}>
         <Switch location={location}>
           <Route exact path="/" component={Home} />
           <Route exact path="/about" component={About} />
