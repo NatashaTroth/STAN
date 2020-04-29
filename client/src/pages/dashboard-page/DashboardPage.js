@@ -18,7 +18,6 @@ const Loading = lazy(() => import("../../components/loading/Loading"))
 const CurrentState = lazy(() =>
   import("../../components/current-state/CurrentState")
 )
-const Loading = lazy(() => import("../../components/loading/Loading"))
 
 function Dashboard() {
   // query ----------------
