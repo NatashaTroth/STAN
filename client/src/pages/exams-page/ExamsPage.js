@@ -14,17 +14,13 @@ import Exam from "../../components/current-exam/Exam"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 
-// animation ----------------
-import AnimateHeight from "react-animate-height"
-import { Cube } from "react-preloaders"
-
 const Exams = () => {
   // router ----------------
   let { url } = useRouteMatch()
 
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
-  const [height, setHeight] = useState(0)
+  // const [height, setHeight] = useState(0)
   const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
@@ -103,7 +99,6 @@ const Exams = () => {
 
   const handleArchiveClick = () => {
     setArchiveExams(!isArchiveOpen)
-    setHeight(height === 0 ? "auto" : 0)
   }
 
   // return ----------------
@@ -168,7 +163,7 @@ const Exams = () => {
               <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
             </div>
 
-            <AnimateHeight duration={500} height={height}>
+            <div className={isArchiveOpen ? "fadeIn" : "fadeOut"}>
               {archiveExamsList.length === 0 ? (
                 <div className="exams__empty">
                   <div className="container-fluid">
@@ -185,7 +180,7 @@ const Exams = () => {
               ) : (
                 <div className="exams__archiveExams">{archiveExams}</div>
               )}
-            </AnimateHeight>
+            </div>
           </div>
           <div className="col-md-1"></div>
         </div>
