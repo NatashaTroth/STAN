@@ -69,7 +69,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
     }
   });
   const resp = await Promise.all(chunks);
-  console.log(resp);
+  // console.log(resp);
   return resp;
 }
 
@@ -214,17 +214,17 @@ function calculateChunkProgress(chunks) {
       currentPage: chunk.currentPage,
       numberPages: chunk.numberPagesToday
     });
-    // console.log(".........");
-    // console.log(chunk.durationToday);
-    // console.log(chunk.startPage); //16
+    console.log(".........");
+    console.log("durationToday:" + chunk.durationToday);
+    console.log("startPage:" + chunk.startPage); //16
 
-    // console.log(chunk.currentPage);
-    // console.log(chunk.numberPagesToday);
+    console.log("currentPage:" + chunk.currentPage);
+    console.log("numberPagesToday:" + chunk.numberPagesToday);
   });
 
-  // console.log("-----------");
-  // console.log(totalDuration);
-  // console.log(totalDurationCompleted);
+  console.log("-----------");
+  console.log("totalDuration:" + totalDuration);
+  console.log("totalDurationCompleted:" + totalDurationCompleted);
 
   //duration ..... 100%
   //duration completed ... x

@@ -128,7 +128,8 @@ export function getFutureDay(date, numberDaysInFuture) {
   return new Date(nextDay);
 }
 
-export async function addTestExams(userId) {
+export async function addTestExams(inputUserId) {
+  let userId = inputUserId || "samanthasId";
   const exam1 = await addTestExam({
     subject: "Biology",
     color: "#979250",

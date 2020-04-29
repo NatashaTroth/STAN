@@ -10,7 +10,8 @@ import {
   // fetchTodaysChunks,
   // fetchCalendarChunks,
   handleUpdateExamInput,
-  verifyAddExamDates
+  verifyAddExamDates,
+  learningIsComplete
 } from "../helpers/examHelpers";
 
 import {
@@ -159,9 +160,15 @@ export const examResolvers = {
         );
         if (exam.currentPage === args.page) return true;
 
+        console.log("hi");
+        console.log(exam.completed);
         const resp = await Exam.updateOne(
           { _id: args.examId },
-          { currentPage: args.page, updatedAt: new Date() }
+          {
+            currentPage: args.page,
+            completed: exam.completed,
+            updatedAt: new Date()
+          }
         );
 
         if (resp.ok !== 1 || resp.nModified !== 1)

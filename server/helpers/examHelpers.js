@@ -24,7 +24,7 @@ export function prepareExamInputData(args, userId) {
     args.startDate = new Date();
   }
   args.timesRepeat = args.timesRepeat || 1;
-  args.startPage = args.startPage || 0;
+  args.startPage = args.startPage || 1;
   args.currentPage = args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
@@ -77,6 +77,12 @@ export async function handleUpdateExamInput(args, userId) {
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
+  // args.completed = learningIsComplete(
+  //   exam.currentPage,
+  //   exam.startPage,
+  //   exam.numberPages
+  // );
+
   return prepareExamInputData({ ...args }, userId);
 }
 
@@ -93,10 +99,11 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
     );
-  if (page > exam.numberPages * exam.timesRepeat)
+  if (page > exam.numberPages * exam.timesRepeat + 1)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
+  exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages);
 
   return exam;
 }
@@ -130,6 +137,12 @@ function generateSubjectColor(exam) {
     color += hexChars[colorNumber].toString();
   });
   return color;
+}
+
+export function learningIsComplete(currentPage, startPage, numberPages) {
+  const endPage = startPage + numberPages - 1;
+  console.log("..." + currentPage + "  " + endPage);
+  return currentPage > endPage;
 }
 
 function verifyNewExamInputFormat(args) {
