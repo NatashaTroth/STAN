@@ -31,9 +31,6 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-// animation ----------------
-import AnimateHeight from "react-animate-height"
-
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
@@ -252,145 +249,139 @@ const UserAccountEdit = () => {
                         ></i>
                       </div>
 
-                      <AnimateHeight duration={500} height={height}>
-                        {isPasswordOpen ? (
-                          <div className="form__element">
-                            <Label
-                              htmlFor="currentPassword"
-                              text="Current password"
-                              className="form__element__label input-required"
-                            />
+                      <div className={isPasswordOpen ? "fadeIn" : "fadeOut"}>
+                        <div className="form__element">
+                          <Label
+                            htmlFor="currentPassword"
+                            text="Current password"
+                            className="form__element__label input-required"
+                          />
 
-                            <input
-                              type="password"
-                              id="currentPassword"
-                              label="currentPassword"
-                              name="currentPassword"
-                              required
-                              ref={register({
-                                required: true,
-                                minLength: 8,
-                                maxLength: 30,
-                                pattern: /^.{8,30}$/,
-                              })}
-                            />
+                          <input
+                            type="password"
+                            id="currentPassword"
+                            label="currentPassword"
+                            name="currentPassword"
+                            required
+                            ref={register({
+                              required: true,
+                              minLength: 8,
+                              maxLength: 30,
+                              pattern: /^.{8,30}$/,
+                            })}
+                          />
 
-                            {errors.currentPassword &&
-                            errors.currentPassword.type === "minLength" ? (
-                              <span className="error">
-                                {" "}
-                                Minimum 8 characters required
-                              </span>
-                            ) : null}
-                            {errors.currentPassword &&
-                            errors.currentPassword.type === "maxLength" ? (
-                              <span className="error">
-                                {" "}
-                                Maximum 30 characters allowed
-                              </span>
-                            ) : null}
-                            {errors.currentPassword &&
-                            errors.currentPassword.type === "pattern" ? (
-                              <span className="error">
-                                The password needs to be between 8 and 30
-                                characters long
-                              </span>
-                            ) : null}
-                          </div>
-                        ) : null}
+                          {errors.currentPassword &&
+                          errors.currentPassword.type === "minLength" ? (
+                            <span className="error">
+                              {" "}
+                              Minimum 8 characters required
+                            </span>
+                          ) : null}
+                          {errors.currentPassword &&
+                          errors.currentPassword.type === "maxLength" ? (
+                            <span className="error">
+                              {" "}
+                              Maximum 30 characters allowed
+                            </span>
+                          ) : null}
+                          {errors.currentPassword &&
+                          errors.currentPassword.type === "pattern" ? (
+                            <span className="error">
+                              The password needs to be between 8 and 30
+                              characters long
+                            </span>
+                          ) : null}
+                        </div>
 
-                        {isPasswordOpen ? (
-                          <div className="form__element">
-                            <Label
-                              htmlFor="newPassword"
-                              text="New password"
-                              className="form__element__label input-required"
-                            />
+                        <div className="form__element">
+                          <Label
+                            htmlFor="newPassword"
+                            text="New password"
+                            className="form__element__label input-required"
+                          />
 
-                            <input
-                              type="password"
-                              id="newPassword"
-                              label="newPassword"
-                              name="newPassword"
-                              required
-                              ref={register({
-                                required: true,
-                                minLength: 8,
-                                maxLength: 30,
-                                pattern: /^.{8,30}$/,
-                              })}
-                            />
+                          <input
+                            type="password"
+                            id="newPassword"
+                            label="newPassword"
+                            name="newPassword"
+                            required
+                            ref={register({
+                              required: true,
+                              minLength: 8,
+                              maxLength: 30,
+                              pattern: /^.{8,30}$/,
+                            })}
+                          />
 
-                            {errors.newPassword &&
-                            errors.newPassword.type === "minLength" ? (
-                              <span className="error">
-                                {" "}
-                                Minimum 8 characters required
-                              </span>
-                            ) : null}
-                            {errors.newPassword &&
-                            errors.newPassword.type === "maxLength" ? (
-                              <span className="error">
-                                {" "}
-                                Maximum 30 characters allowed
-                              </span>
-                            ) : null}
-                            {errors.newPassword &&
-                            errors.newPassword.type === "pattern" ? (
-                              <span className="error">
-                                The password needs to be between 8 and 30
-                                characters long
-                              </span>
-                            ) : null}
-                          </div>
-                        ) : null}
+                          {errors.newPassword &&
+                          errors.newPassword.type === "minLength" ? (
+                            <span className="error">
+                              {" "}
+                              Minimum 8 characters required
+                            </span>
+                          ) : null}
+                          {errors.newPassword &&
+                          errors.newPassword.type === "maxLength" ? (
+                            <span className="error">
+                              {" "}
+                              Maximum 30 characters allowed
+                            </span>
+                          ) : null}
+                          {errors.newPassword &&
+                          errors.newPassword.type === "pattern" ? (
+                            <span className="error">
+                              The password needs to be between 8 and 30
+                              characters long
+                            </span>
+                          ) : null}
+                        </div>
 
-                        {isPasswordOpen ? (
-                          <div className="form__element">
-                            <Label
-                              htmlFor="retypePassword"
-                              text="Retype new password"
-                              className="form__element__label input-required"
-                            />
+                        <div className="form__element">
+                          <Label
+                            htmlFor="retypePassword"
+                            text="Retype new password"
+                            className="form__element__label input-required"
+                          />
 
-                            <input
-                              type="password"
-                              id="retypePassword"
-                              label="retypePassword"
-                              name="retypePassword"
-                              required
-                              ref={register({
-                                required: true,
-                                minLength: 8,
-                                maxLength: 30,
-                                pattern: /^.{8,30}$/,
-                              })}
-                            />
+                          <input
+                            type="password"
+                            id="retypePassword"
+                            label="retypePassword"
+                            name="retypePassword"
+                            required
+                            ref={register({
+                              required: true,
+                              minLength: 8,
+                              maxLength: 30,
+                              pattern: /^.{8,30}$/,
+                            })}
+                          />
 
-                            {errors.retypePassword &&
-                            errors.retypePassword.type === "minLength" ? (
-                              <span className="error">
-                                {" "}
-                                Minimum 8 characters required
-                              </span>
-                            ) : null}
-                            {errors.retypePassword &&
-                            errors.retypePassword.type === "maxLength" ? (
-                              <span className="error">
-                                {" "}
-                                Maximum 30 characters allowed
-                              </span>
-                            ) : null}
-                            {errors.retypePassword &&
-                            errors.retypePassword.type === "pattern" ? (
-                              <span className="error">
-                                The password needs to be between 8 and 30
-                                characters long
-                              </span>
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </AnimateHeight>
+                          {errors.retypePassword &&
+                          errors.retypePassword.type === "minLength" ? (
+                            <span className="error">
+                              {" "}
+                              Minimum 8 characters required
+                            </span>
+                          ) : null}
+                          {errors.retypePassword &&
+                          errors.retypePassword.type === "maxLength" ? (
+                            <span className="error">
+                              {" "}
+                              Maximum 30 characters allowed
+                            </span>
+                          ) : null}
+                          {errors.retypePassword &&
+                          errors.retypePassword.type === "pattern" ? (
+                            <span className="error">
+                              The password needs to be between 8 and 30
+                              characters long
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
                     </div>
                   ) : null}
 
