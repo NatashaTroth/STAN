@@ -12,17 +12,17 @@ import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
+// images & logos ----------------
+import Image from "../../components/image/Image"
+import Logo from "../../images/icons/logo.svg"
+import Pic1 from "../../images/icons/profile.png"
+
 // components ----------------
 const BurgerButton = lazy(() => import("../burger-button/BurgerButton"))
 const Content = lazy(() => import("../content/Content"))
 const Backdrop = lazy(() => import("../backdrop/Backdrop"))
 const QueryError = lazy(() => import("../error/Error"))
 const Loading = lazy(() => import("../loading/Loading"))
-
-// images & logos ----------------
-import Image from "../../components/image/Image"
-import Logo from "../../images/icons/logo.svg"
-import Pic1 from "../../images/icons/profile.png"
 
 export const CurrentUserContext = createContext()
 
