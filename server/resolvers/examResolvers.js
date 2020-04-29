@@ -178,6 +178,27 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
+    examCompleted: async (root, args, context, info) => {
+      try {
+        const exam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+        if (!exam)
+          throw new ApolloError(
+            "There is no exam with the id: " + args.id + " for that user."
+          );
+        const resp = await Exam.updateOne(
+          { _id: args.id },
+          { completed: true }
+        );
+        if (resp.ok === 0 || resp.nModified === 0)
+          throw new ApolloError("The exam couldn't be updated.");
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     deleteExam: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {

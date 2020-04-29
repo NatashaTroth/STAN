@@ -152,3 +152,15 @@ export const DELETE_USER_MUTATION = gql`
     deleteUser
   }
 `;
+
+export const EXAM_COMPLETED_MUTATION = gql`
+  mutation($id: ID!) {
+    examCompleted(id: $id)
+  }
+`;
+
+export const DELETE_USER_MUTATION = gql`
+  mutation {
+    deleteUser
+  }
+`;

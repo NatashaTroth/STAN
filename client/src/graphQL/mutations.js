@@ -83,6 +83,12 @@ export const UPDATE_EXAM_MUTATION = gql`
   }
 `
 
+export const EXAM_COMPLETED_MUTATION = gql`
+  mutation($id: ID!) {
+    examCompleted(id: $id)
+  }
+`
+
 export const DELETE_EXAM_MUTATION = gql`
   mutation($id: ID!) {
     deleteExam(id: $id)
