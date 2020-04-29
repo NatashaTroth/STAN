@@ -38,6 +38,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
+    "cra-bundle-analyzer": "0.0.3",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
@@ -53,7 +54,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,css,scss}\"",
-    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+    "stats": "react-scripts build \"--stats\" && webpack-bundle-analyzer build/bundle-stats.json"
   },
   "eslintConfig": {
     "extends": "react-app"

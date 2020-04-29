@@ -16,6 +16,7 @@
       url("../fonts/Basier-Circle-regular-webfont/basiercircle-regular-webfont.ttf")
       format("truetype");
   /* Safari, Android, iOS */
+  font-display: swap;
 }
 
 // Basier Circle Semi-Bold
@@ -36,6 +37,7 @@
       url("../fonts/Basier-Circle-semibold-webfont/basiercircle-semibold-webfont.ttf")
       format("truetype");
   /* Safari, Android, iOS */
+  font-display: swap;
 }
 
 // Basier Circle Bold
@@ -56,6 +58,7 @@
       url("../fonts/Basier-Circle-bold-webfont/basiercircle-bold-webfont.ttf")
       format("truetype");
   /* Safari, Android, iOS */
+  font-display: swap;
 }
 
 /* open-sans-regular - latin */
@@ -79,4 +82,5 @@
     /* Safari, Android, iOS */
       url("../fonts/open-sans-v17-latin/open-sans-v17-latin-regular.svg#OpenSans")
       format("svg"); /* Legacy iOS */
+  font-display: swap;
 }
