@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -32,10 +32,16 @@ const ExamsCalendar = () => {
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
   let exams = []
 
+  const [listView, setListView] = useState(false)
+
   // redirects ----------------
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
+  }
+
+  const handleView = () => {
+    setListView(listView => !listView)
   }
 
   if (loading) return <Loading />
@@ -46,11 +52,11 @@ const ExamsCalendar = () => {
     exams = [
       {
         title: "English",
-        start: "2020-04-29T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
+        start: "2020-04-29",
+        end: "2020-05-04",
         color: "#A48C24",
         extendedProps: {
-          examDate: "2020-04-29T00:00:00.000Z",
+          examDate: "2020-04-29",
           currentPage: 450,
           numberPagesLeftTotal: 1209,
           numberPagesPerDay: 68,
@@ -58,62 +64,62 @@ const ExamsCalendar = () => {
           durationPerDay: 680,
         },
       },
-      {
-        title: "English",
-        start: "2020-04-29T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
-        color: "#A48C24",
-        extendedProps: {
-          examDate: "2020-04-29T00:00:00.000Z",
-          currentPage: 450,
-          numberPagesLeftTotal: 1209,
-          numberPagesPerDay: 68,
-          durationTotal: 12090,
-          durationPerDay: 680,
-        },
-      },
-      {
-        title: "English",
-        start: "2020-04-29T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
-        color: "#A48C24",
-        extendedProps: {
-          examDate: "2020-04-29T00:00:00.000Z",
-          currentPage: 450,
-          numberPagesLeftTotal: 1209,
-          numberPagesPerDay: 68,
-          durationTotal: 12090,
-          durationPerDay: 680,
-        },
-      },
-      {
-        title: "English",
-        start: "2020-04-29T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
-        color: "#A48C24",
-        extendedProps: {
-          examDate: "2020-04-29T00:00:00.000Z",
-          currentPage: 450,
-          numberPagesLeftTotal: 1209,
-          numberPagesPerDay: 68,
-          durationTotal: 12090,
-          durationPerDay: 680,
-        },
-      },
-      {
-        title: "English",
-        start: "2020-04-29T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
-        color: "#A48C24",
-        extendedProps: {
-          examDate: "2020-04-29T00:00:00.000Z",
-          currentPage: 450,
-          numberPagesLeftTotal: 1209,
-          numberPagesPerDay: 68,
-          durationTotal: 12090,
-          durationPerDay: 680,
-        },
-      },
+      // {
+      //   title: "English",
+      //   start: "2020-04-29T00:00:00.000Z",
+      //   end: "2020-05-04T00:00:00.000Z",
+      //   color: "#A48C24",
+      //   extendedProps: {
+      //     examDate: "2020-04-29T00:00:00.000Z",
+      //     currentPage: 450,
+      //     numberPagesLeftTotal: 1209,
+      //     numberPagesPerDay: 68,
+      //     durationTotal: 12090,
+      //     durationPerDay: 680,
+      //   },
+      // },
+      // {
+      //   title: "English",
+      //   start: "2020-04-29T00:00:00.000Z",
+      //   end: "2020-05-04T00:00:00.000Z",
+      //   color: "#A48C24",
+      //   extendedProps: {
+      //     examDate: "2020-04-29T00:00:00.000Z",
+      //     currentPage: 450,
+      //     numberPagesLeftTotal: 1209,
+      //     numberPagesPerDay: 68,
+      //     durationTotal: 12090,
+      //     durationPerDay: 680,
+      //   },
+      // },
+      // {
+      //   title: "English",
+      //   start: "2020-04-29T00:00:00.000Z",
+      //   end: "2020-05-04T00:00:00.000Z",
+      //   color: "#A48C24",
+      //   extendedProps: {
+      //     examDate: "2020-04-29T00:00:00.000Z",
+      //     currentPage: 450,
+      //     numberPagesLeftTotal: 1209,
+      //     numberPagesPerDay: 68,
+      //     durationTotal: 12090,
+      //     durationPerDay: 680,
+      //   },
+      // },
+      // {
+      //   title: "English",
+      //   start: "2020-04-29T00:00:00.000Z",
+      //   end: "2020-05-04T00:00:00.000Z",
+      //   color: "#A48C24",
+      //   extendedProps: {
+      //     examDate: "2020-04-29T00:00:00.000Z",
+      //     currentPage: 450,
+      //     numberPagesLeftTotal: 1209,
+      //     numberPagesPerDay: 68,
+      //     durationTotal: 12090,
+      //     durationPerDay: 680,
+      //   },
+      // },
       {
         title: "Mathe",
         start: "2020-04-01T00:00:00.000Z",
@@ -126,6 +132,7 @@ const ExamsCalendar = () => {
           numberPagesPerDay: 9,
           durationTotal: 9,
           durationPerDay: 9,
+          pdfLink: "TODO: ADD PDF LINK",
         },
       },
       {
@@ -180,19 +187,24 @@ const ExamsCalendar = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <FullCalendar
-              events={exams}
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
               eventLimit={true}
+              navLinks={true}
               locale={enLocale}
+              events={exams}
               columnHeaderFormat={{ weekday: "long" }}
-              allDaySlot={false}
+              noEventsMessage="You've earned a break by now."
+              views={{
+                listWeek: {
+                  buttonText: "week",
+                },
+              }}
               header={{
                 left: "title",
-                right: "today, listWeek, dayGridMonth, prev, next",
+                right: "dayGridMonth, listWeek, today, prev, next",
               }}
               eventRender={info => {
-                let popover
                 const examDetails = info.event.extendedProps
                 const examDate = examDetails.examDate
                 const currentPage = examDetails.currentPage
@@ -201,11 +213,13 @@ const ExamsCalendar = () => {
                 const durationTotal = examDetails.durationTotal
                 const durationPerDay = examDetails.durationPerDay
 
-                if (Object.keys(examDetails).length !== 0) {
-                  popover = (
-                    <Popover id="popover-basic">
+                const popover = (
+                  <Popover id="popover-basic">
+                    {Object.keys(examDetails).length !== 0 ? (
                       <Popover.Title as="h4">{info.event.title}</Popover.Title>
+                    ) : null}
 
+                    {Object.keys(examDetails).length !== 0 ? (
                       <Popover.Content>
                         <div className="exam-date">
                           <h5>Exam date:</h5>
@@ -232,11 +246,14 @@ const ExamsCalendar = () => {
                           <p>{minuteToHours(durationTotal)}</p>
                         </div>
                       </Popover.Content>
-                    </Popover>
-                  )
-                } else {
-                  popover = <div></div>
-                }
+                    ) : (
+                      <Popover.Content>
+                        {" "}
+                        <h4>Exam deadline</h4>
+                      </Popover.Content>
+                    )}
+                  </Popover>
+                )
 
                 let evtId = "event-" + info.event.id
                 const content = (
@@ -246,9 +263,21 @@ const ExamsCalendar = () => {
                     overlay={popover}
                     trigger="click"
                   >
-                    <div className="fc-content" id={evtId}>
-                      <span className="fc-title">{info.event.title}</span>
-                    </div>
+                    {info.view.type === "dayGridMonth" ? (
+                      <div className="fc-content" id={evtId}>
+                        <span className="fc-content fc-title">
+                          {info.event.title}
+                        </span>
+                      </div>
+                    ) : (
+                      <td>
+                        <div className="fc-content" id={evtId}>
+                          <span className="fc-content fc-title">
+                            {info.event.title}
+                          </span>
+                        </div>
+                      </td>
+                    )}
                   </OverlayTrigger>
                 )
                 ReactDOM.render(content, info.el)
