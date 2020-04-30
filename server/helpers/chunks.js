@@ -9,7 +9,10 @@ import {
   isTheSameDay
 } from "../helpers/dates";
 
-import { learningIsComplete } from "../helpers/examHelpers";
+import {
+  learningIsComplete,
+  handleCurrentPageInput
+} from "../helpers/examHelpers";
 import { DEFAULT_DEPRECATION_REASON } from "graphql";
 
 //---------------------------TODAY'S CHUNKS---------------------------
@@ -92,6 +95,22 @@ export function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
     isTheSameDay(chunkUpdatedAt, new Date()) &&
     date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
   );
+}
+
+export async function handleUpdateCurrentPageInTodaysChunkCache(examId, page) {
+  const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
+    examId: examId
+  });
+
+  if (todaysChunkCacheNumber === 1) {
+    const updateCacheResp = await TodaysChunkCache.updateOne({
+      currentPage: page
+    });
+    if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+      throw new ApolloError(
+        "The todays chunk cache current page could not be updated."
+      );
+  }
 }
 
 function filterOutUpdatesInTodaysChunk(oldChunk, newExam) {

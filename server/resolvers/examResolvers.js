@@ -17,7 +17,8 @@ import {
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  getTodaysChunkProgress
+  getTodaysChunkProgress,
+  handleUpdateCurrentPageInTodaysChunkCache
 } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -173,19 +174,7 @@ export const examResolvers = {
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
 
-        const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
-          examId: exam._id
-        });
-
-        if (todaysChunkCacheNumber === 1) {
-          const updateCacheResp = await TodaysChunkCache.updateOne({
-            currentPage: args.page
-          });
-          if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-            throw new ApolloError(
-              "The todays chunk cache current page could not be updated."
-            );
-        }
+        handleUpdateCurrentPageInTodaysChunkCache(exam._id, args.page);
 
         return true;
       } catch (err) {
