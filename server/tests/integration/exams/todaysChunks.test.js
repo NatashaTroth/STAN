@@ -217,14 +217,35 @@ describe("Test user resolver regex", () => {
       }
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
-
     const respFetchChunks2 = await query({
       query: GET_TODAYS_CHUNKS
     });
-
+    console.log(respFetchChunks2);
     expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
     expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
     expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
+
+    // const newCurrentPageObject = { ...testExam };
+    // newCurrentPageObject.currentPage = 3;
+    expect(respFetchChunks2.data.todaysChunks[0]).toMatchObject({
+      exam: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: testExam.examDate,
+        startDate: testExam.startDate,
+        totalNumberDays: testExam.totalNumberDays,
+        numberPages: testExam.numberPages,
+        timesRepeat: testExam.timesRepeat,
+        currentPage: 3,
+        pdfLink: testExam.pdfLink
+      },
+      numberPagesToday: respFetchChunks.data.todaysChunks[0].numberPagesToday,
+      startPage: respFetchChunks.data.todaysChunks[0].startPage, //TODO: or 23???
+      currentPage: 3,
+      durationToday: respFetchChunks.data.todaysChunks[0].durationToday,
+      daysLeft: respFetchChunks.data.todaysChunks[0].daysLeft,
+      notEnoughTime: false
+    });
 
     //update exam
     const respUpdateExam = await mutate({
@@ -262,10 +283,53 @@ describe("Test user resolver regex", () => {
         pdfLink: testExam.pdfLink
       },
       numberPagesToday: 27,
-      startPage: 1, //TODO: or 23???
+      startPage: 23, //TODO: or 23???
       currentPage: 23,
       durationToday: 135,
       daysLeft: 7,
+      notEnoughTime: false
+    });
+
+    //update Exam again - current progress should still be included
+    const respUpdateExam2 = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: getFutureDay(testExam.examDate, 1),
+        startDate: testExam.startDate,
+        currentPage: 23,
+        numberPages: 200, //was 50
+        timePerPage: 5,
+        startPage: 20,
+        timesRepeat: 1
+      }
+    });
+
+    expect(respUpdateExam2.data.updateExam).toBeTruthy();
+    const respFetchChunks4 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+
+    expect(respFetchChunks4.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks4.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks4.data.todaysChunks[0]).toMatchObject({
+      exam: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: getFutureDay(testExam.examDate, 1),
+        startDate: testExam.startDate,
+        totalNumberDays: testExam.totalNumberDays + 1,
+        numberPages: 200,
+        timesRepeat: 1,
+        currentPage: 23,
+        pdfLink: testExam.pdfLink
+      },
+      numberPagesToday: 32,
+      startPage: 23, //TODO: or 23???
+      currentPage: 23,
+      durationToday: 160,
+      daysLeft: 6,
       notEnoughTime: false
     });
   });
