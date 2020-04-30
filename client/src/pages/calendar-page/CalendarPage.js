@@ -67,31 +67,37 @@ const ExamsCalendar = () => {
           width: "300px",
         }}
       >
-        <Popover.Title as="h4">{event.subject}</Popover.Title>
-        <Popover.Content>
-          <strong>
-            Exam date:{" "}
-            <span className="exam-date">
-              {" "}
-              {formatDate(event.details.examDate)}
-            </span>
-          </strong>
-          <br></br>
-          <strong>Current page: </strong>
-          {event.details.currentPage}
-          <br></br>
-          <strong>Total pages left: </strong>{" "}
-          {event.details.numberPagesLeftTotal}
-          <br></br>
-          <strong>Pages per day to learn: </strong> ca.{" "}
-          {event.details.numberPagesPerDay}
-          <br></br>
-          <strong>Duration per day:</strong> ca.{" "}
-          {minuteToHours(event.details.durationPerDay)}
-          <br></br>
-          <strong>Duration total:</strong>{" "}
-          {minuteToHours(event.details.durationTotal)}
-        </Popover.Content>
+        {Object.keys(event).length > 3 ? (
+          <Popover.Title as="h4">{event.subject}</Popover.Title>
+        ) : (
+          <Popover.Title as="h4">EXAM DATE</Popover.Title>
+        )}
+        {event.details !== undefined ? (
+          <Popover.Content>
+            <strong>
+              Exam date:{" "}
+              <span className="exam-date">
+                {" "}
+                {formatDate(event.details.examDate)}
+              </span>
+            </strong>
+            <br></br>
+            <strong>Current page: </strong>
+            {event.details.currentPage}
+            <br></br>
+            <strong>Total pages left: </strong>{" "}
+            {event.details.numberPagesLeftTotal}
+            <br></br>
+            <strong>Pages per day to learn: </strong> ca.{" "}
+            {event.details.numberPagesPerDay}
+            <br></br>
+            <strong>Duration per day:</strong> ca.{" "}
+            {minuteToHours(event.details.durationPerDay)}
+            <br></br>
+            <strong>Duration total:</strong>{" "}
+            {minuteToHours(event.details.durationTotal)}
+          </Popover.Content>
+        ) : null}
       </Popover>
     )
 
