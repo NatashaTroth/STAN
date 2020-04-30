@@ -27,11 +27,11 @@ const todaysChunkCacheSchema = new Schema({
     default: 1,
     required: true
   },
-  currentPage: {
-    type: Number,
-    default: 1,
-    required: true
-  },
+  // currentPage: {
+  //   type: Number,
+  //   default: 1,
+  //   required: true
+  // },
   daysLeft: {
     type: Number,
     required: true

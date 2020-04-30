@@ -61,7 +61,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       exam,
       numberPagesToday: chunk.numberPagesToday,
       startPage: chunk.startPage,
-      currentPage: chunk.currentPage,
+      // currentPage: chunk.currentPage,
       durationToday: chunk.durationToday,
       daysLeft: chunk.daysLeft,
       notEnoughTime: chunk.notEnoughTime
@@ -85,8 +85,8 @@ function filterOutUpdatesInTodaysChunk(chunk, newChunk) {
     updates.durationToday = newChunk.durationToday;
   // if (chunk.startPage !== newChunk.startPage)
   //   updates.startPage = newChunk.startPage;
-  if (chunk.currentPage !== newChunk.currentPage)
-    updates.currentPage = newChunk.currentPage;
+  // if (chunk.exam.currentPage !== newChunk.currentPage)
+  //   updates.currentPage = newChunk.currentPage;
   if (chunk.daysLeft !== newChunk.daysLeft)
     updates.daysLeft = newChunk.daysLeft;
   if (chunk.notEnoughTime !== newChunk.notEnoughTime)
@@ -148,7 +148,7 @@ function createTodaysChunkObject(exam) {
     exam,
     numberPagesToday,
     startPage: exam.currentPage,
-    currentPage: exam.currentPage,
+    // currentPage: exam.currentPage,
     durationToday,
     daysLeft,
     notEnoughTime: false //TODO: IMPLEMENT
@@ -215,7 +215,7 @@ function calculateChunkProgress(chunks) {
     totalDurationCompleted += durationCompleted({
       duration: chunk.durationToday,
       startPage: chunk.startPage,
-      currentPage: chunk.currentPage,
+      currentPage: chunk.exam.currentPage,
       numberPages: chunk.numberPagesToday
     });
     // console.log(".........");

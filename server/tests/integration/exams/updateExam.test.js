@@ -52,7 +52,9 @@ describe("Test user resolver regex", () => {
         startDate: "2122-08-05",
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -82,7 +84,9 @@ describe("Test user resolver regex", () => {
         startDate: testExamStartDatePast.startDate,
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -110,7 +114,9 @@ describe("Test user resolver regex", () => {
         startDate: testExamStartDatePast.startDate,
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -134,6 +140,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -157,6 +165,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -180,6 +190,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -202,6 +214,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false

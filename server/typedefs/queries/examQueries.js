@@ -33,9 +33,9 @@ const examQueries = gql`
       startDate: Date!
       numberPages: Int!
       timePerPage: Int!
-      timesRepeat: Int
-      startPage: Int
-      currentPage: Int
+      timesRepeat: Int!
+      startPage: Int!
+      currentPage: Int!
       notes: String
       pdfLink: String # completed: Boolean
     ): Exam!

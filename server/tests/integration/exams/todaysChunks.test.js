@@ -17,7 +17,8 @@ import { GET_TODAYS_CHUNKS } from "../../queries.js";
 //TODO: ADD THIS TO THIS TEST TOO?
 import {
   EXAM_COMPLETED_MUTATION,
-  UPDATE_CURRENT_PAGE_MUTATION
+  UPDATE_CURRENT_PAGE_MUTATION,
+  UPDATE_EXAM_MUTATION
 } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -219,28 +220,27 @@ describe("Test user resolver regex", () => {
     const respFetchChunks2 = await query({
       query: GET_TODAYS_CHUNKS
     });
-    console.log(respFetchChunks2);
+
     expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
     expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
     expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
 
-    // const respExamCompleted = await query({
-    //   query: EXAM_COMPLETED_MUTATION,
-    //   variables: {
-    //     id: testExam._id.toString()
-    //   }
-    // });
-    // expect(respExamCompleted.data).toBeTruthy();
-
-    // const completedExam = await Exam.findOne({ _id: testExam._id.toString() });
-    // expect(completedExam.completed).toBeTruthy();
-
-    // const respFetchChunks2 = await query({
-    //   query: GET_TODAYS_CHUNKS
-    // });
-    // expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    // expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
-    // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+    const respUpdateExam = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: testExam.examDate,
+        startDate: testExam.startDate,
+        currentPage: 23,
+        numberPages: 200, //was 50
+        timePerPage: 5,
+        startPage: 20,
+        timesRepeat: 1
+      }
+    });
+    console.log(respUpdateExam);
+    expect(respUpdateExam.data.updateExam).toBeTruthy();
   });
 
   //TODO:

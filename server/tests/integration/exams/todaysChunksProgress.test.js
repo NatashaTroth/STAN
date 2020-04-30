@@ -44,70 +44,71 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it("should correctly fetch today's chunks progress for the first time today", async () => {
-    const initialCount = await TodaysChunkCache.countDocuments();
+  // it("should correctly fetch today's chunks progress for the first time today", async () => {
+  //   const initialCount = await TodaysChunkCache.countDocuments();
 
-    const testExam = await addTestExam({
-      subject: "Biology"
-    });
-    const resp = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
-    });
+  //   const testExam = await addTestExam({
+  //     subject: "Biology"
+  //   });
+  //   const resp = await query({
+  //     query: GET_TODAYS_CHUNKS_PROGRESS
+  //   });
 
-    expect(resp.data).toBeTruthy();
-    expect(resp.data.todaysChunksProgress).toBe(0);
-    const newCount = await TodaysChunkCache.countDocuments();
-    expect(newCount).toBe(initialCount + 1);
+  //   expect(resp.data).toBeTruthy();
+  //   expect(resp.data.todaysChunksProgress).toBe(0);
+  //   const newCount = await TodaysChunkCache.countDocuments();
+  //   expect(newCount).toBe(initialCount + 1);
 
-    // update current page to 3
-    const respUpdate = await TodaysChunkCache.updateOne(
-      { examId: testExam._id.toString() },
-      { currentPage: 3 }
-    );
-    expect(respUpdate.ok).toBeTruthy();
-    expect(respUpdate.nModified).toBe(1);
+  //   // update current page to 3
+  //   const respUpdate = await TodaysChunkCache.updateOne(
+  //     { examId: testExam._id.toString() },
+  //     { currentPage: 3 }
+  //   );
 
-    const resp2 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
-    });
+  //   expect(respUpdate.ok).toBeTruthy();
+  //   expect(respUpdate.nModified).toBe(1);
 
-    expect(resp2.data).toBeTruthy();
-    //2 pages of 10 completed = 20%
-    expect(resp2.data.todaysChunksProgress).toBe(20);
+  //   const resp2 = await query({
+  //     query: GET_TODAYS_CHUNKS_PROGRESS
+  //   });
 
-    // update current page to 7
-    const respUpdate2 = await TodaysChunkCache.updateOne(
-      { examId: testExam._id.toString() },
-      { currentPage: 7 }
-    );
-    expect(respUpdate2.ok).toBeTruthy();
-    expect(respUpdate2.nModified).toBe(1);
+  //   expect(resp2.data).toBeTruthy();
+  //   //2 pages of 10 completed = 20%
+  //   expect(resp2.data.todaysChunksProgress).toBe(20);
 
-    const resp3 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
-    });
-    expect(resp3.data).toBeTruthy();
-    //2 pages of 10 completed = 20%
-    expect(resp3.data.todaysChunksProgress).toBe(60);
+  //   // update current page to 7
+  //   const respUpdate2 = await TodaysChunkCache.updateOne(
+  //     { examId: testExam._id.toString() },
+  //     { currentPage: 7 }
+  //   );
+  //   expect(respUpdate2.ok).toBeTruthy();
+  //   expect(respUpdate2.nModified).toBe(1);
 
-    const respExamCompleted = await query({
-      query: EXAM_COMPLETED_MUTATION,
-      variables: {
-        id: testExam._id.toString()
-      }
-    });
-    console.log(respExamCompleted);
-    expect(respExamCompleted.data).toBeTruthy();
+  //   const resp3 = await query({
+  //     query: GET_TODAYS_CHUNKS_PROGRESS
+  //   });
+  //   expect(resp3.data).toBeTruthy();
+  //   //2 pages of 10 completed = 20%
+  //   expect(resp3.data.todaysChunksProgress).toBe(60);
 
-    const resp4 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
-    });
-    expect(resp4.data).toBeTruthy();
-    //2 pages of 10 completed = 20%
-    expect(resp4.data.todaysChunksProgress).toBe(100);
+  //   const respExamCompleted = await query({
+  //     query: EXAM_COMPLETED_MUTATION,
+  //     variables: {
+  //       id: testExam._id.toString()
+  //     }
+  //   });
+  //   console.log(respExamCompleted);
+  //   expect(respExamCompleted.data).toBeTruthy();
 
-    //TODO: TEST COMPLETED
-  });
+  //   const resp4 = await query({
+  //     query: GET_TODAYS_CHUNKS_PROGRESS
+  //   });
+  //   expect(resp4.data).toBeTruthy();
+  //   //2 pages of 10 completed = 20%
+  //   expect(resp4.data.todaysChunksProgress).toBe(100);
+
+  //   //TODO: TEST COMPLETED
+  // });
 
   it("should correctly fetch today's chunks progress after updating current pages", async () => {
     //setup

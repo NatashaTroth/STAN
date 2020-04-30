@@ -49,9 +49,9 @@ export const UPDATE_EXAM_MUTATION = gql`
     $startDate: Date!
     $numberPages: Int!
     $timePerPage: Int!
-    $timesRepeat: Int
-    $startPage: Int
-    $currentPage: Int
+    $timesRepeat: Int!
+    $startPage: Int!
+    $currentPage: Int!
     $notes: String
     $pdfLink: String # $completed: Boolean
   ) {

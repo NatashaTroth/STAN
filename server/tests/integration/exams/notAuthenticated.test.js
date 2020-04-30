@@ -115,7 +115,9 @@ describe("Test user resolver regex", () => {
         startDate: "2122-08-05",
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
     expect(resp.data).toBeFalsy();
