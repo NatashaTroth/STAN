@@ -71,7 +71,6 @@ describe("Test user resolver regex", () => {
         examDate: testExams.exam1.examDate,
         startDate: testExams.exam1.startDate,
         totalNumberDays: testExams.exam1.totalNumberDays,
-
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
@@ -194,7 +193,7 @@ describe("Test user resolver regex", () => {
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
-  it("todaysChunks should update when exam is updated", async () => {
+  it.only("todaysChunks should update when exam is updated", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
@@ -239,8 +238,37 @@ describe("Test user resolver regex", () => {
         timesRepeat: 1
       }
     });
-    console.log(respUpdateExam);
+    // console.log(respUpdateExam);
     expect(respUpdateExam.data.updateExam).toBeTruthy();
+    console.log(
+      "-----------------------------FRON HERE-----------------------------"
+    );
+    const respFetchChunks3 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+
+    expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
+    console.log(respFetchChunks3.data.todaysChunks[0]);
+    expect(respFetchChunks3.data.todaysChunks[0]).toMatchObject({
+      exam: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: testExam.examDate,
+        startDate: testExam.startDate,
+        totalNumberDays: testExam.totalNumberDays,
+        numberPages: 200,
+        timesRepeat: 1,
+        currentPage: 23,
+        pdfLink: testExam.pdfLink
+      },
+      numberPagesToday: 39,
+      startPage: 1, //TODO: or 23???
+      currentPage: 23,
+      durationToday: 192,
+      daysLeft: 5,
+      notEnoughTime: false
+    });
   });
 
   //TODO:

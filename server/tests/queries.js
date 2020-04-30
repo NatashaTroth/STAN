@@ -65,6 +65,8 @@ export const GET_TODAYS_CHUNKS = gql`
         pdfLink
       }
       numberPagesToday
+      startPage
+      currentPage
       durationToday
       daysLeft
       notEnoughTime

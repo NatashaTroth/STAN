@@ -65,7 +65,6 @@ export const examResolvers = {
         //TODO: SORTBY EXAM DATE
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
-        // console.log(chunks);
 
         return chunks;
       } catch (err) {
@@ -160,8 +159,8 @@ export const examResolvers = {
         );
         if (exam.currentPage === args.page) return true;
 
-        console.log("hi");
-        console.log(exam.completed);
+        // console.log("hi");
+        // console.log(exam.completed);
         const resp = await Exam.updateOne(
           { _id: args.examId },
           {

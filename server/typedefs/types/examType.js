@@ -28,6 +28,8 @@ const examType = gql`
     # subject: String!
     exam: Exam!
     numberPagesToday: Int!
+    startPage: Int!
+    currentPage: Int!
     durationToday: Int!
     daysLeft: Int! #incl. today
     # totalChunks: Int!

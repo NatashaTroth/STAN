@@ -143,7 +143,7 @@ function generateSubjectColor(exam) {
 
 export function learningIsComplete(currentPage, startPage, numberPages) {
   const endPage = startPage + numberPages - 1;
-  console.log("..." + currentPage + "  " + endPage);
+  // console.log("..." + currentPage + "  " + endPage);
   return currentPage > endPage;
 }
 
