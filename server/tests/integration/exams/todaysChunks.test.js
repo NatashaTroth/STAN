@@ -7,7 +7,8 @@ import {
   addTestExam,
   addTestExams,
   clearDatabase,
-  teardown
+  teardown,
+  getFutureDay
 } from "../setup";
 import { TodaysChunkCache, Exam } from "../../../models";
 import { todaysChunkCacheEmpty } from "../../../helpers/chunks";
@@ -193,7 +194,7 @@ describe("Test user resolver regex", () => {
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
-  it.only("todaysChunks should update when exam is updated", async () => {
+  it("todaysChunks should update when exam is updated", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
@@ -207,6 +208,7 @@ describe("Test user resolver regex", () => {
     expect(respFetchChunks.data.todaysChunks.length).toBe(1);
     expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
 
+    //update currentpage to 3
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
@@ -224,12 +226,13 @@ describe("Test user resolver regex", () => {
     expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
     expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
 
+    //update exam
     const respUpdateExam = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
         id: testExam._id.toString(),
         subject: testExam.subject,
-        examDate: testExam.examDate,
+        examDate: getFutureDay(testExam.examDate, 2),
         startDate: testExam.startDate,
         currentPage: 23,
         numberPages: 200, //was 50
@@ -238,35 +241,31 @@ describe("Test user resolver regex", () => {
         timesRepeat: 1
       }
     });
-    // console.log(respUpdateExam);
+
     expect(respUpdateExam.data.updateExam).toBeTruthy();
-    console.log(
-      "-----------------------------FRON HERE-----------------------------"
-    );
     const respFetchChunks3 = await query({
       query: GET_TODAYS_CHUNKS
     });
 
     expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
     expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
-    console.log(respFetchChunks3.data.todaysChunks[0]);
     expect(respFetchChunks3.data.todaysChunks[0]).toMatchObject({
       exam: {
         id: testExam._id.toString(),
         subject: testExam.subject,
-        examDate: testExam.examDate,
+        examDate: getFutureDay(testExam.examDate, 2),
         startDate: testExam.startDate,
-        totalNumberDays: testExam.totalNumberDays,
+        totalNumberDays: testExam.totalNumberDays + 2,
         numberPages: 200,
         timesRepeat: 1,
         currentPage: 23,
         pdfLink: testExam.pdfLink
       },
-      numberPagesToday: 39,
+      numberPagesToday: 27,
       startPage: 1, //TODO: or 23???
       currentPage: 23,
-      durationToday: 192,
-      daysLeft: 5,
+      durationToday: 135,
+      daysLeft: 7,
       notEnoughTime: false
     });
   });

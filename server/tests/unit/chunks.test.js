@@ -1,4 +1,8 @@
-import { numberOfPagesForChunk, durationCompleted } from "../../helpers/chunks";
+import {
+  numberOfPagesForChunk,
+  durationCompleted,
+  chunkCacheIsValid
+} from "../../helpers/chunks";
 
 test("the number of pages for each chunk is correct", () => {
   expect(
@@ -27,6 +31,12 @@ test("the number of pages for each chunk is correct", () => {
       repeat: 1
     })
   ).toBe(1);
+});
+
+test("the if chunk cache is valid", () => {
+  expect(chunkCacheIsValid(new Date(), "2011-03-04")).toBeTruthy();
+  expect(chunkCacheIsValid("1999-03-04", "2011-03-04")).toBeFalsy();
+  expect(chunkCacheIsValid("2012-03-04", "2011-03-04")).toBeFalsy();
 });
 
 test("that correct Error is thrown with NaN inputs", () => {

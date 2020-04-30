@@ -5,7 +5,8 @@ import { Exam, TodaysChunkCache } from "../models";
 import {
   startDateIsActive,
   getNumberOfDays,
-  date1IsBeforeDate2
+  date1IsBeforeDate2,
+  isTheSameDay
 } from "../helpers/dates";
 
 import { learningIsComplete } from "../helpers/examHelpers";
@@ -30,7 +31,7 @@ export async function fetchTodaysChunks(userId) {
       todaysChunksFromCache
     );
   }
-  console.log(chunks);
+  // console.log(chunks);
   return chunks;
 }
 
@@ -73,8 +74,11 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   return resp;
 }
 
-function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
-  return date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt);
+export function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
+  return (
+    isTheSameDay(chunkUpdatedAt, new Date()) &&
+    date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
+  );
 }
 
 function filterOutUpdatesInTodaysChunk(oldChunk, newChunk) {
@@ -91,6 +95,9 @@ function filterOutUpdatesInTodaysChunk(oldChunk, newChunk) {
    * new chunk: (startpage + nr pages - currentpage * duration + completedduratoin) / daysleft:
    */
 
+  console.log(oldChunk);
+  console.log(newChunk);
+
   const completedDurationSoFarToday = calcCompletedDuration(oldChunk);
   // console.log("completedduration: " + completedDurationSoFarToday);
   const totalDurationLeft =
@@ -103,8 +110,9 @@ function filterOutUpdatesInTodaysChunk(oldChunk, newChunk) {
   //   "dailyDurationWithCompletedDur: " + dailyDurationWithCompletedDuration
   // );
 
-  let durationToday =
-    dailyDurationWithCompletedDuration - completedDurationSoFarToday;
+  let durationToday = Math.ceil(
+    dailyDurationWithCompletedDuration - completedDurationSoFarToday
+  );
   // console.log("durationToday: " + durationToday);
 
   if (durationToday < 0) durationToday = 0;
