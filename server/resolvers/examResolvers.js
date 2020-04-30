@@ -1,5 +1,5 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-import { Exam } from "../models";
+import { Exam, TodaysChunkCache } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
@@ -172,6 +172,21 @@ export const examResolvers = {
 
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
+
+        const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
+          examId: exam._id
+        });
+
+        if (todaysChunkCacheNumber === 1) {
+          const updateCacheResp = await TodaysChunkCache.updateOne({
+            currentPage: args.page
+          });
+          if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+            throw new ApolloError(
+              "The todays chunk cache current page could not be updated."
+            );
+        }
+
         return true;
       } catch (err) {
         handleResolverError(err);

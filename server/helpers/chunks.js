@@ -46,28 +46,28 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
       console.log("invalid cache");
       // let newChunk = createTodaysChunkObject(exam);
-      console.log(newChunk);
+      // console.log(newChunk);
+      const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
-        const newChunk = createTodaysChunkObject(exam);
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else if (!isTheSameDay(chunk.chunkUpdatedAt, new Date())) {
         // await TodaysChunkCache.deleteOne({ _id: chunk._id });
         // await addTodaysChunkToDatabase(newChunk, exam.userId);
-        const newChunk = createTodaysChunkObject(exam);
+        // const newChunk = createTodaysChunkObject(exam);
 
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           newChunk
         );
         if (!resp) throw new Error("Unable to update today's chunk cache.");
-      } else {
-        const updates = filterOutUpdatesInTodaysChunk(chunk, exam);
-        const resp = await TodaysChunkCache.updateOne(
-          { _id: chunk._id },
-          updates
-        );
-        if (!resp) throw new Error("Unable to update today's chunk cache.");
-        newChunk = await TodaysChunkCache.findOne({ _id: chunk._id });
+        // } else {
+        //   const updates = filterOutUpdatesInTodaysChunk(chunk, exam);
+        //   const resp = await TodaysChunkCache.updateOne(
+        //     { _id: chunk._id },
+        //     updates
+        //   );
+        //   if (!resp) throw new Error("Unable to update today's chunk cache.");
+        //   newChunk = await TodaysChunkCache.findOne({ _id: chunk._id });
       }
       chunk = newChunk;
     }

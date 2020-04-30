@@ -194,7 +194,7 @@ describe("Test user resolver regex", () => {
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
-  it("todaysChunks should update when exam is updated", async () => {
+  it.skip("todaysChunks should update when exam is updated", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
@@ -334,7 +334,7 @@ describe("Test user resolver regex", () => {
     });
   });
 
-  it.only("only unimportant stuff should update (currentPage, notes, link..), chunk calculations should stay the same", async () => {
+  it.skip("only unimportant stuff should update (currentPage, notes, link..), chunk calculations should stay the same", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
