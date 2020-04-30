@@ -151,10 +151,10 @@ export async function addTestExams(inputUserId) {
     subject: "Chemistry",
     examDate: getFutureDay(new Date(), 1),
     startDate: getFutureDay(new Date(), -20),
-    numberPages: 600,
+    numberPages: 40,
     timePerPage: 10,
     startPage: 8,
-    currentPage: 1600,
+    currentPage: 160,
     timesRepeat: 5,
     color: "#2328A9",
     userId

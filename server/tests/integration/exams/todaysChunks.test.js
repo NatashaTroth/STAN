@@ -115,8 +115,8 @@ describe("Test user resolver regex", () => {
         currentPage: testExams.exam3.currentPage,
         pdfLink: testExams.exam3.pdfLink
       },
-      numberPagesToday: 1401,
-      durationToday: 14010,
+      numberPagesToday: 41,
+      durationToday: 410,
       daysLeft: 1,
 
       notEnoughTime: false
@@ -332,6 +332,59 @@ describe("Test user resolver regex", () => {
       daysLeft: 6,
       notEnoughTime: false
     });
+  });
+
+  it.only("only unimportant stuff should update (currentPage, notes, link..), chunk calculations should stay the same", async () => {
+    const testExam = await addTestExam({
+      subject: "Biology"
+    });
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(1);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    // expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    // expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    // expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+
+    // //update currentpage to 3
+    // const updateResp = await mutate({
+    //   query: UPDATE_CURRENT_PAGE_MUTATION,
+    //   variables: {
+    //     examId: testExam._id.toString(),
+    //     page: 3
+    //   }
+    // });
+    // expect(updateResp.data.updateCurrentPage).toBeTruthy();
+    // const respFetchChunks2 = await query({
+    //   query: GET_TODAYS_CHUNKS
+    // });
+    // console.log(respFetchChunks2);
+    // expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    // expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    // expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
+
+    //update current page to last page
+    const updateResp2 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 11
+      }
+    });
+    expect(updateResp2.data.updateCurrentPage).toBeTruthy();
+    const respFetchChunks3 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    console.log(respFetchChunks3.data.todaysChunks);
+    expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks3.data.todaysChunks[0].exam.currentPage).toBe(3);
+    expect(respFetchChunks3.data.todaysChunks[0].startPage).toBe(1);
+
+    //#TODO
+    // expect(respFetchChunks3.data.todaysChunks[0].completed).toBeTruthy();
   });
 
   //TODO:

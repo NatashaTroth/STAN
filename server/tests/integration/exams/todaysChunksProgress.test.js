@@ -180,15 +180,30 @@ describe("Test user resolver regex", () => {
     const resp1 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
+    const test = await query({
+      query: GET_TODAYS_CHUNKS
+    });
 
-    console.log(resp1);
+    console.log(test.data.todaysChunks);
 
     expect(resp1.data).toBeTruthy();
     expect(resp1.data.todaysChunksProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 3);
 
-    //Update page with mutation (changes the page in the exam)
+    /**
+     * TOTAL DURATION OF TODAYS CHUNKS:
+     * exam1 (Biology): 50, 10 pages -> 5 min per page, startpage 1
+     * exam2 (Archeology): 180, 18 pages -> 10 min per page, startpage 50
+     * exam3 (Chemistry): 410, 41 pages -> 10 min per page, startpage 1600
+     * Total duration = 640
+     * update exam1: 2*5 -> 10 min completed, 100/640*10 = 1.56%
+     * update exam2: 180min + 10min = 190min, 100/640*190 = 30%
+     */
+    //---UPDATE FIRST EXAM---
+    console.log(
+      "---------------------------updating first exam---------------------------"
+    );
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
@@ -198,43 +213,72 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
 
-    const updateResp2 = await mutate({
-      query: UPDATE_CURRENT_PAGE_MUTATION,
-      variables: {
-        examId: exam2._id.toString(),
-        page: 60
-      }
-    });
-    expect(updateResp2.data.updateCurrentPage).toBeTruthy();
-
-    const updateResp3 = await mutate({
-      query: UPDATE_CURRENT_PAGE_MUTATION,
-      variables: {
-        examId: exam3._id.toString(),
-        page: 60
-      }
-    });
-    expect(updateResp3.data.updateCurrentPage).toBeTruthy();
-
-    //shouldn't affect the results of the progress since the exam is in the future
-    const updateResp4 = await mutate({
-      query: UPDATE_CURRENT_PAGE_MUTATION,
-      variables: {
-        examId: exam4._id.toString(),
-        page: 10
-      }
-    });
-    expect(updateResp4.data.updateCurrentPage).toBeTruthy();
-
-    //refetch progress - should have changed
     const resp2 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
     console.log(resp2);
 
     expect(resp2.data).toBeTruthy();
-    //2 pages of 10 completed = 20%
-    expect(resp2.data.todaysChunksProgress).toBe(10);
+    expect(resp2.data.todaysChunksProgress).toBe(2);
+
+    //---UPDATE SECOND EXAM---
+    console.log(
+      "---------------------------updating second exam---------------------------"
+    );
+
+    const updateResp2 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: exam2._id.toString(),
+        page: 19 //completed
+      }
+    });
+    expect(updateResp2.data.updateCurrentPage).toBeTruthy();
+
+    //TODO!
+    // const respFetchCache = await TodaysChunkCache.findOne({
+    //   examId: exam2._id.toString()
+    // });
+    // expect(respFetchCache).toBeTruthy();
+    // expect(respFetchCache.completed).toBeTruthy();
+
+    const resp3 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+    console.log(resp3);
+    expect(resp3.data.todaysChunksProgress).toBe(30);
+
+    // //---UPDATE THIRD EXAM---
+    // const updateResp3 = await mutate({
+    //   query: UPDATE_CURRENT_PAGE_MUTATION,
+    //   variables: {
+    //     examId: exam3._id.toString(),
+    //     page: 60
+    //   }
+    // });
+    // expect(updateResp3.data.updateCurrentPage).toBeTruthy();
+
+    // //---UPDATE FOURTH EXAM---
+    // //shouldn't affect the results of the progress since the exam is in the future
+    // const updateResp4 = await mutate({
+    //   query: UPDATE_CURRENT_PAGE_MUTATION,
+    //   variables: {
+    //     examId: exam4._id.toString(),
+    //     page: 10
+    //   }
+    // });
+    // expect(updateResp4.data.updateCurrentPage).toBeTruthy();
+
+    //------
+    //refetch progress - should have changed
+    // const resp2 = await query({
+    //   query: GET_TODAYS_CHUNKS_PROGRESS
+    // });
+    // console.log(resp2);
+
+    // expect(resp2.data).toBeTruthy();
+    // //2 pages of 10 completed = 20%
+    // expect(resp2.data.todaysChunksProgress).toBe(10);
   });
 });
 

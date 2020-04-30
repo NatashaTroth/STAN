@@ -90,10 +90,10 @@ describe("Test user resolver regex", () => {
       details: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
-        numberPagesLeftTotal: 1401,
-        numberPagesPerDay: 1401,
-        durationTotal: 14010,
-        durationPerDay: 14010
+        numberPagesLeftTotal: 41,
+        numberPagesPerDay: 41,
+        durationTotal: 410,
+        durationPerDay: 410
       },
       color: exam.color
     });
