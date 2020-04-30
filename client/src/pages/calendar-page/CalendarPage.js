@@ -128,6 +128,7 @@ const ExamsCalendar = () => {
               navLinks={true}
               locale={enLocale}
               events={exams}
+              eventOrder={"end"}
               columnHeaderFormat={{ weekday: "long" }}
               noEventsMessage="You've earned a break by now."
               views={{
@@ -194,7 +195,6 @@ const ExamsCalendar = () => {
                   </Popover>
                 )
 
-                let evtId = "event-" + info.event.id
                 const content = (
                   <OverlayTrigger
                     rootClose
@@ -203,14 +203,14 @@ const ExamsCalendar = () => {
                     trigger="click"
                   >
                     {info.view.type === "dayGridMonth" ? (
-                      <div className="fc-content" id={evtId}>
+                      <div className="fc-content">
                         <span className="fc-content fc-title">
                           {info.event.title}
                         </span>
                       </div>
                     ) : (
                       <td>
-                        <div className="fc-content" id={evtId}>
+                        <div className="fc-content">
                           <span className="fc-content fc-title">
                             {info.event.title}
                           </span>
