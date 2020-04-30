@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -32,16 +32,10 @@ const ExamsCalendar = () => {
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
   let exams = []
 
-  const [listView, setListView] = useState(false)
-
   // redirects ----------------
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
-  }
-
-  const handleView = () => {
-    setListView(listView => !listView)
   }
 
   if (loading) return <Loading />
@@ -181,6 +175,7 @@ const ExamsCalendar = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <FullCalendar
+              height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
               eventLimit={5}
