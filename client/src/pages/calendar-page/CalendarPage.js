@@ -48,77 +48,23 @@ const ExamsCalendar = () => {
         title: "English",
         start: "2020-04-29",
         end: "2020-05-04",
-        color: "#A48C24",
+        color: "blue",
         extendedProps: {
+          // status: "done",
           examDate: "2020-04-29",
           currentPage: 450,
           numberPagesLeftTotal: 1209,
           numberPagesPerDay: 68,
           durationTotal: 12090,
           durationPerDay: 680,
+          pdfLink: "TODO: ADD PDF LINK",
         },
       },
-      // {
-      //   title: "English",
-      //   start: "2020-04-29T00:00:00.000Z",
-      //   end: "2020-05-04T00:00:00.000Z",
-      //   color: "#A48C24",
-      //   extendedProps: {
-      //     examDate: "2020-04-29T00:00:00.000Z",
-      //     currentPage: 450,
-      //     numberPagesLeftTotal: 1209,
-      //     numberPagesPerDay: 68,
-      //     durationTotal: 12090,
-      //     durationPerDay: 680,
-      //   },
-      // },
-      // {
-      //   title: "English",
-      //   start: "2020-04-29T00:00:00.000Z",
-      //   end: "2020-05-04T00:00:00.000Z",
-      //   color: "#A48C24",
-      //   extendedProps: {
-      //     examDate: "2020-04-29T00:00:00.000Z",
-      //     currentPage: 450,
-      //     numberPagesLeftTotal: 1209,
-      //     numberPagesPerDay: 68,
-      //     durationTotal: 12090,
-      //     durationPerDay: 680,
-      //   },
-      // },
-      // {
-      //   title: "English",
-      //   start: "2020-04-29T00:00:00.000Z",
-      //   end: "2020-05-04T00:00:00.000Z",
-      //   color: "#A48C24",
-      //   extendedProps: {
-      //     examDate: "2020-04-29T00:00:00.000Z",
-      //     currentPage: 450,
-      //     numberPagesLeftTotal: 1209,
-      //     numberPagesPerDay: 68,
-      //     durationTotal: 12090,
-      //     durationPerDay: 680,
-      //   },
-      // },
-      // {
-      //   title: "English",
-      //   start: "2020-04-29T00:00:00.000Z",
-      //   end: "2020-05-04T00:00:00.000Z",
-      //   color: "#A48C24",
-      //   extendedProps: {
-      //     examDate: "2020-04-29T00:00:00.000Z",
-      //     currentPage: 450,
-      //     numberPagesLeftTotal: 1209,
-      //     numberPagesPerDay: 68,
-      //     durationTotal: 12090,
-      //     durationPerDay: 680,
-      //   },
-      // },
       {
         title: "Mathe",
         start: "2020-04-01T00:00:00.000Z",
         end: "2020-05-04T00:00:00.000Z",
-        color: "#A48C24",
+        color: "yellow",
         extendedProps: {
           examDate: "2020-05-15T00:00:00.000Z",
           currentPage: 999,
@@ -201,6 +147,7 @@ const ExamsCalendar = () => {
                 const numberPagesPerDay = examDetails.numberPagesPerDay
                 const durationTotal = examDetails.durationTotal
                 const durationPerDay = examDetails.durationPerDay
+                const pdfLink = examDetails.pdfLink
 
                 const popover = (
                   <Popover id="popover-basic">
@@ -233,6 +180,9 @@ const ExamsCalendar = () => {
                         <div className="duration-total">
                           <h5>Duration total: </h5>
                           <p>{minuteToHours(durationTotal)}</p>
+                        </div>
+                        <div className="pdfLink">
+                          <a href="#">{pdfLink}</a>
                         </div>
                       </Popover.Content>
                     ) : (
