@@ -35,9 +35,9 @@ const examQueries = gql`
       timePerPage: Int!
       timesRepeat: Int
       startPage: Int
+      currentPage: Int
       notes: String
-      pdfLink: String
-      completed: Boolean
+      pdfLink: String # completed: Boolean
     ): Exam!
 
     #todo: change to just id

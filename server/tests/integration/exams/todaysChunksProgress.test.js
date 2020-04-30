@@ -12,11 +12,14 @@ import {
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import {
-  // GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS,
   GET_TODAYS_CHUNKS_PROGRESS
 } from "../../queries.js";
 
-import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
+import {
+  UPDATE_CURRENT_PAGE_MUTATION,
+  EXAM_COMPLETED_MUTATION
+} from "../../mutations.js";
 
 describe("Test user resolver regex", () => {
   let server;
@@ -87,6 +90,22 @@ describe("Test user resolver regex", () => {
     //2 pages of 10 completed = 20%
     expect(resp3.data.todaysChunksProgress).toBe(60);
 
+    const respExamCompleted = await query({
+      query: EXAM_COMPLETED_MUTATION,
+      variables: {
+        id: testExam._id.toString()
+      }
+    });
+    console.log(respExamCompleted);
+    expect(respExamCompleted.data).toBeTruthy();
+
+    const resp4 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+    expect(resp4.data).toBeTruthy();
+    //2 pages of 10 completed = 20%
+    expect(resp4.data.todaysChunksProgress).toBe(100);
+
     //TODO: TEST COMPLETED
   });
 
@@ -128,9 +147,29 @@ describe("Test user resolver regex", () => {
     expect(resp2.data.todaysChunksProgress).toBe(20);
   });
 
+  it.only("should correctly fetch today's chunks progress, when there are no chunks today/no exams", async () => {
+    const initialCountChunks = await TodaysChunkCache.countDocuments();
+    expect(initialCountChunks).toBe(0);
+    const initialCountExams = await Exam.countDocuments();
+    expect(initialCountExams).toBe(0);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(0);
+
+    const resp1 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+
+    expect(resp1.data).toBeTruthy();
+    expect(resp1.data.todaysChunksProgress).toBe(100);
+  });
+
   //TODO: SHOULD WORK WITH CHANGED CURRENT PAGE EVEN IF TODAYS CHUNKS WEREN'T FETCHED YET - BUT UNLIKELY, ESPECIALLY IF WE FETCH TODAYSCHUNKS IMMEDIATLY
 
-  it.only("should correctly fetch today's chunks progress when there are multiple exams", async () => {
+  it.skip("should correctly fetch today's chunks progress when there are multiple exams", async () => {
     //setup
     const { exam1, exam2, exam3, exam4 } = await addTestExams();
     const initialCount = await TodaysChunkCache.countDocuments();

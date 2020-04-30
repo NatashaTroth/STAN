@@ -51,6 +51,7 @@ describe("Test user resolver regex", () => {
     // console.log(resp);
     // console.log(JSON.stringify(resp));
     // console.log(resp.data.todaysChunks[0].exam);
+    console.log(resp);
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
 
@@ -138,6 +139,31 @@ describe("Test user resolver regex", () => {
 
     expect(resp2).toBeFalsy();
   });
+
+  //TODO:
+  // it("todaysChunks should be empty, since no exams", async () => {
+  //   const respDeleteTodaysChunksCache = await TodaysChunkCache.deleteMany({
+  //     userId: "samanthasId"
+  //   });
+  //   expect(respDeleteTodaysChunksCache).toBeTruthy();
+  //   expect(await TodaysChunkCache.countDocuments()).toBe(0);
+  //   const resp = await todaysChunkCacheEmpty("samanthasId");
+  //   expect(resp).toBeTruthy();
+
+  //   const respFetchChunks = await query({
+  //     query: GET_TODAYS_CHUNKS
+  //   });
+  //   expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+  //   expect(respFetchChunks.data.todaysChunks.length).toBe(3);
+
+  //   expect(
+  //     await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
+  //   ).toBe(3);
+
+  //   const resp2 = await todaysChunkCacheEmpty("samanthasId");
+
+  //   expect(resp2).toBeFalsy();
+  // });
 
   // it("should not fetch today's chunks, since dates are the same (however should never occur)", async () => {
   //   const exam = await addTestExam({

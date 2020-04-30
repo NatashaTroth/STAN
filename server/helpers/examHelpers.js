@@ -25,7 +25,7 @@ export function prepareExamInputData(args, userId) {
   }
   args.timesRepeat = args.timesRepeat || 1;
   args.startPage = args.startPage || 1;
-  args.currentPage = args.startPage;
+  args.currentPage = args.currentPage || args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
@@ -77,6 +77,7 @@ export async function handleUpdateExamInput(args, userId) {
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
+  args.completed = exam.completed;
   // args.completed = learningIsComplete(
   //   exam.currentPage,
   //   exam.startPage,

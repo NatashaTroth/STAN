@@ -8,6 +8,8 @@ import {
   date1IsBeforeDate2
 } from "../helpers/dates";
 
+import { learningIsComplete } from "../helpers/examHelpers";
+
 //---------------------------TODAY'S CHUNKS---------------------------
 
 export async function fetchTodaysChunks(userId) {
@@ -134,6 +136,8 @@ async function calculateTodaysChunks(currentExams) {
 
 function createTodaysChunkObject(exam) {
   const daysLeft = getNumberOfDays(new Date(), exam.examDate);
+  // if(exam.completed || learningIsComplete(exam.currentPage, exam.startpage, exam.numberPages))
+
   const numberPagesToday = numberOfPagesForChunk({
     numberOfPages: exam.numberPages,
     currentPage: exam.currentPage,
@@ -179,6 +183,8 @@ async function addTodaysChunkToDatabase(chunk, userId) {
   }
 }
 
+//---------------------------TODAY'S CHUNKS PROGRESS---------------------------
+
 export async function getTodaysChunkProgress(userId) {
   //TODO: INDEX userid
   //TODO: CHANGE FOR PERFORMANCE
@@ -200,6 +206,7 @@ export async function getTodaysChunkProgress(userId) {
 
 function calculateChunkProgress(chunks) {
   //TODO: HANDLE Chunk COMPLETED
+  if (chunks.length <= 0) return 100;
   let totalDuration = 0;
   let totalDurationCompleted = 0;
   chunks.forEach(chunk => {
