@@ -137,45 +137,39 @@ const ExamsCalendar = () => {
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
         color: "red",
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
+        color: "blue",
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
+        color: "pink",
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
+        color: "purple",
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
+        color: "green",
       },
       {
         title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
-      },
-      {
-        title: "German",
-        start: "2020-04-12T00:00:00.000Z",
-        end: "2020-04-12T00:00:00.000Z",
-        color: "red",
+        start: "2020-05-12T00:00:00.000Z",
+        end: "2020-05-12T00:00:00.000Z",
+        color: "yellow",
       },
     ]
   }
@@ -189,7 +183,7 @@ const ExamsCalendar = () => {
             <FullCalendar
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
-              eventLimit={true}
+              eventLimit={5}
               navLinks={true}
               locale={enLocale}
               events={exams}
