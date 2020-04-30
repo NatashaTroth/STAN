@@ -253,10 +253,10 @@
 
   .popover-header {
     background: none !important;
-    border-bottom: 2px solid theme_color("dark") !important;
   }
   .popover-body {
     font-family: $font-family-OpenSans-Regular;
+    border-top: 2px solid theme_color("dark");
     .exam-date {
       color: theme_color("error-hover");
     }
