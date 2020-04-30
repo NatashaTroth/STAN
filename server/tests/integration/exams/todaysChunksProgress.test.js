@@ -147,7 +147,7 @@ describe("Test user resolver regex", () => {
     expect(resp2.data.todaysChunksProgress).toBe(20);
   });
 
-  it.only("should correctly fetch today's chunks progress, when there are no chunks today/no exams", async () => {
+  it("should correctly fetch today's chunks progress, when there are no chunks today/no exams", async () => {
     const initialCountChunks = await TodaysChunkCache.countDocuments();
     expect(initialCountChunks).toBe(0);
     const initialCountExams = await Exam.countDocuments();

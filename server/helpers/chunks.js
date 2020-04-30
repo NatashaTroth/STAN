@@ -38,25 +38,11 @@ async function fetchTodaysChunksFromCache(userId) {
 }
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   const chunks = currentExams.map(async exam => {
-    const chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
+    let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
-    if (chunk && isChunkCacheValid(chunk.updatedAt, exam.updatedAt)) {
-      console.log("valid cache");
-      return {
-        exam,
-        numberPagesToday: chunk.numberPagesToday,
-        startPage: chunk.startPage,
-        currentPage: chunk.currentPage,
-        durationToday: chunk.durationToday,
-        daysLeft: chunk.daysLeft,
-        notEnoughTime: chunk.notEnoughTime
-      };
-    } else {
+    if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
       console.log("invalid cache");
-      //TODO: better to update the existing one
-
       let newChunk = createTodaysChunkObject(exam);
-
       if (!chunk) {
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
@@ -65,17 +51,28 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
           { _id: chunk._id },
           updates
         );
-        newChunk = TodaysChunkCache.findOne({ _id: chunk._id });
+        if (!resp) throw new Error("Unable to update today's chunk cache.");
+        newChunk = await TodaysChunkCache.findOne({ _id: chunk._id });
       }
-      return newChunk;
+      chunk = newChunk;
     }
+
+    return {
+      exam,
+      numberPagesToday: chunk.numberPagesToday,
+      startPage: chunk.startPage,
+      currentPage: chunk.currentPage,
+      durationToday: chunk.durationToday,
+      daysLeft: chunk.daysLeft,
+      notEnoughTime: chunk.notEnoughTime
+    };
   });
   const resp = await Promise.all(chunks);
   // console.log(resp);
   return resp;
 }
 
-function isChunkCacheValid(chunkUpdatedAt, examUpdatedAt) {
+function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
   return date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt);
 }
 
@@ -221,17 +218,17 @@ function calculateChunkProgress(chunks) {
       currentPage: chunk.currentPage,
       numberPages: chunk.numberPagesToday
     });
-    console.log(".........");
-    console.log("durationToday:" + chunk.durationToday);
-    console.log("startPage:" + chunk.startPage); //16
+    // console.log(".........");
+    // console.log("durationToday:" + chunk.durationToday);
+    // console.log("startPage:" + chunk.startPage); //16
 
-    console.log("currentPage:" + chunk.currentPage);
-    console.log("numberPagesToday:" + chunk.numberPagesToday);
+    // console.log("currentPage:" + chunk.currentPage);
+    // console.log("numberPagesToday:" + chunk.numberPagesToday);
   });
 
-  console.log("-----------");
-  console.log("totalDuration:" + totalDuration);
-  console.log("totalDurationCompleted:" + totalDurationCompleted);
+  // console.log("-----------");
+  // console.log("totalDuration:" + totalDuration);
+  // console.log("totalDurationCompleted:" + totalDurationCompleted);
 
   //duration ..... 100%
   //duration completed ... x

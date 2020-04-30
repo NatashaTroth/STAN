@@ -4,24 +4,28 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
   addTestExams,
-  // clearDatabase,
+  clearDatabase,
   teardown
 } from "../setup";
-import { TodaysChunkCache } from "../../../models";
+import { TodaysChunkCache, Exam } from "../../../models";
 import { todaysChunkCacheEmpty } from "../../../helpers/chunks";
 
 import { GET_TODAYS_CHUNKS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
-// import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
+import {
+  EXAM_COMPLETED_MUTATION,
+  UPDATE_CURRENT_PAGE_MUTATION
+} from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
   let query;
+  let mutate;
   let testExams;
 
   beforeAll(async () => {
@@ -29,18 +33,20 @@ describe("Test user resolver regex", () => {
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     query = client.query;
-    testExams = await addTestExams();
+    mutate = client.mutate;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should correctly fetch today's chunks", async () => {
+    testExams = await addTestExams();
+
     // const { exam1, exam2, exam3, exam4 } = addTestExams();
     // const exam1 = aaddTestExams();
     // console.log(testExams);
@@ -51,7 +57,7 @@ describe("Test user resolver regex", () => {
     // console.log(resp);
     // console.log(JSON.stringify(resp));
     // console.log(resp.data.todaysChunks[0].exam);
-    console.log(resp);
+    // console.log(resp);
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
 
@@ -117,6 +123,8 @@ describe("Test user resolver regex", () => {
   });
 
   it("should detect if the todays chunks cache for this user is empty", async () => {
+    testExams = await addTestExams();
+
     const respDeleteTodaysChunksCache = await TodaysChunkCache.deleteMany({
       userId: "samanthasId"
     });
@@ -140,145 +148,132 @@ describe("Test user resolver regex", () => {
     expect(resp2).toBeFalsy();
   });
 
+  it("todaysChunks should be empty, since no exams", async () => {
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(0);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(0);
+  });
+
+  it("todaysChunks should be empty when exam is completed", async () => {
+    const testExam = await addTestExam({
+      subject: "Biology",
+      completed: false
+    });
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(1);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks.data.todaysChunks[0].completed).toBeFalsy();
+
+    const respExamCompleted = await query({
+      query: EXAM_COMPLETED_MUTATION,
+      variables: {
+        id: testExam._id.toString()
+      }
+    });
+    expect(respExamCompleted.data).toBeTruthy();
+
+    const completedExam = await Exam.findOne({ _id: testExam._id.toString() });
+    expect(completedExam.completed).toBeTruthy();
+
+    const respFetchChunks2 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks2.data.todaysChunks.length).toBe(0);
+    // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+  });
+
+  it("todaysChunks should update when exam is updated", async () => {
+    const testExam = await addTestExam({
+      subject: "Biology"
+    });
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(1);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 3
+      }
+    });
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
+
+    const respFetchChunks2 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    console.log(respFetchChunks2);
+    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
+
+    // const respExamCompleted = await query({
+    //   query: EXAM_COMPLETED_MUTATION,
+    //   variables: {
+    //     id: testExam._id.toString()
+    //   }
+    // });
+    // expect(respExamCompleted.data).toBeTruthy();
+
+    // const completedExam = await Exam.findOne({ _id: testExam._id.toString() });
+    // expect(completedExam.completed).toBeTruthy();
+
+    // const respFetchChunks2 = await query({
+    //   query: GET_TODAYS_CHUNKS
+    // });
+    // expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    // expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+  });
+
   //TODO:
-  // it("todaysChunks should be empty, since no exams", async () => {
-  //   const respDeleteTodaysChunksCache = await TodaysChunkCache.deleteMany({
-  //     userId: "samanthasId"
+  // it("todaysChunks should be empty when chunk is completed", async () => {
+  //   const testExam = await addTestExam({
+  //     subject: "Biology"
   //   });
-  //   expect(respDeleteTodaysChunksCache).toBeTruthy();
   //   expect(await TodaysChunkCache.countDocuments()).toBe(0);
-  //   const resp = await todaysChunkCacheEmpty("samanthasId");
-  //   expect(resp).toBeTruthy();
+  //   expect(await Exam.countDocuments()).toBe(1);
 
   //   const respFetchChunks = await query({
   //     query: GET_TODAYS_CHUNKS
   //   });
   //   expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-  //   expect(respFetchChunks.data.todaysChunks.length).toBe(3);
+  //   expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+  //   expect(respFetchChunks.data.todaysChunks[0].completed).toBeFalsy();
 
-  //   expect(
-  //     await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
-  //   ).toBe(3);
-
-  //   const resp2 = await todaysChunkCacheEmpty("samanthasId");
-
-  //   expect(resp2).toBeFalsy();
-  // });
-
-  // it("should not fetch today's chunks, since dates are the same (however should never occur)", async () => {
-  //   const exam = await addTestExam({
-  //     subject: "Wrong",
-  //     examDate: new Date(),
-  //     startDate: new Date()
+  //   const respExamCompleted = await query({
+  //     query: EXAM_COMPLETED_MUTATION,
+  //     variables: {
+  //       id: testExam._id.toString()
+  //     }
   //   });
+  //   expect(respExamCompleted.data).toBeTruthy();
 
-  //   const resp = await query({
+  //   const completedExam = await Exam.findOne({ _id: testExam._id.toString() });
+  //   expect(completedExam.completed).toBeTruthy();
+
+  //   const respFetchChunks2 = await query({
   //     query: GET_TODAYS_CHUNKS
   //   });
-
-  //   expect(resp.data).toBeFalsy();
-  //   expect(resp.errors[0].message).toEqual(
-  //     "Start date and exam date were the same for Wrong."
-  //   );
-
-  //   const removeResp = await Exam.deleteOne({ _id: exam._id });
-  //   expect(removeResp.deletedCount).toBe(1);
+  //   expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+  //   expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+  //   expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   // });
-
-  // it("should not fetch today's chunks, since current page is higher than total amount of pages (however should never occur)", async () => {
-  //   const exam = await addTestExam({
-  //     subject: "Wrong",
-  //     currentPage: 50,
-  //     numberPages: 20,
-  //     timesRepeat: 1
-  //   });
-
-  //   const resp = await query({
-  //     query: GET_TODAYS_CHUNKS
-  //   });
-
-  //   expect(resp.data).toBeFalsy();
-  //   expect(resp.errors[0].message).toEqual(
-  //     "The current page is higher than the number of pages for this exam."
-  //   );
-
-  //   const removeResp = await Exam.deleteOne({ _id: exam._id });
-  //   expect(removeResp.deletedCount).toBe(1);
-  // });
-
-  // async function addTestExams() {
-  //   const exam1 = await addTestExam({
-  //     subject: "Biology",
-  //     color: "#979250"
-  //   });
-  //   const exam2 = await addTestExam({
-  //     subject: "Archeology",
-  //     examDate: getFutureDay(new Date(), 2),
-  //     startDate: getFutureDay(new Date(), -5),
-  //     numberPages: 42,
-  //     timePerPage: 10,
-  //     startPage: 7,
-  //     currentPage: 50,
-  //     timesRepeat: 2,
-  //     color: "#2444A8"
-  //   });
-  //   const exam3 = await addTestExam({
-  //     subject: "Chemistry",
-  //     examDate: getFutureDay(new Date(), 1),
-  //     startDate: getFutureDay(new Date(), -20),
-  //     numberPages: 600,
-  //     timePerPage: 10,
-  //     startPage: 8,
-  //     currentPage: 1600,
-  //     timesRepeat: 5,
-  //     color: "#2328A9"
-  //   });
-  //   const exam4 = await addTestExam({
-  //     subject: "Dance",
-  //     examDate: getFutureDay(new Date(), 30),
-  //     startDate: getFutureDay(new Date(), 51),
-  //     color: "#85625A"
-  //   });
-
-  //   // return exam1;
-  //   return { exam1, exam2, exam3, exam4 };
-  // }
-
-  // async function addTestExam({
-  //   subject,
-  //   examDate,
-  //   startDate,
-  //   numberPages,
-  //   timePerPage,
-  //   startPage,
-  //   currentPage,
-  //   timesRepeat,
-  //   color
-  // }) {
-  //   const exam = await Exam.create({
-  //     subject: subject || "Test Subject",
-  //     examDate: examDate || getFutureDay(new Date(), 5),
-  //     startDate: startDate || new Date(),
-  //     numberPages: numberPages || 50,
-  //     timePerPage: timePerPage || 5,
-  //     startPage: startPage || 1,
-  //     currentPage: currentPage || startPage || 1,
-  //     timesRepeat: timesRepeat || 1,
-  //     notes: "Samantha's notes",
-  //     pdfLink: "samanthas-link.stan",
-  //     color: color || "#FFFFFF",
-  //     completed: false,
-  //     userId: "samanthasId"
-  //   });
-
-  //   if (!exam) throw new Error("Could not add a test exam");
-
-  //   return exam;
-  // }
-
-  // function getFutureDay(date, numberDaysInFuture) {
-  //   const nextDay = new Date(date);
-  //   nextDay.setDate(date.getDate() + numberDaysInFuture);
-  //   return new Date(nextDay);
-  // }
 });

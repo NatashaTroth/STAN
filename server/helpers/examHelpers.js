@@ -77,6 +77,7 @@ export async function handleUpdateExamInput(args, userId) {
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
+  // learningIsComplete(args.currentPage, args.startPage, a);
   args.completed = exam.completed;
   // args.completed = learningIsComplete(
   //   exam.currentPage,
