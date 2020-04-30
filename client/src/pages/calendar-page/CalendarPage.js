@@ -20,8 +20,10 @@ import Loading from "../../components/loading/Loading"
 // libraries ----------------
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
-import timeGridPlugin from "@fullcalendar/timegrid"
+import listPlugin from "@fullcalendar/list"
+import enLocale from "@fullcalendar/core/locales/en-gb"
 
+// react-bootstrap ----------------
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
@@ -57,6 +59,62 @@ const ExamsCalendar = () => {
         },
       },
       {
+        title: "English",
+        start: "2020-04-29T00:00:00.000Z",
+        end: "2020-05-04T00:00:00.000Z",
+        color: "#A48C24",
+        extendedProps: {
+          examDate: "2020-04-29T00:00:00.000Z",
+          currentPage: 450,
+          numberPagesLeftTotal: 1209,
+          numberPagesPerDay: 68,
+          durationTotal: 12090,
+          durationPerDay: 680,
+        },
+      },
+      {
+        title: "English",
+        start: "2020-04-29T00:00:00.000Z",
+        end: "2020-05-04T00:00:00.000Z",
+        color: "#A48C24",
+        extendedProps: {
+          examDate: "2020-04-29T00:00:00.000Z",
+          currentPage: 450,
+          numberPagesLeftTotal: 1209,
+          numberPagesPerDay: 68,
+          durationTotal: 12090,
+          durationPerDay: 680,
+        },
+      },
+      {
+        title: "English",
+        start: "2020-04-29T00:00:00.000Z",
+        end: "2020-05-04T00:00:00.000Z",
+        color: "#A48C24",
+        extendedProps: {
+          examDate: "2020-04-29T00:00:00.000Z",
+          currentPage: 450,
+          numberPagesLeftTotal: 1209,
+          numberPagesPerDay: 68,
+          durationTotal: 12090,
+          durationPerDay: 680,
+        },
+      },
+      {
+        title: "English",
+        start: "2020-04-29T00:00:00.000Z",
+        end: "2020-05-04T00:00:00.000Z",
+        color: "#A48C24",
+        extendedProps: {
+          examDate: "2020-04-29T00:00:00.000Z",
+          currentPage: 450,
+          numberPagesLeftTotal: 1209,
+          numberPagesPerDay: 68,
+          durationTotal: 12090,
+          durationPerDay: 680,
+        },
+      },
+      {
         title: "Mathe",
         start: "2020-04-01T00:00:00.000Z",
         end: "2020-05-04T00:00:00.000Z",
@@ -76,15 +134,42 @@ const ExamsCalendar = () => {
         end: "2020-04-12T00:00:00.000Z",
         color: "red",
       },
-      // {
-      //   title: "BCH237",
-      //   start: "2020-04-30T10:30:00",
-      //   end: "2020-04-30T11:30:00",
-      //   extendedProps: {
-      //     department: "BioChemistry",
-      //   },
-      //   description: "Lecture",
-      // },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
+      {
+        title: "German",
+        start: "2020-04-12T00:00:00.000Z",
+        end: "2020-04-12T00:00:00.000Z",
+        color: "red",
+      },
     ]
   }
 
@@ -96,14 +181,18 @@ const ExamsCalendar = () => {
           <div className="col-md-10">
             <FullCalendar
               events={exams}
-              plugins={[dayGridPlugin, timeGridPlugin]}
+              plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
               eventLimit={true}
+              locale={enLocale}
+              columnHeaderFormat={{ weekday: "long" }}
+              allDaySlot={false}
               header={{
                 left: "title",
-                right: "today, timeGridWeek, dayGridMonth, prev, next",
+                right: "today, listWeek, dayGridMonth, prev, next",
               }}
               eventRender={info => {
+                let popover
                 const examDetails = info.event.extendedProps
                 const examDate = examDetails.examDate
                 const currentPage = examDetails.currentPage
@@ -112,34 +201,42 @@ const ExamsCalendar = () => {
                 const durationTotal = examDetails.durationTotal
                 const durationPerDay = examDetails.durationPerDay
 
-                const popover = (
-                  <Popover id="popover-basic">
-                    <Popover.Title as="h4">{info.event.title}</Popover.Title>
-                    <Popover.Content>
-                      <strong>
-                        Exam date:{" "}
-                        <span className="exam-date">
-                          {" "}
-                          {formatDate(examDate)}
-                        </span>
-                      </strong>
-                      <br></br>
-                      <strong>Current page: </strong>
-                      {currentPage}
-                      <br></br>
-                      <strong>Total pages left: </strong> {numberPagesLeftTotal}
-                      <br></br>
-                      <strong>Pages per day to learn: </strong> ca.{" "}
-                      {numberPagesPerDay}
-                      <br></br>
-                      <strong>Duration per day:</strong> ca.{" "}
-                      {minuteToHours(durationPerDay)}
-                      <br></br>
-                      <strong>Duration total:</strong>{" "}
-                      {minuteToHours(durationTotal)}
-                    </Popover.Content>
-                  </Popover>
-                )
+                if (Object.keys(examDetails).length !== 0) {
+                  popover = (
+                    <Popover id="popover-basic">
+                      <Popover.Title as="h4">{info.event.title}</Popover.Title>
+
+                      <Popover.Content>
+                        <div className="exam-date">
+                          <h5>Exam date:</h5>
+                          <p>{formatDate(examDate)}</p>
+                        </div>
+                        <div className="current-ap">
+                          <h5>Current page: </h5>
+                          <p>{currentPage}</p>
+                        </div>
+                        <div className="total-pages-left">
+                          <h5>Total pages left: </h5>
+                          <p>{numberPagesLeftTotal}</p>
+                        </div>
+                        <div className="pages-per-day">
+                          <h5>Pages per day to learn: ca. </h5>
+                          <p>{numberPagesPerDay}</p>
+                        </div>
+                        <div className="duration-per-day">
+                          <h5>Duration per day: ca. </h5>
+                          <p>{minuteToHours(durationPerDay)}</p>
+                        </div>
+                        <div className="duration-total">
+                          <h5>Duration total: </h5>
+                          <p>{minuteToHours(durationTotal)}</p>
+                        </div>
+                      </Popover.Content>
+                    </Popover>
+                  )
+                } else {
+                  popover = <div></div>
+                }
 
                 let evtId = "event-" + info.event.id
                 const content = (
