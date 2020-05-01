@@ -53,7 +53,8 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
         await addTodaysChunkToDatabase(newChunk, exam.userId);
-      } else if (!isTheSameDay(chunk.chunkUpdatedAt, new Date())) {
+      } else {
+        //if (!isTheSameDay(chunk.chunkUpdatedAt, new Date())) {
         // await TodaysChunkCache.deleteOne({ _id: chunk._id });
         // await addTodaysChunkToDatabase(newChunk, exam.userId);
         // const newChunk = createTodaysChunkObject(exam);
@@ -91,97 +92,181 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
 }
 
 export function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
+  return isTheSameDay(chunkUpdatedAt, new Date());
+  //TODO do i need this? don't think so now
+  // && date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
+}
+
+export async function handleUpdateExamInTodaysChunkCache(
+  userId,
+  exam,
+  newArgs
+) {
+  const todaysChunkCache = await TodaysChunkCache.findOne({
+    examId: exam._id.toString()
+    // userId
+  });
+
+  if (!todaysChunkCache) return;
+
+  if (chunkHasToBeChanged(exam, newArgs)) {
+    console.log("chunk has to be changed");
+
+    const updates = filterOutUpdatesInTodaysChunk(
+      exam,
+      newArgs,
+      todaysChunkCache
+    );
+    // console.log("FILTERED OUT ALL UPDATES");
+    // console.log(updates);
+    //TODO EXTRAct
+    const updateCacheResp = await TodaysChunkCache.updateOne({
+      ...updates
+    });
+    if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+      throw new ApolloError("The todays chunk cache could not be updated.");
+  } else {
+    console.log("chunk has not changed much");
+    const updates = {};
+    let updateNeeded = false;
+    if (exam.currentPage !== newArgs.currentPage) {
+      updates.currentPage = newArgs.currentPage;
+      updateNeeded = true;
+    }
+    if (exam.timePerPage !== newArgs.timePerPage) {
+      updates.durationToday =
+        todaysChunkCache.numberPagesToday * newArgs.timePerPage;
+      updateNeeded = true;
+    }
+    if (updateNeeded) {
+      console.log("update was needed");
+      //TODO EXTRAct
+
+      const updateCacheResp = await TodaysChunkCache.updateOne({
+        ...updates
+      });
+      if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+        throw new ApolloError("The todays chunk cache could not be updated.");
+    }
+  }
+
+  // const updateCacheResp = await TodaysChunkCache.updateOne({
+  //   currentPage: page
+  // });
+  // if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+  //   throw new ApolloError(
+  //     "The todays chunk cache current page could not be updated."
+  //   );
+
+  // if (pageAmountHasChanged(oldChunk, newExam)) {
+  // }
+}
+
+// function chunkDoesNotHaveToBeChanged(oldExam, newArgs){
+//   // $subject: String!
+//   // $examDate: Date!
+//   // $startDate: Date!
+//   // $numberPages: Int!
+//   // $timePerPage: Int!
+//   // $timesRepeat: Int!
+//   // $startPage: Int!
+//   // $currentPage: Int!
+//   // $notes: String
+//   // $pdfLink: String # $completed: Boolean
+//   return(!isTheSameDay(oldExam.examDate, newArgs.examDate) ||
+//   !isTheSameDay(oldExam.startDate, newArgs.startDate) ||
+//   oldExam.numberPages !== newArgs.numberPages ||
+//   oldExam.timesRepeat !== newArgs.timesRepeat ||
+//   oldExam.startPage !== newArgs.startPage ||
+
+//   )
+
+// }
+function chunkHasToBeChanged(oldExam, newArgs) {
+  // $subject: String!
+  // $examDate: Date!
+  // $startDate: Date!
+  // $numberPages: Int!
+  // $timePerPage: Int!
+  // $timesRepeat: Int!
+  // $startPage: Int!
+  // $currentPage: Int!
+  // $notes: String
+  // $pdfLink: String # $completed: Boolean
   return (
-    isTheSameDay(chunkUpdatedAt, new Date()) &&
-    date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
+    !isTheSameDay(oldExam.examDate, newArgs.examDate) ||
+    !isTheSameDay(oldExam.startDate, newArgs.startDate) ||
+    oldExam.numberPages !== newArgs.numberPages ||
+    oldExam.timesRepeat !== newArgs.timesRepeat ||
+    oldExam.startPage !== newArgs.startPage
   );
 }
 
-export async function handleUpdateCurrentPageInTodaysChunkCache(examId, page) {
+export async function handleUpdateCurrentPageInTodaysChunkCache(
+  userId,
+  examId,
+  page
+) {
+  // console.log("here");
   const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
-    examId: examId
+    examId: examId,
+    userId
   });
+  // console.log(todaysChunkCacheNumber);
+  if (todaysChunkCacheNumber !== 1) return;
 
-  if (todaysChunkCacheNumber === 1) {
-    const updateCacheResp = await TodaysChunkCache.updateOne({
-      currentPage: page
-    });
-    if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-      throw new ApolloError(
-        "The todays chunk cache current page could not be updated."
-      );
-  }
+  const updateCacheResp = await TodaysChunkCache.updateOne({
+    currentPage: page
+  });
+  if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+    throw new ApolloError(
+      "The todays chunk cache current page could not be updated."
+    );
 }
 
-function filterOutUpdatesInTodaysChunk(oldChunk, newExam) {
+function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
   let updates;
+  // console.log("updating important stuff");
+  const newChunk = createTodaysChunkObject(newArgs);
+  // console.log(oldChunk);
+  // console.log(newChunk);
 
-  if (pageAmountHasChanged(oldChunk, newExam)) {
-    console.log("updating important stuff");
-    // console.log(oldChunk);
-    // console.log(newChunk);
-    // console.log(oldChunk);
-    // console.log(newChunk);
-    const durationAlreadyLearned =
-      calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
-    // console.log("durationAlreadyLearned: " + durationAlreadyLearned);
-    const totalDurationLeft =
-      newChunk.exam.numberPages * newChunk.exam.timePerPage;
-    // console.log("totaDurleft: " + totalDurationLeft);
-    const dailyDurationWithCompletedDuration =
-      (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
-    // console.log(
-    //   "dailyDurationWithCompletedDur: " + dailyDurationWithCompletedDuration
-    // );
-    let durationToday = Math.ceil(
-      dailyDurationWithCompletedDuration - durationAlreadyLearned
-    );
-    // console.log("durationToday: " + durationToday);
+  const durationAlreadyLearned =
+    calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
+  // console.log("durationAlreadyLearned: " + durationAlreadyLearned);
 
-    if (durationToday < 0) durationToday = 0;
-    // console.log("durationToday: " + durationToday);
+  //HERE I AM
 
-    const numberPagesToday = Math.ceil(
-      durationToday / newChunk.exam.timePerPage
-    );
-    // console.log("numberPagesToday: " + numberPagesToday);
-    durationToday = numberPagesToday * newChunk.exam.timePerPage;
-    // startPage = ;
-    updates = {
-      numberPagesToday,
-      durationToday,
-      startPage: newChunk.currentPage,
-      currentPage: newChunk.currentPage,
-      daysLeft: newChunk.daysLeft,
-      notEnoughTime: newChunk.notEnoughTime,
-      durationAlreadyLearned
-    };
-  } else {
-    console.log("updating unimportant stuff");
+  const totalDurationLeft =
+    newChunk.exam.numberPages * newChunk.exam.timePerPage;
+  // console.log("totaDurleft: " + totalDurationLeft);
+  const dailyDurationWithCompletedDuration =
+    (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
+  // console.log(
+  //   "dailyDurationWithCompletedDur: " + dailyDurationWithCompletedDuration
+  // );
+  let durationToday = Math.ceil(
+    dailyDurationWithCompletedDuration - durationAlreadyLearned
+  );
+  // console.log("durationToday: " + durationToday);
 
-    updates = { ...newChunk };
-    updates.startPage = oldChunk.startPage;
-  }
-  // console.log(updates);
-  return updates;
-  if (oldChunk.numberPagesToday !== newChunk.numberPagesToday)
-    updates.numberPagesToday = newChunk.numberPagesToday;
-  if (oldChunk.durationToday !== newChunk.durationToday)
-    updates.durationToday = newChunk.durationToday;
-  // if (chunk.startPage !== newChunk.startPage)
-  //   updates.startPage = newChunk.startPage;
-  if (oldChunk.daysLeft !== newChunk.daysLeft)
-    updates.daysLeft = newChunk.daysLeft;
-  if (oldChunk.notEnoughTime !== newChunk.notEnoughTime)
-    updates.notEnoughTime = newChunk.notEnoughTime;
-  //TODO
-  // if (chunk.exam.completed !== newChunk.exam.completed)
-  //   updates.exam.completed = newChunk.exam.completed;
-  // console.log("filtering");
-  // for (let key of Object.keys(chunk)) {
-  //   if (chunk[key] !== newChunk[key]) updates[key] = newChunk[key];
-  // }
-  // console.log("updates:");
+  if (durationToday < 0) durationToday = 0;
+  // console.log("durationToday: " + durationToday);
+
+  const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
+  // console.log("numberPagesToday: " + numberPagesToday);
+  durationToday = numberPagesToday * newChunk.exam.timePerPage;
+  // startPage = ;
+  updates = {
+    numberPagesToday,
+    durationToday,
+    startPage: newChunk.currentPage,
+    currentPage: newChunk.currentPage,
+    daysLeft: newChunk.daysLeft,
+    notEnoughTime: newChunk.notEnoughTime,
+    durationAlreadyLearned
+  };
+
   // console.log(updates);
   return updates;
 }
@@ -198,10 +283,10 @@ function calcCompletedDuration(chunk) {
 
 function pageAmountHasChanged(oldChunk, newExam) {
   //only true if one has these has been updated
-  console.log(oldChunk.numberPagesToday !== newChunk.numberPagesToday);
-  console.log();
-  console.log(oldChunk.durationToday !== newChunk.durationToday);
-  console.log(oldChunk.daysLeft !== newChunk.daysLeft);
+  // console.log(oldChunk.numberPagesToday !== newChunk.numberPagesToday);
+  // console.log();
+  // console.log(oldChunk.durationToday !== newChunk.durationToday);
+  // console.log(oldChunk.daysLeft !== newChunk.daysLeft);
   return (
     oldChunk.numberPagesToday !== newChunk.numberPagesToday ||
     oldChunk.durationToday !== newChunk.durationToday ||
@@ -318,7 +403,7 @@ function calculateChunkProgress(chunks) {
     //INDEX USERID FOR TODAYSCHUNKS AND EXAMID FOR EXAMSs
     //TODO: CACHE AND NOT CACHE OBEJECTS SHOULD LOOK THE SAME SO DON'T HAVE ALL THIS:
     // console.log(chunk);
-    console.log(chunk.exam.subject);
+    // console.log(chunk.exam.subject);
     totalDuration += chunk.durationToday;
 
     totalDurationCompleted += durationCompleted({
@@ -328,17 +413,17 @@ function calculateChunkProgress(chunks) {
       numberPages: chunk.numberPagesToday,
       completed: chunk.completed
     });
-    console.log(".........");
-    console.log("durationToday:" + chunk.durationToday);
-    console.log("startPage:" + chunk.startPage); //16
+    // console.log(".........");
+    // console.log("durationToday:" + chunk.durationToday);
+    // console.log("startPage:" + chunk.startPage); //16
 
-    console.log("currentPage:" + chunk.exam.currentPage);
-    console.log("numberPagesToday:" + chunk.numberPagesToday);
+    // console.log("currentPage:" + chunk.exam.currentPage);
+    // console.log("numberPagesToday:" + chunk.numberPagesToday);
   });
 
-  console.log("-----------");
-  console.log("totalDuration:" + totalDuration);
-  console.log("totalDurationCompleted:" + totalDurationCompleted);
+  // console.log("-----------");
+  // console.log("totalDuration:" + totalDuration);
+  // console.log("totalDurationCompleted:" + totalDurationCompleted);
 
   //duration ..... 100%
   //duration completed ... x

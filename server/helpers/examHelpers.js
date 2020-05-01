@@ -63,15 +63,7 @@ export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
   } else verifyAddExamDates(startDate, examDate);
 }
 
-export async function handleUpdateExamInput(args, userId) {
-  const exam = await Exam.findOne({
-    _id: args.id,
-    userId: userId
-  });
-  if (!exam)
-    throw new ApolloError(
-      "No exam exists with this exam id: " + args.id + " for this user."
-    );
+export async function handleUpdateExamInput(exam, args, userId) {
   //TODO: CHANGE NOT GOOD - MIGHT NOT BE START DATE, AND ORIGINAL STARTDATE MIGHT BE IN THE PAST
   // console.log("HERE");
   // console.log(args.startDate + " " + args.examDate);

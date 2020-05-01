@@ -18,7 +18,8 @@ import {
   fetchTodaysChunks,
   fetchCalendarChunks,
   getTodaysChunkProgress,
-  handleUpdateCurrentPageInTodaysChunkCache
+  handleUpdateCurrentPageInTodaysChunkCache,
+  handleUpdateExamInTodaysChunkCache
 } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -131,17 +132,39 @@ export const examResolvers = {
     updateExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
+        const exam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+        if (!exam)
+          throw new ApolloError(
+            "No exam exists with this exam id: " + args.id + " for this user."
+          );
         const processedArgs = await handleUpdateExamInput(
+          exam,
           args,
           context.userInfo.userId
         );
+
         const resp = await Exam.updateOne(
-          { _id: args.id },
+          { _id: args.id, userId: context.userInfo.userId },
           { ...processedArgs }
         );
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
-        const updatedExam = await Exam.findOne({ _id: args.id });
+
+        //TODO - NEED AWAIT HERE?
+
+        await handleUpdateExamInTodaysChunkCache(
+          context.userInfo.userId,
+          exam,
+          processedArgs
+        );
+        const updatedExam = await Exam.findOne({
+          _id: args.id,
+          userId: context.userInfo.userId
+        });
+
         return updatedExam;
       } catch (err) {
         handleResolverError(err);
@@ -163,7 +186,7 @@ export const examResolvers = {
         // console.log("hi");
         // console.log(exam.completed);
         const resp = await Exam.updateOne(
-          { _id: args.examId },
+          { _id: args.examId, userId: context.userInfo.userId },
           {
             currentPage: args.page,
             completed: exam.completed,
@@ -174,7 +197,12 @@ export const examResolvers = {
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
 
-        handleUpdateCurrentPageInTodaysChunkCache(exam._id, args.page);
+        //TODO - NEED AWAIT HERE?
+        await handleUpdateCurrentPageInTodaysChunkCache(
+          context.userInfo.userId,
+          exam._id,
+          args.page
+        );
 
         return true;
       } catch (err) {

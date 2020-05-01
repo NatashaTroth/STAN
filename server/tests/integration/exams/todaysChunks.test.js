@@ -194,7 +194,7 @@ describe("Test user resolver regex", () => {
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
-  it.skip("todaysChunks should update when exam is updated", async () => {
+  it("todaysChunks should update when exam is updated", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
@@ -220,7 +220,7 @@ describe("Test user resolver regex", () => {
     const respFetchChunks2 = await query({
       query: GET_TODAYS_CHUNKS
     });
-    console.log(respFetchChunks2);
+
     expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
     expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
     expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
@@ -261,6 +261,10 @@ describe("Test user resolver regex", () => {
         startPage: 20,
         timesRepeat: 1
       }
+    });
+
+    const test = await TodaysChunkCache.find({
+      examId: testExam._id.toString()
     });
 
     expect(respUpdateExam.data.updateExam).toBeTruthy();
@@ -334,7 +338,7 @@ describe("Test user resolver regex", () => {
     });
   });
 
-  it.skip("only unimportant stuff should update (currentPage, notes, link..), chunk calculations should stay the same", async () => {
+  it("only unimportant stuff should update (currentPage, notes, link..), chunk calculations should stay the same", async () => {
     const testExam = await addTestExam({
       subject: "Biology"
     });
@@ -377,10 +381,10 @@ describe("Test user resolver regex", () => {
     const respFetchChunks3 = await query({
       query: GET_TODAYS_CHUNKS
     });
-    console.log(respFetchChunks3.data.todaysChunks);
+
     expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
     expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks3.data.todaysChunks[0].exam.currentPage).toBe(3);
+    expect(respFetchChunks3.data.todaysChunks[0].exam.currentPage).toBe(11);
     expect(respFetchChunks3.data.todaysChunks[0].startPage).toBe(1);
 
     //#TODO
