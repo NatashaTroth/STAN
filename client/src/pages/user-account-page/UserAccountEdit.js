@@ -465,17 +465,19 @@ const UserAccountEdit = () => {
                     </div>
                   )}
 
-                  <div className="col-xl-12">
-                    <div className="user-account__edit--form__button">
-                      <div className="save-button">
-                        <Button
-                          variant="button"
-                          text="Save"
-                          className="stan-btn-primary"
-                        />
+                  {!currentUser.googleLogin ? (
+                    <div className="col-xl-12">
+                      <div className="user-account__edit--form__button">
+                        <div className="save-button">
+                          <Button
+                            variant="button"
+                            text="Save"
+                            className="stan-btn-primary"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ) : null}
 
                   <div className="col-md-12" id="success-container-edit-user">
                     <p className="success">
