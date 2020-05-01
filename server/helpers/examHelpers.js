@@ -97,6 +97,8 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
+
+  console.log("checking exam learning complete not chunk");
   exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages);
 
   return exam;
@@ -134,6 +136,7 @@ function generateSubjectColor(exam) {
 }
 
 export function learningIsComplete(currentPage, startPage, numberPages) {
+  // console.log("IN LEARNING COMPLETE FUNCTION");
   const endPage = startPage + numberPages - 1;
   // console.log("..." + currentPage + "  " + endPage);
   return currentPage > endPage;

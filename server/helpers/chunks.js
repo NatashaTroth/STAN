@@ -138,6 +138,11 @@ export async function handleUpdateExamInTodaysChunkCache(
         todaysChunkCache.numberPagesToday * newArgs.timePerPage;
       updateNeeded = true;
     }
+    updates.completed = todaysChunkIsCompleted(
+      newArgs.currentPage,
+      todaysChunkCache
+    );
+
     if (updateNeeded) {
       console.log("update was needed");
       //TODO EXTRAct
@@ -182,6 +187,7 @@ export async function handleUpdateExamInTodaysChunkCache(
 //   )
 
 // }
+
 function chunkHasToBeChanged(oldExam, newArgs) {
   // $subject: String!
   // $examDate: Date!
@@ -208,20 +214,36 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
   page
 ) {
   // console.log("here");
-  const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
+  const todaysChunkCache = await TodaysChunkCache.findOne({
     examId: examId,
     userId
   });
   // console.log(todaysChunkCacheNumber);
-  if (todaysChunkCacheNumber !== 1) return;
+  if (!todaysChunkCache) return;
+
+  let completed = todaysChunkIsCompleted(page, todaysChunkCache);
 
   const updateCacheResp = await TodaysChunkCache.updateOne({
-    currentPage: page
+    currentPage: page,
+    completed
   });
   if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
     throw new ApolloError(
       "The todays chunk cache current page could not be updated."
     );
+}
+
+function todaysChunkIsCompleted(currentPage, todaysChunkCache) {
+  let completed = todaysChunkCache.completed;
+  if (
+    learningIsComplete(
+      currentPage,
+      todaysChunkCache.startPage,
+      todaysChunkCache.numberPagesToday
+    )
+  )
+    completed = true;
+  return completed;
 }
 
 function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
@@ -355,6 +377,7 @@ async function addTodaysChunkToDatabase(chunk, userId) {
     // console.log("Adding chunks to database");
 
     //TODO: HANDLE Chunk COMPLETED
+    console.log("ADDING CACHE to db");
     const resp = await TodaysChunkCache.create({
       examId: chunk.exam.id,
       userId,

@@ -211,6 +211,7 @@ export const examResolvers = {
     },
     examCompleted: async (root, args, context, info) => {
       try {
+        console.log(await Exam.find({ userId: context.userInfo.userId }));
         const exam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -225,6 +226,15 @@ export const examResolvers = {
         );
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
+        const respUpdateTodaysChunkCache = await TodaysChunkCache.updateOne(
+          { examId: args.id },
+          { completed: true }
+        );
+        if (
+          respUpdateTodaysChunkCache.ok === 0 ||
+          respUpdateTodaysChunkCache.nModified === 0
+        )
+          throw new ApolloError("The chunk cache couldn't be updated.");
         return true;
       } catch (err) {
         handleResolverError(err);

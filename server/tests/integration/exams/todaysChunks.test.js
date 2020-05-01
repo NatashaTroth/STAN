@@ -63,6 +63,11 @@ describe("Test user resolver regex", () => {
     expect(resp.data.todaysChunks).toBeTruthy();
     expect(resp.data.todaysChunks.length).toBe(3);
 
+    const numberChunksInCache = await TodaysChunkCache.countDocuments({
+      userId: "samanthasId"
+    });
+    expect(numberChunksInCache).toBe(3);
+
     // resp.data.todaysChunks[0].examDate.
     // resp.data.todaysChunks[2].exam.id.toString();
     expect(resp.data.todaysChunks[2]).toMatchObject({
@@ -389,6 +394,103 @@ describe("Test user resolver regex", () => {
 
     //#TODO
     // expect(respFetchChunks3.data.todaysChunks[0].completed).toBeTruthy();
+  });
+
+  it("todaysChunks should be completed after finishing learning (current page mutation)", async () => {
+    const testExam = await addTestExam({
+      subject: "Biology"
+    });
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(1);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+
+    let completedPage =
+      respFetchChunks.data.todaysChunks[0].startPage +
+      respFetchChunks.data.todaysChunks[0].numberPagesToday;
+    //update currentpage
+
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: completedPage
+      }
+    });
+
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
+    const updatedChunk = await TodaysChunkCache.findOne({
+      examId: testExam._id.toString()
+    });
+    console.log(updatedChunk);
+    expect(updatedChunk.completed).toBeTruthy();
+
+    //TODO
+    // const respFetchChunks2 = await query({
+    //   query: GET_TODAYS_CHUNKS
+    // });
+
+    // expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    // expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+  });
+
+  it("todaysChunks should be completed after finishing learning (update exam  mutation)", async () => {
+    const testExam = await addTestExam({
+      subject: "Biology"
+    });
+    expect(await TodaysChunkCache.countDocuments()).toBe(0);
+    expect(await Exam.countDocuments()).toBe(1);
+
+    const respFetchChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+
+    let completedPage =
+      respFetchChunks.data.todaysChunks[0].startPage +
+      respFetchChunks.data.todaysChunks[0].numberPagesToday;
+    //update currentpage
+
+    //update Exam again - current progress should still be included
+    const updateResp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: testExam.subject,
+        examDate: testExam.examDate,
+        startDate: testExam.startDate,
+        currentPage: completedPage,
+        numberPages: testExam.numberPages, //was 50
+        timePerPage: testExam.timePerPage,
+        startPage: testExam.startPage,
+        timesRepeat: testExam.timesRepeat
+      }
+    });
+
+    expect(updateResp.data.updateExam).toBeTruthy();
+
+    const updatedChunk = await TodaysChunkCache.findOne({
+      examId: testExam._id.toString()
+    });
+    console.log(updatedChunk);
+    expect(updatedChunk.completed).toBeTruthy();
+
+    //TODO
+    // const respFetchChunks2 = await query({
+    //   query: GET_TODAYS_CHUNKS
+    // });
+
+    // expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
+    // expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
   //TODO:
