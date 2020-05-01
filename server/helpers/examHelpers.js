@@ -14,8 +14,8 @@ import {
   datesTimingIsValid,
   // startDateIsActive,
   isTheSameDay,
-  // getNumberOfDays,
-  startDateIsBeforeExamDate
+  getNumberOfDays,
+  date1IsBeforeDate2
 } from "../helpers/dates";
 
 export function prepareExamInputData(args, userId) {
@@ -24,11 +24,12 @@ export function prepareExamInputData(args, userId) {
     args.startDate = new Date();
   }
   args.timesRepeat = args.timesRepeat || 1;
-  args.startPage = args.startPage || 0;
-  args.currentPage = args.startPage;
+  args.startPage = args.startPage || 1;
+  args.currentPage = args.currentPage || args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
+  args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
 
   return { ...args };
@@ -57,25 +58,25 @@ export function verifyAddExamDates(startDate, examDate) {
 
 export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
   if (isTheSameDay(startDate, oldStartDate)) {
-    if (!startDateIsBeforeExamDate(startDate, examDate))
+    if (!date1IsBeforeDate2(startDate, examDate))
       throw new ApolloError("Start learning date must be before exam date.");
   } else verifyAddExamDates(startDate, examDate);
 }
 
-export async function handleUpdateExamInput(args, userId) {
-  const exam = await Exam.findOne({
-    _id: args.id,
-    userId: userId
-  });
-  if (!exam)
-    throw new ApolloError(
-      "No exam exists with this exam id: " + args.id + " for this user."
-    );
+export async function handleUpdateExamInput(exam, args, userId) {
   //TODO: CHANGE NOT GOOD - MIGHT NOT BE START DATE, AND ORIGINAL STARTDATE MIGHT BE IN THE PAST
   // console.log("HERE");
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
+  // learningIsComplete(args.currentPage, args.startPage, a);
+  args.completed = exam.completed;
+  // args.completed = learningIsComplete(
+  //   exam.currentPage,
+  //   exam.startPage,
+  //   exam.numberPages
+  // );
+
   return prepareExamInputData({ ...args }, userId);
 }
 
@@ -92,10 +93,18 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
     );
-  if (page > exam.numberPages * exam.timesRepeat)
+  if (page > exam.numberPages * exam.timesRepeat + 1)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
+
+  // console.log("checking exam learning complete not chunk");
+  exam.completed = learningIsComplete(
+    page,
+    exam.startPage,
+    exam.numberPages,
+    exam.timesRepeat
+  );
 
   return exam;
 }
@@ -129,6 +138,19 @@ function generateSubjectColor(exam) {
     color += hexChars[colorNumber].toString();
   });
   return color;
+}
+
+export function learningIsComplete(
+  currentPage,
+  startPage,
+  numberPages,
+  repeat = 1
+) {
+  // console.log("IN LEARNING COMPLETE FUNCTION");
+
+  const endPage = startPage + numberPages * repeat - 1;
+  // console.log("..." + currentPage + "  " + endPage);
+  return currentPage > endPage;
 }
 
 function verifyNewExamInputFormat(args) {

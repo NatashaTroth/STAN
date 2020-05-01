@@ -18,7 +18,7 @@ const todaysChunkCacheSchema = new Schema({
   //   type: Number,
   //   required: true
   // },
-  duration: {
+  durationToday: {
     type: Number,
     required: true
   },
@@ -32,9 +32,22 @@ const todaysChunkCacheSchema = new Schema({
     default: 1,
     required: true
   },
+  daysLeft: {
+    type: Number,
+    required: true
+  },
+
+  notEnoughTime: {
+    type: Boolean,
+    default: false
+  },
   completed: {
     type: Boolean,
     default: false
+  },
+  durationAlreadyLearned: {
+    type: Number,
+    default: 0
   },
   createdAt: {
     type: Date,

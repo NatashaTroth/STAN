@@ -81,6 +81,7 @@ const apolloServer = new ApolloServer({
   playground: {
     settings: {
       "request.credentials": "same-origin"
+      // "editor.theme": "light"
     }
   },
   formatError: err => {

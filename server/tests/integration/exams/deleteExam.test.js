@@ -4,41 +4,43 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
-  // clearDatabase,
+  addTestExam,
+  clearDatabase,
   teardown
 } from "../setup";
-import { Exam } from "../../../models";
+import { Exam, TodaysChunkCache } from "../../../models";
 
 import { DELETE_EXAM_MUTATION } from "../../mutations.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
-// import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
-  let testExam;
+  let query;
 
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
-    testExam = await addTestExam();
+    query = client.query;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should delete exam1", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({
@@ -49,11 +51,64 @@ describe("Test user resolver regex", () => {
     });
 
     expect(resp.data).toBeTruthy();
-    const newCount = await Exam.countDocuments();
-    expect(newCount).toBe(initialCount - 1);
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
+      initialCount - 1
+    );
+    expect(
+      await Exam.countDocuments({
+        _id: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+  });
+
+  it("should delete cache when exam1 is deleted", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
+    const initialCount = await Exam.countDocuments();
+    const todaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks).toBeTruthy();
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
+
+    const todaysChunksCount = await TodaysChunkCache.countDocuments({
+      examId: testExam._id.toString(),
+      userId: "samanthasId"
+    });
+
+    expect(todaysChunksCount).toBe(1);
+    const resp = await mutate({
+      query: DELETE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString()
+      }
+    });
+
+    expect(resp.data).toBeTruthy();
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
+      initialCount - 1
+    );
+    expect(
+      await Exam.countDocuments({
+        _id: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+    expect(
+      await TodaysChunkCache.countDocuments({
+        examId: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
   });
 
   it("shouldn't delete the exam - since it doesn't exist", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     let falseId = "5e923a29a39c7738fb50e632";
     if (testExam._id.toString() === falseId)
       falseId = "5e923a29a39c7738fb50e635";
@@ -73,31 +128,4 @@ describe("Test user resolver regex", () => {
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
   });
-
-  async function addTestExam() {
-    const exam = await Exam.create({
-      subject: "Test Subject",
-      examDate: getFutureDay(new Date(), 5),
-      startDate: new Date(),
-      numberPages: 50,
-      timePerPage: 5,
-      startPage: 1,
-      currentPage: 1,
-      timesRepeat: 1,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: "#FFFFFF",
-      completed: false,
-      userId: "samanthasId"
-    });
-
-    if (!exam) throw new Error("Could not add a test exam");
-
-    return exam;
-  }
-  function getFutureDay(date, numberDaysInFuture) {
-    const nextDay = new Date(date);
-    nextDay.setDate(date.getDate() + numberDaysInFuture);
-    return new Date(nextDay);
-  }
 });

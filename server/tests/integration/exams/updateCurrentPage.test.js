@@ -4,7 +4,7 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
   // clearDatabase,
   teardown
 } from "../setup";
@@ -15,16 +15,20 @@ import {
   UPDATE_CURRENT_PAGE_MUTATION
 } from "../../mutations.js";
 
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
+
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
+  let query;
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
+    query = client.query;
   });
 
   // afterEach(async () => {
@@ -116,5 +120,39 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual(
       "There is no exam with the id: 5e8ef5f1800a7ded589961a4 for that user."
     );
+  });
+
+  it("should update current page in the cache", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+    const todaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
+    expect(
+      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+    ).toBe(1);
+
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 3
+      }
+    });
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
+
+    const todaysChunks2 = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
+    expect(
+      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+    ).toBe(3);
   });
 });

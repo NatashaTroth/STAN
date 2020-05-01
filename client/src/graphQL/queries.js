@@ -50,27 +50,30 @@ export const GET_EXAM_QUERY = gql`
   }
 `
 
-export const GET_TODAYS_CHUNKS = gql`
+export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
   query {
-    todaysChunks {
-      exam {
-        id
-        subject
-        examDate
-        startDate
-        numberPages
-        # timePerPage
-        timesRepeat
+    todaysChunkAndProgress {
+      todaysChunks {
+        exam {
+          id
+          subject
+          examDate
+          startDate
+          totalNumberDays
+          numberPages
+          timesRepeat
+          currentPage
+          pdfLink
+        }
+        numberPagesToday
+        startPage
         currentPage
-        pdfLink
+        durationToday
+        daysLeft
+        notEnoughTime
+        completed
       }
-      numberPagesToday
-      duration
-      daysLeft
-      totalNumberDays
-      # totalChunks
-      numberPagesWithRepeat
-      notEnoughTime
+      todaysProgress
     }
   }
 `
