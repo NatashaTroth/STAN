@@ -118,7 +118,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-9">
+          <div className="col-md-12">
             <div className="exam-details__inner--details--bottom">
               <h4>Notes</h4>
 
@@ -127,9 +127,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
             <div className="exam-details__inner--details--button">
-              {/* TODO: change button text, maybe "completed"? */}
               <Button
                 className="stan-btn-primary"
                 variant="button"
