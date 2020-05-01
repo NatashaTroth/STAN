@@ -352,6 +352,26 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="form__element">
               <Label
+                htmlFor="current-page"
+                text="Current page"
+                className="form__element__label"
+              ></Label>
+              <input
+                className="form__element__input"
+                type="text"
+                id="current-page"
+                label="current-page"
+                name="current-page"
+                onChange={handleChange.bind(null, "current-page")}
+                // value={pdfLink}
+                ref={register({
+                  required: false,
+                })}
+              />
+            </div>
+
+            <div className="form__element">
+              <Label
                 htmlFor="pdf-link"
                 text="Pdf link"
                 className="form__element__label"
