@@ -146,8 +146,8 @@ function Today(props) {
     repetitionCycles =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .timesRepeat
-    repetition = 1
-    let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+    repetition = 0
+    let repetitionCounter = Math.floor(currentPage / lastPage)
     if (repetitionCounter <= repetitionCycles) {
       repetition = repetitionCounter
     } else {
