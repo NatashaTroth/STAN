@@ -69,18 +69,27 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
 export const GET_CALENDAR_CHUNKS = gql`
   query {
     calendarChunks {
-      subject
-      start
-      end
-      details {
-        examDate
-        currentPage
-        numberPagesLeftTotal
-        numberPagesPerDay
-        durationTotal
-        durationPerDay
+      calendarChunks {
+        title
+        start
+        end
+        color
+        extendedProps {
+          examDate
+          currentPage
+          numberPagesLeftTotal
+          numberPagesPerDay
+          durationTotal
+          durationPerDay
+          pdfLink
+        }
       }
-      color
+      calendarExams {
+        title
+        start
+        end
+        color
+      }
     }
   }
 `;

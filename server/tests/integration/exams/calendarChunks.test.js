@@ -47,71 +47,100 @@ describe("Test user resolver regex", () => {
     // console.log(JSON.stringify(resp));
 
     expect(resp.data.calendarChunks).toBeTruthy();
-    expect(resp.data.calendarChunks.length).toBe(4);
+    expect(resp.data.calendarChunks.calendarChunks.length).toBe(4);
     let exam;
+    const examColor = "red";
 
     exam = testExams.exam1;
-    expect(resp.data.calendarChunks[2]).toMatchObject({
-      subject: exam.subject,
+    expect(resp.data.calendarChunks.calendarChunks[2]).toMatchObject({
+      title: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
-      details: {
+      color: exam.color,
+      extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 50,
         numberPagesPerDay: 10,
         durationTotal: 250,
-        durationPerDay: 50
-      },
-      color: exam.color
+        durationPerDay: 50,
+        pdfLink: exam.pdfLink
+      }
+    });
+    expect(resp.data.calendarChunks.calendarExams[2]).toMatchObject({
+      title: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      color: examColor
     });
 
     exam = testExams.exam2;
-    expect(resp.data.calendarChunks[1]).toMatchObject({
-      subject: exam.subject,
+    expect(resp.data.calendarChunks.calendarChunks[1]).toMatchObject({
+      title: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
-      details: {
+      color: exam.color,
+      extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 71,
         numberPagesPerDay: 36,
         durationTotal: 710,
-        durationPerDay: 360
-      },
-      color: exam.color
+        durationPerDay: 360,
+        pdfLink: exam.pdfLink
+      }
+    });
+    expect(resp.data.calendarChunks.calendarExams[1]).toMatchObject({
+      title: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      color: examColor
     });
 
     exam = testExams.exam3;
-    expect(resp.data.calendarChunks[0]).toMatchObject({
-      subject: exam.subject,
+    expect(resp.data.calendarChunks.calendarChunks[0]).toMatchObject({
+      title: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
-      details: {
+      color: exam.color,
+      extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 48,
         numberPagesPerDay: 48,
         durationTotal: 480,
-        durationPerDay: 480
-      },
-      color: exam.color
+        durationPerDay: 480,
+        pdfLink: exam.pdfLink
+      }
+    });
+    expect(resp.data.calendarChunks.calendarExams[0]).toMatchObject({
+      title: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      color: examColor
     });
 
     exam = testExams.exam4;
-    expect(resp.data.calendarChunks[3]).toMatchObject({
-      subject: exam.subject,
+    expect(resp.data.calendarChunks.calendarChunks[3]).toMatchObject({
+      title: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
-      details: {
+      color: exam.color,
+      extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal: 50,
         numberPagesPerDay: 3,
         durationTotal: 250,
-        durationPerDay: 15
-      },
-      color: exam.color
+        durationPerDay: 15,
+        pdfLink: exam.pdfLink
+      }
+    });
+    expect(resp.data.calendarChunks.calendarExams[3]).toMatchObject({
+      title: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      color: examColor
     });
   });
 });
