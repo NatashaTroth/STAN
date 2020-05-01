@@ -5,40 +5,42 @@ import {
   setupApolloServer,
   setupDb,
   addTestExam,
-  // clearDatabase,
+  clearDatabase,
   teardown
 } from "../setup";
-import { Exam } from "../../../models";
+import { Exam, TodaysChunkCache } from "../../../models";
 
 import { DELETE_EXAM_MUTATION } from "../../mutations.js";
+import { GET_TODAYS_CHUNKS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
-// import { UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
-  let testExam;
+  let query;
 
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
-    testExam = await addTestExam({ subject: "Biology" });
+    query = client.query;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should delete exam1", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({
@@ -49,11 +51,62 @@ describe("Test user resolver regex", () => {
     });
 
     expect(resp.data).toBeTruthy();
-    const newCount = await Exam.countDocuments();
-    expect(newCount).toBe(initialCount - 1);
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
+      initialCount - 1
+    );
+    expect(
+      await Exam.countDocuments({
+        _id: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+  });
+
+  it("should delete cache when exam1 is deleted", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
+    const initialCount = await Exam.countDocuments();
+    const todaysChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(todaysChunks.data.todaysChunks).toBeTruthy();
+    expect(todaysChunks.data.todaysChunks.length).toBe(1);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        examId: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(1);
+
+    const resp = await mutate({
+      query: DELETE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString()
+      }
+    });
+
+    expect(resp.data).toBeTruthy();
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
+      initialCount - 1
+    );
+    expect(
+      await Exam.countDocuments({
+        _id: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+    expect(
+      await TodaysChunkCache.countDocuments({
+        examId: testExam._id.toString(),
+        userId: "samanthasId"
+      })
+    ).toBe(0);
   });
 
   it("shouldn't delete the exam - since it doesn't exist", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     let falseId = "5e923a29a39c7738fb50e632";
     if (testExam._id.toString() === falseId)
       falseId = "5e923a29a39c7738fb50e635";

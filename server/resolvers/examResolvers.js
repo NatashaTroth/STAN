@@ -211,6 +211,8 @@ export const examResolvers = {
     examCompleted: async (root, args, context, info) => {
       try {
         // console.log(await Exam.find({ userId: context.userInfo.userId }));
+        handleAuthentication(context.userInfo);
+
         const exam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId

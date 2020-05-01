@@ -6,12 +6,15 @@ import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 import {
   ADD_EXAM_MUTATION,
   UPDATE_CURRENT_PAGE_MUTATION,
-  UPDATE_EXAM_MUTATION
+  UPDATE_EXAM_MUTATION,
+  DELETE_EXAM_MUTATION,
+  EXAM_COMPLETED_MUTATION
 } from "../../mutations.js";
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT
 } from "../../queries.js";
@@ -97,6 +100,14 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 
+  it("should not fetch today's chunks progress", async () => {
+    const resp = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
   it("should not be able to fetch calendar chunks", async () => {
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
@@ -131,5 +142,30 @@ describe("Test user resolver regex", () => {
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
+
+  it("should not be able to complete the exam", async () => {
+    const resp = await mutate({
+      query: EXAM_COMPLETED_MUTATION,
+      variables: {
+        id: "makes no difference"
+      }
+    });
+
+    expect(resp.data.examCompleted).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should not delete the exam", async () => {
+    const resp = await mutate({
+      query: DELETE_EXAM_MUTATION,
+      variables: {
+        id: "makes no difference"
+      }
+    });
+
+    expect(resp.deleteExam).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
   //TODO ADD NEWER RESOLVERS
 });

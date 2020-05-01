@@ -1,17 +1,5 @@
 import { gql } from "apollo-boost"; //to make queries
 
-//TODO IMPORTANT - DELETE AS SOON AS POSSIBLE
-export const GET_USERS_QUERY = gql`
-  {
-    users {
-      id
-      username
-      email
-      mascot
-    }
-  }
-`;
-
 export const GET_EXAMS_QUERY = gql`
   {
     exams {

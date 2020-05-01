@@ -13,8 +13,8 @@ import {
 } from "../setup";
 import { DELETE_USER_MUTATION } from "../../mutations.js";
 
-import { GET_EXAMS_QUERY } from "../../queries.js";
-import { User } from "../../../models";
+import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS } from "../../queries.js";
+import { User, Exam, TodaysChunkCache } from "../../../models";
 // import { getNumberOfDays } from "../../../helpers/dates";
 
 describe("Test user sign up and login resolvers", () => {
@@ -49,13 +49,23 @@ describe("Test user sign up and login resolvers", () => {
     await teardown();
   });
 
-  it("should logout & delete the current logged in user, as well as delete all their data (exams,  tokens...)", async () => {
+  it("should logout & delete the current logged in user, as well as delete all their data (exams, cache, tokens...)", async () => {
     await addTestExams(testUser._id);
 
     //count number of users
     const initialCount = await User.countDocuments();
     const initialUser = await User.findOne({ _id: testUser._id.toString() });
     expect(initialUser).toBeTruthy();
+
+    //fill chunk cache
+    const todaysChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    expect(todaysChunks.data.todaysChunks).toBeTruthy();
+    expect(todaysChunks.data.todaysChunks.length).toBe(3);
+    expect(
+      await TodaysChunkCache.countDocuments({ userId: testUser._id })
+    ).toBe(3);
 
     //count number of exams for this user
     const respExams = await query({
@@ -87,6 +97,11 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(respExamsAfterDelete.data.exams).toBeTruthy();
     expect(respExamsAfterDelete.data.exams.length).toBe(0);
+
+    expect(await Exam.countDocuments({ userId: testUser._id })).toBe(0);
+    expect(
+      await TodaysChunkCache.countDocuments({ userId: testUser._id })
+    ).toBe(0);
 
     //check that a non existing user cannot be deleted (although normally the error would be "Unauthorised")
     const respDelete2 = await mutate({

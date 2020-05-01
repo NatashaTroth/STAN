@@ -257,9 +257,9 @@ async function fetchCurrentExams(userId) {
   return currentExams;
 }
 
-export async function todaysChunkCacheEmpty(userId) {
-  return (await TodaysChunkCache.countDocuments({ userId })) === 0;
-}
+// export async function todaysChunkCacheEmpty(userId) {
+//   return (await TodaysChunkCache.countDocuments({ userId })) === 0;
+// }
 
 async function calculateTodaysChunks(currentExams) {
   const chunks = currentExams.map(async exam => {
@@ -341,7 +341,7 @@ function calculateChunkProgress(chunks) {
     totalDurationCompleted += durationCompleted({
       duration: chunk.durationToday,
       startPage: chunk.startPage,
-      currentPage: chunk.exam.currentPage,
+      currentPage: chunk.currentPage,
       numberPages: chunk.numberPagesToday,
       completed: chunk.completed
     });
