@@ -194,6 +194,16 @@ const ExamDetails = () => {
                       </div>
                     </div>
                   ) : null}
+
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--button">
+                      <Button
+                        className="stan-btn-primary"
+                        variant="button"
+                        text="Studied"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

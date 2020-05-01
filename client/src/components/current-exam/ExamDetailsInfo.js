@@ -129,19 +129,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
           </div>
         </div>
       </div>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <div className="exam-details__inner--details--button">
-              <Button
-                className="stan-btn-primary"
-                variant="button"
-                text="Studied"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

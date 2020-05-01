@@ -121,6 +121,18 @@
       }
     }
 
+    &--button {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding: 5px;
+      margin-bottom: 5px;
+
+      @include media-breakpoint-down(sm) {
+        padding: 0 15px;
+      }
+    }
+
     &--details {
       padding: 20px 0;
 
@@ -182,19 +194,11 @@
 
       &--bottom {
         padding-top: 10px;
-        display: block;
-        position: relative;
 
         .notes p {
           max-width: none;
           word-break: break-all;
         }
-      }
-      &--button {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        padding-top: 15px;
       }
     }
   }
