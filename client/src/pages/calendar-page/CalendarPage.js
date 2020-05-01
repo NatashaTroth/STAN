@@ -48,30 +48,14 @@ const ExamsCalendar = () => {
         title: "English",
         start: "2020-04-29",
         end: "2020-05-04",
-        color: "blue",
+        color: "dark-grey",
         extendedProps: {
-          // status: "done",
           examDate: "2020-04-29",
           currentPage: 450,
           numberPagesLeftTotal: 1209,
           numberPagesPerDay: 68,
           durationTotal: 12090,
           durationPerDay: 680,
-          pdfLink: "TODO: ADD PDF LINK",
-        },
-      },
-      {
-        title: "Mathe",
-        start: "2020-04-01T00:00:00.000Z",
-        end: "2020-05-04T00:00:00.000Z",
-        color: "yellow",
-        extendedProps: {
-          examDate: "2020-05-15T00:00:00.000Z",
-          currentPage: 999,
-          numberPagesLeftTotal: 99,
-          numberPagesPerDay: 9,
-          durationTotal: 9,
-          durationPerDay: 9,
           pdfLink: "TODO: ADD PDF LINK",
         },
       },
@@ -87,30 +71,6 @@ const ExamsCalendar = () => {
         end: "2020-05-12T00:00:00.000Z",
         color: "blue",
       },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "pink",
-      },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "purple",
-      },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "green",
-      },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "yellow",
-      },
     ]
   }
 
@@ -118,18 +78,19 @@ const ExamsCalendar = () => {
     <div className="exams-calendar">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-1"></div>
-          <div className="col-md-10">
+          <div className="col-lg-1"></div>
+          <div className="col-lg-10">
             <FullCalendar
+              className="calendar-table"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
-              eventLimit={5}
+              eventLimit={4}
               navLinks={true}
               locale={enLocale}
               events={exams}
               eventOrder={"end"}
-              columnHeaderFormat={{ weekday: "long" }}
+              columnHeaderFormat={{ weekday: "short" }}
               noEventsMessage="You've earned a break by now."
               views={{
                 listWeek: {
@@ -162,7 +123,7 @@ const ExamsCalendar = () => {
                           <h5>Exam date:</h5>
                           <p>{formatDate(examDate)}</p>
                         </div>
-                        <div className="current-ap">
+                        <div className="current-page">
                           <h5>Current page: </h5>
                           <p>{currentPage}</p>
                         </div>
@@ -183,7 +144,7 @@ const ExamsCalendar = () => {
                           <p>{minuteToHours(durationTotal)}</p>
                         </div>
                         <div className="pdfLink">
-                          <a href="#">{pdfLink}</a>
+                          <a href={pdfLink}>Link</a>
                         </div>
                       </Popover.Content>
                     ) : (
@@ -223,7 +184,7 @@ const ExamsCalendar = () => {
               }}
             />
           </div>
-          <div className="col-md-1"></div>
+          <div className="col-lg-1"></div>
         </div>
       </div>
     </div>

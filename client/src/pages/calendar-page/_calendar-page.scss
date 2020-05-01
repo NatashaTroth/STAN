@@ -1,0 +1,279 @@
+.fc-header-toolbar {
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .fc-left {
+    h2 {
+      margin-top: 5rem;
+      font-family: $font-family-BasierCircle-Bold;
+      @include rem(font-size, $h2-font-size);
+      @include rem(letter-spacing, 0);
+      @include rem(line-height, $h2-line-height);
+
+      @include media-breakpoint-down(sm) {
+        margin-top: 2rem;
+        @include rem(font-size, $h2-font-size-mobile);
+        @include rem(line-height, $h2-line-height-mobile);
+        @include rem(letter-spacing, 0);
+      }
+    }
+  }
+  .fc-right {
+    align-self: flex-end;
+    .fc-button-primary {
+      background: none;
+      border: none;
+      color: theme_color("dark");
+      cursor: pointer;
+      font-family: $font-family-BasierCircle-SemiBold;
+      @include rem(font-size, $h4-font-size);
+      @include rem(letter-spacing, 1px);
+      @include rem(line-height, $h4-line-height);
+
+      @include media-breakpoint-down(sm) {
+        @include rem(font-size, $h4-font-size-mobile);
+        @include rem(line-height, $h4-line-height-mobile);
+        @include rem(letter-spacing, 0.5px);
+      }
+
+      &.fc-next-button,
+      &.fc-prev-button {
+        @include media-breakpoint-down(xs) {
+          margin: 0;
+          padding: 0;
+        }
+      }
+
+      &.fc-dayGridMonth-button,
+      &.fc-listWeek-button,
+      &.fc-today-button {
+        position: relative;
+        padding: 6px 0px;
+        margin: 0 12px;
+        &:after {
+          content: "";
+          position: absolute;
+          display: inline-block;
+          width: 0;
+          height: 4px;
+          bottom: 0;
+          right: 0;
+          background-color: theme_color("dark");
+          transition: all 0.3s ease-in-out;
+        }
+        &:hover:after {
+          width: 100%;
+        }
+
+        @include media-breakpoint-down(xs) {
+          margin-left: 0;
+        }
+      }
+
+      &:focus,
+      &:active {
+        box-shadow: none;
+      }
+
+      .fc-icon {
+        font-size: 2em;
+
+        &.fc-icon-chevron-right {
+          @include media-breakpoint-down(xs) {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    .fc-button:disabled {
+      opacity: 1;
+    }
+  }
+}
+
+// calendar table
+.fc-unthemed th,
+.fc-unthemed td,
+.fc-unthemed thead,
+.fc-unthemed tbody,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-row,
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-list-heading td {
+  border-color: theme_color("dark");
+}
+
+// box content
+.fc-view {
+  margin-bottom: 40px;
+  border: 1px solid theme-color("dark");
+  box-shadow: 10px 10px 0px -2px theme-color("dark");
+}
+
+// table header
+.fc-day-header {
+  text-transform: lowercase;
+  span {
+    font-family: $font-family-BasierCircle-SemiBold;
+    @include rem(font-size, $h5-font-size);
+    @include rem(letter-spacing, 0);
+    @include rem(line-height, $h5-line-height);
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, $h5-font-size-mobile);
+      @include rem(line-height, $h5-line-height-mobile);
+      @include rem(letter-spacing, 0);
+    }
+  }
+}
+
+// current day
+.fc-unthemed td.fc-today {
+  background-color: theme_color("primary-yellow");
+}
+
+// day number in grid
+.fc-dayGrid-view .fc-week-number,
+.fc-dayGrid-view .fc-day-number {
+  padding-right: 5px;
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $font-size-16);
+  letter-spacing: 0;
+  @include rem(line-height, 22px);
+  margin: 0;
+  max-width: 65ch;
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $font-size-14);
+    @include rem(line-height, 18px);
+  }
+}
+
+// more link
+.fc-more-cell {
+  display: block;
+  div {
+    padding: 4px;
+  }
+  div > a {
+    font-family: $font-family-OpenSans-Regular;
+    @include rem(font-size, $font-size-14);
+    letter-spacing: 0;
+    @include rem(line-height, 20px);
+    margin: 0;
+  }
+}
+
+// event chunk
+.fc-day-grid-event {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+.fc th,
+.fc td {
+  border-width: 3px;
+}
+
+// list view
+.fc-list-table {
+  border-top: 3px solid theme_color("dark");
+}
+
+// empty list
+.fc-list-empty {
+  border: 4px solid theme-color("dark");
+  box-shadow: 10px 10px 0px -2px theme-color("dark");
+  background-color: transparent;
+  height: 150px;
+
+  font-family: $font-family-BasierCircle-Bold;
+  @include rem(font-size, $h3-font-size);
+  @include rem(letter-spacing, 1.5px);
+  @include rem(line-height, $h3-line-height);
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $h3-font-size-mobile);
+    @include rem(line-height, $h3-line-height-mobile);
+    @include rem(letter-spacing, 1px);
+  }
+}
+
+.fc-listWeek-view {
+  border: none;
+}
+.fc-unthemed .fc-list-empty {
+  background-color: transparent;
+}
+.fc-widget-header {
+  background-color: theme_color("grey-light");
+}
+.fc-list-heading-main,
+.fc-list-heading-alt {
+  text-transform: lowercase;
+
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $h5-font-size);
+  @include rem(letter-spacing, 0);
+  @include rem(line-height, $h5-line-height);
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $h5-font-size-mobile);
+    @include rem(line-height, $h5-line-height-mobile);
+    @include rem(letter-spacing, 0);
+  }
+}
+.fc-list-item {
+  cursor: pointer;
+
+  &:hover {
+    background: none;
+  }
+}
+
+// popup
+.popover {
+  border: 2px solid theme_color("dark");
+  border-radius: 0;
+  min-width: 350px;
+}
+
+.popover-header {
+  background-color: transparent;
+  border-bottom: 2px solid theme_color("dark");
+}
+
+.bs-popover-top > .arrow::before,
+.bs-popover-auto[x-placement^="top"] > .arrow::before {
+  border-top-color: theme_color("dark");
+}
+.bs-popover-top > .arrow::after,
+.bs-popover-auto[x-placement^="top"] > .arrow::after {
+  border-width: 0.5rem 0.5rem 3px;
+}
+
+#popover-basic {
+  .exam-date,
+  .current-page,
+  .total-pages-left,
+  .pages-per-day,
+  .duration-per-day,
+  .duration-total,
+  .pdfLink {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .exam-date {
+    p {
+      font-weight: 800;
+      color: theme_color("error-hover");
+    }
+  }
+}
