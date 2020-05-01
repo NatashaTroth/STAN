@@ -389,7 +389,8 @@ export async function fetchCalendarChunks(userId) {
 }
 
 function getCalendarChunks(exams) {
-  const chunks = [];
+  const calendarChunks = [];
+  const calendarExams = [];
 
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
@@ -408,22 +409,30 @@ function getCalendarChunks(exams) {
     // exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
     const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
 
-    chunks.push({
-      subject: exam.subject,
+    calendarChunks.push({
+      title: exam.subject,
       start: exam.startDate,
       end: exam.examDate,
-      details: {
+      color: exam.color,
+      extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
         numberPagesLeftTotal,
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
-        durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage)
-      },
-      color: exam.color
+        durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage),
+        pdfLink: exam.pdfLink || ""
+      }
+    });
+
+    calendarExams.push({
+      title: exam.subject,
+      start: exam.startDate,
+      end: exam.examDate,
+      color: "red"
     });
   }
-  return chunks;
+  return { calendarChunks, calendarExams };
 }
 
 //---------------------------HELPERS---------------------------

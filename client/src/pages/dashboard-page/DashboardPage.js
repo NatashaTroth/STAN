@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import { CurrentUserContext } from "../../components/STAN/STAN"
 import { useQuery } from "@apollo/react-hooks"
-import { CURRENT_USER, GET_TODAYS_CHUNKS } from "../../graphQL/queries"
+import {
+  CURRENT_USER,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
+} from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -17,7 +20,9 @@ import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 function Dashboard() {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
-  const { chunkLoading, chunkError, data } = useQuery(GET_TODAYS_CHUNKS)
+  const { chunkLoading, chunkError, data } = useQuery(
+    GET_TODAYS_CHUNKS_AND_PROGRESS
+  )
   const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // mascot trigger ----------------
@@ -35,7 +40,7 @@ function Dashboard() {
   // query data ----------------
   let usersToDos
 
-  if (data && data.todaysChunks.length > 0) {
+  if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
     usersToDos = (
       <div className="container-fluid">
         <div className="row">

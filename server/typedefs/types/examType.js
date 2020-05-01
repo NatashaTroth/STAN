@@ -50,14 +50,27 @@ const examType = gql`
     numberPagesPerDay: Int!
     durationTotal: Int!
     durationPerDay: Int!
+    pdfLink: String
   }
 
   type CalendarChunk {
-    subject: String!
+    title: String!
     start: Date!
     end: Date!
-    details: CalendarChunkDetails!
     color: String!
+    extendedProps: CalendarChunkDetails!
+  }
+
+  type CalendarExam {
+    title: String!
+    start: Date!
+    end: Date!
+    color: String!
+  }
+
+  type CalendarObject {
+    calendarChunks: [CalendarChunk]!
+    calendarExams: [CalendarExam]!
   }
 
   type ExamsCount {
