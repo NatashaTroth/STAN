@@ -122,6 +122,7 @@ const ExamsCalendar = () => {
 
                         <Button
                           variant="button"
+                          onClick={() => document.body.click()}
                           className="exam-details__headline--back-btn close-calendar-popup"
                         />
                       </Popover.Title>
