@@ -44,7 +44,6 @@ const UserAccountEdit = () => {
   // state ----------------
   const [deleteProfile, setDeletion] = useState(false)
   const [isPasswordOpen, setPasswordSection] = useState(false)
-  const [height, setHeight] = useState(0)
 
   // context ----------------
   const currentUser = useCurrentUserValue()
@@ -104,7 +103,6 @@ const UserAccountEdit = () => {
 
   const handleChangedPassword = () => {
     setPasswordSection(!isPasswordOpen)
-    setHeight(height === 0 ? "auto" : 0)
   }
 
   // return ----------------
@@ -571,7 +569,6 @@ async function userDeletion({ currentUser, deleteUser }) {
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-delete-error")
-    element.style.display = "flex"
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
