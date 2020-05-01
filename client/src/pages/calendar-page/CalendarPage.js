@@ -17,6 +17,9 @@ import { formatDate, minuteToHours } from "../../helpers/dates"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 
+// sub-components ----------------
+import Button from "../../components/button/Button"
+
 // libraries ----------------
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
@@ -114,7 +117,14 @@ const ExamsCalendar = () => {
                 const popover = (
                   <Popover id="popover-basic">
                     {Object.keys(examDetails).length !== 0 ? (
-                      <Popover.Title as="h4">{info.event.title}</Popover.Title>
+                      <Popover.Title as="h4" className="popover-title">
+                        {info.event.title}
+
+                        <Button
+                          variant="button"
+                          className="exam-details__headline--back-btn close-calendar-popup"
+                        />
+                      </Popover.Title>
                     ) : null}
 
                     {Object.keys(examDetails).length !== 0 ? (
