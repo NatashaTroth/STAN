@@ -86,6 +86,7 @@ export async function handleUpdateExamInTodaysChunkCache(
   exam,
   newArgs
 ) {
+  // console.log("in handleUpdateExamInTodaysChunkCache");
   const todaysChunkCache = await TodaysChunkCache.findOne({
     examId: exam._id.toString(),
     userId
@@ -101,7 +102,6 @@ export async function handleUpdateExamInTodaysChunkCache(
       newArgs,
       todaysChunkCache
     );
-
     //TODO EXTRAct
     const updateCacheResp = await TodaysChunkCache.updateOne(
       {
@@ -112,6 +112,7 @@ export async function handleUpdateExamInTodaysChunkCache(
         ...updates
       }
     );
+
     if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
       throw new ApolloError("The todays chunk cache could not be updated.");
   } else {
@@ -327,7 +328,7 @@ export async function getTodaysChunkProgress(userId) {
   return calculateChunkProgress(todaysChunks);
 }
 
-function calculateChunkProgress(chunks) {
+export function calculateChunkProgress(chunks) {
   // console.log("IN CALC PROGRESS:");
 
   if (chunks.length <= 0) return 100;

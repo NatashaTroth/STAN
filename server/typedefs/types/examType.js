@@ -38,6 +38,11 @@ const examType = gql`
     completed: Boolean!
   }
 
+  type TodaysChunkAndProgress {
+    todaysChunks: [TodaysChunk]!
+    todaysProgress: Int!
+  }
+
   type CalendarChunkDetails {
     examDate: Date!
     currentPage: Int!

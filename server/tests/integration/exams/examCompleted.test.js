@@ -5,7 +5,7 @@ import {
   setupApolloServer,
   setupDb,
   addTestExam,
-  // clearDatabase,
+  clearDatabase,
   teardown
 } from "../setup";
 import { Exam, TodaysChunkCache } from "../../../models";
@@ -27,9 +27,9 @@ describe("Test user resolver regex", () => {
     query = client.query;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
@@ -42,8 +42,12 @@ describe("Test user resolver regex", () => {
     const respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respTodaysChunks.data.todaysChunks).toBeTruthy();
-    expect(respTodaysChunks.data.todaysChunks.length).toBe(1);
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks
+    ).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
     expect(
       await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
     ).toBe(1);
@@ -54,6 +58,7 @@ describe("Test user resolver regex", () => {
         id: testExam._id.toString()
       }
     });
+    expect(resp.data.examCompleted).toBeTruthy();
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
     expect(
       await TodaysChunkCache.countDocuments({ userId: "samanthasId" })

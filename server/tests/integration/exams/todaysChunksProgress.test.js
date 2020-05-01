@@ -18,7 +18,8 @@ import {
 
 import {
   UPDATE_CURRENT_PAGE_MUTATION,
-  EXAM_COMPLETED_MUTATION
+  EXAM_COMPLETED_MUTATION,
+  DELETE_EXAM_MUTATION
 } from "../../mutations.js";
 
 describe("Test user resolver regex", () => {
@@ -69,7 +70,9 @@ describe("Test user resolver regex", () => {
     const respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respTodaysChunks.data.todaysChunks[0].currentPage).toBe(3);
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+    ).toBe(3);
 
     const resp2 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
@@ -158,8 +161,10 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(0);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(0);
 
     const resp1 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
@@ -264,5 +269,47 @@ describe("Test user resolver regex", () => {
     });
 
     expect(resp5.data.todaysChunksProgress).toBe(73);
+  });
+
+  it("should correctly fetch today's chunks progress after deleting an exam", async () => {
+    const initialCount = await TodaysChunkCache.countDocuments();
+    const { exam1 } = await addTestExams();
+
+    const resp = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+
+    expect(resp.data).toBeTruthy();
+    expect(resp.data.todaysChunksProgress).toBe(0);
+    const newCount = await TodaysChunkCache.countDocuments();
+    expect(newCount).toBe(initialCount + 3);
+
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: exam1._id.toString(),
+        page: 3
+      }
+    });
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
+    const resp2 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+    expect(resp2.data).toBeTruthy();
+    expect(resp2.data.todaysChunksProgress).toBe(1);
+
+    const respDelete = await mutate({
+      query: DELETE_EXAM_MUTATION,
+      variables: {
+        id: exam1._id.toString()
+      }
+    });
+    expect(respDelete.data.deleteExam).toBeTruthy();
+    const resp3 = await query({
+      query: GET_TODAYS_CHUNKS_PROGRESS
+    });
+
+    expect(resp3.data).toBeTruthy();
+    expect(resp3.data.todaysChunksProgress).toBe(0);
   });
 });

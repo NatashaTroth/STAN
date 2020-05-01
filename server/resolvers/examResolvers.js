@@ -18,6 +18,7 @@ import {
   fetchTodaysChunks,
   fetchCalendarChunks,
   getTodaysChunkProgress,
+  calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache
 } from "../helpers/chunks";
@@ -62,13 +63,16 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    todaysChunks: async (root, args, context, info) => {
+    todaysChunkAndProgress: async (root, args, context, info) => {
       try {
-        //TODO: SORTBY EXAM DATE
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        const todaysProgress = calculateChunkProgress(chunks);
 
-        return chunks;
+        //to avoid todayschunks and progress being fetched at the same time
+        //TODO: FETCH THE PRGORESS HERE AND RETURN IT
+
+        return { todaysChunks: chunks, todaysProgress };
       } catch (err) {
         handleResolverError(err);
       }
@@ -102,8 +106,10 @@ export const examResolvers = {
     },
     todaysChunksProgress: async (parent, args, context) => {
       try {
+        // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
+
         return await getTodaysChunkProgress(context.userInfo.userId);
         // return calculateUserState(chunks);
         // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
@@ -132,6 +138,7 @@ export const examResolvers = {
     updateExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
+        // console.log("IN UPDATE EXAM MUTAION");
         const exam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -154,7 +161,6 @@ export const examResolvers = {
           throw new ApolloError("The exam couldn't be updated.");
 
         //TODO - NEED AWAIT HERE?
-
         await handleUpdateExamInTodaysChunkCache(
           context.userInfo.userId,
           exam,

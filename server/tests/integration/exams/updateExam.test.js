@@ -6,41 +6,39 @@ import {
   setupDb,
   addTestExam,
   getFutureDay,
-  // clearDatabase,
+  clearDatabase,
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
 
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
+import { GET_TODAYS_CHUNKS } from "../../queries.js";
 
 //TODO TEST REGEX HERE TOO?
 
 describe("Test user resolver regex", () => {
   let server;
   let mutate;
-  let testExam;
-  let testExamStartDatePast;
+  let query;
+
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
-    testExam = await addTestExam({ subject: "Biology" });
-    testExamStartDatePast = await addTestExam({
-      subject: "Biology",
-      startDate: getFutureDay(new Date(), -5)
-    });
+    query = client.query;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should update the exam correctly", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({
@@ -72,7 +70,69 @@ describe("Test user resolver regex", () => {
     expect(editedExam.subject).toBe("Editable Exam");
   });
 
+  it("should update today's chunk cache correctly", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
+    const initialCount = await Exam.countDocuments();
+    expect(initialCount).toBe(1);
+    const todaysChunks = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+    // console.log(todaysChunks.data);
+    expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
+
+    expect(
+      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage
+    ).toBe(1);
+    expect(
+      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+    ).toBe(1);
+
+    const resp = await mutate({
+      query: UPDATE_EXAM_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        subject: "Editable Exam",
+        examDate: getFutureDay(new Date(), 5),
+        startDate: new Date(),
+        numberPages: 5,
+        timePerPage: 5,
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
+      }
+    });
+
+    expect(resp.data.updateExam).toBeTruthy();
+
+    // const todaysCacheFromDb = await TodaysChunkCache.findOne({
+    //   examId: testExam._id.toString()
+    // });
+
+    const todaysChunks2 = await query({
+      query: GET_TODAYS_CHUNKS
+    });
+
+    expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
+    expect(
+      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].startPage
+    ).toBe(2);
+    expect(
+      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+    ).toBe(2);
+  });
+
   it("should update the exam correctly, even thought original unchanged startDate is in the past", async () => {
+    const testExamStartDatePast = await addTestExam({
+      subject: "Biology",
+      startDate: getFutureDay(new Date(), -5)
+    });
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({
@@ -105,6 +165,10 @@ describe("Test user resolver regex", () => {
   });
 
   it("should not update the exam correctly, even thought original unchanged startDate is in the past, it is now after the exam date", async () => {
+    const testExamStartDatePast = await addTestExam({
+      subject: "Biology",
+      startDate: getFutureDay(new Date(), -5)
+    });
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -127,6 +191,8 @@ describe("Test user resolver regex", () => {
   });
 
   it("should not update the exam, since the exam doesn't exist", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     let falseId = "5e923a29a39c7738fb50e632";
     if (testExam._id.toString() === falseId)
       falseId = "5e923a29a39c7738fb50e635";
@@ -155,6 +221,8 @@ describe("Test user resolver regex", () => {
   });
 
   it("should not update the exam, since start date is after exam date", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -180,6 +248,8 @@ describe("Test user resolver regex", () => {
   });
 
   it("should not update the exam, since start date is the same as exam date", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -204,6 +274,8 @@ describe("Test user resolver regex", () => {
   });
 
   it("should not update the exam, since dates are in the past", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {

@@ -61,8 +61,10 @@ describe("Test user sign up and login resolvers", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(todaysChunks.data.todaysChunks).toBeTruthy();
-    expect(todaysChunks.data.todaysChunks.length).toBe(3);
+    expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      3
+    );
     expect(
       await TodaysChunkCache.countDocuments({ userId: testUser._id })
     ).toBe(3);

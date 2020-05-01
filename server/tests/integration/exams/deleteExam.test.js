@@ -69,16 +69,18 @@ describe("Test user resolver regex", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(todaysChunks.data.todaysChunks).toBeTruthy();
-    expect(todaysChunks.data.todaysChunks.length).toBe(1);
 
-    expect(
-      await TodaysChunkCache.countDocuments({
-        examId: testExam._id.toString(),
-        userId: "samanthasId"
-      })
-    ).toBe(1);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks).toBeTruthy();
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
+      1
+    );
 
+    const todaysChunksCount = await TodaysChunkCache.countDocuments({
+      examId: testExam._id.toString(),
+      userId: "samanthasId"
+    });
+
+    expect(todaysChunksCount).toBe(1);
     const resp = await mutate({
       query: DELETE_EXAM_MUTATION,
       variables: {

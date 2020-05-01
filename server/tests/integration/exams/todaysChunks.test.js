@@ -58,15 +58,15 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(resp.data.todaysChunks).toBeTruthy();
-    expect(resp.data.todaysChunks.length).toBe(3);
+    expect(resp.data.todaysChunkAndProgress).toBeTruthy();
+    expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
     ).toBe(3);
-    expect(resp.data.todaysChunks[2]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[2]).toMatchObject({
       exam: {
         id: testExams.exam1._id.toString(),
         subject: testExams.exam1.subject,
@@ -85,7 +85,7 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunks[1]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
       exam: {
         id: testExams.exam2._id.toString(),
         subject: testExams.exam2.subject,
@@ -104,7 +104,7 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunks[0]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
       exam: {
         id: testExams.exam3._id.toString(),
         subject: testExams.exam3.subject,
@@ -131,8 +131,10 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(3);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
@@ -141,15 +143,15 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(resp.data.todaysChunks).toBeTruthy();
-    expect(resp.data.todaysChunks.length).toBe(3);
+    expect(resp.data.todaysChunkAndProgress).toBeTruthy();
+    expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
     ).toBe(3);
-    expect(resp.data.todaysChunks[2]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[2]).toMatchObject({
       exam: {
         id: testExams.exam1._id.toString(),
         subject: testExams.exam1.subject,
@@ -168,7 +170,7 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunks[1]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
       exam: {
         id: testExams.exam2._id.toString(),
         subject: testExams.exam2.subject,
@@ -187,7 +189,7 @@ describe("Test user resolver regex", () => {
       notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunks[0]).toMatchObject({
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
       exam: {
         id: testExams.exam3._id.toString(),
         subject: testExams.exam3.subject,
@@ -214,8 +216,10 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(0);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(0);
   });
 
   it("todaysChunks should be empty when exam is completed", async () => {
@@ -229,9 +233,13 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks.data.todaysChunks[0].completed).toBeFalsy();
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].completed
+    ).toBeFalsy();
 
     const respExamCompleted = await query({
       query: EXAM_COMPLETED_MUTATION,
@@ -247,8 +255,10 @@ describe("Test user resolver regex", () => {
     const respFetchChunks2 = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(0);
+    expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(0);
   });
 
   it("todaysChunks should update when exam is updated", async () => {
@@ -261,9 +271,14 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(1);
 
     //update currentpage to 3 - only current Page should change in chunk
     const updateResp = await mutate({
@@ -278,11 +293,18 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
+    expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(3);
 
-    expect(respFetchChunks2.data.todaysChunks[0]).toMatchObject({
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0]
+    ).toMatchObject({
       exam: {
         id: testExam._id.toString(),
         subject: testExam.subject,
@@ -294,11 +316,17 @@ describe("Test user resolver regex", () => {
         currentPage: 3,
         pdfLink: testExam.pdfLink
       },
-      numberPagesToday: respFetchChunks.data.todaysChunks[0].numberPagesToday,
-      startPage: respFetchChunks.data.todaysChunks[0].startPage, //TODO: or 23???
+      numberPagesToday:
+        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
+          .numberPagesToday,
+      startPage:
+        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage, //TODO: or 23???
       currentPage: 3,
-      durationToday: respFetchChunks.data.todaysChunks[0].durationToday,
-      daysLeft: respFetchChunks.data.todaysChunks[0].daysLeft,
+      durationToday:
+        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
+          .durationToday,
+      daysLeft:
+        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].daysLeft,
       notEnoughTime: false
     });
 
@@ -323,9 +351,15 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks3.data.todaysChunks[0]).toMatchObject({
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks
+    ).toBeTruthy();
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]
+    ).toMatchObject({
       exam: {
         id: testExam._id.toString(),
         subject: testExam.subject,
@@ -366,9 +400,13 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks4.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks4.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks4.data.todaysChunks[0]).toMatchObject({
+    expect(respFetchChunks4.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks4.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks4.data.todaysChunkAndProgress.todaysChunks[0]
+    ).toMatchObject({
       exam: {
         id: testExam._id.toString(),
         subject: testExam.subject,
@@ -399,9 +437,14 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(1);
 
     //update currentpage to 3
     const updateResp = await mutate({
@@ -422,11 +465,20 @@ describe("Test user resolver regex", () => {
     const respFetchChunks2 = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks2.data.todaysChunks[0].exam.currentPage).toBe(3);
-    expect(respFetchChunks2.data.todaysChunks[0].startPage).toBe(1);
-    expect(respFetchChunks2.data.todaysChunks[0].completed).toBeFalsy();
+    expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(3);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].startPage
+    ).toBe(1);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].completed
+    ).toBeFalsy();
 
     //update current page to last page
     const updateResp2 = await mutate({
@@ -441,11 +493,20 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks3.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks3.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks3.data.todaysChunks[0].exam.currentPage).toBe(11);
-    expect(respFetchChunks3.data.todaysChunks[0].startPage).toBe(1);
-    expect(respFetchChunks3.data.todaysChunks[0].completed).toBeTruthy();
+    expect(respFetchChunks3.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(11);
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0].startPage
+    ).toBe(1);
+    expect(
+      respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0].completed
+    ).toBeTruthy();
   });
 
   it("todaysChunks should be completed after finishing learning (current page mutation)", async () => {
@@ -458,13 +519,19 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(1);
 
     let completedPage =
-      respFetchChunks.data.todaysChunks[0].startPage +
-      respFetchChunks.data.todaysChunks[0].numberPagesToday;
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage +
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
+        .numberPagesToday;
     //update currentpage
 
     const updateResp = await mutate({
@@ -486,9 +553,13 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+    expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].completed
+    ).toBeTruthy();
   });
 
   it("todaysChunks should be completed after finishing learning (update exam mutation)", async () => {
@@ -501,13 +572,19 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+    expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
+    ).toBe(1);
 
     let completedPage =
-      respFetchChunks.data.todaysChunks[0].startPage +
-      respFetchChunks.data.todaysChunks[0].numberPagesToday;
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage +
+      respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
+        .numberPagesToday;
 
     //update Exam - current page should complete today's chunk
     const updateResp = await mutate({
@@ -537,8 +614,12 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
 
-    expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
-    expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
+    expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+    expect(
+      respFetchChunks2.data.todaysChunkAndProgress.todaysChunks[0].completed
+    ).toBeTruthy();
   });
 });
