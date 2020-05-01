@@ -170,7 +170,7 @@ describe("Test user resolver regex", () => {
 
   //TODO: SHOULD WORK WITH CHANGED CURRENT PAGE EVEN IF TODAYS CHUNKS WEREN'T FETCHED YET - BUT UNLIKELY, ESPECIALLY IF WE FETCH TODAYSCHUNKS IMMEDIATLY
 
-  it.skip("should correctly fetch today's chunks progress when there are multiple exams", async () => {
+  it("should correctly fetch today's chunks progress when there are multiple exams", async () => {
     //setup
     const { exam1, exam2, exam3, exam4 } = await addTestExams();
     const initialCount = await TodaysChunkCache.countDocuments();
