@@ -40,7 +40,7 @@ function Dashboard() {
   // query data ----------------
   let usersToDos
 
-  if (data && data.todaysChunks.length > 0) {
+  if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
     usersToDos = (
       <div className="container-fluid">
         <div className="row">
