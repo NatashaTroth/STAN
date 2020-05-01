@@ -181,11 +181,17 @@
       }
 
       &--bottom {
-        padding: 10px 0;
+        padding-top: 10px;
 
         .notes p {
           max-width: none;
+          word-break: break-all;
         }
+      }
+      &--button {
+        position: absolute;
+        bottom: 0;
+        right: 5px;
       }
     }
   }

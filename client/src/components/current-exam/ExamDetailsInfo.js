@@ -2,6 +2,7 @@ import React from "react"
 
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
+import Button from "../button/Button"
 
 // helpers ----------------
 import { getNumberOfDays, formatDate } from "../../helpers/dates"
@@ -117,13 +118,23 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-9">
             <div className="exam-details__inner--details--bottom">
               <h4>Notes</h4>
 
               <div className="notes">
                 {!examDetails.notes ? <p>...</p> : <p>{examDetails.notes}</p>}
               </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="exam-details__inner--details--button">
+              {/* TODO: change button text, maybe "completed"? */}
+              <Button
+                className="stan-btn-primary"
+                variant="button"
+                text="Studied"
+              />
             </div>
           </div>
         </div>
