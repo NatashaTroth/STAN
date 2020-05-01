@@ -75,6 +75,7 @@ const ExamDetails = () => {
 
   const handleCompletion = () => {
     setCompleted(completed => !completed)
+    // completeExam({paramId, completedExam})
   }
 
   // return ----------------
@@ -245,6 +246,38 @@ async function examDeletion({ paramId, deleteExam }) {
     setTimeout(() => {
       window.location.href = "/exams"
     }, 1000)
+  } catch (err) {
+    // error handling ----------------
+    let element = document.getElementsByClassName("graphql-exam-details-error")
+    element.style.display = "block"
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
+  }
+}
+
+async function completeExam({ paramId, completeExam }) {
+  try {
+    const resp = await completeExam({
+      variables: {
+        id: paramId.id,
+      },
+    })
+
+    if (resp && resp.data && resp.data.completeExam) {
+      // document.getElementById("success-container-exam-detail").style.display =
+      //   "block"
+    } else {
+      throw new Error("The completion of current exam failed.")
+    }
+
+    // redirect ----------------
+    // setTimeout(() => {
+    //   window.location.href = "/exams"
+    // }, 1000)
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName("graphql-exam-details-error")
