@@ -10,8 +10,8 @@ import {
   // fetchTodaysChunks,
   // fetchCalendarChunks,
   handleUpdateExamInput,
-  verifyAddExamDates,
-  learningIsComplete
+  verifyAddExamDates
+  // learningIsComplete
 } from "../helpers/examHelpers";
 
 import {
@@ -210,7 +210,7 @@ export const examResolvers = {
     },
     examCompleted: async (root, args, context, info) => {
       try {
-        console.log(await Exam.find({ userId: context.userInfo.userId }));
+        // console.log(await Exam.find({ userId: context.userInfo.userId }));
         const exam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -256,6 +256,25 @@ export const examResolvers = {
           _id: args.id,
           userId: context.userInfo.userId
         });
+
+        const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
+          examId: args.id,
+          userId: context.userInfo.userId
+        });
+        if (todaysChunkCacheNumber === 1) {
+          const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
+            examId: args.id,
+            userId: context.userInfo.userId
+          });
+          if (
+            respDeleteChunkCache.ok !== 1 ||
+            respDeleteChunkCache.deletedCount !== 1
+          )
+            throw new ApolloError(
+              "The exam today's chunk cache couldn't be deleted"
+            );
+        }
+
         // console.log(resp);
         if (resp.ok !== 1 || resp.deletedCount !== 1)
           throw new ApolloError("The exam couldn't be deleted");

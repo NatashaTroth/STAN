@@ -199,7 +199,7 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
     expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks2.data.todaysChunks.length).toBe(0);
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 
@@ -270,10 +270,6 @@ describe("Test user resolver regex", () => {
         startPage: 20,
         timesRepeat: 1
       }
-    });
-
-    const test = await TodaysChunkCache.find({
-      examId: testExam._id.toString()
     });
 
     expect(respUpdateExam.data.updateExam).toBeTruthy();
@@ -357,9 +353,9 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS
     });
-    // expect(respFetchChunks.data.todaysChunks).toBeTruthy();
-    // expect(respFetchChunks.data.todaysChunks.length).toBe(1);
-    // expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
+    expect(respFetchChunks.data.todaysChunks).toBeTruthy();
+    expect(respFetchChunks.data.todaysChunks.length).toBe(1);
+    expect(respFetchChunks.data.todaysChunks[0].exam.currentPage).toBe(1);
 
     // //update currentpage to 3
     // const updateResp = await mutate({
@@ -431,7 +427,7 @@ describe("Test user resolver regex", () => {
     const updatedChunk = await TodaysChunkCache.findOne({
       examId: testExam._id.toString()
     });
-    console.log(updatedChunk);
+
     expect(updatedChunk.completed).toBeTruthy();
 
     //TODO
@@ -484,7 +480,7 @@ describe("Test user resolver regex", () => {
     const updatedChunk = await TodaysChunkCache.findOne({
       examId: testExam._id.toString()
     });
-    console.log(updatedChunk);
+
     expect(updatedChunk.completed).toBeTruthy();
 
     //TODO

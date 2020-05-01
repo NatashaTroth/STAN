@@ -41,7 +41,8 @@ export const createAccessToken = user => {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "15000m" //TODO CHANGE BACK TO 15m !!!!!!!!
+      expiresIn: "15m" //TODO CHANGE BACK TO 15m !!!!!!!!
+      // expiresIn: "15000m" //TODO CHANGE BACK TO 15m !!!!!!!!
     }
   );
 };

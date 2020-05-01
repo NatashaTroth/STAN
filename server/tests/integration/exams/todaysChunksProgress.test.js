@@ -17,8 +17,8 @@ import {
 } from "../../queries.js";
 
 import {
-  UPDATE_CURRENT_PAGE_MUTATION,
-  EXAM_COMPLETED_MUTATION
+  UPDATE_CURRENT_PAGE_MUTATION
+  // EXAM_COMPLETED_MUTATION
 } from "../../mutations.js";
 
 describe("Test user resolver regex", () => {
@@ -180,11 +180,6 @@ describe("Test user resolver regex", () => {
     const resp1 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS
     });
-    // const test = await query({
-    //   query: GET_TODAYS_CHUNKS
-    // });
-
-    // console.log(test.data.todaysChunks);
 
     expect(resp1.data).toBeTruthy();
     expect(resp1.data.todaysChunksProgress).toBe(0);
@@ -203,9 +198,9 @@ describe("Test user resolver regex", () => {
      * update exam3: 280min + 370min = 650min, 100/890*650 = 73.03%
      */
     //---UPDATE FIRST EXAM---
-    console.log(
-      "---------------------------updating first exam---------------------------"
-    );
+    // console.log(
+    //   "---------------------------updating first exam---------------------------"
+    // );
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
@@ -224,9 +219,9 @@ describe("Test user resolver regex", () => {
     expect(resp2.data.todaysChunksProgress).toBe(1);
 
     //---UPDATE SECOND EXAM---
-    console.log(
-      "---------------------------updating second exam---------------------------"
-    );
+    // console.log(
+    //   "---------------------------updating second exam---------------------------"
+    // );
 
     const updateResp2 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
@@ -242,12 +237,12 @@ describe("Test user resolver regex", () => {
     });
 
     expect(updatedChunk.completed).toBeTruthy();
-    //TODO!
-    // const respFetchCache = await TodaysChunkCache.findOne({
-    //   examId: exam2._id.toString()
-    // });
-    // expect(respFetchCache).toBeTruthy();
-    // expect(respFetchCache.completed).toBeTruthy();
+
+    const respFetchCache = await TodaysChunkCache.findOne({
+      examId: exam2._id.toString()
+    });
+    expect(respFetchCache).toBeTruthy();
+    expect(respFetchCache.completed).toBeTruthy();
 
     const resp3 = await query({
       query: GET_TODAYS_CHUNKS_PROGRESS

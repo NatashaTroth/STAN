@@ -98,7 +98,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
       "The entered current page is higher than the number of pages for this exam."
     );
 
-  console.log("checking exam learning complete not chunk");
+  // console.log("checking exam learning complete not chunk");
   exam.completed = learningIsComplete(
     page,
     exam.startPage,
