@@ -30,6 +30,7 @@ const ExamDetails = () => {
   // states ----------------
   let [edit, openEdit] = useState(false)
   let [popup, openPopup] = useState(false)
+  let [completed, setCompleted] = useState(false)
 
   // routes ----------------
   let history = useHistory()
@@ -43,6 +44,7 @@ const ExamDetails = () => {
 
   // mutation ----------------
   const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
+  // const [completedExam] = useMutation()
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -69,6 +71,10 @@ const ExamDetails = () => {
 
   const handleDeletion = () => {
     examDeletion({ paramId, deleteExam })
+  }
+
+  const handleCompletion = () => {
+    setCompleted(completed => !completed)
   }
 
   // return ----------------
@@ -195,15 +201,18 @@ const ExamDetails = () => {
                     </div>
                   ) : null}
 
-                  <div className="col-md-12">
-                    <div className="exam-details__inner--button">
-                      <Button
-                        className="stan-btn-primary"
-                        variant="button"
-                        text="Studied"
-                      />
+                  {!edit ? (
+                    <div className="col-md-12">
+                      <div className="exam-details__inner--button">
+                        <Button
+                          className="stan-btn-primary"
+                          variant="button"
+                          text="Studied"
+                          onClick={handleCompletion}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -239,6 +248,7 @@ async function examDeletion({ paramId, deleteExam }) {
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName("graphql-exam-details-error")
+    element.style.display = "block"
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

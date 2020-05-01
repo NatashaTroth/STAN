@@ -130,6 +130,7 @@
 
       @include media-breakpoint-down(sm) {
         padding: 0 15px;
+        justify-content: center;
       }
     }
 
@@ -161,6 +162,10 @@
             &--status {
               padding-left: 10px;
               min-width: 140px;
+
+              @include media-breakpoint-down(sm) {
+                padding-top: 3px;
+              }
 
               @include media-breakpoint-down(md) {
                 min-width: 0px;
@@ -228,6 +233,7 @@
         display: flex;
         justify-content: center;
         margin-top: 30px;
+        display: none;
       }
 
       #success-container-exam-detail {
@@ -235,6 +241,7 @@
 
         .success {
           display: flex;
+          padding-top: 30px;
           justify-content: center;
         }
       }
