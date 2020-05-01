@@ -13,7 +13,7 @@ import {
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT
@@ -94,7 +94,7 @@ describe("Test user resolver regex", () => {
 
   it("should not be able to fetch todays chunks", async () => {
     const resp = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");

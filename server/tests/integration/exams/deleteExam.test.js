@@ -11,7 +11,7 @@ import {
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import { DELETE_EXAM_MUTATION } from "../../mutations.js";
-import { GET_TODAYS_CHUNKS } from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
 
@@ -67,7 +67,7 @@ describe("Test user resolver regex", () => {
 
     const initialCount = await Exam.countDocuments();
     const todaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks).toBeTruthy();

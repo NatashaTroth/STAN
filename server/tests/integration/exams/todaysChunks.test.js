@@ -13,7 +13,7 @@ import {
 import { TodaysChunkCache, Exam } from "../../../models";
 // import { todaysChunkCacheEmpty } from "../../../helpers/chunks";
 
-import { GET_TODAYS_CHUNKS } from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
 import {
@@ -56,7 +56,7 @@ describe("Test user resolver regex", () => {
     ).toBe(0);
 
     const resp = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp.data.todaysChunkAndProgress).toBeTruthy();
     expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
@@ -129,7 +129,7 @@ describe("Test user resolver regex", () => {
     expect(await TodaysChunkCache.countDocuments()).toBe(0);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -141,7 +141,7 @@ describe("Test user resolver regex", () => {
     ).toBe(3);
 
     const resp = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp.data.todaysChunkAndProgress).toBeTruthy();
     expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
@@ -214,7 +214,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(0);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -231,7 +231,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(1);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -253,7 +253,7 @@ describe("Test user resolver regex", () => {
     expect(completedExam.completed).toBeTruthy();
 
     const respFetchChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -269,7 +269,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(1);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -290,7 +290,7 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
     const respFetchChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
@@ -348,7 +348,7 @@ describe("Test user resolver regex", () => {
 
     expect(respUpdateExam.data.updateExam).toBeTruthy();
     const respFetchChunks3 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(
@@ -397,7 +397,7 @@ describe("Test user resolver regex", () => {
 
     expect(respUpdateExam2.data.updateExam).toBeTruthy();
     const respFetchChunks4 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(respFetchChunks4.data.todaysChunkAndProgress).toBeTruthy();
@@ -435,7 +435,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(1);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -463,7 +463,7 @@ describe("Test user resolver regex", () => {
     expect(updatedChunkFromCache.currentPage).toBe(3);
 
     const respFetchChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -490,7 +490,7 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp2.data.updateCurrentPage).toBeTruthy();
     const respFetchChunks3 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(respFetchChunks3.data.todaysChunkAndProgress).toBeTruthy();
@@ -517,7 +517,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(1);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -550,7 +550,7 @@ describe("Test user resolver regex", () => {
     expect(updatedChunk.completed).toBeTruthy();
 
     const respFetchChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();
@@ -570,7 +570,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments()).toBe(1);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
@@ -611,7 +611,7 @@ describe("Test user resolver regex", () => {
     expect(updatedChunk.completed).toBeTruthy();
 
     const respFetchChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(respFetchChunks2.data.todaysChunkAndProgress).toBeTruthy();

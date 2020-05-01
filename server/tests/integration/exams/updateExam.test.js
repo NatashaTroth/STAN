@@ -12,7 +12,7 @@ import {
 import { Exam } from "../../../models";
 
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
-import { GET_TODAYS_CHUNKS } from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO TEST REGEX HERE TOO?
 
@@ -76,7 +76,7 @@ describe("Test user resolver regex", () => {
     const initialCount = await Exam.countDocuments();
     expect(initialCount).toBe(1);
     const todaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     // console.log(todaysChunks.data);
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
@@ -113,7 +113,7 @@ describe("Test user resolver regex", () => {
     // });
 
     const todaysChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();

@@ -15,7 +15,7 @@ import {
   UPDATE_CURRENT_PAGE_MUTATION
 } from "../../mutations.js";
 
-import { GET_TODAYS_CHUNKS } from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
@@ -125,7 +125,7 @@ describe("Test user resolver regex", () => {
   it("should update current page in the cache", async () => {
     const testExam = await addTestExam({ subject: "Biology" });
     const todaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
@@ -145,7 +145,7 @@ describe("Test user resolver regex", () => {
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
 
     const todaysChunks2 = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(

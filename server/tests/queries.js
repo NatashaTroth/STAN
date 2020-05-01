@@ -38,7 +38,7 @@ export const GET_EXAM_QUERY = gql`
   }
 `;
 
-export const GET_TODAYS_CHUNKS = gql`
+export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
   query {
     todaysChunkAndProgress {
       todaysChunks {

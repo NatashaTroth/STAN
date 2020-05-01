@@ -13,7 +13,10 @@ import {
 } from "../setup";
 import { DELETE_USER_MUTATION } from "../../mutations.js";
 
-import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS } from "../../queries.js";
+import {
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS_AND_PROGRESS
+} from "../../queries.js";
 import { User, Exam, TodaysChunkCache } from "../../../models";
 // import { getNumberOfDays } from "../../../helpers/dates";
 
@@ -59,7 +62,7 @@ describe("Test user sign up and login resolvers", () => {
 
     //fill chunk cache
     const todaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(

@@ -11,7 +11,7 @@ import {
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import { EXAM_COMPLETED_MUTATION } from "../../mutations.js";
-import { GET_TODAYS_CHUNKS } from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
@@ -40,7 +40,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
 
     const respTodaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks

@@ -12,7 +12,7 @@ import {
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import {
-  GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_TODAYS_CHUNKS_PROGRESS
 } from "../../queries.js";
 
@@ -68,7 +68,7 @@ describe("Test user resolver regex", () => {
     expect(respUpdate.nModified).toBe(1);
 
     const respTodaysChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
@@ -159,7 +159,7 @@ describe("Test user resolver regex", () => {
     expect(initialCountExams).toBe(0);
 
     const respFetchChunks = await query({
-      query: GET_TODAYS_CHUNKS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
