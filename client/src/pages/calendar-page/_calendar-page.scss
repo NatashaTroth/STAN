@@ -1,10 +1,10 @@
 .fc-header-toolbar {
-  padding-bottom: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
   .fc-left {
+    padding-bottom: 40px;
     h2 {
       margin-top: 5rem;
       font-family: $font-family-BasierCircle-Bold;
@@ -210,7 +210,9 @@
 .fc-unthemed .fc-list-empty {
   background-color: transparent;
 }
-.fc-widget-header {
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-popover .fc-header,
+.fc-unthemed .fc-list-heading td {
   background-color: theme_color("grey-light");
 }
 .fc-list-heading-main,
@@ -231,8 +233,8 @@
 .fc-list-item {
   cursor: pointer;
 
-  &:hover {
-    background: none;
+  &:focus {
+    outline: none;
   }
 }
 
@@ -254,6 +256,12 @@
 .bs-popover-top > .arrow::after,
 .bs-popover-auto[x-placement^="top"] > .arrow::after {
   border-width: 0.5rem 0.5rem 3px;
+}
+
+.fc-allow-mouse-resize {
+  background: none;
+  // background: transparent !important;
+  // background-color: transparent !important;
 }
 
 #popover-basic {
