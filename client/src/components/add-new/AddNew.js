@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
   CURRENT_USER,
   GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
@@ -38,7 +38,7 @@ function AddNew() {
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
-          { query: GET_TODAYS_CHUNKS },
+          { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
