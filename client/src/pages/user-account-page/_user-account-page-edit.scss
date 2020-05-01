@@ -15,7 +15,8 @@
       .success {
         display: flex;
         justify-content: flex-end;
-        margin: 0 25px;
+        margin: 0px 25px;
+        padding-top: 20px;
         max-width: none;
 
         @include media-breakpoint-down(sm) {
@@ -37,7 +38,7 @@
 
     // delete user
     .graphql-user-delete-error {
-      display: flex;
+      display: none;
       justify-content: center;
       margin-top: 30px;
     }
@@ -45,6 +46,7 @@
       display: none;
       .success {
         display: flex;
+        padding-top: 30px;
         justify-content: center;
       }
     }
@@ -54,9 +56,10 @@
       margin: 40px 15px;
 
       &__button {
+        // height: 139px;
         display: flex;
         justify-content: flex-end;
-        margin-top: 55px;
+        // align-items: flex-end;
 
         @include media-breakpoint-down(sm) {
           justify-content: center;

@@ -82,7 +82,7 @@ const UserAccountEdit = () => {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = mascotStore.mascot
-        editUser({ mascotId, formData, updateUser, history })
+        editUser({ mascotId, formData, updateUser })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
@@ -249,7 +249,7 @@ const UserAccountEdit = () => {
                         ></i>
                       </div>
 
-                      <div className={isPasswordOpen ? "fadeIn" : "fadeOut"}>
+                      {isPasswordOpen ? (
                         <div className="form__element">
                           <Label
                             htmlFor="currentPassword"
@@ -293,7 +293,9 @@ const UserAccountEdit = () => {
                             </span>
                           ) : null}
                         </div>
+                      ) : null}
 
+                      {isPasswordOpen ? (
                         <div className="form__element">
                           <Label
                             htmlFor="newPassword"
@@ -337,7 +339,9 @@ const UserAccountEdit = () => {
                             </span>
                           ) : null}
                         </div>
+                      ) : null}
 
+                      {isPasswordOpen ? (
                         <div className="form__element">
                           <Label
                             htmlFor="retypePassword"
@@ -381,7 +385,7 @@ const UserAccountEdit = () => {
                             </span>
                           ) : null}
                         </div>
-                      </div>
+                      ) : null}
                     </div>
                   ) : null}
 
@@ -413,13 +417,15 @@ const UserAccountEdit = () => {
                           />
                         </Carousel>
 
-                        <div className="user-account__edit--form__button">
-                          <Button
-                            variant="button"
-                            text="Save"
-                            className="stan-btn-primary"
-                          />
-                        </div>
+                        {/* <div className="user-account__edit--form__button">
+                          <div className="save-button">
+                            <Button
+                              variant="button"
+                              text="Save"
+                              className="stan-btn-primary"
+                            />
+                          </div>
+                        </div> */}
                       </div>
                     </div>
                   ) : (
@@ -460,6 +466,18 @@ const UserAccountEdit = () => {
                       </div>
                     </div>
                   )}
+
+                  <div className="col-xl-12">
+                    <div className="user-account__edit--form__button">
+                      <div className="save-button">
+                        <Button
+                          variant="button"
+                          text="Save"
+                          className="stan-btn-primary"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="col-md-12" id="success-container-edit-user">
                     <p className="success">
@@ -553,6 +571,7 @@ async function userDeletion({ currentUser, deleteUser }) {
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-delete-error")
+    element.style.display = "flex"
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -562,7 +581,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser, history }) {
+async function editUser({ mascotId, formData, updateUser }) {
   try {
     const resp = await updateUser({
       variables: {

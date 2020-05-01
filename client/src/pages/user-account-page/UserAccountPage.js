@@ -26,6 +26,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 // components ----------------
 import UserAccountEdit from "./UserAccountEdit"
 import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
 
 // sub components ----------------
 import Button from "../../components/button/Button"
@@ -63,7 +64,7 @@ function UserAccount() {
     currentState = 0
 
   // error handling and get data ----------------
-  if (loadingExamsCount || loadingCurrentState) return <p>loading...</p>
+  if (loadingExamsCount || loadingCurrentState) return <Loading />
   if (errorExamsCount) {
     return <QueryError errorMessage={errorExamsCount.message} />
   }
