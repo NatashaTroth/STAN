@@ -49,11 +49,11 @@ export const UPDATE_EXAM_MUTATION = gql`
     $startDate: Date!
     $numberPages: Int!
     $timePerPage: Int!
-    $timesRepeat: Int
-    $startPage: Int
+    $timesRepeat: Int!
+    $startPage: Int!
+    $currentPage: Int!
     $notes: String
-    $pdfLink: String
-    $completed: Boolean
+    $pdfLink: String # $completed: Boolean
   ) {
     updateExam(
       id: $id
@@ -64,9 +64,9 @@ export const UPDATE_EXAM_MUTATION = gql`
       timePerPage: $timePerPage
       timesRepeat: $timesRepeat
       startPage: $startPage
+      currentPage: $currentPage
       notes: $notes
-      pdfLink: $pdfLink
-      completed: $completed
+      pdfLink: $pdfLink # completed: $completed
     ) {
       id
       subject
@@ -80,6 +80,12 @@ export const UPDATE_EXAM_MUTATION = gql`
       pdfLink
       completed
     }
+  }
+`
+
+export const EXAM_COMPLETED_MUTATION = gql`
+  mutation($id: ID!) {
+    examCompleted(id: $id)
   }
 `
 

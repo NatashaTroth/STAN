@@ -2,7 +2,8 @@ const {
   datesTimingIsValid,
   startDateIsActive,
   isTheSameDay,
-  getNumberOfDays
+  getNumberOfDays,
+  date1IsBeforeDate2
 } = require("../../helpers/dates");
 
 test("verifies datesTimingIsValid", () => {
@@ -56,6 +57,28 @@ test("verifies numberOfDaysLeft", () => {
   expect(getNumberOfDays(new Date("2020-04-01"), new Date("2020-04-10"))).toBe(
     9
   );
+});
+
+//new Dte(year, month, day, hours, minutes, seconds, milliseconds)
+test("verifies date1IsBeforeDate2", () => {
+  expect(
+    date1IsBeforeDate2(
+      new Date("2020", "04", "22", "20", "45", "43"),
+      new Date("2020", "04", "22", "20", "46", "43")
+    )
+  ).toBeTruthy();
+  expect(
+    date1IsBeforeDate2(
+      new Date("2020", "04", "22", "20", "45", "43"),
+      new Date("2020", "04", "22", "20", "45", "44")
+    )
+  ).toBeTruthy();
+  expect(
+    date1IsBeforeDate2(
+      new Date("2020", "05", "22", "20", "45", "43"),
+      new Date("2020", "04", "22", "20", "46", "43")
+    )
+  ).toBeFalsy();
 });
 
 function getFutureDay(date, numberDaysInFuture) {

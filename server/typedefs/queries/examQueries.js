@@ -33,16 +33,17 @@ const examQueries = gql`
       startDate: Date!
       numberPages: Int!
       timePerPage: Int!
-      timesRepeat: Int
-      startPage: Int
+      timesRepeat: Int!
+      startPage: Int!
+      currentPage: Int!
       notes: String
-      pdfLink: String
-      completed: Boolean
+      pdfLink: String # completed: Boolean
     ): Exam!
 
     #todo: change to just id
     updateCurrentPage(examId: ID!, page: Int!): Boolean
     deleteExam(id: ID!): Boolean
+    examCompleted(id: ID!): Boolean
   }
 `;
 

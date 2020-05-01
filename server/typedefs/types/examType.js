@@ -9,6 +9,7 @@ const examType = gql`
     subject: String!
     examDate: Date!
     startDate: Date
+    totalNumberDays: Int!
     numberPages: Int!
     timePerPage: Int!
     timesRepeat: Int!
@@ -27,12 +28,14 @@ const examType = gql`
     # subject: String!
     exam: Exam!
     numberPagesToday: Int!
-    duration: Int
+    startPage: Int!
+    currentPage: Int!
+    durationToday: Int!
     daysLeft: Int! #incl. today
-    totalNumberDays: Int!
     # totalChunks: Int!
-    numberPagesWithRepeat: Int! #exam.pages*repeat
+    # numberPagesWithRepeat: Int! #exam.pages*repeat
     notEnoughTime: Boolean!
+    completed: Boolean!
   }
 
   type CalendarChunkDetails {

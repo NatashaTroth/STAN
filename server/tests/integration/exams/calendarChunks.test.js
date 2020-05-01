@@ -5,10 +5,11 @@ import {
   setupApolloServer,
   setupDb,
   // addTestExam,
+  addTestExams,
   // clearDatabase,
   teardown
 } from "../setup";
-import { Exam } from "../../../models";
+// import { Exam } from "../../../models";
 
 import { GET_CALENDAR_CHUNKS } from "../../queries.js";
 // import { fetchCalendarChunks } from "../../../helpers/examHelpers";
@@ -73,10 +74,10 @@ describe("Test user resolver regex", () => {
       details: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
-        numberPagesLeftTotal: 35,
-        numberPagesPerDay: 18,
-        durationTotal: 350,
-        durationPerDay: 180
+        numberPagesLeftTotal: 71,
+        numberPagesPerDay: 36,
+        durationTotal: 710,
+        durationPerDay: 360
       },
       color: exam.color
     });
@@ -89,10 +90,10 @@ describe("Test user resolver regex", () => {
       details: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
-        numberPagesLeftTotal: 1401,
-        numberPagesPerDay: 1401,
-        durationTotal: 14010,
-        durationPerDay: 14010
+        numberPagesLeftTotal: 48,
+        numberPagesPerDay: 48,
+        durationTotal: 480,
+        durationPerDay: 480
       },
       color: exam.color
     });
@@ -113,80 +114,4 @@ describe("Test user resolver regex", () => {
       color: exam.color
     });
   });
-
-  async function addTestExams() {
-    const exam1 = await addTestExam({
-      subject: "Biology",
-      color: "#979250"
-    });
-    const exam2 = await addTestExam({
-      subject: "Archeology",
-      examDate: getFutureDay(new Date(), 2),
-      startDate: getFutureDay(new Date(), -5),
-      numberPages: 42,
-      timePerPage: 10,
-      startPage: 7,
-      currentPage: 50,
-      timesRepeat: 2,
-      color: "#2444A8"
-    });
-    const exam3 = await addTestExam({
-      subject: "Chemistry",
-      examDate: getFutureDay(new Date(), 1),
-      startDate: getFutureDay(new Date(), -20),
-      numberPages: 600,
-      timePerPage: 10,
-      startPage: 8,
-      currentPage: 1600,
-      timesRepeat: 5,
-      color: "#2328A9"
-    });
-    const exam4 = await addTestExam({
-      subject: "Dance",
-      examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51),
-      color: "#85625A"
-    });
-
-    // return exam1;
-    return { exam1, exam2, exam3, exam4 };
-  }
-
-  async function addTestExam({
-    subject,
-    examDate,
-    startDate,
-    numberPages,
-    timePerPage,
-    startPage,
-    currentPage,
-    timesRepeat,
-    color
-  }) {
-    const exam = await Exam.create({
-      subject: subject || "Test Subject",
-      examDate: examDate || getFutureDay(new Date(), 5),
-      startDate: startDate || new Date(),
-      numberPages: numberPages || 50,
-      timePerPage: timePerPage || 5,
-      startPage: startPage || 1,
-      currentPage: currentPage || startPage || 1,
-      timesRepeat: timesRepeat || 1,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: color || "#FFFFFF",
-      completed: false,
-      userId: "samanthasId"
-    });
-
-    if (!exam) throw new Error("Could not add a test exam");
-
-    return exam;
-  }
-
-  function getFutureDay(date, numberDaysInFuture) {
-    const nextDay = new Date(date);
-    nextDay.setDate(date.getDate() + numberDaysInFuture);
-    return new Date(nextDay);
-  }
 });

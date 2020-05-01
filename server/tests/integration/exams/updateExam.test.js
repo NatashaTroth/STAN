@@ -4,7 +4,8 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
+  getFutureDay,
   // clearDatabase,
   teardown
 } from "../setup";
@@ -24,8 +25,11 @@ describe("Test user resolver regex", () => {
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     mutate = client.mutate;
-    testExam = await addTestExam();
-    testExamStartDatePast = await addTestExam(getFutureDay(new Date(), -5));
+    testExam = await addTestExam({ subject: "Biology" });
+    testExamStartDatePast = await addTestExam({
+      subject: "Biology",
+      startDate: getFutureDay(new Date(), -5)
+    });
   });
 
   // afterEach(async () => {
@@ -48,7 +52,9 @@ describe("Test user resolver regex", () => {
         startDate: "2122-08-05",
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -78,7 +84,9 @@ describe("Test user resolver regex", () => {
         startDate: testExamStartDatePast.startDate,
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -106,7 +114,9 @@ describe("Test user resolver regex", () => {
         startDate: testExamStartDatePast.startDate,
         numberPages: 5,
         timePerPage: 5,
-        startPage: 1
+        timesRepeat: 2,
+        startPage: 1,
+        currentPage: 2
       }
     });
 
@@ -130,6 +140,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -153,6 +165,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -176,6 +190,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -198,6 +214,8 @@ describe("Test user resolver regex", () => {
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
+        timesRepeat: 2,
+        currentPage: 5,
         notes: "NOTES",
         pdfLink: "klsdjfs",
         completed: false
@@ -208,42 +226,4 @@ describe("Test user resolver regex", () => {
       "Dates cannot be in the past and start learning date must be before exam date."
     );
   });
-
-  //_----------------------------HELPERS-------------------
-
-  // async function addTestExams() {
-  //   const exam1 = await addTestExam({
-  //     subject: "Biology",
-  //     color: "#979250"
-  //   });
-
-  //   return exam1;
-  // }
-
-  async function addTestExam(startDate) {
-    const exam = await Exam.create({
-      subject: "Test Subject",
-      examDate: getFutureDay(new Date(), 5),
-      startDate: startDate || new Date(),
-      numberPages: 50,
-      timePerPage: 5,
-      startPage: 1,
-      currentPage: 1,
-      timesRepeat: 1,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: "#FFFFFF",
-      completed: false,
-      userId: "samanthasId"
-    });
-
-    if (!exam) throw new Error("Could not add a test exam");
-
-    return exam;
-  }
-  function getFutureDay(date, numberDaysInFuture) {
-    const nextDay = new Date(date);
-    nextDay.setDate(date.getDate() + numberDaysInFuture);
-    return new Date(nextDay);
-  }
 });

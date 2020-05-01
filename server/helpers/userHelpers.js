@@ -1,6 +1,6 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
-import { User, Exam } from "../models";
+import { User, Exam, TodaysChunkCache } from "../models";
 import {
   UserInputError,
   AuthenticationError,
@@ -143,8 +143,11 @@ export async function deleteUsersData(userId) {
   const respDeleteExams = await Exam.deleteMany({
     userId
   });
+  const respDeleteTodaysChunkCache = await TodaysChunkCache.deleteMany({
+    userId
+  });
 
-  if (respDeleteExams.ok !== 1)
+  if (respDeleteExams.ok !== 1 || respDeleteTodaysChunkCache.ok !== 1)
     throw new ApolloError("The user's data couldn't be deleted");
 }
 

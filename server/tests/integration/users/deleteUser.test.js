@@ -6,13 +6,16 @@ import {
   setupApolloServer,
   setupDb,
   signUpTestUser,
+  // addTestExam,
+  addTestExams,
   clearDatabase,
   teardown
 } from "../setup";
 import { DELETE_USER_MUTATION } from "../../mutations.js";
 
 import { GET_EXAMS_QUERY } from "../../queries.js";
-import { User, Exam } from "../../../models";
+import { User } from "../../../models";
+// import { getNumberOfDays } from "../../../helpers/dates";
 
 describe("Test user sign up and login resolvers", () => {
   let server;
@@ -127,85 +130,4 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(userAfterDelete).toBeFalsy();
   });
-
-  async function addTestExams(userId) {
-    const exam1 = await addTestExam({
-      subject: "Biology",
-      color: "#979250",
-      userId
-    });
-    const exam2 = await addTestExam({
-      subject: "Archeology",
-      examDate: getFutureDay(new Date(), 2),
-      startDate: getFutureDay(new Date(), -5),
-      numberPages: 42,
-      timePerPage: 10,
-      startPage: 7,
-      currentPage: 50,
-      timesRepeat: 2,
-      color: "#2444A8",
-      userId
-    });
-    const exam3 = await addTestExam({
-      subject: "Chemistry",
-      examDate: getFutureDay(new Date(), 1),
-      startDate: getFutureDay(new Date(), -20),
-      numberPages: 600,
-      timePerPage: 10,
-      startPage: 8,
-      currentPage: 1600,
-      timesRepeat: 5,
-      color: "#2328A9",
-      userId
-    });
-    const exam4 = await addTestExam({
-      subject: "Dance",
-      examDate: getFutureDay(new Date(), 30),
-      startDate: getFutureDay(new Date(), 51),
-      color: "#85625A",
-      userId
-    });
-
-    // return exam1;
-    return { exam1, exam2, exam3, exam4 };
-  }
-
-  async function addTestExam({
-    subject,
-    examDate,
-    startDate,
-    numberPages,
-    timePerPage,
-    startPage,
-    currentPage,
-    timesRepeat,
-    color,
-    userId
-  }) {
-    const exam = await Exam.create({
-      subject: subject || "Test Subject",
-      examDate: examDate || getFutureDay(new Date(), 5),
-      startDate: startDate || new Date(),
-      numberPages: numberPages || 50,
-      timePerPage: timePerPage || 5,
-      startPage: startPage || 1,
-      currentPage: currentPage || startPage || 1,
-      timesRepeat: timesRepeat || 1,
-      notes: "Samantha's notes",
-      pdfLink: "samanthas-link.stan",
-      color: color || "#FFFFFF",
-      completed: false,
-      userId: userId || "samanthasId"
-    });
-
-    if (!exam) throw new Error("Could not add a test exam");
-
-    return exam;
-  }
-
-  function getFutureDay(date, numberDaysInFuture) {
-    const nextDay = new Date(date);
-    nextDay.setDate(date.getDate() + numberDaysInFuture);
-    return new Date(nextDay);
-  }
 });

@@ -58,19 +58,19 @@ export const GET_TODAYS_CHUNKS = gql`
         subject
         examDate
         startDate
+        totalNumberDays
         numberPages
-        # timePerPage
         timesRepeat
         currentPage
         pdfLink
       }
       numberPagesToday
-      duration
+      startPage
+      currentPage
+      durationToday
       daysLeft
-      totalNumberDays
-      # totalChunks
-      numberPagesWithRepeat
       notEnoughTime
+      completed
     }
   }
 `;
