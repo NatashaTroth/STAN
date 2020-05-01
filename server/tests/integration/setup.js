@@ -142,7 +142,7 @@ export async function addTestExams(inputUserId) {
     numberPages: 42,
     timePerPage: 10,
     startPage: 7,
-    currentPage: 50,
+    currentPage: 20,
     timesRepeat: 2,
     color: "#2444A8",
     userId

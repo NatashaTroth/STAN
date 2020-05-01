@@ -175,7 +175,6 @@ export const examResolvers = {
       //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
       try {
         handleAuthentication(context.userInfo);
-
         const exam = await handleCurrentPageInput(
           args.page,
           args.examId,

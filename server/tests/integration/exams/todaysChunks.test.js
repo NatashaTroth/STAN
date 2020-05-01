@@ -46,6 +46,10 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
+  // it.only("should correctly fetch today's chunks", async () => {
+  //   expect(true).toBeTruthy();
+  // });
+
   it("should correctly fetch today's chunks", async () => {
     testExams = await addTestExams();
 
@@ -101,8 +105,8 @@ describe("Test user resolver regex", () => {
         currentPage: testExams.exam2.currentPage,
         pdfLink: testExams.exam2.pdfLink
       },
-      numberPagesToday: 18,
-      durationToday: 180,
+      numberPagesToday: 36,
+      durationToday: 360,
       daysLeft: 2,
 
       notEnoughTime: false
@@ -120,8 +124,8 @@ describe("Test user resolver regex", () => {
         currentPage: testExams.exam3.currentPage,
         pdfLink: testExams.exam3.pdfLink
       },
-      numberPagesToday: 41,
-      durationToday: 410,
+      numberPagesToday: 48,
+      durationToday: 480,
       daysLeft: 1,
 
       notEnoughTime: false
@@ -165,7 +169,7 @@ describe("Test user resolver regex", () => {
     expect(respFetchChunks.data.todaysChunks.length).toBe(0);
   });
 
-  it("todaysChunks should be empty when exam is completed", async () => {
+  it("todaysChunks should not be empty when exam is completed", async () => {
     const testExam = await addTestExam({
       subject: "Biology",
       completed: false
@@ -195,7 +199,7 @@ describe("Test user resolver regex", () => {
       query: GET_TODAYS_CHUNKS
     });
     expect(respFetchChunks2.data.todaysChunks).toBeTruthy();
-    expect(respFetchChunks2.data.todaysChunks.length).toBe(0);
+    expect(respFetchChunks2.data.todaysChunks.length).toBe(1);
     // expect(respFetchChunks2.data.todaysChunks[0].completed).toBeTruthy();
   });
 

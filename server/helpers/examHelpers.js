@@ -99,7 +99,12 @@ export async function handleCurrentPageInput(page, examId, userId) {
     );
 
   console.log("checking exam learning complete not chunk");
-  exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages);
+  exam.completed = learningIsComplete(
+    page,
+    exam.startPage,
+    exam.numberPages,
+    exam.timesRepeat
+  );
 
   return exam;
 }
@@ -135,9 +140,15 @@ function generateSubjectColor(exam) {
   return color;
 }
 
-export function learningIsComplete(currentPage, startPage, numberPages) {
+export function learningIsComplete(
+  currentPage,
+  startPage,
+  numberPages,
+  repeat = 1
+) {
   // console.log("IN LEARNING COMPLETE FUNCTION");
-  const endPage = startPage + numberPages - 1;
+
+  const endPage = startPage + numberPages * repeat - 1;
   // console.log("..." + currentPage + "  " + endPage);
   return currentPage > endPage;
 }

@@ -35,6 +35,7 @@ const examType = gql`
     # totalChunks: Int!
     # numberPagesWithRepeat: Int! #exam.pages*repeat
     notEnoughTime: Boolean!
+    completed: Boolean!
   }
 
   type CalendarChunkDetails {

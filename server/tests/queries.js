@@ -70,6 +70,7 @@ export const GET_TODAYS_CHUNKS = gql`
       durationToday
       daysLeft
       notEnoughTime
+      completed
     }
   }
 `;
