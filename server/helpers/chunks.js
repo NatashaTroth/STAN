@@ -427,7 +427,7 @@ function getCalendarChunks(exams) {
 
     calendarExams.push({
       title: exam.subject,
-      start: exam.startDate,
+      start: exam.examDate,
       end: exam.examDate,
       color: "red"
     });
