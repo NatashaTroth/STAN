@@ -2,7 +2,6 @@ import React from "react"
 
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
-import Button from "../button/Button"
 
 // helpers ----------------
 import { getNumberOfDays, formatDate } from "../../helpers/dates"
