@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -34,7 +34,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
-  let history = useHistory()
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
