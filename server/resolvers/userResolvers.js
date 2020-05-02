@@ -12,7 +12,7 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 // import sanitizer from "sanitize";
-import validator from "validator";
+// import validator from "validator";
 
 import {
   authenticateUser,
@@ -34,7 +34,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-import { escapeObjectForHtml } from "../helpers/generalHelpers";
+// import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
