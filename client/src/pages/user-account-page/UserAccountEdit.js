@@ -492,7 +492,7 @@ const UserAccountEdit = () => {
 
                   <div className="col-md-12">
                     <div id="retype-password-error" className="error">
-                      <p>Please make sure your passwords match.</p>
+                      <p>Please make sure your new passwords match.</p>
                     </div>
                   </div>
 
