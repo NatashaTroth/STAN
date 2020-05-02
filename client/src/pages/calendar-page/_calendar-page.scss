@@ -109,8 +109,10 @@
 
 // box content
 .fc-view {
+  padding-top: 1px;
+  padding-bottom: 1px;
   margin-bottom: 40px;
-  border: 1px solid theme-color("dark");
+  border: 4px solid theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
 }
 
@@ -187,11 +189,7 @@
 
 // empty list
 .fc-list-empty {
-  border: 4px solid theme-color("dark");
-  box-shadow: 10px 10px 0px -2px theme-color("dark");
   background-color: transparent;
-  height: 150px;
-
   font-family: $font-family-BasierCircle-Bold;
   @include rem(font-size, $h3-font-size);
   @include rem(letter-spacing, 1.5px);
@@ -205,7 +203,7 @@
 }
 
 .fc-listWeek-view {
-  border: none;
+  min-height: 150px;
 }
 .fc-unthemed .fc-list-empty {
   background-color: transparent;
@@ -242,7 +240,7 @@
 .popover {
   border: 2px solid theme_color("dark");
   border-radius: 0;
-  min-width: 350px;
+  // min-width: 350px;
 }
 .popover-header {
   background-color: transparent;
