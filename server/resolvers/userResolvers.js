@@ -34,7 +34,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-// import { fetchTodaysChunks } from "../helpers/chunks";
+import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -50,21 +50,17 @@ export const userResolvers = {
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       try {
-        console.log("IN CURRENT USER");
         if (!userInfo.isAuth) return null;
+        // let user = {
+        //   id: userInfo.userId,
+        //   googleId: userInfo.user.googleId,
+        //   username: userInfo.user.username,
+        //   email: userInfo.user.email,
+        //   mascot: userInfo.user.mascot,
+        //   googleLogin: userInfo.user.googleLogin
+        // };
+        // user = escapeObjectForHtml({ ...user });
 
-        // const user = { ...userInfo.user };
-        // console.log({ ...userInfo.user });
-        // console.log(check("<script>").escape());
-        // userInfo.user.googleId = sanitizer.value(
-        //   userInfo.user.googleId,
-        //   "string"
-        // );
-        // userInfo.user.username = sanitizer.value(
-        //   userInfo.user.username,
-        //   "string"
-        // );
-        // userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
