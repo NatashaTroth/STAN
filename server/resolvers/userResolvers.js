@@ -65,7 +65,6 @@ export const userResolvers = {
         //   "string"
         // );
         // userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
-        console.log(validator.escape("<script>"));
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
