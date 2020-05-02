@@ -410,7 +410,8 @@ function getCalendarChunks(exams) {
     // exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
     const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
     let dayBeforeExam = getPastDay(exam.examDate, 1);
-
+    console.log("CALENDAR CHUNKS");
+    console.log(exam.color);
     calendarChunks.push({
       title: exam.subject,
       start: exam.startDate,
