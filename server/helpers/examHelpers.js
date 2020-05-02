@@ -110,16 +110,16 @@ export async function handleCurrentPageInput(page, examId, userId) {
 }
 
 function generateSubjectColor(exam) {
-  const hexChars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  const hexChars = [4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   const colorNumbers = [];
-  colorNumbers.push(
-    Math.ceil(exam.subject.length * (Math.random() + 1)) % hexChars.length
-  );
   colorNumbers.push(
     (exam.examDate.getDay() + exam.examDate.getMonth()) % hexChars.length
   );
   colorNumbers.push(
     (exam.startDate.getDay() + exam.startDate.getMonth()) % hexChars.length
+  );
+  colorNumbers.push(
+    Math.ceil(exam.subject.length * (Math.random() * 10)) % hexChars.length
   );
   colorNumbers.push((exam.numberPages * exam.timesRepeat) % hexChars.length);
   colorNumbers.push(exam.timePerPage % hexChars.length);
