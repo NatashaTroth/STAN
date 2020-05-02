@@ -273,6 +273,9 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    h5 {
+      padding-right: 10px;
+    }
   }
 
   .exam-date {
