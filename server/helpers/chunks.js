@@ -5,7 +5,8 @@ import { Exam, TodaysChunkCache } from "../models";
 import {
   startDateIsActive,
   getNumberOfDays,
-  isTheSameDay
+  isTheSameDay,
+  getPastDay
 } from "../helpers/dates";
 
 import {
@@ -408,11 +409,12 @@ function getCalendarChunks(exams) {
     );
     // exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
     const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+    let dayBeforeExam = getPastDay(exam.examDate, 1);
 
     calendarChunks.push({
       title: exam.subject,
       start: exam.startDate,
-      end: exam.examDate,
+      end: dayBeforeExam,
       color: exam.color,
       extendedProps: {
         examDate: exam.examDate,
