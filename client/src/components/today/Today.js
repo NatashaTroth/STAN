@@ -249,8 +249,18 @@ function Today(props) {
                 {/* buttons */}
                 <div className="today__container__buttons">
                   {/* open notes or link */}
-                  {/* TODO: add link to exam */}
-                  <Link to="/exams" className="today__container__buttons__open">
+                  <Link
+                    to={`/exams/${props.data.todaysChunkAndProgress.todaysChunks[
+                      props.activeIndex
+                    ].exam.subject
+                      .toLowerCase()
+                      .replace(/ /g, "-")}?id=${
+                      props.data.todaysChunkAndProgress.todaysChunks[
+                        props.activeIndex
+                      ].exam.id
+                    }`}
+                    className="today__container__buttons__open"
+                  >
                     open notes
                   </Link>
 
