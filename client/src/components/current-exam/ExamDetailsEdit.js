@@ -35,6 +35,7 @@ const ExamDetailsEdit = ({ examId }) => {
       timePerPage: data.exam.timePerPage,
       timesRepeat: data.exam.timesRepeat,
       currentPage: data.exam.currentPage,
+      startPage: data.exam.startPage,
       notes: data.exam.notes,
       pdfLink: data.exam.pdfLink,
     }
@@ -50,6 +51,7 @@ const ExamDetailsEdit = ({ examId }) => {
     examDate,
     startDate,
     numberPages,
+    startPage,
     currentPage,
     timePerPage,
     timesRepeat,
@@ -62,6 +64,7 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "examDate" })
     register({ exam: "startDate" })
     register({ exam: "numberPages" })
+    register({ exam: "startPage" })
     register({ exam: "currentPage" })
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
@@ -217,7 +220,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="form__element">
               <Label
-                htmlFor="page-current"
+                htmlFor="startPage"
                 text="Start page"
                 className="form__element__label"
               />
@@ -225,11 +228,11 @@ const ExamDetailsEdit = ({ examId }) => {
                 className="form__element__input"
                 type="number"
                 min="0"
-                id="page-current"
-                label="exam_page_current"
-                name="currentPage"
-                onChange={handleChange.bind(null, "currentPage")}
-                value={currentPage}
+                id="startPage"
+                label="exam_start_page"
+                name="startPage"
+                onChange={handleChange.bind(null, "startPage")}
+                value={startPage}
                 ref={register({
                   min: 1,
                   max: 10000,
@@ -352,17 +355,17 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="form__element">
               <Label
-                htmlFor="current-page"
+                htmlFor="currentPage"
                 text="Current page"
                 className="form__element__label"
               ></Label>
               <input
                 className="form__element__input"
                 type="text"
-                id="current-page"
-                label="current-page"
-                name="current-page"
-                onChange={handleChange.bind(null, "current-page")}
+                id="currentPage"
+                label="exam_current_page"
+                name="currentPage"
+                onChange={handleChange.bind(null, "currentPage")}
                 // value={pdfLink}
                 ref={register({
                   required: false,
@@ -426,7 +429,8 @@ async function handleExam({ examId, data, updateExam }) {
         numberPages: parseInt(data.numberPages),
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
-        startPage: parseInt(data.currentPage),
+        startPage: parseInt(data.startPage),
+        currentPage: parseInt(data.currentPage),
         notes: data.notes,
         pdfLink: data.pdfLink,
         completed: false,
