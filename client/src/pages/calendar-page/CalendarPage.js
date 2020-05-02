@@ -64,7 +64,7 @@ const ExamsCalendar = () => {
               navLinks={true}
               locale={enLocale}
               eventSources={[chunks, exams]}
-              eventOrder={"end"}
+              eventOrder={"duration"}
               columnHeaderFormat={{ weekday: "short" }}
               noEventsMessage="You've earned a break by now."
               views={{
