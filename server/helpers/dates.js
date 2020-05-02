@@ -62,6 +62,12 @@ export function date1IsBeforeDate2(date1, date2) {
   return dayjs(date1).isBefore(dayjs(date2));
 }
 
+export function getPastDay(date, numberDaysInPast) {
+  const pastDay = new Date(date);
+  pastDay.setDate(date.getDate() - numberDaysInPast);
+  return new Date(pastDay);
+}
+
 //modified from https://flaviocopes.com/how-to-determine-date-is-today-javascript/
 function isToday(date) {
   const today = new Date();

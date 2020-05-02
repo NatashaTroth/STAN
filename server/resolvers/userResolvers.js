@@ -11,6 +11,8 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+// import sanitizer from "sanitize";
+// import validator from "validator";
 
 import {
   authenticateUser,
@@ -32,7 +34,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-// import { fetchTodaysChunks } from "../helpers/chunks";
+// import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -49,6 +51,16 @@ export const userResolvers = {
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       try {
         if (!userInfo.isAuth) return null;
+        // let user = {
+        //   id: userInfo.userId,
+        //   googleId: userInfo.user.googleId,
+        //   username: userInfo.user.username,
+        //   email: userInfo.user.email,
+        //   mascot: userInfo.user.mascot,
+        //   googleLogin: userInfo.user.googleLogin
+        // };
+        // user = escapeObjectForHtml({ ...user });
+
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
