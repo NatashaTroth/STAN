@@ -30,6 +30,7 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
+// TODO: change view for mobile version
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
@@ -61,7 +62,7 @@ const ExamsCalendar = () => {
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
-              eventLimit={5}
+              eventLimit={4}
               eventOverlap={false}
               navLinks={true}
               locale={enLocale}
