@@ -33,6 +33,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
+  let chunks = []
   let exams = []
 
   // redirects ----------------
@@ -44,37 +45,8 @@ const ExamsCalendar = () => {
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
   if (data && data.calendarChunks) {
-    // exams = data.calendarChunks
-    // TODO: implement exam in calendar
-    exams = [
-      {
-        title: "English",
-        start: "2020-04-29",
-        end: "2020-05-04",
-        color: "dark-grey",
-        extendedProps: {
-          examDate: "2020-04-29",
-          currentPage: 450,
-          numberPagesLeftTotal: 1209,
-          numberPagesPerDay: 68,
-          durationTotal: 12090,
-          durationPerDay: 680,
-          pdfLink: "TODO: ADD PDF LINK",
-        },
-      },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "red",
-      },
-      {
-        title: "German",
-        start: "2020-05-12T00:00:00.000Z",
-        end: "2020-05-12T00:00:00.000Z",
-        color: "blue",
-      },
-    ]
+    chunks = data.calendarChunks.calendarChunks
+    exams = data.calendarChunks.calendarExams
   }
 
   return (
@@ -91,7 +63,7 @@ const ExamsCalendar = () => {
               eventLimit={4}
               navLinks={true}
               locale={enLocale}
-              events={exams}
+              eventSources={[chunks, exams]}
               eventOrder={"end"}
               columnHeaderFormat={{ weekday: "short" }}
               noEventsMessage="You've earned a break by now."
@@ -116,7 +88,7 @@ const ExamsCalendar = () => {
 
                 const popover = (
                   <Popover id="popover-basic">
-                    {Object.keys(examDetails).length !== 0 ? (
+                    {examDetails.__typename === "CalendarChunkDetails" ? (
                       <Popover.Title as="h4" className="popover-title">
                         {info.event.title}
 
@@ -128,7 +100,7 @@ const ExamsCalendar = () => {
                       </Popover.Title>
                     ) : null}
 
-                    {Object.keys(examDetails).length !== 0 ? (
+                    {examDetails.__typename === "CalendarChunkDetails" ? (
                       <Popover.Content>
                         <div className="exam-date">
                           <h5>Exam date:</h5>
