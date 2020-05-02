@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
   CURRENT_USER,
   GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
@@ -26,11 +26,13 @@ function Today(props) {
       const resp = await updatePage({
         variables: {
           page: parseInt(formData.page_amount_studied),
-          examId: props.data.todaysChunks[props.activeIndex].exam.id,
+          examId:
+            props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+              .exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
-          { query: GET_TODAYS_CHUNKS },
+          { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -45,11 +47,13 @@ function Today(props) {
       const resp = await updatePage({
         variables: {
           page: chunkGoalPage,
-          examId: props.data.todaysChunks[props.activeIndex].exam.id,
+          examId:
+            props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+              .exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
-          { query: GET_TODAYS_CHUNKS },
+          { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -92,29 +96,38 @@ function Today(props) {
   let noTime
   let noTimeMessage
 
-  if (props.data && props.data.todaysChunks.length > 0) {
-    subject = props.data.todaysChunks[props.activeIndex].exam.subject
+  if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
+    subject =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
+        .subject
 
-    deadline = props.data.todaysChunks[props.activeIndex].exam.examDate.slice(
-      0,
-      10
-    )
+    deadline = props.data.todaysChunkAndProgress.todaysChunks[
+      props.activeIndex
+    ].exam.examDate.slice(0, 10)
     deadline = deadline
       .split("-")
       .reverse()
       .join("/")
 
-    currentPage = props.data.todaysChunks[props.activeIndex].exam.currentPage
+    currentPage =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
+        .currentPage
     amountPagesWithRepeat =
-      props.data.todaysChunks[props.activeIndex].numberPagesWithRepeat
-    lastPage = props.data.todaysChunks[props.activeIndex].exam.numberPages
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+        .numberPagesWithRepeat
+    lastPage =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
+        .numberPages
     realCurrentPage = currentPage % lastPage
 
     numberPagesToday =
-      props.data.todaysChunks[props.activeIndex].numberPagesToday
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+        .numberPagesToday
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
-    duration = props.data.todaysChunks[props.activeIndex].duration
+    duration =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+        .durationToday
     if (duration >= 60) {
       hours = Math.floor(duration / 60)
       minutes = Math.floor(duration) - hours * 60
@@ -124,24 +137,28 @@ function Today(props) {
       durationTime = minutes + " min"
     }
 
-    // noTime = props.data.todaysChunks[props.activeIndex].notEnoughTime
+    // noTime = props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].notEnoughTime
     if (duration > 1440) {
       noTimeMessage =
         "Info: You need to study faster to finish all pages until the exam!"
     }
 
     repetitionCycles =
-      props.data.todaysChunks[props.activeIndex].exam.timesRepeat
-    repetition = 1
-    let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
+        .timesRepeat
+    repetition = 0
+    let repetitionCounter = Math.floor(currentPage / lastPage)
     if (repetitionCounter <= repetitionCycles) {
       repetition = repetitionCounter
     } else {
       repetition = repetitionCycles
     }
 
-    daysLeft = props.data.todaysChunks[props.activeIndex].daysLeft
-    totalDays = props.data.todaysChunks[props.activeIndex].totalNumberDays
+    daysLeft =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].daysLeft
+    totalDays =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+        .totalNumberDays
     dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
 
     chunksTotal = totalDays
