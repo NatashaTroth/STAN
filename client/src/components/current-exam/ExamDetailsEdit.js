@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Redirect } from "react-router-dom"
+import { Redirect, useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -22,7 +22,7 @@ const ExamDetailsEdit = ({ examId }) => {
   let defaultValues
 
   // query ----------------
-  const { loading, error, data, refetch } = useQuery(GET_EXAM_QUERY, {
+  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
   })
 
@@ -73,9 +73,12 @@ const ExamDetailsEdit = ({ examId }) => {
   }, [register])
 
   // mutation ----------------
-  const [updateExam] = useMutation(UPDATE_EXAM_MUTATION)
+  const [updateExam] = useMutation(UPDATE_EXAM_MUTATION, {
+    refetchQueries: ["GET_EXAM_QUERY"],
+  })
 
   // redirects ----------------
+  let history = useHistory()
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
@@ -92,7 +95,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam })
+    handleExam({ examId, data, updateExam, history })
   }
 
   // return ----------------
@@ -399,7 +402,6 @@ const ExamDetailsEdit = ({ examId }) => {
               className="form__element__btn stan-btn-primary"
               variant="button"
               text="Save"
-              onClick={() => refetch()}
             />
           </div>
         </div>
@@ -418,7 +420,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ examId, data, updateExam }) {
+async function handleExam({ examId, data, updateExam, history }) {
   try {
     const resp = await updateExam({
       variables: {
@@ -443,6 +445,13 @@ async function handleExam({ examId, data, updateExam }) {
     } else {
       throw new Error("Cannot edit current exam.")
     }
+
+    // redirect ----------------
+    // TODO: refetchQuery in mutation is not working properly
+    setTimeout(() => {
+      history.push("/exams")
+      // window.location.href = "/exams"
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-exam-details-edit-error"
