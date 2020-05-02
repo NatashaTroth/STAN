@@ -431,7 +431,7 @@ function getCalendarChunks(exams) {
       title: exam.subject,
       start: exam.examDate,
       end: exam.examDate,
-      color: "red"
+      color: "#ff554d"
     });
   }
   return { calendarChunks, calendarExams };

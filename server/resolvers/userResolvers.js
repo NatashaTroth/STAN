@@ -11,6 +11,8 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import bcrypt from "bcrypt";
+
 // import sanitizer from "sanitize";
 // import validator from "validator";
 
@@ -159,6 +161,7 @@ export const userResolvers = {
       { username, email, password, newPassword, mascot },
       context
     ) => {
+      console.log("IN UPDATE USER");
       try {
         handleAuthentication(context.userInfo);
         const user = context.userInfo.user;
@@ -171,10 +174,14 @@ export const userResolvers = {
         });
         let passwordToSave = user.password;
         if (userWantsPasswordUpdating(password, newPassword)) {
+          console.log("USER WANTS PASSWORD UPDATING");
+
           await validatePassword(password, user.password);
+          console.log("Password is validated");
           verifyUpdatePasswordInputFormat(newPassword);
-          passwordToSave = newPassword;
+          passwordToSave = await bcrypt.hash(newPassword, 10);
         }
+        console.log("passwordToSave: " + passwordToSave);
 
         await updateUserInDatabase(
           context.userInfo.userId,
