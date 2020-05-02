@@ -7,6 +7,7 @@ import {
   // addTestExam,
   addTestExams,
   // clearDatabase,
+  getFutureDay,
   teardown
 } from "../setup";
 // import { Exam } from "../../../models";
@@ -55,7 +56,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.calendarChunks.calendarChunks[2]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
-      end: exam.examDate,
+      end: getFutureDay(exam.examDate, -1),
       color: exam.color,
       extendedProps: {
         examDate: exam.examDate,
@@ -78,7 +79,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.calendarChunks.calendarChunks[1]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
-      end: exam.examDate,
+      end: getFutureDay(exam.examDate, -1),
       color: exam.color,
       extendedProps: {
         examDate: exam.examDate,
@@ -101,7 +102,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.calendarChunks.calendarChunks[0]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
-      end: exam.examDate,
+      end: getFutureDay(exam.examDate, -1),
       color: exam.color,
       extendedProps: {
         examDate: exam.examDate,
@@ -124,7 +125,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.calendarChunks.calendarChunks[3]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
-      end: exam.examDate,
+      end: getFutureDay(exam.examDate, -1),
       color: exam.color,
       extendedProps: {
         examDate: exam.examDate,
