@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -56,6 +56,7 @@ const ExamsCalendar = () => {
           <div className="col-lg-1"></div>
           <div className="exams-calendar__inner col-lg-10">
             <FullCalendar
+              id="calendar"
               className="calendar-table"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
