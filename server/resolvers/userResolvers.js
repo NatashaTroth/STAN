@@ -12,7 +12,7 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 // import sanitizer from "sanitize";
-var sanitizer = require("sanitize")();
+import validator from "validator";
 
 import {
   authenticateUser,
@@ -56,16 +56,16 @@ export const userResolvers = {
         // const user = { ...userInfo.user };
         // console.log({ ...userInfo.user });
         // console.log(check("<script>").escape());
-        userInfo.user.googleId = sanitizer.value(
-          userInfo.user.googleId,
-          "string"
-        );
-        userInfo.user.username = sanitizer.value(
-          userInfo.user.username,
-          "string"
-        );
-        userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
-
+        // userInfo.user.googleId = sanitizer.value(
+        //   userInfo.user.googleId,
+        //   "string"
+        // );
+        // userInfo.user.username = sanitizer.value(
+        //   userInfo.user.username,
+        //   "string"
+        // );
+        // userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
+        console.log(validator.escape("<script>"));
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
