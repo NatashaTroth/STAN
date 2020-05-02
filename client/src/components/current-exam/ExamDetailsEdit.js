@@ -366,7 +366,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 label="exam_current_page"
                 name="currentPage"
                 onChange={handleChange.bind(null, "currentPage")}
-                // value={pdfLink}
+                value={currentPage}
                 ref={register({
                   required: false,
                 })}
