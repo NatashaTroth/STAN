@@ -69,7 +69,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.calendarChunks.calendarExams[2]).toMatchObject({
       title: exam.subject,
-      start: exam.startDate,
+      start: exam.examDate,
       end: exam.examDate,
       color: examColor
     });
@@ -92,7 +92,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.calendarChunks.calendarExams[1]).toMatchObject({
       title: exam.subject,
-      start: exam.startDate,
+      start: exam.examDate,
       end: exam.examDate,
       color: examColor
     });
@@ -115,7 +115,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.calendarChunks.calendarExams[0]).toMatchObject({
       title: exam.subject,
-      start: exam.startDate,
+      start: exam.examDate,
       end: exam.examDate,
       color: examColor
     });
@@ -138,7 +138,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.calendarChunks.calendarExams[3]).toMatchObject({
       title: exam.subject,
-      start: exam.startDate,
+      start: exam.examDate,
       end: exam.examDate,
       color: examColor
     });
