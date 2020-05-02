@@ -1,21 +1,10 @@
 import React from "react"
-import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
 import TodaySubject from "../../components/today-subject/TodaySubject"
-import QueryError from "../error/Error"
-import Loading from "../loading/Loading"
 
 function TodayGoals(props) {
-  // query ----------------
-  const { loading, error } = useQuery(GET_USERS_QUERY)
-
-  // // error handling ----------------
-  if (loading) return <Loading />
-  if (error) return <QueryError errorMessage={error.message} />
-
   // query data ----------------
   let subject
   let todaySubject

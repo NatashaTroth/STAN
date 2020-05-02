@@ -1,14 +1,13 @@
 import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
-  CURRENT_USER,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -63,15 +62,8 @@ function Today(props) {
     }
   }
 
-  // query ----------------
-  const { loading, error } = useQuery(CURRENT_USER)
-
   // mutation ----------------
   const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
-
-  // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
 
   // query data ----------------
   let deadline
