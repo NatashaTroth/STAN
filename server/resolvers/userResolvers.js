@@ -11,8 +11,10 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+import bcrypt from "bcrypt";
+
 // import sanitizer from "sanitize";
-import validator from "validator";
+// import validator from "validator";
 
 import {
   authenticateUser,
@@ -34,7 +36,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-// import { fetchTodaysChunks } from "../helpers/chunks";
+// import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -50,22 +52,17 @@ export const userResolvers = {
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       try {
-        console.log("IN CURRENT USER");
         if (!userInfo.isAuth) return null;
+        // let user = {
+        //   id: userInfo.userId,
+        //   googleId: userInfo.user.googleId,
+        //   username: userInfo.user.username,
+        //   email: userInfo.user.email,
+        //   mascot: userInfo.user.mascot,
+        //   googleLogin: userInfo.user.googleLogin
+        // };
+        // user = escapeObjectForHtml({ ...user });
 
-        // const user = { ...userInfo.user };
-        // console.log({ ...userInfo.user });
-        // console.log(check("<script>").escape());
-        // userInfo.user.googleId = sanitizer.value(
-        //   userInfo.user.googleId,
-        //   "string"
-        // );
-        // userInfo.user.username = sanitizer.value(
-        //   userInfo.user.username,
-        //   "string"
-        // );
-        // userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
-        console.log(validator.escape("<script>"));
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
@@ -164,6 +161,7 @@ export const userResolvers = {
       { username, email, password, newPassword, mascot },
       context
     ) => {
+      console.log("IN UPDATE USER");
       try {
         handleAuthentication(context.userInfo);
         const user = context.userInfo.user;
@@ -176,10 +174,14 @@ export const userResolvers = {
         });
         let passwordToSave = user.password;
         if (userWantsPasswordUpdating(password, newPassword)) {
+          console.log("USER WANTS PASSWORD UPDATING");
+
           await validatePassword(password, user.password);
+          console.log("Password is validated");
           verifyUpdatePasswordInputFormat(newPassword);
-          passwordToSave = newPassword;
+          passwordToSave = await bcrypt.hash(newPassword, 10);
         }
+        console.log("passwordToSave: " + passwordToSave);
 
         await updateUserInDatabase(
           context.userInfo.userId,

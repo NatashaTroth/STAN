@@ -129,6 +129,7 @@ export const examResolvers = {
           { ...args },
           context.userInfo.userId
         );
+        console.log(processedArgs);
         await Exam.create(processedArgs);
       } catch (err) {
         handleResolverError(err);

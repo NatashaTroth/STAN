@@ -68,7 +68,7 @@ describe("Test user sign up and login resolvers", () => {
     const resp = await query({
       query: CURRENT_USER
     });
-    console.log(resp);
+
     expect(resp.data.currentUser).toBeTruthy();
     expect(resp.data.currentUser.id.toString()).toBe(testUser._id.toString());
     expect(resp.data.currentUser.username).toBe(testUser.username);

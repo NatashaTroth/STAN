@@ -50,7 +50,7 @@ describe("Test user resolver regex", () => {
     expect(resp.data.calendarChunks).toBeTruthy();
     expect(resp.data.calendarChunks.calendarChunks.length).toBe(4);
     let exam;
-    const examColor = "red";
+    const examColor = "#ff554d";
 
     exam = testExams.exam1;
     expect(resp.data.calendarChunks.calendarChunks[2]).toMatchObject({

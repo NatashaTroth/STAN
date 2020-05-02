@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -30,6 +30,7 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
+// TODO: change view for mobile version
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
@@ -54,13 +55,15 @@ const ExamsCalendar = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-1"></div>
-          <div className="col-lg-10">
+          <div className="exams-calendar__inner col-lg-10">
             <FullCalendar
+              id="calendar"
               className="calendar-table"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
               eventLimit={4}
+              eventOverlap={false}
               navLinks={true}
               locale={enLocale}
               eventSources={[chunks, exams]}
