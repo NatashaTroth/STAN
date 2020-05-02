@@ -60,6 +60,7 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "query-string": "^6.11.1",
+    "sanitize": "^2.1.0",
     "uuid": "^3.4.0",
     "weak-napi": "^1.0.3"
   },

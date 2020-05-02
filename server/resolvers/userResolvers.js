@@ -11,6 +11,8 @@ import {
   handleResolverError,
   handleAuthentication
 } from "../helpers/resolvers";
+// import sanitizer from "sanitize";
+var sanitizer = require("sanitize")();
 
 import {
   authenticateUser,
@@ -48,7 +50,22 @@ export const userResolvers = {
     },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       try {
+        console.log("IN CURRENT USER");
         if (!userInfo.isAuth) return null;
+
+        // const user = { ...userInfo.user };
+        // console.log({ ...userInfo.user });
+        // console.log(check("<script>").escape());
+        userInfo.user.googleId = sanitizer.value(
+          userInfo.user.googleId,
+          "string"
+        );
+        userInfo.user.username = sanitizer.value(
+          userInfo.user.username,
+          "string"
+        );
+        userInfo.user.email = sanitizer.value(userInfo.user.email, "string");
+
         return userInfo.user;
       } catch (err) {
         console.error(err.message);
