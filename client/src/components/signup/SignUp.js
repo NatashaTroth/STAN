@@ -1,6 +1,6 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
-import { useHistory, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -18,7 +18,6 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
 function SignUp() {
-  const history = useHistory()
   const { register, errors, handleSubmit } = useForm()
 
   // mutation ----------------
