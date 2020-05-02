@@ -1,3 +1,18 @@
+.exams-calendar {
+  &__inner {
+    position: relative;
+    .calendar-table {
+      &__inner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+}
+
 .fc-header-toolbar {
   display: flex;
   flex-direction: column;
@@ -110,9 +125,8 @@
 // box content
 .fc-view {
   padding-top: 1px;
-  padding-bottom: 1px;
   padding-left: 1px;
-  padding-right: 1px;
+  padding-bottom: 1px;
 
   margin-bottom: 40px;
   border: 4px solid theme-color("dark");
@@ -161,27 +175,6 @@
   border-style: solid;
 }
 
-.fc .fc-row .fc-content-skeleton table,
-.fc .fc-row .fc-content-skeleton td,
-.fc .fc-row .fc-mirror-skeleton td {
-  border: none;
-}
-
-// more link
-.fc-more-cell {
-  // display: block;
-  div {
-    // padding: 4px;
-  }
-  div > a {
-    // font-family: $font-family-OpenSans-Regular;
-    // @include rem(font-size, $font-size-14);
-    // letter-spacing: 0;
-    // @include rem(line-height, 20px);
-    // margin: 0;
-  }
-}
-
 // event chunk
 .fc-day-grid-event {
   margin: 0;
@@ -199,6 +192,10 @@
   border-top: 3px solid theme_color("dark");
 }
 
+.fc-listWeek-view {
+  min-height: 130px;
+}
+
 // empty list
 .fc-list-empty {
   background-color: transparent;
@@ -214,9 +211,6 @@
   }
 }
 
-.fc-listWeek-view {
-  min-height: 80px;
-}
 .fc-unthemed .fc-list-empty {
   background-color: transparent;
 }
@@ -252,7 +246,6 @@
 .popover {
   border: 2px solid theme_color("dark");
   border-radius: 0;
-  // min-width: 350px;
 }
 .popover-header {
   background-color: transparent;
@@ -270,8 +263,6 @@
 
 .fc-allow-mouse-resize {
   background: none;
-  // background: transparent !important;
-  // background-color: transparent !important;
 }
 
 #popover-basic {
@@ -307,16 +298,34 @@
     height: 20px;
     margin-top: 4px;
     &:before {
-      height: 5px;
-      width: 20px;
+      height: 3px;
+      width: 15px;
     }
     &:after {
-      height: 5px;
-      width: 20px;
+      height: 3px;
+      width: 15px;
     }
     &:focus,
     &:active {
       outline: none;
     }
+  }
+}
+
+// show more popup
+.fc-unthemed .fc-popover {
+  border-width: 3px;
+}
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-popover .fc-header,
+.fc-unthemed .fc-list-heading td {
+  background: none;
+}
+.fc-popover .fc-header .fc-close {
+  opacity: 1;
+}
+.fc-popover {
+  .fc-header {
+    border-bottom: 2px solid black;
   }
 }

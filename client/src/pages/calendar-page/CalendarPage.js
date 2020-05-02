@@ -54,13 +54,14 @@ const ExamsCalendar = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-1"></div>
-          <div className="col-lg-10">
+          <div className="exams-calendar__inner col-lg-10">
             <FullCalendar
               className="calendar-table"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
-              eventLimit={4}
+              eventLimit={true}
+              eventOverlap={false}
               navLinks={true}
               locale={enLocale}
               eventSources={[chunks, exams]}
