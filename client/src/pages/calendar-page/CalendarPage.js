@@ -60,7 +60,7 @@ const ExamsCalendar = () => {
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
               defaultView="dayGridMonth"
-              eventLimit={true}
+              eventLimit={5}
               eventOverlap={false}
               navLinks={true}
               locale={enLocale}
