@@ -193,7 +193,7 @@
 }
 
 .fc-listWeek-view {
-  min-height: 130px;
+  min-height: 70px;
 }
 
 // empty list
@@ -315,11 +315,6 @@
 // show more popup
 .fc-unthemed .fc-popover {
   border-width: 3px;
-}
-.fc-unthemed .fc-divider,
-.fc-unthemed .fc-popover .fc-header,
-.fc-unthemed .fc-list-heading td {
-  background: none;
 }
 .fc-popover .fc-header .fc-close {
   opacity: 1;
