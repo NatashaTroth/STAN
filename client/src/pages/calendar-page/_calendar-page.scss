@@ -111,6 +111,9 @@
 .fc-view {
   padding-top: 1px;
   padding-bottom: 1px;
+  padding-left: 1px;
+  padding-right: 1px;
+
   margin-bottom: 40px;
   border: 4px solid theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
@@ -154,19 +157,28 @@
     @include rem(line-height, 18px);
   }
 }
+.fc td.fc-today {
+  border-style: solid;
+}
+
+.fc .fc-row .fc-content-skeleton table,
+.fc .fc-row .fc-content-skeleton td,
+.fc .fc-row .fc-mirror-skeleton td {
+  border: none;
+}
 
 // more link
 .fc-more-cell {
-  display: block;
+  // display: block;
   div {
-    padding: 4px;
+    // padding: 4px;
   }
   div > a {
-    font-family: $font-family-OpenSans-Regular;
-    @include rem(font-size, $font-size-14);
-    letter-spacing: 0;
-    @include rem(line-height, 20px);
-    margin: 0;
+    // font-family: $font-family-OpenSans-Regular;
+    // @include rem(font-size, $font-size-14);
+    // letter-spacing: 0;
+    // @include rem(line-height, 20px);
+    // margin: 0;
   }
 }
 
