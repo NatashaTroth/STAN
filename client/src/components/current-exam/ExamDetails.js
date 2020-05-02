@@ -208,7 +208,7 @@ const ExamDetails = () => {
                         <Button
                           className="stan-btn-primary"
                           variant="button"
-                          text="Studied"
+                          text="Completed"
                           onClick={handleCompletion}
                         />
                       </div>
