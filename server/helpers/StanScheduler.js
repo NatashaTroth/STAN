@@ -1,6 +1,6 @@
 import schedule from "node-schedule";
-import { isInterfaceType } from "graphql";
-import { User, Exam, TodaysChunkCache } from "./../models";
+
+import { User, Exam } from "./../models";
 import { getNumberOfDays } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
@@ -26,7 +26,7 @@ export default class StanScheduler {
   }
 
   async notifyUsersAboutExams() {
-    const job = schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
+    schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
       console.log("Sending Mails");
 
       //TODO: INDEX allowEmailNotifications
