@@ -191,6 +191,7 @@ function DataPolicy() {
               <a
                 href="https://support.google.com/accounts/answer/112802?co=GENIE.Platform%3DDesktop&hl=en"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 here
               </a>
@@ -261,6 +262,7 @@ function DataPolicy() {
               authority. You can find their contact details
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="http://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm"
               >
                 here
