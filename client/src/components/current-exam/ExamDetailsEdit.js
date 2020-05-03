@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries & mutation ----------------
-import { GET_EXAM_QUERY } from "../../graphQL/queries"
+import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
 // sub-components ----------------
@@ -74,7 +74,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // mutation ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION, {
-    refetchQueries: ["GET_EXAM_QUERY"],
+    refetchQueries: [{ query: GET_EXAMS_QUERY }],
   })
 
   // redirects ----------------
@@ -445,13 +445,6 @@ async function handleExam({ examId, data, updateExam, history }) {
     } else {
       throw new Error("Cannot edit current exam.")
     }
-
-    // redirect ----------------
-    // TODO: refetchQuery in mutation is not working properly
-    setTimeout(() => {
-      history.push("/exams")
-      // window.location.href = "/exams"
-    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-exam-details-edit-error"
