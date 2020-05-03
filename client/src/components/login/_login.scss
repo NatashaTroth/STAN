@@ -59,7 +59,7 @@
     &__buttons {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 35px;
+      padding-top: 15px;
       justify-content: center;
 
       @include media-breakpoint-down(lg) {
@@ -78,6 +78,21 @@
             width: 100%;
           }
         }
+      }
+    }
+
+    &__notifications {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+
+      input {
+        width: 20px;
+        height: 20px;
+        background: none;
+        border-radius: 0;
       }
     }
 

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -18,7 +18,11 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
 function SignUp() {
+  // form ----------------
   const { register, errors, handleSubmit } = useForm()
+
+  // state ----------------
+  const [notification, setNotification] = useState(false)
 
   // mutation ----------------
   const [signup] = useMutation(SIGNUP_MUTATION)
@@ -59,10 +63,14 @@ function SignUp() {
     if (formData.password === formData.retype_password) {
       document.getElementById("signup-error").style.display = "none"
 
-      handleSignup({ formData, signup })
+      handleSignup({ formData, signup, notification })
     } else {
       document.getElementById("signup-error").style.display = "block"
     }
+  }
+
+  const handleNotification = () => {
+    setNotification(notification => !notification)
   }
 
   return (
@@ -219,6 +227,24 @@ function SignUp() {
             ) : null}
           </div>
 
+          <div className="login__form__notifications">
+            <input
+              type="checkbox"
+              id="notification"
+              name="notification"
+              value="notification"
+              onChange={handleNotification}
+              required
+              ref={register({
+                required: true,
+              })}
+            />
+            <label htmlFor="notification">
+              Allow email notifications when exam date is close (can be changed
+              at any time in the user profile)
+            </label>
+          </div>
+
           <div className="login__form__buttons">
             <div className="login__form__buttons__button-right">
               <GoogleLogin
@@ -265,14 +291,16 @@ function SignUp() {
 
 export default SignUp
 
-async function handleSignup({ formData, signup }) {
+async function handleSignup({ formData, signup, notification }) {
   try {
+    console.log(notification)
     const resp = await signup({
       variables: {
         username: formData.username,
         email: formData.email,
         password: formData.password,
         mascot: 0,
+        allowEmailNotifications: notification,
       },
     })
 
