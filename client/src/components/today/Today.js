@@ -1,14 +1,13 @@
 import React from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
-  CURRENT_USER,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -21,11 +20,31 @@ function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
+  let pagesStudiedForm
+
   const onSubmit = async formData => {
     try {
+      if (
+        (parseInt(formData.page_amount_studied) >= chunkGoalPage &&
+          parseInt(formData.page_amount_studied) < realCurrentPage) ||
+        parseInt(formData.page_amount_studied) < realCurrentPage
+      ) {
+        repetition++
+      }
+
+      if (repetition == 1) {
+        pagesStudiedForm = parseInt(formData.page_amount_studied) + 1
+      } else {
+        // (total pages * cycle) + current page in cycle + 1
+        pagesStudiedForm =
+          lastPage * (repetition - 1) +
+          parseInt(formData.page_amount_studied) +
+          1
+      }
+
       const resp = await updatePage({
         variables: {
-          page: parseInt(formData.page_amount_studied),
+          page: parseInt(pagesStudiedForm),
           examId:
             props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
               .exam.id,
@@ -46,7 +65,7 @@ function Today(props) {
     try {
       const resp = await updatePage({
         variables: {
-          page: chunkGoalPage,
+          page: chunkGoalPage + 1,
           examId:
             props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
               .exam.id,
@@ -63,15 +82,8 @@ function Today(props) {
     }
   }
 
-  // query ----------------
-  const { loading, error } = useQuery(CURRENT_USER)
-
   // mutation ----------------
   const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
-
-  // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
 
   // query data ----------------
   let deadline
@@ -81,9 +93,11 @@ function Today(props) {
   let chunkGoalPage
   let numberPagesToday
   let lastPage
+  let startPage
   let amountPagesWithRepeat
   let repetition
   let repetitionCycles
+  let repetitionCounter
   let duration
   let durationTime
   let hours
@@ -120,10 +134,22 @@ function Today(props) {
         .numberPages
     realCurrentPage = currentPage % lastPage
 
+    startPage =
+      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+        .startPage
+
     numberPagesToday =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .numberPagesToday
+
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
+    // to display last page correctly
+    if (chunkGoalPage == -1) {
+      chunkGoalPage = lastPage
+    } else if (chunkGoalPage == 0) {
+      chunkGoalPage = 1
+    }
 
     duration =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
@@ -146,8 +172,8 @@ function Today(props) {
     repetitionCycles =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .timesRepeat
-    repetition = 0
-    let repetitionCounter = Math.floor(currentPage / lastPage)
+    repetition = 1
+    repetitionCounter = Math.floor(currentPage / lastPage) + 1
     if (repetitionCounter <= repetitionCycles) {
       repetition = repetitionCounter
     } else {
@@ -161,8 +187,13 @@ function Today(props) {
         .totalNumberDays
     dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
 
-    chunksTotal = totalDays
-    chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
+    // calculation for chunks
+    // chunksTotal = totalDays
+    // chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
+
+    // calculation for how many pages are left
+    chunksTotal = lastPage * (repetitionCycles + 1) - currentPage
+    chunkPercentage = Math.round((lastPage / chunksTotal) * 100)
   }
 
   // return ----------------
@@ -247,8 +278,8 @@ function Today(props) {
                 {/* chunks left */}
                 <div className="today__container__chunks-left">
                   <Timeline
-                    heading="Chunks left to study"
-                    daysLeft={daysLeft}
+                    heading="Pages left to study"
+                    daysLeft={chunksTotal}
                     percentage={chunkPercentage}
                     style="chunks"
                   ></Timeline>
@@ -257,8 +288,18 @@ function Today(props) {
                 {/* buttons */}
                 <div className="today__container__buttons">
                   {/* open notes or link */}
-                  {/* TODO: add link to exam */}
-                  <Link to="/exams" className="today__container__buttons__open">
+                  <Link
+                    to={`/exams/${props.data.todaysChunkAndProgress.todaysChunks[
+                      props.activeIndex
+                    ].exam.subject
+                      .toLowerCase()
+                      .replace(/ /g, "-")}?id=${
+                      props.data.todaysChunkAndProgress.todaysChunks[
+                        props.activeIndex
+                      ].exam.id
+                    }`}
+                    className="today__container__buttons__open"
+                  >
                     open notes
                   </Link>
 
@@ -285,8 +326,8 @@ function Today(props) {
                             placeholder={realCurrentPage}
                             ref={register({
                               required: true,
-                              min: realCurrentPage,
-                              max: amountPagesWithRepeat,
+                              min: startPage,
+                              max: lastPage,
                             })}
                           />
                         </div>
@@ -304,7 +345,9 @@ function Today(props) {
                         )}
                       {errors.page_amount_studied &&
                         errors.page_amount_studied.type === "max" && (
-                          <span className="error">The maximum is 10.000</span>
+                          <span className="error">
+                            The maximum is your last page: {lastPage}
+                          </span>
                         )}
                       {errors.page_amount_studied &&
                         errors.page_amount_studied.type === "min" && (
