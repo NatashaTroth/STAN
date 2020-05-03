@@ -167,17 +167,23 @@ function AddNew() {
                       <DayPickerInput
                         dayPickerProps={{
                           disabledDays: { before: today },
+                          modifiersStyles: {
+                            selected: {
+                              color: "white",
+                              backgroundColor: "#03719e",
+                            },
+                            today: {
+                              color: "#fec902",
+                            },
+                          },
                         }}
+                        inputProps={{ required: true }}
                         formatDate={formatDate}
                         format={FORMAT}
                         parseDate={parseDate}
                         placeholder="DD.MM.YYYY"
-                        className="form__element__input"
                         id="exam-date"
                         label="exam_date"
-                        ref={register({
-                          required: true,
-                        })}
                       />
                       {/* <Input
                         className="form__element__input"
@@ -190,10 +196,6 @@ function AddNew() {
                           required: true,
                         })}
                       /> */}
-                      {errors.exam_date &&
-                        errors.exam_date.type === "required" && (
-                          <span className="error">This field is required</span>
-                        )}
                     </div>
 
                     <div className="form__element">
@@ -209,17 +211,23 @@ function AddNew() {
                             // after: selectedDate,
                           },
                           modifiers: { selected: today },
+                          modifiersStyles: {
+                            selected: {
+                              color: "white",
+                              backgroundColor: "#03719e",
+                            },
+                            today: {
+                              color: "#fec902",
+                            },
+                          },
                         }}
+                        inputProps={{ required: true }}
                         formatDate={formatDate}
                         format={FORMAT}
                         parseDate={parseDate}
                         placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
-                        className="form__element__input"
                         id="study-start-date"
                         label="exam_start_date"
-                        ref={register({
-                          required: true,
-                        })}
                       />
                       {/* <Input
                         className="form__element__input"
@@ -231,10 +239,6 @@ function AddNew() {
                           required: true,
                         })}
                       /> */}
-                      {errors.exam_start_date &&
-                        errors.exam_start_date.type === "required" && (
-                          <span className="error">This field is required</span>
-                        )}
                     </div>
                   </div>
                   <div className="form__container form__container--numbers">
