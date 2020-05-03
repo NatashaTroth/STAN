@@ -8,6 +8,11 @@ import {
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
+import DayPickerInput from "react-day-picker/DayPickerInput"
+import { DateUtils } from "react-day-picker"
+import "react-day-picker/lib/style.css"
+import dateFnsFormat from "date-fns/format"
+import dateFnsParse from "date-fns/parse"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 // --------------------------------------------------------------
@@ -19,6 +24,20 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
+
+// date picker
+function parseDate(str, format, locale) {
+  const parsed = dateFnsParse(str, format, new Date(), { locale })
+  if (DateUtils.isDate(parsed)) {
+    return parsed
+  }
+  return undefined
+}
+
+function formatDate(date, format, locale) {
+  return dateFnsFormat(date, format, { locale })
+}
+// ---------------------------
 
 function AddNew() {
   // form specific ----------------
@@ -79,6 +98,10 @@ function AddNew() {
   // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
+
+  // date picker
+  const FORMAT = "dd.MM.yyyy"
+  const today = new Date()
 
   // return ----------------
   return (
@@ -141,7 +164,22 @@ function AddNew() {
                         text="Exam date"
                         className="form__element__label input-required"
                       ></Label>
-                      <Input
+                      <DayPickerInput
+                        dayPickerProps={{
+                          disabledDays: { before: today },
+                        }}
+                        formatDate={formatDate}
+                        format={FORMAT}
+                        parseDate={parseDate}
+                        placeholder="DD.MM.YYYY"
+                        className="form__element__input"
+                        id="exam-date"
+                        label="exam_date"
+                        ref={register({
+                          required: true,
+                        })}
+                      />
+                      {/* <Input
                         className="form__element__input"
                         type="date"
                         id="exam-date"
@@ -151,7 +189,7 @@ function AddNew() {
                         ref={register({
                           required: true,
                         })}
-                      />
+                      /> */}
                       {errors.exam_date &&
                         errors.exam_date.type === "required" && (
                           <span className="error">This field is required</span>
@@ -164,16 +202,39 @@ function AddNew() {
                         text="Start learning on"
                         className="form__element__label input-required"
                       ></Label>
-                      <Input
+                      <DayPickerInput
+                        dayPickerProps={{
+                          disabledDays: {
+                            before: today,
+                            // after: selectedDate,
+                          },
+                          modifiers: { selected: today },
+                        }}
+                        formatDate={formatDate}
+                        format={FORMAT}
+                        parseDate={parseDate}
+                        placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
+                        className="form__element__input"
+                        id="study-start-date"
+                        label="exam_start_date"
+                        ref={register({
+                          required: true,
+                        })}
+                      />
+                      {/* <Input
                         className="form__element__input"
                         type="date"
                         id="study-start-date"
                         label="exam_start_date"
                         placeholder="DD/MM/YYYY"
                         ref={register({
-                          required: false,
+                          required: true,
                         })}
-                      />
+                      /> */}
+                      {errors.exam_start_date &&
+                        errors.exam_start_date.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
                     </div>
                   </div>
                   <div className="form__container form__container--numbers">
