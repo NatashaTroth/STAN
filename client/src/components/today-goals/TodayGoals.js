@@ -18,44 +18,47 @@ function TodayGoals(props) {
   let minutesTotal
 
   if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    todaySubject = props.data.todaysChunkAndProgress.todaysChunks.map(
-      (element, index) => {
-        subject = element.exam.subject
-        duration = element.durationToday
-        totalDuration += duration
-
-        if (duration >= 60) {
-          hours = Math.floor(duration / 60)
-          minutes = Math.floor(duration) - hours * 60
-          durationTime = hours + " hours " + minutes + " min"
-
-          hoursTotal = Math.floor(totalDuration / 60)
-          minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
-          totalDurationTime = hoursTotal + "h " + minutesTotal + "m"
-        } else {
-          minutes = duration
-          durationTime = minutes + " min"
-
-          minutesTotal = totalDuration
-          totalDurationTime = minutesTotal + "m"
-        }
-
-        return (
-          <TodaySubject
-            key={index}
-            subject={subject}
-            durationTime={durationTime}
-            onClick={e => {
-              e.preventDefault()
-              props.activeElementIndexChange(index)
-            }}
-            className={
-              props.activeIndex === index ? "active-subject" : undefined
-            }
-          ></TodaySubject>
-        )
+    // filter only not completed entries
+    let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
+      function(el) {
+        return el.completed == false
       }
     )
+    // map entries
+    todaySubject = filteredItems.map((element, index) => {
+      subject = element.exam.subject
+      duration = element.durationToday
+      totalDuration += duration
+
+      if (duration >= 60) {
+        hours = Math.floor(duration / 60)
+        minutes = Math.floor(duration) - hours * 60
+        durationTime = hours + " hours " + minutes + " min"
+
+        hoursTotal = Math.floor(totalDuration / 60)
+        minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
+        totalDurationTime = hoursTotal + "h " + minutesTotal + "m"
+      } else {
+        minutes = duration
+        durationTime = minutes + " min"
+
+        minutesTotal = totalDuration
+        totalDurationTime = minutesTotal + "m"
+      }
+
+      return (
+        <TodaySubject
+          key={index}
+          subject={subject}
+          durationTime={durationTime}
+          onClick={e => {
+            e.preventDefault()
+            props.activeElementIndexChange(index)
+          }}
+          className={props.activeIndex === index ? "active-subject" : undefined}
+        ></TodaySubject>
+      )
+    })
   }
 
   // return ----------------

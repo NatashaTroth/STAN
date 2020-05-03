@@ -163,7 +163,7 @@ export const userResolvers = {
       { username, email, password, newPassword, mascot },
       context
     ) => {
-      console.log("IN UPDATE USER");
+      // console.log("IN UPDATE USER");
       try {
         handleAuthentication(context.userInfo);
         const user = context.userInfo.user;
@@ -176,14 +176,14 @@ export const userResolvers = {
         });
         let passwordToSave = user.password;
         if (userWantsPasswordUpdating(password, newPassword)) {
-          console.log("USER WANTS PASSWORD UPDATING");
+          // console.log("USER WANTS PASSWORD UPDATING");
 
           await validatePassword(password, user.password);
-          console.log("Password is validated");
+          // console.log("Password is validated");
           verifyUpdatePasswordInputFormat(newPassword);
           passwordToSave = await bcrypt.hash(newPassword, 10);
         }
-        console.log("passwordToSave: " + passwordToSave);
+        // console.log("passwordToSave: " + passwordToSave);
 
         await updateUserInDatabase(
           context.userInfo.userId,

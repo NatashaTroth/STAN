@@ -18,7 +18,7 @@ import Timeline from "../../components/timeline/Timeline"
 
 function Today(props) {
   // form specific ----------------
-  const { register, errors, handleSubmit } = useForm()
+  const { register, errors, handleSubmit, reset } = useForm()
 
   let pagesStudiedForm
 
@@ -55,6 +55,8 @@ function Today(props) {
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
+
+      reset({}) // reset form data
     } catch (err) {
       // TODO: display error message
       console.error(err.message)
@@ -233,7 +235,8 @@ function Today(props) {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
-                        page {realCurrentPage} to {chunkGoalPage}
+                        page {realCurrentPage} to{" "}
+                        {startPage + numberPagesToday - 1}
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
