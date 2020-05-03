@@ -55,9 +55,9 @@
 
   // ERROR HANDLING - EDIT EXAM
   .graphql-exam-details-edit-error {
-    margin-top: 20px;
-    text-align: right;
+    text-align: left;
     max-width: none;
+    margin-left: 25px;
   }
 
   #success-container-edit-exam {
@@ -65,6 +65,7 @@
     .success {
       text-align: right;
       max-width: none;
+      margin-top: 20px;
     }
   }
   // ----------------
