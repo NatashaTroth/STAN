@@ -46,7 +46,8 @@ export async function signUserUp({
   password,
   mascot,
   googleId,
-  googleLogin
+  googleLogin,
+  allowEmailNotifications
 }) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail)
@@ -60,7 +61,8 @@ export async function signUserUp({
     password: hashedPassword,
     mascot: mascot || 0,
     googleId: googleId || "",
-    googleLogin: googleLogin || false
+    googleLogin: googleLogin || false,
+    allowEmailNotifications
   });
 
   if (!resp) throw new AuthenticationError("User could not be created.");
@@ -175,14 +177,16 @@ export async function updateUserInDatabase(
   username,
   email,
   passwordToSave,
-  mascot
+  mascot,
+  allowEmailNotifications
 ) {
   const updatedUser = {
     username,
     email,
     password: passwordToSave,
     mascot,
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    allowEmailNotifications
   };
 
   const resp = await User.updateOne(

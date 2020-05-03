@@ -114,7 +114,7 @@ describe("Test user sign up and login resolvers", () => {
         email: "user@stan.com",
         password: "12345678",
         mascot: 1,
-        allowEmailNotifications: true
+        allowEmailNotifications: false
       }
     });
 

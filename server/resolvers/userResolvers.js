@@ -95,7 +95,11 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
-    signup: async (parent, { username, email, password, mascot }, context) => {
+    signup: async (
+      parent,
+      { username, email, password, mascot, allowEmailNotifications },
+      context
+    ) => {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
@@ -111,11 +115,12 @@ export const userResolvers = {
           username,
           email,
           password,
-          mascot
+          mascot,
+          allowEmailNotifications
         });
 
         const accessToken = logUserIn({ user, context });
-        stanEmail.sendSignupMail("tashy.troth@gmx.at");
+        if (allowEmailNotifications) stanEmail.sendSignupMail(email);
         return accessToken;
       } catch (err) {
         handleResolverError(err);
@@ -160,10 +165,16 @@ export const userResolvers = {
     },
     updateUser: async (
       parent,
-      { username, email, password, newPassword, mascot },
+      {
+        username,
+        email,
+        password,
+        newPassword,
+        mascot,
+        allowEmailNotifications
+      },
       context
     ) => {
-      // console.log("IN UPDATE USER");
       try {
         handleAuthentication(context.userInfo);
         const user = context.userInfo.user;
@@ -190,7 +201,8 @@ export const userResolvers = {
           username,
           email,
           passwordToSave,
-          mascot
+          mascot,
+          allowEmailNotifications
         );
 
         return await User.findOne({ _id: context.userInfo.userId });
