@@ -62,6 +62,12 @@
       }
       &.fc-next-button {
         padding-right: 0;
+        margin-left: 0;
+      }
+      &.fc-prev-button {
+        @include media-breakpoint-down(sm) {
+          padding-right: 12px;
+        }
       }
 
       &.fc-dayGridMonth-button,
@@ -89,7 +95,8 @@
           margin-left: 0;
         }
       }
-      &.fc-dayGridMonth-button {
+      &.fc-dayGridMonth-button,
+      &.fc-listWeek-button {
         @include media-breakpoint-down(sm) {
           display: none;
         }
@@ -263,7 +270,7 @@
 .popover {
   border: 2px solid theme_color("dark");
   border-radius: 0;
-  min-width: 340px;
+  min-width: 320px;
 }
 .popover-header {
   background-color: transparent;
@@ -279,10 +286,6 @@
   border-width: 0.5rem 0.5rem 3px;
 }
 
-.fc-allow-mouse-resize {
-  background: none;
-}
-
 #popover-basic {
   .exam-date,
   .current-page,
@@ -292,8 +295,9 @@
   .duration-total,
   .pdfLink {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
   }
 
   .exam-date {
@@ -324,6 +328,44 @@
     &:active {
       outline: none;
     }
+  }
+
+  .exam-deadline {
+    display: flex;
+    justify-content: center;
+  }
+}
+.fc-unthemed .fc-list-item:hover td {
+  // background: theme_color("light");
+  background: none;
+}
+
+.fc-center {
+  position: relative;
+}
+.fc-toolbar .fc-center:before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 85, 77);
+  position: absolute;
+  top: 0;
+}
+.fc-toolbar .fc-center:after {
+  content: "exam date";
+  padding-left: 30px;
+  width: 140px;
+
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $h4-font-size);
+  @include rem(letter-spacing, 1px);
+  @include rem(line-height, $h4-line-height);
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $h4-font-size-mobile);
+    @include rem(line-height, $h4-line-height-mobile);
+    @include rem(letter-spacing, 0.5px);
   }
 }
 

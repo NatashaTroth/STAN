@@ -79,7 +79,7 @@ const ExamsCalendar = () => {
               }}
               header={{
                 left: "title",
-                right: "dayGridMonth, listWeek, today, prev, next",
+                right: "dayGridMonth, listWeek, prev, today, next",
               }}
               eventRender={info => {
                 const examDetails = info.event.extendedProps
@@ -94,21 +94,22 @@ const ExamsCalendar = () => {
                 // background color for listview
                 info.el.style.backgroundColor = info.event.backgroundColor
 
-                const popover = (
-                  <Popover id="popover-basic">
-                    {examDetails.__typename === "CalendarChunkDetails" ? (
-                      <Popover.Title as="h4" className="popover-title">
-                        {info.event.title}
+                let popover
+                if (examDetails.__typename === "CalendarChunkDetails") {
+                  popover = (
+                    <Popover id="popover-basic">
+                      {examDetails.__typename === "CalendarChunkDetails" ? (
+                        <Popover.Title as="h4" className="popover-title">
+                          {info.event.title}
 
-                        <Button
-                          variant="button"
-                          onClick={() => document.body.click()}
-                          className="exam-details__headline--back-btn close-calendar-popup"
-                        />
-                      </Popover.Title>
-                    ) : null}
+                          <Button
+                            variant="button"
+                            onClick={() => document.body.click()}
+                            className="exam-details__headline--back-btn close-calendar-popup"
+                          />
+                        </Popover.Title>
+                      ) : null}
 
-                    {examDetails.__typename === "CalendarChunkDetails" ? (
                       <Popover.Content>
                         <div className="exam-date">
                           <h5>Exam date:</h5>
@@ -138,14 +139,11 @@ const ExamsCalendar = () => {
                           <a href={pdfLink}>Link</a>
                         </div>
                       </Popover.Content>
-                    ) : (
-                      <Popover.Content>
-                        {" "}
-                        <h4>Exam deadline</h4>
-                      </Popover.Content>
-                    )}
-                  </Popover>
-                )
+                    </Popover>
+                  )
+                } else {
+                  popover = <div className="">Exam deadline</div>
+                }
 
                 const content = (
                   <OverlayTrigger
