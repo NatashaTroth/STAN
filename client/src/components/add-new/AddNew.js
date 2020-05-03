@@ -5,6 +5,7 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
+  GET_EXAMS_COUNT,
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
@@ -45,6 +46,7 @@ function AddNew() {
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
+          { query: GET_EXAMS_COUNT },
         ],
       })
 

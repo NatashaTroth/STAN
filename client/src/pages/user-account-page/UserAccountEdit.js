@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
+import {
+  CurrentUserContext,
+  useCurrentUserValue,
+} from "../../components/STAN/STAN"
 
 // mutations ----------------
 import {
@@ -34,6 +37,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
+  let history = useHistory()
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
@@ -80,13 +84,14 @@ const UserAccountEdit = () => {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = mascotStore.mascot
-        editUser({ mascotId, formData, updateUser })
+        editUser({ mascotId, formData, updateUser, history })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
     }
   }
 
+  // TODO: fix reset mascot after button click
   // functions ----------------
   const handleMascotCallback = id => {
     mascotStore.mascot = id
@@ -104,441 +109,470 @@ const UserAccountEdit = () => {
     setPasswordSection(!isPasswordOpen)
   }
 
+  console.log(currentUser.mascot)
+
   // return ----------------
   return (
-    <div className="user-account__edit box-content">
+    <div className="user-account-edit">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-xl-12">
-            <div className="user-account__edit--heading">
-              <div className="user-account__edit--heading--sub-heading">
-                <h3>edit your profile details</h3>
-              </div>
-
-              <div className="user-account__edit--heading--delete-btn">
-                <Link to="/profile" className="back-button">
-                  Back
-                </Link>
-                <Button
-                  className="delete-button"
-                  onClick={handleUser}
-                  text="Delete"
-                />
-              </div>
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
+            <div className="user-account__headline">
+              <CurrentUserContext.Consumer>
+                {currentUser => {
+                  let username = currentUser.username
+                  if (username.slice(-1) === "s") {
+                    return <h2>{username}' account</h2>
+                  } else {
+                    return <h2>{username}'s account</h2>
+                  }
+                }}
+              </CurrentUserContext.Consumer>
             </div>
           </div>
-          <div className="col-xl-12">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
-              <div className="container-fluid">
-                <div className="row">
-                  {!currentUser.googleLogin ? (
-                    <div className="col-xl-6">
-                      <div className="form__element">
-                        <div className="form__element--headline">
-                          <h4>Profile details</h4>
-                        </div>
+          <div className="col-md-1"></div>
 
-                        <Label
-                          htmlFor="username"
-                          text="Username"
-                          className="form__element__label input-required"
-                        />
-
-                        <input
-                          type="text"
-                          id="username"
-                          label="username"
-                          name="username"
-                          value={username}
-                          onChange={handleChange.bind(null, "username")}
-                          required
-                          ref={register({
-                            required: true,
-                            minLength: 1,
-                            maxLength: 30,
-                            pattern: /^.{1,30}$/,
-                          })}
-                        />
-
-                        {errors.username &&
-                        errors.username.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null}
-                        {errors.username &&
-                        errors.username.type === "minLength" ? (
-                          <span className="error">
-                            {" "}
-                            Minimum 1 character required
-                          </span>
-                        ) : null}
-                        {errors.username &&
-                        errors.username.type === "maxLength" ? (
-                          <span className="error">
-                            {" "}
-                            Maximum 30 characters allowed
-                          </span>
-                        ) : null}
-                        {errors.username &&
-                        errors.username.type === "pattern" ? (
-                          <span className="error">
-                            The username needs to be between 1 and 30 characters
-                            long
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <div className="form__element">
-                        <Label
-                          htmlFor="email"
-                          text="Email"
-                          className="form__element__label input-required"
-                        />
-
-                        <input
-                          type="email"
-                          id="email"
-                          label="email"
-                          name="email"
-                          value={email}
-                          onChange={handleChange.bind(null, "email")}
-                          required
-                          ref={register({
-                            required: true,
-                            minLength: 1,
-                            maxLength: 50,
-                            pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
-                          })}
-                        />
-
-                        {errors.email && errors.email.type === "required" ? (
-                          <span className="error">This field is required</span>
-                        ) : null}
-                        {errors.email && errors.email.type === "minLength" ? (
-                          <span className="error">
-                            Minimum 1 character required
-                          </span>
-                        ) : null}
-                        {errors.email && errors.email.type === "maxLength" ? (
-                          <span className="error">
-                            Maximum 50 characters allowed
-                          </span>
-                        ) : null}
-                        {errors.email && errors.email.type === "pattern" ? (
-                          <span className="error">
-                            This is no valid e-mail address
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <div className="form__passwordToggle">
-                        <button
-                          type="button"
-                          variant="button"
-                          onClick={handleChangedPassword}
-                          className="form__passwordToggle--button"
-                        >
-                          <h4>Change password</h4>
-                        </button>
-                        <i
-                          className={
-                            isPasswordOpen ? "arrow down" : "arrow right"
-                          }
-                        ></i>
-                      </div>
-
-                      {isPasswordOpen ? (
-                        <div className="form__element">
-                          <Label
-                            htmlFor="currentPassword"
-                            text="Current password"
-                            className="form__element__label input-required"
-                          />
-
-                          <input
-                            type="password"
-                            id="currentPassword"
-                            label="currentPassword"
-                            name="currentPassword"
-                            required
-                            ref={register({
-                              required: true,
-                              minLength: 8,
-                              maxLength: 30,
-                              pattern: /^.{8,30}$/,
-                            })}
-                          />
-
-                          {errors.currentPassword &&
-                          errors.currentPassword.type === "minLength" ? (
-                            <span className="error">
-                              {" "}
-                              Minimum 8 characters required
-                            </span>
-                          ) : null}
-                          {errors.currentPassword &&
-                          errors.currentPassword.type === "maxLength" ? (
-                            <span className="error">
-                              {" "}
-                              Maximum 30 characters allowed
-                            </span>
-                          ) : null}
-                          {errors.currentPassword &&
-                          errors.currentPassword.type === "pattern" ? (
-                            <span className="error">
-                              The password needs to be between 8 and 30
-                              characters long
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
-
-                      {isPasswordOpen ? (
-                        <div className="form__element">
-                          <Label
-                            htmlFor="newPassword"
-                            text="New password"
-                            className="form__element__label input-required"
-                          />
-
-                          <input
-                            type="password"
-                            id="newPassword"
-                            label="newPassword"
-                            name="newPassword"
-                            required
-                            ref={register({
-                              required: true,
-                              minLength: 8,
-                              maxLength: 30,
-                              pattern: /^.{8,30}$/,
-                            })}
-                          />
-
-                          {errors.newPassword &&
-                          errors.newPassword.type === "minLength" ? (
-                            <span className="error">
-                              {" "}
-                              Minimum 8 characters required
-                            </span>
-                          ) : null}
-                          {errors.newPassword &&
-                          errors.newPassword.type === "maxLength" ? (
-                            <span className="error">
-                              {" "}
-                              Maximum 30 characters allowed
-                            </span>
-                          ) : null}
-                          {errors.newPassword &&
-                          errors.newPassword.type === "pattern" ? (
-                            <span className="error">
-                              The password needs to be between 8 and 30
-                              characters long
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
-
-                      {isPasswordOpen ? (
-                        <div className="form__element">
-                          <Label
-                            htmlFor="retypePassword"
-                            text="Retype new password"
-                            className="form__element__label input-required"
-                          />
-
-                          <input
-                            type="password"
-                            id="retypePassword"
-                            label="retypePassword"
-                            name="retypePassword"
-                            required
-                            ref={register({
-                              required: true,
-                              minLength: 8,
-                              maxLength: 30,
-                              pattern: /^.{8,30}$/,
-                            })}
-                          />
-
-                          {errors.retypePassword &&
-                          errors.retypePassword.type === "minLength" ? (
-                            <span className="error">
-                              {" "}
-                              Minimum 8 characters required
-                            </span>
-                          ) : null}
-                          {errors.retypePassword &&
-                          errors.retypePassword.type === "maxLength" ? (
-                            <span className="error">
-                              {" "}
-                              Maximum 30 characters allowed
-                            </span>
-                          ) : null}
-                          {errors.retypePassword &&
-                          errors.retypePassword.type === "pattern" ? (
-                            <span className="error">
-                              The password needs to be between 8 and 30
-                              characters long
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
+          <div className="col-md-1"></div>
+          <div className="col-md-10">
+            <div className="user-account__edit box-content">
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="user-account__edit--heading">
+                    <div className="user-account__edit--heading--sub-heading">
+                      <h3>Edit your profile details</h3>
                     </div>
-                  ) : null}
 
-                  {!currentUser.googleLogin ? (
-                    <div className="col-xl-6">
-                      <div className="user-account__edit__carousel">
-                        <h4>Choose your mascot</h4>
+                    <div className="user-account__edit--heading--delete-btn">
+                      <Button
+                        className="back-button"
+                        text="Back"
+                        onClick={() => {
+                          history.goBack()
+                        }}
+                      />
+                      <Button
+                        className="delete-button"
+                        onClick={handleUser}
+                        text="Delete"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-12">
+                  <form onSubmit={handleSubmit(onSubmit)} className="form">
+                    <div className="row">
+                      {!currentUser.googleLogin ? (
+                        <div className="col-xl-6 form__left">
+                          <div className="form__element">
+                            <div className="form__element--headline">
+                              <h4>Profile details</h4>
+                            </div>
 
-                        <Carousel
-                          showStatus={false}
-                          showThumbs={false}
-                          useKeyboardArrows={true}
-                          onChange={e => {
-                            handleMascotCallback(e)
-                          }}
-                          selectedItem={currentUser.mascot}
-                        >
-                          <Image
-                            path={VeryHappyMascot}
-                            text="a very happy mascot"
-                          />
-                          <Image
-                            path={VeryHappyGirlyMascot}
-                            text="a very happy girly mascot"
-                          />
-                          <Image
-                            path={VeryHappyCleverMascot}
-                            text="a very happy clever mascot"
-                          />
-                        </Carousel>
+                            <Label
+                              htmlFor="username"
+                              text="Username"
+                              className="form__element__label input-required"
+                            />
 
-                        {/* <div className="user-account__edit--form__button">
-                          <div className="save-button">
+                            <input
+                              type="text"
+                              id="username"
+                              label="username"
+                              name="username"
+                              value={username}
+                              onChange={handleChange.bind(null, "username")}
+                              required
+                              ref={register({
+                                required: true,
+                                minLength: 1,
+                                maxLength: 30,
+                                pattern: /^.{1,30}$/,
+                              })}
+                            />
+
+                            {errors.username &&
+                            errors.username.type === "required" ? (
+                              <span className="error">
+                                This field is required
+                              </span>
+                            ) : null}
+                            {errors.username &&
+                            errors.username.type === "minLength" ? (
+                              <span className="error">
+                                {" "}
+                                Minimum 1 character required
+                              </span>
+                            ) : null}
+                            {errors.username &&
+                            errors.username.type === "maxLength" ? (
+                              <span className="error">
+                                {" "}
+                                Maximum 30 characters allowed
+                              </span>
+                            ) : null}
+                            {errors.username &&
+                            errors.username.type === "pattern" ? (
+                              <span className="error">
+                                The username needs to be between 1 and 30
+                                characters long
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div className="form__element">
+                            <Label
+                              htmlFor="email"
+                              text="Email"
+                              className="form__element__label input-required"
+                            />
+
+                            <input
+                              type="email"
+                              id="email"
+                              label="email"
+                              name="email"
+                              value={email}
+                              onChange={handleChange.bind(null, "email")}
+                              required
+                              ref={register({
+                                required: true,
+                                minLength: 1,
+                                maxLength: 50,
+                                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
+                              })}
+                            />
+
+                            {errors.email &&
+                            errors.email.type === "required" ? (
+                              <span className="error">
+                                This field is required
+                              </span>
+                            ) : null}
+                            {errors.email &&
+                            errors.email.type === "minLength" ? (
+                              <span className="error">
+                                Minimum 1 character required
+                              </span>
+                            ) : null}
+                            {errors.email &&
+                            errors.email.type === "maxLength" ? (
+                              <span className="error">
+                                Maximum 50 characters allowed
+                              </span>
+                            ) : null}
+                            {errors.email && errors.email.type === "pattern" ? (
+                              <span className="error">
+                                This is no valid e-mail address
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div className="form__passwordToggle">
+                            <button
+                              type="button"
+                              variant="button"
+                              onClick={handleChangedPassword}
+                              className="form__passwordToggle--button"
+                            >
+                              <h4>Change password</h4>
+                            </button>
+                            <i
+                              className={
+                                isPasswordOpen ? "arrow down" : "arrow right"
+                              }
+                            ></i>
+                          </div>
+
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="currentPassword"
+                                text="Current password"
+                                className="form__element__label input-required"
+                              />
+
+                              <input
+                                type="password"
+                                id="currentPassword"
+                                label="currentPassword"
+                                name="currentPassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="newPassword"
+                                text="New password"
+                                className="form__element__label input-required"
+                              />
+
+                              <input
+                                type="password"
+                                id="newPassword"
+                                label="newPassword"
+                                name="newPassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.newPassword &&
+                              errors.newPassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.newPassword &&
+                              errors.newPassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.newPassword &&
+                              errors.newPassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="retypePassword"
+                                text="Retype new password"
+                                className="form__element__label input-required"
+                              />
+
+                              <input
+                                type="password"
+                                id="retypePassword"
+                                label="retypePassword"
+                                name="retypePassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : null}
+
+                      {!currentUser.googleLogin ? (
+                        <div className="col-xl-6 form__right">
+                          <div className="user-account__edit__carousel">
+                            <h4>Choose your mascot</h4>
+
+                            <Carousel
+                              showStatus={false}
+                              showThumbs={false}
+                              useKeyboardArrows={true}
+                              onChange={e => {
+                                handleMascotCallback(e)
+                              }}
+                              selectedItem={currentUser.mascot}
+                            >
+                              <Image
+                                path={VeryHappyMascot}
+                                text="a very happy mascot"
+                              />
+                              <Image
+                                path={VeryHappyGirlyMascot}
+                                text="a very happy girly mascot"
+                              />
+                              <Image
+                                path={VeryHappyCleverMascot}
+                                text="a very happy clever mascot"
+                              />
+                            </Carousel>
+                          </div>
+
+                          <div className="user-account__edit--form__button">
                             <Button
                               variant="button"
                               text="Save"
                               className="stan-btn-primary"
                             />
                           </div>
-                        </div> */}
+                        </div>
+                      ) : (
+                        <div className="col-xl-12">
+                          <div className="user-account__edit__carousel">
+                            <h4>Choose your mascot</h4>
+
+                            <Carousel
+                              showStatus={false}
+                              showThumbs={false}
+                              useKeyboardArrows={true}
+                              onChange={e => {
+                                handleMascotCallback(e)
+                              }}
+                              selectedItem={currentUser.mascot}
+                            >
+                              <Image
+                                path={VeryHappyMascot}
+                                text="a very happy mascot"
+                              />
+                              <Image
+                                path={VeryHappyGirlyMascot}
+                                text="a very happy girly mascot"
+                              />
+                              <Image
+                                path={VeryHappyCleverMascot}
+                                text="a very happy clever mascot"
+                              />
+                            </Carousel>
+                          </div>
+
+                          <div className="user-account__edit--form__button">
+                            <Button
+                              variant="button"
+                              text="Save"
+                              className="stan-btn-primary"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <div
+                        className="col-md-12"
+                        id="success-container-edit-user"
+                      >
+                        <p className="success">
+                          the changes were successfully saved
+                        </p>
+                      </div>
+
+                      <div
+                        className="col-md-12"
+                        id="success-container-edit-mascot"
+                      >
+                        <p className="success">
+                          the new mascot was successfully saved
+                        </p>
+                      </div>
+
+                      <div className="col-md-12">
+                        <div id="retype-password-error" className="error">
+                          <p>Please make sure your new passwords match.</p>
+                        </div>
+                      </div>
+
+                      <div className="col-md-12">
+                        <p className="error graphql-user-edit-error"></p>
+                        <p className="error graphql-user-mascot-edit-error"></p>
                       </div>
                     </div>
-                  ) : (
-                    <div className="col-xl-12">
-                      <div className="user-account__edit__carousel">
-                        <h4>Choose your mascot</h4>
+                  </form>
+                </div>
 
-                        <Carousel
-                          showStatus={false}
-                          showThumbs={false}
-                          useKeyboardArrows={true}
-                          onChange={e => {
-                            handleMascotCallback(e)
-                          }}
-                          selectedItem={currentUser.mascot}
+                {deleteProfile ? (
+                  <div className="col-xl-12">
+                    <div className="user-account__edit--popup">
+                      <div className="user-account__edit--popup--inner box-content">
+                        <div className="user-account__edit--popup--inner--headline">
+                          <h4>Are you sure you want to delete this account?</h4>
+                        </div>
+
+                        <div className="user-account__edit--popup--inner--buttons">
+                          <Button
+                            className="stan-btn-secondary"
+                            text="Yes"
+                            onClick={handleDeletion}
+                          />
+                          <Button
+                            className="stan-btn-primary"
+                            text="No"
+                            onClick={handleUser}
+                          />
+                        </div>
+
+                        <div className="col-md-12">
+                          <p className="error graphql-user-delete-error"></p>
+                        </div>
+
+                        <div
+                          className="col-md-12"
+                          id="success-container-delete-user"
                         >
-                          <Image
-                            path={VeryHappyMascot}
-                            text="a very happy mascot"
-                          />
-                          <Image
-                            path={VeryHappyGirlyMascot}
-                            text="a very happy girly mascot"
-                          />
-                          <Image
-                            path={VeryHappyCleverMascot}
-                            text="a very happy clever mascot"
-                          />
-                        </Carousel>
-
-                        <div className="user-account__edit--form__button">
-                          <Button
-                            variant="button"
-                            text="Save"
-                            className="stan-btn-primary"
-                          />
+                          <p className="success">
+                            your account was successfully deleted
+                          </p>
                         </div>
                       </div>
                     </div>
-                  )}
-
-                  {!currentUser.googleLogin ? (
-                    <div className="col-xl-12">
-                      <div className="user-account__edit--form__button">
-                        <div className="save-button">
-                          <Button
-                            variant="button"
-                            text="Save"
-                            className="stan-btn-primary"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <div className="col-md-12" id="success-container-edit-user">
-                    <p className="success">
-                      the changes were successfully saved
-                    </p>
                   </div>
-
-                  <div className="col-md-12" id="success-container-edit-mascot">
-                    <p className="success">
-                      the new mascot was successfully saved
-                    </p>
-                  </div>
-
-                  <div className="col-md-12">
-                    <div id="retype-password-error" className="error">
-                      <p>Please make sure your new passwords match.</p>
-                    </div>
-                  </div>
-
-                  <div className="col-md-12">
-                    <p className="error graphql-user-edit-error"></p>
-                    <p className="error graphql-user-mascot-edit-error"></p>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          {deleteProfile ? (
-            <div className="col-xl-12">
-              <div className="user-account__edit--popup">
-                <div className="user-account__edit--popup--inner box-content">
-                  <div className="user-account__edit--popup--inner--headline">
-                    <h4>Are you sure you want to delete this account?</h4>
-                  </div>
-
-                  <div className="user-account__edit--popup--inner--buttons">
-                    <Button
-                      className="stan-btn-secondary"
-                      text="Yes"
-                      onClick={handleDeletion}
-                    />
-                    <Button
-                      className="stan-btn-primary"
-                      text="No"
-                      onClick={handleUser}
-                    />
-                  </div>
-
-                  <div className="col-md-12">
-                    <p className="error graphql-user-delete-error"></p>
-                  </div>
-
-                  <div className="col-md-12" id="success-container-delete-user">
-                    <p className="success">
-                      your account was successfully deleted
-                    </p>
-                  </div>
-                </div>
+                ) : null}
               </div>
             </div>
-          ) : null}
+          </div>
+          <div className="col-md-1"></div>
         </div>
       </div>
     </div>
@@ -579,7 +613,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser }) {
+async function editUser({ mascotId, formData, updateUser, history }) {
   try {
     const resp = await updateUser({
       variables: {
@@ -600,7 +634,7 @@ async function editUser({ mascotId, formData, updateUser }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.reload()
+      history.push("/profile")
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
@@ -630,7 +664,7 @@ async function handleMascot({ formData, updateMascot }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.reload()
+      window.location.href = "/profile"
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(

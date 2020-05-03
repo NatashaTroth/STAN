@@ -8,6 +8,7 @@ import Calendar from "../../pages/calendar-page/CalendarPage"
 import Exams from "../../pages/exams-page/ExamsPage"
 import NoMatch404 from "../../pages/no-match-page/404Page"
 import UserAccount from "../../pages/user-account-page/UserAccountPage"
+import UserAccountEdit from "../../pages/user-account-page/UserAccountEdit"
 import Imprint from "../../pages/imprint-page/ImprintPage"
 import DataPolicy from "../../pages/data-policy-page/DataPolicyPage"
 import Login from "../../pages/login-page/LoginPage"
@@ -33,6 +34,7 @@ const Content = ({ location }) => {
         <Route exact path="/exams" component={Exams} />
         <Route exact path="/exams/:subject" component={ExamsDetails} />
         <Route exact path="/profile" component={UserAccount} />
+        <Route exact path="/profile/edit" component={UserAccountEdit} />
 
         <Route exact path="/imprint" component={Imprint} />
         <Route exact path="/data-policy" component={DataPolicy} />
