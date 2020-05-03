@@ -45,7 +45,8 @@ describe("Test user sign up and login resolvers", () => {
         username: "Stan",
         email: "user@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
 
@@ -86,7 +87,8 @@ describe("Test user sign up and login resolvers", () => {
         username: "Stan",
         email: "user2@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -130,7 +132,8 @@ describe("Test user sign up and login resolvers", () => {
         email: "newSamantha@node.com",
         password: "samantha",
         newPassword: "12345678",
-        mascot: 2
+        mascot: 2,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -201,7 +204,8 @@ describe("Test user sign up and login resolvers", () => {
         username,
         email,
         password,
-        mascot: mascot || 0
+        mascot: mascot || 0,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data.signup).toBeTruthy();

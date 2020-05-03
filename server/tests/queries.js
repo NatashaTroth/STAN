@@ -105,6 +105,7 @@ export const CURRENT_USER = gql`
       email
       mascot
       googleLogin
+      allowEmailNotifications
     }
   }
 `;

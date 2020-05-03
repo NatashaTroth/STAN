@@ -15,6 +15,7 @@ export class StanEmail {
   }
 
   sendSignupMail(recipientEmail) {
+    console.log("SENDING MAIL");
     const mailOptions = {
       from: process.env.STAN_EMAIL,
       to: recipientEmail,

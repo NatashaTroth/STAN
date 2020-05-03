@@ -101,12 +101,14 @@ export const SIGNUP_MUTATION = gql`
     $email: String!
     $password: String
     $mascot: Int
+    $allowEmailNotifications: Boolean!
   ) {
     signup(
       username: $username
       email: $email
       password: $password
       mascot: $mascot
+      allowEmailNotifications: $allowEmailNotifications
     )
   }
 `;
@@ -130,6 +132,7 @@ export const UPDATE_USER_MUTATION = gql`
     $password: String
     $newPassword: String
     $mascot: Int!
+    $allowEmailNotifications: Boolean!
   ) {
     updateUser(
       username: $username
@@ -137,12 +140,14 @@ export const UPDATE_USER_MUTATION = gql`
       password: $password
       newPassword: $newPassword
       mascot: $mascot
+      allowEmailNotifications: $allowEmailNotifications
     ) {
       id
       username
       email
       mascot
       googleLogin
+      allowEmailNotifications
     }
   }
 `;

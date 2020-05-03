@@ -69,7 +69,8 @@ describe("Test update user resolver", () => {
         email: "newSamantha@node.com",
         password: "samantha",
         newPassword: "12345678",
-        mascot: 2
+        mascot: 2,
+        allowEmailNotifications: true
       }
     });
 
@@ -102,7 +103,8 @@ describe("Test update user resolver", () => {
         email: testUser.email,
         password: "samantha",
         newPassword: "12345678",
-        mascot: testUser.mascot
+        mascot: testUser.mascot,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data.updateUser).toBeTruthy();
@@ -118,7 +120,8 @@ describe("Test update user resolver", () => {
       variables: {
         username: testUser.username,
         email: testUser.email,
-        mascot: testUser.mascot
+        mascot: testUser.mascot,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data.updateUser).toBeTruthy();
@@ -136,7 +139,8 @@ describe("Test update user resolver", () => {
         username: testUser.username,
         email: testUser.email,
         password: "samantha",
-        mascot: testUser.mascot
+        mascot: testUser.mascot,
+        allowEmailNotifications: true
       }
     });
 
@@ -153,8 +157,8 @@ describe("Test update user resolver", () => {
         username: testUser.username,
         email: testUser.email,
         newPassword: "samantha",
-
-        mascot: testUser.mascot
+        mascot: testUser.mascot,
+        allowEmailNotifications: true
       }
     });
 
@@ -185,7 +189,8 @@ describe("Test update user resolver", () => {
         email: "newSamantha@node.com",
         password: "wrong password",
         newPassword: "doesn't matter",
-        mascot: 2
+        mascot: 2,
+        allowEmailNotifications: true
       }
     });
 
