@@ -1,35 +1,31 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USERS_QUERY } from "../../graphQL/queries"
 import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
-function EmptyDashboard() {
-  // query ----------------
-  const { loading, error } = useQuery(GET_USERS_QUERY)
+const EmptyDashboard = ({ heading, text, showBtn }) => {
+  let btnAddExam
 
-  // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
-
+  if (showBtn == "yes") {
+    btnAddExam = (
+      <Link
+        to="/add-new"
+        href="/add-new"
+        className="empty-dashboard__btn stan-btn-primary"
+      >
+        Add exam
+      </Link>
+    )
+  }
   // return ----------------
   return (
     <div className="empty-dashboard box-content">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <h3 className="empty-dashboard__heading">No open tasks</h3>
-            <p className="empty-dashboard__text">
-              Are you sure there are no exams you need to study for?
-            </p>
-            <Link
-              to="/add-new"
-              href="/add-new"
-              className="empty-dashboard__btn stan-btn-primary"
-            >
-              {" "}
-              Add exam
-            </Link>
+            <h3 className="empty-dashboard__heading">{heading}</h3>
+            <p className="empty-dashboard__text">{text}</p>
+            {btnAddExam}
           </div>
         </div>
       </div>

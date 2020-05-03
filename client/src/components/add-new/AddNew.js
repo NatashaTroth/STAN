@@ -32,7 +32,8 @@ function AddNew() {
           examDate: formData.exam_date,
           startDate: formData.exam_start_date,
           numberPages: parseInt(formData.exam_page_amount),
-          startPage: parseInt(formData.exam_page_current),
+          // startPage: parseInt(formData.exam_page_current),
+          startPage: 1,
           timePerPage: parseInt(formData.exam_page_time),
           timesRepeat: parseInt(formData.exam_page_repeat),
           notes: formData.exam_page_notes,
@@ -212,7 +213,7 @@ function AddNew() {
                         )}
                     </div>
 
-                    <div className="form__element">
+                    {/* <div className="form__element">
                       <Label
                         for="page-current"
                         text="Start page"
@@ -240,7 +241,7 @@ function AddNew() {
                             Only positive numbers are allowed
                           </span>
                         )}
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="form__container form__container--numbers">

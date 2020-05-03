@@ -43,29 +43,54 @@ function Dashboard() {
   let usersToDos
 
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    usersToDos = (
-      <div className="container-fluid">
-        <div className="row">
-          {/* ------ if tasks open ------*/}
-          <div className="col-xl-1"></div>
-          <div className="col-xl-3">
-            {/* Today Goals*/}
-            <TodayGoals
-              activeElementIndexChange={index => {
-                setActiveElementIndex(index)
-              }}
-              activeIndex={activeElementIndex}
-              data={data}
-            ></TodayGoals>
-          </div>
-          <div className="col-xl-6 today-component-container">
-            {/* Today */}
-            <Today activeIndex={activeElementIndex} data={data}></Today>
-          </div>
-          <div className="col-xl-2">{/* Today Progress */}</div>
-        </div>
-      </div>
+    // filter only not completed entries
+    let filteredItems = data.todaysChunkAndProgress.todaysChunks.filter(
+      function(el) {
+        return el.completed == false
+      }
     )
+    if (filteredItems.length > 0) {
+      usersToDos = (
+        <div className="container-fluid">
+          <div className="row">
+            {/* ------ if tasks open ------*/}
+            <div className="col-xl-1"></div>
+            <div className="col-xl-3">
+              {/* Today Goals*/}
+              <TodayGoals
+                activeElementIndexChange={index => {
+                  setActiveElementIndex(index)
+                }}
+                activeIndex={activeElementIndex}
+                data={data}
+              ></TodayGoals>
+            </div>
+            <div className="col-xl-6 today-component-container">
+              {/* Today */}
+              <Today activeIndex={activeElementIndex} data={data}></Today>
+            </div>
+            <div className="col-xl-2">{/* Today Progress */}</div>
+          </div>
+        </div>
+      )
+    } else {
+      usersToDos = (
+        <div className="container-fluid">
+          <div className="row">
+            {/* ------ no tasks ------*/}
+            <div className="col-md-1"></div>
+            <div className="col-md-7">
+              <EmptyDashboard
+                heading="No open tasks"
+                text="You finished studying for today, come back tomorrow"
+                showBtn="no"
+              ></EmptyDashboard>
+            </div>
+            <div className="col-md-4"></div>
+          </div>
+        </div>
+      )
+    }
   } else {
     usersToDos = (
       <div className="container-fluid">
@@ -73,7 +98,11 @@ function Dashboard() {
           {/* ------ no tasks ------*/}
           <div className="col-md-1"></div>
           <div className="col-md-7">
-            <EmptyDashboard></EmptyDashboard>
+            <EmptyDashboard
+              heading="No open tasks"
+              text="Are you sure there are no exams you need to study for?"
+              showBtn="yes"
+            ></EmptyDashboard>
           </div>
           <div className="col-md-4"></div>
         </div>
