@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
@@ -8,11 +8,6 @@ import {
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
-import DayPickerInput from "react-day-picker/DayPickerInput"
-import { DateUtils } from "react-day-picker"
-import "react-day-picker/lib/style.css"
-import dateFnsFormat from "date-fns/format"
-import dateFnsParse from "date-fns/parse"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 // --------------------------------------------------------------
@@ -24,32 +19,43 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
-
-// date picker
-function parseDate(str, format, locale) {
-  const parsed = dateFnsParse(str, format, new Date(), { locale })
-  if (DateUtils.isDate(parsed)) {
-    return parsed
-  }
-  return undefined
-}
-
-function formatDate(date, format, locale) {
-  return dateFnsFormat(date, format, { locale })
-}
-// ---------------------------
+import DatePicker from "../../components/datepicker/DatePicker"
 
 function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
+
+  // date picker
+  let today = new Date()
+  const [myExamDate, setMyExamDate] = useState(today)
+  const [myStartDate, setMyStartDate] = useState(today)
+
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }
+
+  let formExamDate = myExamDate.toLocaleDateString(undefined, options)
+  formExamDate = formExamDate
+    .split(".")
+    .reverse()
+    .join(".")
+
+  let formStartDate = myStartDate.toLocaleDateString(undefined, options)
+  formStartDate = formStartDate
+    .split(".")
+    .reverse()
+    .join(".")
+  // -----------------------------
 
   const onSubmit = async formData => {
     try {
       const resp = await addExam({
         variables: {
           subject: formData.exam_subject,
-          examDate: formData.exam_date,
-          startDate: formData.exam_start_date,
+          examDate: formExamDate,
+          startDate: formStartDate,
           numberPages: parseInt(formData.exam_page_amount),
           // startPage: parseInt(formData.exam_page_current),
           startPage: 1,
@@ -98,10 +104,6 @@ function AddNew() {
   // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-
-  // date picker
-  const FORMAT = "dd.MM.yyyy"
-  const today = new Date()
 
   // return ----------------
   return (
@@ -164,38 +166,11 @@ function AddNew() {
                         text="Exam date"
                         className="form__element__label input-required"
                       ></Label>
-                      <DayPickerInput
-                        dayPickerProps={{
-                          disabledDays: { before: today },
-                          modifiersStyles: {
-                            selected: {
-                              color: "white",
-                              backgroundColor: "#03719e",
-                            },
-                            today: {
-                              color: "#fec902",
-                            },
-                          },
+                      <DatePicker
+                        onDaySelected={selectedDay => {
+                          setMyExamDate(selectedDay)
                         }}
-                        inputProps={{ required: true }}
-                        formatDate={formatDate}
-                        format={FORMAT}
-                        parseDate={parseDate}
-                        placeholder="DD.MM.YYYY"
-                        id="exam-date"
-                        label="exam_date"
                       />
-                      {/* <Input
-                        className="form__element__input"
-                        type="date"
-                        id="exam-date"
-                        label="exam_date"
-                        placeholder="DD/MM/YYYY"
-                        required
-                        ref={register({
-                          required: true,
-                        })}
-                      /> */}
                     </div>
 
                     <div className="form__element">
@@ -204,41 +179,12 @@ function AddNew() {
                         text="Start learning on"
                         className="form__element__label input-required"
                       ></Label>
-                      <DayPickerInput
-                        dayPickerProps={{
-                          disabledDays: {
-                            before: today,
-                            // after: selectedDate,
-                          },
-                          modifiers: { selected: today },
-                          modifiersStyles: {
-                            selected: {
-                              color: "white",
-                              backgroundColor: "#03719e",
-                            },
-                            today: {
-                              color: "#fec902",
-                            },
-                          },
+                      <DatePicker
+                        onDaySelected={selectedDay => {
+                          setMyStartDate(selectedDay)
                         }}
-                        inputProps={{ required: true }}
-                        formatDate={formatDate}
-                        format={FORMAT}
-                        parseDate={parseDate}
-                        placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
-                        id="study-start-date"
-                        label="exam_start_date"
+                        disabledAfter={myExamDate}
                       />
-                      {/* <Input
-                        className="form__element__input"
-                        type="date"
-                        id="study-start-date"
-                        label="exam_start_date"
-                        placeholder="DD/MM/YYYY"
-                        ref={register({
-                          required: true,
-                        })}
-                      /> */}
                     </div>
                   </div>
                   <div className="form__container form__container--numbers">
