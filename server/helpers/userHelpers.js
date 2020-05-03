@@ -180,7 +180,7 @@ export async function updateUserInDatabase(
   const updatedUser = {
     username,
     email,
-    password: await bcrypt.hash(passwordToSave, 10),
+    password: passwordToSave,
     mascot,
     updatedAt: new Date()
   };
@@ -195,9 +195,15 @@ export async function updateUserInDatabase(
 }
 
 export function userWantsPasswordUpdating(password, newPassword) {
+  // if (!password || password.length <= 0) return false;
+  // if (!newPassword || newPassword.length <= 0) return false;
+  // return true;
   return (
     (password && password.length > 0) || (newPassword && newPassword.length > 0)
   );
+  // return (
+  //   password && password.length > 0 && newPassword && newPassword.length > 0
+  // );
 }
 
 export function verifySignupInputFormat({ username, email, password, mascot }) {

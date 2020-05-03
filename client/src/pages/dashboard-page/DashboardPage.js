@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { CurrentUserContext } from "../../components/STAN/STAN"
-import { useQuery } from "@apollo/react-hooks"
+import { Redirect } from "react-router-dom"
 import {
-  CURRENT_USER,
-  GET_TODAYS_CHUNKS_AND_PROGRESS,
-} from "../../graphQL/queries"
+  CurrentUserContext,
+  useCurrentUserValue,
+} from "../../components/STAN/STAN"
+import { useQuery } from "@apollo/react-hooks"
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../graphQL/queries"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -19,11 +20,14 @@ import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
   // query ----------------
-  const { loading, error } = useQuery(CURRENT_USER)
-  const { chunkLoading, chunkError, data } = useQuery(
-    GET_TODAYS_CHUNKS_AND_PROGRESS
-  )
+  const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS_AND_PROGRESS)
   const [activeElementIndex, setActiveElementIndex] = useState(0)
+
+  // redirects ----------------
+  const currentUser = useCurrentUserValue()
+  if (currentUser === undefined) {
+    return <Redirect to="/login" />
+  }
 
   // mascot trigger ----------------
   const mascot = window.localStorage.getItem("mascot-event")
@@ -34,8 +38,6 @@ function Dashboard() {
   // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (chunkLoading) return <Loading />
-  if (chunkError) return <QueryError errorMessage={chunkError.message} />
 
   // query data ----------------
   let usersToDos

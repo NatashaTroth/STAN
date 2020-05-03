@@ -93,7 +93,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
     );
-  if (page > exam.numberPages * exam.timesRepeat + 1)
+  if (page > exam.numberPages * exam.timesRepeat + exam.startPage + 1)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
@@ -109,34 +109,88 @@ export async function handleCurrentPageInput(page, examId, userId) {
   return exam;
 }
 
+//middle color
+//fist light
 function generateSubjectColor(exam) {
-  const hexChars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  const hexCharsFirstTwoDigits = ["A", "B", "C", "D", "E", "F"]; //(red)
+  // const hexChars = [1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+  const hexCharsSecondTwoDigits = [9, "A", "B", "C", "D", "E", "F"]; //(green)
+  const hexCharsThirdTwoDigits = [9, "A", "B", "C", "D", "E", "F"]; //(blue)
   const colorNumbers = [];
+  let subjectAsciiNumber = 0;
+  for (let i = 0; i < exam.subject.length; i++) {
+    // console.log(exam.subject.charCodeAt(i));
+    subjectAsciiNumber += exam.subject.charCodeAt(i);
+    // console.log("total: " + subjectAsciiNumber);
+  }
+  // console.log("sum: " + subjectAsciiNumber);
+  // console.log("sum2: " + Math.round(subjectAsciiNumber + Math.random() * 10));
+  // console.log("sum: " + (subjectAsciiNumber % hexCharsFirstDigit.length));
   colorNumbers.push(
-    Math.ceil(exam.subject.length * (Math.random() + 1)) % hexChars.length
+    Math.round(subjectAsciiNumber * Math.random() * 10) %
+      hexCharsFirstTwoDigits.length
+  );
+  // colorNumbers.push(
+  //   Math.round(
+  //     exam.subject.length +
+  //       Math.random() * 10 +
+  //       exam.examDate.getDay() +
+  //       exam.examDate.getMonth() +
+  //       exam.startDate.getDay() +
+  //       exam.startDate.getMonth() +
+  //       exam.numberPages * exam.timesRepeat * exam.timePerPage
+  //   ) % hexCharsFirstDigit.length
+  // );
+
+  colorNumbers.push(
+    Math.round(
+      exam.examDate.getDay() + exam.examDate.getMonth() * Math.random() * 10
+    ) % hexCharsFirstTwoDigits.length
   );
   colorNumbers.push(
-    (exam.examDate.getDay() + exam.examDate.getMonth()) % hexChars.length
+    Math.round(
+      exam.startDate.getDay() + exam.startDate.getMonth() * Math.random() * 10
+    ) % hexCharsSecondTwoDigits.length
   );
+  //TO AVOID WHITE
+  // let thirdColor =
+  //   (exam.startDate.getDay() + exam.startDate.getMonth()) % hexChars.length;
+  // if (thirdColor === 10) thirdColor = 6;
+  // console.log(thirdColor);
+  // colorNumbers.push(thirdColor);
   colorNumbers.push(
-    (exam.startDate.getDay() + exam.startDate.getMonth()) % hexChars.length
+    Math.round(exam.numberPages * exam.timesRepeat * Math.random() * 10) %
+      hexCharsSecondTwoDigits.length
   );
-  colorNumbers.push((exam.numberPages * exam.timesRepeat) % hexChars.length);
-  colorNumbers.push(exam.timePerPage % hexChars.length);
+  colorNumbers.push(exam.timePerPage % hexCharsThirdTwoDigits.length);
   colorNumbers.push(
     (colorNumbers[0] +
       colorNumbers[1] +
       colorNumbers[2] +
       colorNumbers[3] +
       colorNumbers[4]) %
-      hexChars.length
+      hexCharsThirdTwoDigits.length
   );
 
+  // colorNumbers.push(0);
+  // colorNumbers.push(1);
+  // colorNumbers.push(2);
+  // colorNumbers.push(3);
+  // colorNumbers.push(4);
+  // colorNumbers.push(5);
+  // console.log(colorNumbers);
   let color = "#";
 
+  let counter = 0;
   colorNumbers.forEach(colorNumber => {
-    color += hexChars[colorNumber].toString();
+    if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
+    else if (counter < 4)
+      color += hexCharsSecondTwoDigits[colorNumber].toString();
+    else color += hexCharsThirdTwoDigits[colorNumber].toString();
+
+    counter++;
   });
+
   return color;
 }
 
