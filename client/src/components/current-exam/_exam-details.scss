@@ -64,12 +64,14 @@
         padding-right: 5px;
       }
     }
-    .graphql-exam-completion-error {
+    // TODO: apollo does not recognized the container
+    #graphql-exam-completion-error {
       display: flex;
       justify-content: flex-end;
       max-width: none;
       margin-right: 5px;
     }
+    // ==============
 
     &--bar {
       display: flex;
