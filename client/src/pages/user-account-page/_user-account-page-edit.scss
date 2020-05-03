@@ -59,6 +59,7 @@
         display: flex;
         justify-content: flex-end;
         margin-top: 20px;
+        margin-right: 5px;
 
         @include media-breakpoint-down(sm) {
           justify-content: center;
@@ -87,13 +88,10 @@
       @include media-breakpoint-down(sm) {
         flex-direction: column-reverse;
       }
-
-      &--sub-heading {
-        h3 {
-          color: theme_color("primary-blue-dark");
-        }
-      }
       &--delete-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
         .back-button {
           transition: all 0.3s ease;
           &:hover {
@@ -102,7 +100,7 @@
         }
         .delete-button {
           color: theme_color("error-hover");
-          margin-left: 10px;
+          margin-left: 18px;
         }
         @include media-breakpoint-down(sm) {
           text-align: right;
