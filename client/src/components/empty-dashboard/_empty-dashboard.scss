@@ -23,10 +23,10 @@
   }
 
   &__text {
-    margin: 25px 0;
+    margin: 25px auto;
 
     @include media-breakpoint-down(sm) {
-      margin: 20px 0;
+      margin: 20px auto;
     }
   }
 
