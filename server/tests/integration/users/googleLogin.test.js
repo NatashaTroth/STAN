@@ -63,7 +63,8 @@ describe("Test user sign up and login resolvers", () => {
         email: "newSamantha@node.com",
         password: "samantha",
         newPassword: "12345678",
-        mascot: 2
+        mascot: 2,
+        allowEmailNotifications: true
       }
     });
 

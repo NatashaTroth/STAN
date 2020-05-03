@@ -22,7 +22,8 @@ const userQueries = gql`
       email: String!
       password: String
       mascot: Int
-      googleLogin: Boolean
+      # googleLogin: Boolean
+      allowEmailNotifications: Boolean!
     ): String!
     logout: Boolean
     login(email: String!, password: String): String!
@@ -34,6 +35,7 @@ const userQueries = gql`
       password: String
       newPassword: String
       mascot: Int!
+      allowEmailNotifications: Boolean!
     ): User!
 
     updateMascot(mascot: Int!): Boolean

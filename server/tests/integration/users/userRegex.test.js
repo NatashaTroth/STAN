@@ -32,7 +32,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "user@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data.signup).toBeTruthy();
@@ -45,7 +46,8 @@ describe("Test user resolver regex", () => {
         username: "",
         email: "user2@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
 
@@ -62,7 +64,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "userstan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -76,7 +79,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -90,7 +94,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "A@b@c@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -104,7 +109,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "user3@stan.com",
         password: "",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -120,7 +126,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "user3@stan.com",
         password: "12345678",
-        mascot: 5
+        mascot: 5,
+        allowEmailNotifications: true
       }
     });
     expect(resp.data).toBeFalsy();
@@ -136,7 +143,8 @@ describe("Test user resolver regex", () => {
         username: "Stan",
         email: "user@stan.com",
         password: "12345678",
-        mascot: 1
+        mascot: 1,
+        allowEmailNotifications: true
       }
     });
     expect(respSignup.data.signup).toBeTruthy();

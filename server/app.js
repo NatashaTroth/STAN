@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser";
 import { handleRefreshToken } from "./helpers/authenticationTokens";
 import path from "path";
 import compress from "compression";
-
+import StanScheduler from "./helpers/StanScheduler";
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
 const connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
@@ -47,6 +47,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+new StanScheduler();
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {

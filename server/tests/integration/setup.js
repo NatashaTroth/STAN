@@ -76,7 +76,8 @@ export async function signUpTestUser() {
     password: hashedPassword,
     mascot: 1,
     googleId: "",
-    googleLogin: false
+    googleLogin: false,
+    allowEmailNotifications: false
   });
 
   if (!user) throw new Error("Could not sign up a test user");

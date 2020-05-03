@@ -29,11 +29,11 @@ function SignUpPage() {
           </div>
           <div className="col-md-1"></div>
 
-          <div className="col-md-2"></div>
-          <div className="col-md-8 login__form-container">
+          <div className="col-lg-2"></div>
+          <div className="col-lg-8 login__form-container">
             <SignUpForm />
           </div>
-          <div className="col-md-2"></div>
+          <div className="col-lg-2"></div>
         </div>
       </div>
     </div>

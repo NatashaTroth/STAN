@@ -96,7 +96,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   {examDetails.currentPage}/{examDetails.numberPages}
                 </p>
               </div>
-              <div className="exam-data pdf">
+              <div className="pdf">
                 <div className="pdf--file">
                   <h4>PDF file</h4>
 
@@ -112,11 +112,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="container-fluid">
-        <div className="row">
           <div className="col-md-12">
             <div className="exam-details__inner--details--bottom">
               <h4>Notes</h4>
