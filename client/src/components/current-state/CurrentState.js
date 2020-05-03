@@ -57,7 +57,7 @@ const CurrentState = () => {
         showIndicators={false}
         autoPlay={true}
         showArrows={false}
-        interval="60000"
+        interval="30000"
       >
         <CurrentUserContext.Consumer>
           {currentUser => (
