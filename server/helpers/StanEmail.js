@@ -18,9 +18,10 @@ export default class StanEmail {
     console.log("SENDING SIGNUP MAIL");
 
     const subject = "Welcome to stan!";
-    const text = `<h1 style="color: #FFE713">Welcome to stan</h1>`;
+    const h1 = `Welcome to stan`;
+    const text = `so cool that you joined!`;
 
-    this.sendMail(recipientEmail, subject, text);
+    this.sendMail(recipientEmail, subject, text, h1);
   }
 
   sendOneDayReminderMail(recipientEmail, exams) {
@@ -28,10 +29,8 @@ export default class StanEmail {
     let examWord = "exam";
     if (exams.length > 1) examWord = "exams";
     const subject = `${examWord} tomorrow`;
-    const text = `<h1 style="color: #FFE713">Reminder that you have ${
-      exams.length
-    } ${examWord} tomorrow</h1>
-                  <p>stan wanted to remind you that you have the following ${examWord} tomorrow, which you haven't finished learning for yet:</p>
+    const h1 = `Reminder that you have ${exams.length} ${examWord} tomorrow`;
+    const text = `<p>stan wanted to remind you that you have the following ${examWord} tomorrow, which you haven't finished learning for yet:</p>
                   <ul>${this.createExamsListString(exams)}</ul>
 
                   <p>Please don't forget to learn, try to find the time today. Good luck!</p>
@@ -39,7 +38,7 @@ export default class StanEmail {
                  
     `;
 
-    this.sendMail(recipientEmail, subject, text);
+    this.sendMail(recipientEmail, subject, text, h1);
   }
 
   sendThreeDayReminderMail(recipientEmail, exams) {
@@ -47,10 +46,8 @@ export default class StanEmail {
     let examWord = "exam";
     if (exams.length > 1) examWord = "exams";
     const subject = `${exams.length} ${examWord} in three days`;
-    const text = `<h1 style="color: #FFE713">Reminder that you have ${
-      exams.length
-    } ${examWord} in three days</h1>
-                  <p>stan wanted to remind you that you have the following ${examWord} in three days time, which you haven't finished learning for yet:</p>
+    const h1 = `Reminder that you have ${exams.length} ${examWord} in three days`;
+    const text = `<p>stan wanted to remind you that you have the following ${examWord} in three days time, which you haven't finished learning for yet:</p>
                   <ul>${this.createExamsListString(exams)}</ul>
 
                   <p>Please don't forget to learn, you still have time. Good luck!</p>
@@ -58,7 +55,7 @@ export default class StanEmail {
                  
     `;
 
-    this.sendMail(recipientEmail, subject, text);
+    this.sendMail(recipientEmail, subject, text, h1);
   }
 
   createExamsListString(exams) {
@@ -69,9 +66,9 @@ export default class StanEmail {
     return examsListString;
   }
 
-  sendMail(to, subject, html) {
+  sendMail(to, subject, text, h1) {
     console.log("SENDING MAIL");
-    html += `<p>stan<img style="width: 90px" src="cid:unique@stan.com"/></p>`;
+    const html = `<h1 style="color:#00729e">${h1}</h1>${text}<p>stan<img style="width: 90px" src="cid:unique@stan.com"/></p>`;
 
     console.log(__dirname + "/images/emailStan.png");
     const mailOptions = {

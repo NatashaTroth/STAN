@@ -48,6 +48,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+new StanScheduler();
+
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
   await handleRefreshToken(req, res);

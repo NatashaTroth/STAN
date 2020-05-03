@@ -26,7 +26,7 @@ export default class StanScheduler {
   }
 
   async notifyUsersAboutExams() {
-    schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
+    schedule.scheduleJob({ hour: 18, minute: 21 }, async () => {
       console.log("Sending Mails");
 
       //TODO: INDEX allowEmailNotifications
