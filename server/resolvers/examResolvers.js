@@ -64,6 +64,7 @@ export const examResolvers = {
       }
     },
     todaysChunkAndProgress: async (root, args, context, info) => {
+      console.log("IN FETCH TODAYS CHUNKS RESOLVER");
       try {
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
@@ -129,7 +130,7 @@ export const examResolvers = {
           { ...args },
           context.userInfo.userId
         );
-        console.log(processedArgs);
+        // console.log(processedArgs);
         await Exam.create(processedArgs);
       } catch (err) {
         handleResolverError(err);
@@ -180,6 +181,8 @@ export const examResolvers = {
     updateCurrentPage: async (root, args, context, info) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
+      console.log("IN UPDATE CURRENT PAGE RESOLVER");
+
       try {
         handleAuthentication(context.userInfo);
         const exam = await handleCurrentPageInput(

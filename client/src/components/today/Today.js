@@ -235,7 +235,8 @@ function Today(props) {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
-                        page {realCurrentPage} to {chunkGoalPage}
+                        page {realCurrentPage} to{" "}
+                        {startPage + numberPagesToday - 1}
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
