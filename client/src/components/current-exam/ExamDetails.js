@@ -208,7 +208,7 @@ const ExamDetails = () => {
                   </div>
                 ) : null}
 
-                {!examDetails.completed && !edit ? (
+                {!edit ? (
                   <div className="col-md-12">
                     <div className="exam-details__inner--button">
                       <Button
@@ -220,21 +220,17 @@ const ExamDetails = () => {
                     </div>
                   </div>
                 ) : null}
-                {!examDetails.completed && !edit ? (
-                  <div className="col-md-12">
-                    <p id="graphql-exam-completion-error" className="error"></p>
-                  </div>
-                ) : null}
-                {!examDetails.completed && !edit ? (
-                  <div
-                    className="col-md-12"
-                    id="success-container-exam-completed"
-                  >
-                    <p className="success">
-                      the exam was successfully completed
-                    </p>
-                  </div>
-                ) : null}
+
+                <div className="col-md-12">
+                  <p className="error graphql-exam-completion-error"></p>
+                </div>
+
+                <div
+                  className="col-md-12"
+                  id="success-container-exam-completed"
+                >
+                  <p className="success">the exam was successfully completed</p>
+                </div>
               </div>
             </div>
           </div>
@@ -278,7 +274,6 @@ async function examDeletion({ paramId, deleteExam, history }) {
   }
 }
 
-// TODO: error message after completion
 async function completeExam({ paramId, examCompleted, history }) {
   try {
     const resp = await examCompleted({
@@ -298,12 +293,10 @@ async function completeExam({ paramId, examCompleted, history }) {
     // redirect ----------------
     setTimeout(() => {
       history.push("/exams")
-    }, 1000)
+    }, 2000)
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName(
-      "graphql-exam-completion-error"
-    )
+    let element = document.getElementById("graphql-exam-completion-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

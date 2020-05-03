@@ -60,16 +60,15 @@
         display: flex;
         justify-content: flex-end;
         max-width: none;
-        padding-top: 5px;
+        padding-top: 20px;
         padding-right: 5px;
       }
     }
-    // TODO: apollo does not recognized the container
-    #graphql-exam-completion-error {
+    .graphql-exam-completion-error {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       max-width: none;
-      margin-right: 5px;
+      margin-left: 15px;
     }
     // ==============
 
