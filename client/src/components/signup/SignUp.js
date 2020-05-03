@@ -235,10 +235,6 @@ function SignUp() {
                 name="notification"
                 value="notification"
                 onChange={handleNotification}
-                required
-                ref={register({
-                  required: true,
-                })}
               />
               <span className="checkmark"></span>
               Allow email notifications when exam date is close (can be changed
