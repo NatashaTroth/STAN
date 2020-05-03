@@ -195,6 +195,11 @@
   }
   &__change-password {
     height: 340px;
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+      overflow: scroll;
+    }
   }
   &__passwordToggle {
     padding: 20px 0;
