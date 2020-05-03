@@ -194,8 +194,8 @@ function Today(props) {
     // chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
 
     // calculation for how many pages are left
-    chunksTotal = lastPage * (repetitionCycles + 1) - currentPage
-    chunkPercentage = Math.round((lastPage / chunksTotal) * 100)
+    chunksTotal = lastPage * repetitionCycles - currentPage + 1
+    chunkPercentage = Math.round((currentPage * 100) / chunksTotal)
   }
 
   // return ----------------
@@ -281,10 +281,10 @@ function Today(props) {
                 {/* chunks left */}
                 <div className="today__container__chunks-left">
                   <Timeline
-                    heading="Pages left to study"
+                    heading="Study Progress (pages)"
                     daysLeft={chunksTotal}
                     percentage={chunkPercentage}
-                    style="chunks"
+                    style="bar"
                   ></Timeline>
                 </div>
 
