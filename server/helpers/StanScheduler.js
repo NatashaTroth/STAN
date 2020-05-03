@@ -1,0 +1,58 @@
+import schedule from "node-schedule";
+import { isInterfaceType } from "graphql";
+import { User, Exam, TodaysChunkCache } from "./../models";
+import { getNumberOfDays } from "./dates";
+import StanEmail from "./StanEmail";
+const stanEmail = new StanEmail();
+
+export default class StanScheduler {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // var j = schedule.scheduleJob("47 * * * *", function() {
+    //   console.log("The answer to life, the universe, and everything!");
+    // });
+    //     const rule = new schedule.RecurrenceRule();
+    // // rule.dayOfWeek = [0, new schedule.Range(4, 6)];
+    // rule.hour = 17;
+    // rule.minute = 0;
+
+    // const j = schedule.scheduleJob(rule, function(){
+    //   console.log('Today is recognized by Rebecca Black!');
+    // });
+    this.notifyUsersAboutExams();
+  }
+
+  async notifyUsersAboutExams() {
+    const job = schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
+      console.log("Sending Mails");
+
+      //TODO: INDEX allowEmailNotifications
+      const users = await User.find({ allowEmailNotifications: true });
+
+      users.forEach(async user => {
+        const examsInOneDay = [];
+        const examsInThreeDays = [];
+        const exams = await Exam.find({
+          userId: user._id,
+          completed: false
+        }).sort({ subject: "asc" });
+        exams.forEach(exam => {
+          const numberOfDaysUntilExam = getNumberOfDays(
+            new Date(),
+            exam.examDate
+          );
+          console.log(numberOfDaysUntilExam);
+          if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
+          if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
+        });
+        if (examsInOneDay.length > 0)
+          stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
+        if (examsInThreeDays.length > 0)
+          stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
+      });
+    });
+  }
+}

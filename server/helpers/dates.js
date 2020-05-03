@@ -25,12 +25,12 @@ export function isTheSameDay(date1, date2) {
   // return dayjs(date1).isSame(dayjs(date2));
 }
 
-export function getNumberOfDays(startDate, examDate) {
+export function getNumberOfDays(startDate, endDate) {
   //source: https://stackoverflow.com/a/2627493 &  https://stackoverflow.com/a/17727953
   const start = Date.UTC(
-    examDate.getFullYear(),
-    examDate.getMonth(),
-    examDate.getDate()
+    endDate.getFullYear(),
+    endDate.getMonth(),
+    endDate.getDate()
   );
   const end = Date.UTC(
     startDate.getFullYear(),

@@ -36,7 +36,7 @@ import {
   // calculateUserState
 } from "../helpers/userHelpers";
 
-import { StanEmail } from "../helpers/StanEmail";
+import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
 // import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
@@ -120,7 +120,7 @@ export const userResolvers = {
         });
 
         const accessToken = logUserIn({ user, context });
-        if (allowEmailNotifications) stanEmail.sendSignupMail(email);
+        // if (allowEmailNotifications) stanEmail.sendSignupMail(email);
         return accessToken;
       } catch (err) {
         handleResolverError(err);
