@@ -6,8 +6,11 @@ import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
-import { GET_EXAM_QUERY } from "../../graphQL/queries"
-import { DELETE_EXAM_MUTATION } from "../../graphQL/mutations"
+import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  DELETE_EXAM_MUTATION,
+  EXAM_COMPLETED_MUTATION,
+} from "../../graphQL/mutations"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // components ----------------
@@ -43,8 +46,10 @@ const ExamDetails = () => {
   })
 
   // mutation ----------------
-  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
-  // const [completedExam] = useMutation()
+  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION, {
+    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+  })
+  const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION)
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -70,12 +75,12 @@ const ExamDetails = () => {
   }
 
   const handleDeletion = () => {
-    examDeletion({ paramId, deleteExam })
+    examDeletion({ paramId, deleteExam, history })
   }
 
   const handleCompletion = () => {
     setCompleted(completed => !completed)
-    // completeExam({paramId, completedExam})
+    completeExam({ paramId, examCompleted, history })
   }
 
   // return ----------------
@@ -202,7 +207,7 @@ const ExamDetails = () => {
                     </div>
                   ) : null}
 
-                  {!edit ? (
+                  {!completed && !edit ? (
                     <div className="col-md-12">
                       <div className="exam-details__inner--button">
                         <Button
@@ -212,6 +217,21 @@ const ExamDetails = () => {
                           onClick={handleCompletion}
                         />
                       </div>
+                    </div>
+                  ) : null}
+                  {!completed ? (
+                    <div className="col-md-12">
+                      <p className="error graphql-exam-completion-error"></p>
+                    </div>
+                  ) : null}
+                  {!completed ? (
+                    <div
+                      className="col-md-12"
+                      id="success-container-exam-completed"
+                    >
+                      <p className="success">
+                        the exam was successfully completed
+                      </p>
                     </div>
                   ) : null}
                 </div>
@@ -227,7 +247,7 @@ const ExamDetails = () => {
 
 export default ExamDetails
 
-async function examDeletion({ paramId, deleteExam }) {
+async function examDeletion({ paramId, deleteExam, history }) {
   try {
     const resp = await deleteExam({
       variables: {
@@ -244,12 +264,11 @@ async function examDeletion({ paramId, deleteExam }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.href = "/exams"
+      history.push("/exams")
     }, 1000)
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName("graphql-exam-details-error")
-    element.style.display = "block"
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -259,30 +278,32 @@ async function examDeletion({ paramId, deleteExam }) {
   }
 }
 
-async function completeExam({ paramId, completeExam }) {
+async function completeExam({ paramId, examCompleted, history }) {
   try {
-    const resp = await completeExam({
+    const resp = await examCompleted({
       variables: {
         id: paramId.id,
       },
     })
 
-    if (resp && resp.data && resp.data.completeExam) {
-      // document.getElementById("success-container-exam-detail").style.display =
-      //   "block"
+    if (resp && resp.data && resp.data.examCompleted) {
+      document.getElementById(
+        "success-container-exam-completed"
+      ).style.display = "block"
     } else {
       throw new Error("The completion of current exam failed.")
     }
 
     // redirect ----------------
-    // setTimeout(() => {
-    //   window.location.href = "/exams"
-    // }, 1000)
+    setTimeout(() => {
+      history.push("/exams")
+    }, 1000)
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName("graphql-exam-details-error")
-    element.style.display = "block"
-
+    let element = document.getElementsByClassName(
+      "graphql-exam-completion-error"
+    )
+    console.log(err)
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
     } else {
