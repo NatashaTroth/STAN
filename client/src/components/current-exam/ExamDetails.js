@@ -209,7 +209,7 @@ const ExamDetails = () => {
                     </div>
                   ) : null}
 
-                  {!edit ? (
+                  {!examDetails.completed && !edit ? (
                     <div className="col-md-12">
                       <div className="exam-details__inner--button">
                         <Button
@@ -221,7 +221,7 @@ const ExamDetails = () => {
                       </div>
                     </div>
                   ) : null}
-                  {!edit ? (
+                  {!examDetails.completed && !edit ? (
                     <div className="col-md-12">
                       <p
                         id="graphql-exam-completion-error"
@@ -229,7 +229,7 @@ const ExamDetails = () => {
                       ></p>
                     </div>
                   ) : null}
-                  {!edit ? (
+                  {!examDetails.completed && !edit ? (
                     <div
                       className="col-md-12"
                       id="success-container-exam-completed"
@@ -283,6 +283,7 @@ async function examDeletion({ paramId, deleteExam, history }) {
   }
 }
 
+// TODO: error message after completion
 async function completeExam({ paramId, examCompleted, history }) {
   try {
     const resp = await examCompleted({
