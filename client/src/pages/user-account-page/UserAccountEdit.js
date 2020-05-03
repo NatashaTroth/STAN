@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -34,6 +34,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 const UserAccountEdit = () => {
   // variables ----------------
   const mascotStore = { mascot: 0 }
+  let history = useHistory()
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
@@ -116,9 +117,7 @@ const UserAccountEdit = () => {
               </div>
 
               <div className="user-account__edit--heading--delete-btn">
-                <Link to="/profile" className="back-button">
-                  Back
-                </Link>
+                <Button className="back-button" text="Back" />
                 <Button
                   className="delete-button"
                   onClick={handleUser}
@@ -413,16 +412,6 @@ const UserAccountEdit = () => {
                             text="a very happy clever mascot"
                           />
                         </Carousel>
-
-                        {/* <div className="user-account__edit--form__button">
-                          <div className="save-button">
-                            <Button
-                              variant="button"
-                              text="Save"
-                              className="stan-btn-primary"
-                            />
-                          </div>
-                        </div> */}
                       </div>
                     </div>
                   ) : (
@@ -452,13 +441,17 @@ const UserAccountEdit = () => {
                             text="a very happy clever mascot"
                           />
                         </Carousel>
+                      </div>
 
+                      <div className="col-xl-12">
                         <div className="user-account__edit--form__button">
-                          <Button
-                            variant="button"
-                            text="Save"
-                            className="stan-btn-primary"
-                          />
+                          <div className="save-button">
+                            <Button
+                              variant="button"
+                              text="Save"
+                              className="stan-btn-primary"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -59,16 +59,18 @@ const ExamsCalendar = () => {
             <FullCalendar
               id="calendar"
               className="calendar-table"
+              aspectRatio="1.2"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
-              defaultView="dayGridMonth"
-              eventLimit={4}
+              defaultView="listWeek"
+              eventLimit={true}
+              editable={true}
               eventOverlap={false}
               navLinks={true}
               locale={enLocale}
               eventSources={[chunks, exams]}
               eventOrder={"duration"}
-              columnHeaderFormat={{ weekday: "short" }}
+              columnHeaderFormat={{ weekday: "long" }}
               noEventsMessage="You've earned a break by now."
               views={{
                 listWeek: {
@@ -88,6 +90,9 @@ const ExamsCalendar = () => {
                 const durationTotal = examDetails.durationTotal
                 const durationPerDay = examDetails.durationPerDay
                 const pdfLink = examDetails.pdfLink
+
+                // background color for listview
+                info.el.style.backgroundColor = info.event.backgroundColor
 
                 const popover = (
                   <Popover id="popover-basic">

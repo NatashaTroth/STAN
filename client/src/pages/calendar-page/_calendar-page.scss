@@ -60,6 +60,9 @@
           padding: 0;
         }
       }
+      &.fc-next-button {
+        padding-right: 0;
+      }
 
       &.fc-dayGridMonth-button,
       &.fc-listWeek-button,
@@ -84,6 +87,11 @@
 
         @include media-breakpoint-down(xs) {
           margin-left: 0;
+        }
+      }
+      &.fc-dayGridMonth-button {
+        @include media-breakpoint-down(sm) {
+          display: none;
         }
       }
 
@@ -124,9 +132,17 @@
 
 // box content
 .fc-view {
+  padding: 3px;
+  padding-right: 2px;
   margin-bottom: 40px;
   border: 4px solid theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
+
+  &.fc-dayGridMonth-view {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
 }
 
 // table header
@@ -194,6 +210,8 @@
 
 // empty list
 .fc-list-empty {
+  padding-left: 5px;
+  padding-right: 5px;
   background-color: transparent;
   font-family: $font-family-BasierCircle-Bold;
   @include rem(font-size, $h3-font-size);
@@ -213,7 +231,7 @@
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-popover .fc-header,
 .fc-unthemed .fc-list-heading td {
-  background-color: theme_color("grey-light");
+  background-color: theme_color("light");
 }
 .fc-list-heading-main,
 .fc-list-heading-alt {
@@ -236,6 +254,9 @@
   &:focus {
     outline: none;
   }
+}
+.fc-basic-view .fc-body .fc-row {
+  min-height: 3em !important;
 }
 
 // popup
