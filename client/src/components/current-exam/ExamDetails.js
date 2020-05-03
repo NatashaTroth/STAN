@@ -49,7 +49,9 @@ const ExamDetails = () => {
   const [deleteExam] = useMutation(DELETE_EXAM_MUTATION, {
     refetchQueries: [{ query: GET_EXAMS_QUERY }],
   })
-  const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION)
+  const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
+    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+  })
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -207,7 +209,7 @@ const ExamDetails = () => {
                     </div>
                   ) : null}
 
-                  {!completed && !edit ? (
+                  {!edit ? (
                     <div className="col-md-12">
                       <div className="exam-details__inner--button">
                         <Button
@@ -219,12 +221,15 @@ const ExamDetails = () => {
                       </div>
                     </div>
                   ) : null}
-                  {!completed ? (
+                  {!edit ? (
                     <div className="col-md-12">
-                      <p className="error graphql-exam-completion-error"></p>
+                      <p
+                        id="graphql-exam-completion-error"
+                        className="error"
+                      ></p>
                     </div>
                   ) : null}
-                  {!completed ? (
+                  {!edit ? (
                     <div
                       className="col-md-12"
                       id="success-container-exam-completed"
@@ -303,7 +308,7 @@ async function completeExam({ paramId, examCompleted, history }) {
     let element = document.getElementsByClassName(
       "graphql-exam-completion-error"
     )
-    console.log(err)
+
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
     } else {
