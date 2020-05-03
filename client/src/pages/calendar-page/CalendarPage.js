@@ -30,7 +30,6 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
-// TODO: change view for mobile version
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
@@ -50,6 +49,7 @@ const ExamsCalendar = () => {
     exams = data.calendarChunks.calendarExams
   }
 
+  // return ----------------
   return (
     <div className="exams-calendar">
       <div className="container-fluid">

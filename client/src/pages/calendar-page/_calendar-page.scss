@@ -263,6 +263,7 @@
 .popover {
   border: 2px solid theme_color("dark");
   border-radius: 0;
+  min-width: 340px;
 }
 .popover-header {
   background-color: transparent;
@@ -293,9 +294,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    h5 {
-      padding-right: 10px;
-    }
   }
 
   .exam-date {
