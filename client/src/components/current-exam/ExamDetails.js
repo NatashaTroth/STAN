@@ -105,141 +105,136 @@ const ExamDetails = () => {
             </div>
 
             <div className="exam-details__inner box-content">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="exam-details__inner--bar">
-                      <div className="exam-details__inner--bar--headline">
-                        <h3>Exam details</h3>
-                      </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="exam-details__inner--bar">
+                    <div className="exam-details__inner--bar--headline">
+                      <h3>Exam details</h3>
+                    </div>
 
-                      <div className="exam-details__inner--bar--right">
-                        {!edit && !examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handleEdit}
-                            className="exam-btn"
-                            text="edit"
-                          />
-                        ) : null}
-
-                        {edit && !examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handleEdit}
-                            className="exam-btn"
-                            text="back"
-                          />
-                        ) : null}
-
-                        {edit || examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handlePopup}
-                            className="exam-btn delete-btn"
-                            text="delete"
-                          />
-                        ) : null}
-
+                    <div className="exam-details__inner--bar--right">
+                      {!edit && !examDetails.completed ? (
                         <Button
                           variant="button"
-                          onClick={() => {
-                            history.goBack()
-                          }}
-                          className="exam-btn close-btn"
-                          text="close"
+                          onClick={handleEdit}
+                          className="exam-btn"
+                          text="edit"
                         />
-                      </div>
+                      ) : null}
+
+                      {edit && !examDetails.completed ? (
+                        <Button
+                          variant="button"
+                          onClick={handleEdit}
+                          className="exam-btn"
+                          text="back"
+                        />
+                      ) : null}
+
+                      {edit || examDetails.completed ? (
+                        <Button
+                          variant="button"
+                          onClick={handlePopup}
+                          className="exam-btn delete-btn"
+                          text="delete"
+                        />
+                      ) : null}
+
+                      <Button
+                        variant="button"
+                        onClick={() => {
+                          history.goBack()
+                        }}
+                        className="exam-btn close-btn"
+                        text="close"
+                      />
                     </div>
                   </div>
+                </div>
 
-                  {edit ? (
-                    <div className="col-md-12">
-                      <ExamDetailsEdit examId={examDetails.id} />
-                    </div>
-                  ) : null}
+                {edit ? (
+                  <div className="col-md-12">
+                    <ExamDetailsEdit examId={examDetails.id} />
+                  </div>
+                ) : null}
 
-                  {!edit ? (
-                    <div className="col-md-12">
-                      <ExamDetailsInfo examDetails={examDetails} />
-                    </div>
-                  ) : null}
+                {!edit ? (
+                  <div className="col-md-12">
+                    <ExamDetailsInfo examDetails={examDetails} />
+                  </div>
+                ) : null}
 
-                  {popup ? (
-                    <div className="col-md-12">
-                      <div className="exam-details__popup">
-                        <div className="container-fluid">
-                          <div className="row">
-                            <div className="exam-details__popup--inner box-content">
-                              <div className="exam-details__popup--inner--headline">
-                                <h4>
-                                  Are you sure you want to delete this exam?
-                                </h4>
-                              </div>
+                {popup ? (
+                  <div className="col-md-12">
+                    <div className="exam-details__popup">
+                      <div className="container-fluid">
+                        <div className="row">
+                          <div className="exam-details__popup--inner box-content">
+                            <div className="exam-details__popup--inner--headline">
+                              <h4>
+                                Are you sure you want to delete this exam?
+                              </h4>
+                            </div>
 
-                              <div className="exam-details__popup--inner--buttons">
-                                <Button
-                                  className="stan-btn-secondary"
-                                  text="Yes"
-                                  onClick={handleDeletion}
-                                />
-                                <Button
-                                  className="stan-btn-primary"
-                                  text="No"
-                                  onClick={handlePopup}
-                                />
-                              </div>
+                            <div className="exam-details__popup--inner--buttons">
+                              <Button
+                                className="stan-btn-secondary"
+                                text="Yes"
+                                onClick={handleDeletion}
+                              />
+                              <Button
+                                className="stan-btn-primary"
+                                text="No"
+                                onClick={handlePopup}
+                              />
+                            </div>
 
-                              <div className="col-md-12">
-                                <p className="error graphql-exam-details-error"></p>
-                              </div>
+                            <div className="col-md-12">
+                              <p className="error graphql-exam-details-error"></p>
+                            </div>
 
-                              <div
-                                className="col-md-12"
-                                id="success-container-exam-detail"
-                              >
-                                <p className="success">
-                                  the exam was successfully deleted
-                                </p>
-                              </div>
+                            <div
+                              className="col-md-12"
+                              id="success-container-exam-detail"
+                            >
+                              <p className="success">
+                                the exam was successfully deleted
+                              </p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ) : null}
+                  </div>
+                ) : null}
 
-                  {!examDetails.completed && !edit ? (
-                    <div className="col-md-12">
-                      <div className="exam-details__inner--button">
-                        <Button
-                          className="stan-btn-primary"
-                          variant="button"
-                          text="Completed"
-                          onClick={handleCompletion}
-                        />
-                      </div>
+                {!examDetails.completed && !edit ? (
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--button">
+                      <Button
+                        className="stan-btn-primary"
+                        variant="button"
+                        text="Completed"
+                        onClick={handleCompletion}
+                      />
                     </div>
-                  ) : null}
-                  {!examDetails.completed && !edit ? (
-                    <div className="col-md-12">
-                      <p
-                        id="graphql-exam-completion-error"
-                        className="error"
-                      ></p>
-                    </div>
-                  ) : null}
-                  {!examDetails.completed && !edit ? (
-                    <div
-                      className="col-md-12"
-                      id="success-container-exam-completed"
-                    >
-                      <p className="success">
-                        the exam was successfully completed
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
+                {!examDetails.completed && !edit ? (
+                  <div className="col-md-12">
+                    <p id="graphql-exam-completion-error" className="error"></p>
+                  </div>
+                ) : null}
+                {!examDetails.completed && !edit ? (
+                  <div
+                    className="col-md-12"
+                    id="success-container-exam-completed"
+                  >
+                    <p className="success">
+                      the exam was successfully completed
+                    </p>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
