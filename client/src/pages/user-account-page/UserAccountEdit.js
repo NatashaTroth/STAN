@@ -84,13 +84,14 @@ const UserAccountEdit = () => {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = mascotStore.mascot
-        editUser({ mascotId, formData, updateUser })
+        editUser({ mascotId, formData, updateUser, history })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
     }
   }
 
+  // TODO: fix reset mascot after button click
   // functions ----------------
   const handleMascotCallback = id => {
     mascotStore.mascot = id
@@ -107,6 +108,8 @@ const UserAccountEdit = () => {
   const handleChangedPassword = () => {
     setPasswordSection(!isPasswordOpen)
   }
+
+  console.log(currentUser.mascot)
 
   // return ----------------
   return (
@@ -610,7 +613,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser }) {
+async function editUser({ mascotId, formData, updateUser, history }) {
   try {
     const resp = await updateUser({
       variables: {
@@ -631,7 +634,7 @@ async function editUser({ mascotId, formData, updateUser }) {
 
     // redirect ----------------
     setTimeout(() => {
-      // window.location.reload()
+      history.push("/profile")
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
