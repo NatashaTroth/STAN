@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
@@ -487,16 +487,12 @@ const UserAccountEdit = () => {
                             </Carousel>
                           </div>
 
-                          <div className="col-xl-12">
-                            <div className="user-account__edit--form__button">
-                              <div className="save-button">
-                                <Button
-                                  variant="button"
-                                  text="Save"
-                                  className="stan-btn-primary"
-                                />
-                              </div>
-                            </div>
+                          <div className="user-account__edit--form__button">
+                            <Button
+                              variant="button"
+                              text="Save"
+                              className="stan-btn-primary"
+                            />
                           </div>
                         </div>
                       )}
@@ -665,7 +661,7 @@ async function handleMascot({ formData, updateMascot }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.reload()
+      window.location.href = "/profile"
     }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
