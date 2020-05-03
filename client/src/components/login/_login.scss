@@ -59,7 +59,6 @@
     &__buttons {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 15px;
       justify-content: center;
 
       @include media-breakpoint-down(lg) {
@@ -82,17 +81,61 @@
     }
 
     &__notifications {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 25px;
+      padding: 30px;
+      margin: 0 40px 0 40px;
+
+      @include media-breakpoint-down(lg) {
+        margin: 0;
+      }
+      .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      &:hover input ~ .checkmark {
+        background-color: theme_color("dark");
+      }
 
       input {
-        width: 20px;
-        height: 20px;
-        background: none;
-        border-radius: 0;
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      .checkmark {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(-50%, -50%);
+        height: 25px;
+        width: 25px;
+        background-color: theme_color("light");
+        border: 3px solid theme_color("dark");
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+      }
+      input:checked ~ .checkmark {
+        background-color: theme_color("dark");
+      }
+      input:checked ~ .checkmark:after {
+        display: block;
+      }
+      .checkmark:after {
+        left: 6px;
+        top: -1px;
+        width: 9px;
+        height: 19px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
       }
     }
 

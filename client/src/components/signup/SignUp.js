@@ -228,18 +228,19 @@ function SignUp() {
           </div>
 
           <div className="login__form__notifications">
-            <input
-              type="checkbox"
-              id="notification"
-              name="notification"
-              value="notification"
-              onChange={handleNotification}
-              required
-              ref={register({
-                required: true,
-              })}
-            />
-            <label htmlFor="notification">
+            <label htmlFor="notification" className="container">
+              <input
+                type="checkbox"
+                id="notification"
+                name="notification"
+                value="notification"
+                onChange={handleNotification}
+                required
+                ref={register({
+                  required: true,
+                })}
+              />
+              <span className="checkmark"></span>
               Allow email notifications when exam date is close (can be changed
               at any time in the user profile)
             </label>
