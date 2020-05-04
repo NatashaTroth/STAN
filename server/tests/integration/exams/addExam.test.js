@@ -40,8 +40,8 @@ describe("Test user resolver regex", () => {
       query: ADD_EXAM_MUTATION,
       variables: {
         subject: "MyStanTestExam",
-        examDate: "2122-08-11",
-        startDate: "2122-08-05",
+        examDate: "2122.08.11",
+        startDate: "2122.08.05",
         numberPages: 5,
         timePerPage: 5,
         startPage: 4,
@@ -60,8 +60,8 @@ describe("Test user resolver regex", () => {
 
     expect(exam).toBeTruthy();
     expect(exam.subject).toBe("MyStanTestExam");
-    expect(exam.examDate.toString()).toBe(new Date("2122-08-11").toString());
-    expect(exam.startDate.toString()).toBe(new Date("2122-08-05").toString());
+    expect(exam.examDate.toString()).toBe(new Date("2122.08.11").toString());
+    expect(exam.startDate.toString()).toBe(new Date("2122.08.05").toString());
     expect(exam.numberPages).toBe(5);
     expect(exam.timePerPage).toBe(5);
     expect(exam.timesRepeat).toBe(1);

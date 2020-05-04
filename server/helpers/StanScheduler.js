@@ -25,6 +25,8 @@ export default class StanScheduler {
     this.notifyUsersAboutExams();
   }
 
+  //TODO - SIGN UP MAIL, DELETE ACCOUNT MAIL, START LEARNING DATE MAILS
+
   async notifyUsersAboutExams() {
     schedule.scheduleJob({ hour: 18, minute: 21 }, async () => {
       console.log("Sending Mails");
