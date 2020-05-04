@@ -116,8 +116,6 @@ const UserAccountEdit = () => {
     setNotification(notification => !notification)
   }
 
-  console.log(notification)
-
   // return ----------------
   return (
     <div className="user-account-edit">
