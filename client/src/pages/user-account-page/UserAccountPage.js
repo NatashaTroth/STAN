@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
