@@ -8,7 +8,11 @@ import { useForm } from "react-hook-form"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries & mutation ----------------
-import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  GET_EXAM_QUERY,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
+} from "../../graphQL/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
 // sub-components ----------------
@@ -74,7 +78,10 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // mutation ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION, {
-    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+    ],
   })
 
   // redirects ----------------
