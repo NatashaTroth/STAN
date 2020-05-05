@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
+  GET_EXAMS_COUNT,
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
@@ -19,18 +20,43 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
+import DatePicker from "../../components/datepicker/DatePicker"
 
 function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
+
+  // date picker
+  let today = new Date()
+  const [myExamDate, setMyExamDate] = useState(today)
+  const [myStartDate, setMyStartDate] = useState(today)
+
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }
+
+  let formExamDate = myExamDate.toLocaleDateString(undefined, options)
+  formExamDate = formExamDate
+    .split(".")
+    .reverse()
+    .join(".")
+
+  let formStartDate = myStartDate.toLocaleDateString(undefined, options)
+  formStartDate = formStartDate
+    .split(".")
+    .reverse()
+    .join(".")
+  // -----------------------------
 
   const onSubmit = async formData => {
     try {
       const resp = await addExam({
         variables: {
           subject: formData.exam_subject,
-          examDate: formData.exam_date,
-          startDate: formData.exam_start_date,
+          examDate: formExamDate,
+          startDate: formStartDate,
           numberPages: parseInt(formData.exam_page_amount),
           // startPage: parseInt(formData.exam_page_current),
           startPage: 1,
@@ -45,6 +71,7 @@ function AddNew() {
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
+          { query: GET_EXAMS_COUNT },
         ],
       })
 
@@ -141,21 +168,11 @@ function AddNew() {
                         text="Exam date"
                         className="form__element__label input-required"
                       ></Label>
-                      <Input
-                        className="form__element__input"
-                        type="date"
-                        id="exam-date"
-                        label="exam_date"
-                        placeholder="DD/MM/YYYY"
-                        required
-                        ref={register({
-                          required: true,
-                        })}
+                      <DatePicker
+                        onDaySelected={selectedDay => {
+                          setMyExamDate(selectedDay)
+                        }}
                       />
-                      {errors.exam_date &&
-                        errors.exam_date.type === "required" && (
-                          <span className="error">This field is required</span>
-                        )}
                     </div>
 
                     <div className="form__element">
@@ -164,15 +181,11 @@ function AddNew() {
                         text="Start learning on"
                         className="form__element__label input-required"
                       ></Label>
-                      <Input
-                        className="form__element__input"
-                        type="date"
-                        id="study-start-date"
-                        label="exam_start_date"
-                        placeholder="DD/MM/YYYY"
-                        ref={register({
-                          required: false,
-                        })}
+                      <DatePicker
+                        onDaySelected={selectedDay => {
+                          setMyStartDate(selectedDay)
+                        }}
+                        disabledAfter={myExamDate}
                       />
                     </div>
                   </div>

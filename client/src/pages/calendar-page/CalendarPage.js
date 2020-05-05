@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -30,7 +30,6 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
-// TODO: change view for mobile version
 const ExamsCalendar = () => {
   // query ----------------
   const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
@@ -50,6 +49,7 @@ const ExamsCalendar = () => {
     exams = data.calendarChunks.calendarExams
   }
 
+  // return ----------------
   return (
     <div className="exams-calendar">
       <div className="container-fluid">
@@ -59,16 +59,18 @@ const ExamsCalendar = () => {
             <FullCalendar
               id="calendar"
               className="calendar-table"
+              aspectRatio="1.2"
               height="auto"
               plugins={[dayGridPlugin, listPlugin]}
-              defaultView="dayGridMonth"
-              eventLimit={4}
+              defaultView="listWeek"
+              eventLimit={true}
+              editable={true}
               eventOverlap={false}
               navLinks={true}
               locale={enLocale}
               eventSources={[chunks, exams]}
               eventOrder={"duration"}
-              columnHeaderFormat={{ weekday: "short" }}
+              columnHeaderFormat={{ weekday: "long" }}
               noEventsMessage="You've earned a break by now."
               views={{
                 listWeek: {
@@ -77,7 +79,7 @@ const ExamsCalendar = () => {
               }}
               header={{
                 left: "title",
-                right: "dayGridMonth, listWeek, today, prev, next",
+                right: "dayGridMonth, listWeek, prev, today, next",
               }}
               eventRender={info => {
                 const examDetails = info.event.extendedProps
@@ -89,21 +91,25 @@ const ExamsCalendar = () => {
                 const durationPerDay = examDetails.durationPerDay
                 const pdfLink = examDetails.pdfLink
 
-                const popover = (
-                  <Popover id="popover-basic">
-                    {examDetails.__typename === "CalendarChunkDetails" ? (
-                      <Popover.Title as="h4" className="popover-title">
-                        {info.event.title}
+                // background color for listview
+                info.el.style.backgroundColor = info.event.backgroundColor
 
-                        <Button
-                          variant="button"
-                          onClick={() => document.body.click()}
-                          className="exam-details__headline--back-btn close-calendar-popup"
-                        />
-                      </Popover.Title>
-                    ) : null}
+                let popover
+                if (examDetails.__typename === "CalendarChunkDetails") {
+                  popover = (
+                    <Popover id="popover-basic">
+                      {examDetails.__typename === "CalendarChunkDetails" ? (
+                        <Popover.Title as="h4" className="popover-title">
+                          {info.event.title}
 
-                    {examDetails.__typename === "CalendarChunkDetails" ? (
+                          <Button
+                            variant="button"
+                            onClick={() => document.body.click()}
+                            className="exam-details__headline--back-btn close-calendar-popup"
+                          />
+                        </Popover.Title>
+                      ) : null}
+
                       <Popover.Content>
                         <div className="exam-date">
                           <h5>Exam date:</h5>
@@ -133,14 +139,11 @@ const ExamsCalendar = () => {
                           <a href={pdfLink}>Link</a>
                         </div>
                       </Popover.Content>
-                    ) : (
-                      <Popover.Content>
-                        {" "}
-                        <h4>Exam deadline</h4>
-                      </Popover.Content>
-                    )}
-                  </Popover>
-                )
+                    </Popover>
+                  )
+                } else {
+                  popover = <div className="">Exam deadline</div>
+                }
 
                 const content = (
                   <OverlayTrigger

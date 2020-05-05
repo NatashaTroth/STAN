@@ -6,8 +6,11 @@ import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
-import { GET_EXAM_QUERY } from "../../graphQL/queries"
-import { DELETE_EXAM_MUTATION } from "../../graphQL/mutations"
+import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  DELETE_EXAM_MUTATION,
+  EXAM_COMPLETED_MUTATION,
+} from "../../graphQL/mutations"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // components ----------------
@@ -43,8 +46,12 @@ const ExamDetails = () => {
   })
 
   // mutation ----------------
-  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION)
-  // const [completedExam] = useMutation()
+  const [deleteExam] = useMutation(DELETE_EXAM_MUTATION, {
+    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+  })
+  const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
+    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+  })
 
   // redirects ----------------
   const currentUser = useCurrentUserValue()
@@ -70,12 +77,12 @@ const ExamDetails = () => {
   }
 
   const handleDeletion = () => {
-    examDeletion({ paramId, deleteExam })
+    examDeletion({ paramId, deleteExam, history })
   }
 
   const handleCompletion = () => {
     setCompleted(completed => !completed)
-    // completeExam({paramId, completedExam})
+    completeExam({ paramId, examCompleted, history })
   }
 
   // return ----------------
@@ -98,122 +105,131 @@ const ExamDetails = () => {
             </div>
 
             <div className="exam-details__inner box-content">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="exam-details__inner--bar">
-                      <div className="exam-details__inner--bar--headline">
-                        <h3>Exam details</h3>
-                      </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="exam-details__inner--bar">
+                    <div className="exam-details__inner--bar--headline">
+                      <h3>Exam details</h3>
+                    </div>
 
-                      <div className="exam-details__inner--bar--right">
-                        {!edit && !examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handleEdit}
-                            className="exam-btn"
-                            text="edit"
-                          />
-                        ) : null}
-
-                        {edit && !examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handleEdit}
-                            className="exam-btn"
-                            text="back"
-                          />
-                        ) : null}
-
-                        {edit || examDetails.completed ? (
-                          <Button
-                            variant="button"
-                            onClick={handlePopup}
-                            className="exam-btn delete-btn"
-                            text="delete"
-                          />
-                        ) : null}
-
+                    <div className="exam-details__inner--bar--right">
+                      {!edit && !examDetails.completed ? (
                         <Button
                           variant="button"
-                          onClick={() => {
-                            history.goBack()
-                          }}
-                          className="exam-btn close-btn"
-                          text="close"
+                          onClick={handleEdit}
+                          className="exam-btn"
+                          text="edit"
                         />
-                      </div>
+                      ) : null}
+
+                      {edit && !examDetails.completed ? (
+                        <Button
+                          variant="button"
+                          onClick={handleEdit}
+                          className="exam-btn"
+                          text="back"
+                        />
+                      ) : null}
+
+                      {edit || examDetails.completed ? (
+                        <Button
+                          variant="button"
+                          onClick={handlePopup}
+                          className="exam-btn delete-btn"
+                          text="delete"
+                        />
+                      ) : null}
+
+                      <Button
+                        variant="button"
+                        onClick={() => {
+                          history.goBack()
+                        }}
+                        className="exam-btn close-btn"
+                        text="close"
+                      />
                     </div>
                   </div>
+                </div>
 
-                  {edit ? (
-                    <div className="col-md-12">
-                      <ExamDetailsEdit examId={examDetails.id} />
-                    </div>
-                  ) : null}
+                {edit ? (
+                  <div className="col-md-12">
+                    <ExamDetailsEdit examId={examDetails.id} />
+                  </div>
+                ) : null}
 
-                  {!edit ? (
-                    <div className="col-md-12">
-                      <ExamDetailsInfo examDetails={examDetails} />
-                    </div>
-                  ) : null}
+                {!edit ? (
+                  <div className="col-md-12">
+                    <ExamDetailsInfo examDetails={examDetails} />
+                  </div>
+                ) : null}
 
-                  {popup ? (
-                    <div className="col-md-12">
-                      <div className="exam-details__popup">
-                        <div className="container-fluid">
-                          <div className="row">
-                            <div className="exam-details__popup--inner box-content">
-                              <div className="exam-details__popup--inner--headline">
-                                <h4>
-                                  Are you sure you want to delete this exam?
-                                </h4>
-                              </div>
+                {popup ? (
+                  <div className="col-md-12">
+                    <div className="exam-details__popup">
+                      <div className="container-fluid">
+                        <div className="row">
+                          <div className="exam-details__popup--inner box-content">
+                            <div className="exam-details__popup--inner--headline">
+                              <h4>
+                                Are you sure you want to delete this exam?
+                              </h4>
+                            </div>
 
-                              <div className="exam-details__popup--inner--buttons">
-                                <Button
-                                  className="stan-btn-secondary"
-                                  text="Yes"
-                                  onClick={handleDeletion}
-                                />
-                                <Button
-                                  className="stan-btn-primary"
-                                  text="No"
-                                  onClick={handlePopup}
-                                />
-                              </div>
+                            <div className="exam-details__popup--inner--buttons">
+                              <Button
+                                className="stan-btn-secondary"
+                                text="Yes"
+                                onClick={handleDeletion}
+                              />
+                              <Button
+                                className="stan-btn-primary"
+                                text="No"
+                                onClick={handlePopup}
+                              />
+                            </div>
 
-                              <div className="col-md-12">
-                                <p className="error graphql-exam-details-error"></p>
-                              </div>
+                            <div className="col-md-12">
+                              <p className="error graphql-exam-details-error"></p>
+                            </div>
 
-                              <div
-                                className="col-md-12"
-                                id="success-container-exam-detail"
-                              >
-                                <p className="success">
-                                  the exam was successfully deleted
-                                </p>
-                              </div>
+                            <div
+                              className="col-md-12"
+                              id="success-container-exam-detail"
+                            >
+                              <p className="success">
+                                the exam was successfully deleted
+                              </p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ) : null}
+                  </div>
+                ) : null}
 
-                  {!edit ? (
-                    <div className="col-md-12">
-                      <div className="exam-details__inner--button">
-                        <Button
-                          className="stan-btn-primary"
-                          variant="button"
-                          text="Completed"
-                          onClick={handleCompletion}
-                        />
-                      </div>
+                {!edit ? (
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--button">
+                      <Button
+                        className="stan-btn-primary"
+                        variant="button"
+                        text="Completed"
+                        onClick={handleCompletion}
+                      />
                     </div>
-                  ) : null}
+                  </div>
+                ) : null}
+
+                <div className="col-md-12">
+                  <p className="error graphql-exam-completion-error"></p>
+                </div>
+
+                <div
+                  className="col-md-12"
+                  id="success-container-exam-completed"
+                >
+                  <p className="success">the exam was successfully completed</p>
                 </div>
               </div>
             </div>
@@ -227,7 +243,7 @@ const ExamDetails = () => {
 
 export default ExamDetails
 
-async function examDeletion({ paramId, deleteExam }) {
+async function examDeletion({ paramId, deleteExam, history }) {
   try {
     const resp = await deleteExam({
       variables: {
@@ -244,12 +260,11 @@ async function examDeletion({ paramId, deleteExam }) {
 
     // redirect ----------------
     setTimeout(() => {
-      window.location.href = "/exams"
+      history.push("/exams")
     }, 1000)
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName("graphql-exam-details-error")
-    element.style.display = "block"
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -259,29 +274,29 @@ async function examDeletion({ paramId, deleteExam }) {
   }
 }
 
-async function completeExam({ paramId, completeExam }) {
+async function completeExam({ paramId, examCompleted, history }) {
   try {
-    const resp = await completeExam({
+    const resp = await examCompleted({
       variables: {
         id: paramId.id,
       },
     })
 
-    if (resp && resp.data && resp.data.completeExam) {
-      // document.getElementById("success-container-exam-detail").style.display =
-      //   "block"
+    if (resp && resp.data && resp.data.examCompleted) {
+      document.getElementById(
+        "success-container-exam-completed"
+      ).style.display = "block"
     } else {
       throw new Error("The completion of current exam failed.")
     }
 
     // redirect ----------------
-    // setTimeout(() => {
-    //   window.location.href = "/exams"
-    // }, 1000)
+    setTimeout(() => {
+      history.push("/exams")
+    }, 2000)
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName("graphql-exam-details-error")
-    element.style.display = "block"
+    let element = document.getElementById("graphql-exam-completion-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

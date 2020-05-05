@@ -8,7 +8,11 @@ import { useForm } from "react-hook-form"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries & mutation ----------------
-import { GET_EXAM_QUERY } from "../../graphQL/queries"
+import {
+  GET_EXAM_QUERY,
+  GET_EXAMS_QUERY,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
+} from "../../graphQL/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
 // sub-components ----------------
@@ -74,7 +78,10 @@ const ExamDetailsEdit = ({ examId }) => {
 
   // mutation ----------------
   const [updateExam] = useMutation(UPDATE_EXAM_MUTATION, {
-    refetchQueries: ["GET_EXAM_QUERY"],
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+    ],
   })
 
   // redirects ----------------
@@ -405,14 +412,14 @@ const ExamDetailsEdit = ({ examId }) => {
             />
           </div>
         </div>
-      </div>
 
-      <div className="col-md-12">
-        <p className="error graphql-exam-details-edit-error"></p>
-      </div>
+        <div className="col-md-12">
+          <p className="error graphql-exam-details-edit-error"></p>
+        </div>
 
-      <div className="col-md-12" id="success-container-edit-exam">
-        <p className="success">the changes were successfully saved</p>
+        <div className="col-md-12" id="success-container-edit-exam">
+          <p className="success">the changes were successfully saved</p>
+        </div>
       </div>
     </form>
   )
@@ -445,13 +452,6 @@ async function handleExam({ examId, data, updateExam, history }) {
     } else {
       throw new Error("Cannot edit current exam.")
     }
-
-    // redirect ----------------
-    // TODO: refetchQuery in mutation is not working properly
-    setTimeout(() => {
-      history.push("/exams")
-      // window.location.href = "/exams"
-    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-exam-details-edit-error"

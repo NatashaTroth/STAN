@@ -60,6 +60,15 @@
           padding: 0;
         }
       }
+      &.fc-next-button {
+        padding-right: 0;
+        margin-left: 0;
+      }
+      &.fc-prev-button {
+        @include media-breakpoint-down(sm) {
+          padding-right: 12px;
+        }
+      }
 
       &.fc-dayGridMonth-button,
       &.fc-listWeek-button,
@@ -84,6 +93,12 @@
 
         @include media-breakpoint-down(xs) {
           margin-left: 0;
+        }
+      }
+      &.fc-dayGridMonth-button,
+      &.fc-listWeek-button {
+        @include media-breakpoint-down(sm) {
+          display: none;
         }
       }
 
@@ -124,9 +139,17 @@
 
 // box content
 .fc-view {
+  padding: 3px;
+  padding-right: 2px;
   margin-bottom: 40px;
   border: 4px solid theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
+
+  &.fc-dayGridMonth-view {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
 }
 
 // table header
@@ -194,6 +217,8 @@
 
 // empty list
 .fc-list-empty {
+  padding-left: 5px;
+  padding-right: 5px;
   background-color: transparent;
   font-family: $font-family-BasierCircle-Bold;
   @include rem(font-size, $h3-font-size);
@@ -213,7 +238,7 @@
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-popover .fc-header,
 .fc-unthemed .fc-list-heading td {
-  background-color: theme_color("grey-light");
+  background-color: theme_color("light");
 }
 .fc-list-heading-main,
 .fc-list-heading-alt {
@@ -237,11 +262,15 @@
     outline: none;
   }
 }
+.fc-basic-view .fc-body .fc-row {
+  min-height: 3em !important;
+}
 
 // popup
 .popover {
   border: 2px solid theme_color("dark");
   border-radius: 0;
+  min-width: 320px;
 }
 .popover-header {
   background-color: transparent;
@@ -257,10 +286,6 @@
   border-width: 0.5rem 0.5rem 3px;
 }
 
-.fc-allow-mouse-resize {
-  background: none;
-}
-
 #popover-basic {
   .exam-date,
   .current-page,
@@ -270,11 +295,9 @@
   .duration-total,
   .pdfLink {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
-    h5 {
-      padding-right: 10px;
-    }
+    align-items: flex-start;
   }
 
   .exam-date {
@@ -306,6 +329,44 @@
       outline: none;
     }
   }
+
+  .exam-deadline {
+    display: flex;
+    justify-content: center;
+  }
+}
+.fc-unthemed .fc-list-item:hover td {
+  background: none;
+}
+
+// exam date color
+.fc-center {
+  position: relative;
+}
+.fc-toolbar .fc-center:before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 85, 77);
+  position: absolute;
+  top: 0;
+}
+.fc-toolbar .fc-center:after {
+  content: "exam date";
+  padding-left: 30px;
+  width: 140px;
+
+  font-family: $font-family-BasierCircle-SemiBold;
+  @include rem(font-size, $h4-font-size);
+  @include rem(letter-spacing, 1px);
+  @include rem(line-height, $h4-line-height);
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $h4-font-size-mobile);
+    @include rem(line-height, $h4-line-height-mobile);
+    @include rem(letter-spacing, 0.5px);
+  }
 }
 
 // show more popup
@@ -317,6 +378,9 @@
 }
 .fc-popover {
   .fc-header {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid theme_color("black");
   }
+}
+.fc-more {
+  font-size: 12px !important;
 }

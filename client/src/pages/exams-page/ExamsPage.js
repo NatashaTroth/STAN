@@ -20,7 +20,6 @@ const Exams = () => {
 
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
-  // const [height, setHeight] = useState(0)
   const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
