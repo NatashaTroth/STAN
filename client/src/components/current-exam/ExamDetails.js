@@ -167,8 +167,6 @@ const ExamDetails = () => {
                 {popup ? (
                   <div className="col-md-12">
                     <div className="exam-details__popup">
-                      {/* <div className="container-fluid">
-                        <div className="row"> */}
                       <div className="exam-details__popup--inner box-content">
                         <div className="exam-details__popup--inner--headline">
                           <h4>Are you sure you want to delete this exam?</h4>
@@ -200,8 +198,6 @@ const ExamDetails = () => {
                           </p>
                         </div>
                       </div>
-                      {/* </div>
-                      </div> */}
                     </div>
                   </div>
                 ) : null}
