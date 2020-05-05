@@ -167,43 +167,41 @@ const ExamDetails = () => {
                 {popup ? (
                   <div className="col-md-12">
                     <div className="exam-details__popup">
-                      <div className="container-fluid">
-                        <div className="row">
-                          <div className="exam-details__popup--inner box-content">
-                            <div className="exam-details__popup--inner--headline">
-                              <h4>
-                                Are you sure you want to delete this exam?
-                              </h4>
-                            </div>
+                      {/* <div className="container-fluid">
+                        <div className="row"> */}
+                      <div className="exam-details__popup--inner box-content">
+                        <div className="exam-details__popup--inner--headline">
+                          <h4>Are you sure you want to delete this exam?</h4>
+                        </div>
 
-                            <div className="exam-details__popup--inner--buttons">
-                              <Button
-                                className="stan-btn-secondary"
-                                text="Yes"
-                                onClick={handleDeletion}
-                              />
-                              <Button
-                                className="stan-btn-primary"
-                                text="No"
-                                onClick={handlePopup}
-                              />
-                            </div>
+                        <div className="exam-details__popup--inner--buttons">
+                          <Button
+                            className="stan-btn-secondary"
+                            text="Yes"
+                            onClick={handleDeletion}
+                          />
+                          <Button
+                            className="stan-btn-primary"
+                            text="No"
+                            onClick={handlePopup}
+                          />
+                        </div>
 
-                            <div className="col-md-12">
-                              <p className="error graphql-exam-details-error"></p>
-                            </div>
+                        <div className="col-md-12">
+                          <p className="error graphql-exam-details-error"></p>
+                        </div>
 
-                            <div
-                              className="col-md-12"
-                              id="success-container-exam-detail"
-                            >
-                              <p className="success">
-                                the exam was successfully deleted
-                              </p>
-                            </div>
-                          </div>
+                        <div
+                          className="col-md-12"
+                          id="success-container-exam-detail"
+                        >
+                          <p className="success">
+                            the exam was successfully deleted
+                          </p>
                         </div>
                       </div>
+                      {/* </div>
+                      </div> */}
                     </div>
                   </div>
                 ) : null}
