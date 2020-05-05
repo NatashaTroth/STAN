@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Redirect, useHistory } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -85,7 +85,6 @@ const ExamDetailsEdit = ({ examId }) => {
   })
 
   // redirects ----------------
-  let history = useHistory()
   const currentUser = useCurrentUserValue()
   if (currentUser === undefined) {
     return <Redirect to="/login" />
@@ -102,7 +101,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam, history })
+    handleExam({ examId, data, updateExam })
   }
 
   // return ----------------
@@ -193,7 +192,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <Label
                 htmlFor="page-amount"
-                text="Amount of pages"
+                text="Number of pages"
                 className="form__element__label input-required"
               />
               <input
@@ -403,8 +402,20 @@ const ExamDetailsEdit = ({ examId }) => {
               />
             </div>
           </div>
+        </div>
 
-          <div className="form__submit">
+        <div className="col-md-12">
+          <div className="exam-edit-message">
+            <p>
+              *Please note, after changing the exam date, start date, number of
+              pages, start page or repeat value, the today's learning chunk for
+              this exam will be recalculated.
+            </p>
+          </div>
+        </div>
+
+        <div className="col-md-12">
+          <div className="form__submit exam-edit-button">
             <Button
               className="form__element__btn stan-btn-primary"
               variant="button"
@@ -427,7 +438,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
 export default ExamDetailsEdit
 
-async function handleExam({ examId, data, updateExam, history }) {
+async function handleExam({ examId, data, updateExam }) {
   try {
     const resp = await updateExam({
       variables: {
