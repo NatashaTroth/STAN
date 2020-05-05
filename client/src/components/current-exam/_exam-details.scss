@@ -281,3 +281,15 @@
     }
   }
 }
+
+// Extra styling in edit form
+.exam-edit-message {
+  margin-left: 25px;
+  p {
+    max-width: none;
+    font-size: 13px;
+  }
+}
+.exam-edit-button {
+  margin-top: 20px;
+}
