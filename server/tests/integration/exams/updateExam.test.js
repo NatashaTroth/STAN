@@ -88,7 +88,7 @@ describe("Test user resolver regex", () => {
       todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage
     ).toBe(1);
     expect(
-      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
     ).toBe(1);
 
     const resp = await mutate({
@@ -124,7 +124,7 @@ describe("Test user resolver regex", () => {
       todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].startPage
     ).toBe(2);
     expect(
-      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
     ).toBe(2);
   });
 

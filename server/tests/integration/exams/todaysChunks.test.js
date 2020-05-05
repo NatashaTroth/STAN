@@ -80,48 +80,48 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 10,
       durationToday: 50,
-      daysLeft: 5,
+      daysLeft: 5
 
-      notEnoughTime: false
+      // notEnoughTime: false
     });
 
-    expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
-      exam: {
-        id: testExams.exam2._id.toString(),
-        subject: testExams.exam2.subject,
-        examDate: testExams.exam2.examDate,
-        startDate: testExams.exam2.startDate,
-        totalNumberDays: testExams.exam2.totalNumberDays,
-        numberPages: testExams.exam2.numberPages,
-        timesRepeat: testExams.exam2.timesRepeat,
-        currentPage: testExams.exam2.currentPage,
-        pdfLink: testExams.exam2.pdfLink
-      },
-      numberPagesToday: 36,
-      durationToday: 360,
-      daysLeft: 2,
+    // expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
+    //   exam: {
+    //     id: testExams.exam2._id.toString(),
+    //     subject: testExams.exam2.subject,
+    //     examDate: testExams.exam2.examDate,
+    //     startDate: testExams.exam2.startDate,
+    //     totalNumberDays: testExams.exam2.totalNumberDays,
+    //     numberPages: testExams.exam2.numberPages,
+    //     timesRepeat: testExams.exam2.timesRepeat,
+    //     currentPage: testExams.exam2.currentPage,
+    //     pdfLink: testExams.exam2.pdfLink
+    //   },
+    //   numberPagesToday: 36,
+    //   durationToday: 360,
+    //   daysLeft: 2
 
-      notEnoughTime: false
-    });
+    //   // notEnoughTime: false
+    // });
 
-    expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
-      exam: {
-        id: testExams.exam3._id.toString(),
-        subject: testExams.exam3.subject,
-        examDate: testExams.exam3.examDate,
-        startDate: testExams.exam3.startDate,
-        totalNumberDays: testExams.exam3.totalNumberDays,
-        numberPages: testExams.exam3.numberPages,
-        timesRepeat: testExams.exam3.timesRepeat,
-        currentPage: testExams.exam3.currentPage,
-        pdfLink: testExams.exam3.pdfLink
-      },
-      numberPagesToday: 48,
-      durationToday: 480,
-      daysLeft: 1,
+    // expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
+    //   exam: {
+    //     id: testExams.exam3._id.toString(),
+    //     subject: testExams.exam3.subject,
+    //     examDate: testExams.exam3.examDate,
+    //     startDate: testExams.exam3.startDate,
+    //     totalNumberDays: testExams.exam3.totalNumberDays,
+    //     numberPages: testExams.exam3.numberPages,
+    //     timesRepeat: testExams.exam3.timesRepeat,
+    //     currentPage: testExams.exam3.currentPage,
+    //     pdfLink: testExams.exam3.pdfLink
+    //   },
+    //   numberPagesToday: 48,
+    //   durationToday: 480,
+    //   daysLeft: 1
 
-      notEnoughTime: false
-    });
+    //   // notEnoughTime: false
+    // });
   });
 
   it("should correctly fetch today's chunks if the cache is not empty", async () => {
@@ -165,9 +165,8 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 10,
       durationToday: 50,
-      daysLeft: 5,
-
-      notEnoughTime: false
+      daysLeft: 5
+      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
@@ -184,9 +183,9 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 36,
       durationToday: 360,
-      daysLeft: 2,
+      daysLeft: 2
 
-      notEnoughTime: false
+      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
@@ -203,9 +202,9 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 48,
       durationToday: 480,
-      daysLeft: 1,
+      daysLeft: 1
 
-      notEnoughTime: false
+      // notEnoughTime: false
     });
   });
 
@@ -321,13 +320,13 @@ describe("Test user resolver regex", () => {
           .numberPagesToday,
       startPage:
         respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage, //TODO: or 23???
-      currentPage: 3,
+      // currentPage: 3,
       durationToday:
         respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
           .durationToday,
       daysLeft:
-        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].daysLeft,
-      notEnoughTime: false
+        respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].daysLeft
+      // notEnoughTime: false
     });
 
     //update exam -  "important changes" - therefore chunk has to be recalculated
@@ -373,10 +372,10 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 27,
       startPage: 23,
-      currentPage: 23,
+      // currentPage: 23,
       durationToday: 135,
-      daysLeft: 7,
-      notEnoughTime: false
+      daysLeft: 7
+      // notEnoughTime: false
     });
 
     //update Exam again - current progress should still be included
@@ -420,10 +419,10 @@ describe("Test user resolver regex", () => {
       },
       numberPagesToday: 32,
       startPage: 23, //TODO: or 23???
-      currentPage: 23,
+      // currentPage: 23,
       durationToday: 160,
-      daysLeft: 6,
-      notEnoughTime: false
+      daysLeft: 6
+      // notEnoughTime: false
     });
   });
 

@@ -127,12 +127,13 @@ describe("Test user resolver regex", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+    console.log(todaysChunks.data.todaysChunkAndProgress);
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
       1
     );
     expect(
-      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
     ).toBe(1);
 
     const updateResp = await mutate({
@@ -152,7 +153,7 @@ describe("Test user resolver regex", () => {
       1
     );
     expect(
-      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
     ).toBe(3);
   });
 });

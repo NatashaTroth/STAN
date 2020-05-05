@@ -55,10 +55,8 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
         }
         numberPagesToday
         startPage
-        currentPage
         durationToday
         daysLeft
-        notEnoughTime
         completed
       }
       todaysProgress

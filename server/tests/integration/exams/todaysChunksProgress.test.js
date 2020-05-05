@@ -59,19 +59,28 @@ describe("Test user resolver regex", () => {
     expect(newCount).toBe(initialCount + 1);
 
     // update current page to 3
-    const respUpdate = await TodaysChunkCache.updateOne(
-      { examId: testExam._id.toString() },
-      { currentPage: 3 }
-    );
+    // const respUpdate = await TodaysChunkCache.updateOne(
+    //   { examId: testExam._id.toString() },
+    //   { currentPage: 3 }
+    // );
 
-    expect(respUpdate.ok).toBeTruthy();
-    expect(respUpdate.nModified).toBe(1);
+    // expect(respUpdate.ok).toBeTruthy();
+    // expect(respUpdate.nModified).toBe(1);
+    const updateResp = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 3
+      }
+    });
+    expect(updateResp.data.updateCurrentPage).toBeTruthy();
 
     const respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].currentPage
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
+        .currentPage
     ).toBe(3);
 
     const resp2 = await query({

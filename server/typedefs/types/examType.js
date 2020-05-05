@@ -29,7 +29,7 @@ const examType = gql`
     exam: Exam!
     numberPagesToday: Int!
     startPage: Int!
-    currentPage: Int!
+    # currentPage: Int!
     durationToday: Int!
     daysLeft: Int! #incl. today
     # totalChunks: Int!
