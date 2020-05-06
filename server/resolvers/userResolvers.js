@@ -44,14 +44,6 @@ const stanEmail = new StanEmail();
 //TODO: Authenticate Queries
 export const userResolvers = {
   Query: {
-    //TODO: REMOVE
-    users: (root, arg, { req, res, userInfo }, info) => {
-      return User.find({});
-    },
-    //TODO: REMOVE
-    user: (root, arg, context, info) => {
-      return User.find({});
-    },
     currentUser: async (parent, ars, { req, res, userInfo }) => {
       try {
         if (!userInfo.isAuth) return null;
