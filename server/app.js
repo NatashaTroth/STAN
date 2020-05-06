@@ -26,8 +26,13 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
+    // autoIndex: false
   })
-  .then(() => console.log("connected to db"))
+
+  .then(db => {
+    console.log("connected to db ");
+    // console.log(db.modelSchemas.User._indexes);
+  })
   .catch(e => console.error(e.message));
 
 app.use(cookieParser());
@@ -39,9 +44,7 @@ const schema = makeExecutableSchema({
 
 //TODO - ONLY FOR DEVELOPMENT
 let origin = "http://localhost:3000";
-
 const corsOptions = {
-  // preflightContinue: true,
   origin: [origin],
   credentials: true
 };
