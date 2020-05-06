@@ -59,6 +59,7 @@
     &__buttons {
       display: flex;
       flex-wrap: wrap;
+      padding-top: 35px;
       justify-content: center;
 
       @include media-breakpoint-down(lg) {
