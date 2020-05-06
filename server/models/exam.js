@@ -61,7 +61,8 @@ const examSchema = new Schema({
   },
   userId: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   createdAt: {
     type: Date,

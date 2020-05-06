@@ -4,11 +4,14 @@ const Schema = mongoose.Schema;
 const todaysChunkCacheSchema = new Schema({
   examId: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    index: true
   },
   userId: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   numberPagesToday: {
     type: Number,

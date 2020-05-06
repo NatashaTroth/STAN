@@ -19,7 +19,8 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      index: true
     },
     mascot: {
       type: Number,
@@ -52,6 +53,8 @@ const userSchema = new Schema(
   }
   // { _id: false }
 );
+
+// userSchema.index({ email: 1 });
 
 module.exports = mongoose.model("User", userSchema);
 // export default mongoose.model('User', userSchema)
