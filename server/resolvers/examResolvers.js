@@ -312,6 +312,10 @@ export const examResolvers = {
     description: "GraphqL date scalar",
     parseValue(value) {
       if (value instanceof Date) return value;
+      console.log(JSON.stringify(value));
+      console.log(new Date("20-05-2020"));
+      // console.log(isNaN(Date.parse(value)));
+      // console.log(!verifyRegexDate(value.toString()));
       if (
         !value ||
         value.length <= 0 ||
@@ -319,7 +323,7 @@ export const examResolvers = {
         !verifyRegexDate(value.toString())
       )
         throw new Error(
-          "Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -"
+          "Date input has the wrong format. Valid format: yyyy-mm-dd" //dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -"
         );
       return new Date(value); // value from the client
     },

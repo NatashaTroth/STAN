@@ -52,11 +52,16 @@ function AddNew() {
 
   const onSubmit = async formData => {
     try {
+      let formExamDateArray = formExamDate.split("/")
+      let newFormExamDate = new Date(formExamDateArray.reverse().join("-"))
+      let formStartDateArray = formStartDate.split("/")
+      let newFormStartDate = new Date(formStartDateArray.reverse().join("-"))
+
       const resp = await addExam({
         variables: {
           subject: formData.exam_subject,
-          examDate: formExamDate,
-          startDate: formStartDate,
+          examDate: newFormExamDate.toISOString().substring(0, 10),
+          startDate: newFormStartDate.toISOString().substring(0, 10),
           numberPages: parseInt(formData.exam_page_amount),
           // startPage: parseInt(formData.exam_page_current),
           startPage: 1,

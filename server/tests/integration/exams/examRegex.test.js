@@ -118,8 +118,11 @@ describe("Test user resolver regex", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$examDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$examDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid format: yyyy-mm-dd'
     );
+    // expect(resp.errors[0].message).toEqual(
+    //   'Variable "$examDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+    // );
   });
 
   it("should use regex to filter out wrong start date format", async () => {
@@ -140,8 +143,11 @@ describe("Test user resolver regex", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$startDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$startDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid format: yyyy-mm-dd'
     );
+    // expect(resp.errors[0].message).toEqual(
+    //   'Variable "$startDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+    // );
   });
 
   it("should use regex to filter out wrong start date format", async () => {
@@ -162,8 +168,11 @@ describe("Test user resolver regex", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$startDate" got invalid value ""; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$startDate" got invalid value ""; Expected type Date. Date input has the wrong format. Valid format: yyyy-mm-dd'
     );
+    // expect(resp.errors[0].message).toEqual(
+    //   'Variable "$startDate" got invalid value ""; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+    // );
   });
 
   it("should use regex to filter out wrong time per page format", async () => {
