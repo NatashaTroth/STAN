@@ -9,7 +9,6 @@ test("Valid access token should be created", () => {
   let accessToken;
   try {
     accessToken = createAccessToken();
-    expect(false).toBeTruthy();
     throw new Error("Error wasn't thrown");
   } catch (err) {
     expect(accessToken).toBeFalsy();
@@ -41,7 +40,6 @@ test("Valid refresh token should be created", () => {
   let refreshToken;
   try {
     refreshToken = createRefreshToken();
-    expect(false).toBeTruthy();
     throw new Error("Error wasn't thrown");
   } catch (err) {
     expect(refreshToken).toBeFalsy();

@@ -1,15 +1,4 @@
 image: node:latest
-# stages:
-#   - npm
-#   - lint
-#   - test
-#   - staging
-#   - deployment
-
-# before_script:
-#   - apt-get update -qy
-#   - apt-get install -y ruby-dev
-#   - gem install dpl
 
 npm:server:
   tags:
@@ -39,18 +28,6 @@ lint:server:
   except:
     - /^front-feature.*$/
     - /^back-feature.*$/
-
-# lint server merge:
-#   stage: lint
-#   tags:
-#     - node
-#   script:
-#     - cd server/
-#     - echo "Linting.."
-#     - npm run lintFix
-#   only:
-#     - merge_requests
-#     - /^back-feature.*$/
 
 unit-testing:server:
   stage: test
