@@ -8,7 +8,7 @@
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/list": "^4.4.0",
     "@fullcalendar/react": "^4.4.0",
-    "@testing-library/react": "^9.4.0",
+    "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.7",
     "apollo-link-token-refresh": "^0.2.7",
@@ -39,16 +39,19 @@
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
+    "@testing-library/cypress": "^6.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "cra-bundle-analyzer": "0.0.3",
+    "cypress": "^4.5.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2"
   },
@@ -59,7 +62,8 @@
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,css,scss}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-    "stats": "react-scripts build \"--stats\" && webpack-bundle-analyzer build/bundle-stats.json"
+    "stats": "react-scripts build \"--stats\" && webpack-bundle-analyzer build/bundle-stats.json",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -142,3 +142,6 @@ client_secret_*
 # build
 /server/public
 /client/build
+
+cypress/videos
+cypress/screenshots
