@@ -270,7 +270,7 @@ describe("Test user resolver regex", () => {
     const respFetchChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(await TodaysChunkCache.countDocuments()).toBe(3);
+    expect(await TodaysChunkCache.countDocuments()).toBe(1);
 
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
