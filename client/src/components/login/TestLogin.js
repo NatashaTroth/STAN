@@ -17,7 +17,11 @@ function TestLogin({ onSubmit }) {
           })
         }}
       >
-        <label htmlFor="email" className="login__form__element__label">
+        <label
+          data-testid="required-label-email"
+          htmlFor="email"
+          className="login__form__element__label"
+        >
           Email
         </label>
 

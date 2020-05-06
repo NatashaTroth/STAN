@@ -61,7 +61,10 @@ function Login() {
 
   // return ----------------
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="login__form form-submit box-content"
+    >
       <div className="row">
         <div className="error-handling-form">
           <p className="error graphql-login-error"></p>
@@ -74,7 +77,7 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input email-input"
               type="email"
               id="email"
               label="email"
@@ -109,7 +112,7 @@ function Login() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input password-input"
               type="password"
               id="password"
               label="password"

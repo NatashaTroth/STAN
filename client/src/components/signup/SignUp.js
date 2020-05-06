@@ -74,7 +74,10 @@ function SignUp() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="login__form box-content">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="login__form form-submit box-content"
+    >
       <div className="row">
         <div className="col-md-12 login__form__inner">
           <div id="signup-error">
@@ -94,7 +97,7 @@ function SignUp() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input username-input"
               type="text"
               id="username"
               label="username"
@@ -130,7 +133,7 @@ function SignUp() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input email-input"
               type="email"
               id="email"
               label="email"
@@ -164,7 +167,7 @@ function SignUp() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input password-input"
               type="password"
               id="password"
               label="password"
@@ -199,7 +202,7 @@ function SignUp() {
               className="login__form__element__label input-required"
             ></Label>
             <Input
-              className="login__form__element__input"
+              className="login__form__element__input retype-password-input"
               type="password"
               id="retype_password"
               label="retype_password"
@@ -234,6 +237,7 @@ function SignUp() {
                 id="notification"
                 name="notification"
                 value="notification"
+                className="notification-checkbox"
                 onChange={handleNotification}
               />
               <span className="checkmark"></span>
@@ -267,7 +271,7 @@ function SignUp() {
                 type="submit"
                 variant="button"
                 text="Sign up"
-                className="stan-btn-primary"
+                className="stan-btn-primary submit-button"
               />
             </div>
           </div>

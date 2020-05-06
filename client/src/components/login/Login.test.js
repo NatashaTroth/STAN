@@ -1,6 +1,6 @@
 import React from "react"
 import { render, getByTestId, cleanup } from "@testing-library/react"
-import TestLogin from "./TestLogin"
+import Login from "./TestLogin"
 import {
   verifyEmail,
   verifyPassword,
@@ -8,30 +8,25 @@ import {
 
 afterEach(cleanup)
 
-test("call onSubmit with correct email and password", () => {
+it("login user with correct email and password", () => {
   const handleSubmit = jest.fn()
   const { getByLabelText, getByText } = render(
-    <TestLogin onSubmit={handleSubmit} />
+    <Login onSubmit={handleSubmit} />
   )
-  expect(
-    verifyEmail((getByLabelText(/email/i).value = "test@test.com"))
-  ).toBeTruthy()
-  expect(
-    verifyPassword((getByLabelText(/password/i).value = "test1234"))
-  ).toBeTruthy()
+  expect((getByLabelText(/email/i).value = "tra@nguyen.com")).toBeTruthy()
+  expect((getByLabelText(/password/i).value = "password123")).toBeTruthy()
   getByText(/submit/i).click()
 
-  expect(handleSubmit).toHaveBeenCalledTimes(1)
   expect(handleSubmit).toHaveBeenCalledWith({
-    email: "test@test.com",
-    password: "test1234",
+    email: "tra@nguyen.com",
+    password: "password123",
   })
 })
 
 test("call onSubmit with wrong email and password", () => {
   const handleSubmit = jest.fn()
   const { getByLabelText, getByText } = render(
-    <TestLogin onSubmit={handleSubmit} />
+    <Login onSubmit={handleSubmit} />
   )
   expect(verifyEmail((getByLabelText(/email/i).value = "-@&/.com"))).toBeFalsy()
   expect(
@@ -41,34 +36,34 @@ test("call onSubmit with wrong email and password", () => {
 })
 
 test("verifies required input field for email", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   expect(getByTestId("required-input-email")).toBeRequired()
 })
 
 test("verifies required input field for password", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   expect(getByTestId("required-input-password")).toBeRequired()
 })
 
 test("verifies button disabled", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   expect(getByTestId("button")).not.toBeDisabled()
 })
 
 test("verifies input field attribute", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   const button = getByTestId("button")
   expect(button).toHaveAttribute("type", "submit")
 })
 
 test("verifies if button has class", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   const button = getByTestId("button")
   expect(button).toHaveClass("stan-btn-primary")
 })
 
 test("verifies if email has focus", () => {
-  const { getByTestId } = render(<TestLogin />)
+  const { getByTestId } = render(<Login />)
   const input = getByTestId("required-input-email")
   input.focus()
   expect(input).toHaveFocus()
