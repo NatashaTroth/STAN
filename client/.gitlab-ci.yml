@@ -36,43 +36,6 @@ lint:client:
     - /^front-feature.*$/
     - /^back-feature.*$/
 
-# lint client merge:
-#   stage: lint
-#   tags:
-#     - node
-#   script:
-#     - cd client/
-#     - echo "Linting.."
-#     - npm run format
-#   only:
-#     - merge_requests
-#     - /^front-feature.*$/
-
-# unit testing client:
-#   stage: test
-#   tags:
-#     - node
-#   script:
-#     - cd server/
-#     - echo "Running unit tests ..."
-#     - ./node_modules/.bin/jest ./tests/unit/
-#   except:
-#     - /^front-feature.*$/
-
-# integration testing client:
-#   stage: test
-#   tags:
-#     - node
-#   variables:
-#     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
-#     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
-#   script:
-#     - cd server/
-#     - echo "Running integration tests ..."
-#     - ./node_modules/.bin/jest ./tests/integration/
-#   except:
-#     - /^front-feature.*$/
-
 staging:client:
   stage: staging client
   artifacts:
