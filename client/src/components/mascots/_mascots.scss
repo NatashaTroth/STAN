@@ -18,74 +18,8 @@
   }
 }
 
-// MASCOTS BASIC STYLING
-.user-account__edit__carousel,
-.mascots,
-.current-state {
-  .carousel {
-    .control-dots {
-      padding-bottom: 20px;
-      padding: 10px;
-      .dot {
-        visibility: hidden;
-        &:before {
-          visibility: visible;
-        }
-      }
-    }
-    .slide {
-      background: none;
-      padding-top: 30px;
-      padding-bottom: 30px;
-      &:before {
-        content: "";
-      }
-      img {
-        width: 220px;
-      }
-    }
-    .control-arrow {
-      opacity: 1 !important;
-      &:hover {
-        background: none !important;
-      }
-    }
-    .control-next {
-      &:before {
-        content: "";
-        margin: 0;
-        border: solid black !important;
-        border-width: 0 5px 5px 0 !important;
-        display: inline-block;
-        padding: 10px;
-        transform: rotate(-45deg);
-        transition: transform 0.3s ease-out;
-      }
-      &:hover {
-        transform: translateX(4px);
-      }
-    }
-    .control-prev {
-      &:before {
-        content: "";
-        margin: 0;
-        border: solid black !important;
-        border-width: 0 5px 5px 0 !important;
-        display: inline-block;
-        padding: 10px;
-        transform: rotate(135deg);
-        transition: transform 0.2s ease-out;
-      }
-      &:hover {
-        transform: translateX(-4px);
-      }
-    }
-  }
-}
-
 // BOOTSTRAP MASCOT
 .carousel {
-  height: 340px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,6 +45,9 @@
     text-align: center;
     margin: 50px 0px;
   }
+  .carousel-item {
+    margin: 20px 0;
+  }
   .carousel-control-prev-icon {
     background-image: none;
     &:before {
@@ -135,5 +72,17 @@
       transform: rotate(-45deg);
       transition: transform 0.3s ease-out;
     }
+  }
+}
+// TODO: alle error messages / styling zusammenfassen
+// ERROR HANDLING
+#success-container-mascot-saved {
+  display: none;
+
+  .success {
+    display: flex;
+    justify-content: flex-end;
+    max-width: none;
+    padding-top: 20px;
   }
 }
