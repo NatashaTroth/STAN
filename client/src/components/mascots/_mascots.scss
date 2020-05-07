@@ -82,3 +82,50 @@
     }
   }
 }
+
+// BOOTSTRAP MASCOT
+.carousel {
+  height: 340px;
+
+  img {
+    width: 220px !important;
+  }
+  .carousel-indicators {
+    li {
+      background-color: theme_color("dark");
+      height: 6px;
+      &:before {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
+  .carousel-inner {
+    text-align: center;
+  }
+  .carousel-control-prev-icon {
+    background-image: none;
+    &:before {
+      content: "";
+      margin: 0;
+      border: solid theme_color("dark");
+      border-width: 0 5px 5px 0;
+      display: inline-block;
+      padding: 10px;
+      transform: rotate(135deg);
+    }
+  }
+  .carousel-control-next {
+    background-image: none;
+    &:before {
+      content: "";
+      margin: 0;
+      border: solid theme_color("dark");
+      border-width: 0 5px 5px 0;
+      display: inline-block;
+      padding: 10px;
+      transform: rotate(-45deg);
+      transition: transform 0.3s ease-out;
+    }
+  }
+}
