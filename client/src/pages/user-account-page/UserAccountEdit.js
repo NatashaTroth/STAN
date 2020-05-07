@@ -36,6 +36,7 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 // libraries ----------------
 import Carousel from "react-bootstrap/Carousel"
 
+// TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
