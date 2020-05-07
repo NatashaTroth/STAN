@@ -64,7 +64,7 @@ export const examResolvers = {
       }
     },
     todaysChunkAndProgress: async (root, args, context, info) => {
-      console.log("IN FETCH TODAYS CHUNKS RESOLVER");
+      // console.log("IN FETCH TODAYS CHUNKS RESOLVER");
       try {
         handleAuthentication(context.userInfo);
         const chunks = await fetchTodaysChunks(context.userInfo.userId);

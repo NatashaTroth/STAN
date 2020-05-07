@@ -17,6 +17,7 @@ import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
 function Today(props) {
+  console.log(props.data)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
