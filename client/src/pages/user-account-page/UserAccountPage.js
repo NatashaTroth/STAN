@@ -13,7 +13,7 @@ import {
 
 // mutation & queries ----------------
 import { Redirect, Link } from "react-router-dom"
-import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
@@ -21,9 +21,8 @@ import {
 } from "../../graphQL/queries"
 
 // libraries ----------------
+import Carousel from "react-bootstrap/Carousel"
 import CountUp from "react-countup"
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // components ----------------
 import QueryError from "../../components/error/Error"
@@ -175,46 +174,33 @@ function UserAccount(props) {
               </div>
 
               <div className="user-account__container--right--bottom box-content">
-                <Carousel
-                  showStatus={false}
-                  showThumbs={false}
-                  infiniteLoop={true}
-                  showIndicators={false}
-                  autoPlay={true}
-                  showArrows={false}
-                >
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-0.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                <Carousel indicators={false} controls={false}>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-0.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
 
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-1.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-1.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
 
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-2.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-2.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
                 </Carousel>
               </div>
             </div>
