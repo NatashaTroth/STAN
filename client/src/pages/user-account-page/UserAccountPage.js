@@ -221,6 +221,7 @@ export default compose(
   })
 )(UserAccount)
 
+// TODO: do we need client?
 async function logUserOut({ logout, client }) {
   // reset refresh token ----------------
   await logout()
