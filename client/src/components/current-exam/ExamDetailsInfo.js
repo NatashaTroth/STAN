@@ -63,7 +63,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <h4>Studied</h4>
                 <p>
                   {(
-                    (100 * examDetails.currentPage) /
+                    (100 * (examDetails.currentPage - 1)) /
                     (examDetails.numberPages * examDetails.timesRepeat)
                   ).toFixed(2)}
                   % of 100%
@@ -75,7 +75,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <div className="exam-pages__bar">
                   <ExamBar
                     value={
-                      (100 * examDetails.currentPage) /
+                      (100 * (examDetails.currentPage - 1)) /
                       (examDetails.numberPages * examDetails.timesRepeat)
                     }
                   />
@@ -93,7 +93,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Pages studied</h4>
                 <p>
-                  {examDetails.currentPage}/{examDetails.numberPages}
+                  {examDetails.currentPage - 1}/{examDetails.numberPages}
                 </p>
               </div>
               <div className="pdf">
