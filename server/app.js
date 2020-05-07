@@ -59,29 +59,31 @@ app.post("/refresh_token", async (req, res) => {
 });
 
 //TODO: remove /graphql when deployed
-if (process.env.NODE_ENV === "production") {
-  //TODO: CHANGE TO /graphql
-  app.use("/backend", express.static(__dirname + "/backend"));
-  app.get("/backend", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "backend", "index.html"));
-  });
-  app.use(express.static("public"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "public", "index.html"));
-  });
-} else {
-  app.use("/backend", express.static(__dirname + "/backend"));
-  app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "backend", "index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   //TODO: CHANGE TO /graphql
+//   app.use("/backend", express.static(__dirname + "/backend"));
+//   app.get("/backend", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+//   });
+//   app.use(express.static("public"));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "public", "index.html"));
+//   });
+// } else {
+app.use("/backend", express.static(__dirname + "/backend"));
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+});
+// }
 
 const apolloServer = new ApolloServer({
   schema,
   context: async ({ req, res }) => ({
     req,
     res,
-    userInfo: await isAuth(req)
+    userInfo: await isAuth(req),
+    introspection: true, //TODO DELETE
+    playground: true //TODO DELETE
   }),
   playground: {
     settings: {
