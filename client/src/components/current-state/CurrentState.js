@@ -17,9 +17,6 @@ import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
-// random number ----------------
-const random = Math.floor(Math.random() * 3)
-
 const RandomMascot = ({ mascotId, num, mood }) => {
   return (
     <Image
@@ -64,7 +61,7 @@ const CurrentState = () => {
 
   motivationalSayings.forEach(element => {
     if (mood === element.mood) {
-      if (element.id === random) {
+      if (element.id === randomNum.num) {
         motivation = element.motivation
       }
     }
