@@ -18,15 +18,16 @@ import { ApolloError } from "apollo-server";
 //---------------------------TODAY'S CHUNKS---------------------------
 
 export async function fetchTodaysChunks(userId) {
+  console.log("in FETCHChunkFunc");
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
 
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
-    // console.log("cache empty");
+    console.log("cache empty");
     chunks = await calculateTodaysChunks(currentExams);
   } else {
-    // console.log("cache not empty");
+    console.log("cache not empty");
     chunks = await createTodaysChunksFromCache(
       currentExams,
       todaysChunksFromCache
@@ -45,12 +46,15 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
 
     //cache calculated from scratch
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
-      // console.log("invalid cache");
+      console.log("invalid cache");
 
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
+        console.log("no chunk - recalc");
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
+        console.log("updating chunk with updates");
+        console.log(newChunk);
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           newChunk
@@ -168,6 +172,7 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
   examId,
   page
 ) {
+  console.log("updateCurrChunkPageFunk  ");
   const todaysChunkCache = await TodaysChunkCache.findOne({
     examId: examId,
     userId
@@ -189,6 +194,7 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
     throw new ApolloError(
       "The todays chunk cache current page could not be updated."
     );
+  console.log("updateCurrChunkPageFunk  - updated page");
 }
 
 function todaysChunkIsCompleted(currentPage, todaysChunkCache) {
@@ -264,6 +270,7 @@ async function fetchCurrentExams(userId) {
 // }
 
 async function calculateTodaysChunks(currentExams) {
+  console.log("cahe was empty, calcing new chunks");
   const chunks = currentExams.map(async exam => {
     const chunk = createTodaysChunkObject(exam);
     await addTodaysChunkToDatabase(chunk, exam.userId);

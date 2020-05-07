@@ -53,29 +53,6 @@ app.use(cors(corsOptions));
 
 new StanScheduler();
 
-//special route for updating access token - for security reasons
-app.post("/refresh_token", async (req, res) => {
-  await handleRefreshToken(req, res);
-});
-
-//TODO: remove /graphql when deployed
-// if (process.env.NODE_ENV === "production") {
-//   //TODO: CHANGE TO /graphql
-//   app.use("/backend", express.static(__dirname + "/backend"));
-//   app.get("/backend", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "backend", "index.html"));
-//   });
-//   app.use(express.static("public"));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "public", "index.html"));
-//   });
-// } else {
-app.use("/backend", express.static(__dirname + "/backend"));
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "backend", "index.html"));
-});
-// }
-
 const apolloServer = new ApolloServer({
   schema,
   context: async ({ req, res }) => ({
@@ -106,6 +83,29 @@ const apolloServer = new ApolloServer({
   }
   // cors: corsOptions
 });
+
+//special route for updating access token - for security reasons
+app.post("/refresh_token", async (req, res) => {
+  await handleRefreshToken(req, res);
+});
+
+//TODO: remove /graphql when deployed
+// if (process.env.NODE_ENV === "production") {
+//   //TODO: CHANGE TO /graphql
+//   app.use("/backend", express.static(__dirname + "/backend"));
+//   app.get("/backend", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+//   });
+//   app.use(express.static("public"));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "public", "index.html"));
+//   });
+// } else {
+app.use("/backend", express.static(__dirname + "/backend"));
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "backend", "index.html"));
+});
+// }
 
 apolloServer.applyMiddleware({ app, cors: false });
 
