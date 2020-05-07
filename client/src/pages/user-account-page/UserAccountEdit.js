@@ -99,7 +99,6 @@ const UserAccountEdit = () => {
     }
   }
 
-  // TODO: fix reset mascot after button click
   // functions ----------------
   const handleMascotCallback = id => {
     setIndex(id)
@@ -447,8 +446,7 @@ const UserAccountEdit = () => {
                                 onChange={handleNotification}
                               />
                               <span className="checkmark"></span>
-                              Allow email notifications when exam date is close
-                              (can be changed at any time in the user profile)
+                              Allow email notifications when exam date is close.
                             </label>
                           </div>
                         </div>
@@ -678,11 +676,6 @@ async function editUser({
     } else {
       throw new Error("Cannot save user changes.")
     }
-
-    // redirect ----------------
-    // setTimeout(() => {
-    //   history.push("/profile")
-    // }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
 
