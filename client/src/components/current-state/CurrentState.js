@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useQuery } from "@apollo/react-hooks"
 // --------------------------------------------------------------
 
@@ -17,17 +17,39 @@ import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
-// libraries ----------------
-import Carousel from "react-bootstrap/Carousel"
-
 // random number ----------------
 const random = Math.floor(Math.random() * 3)
 
+const RandomMascot = ({ mascotId, num, mood }) => {
+  return (
+    <Image
+      path={require(`../../images/mascots/${mascotId}-${mood.replace(
+        / /g,
+        ""
+      )}-${num}.svg`)}
+      text="random mascots with different moods"
+    />
+  )
+}
+
 const CurrentState = () => {
+  // context ----------------
   const currentUser = useCurrentUserValue()
+
+  // state ----------------
+  const [randomNum, setRandomNum] = useState({ min: 0, max: 2, num: 0 })
 
   // query ----------------
   const { data, loading, error } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
+
+  useEffect(() => {
+    const generateNumber = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+    setInterval(() => {
+      setRandomNum({ num: generateNumber(randomNum.min, randomNum.max) })
+    }, 30000)
+  }, [])
 
   // variables ----------------
   let mood = "okay"
@@ -51,35 +73,11 @@ const CurrentState = () => {
   // return ----------------
   return (
     <div className="current-state">
-      <Carousel indicators={false} controls={false} interval={1000}>
-        <Carousel.Item>
-          <Image
-            path={require(`../../images/mascots/${
-              currentUser.mascot
-            }-${mood.replace(/ /g, "")}-0.svg`)}
-            text=""
-          />
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <Image
-            path={require(`../../images/mascots/${
-              currentUser.mascot
-            }-${mood.replace(/ /g, "")}-1.svg`)}
-            text=""
-          />
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <Image
-            path={require(`../../images/mascots/${
-              currentUser.mascot
-            }-${mood.replace(/ /g, "")}-2.svg`)}
-            text=""
-          />
-        </Carousel.Item>
-      </Carousel>
-
+      <RandomMascot
+        mascotId={currentUser.mascot}
+        num={randomNum.num}
+        mood={mood}
+      />
       <div className="current-state__motivation">
         <p>{motivation}</p>
       </div>
