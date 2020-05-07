@@ -31,7 +31,8 @@ import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // libraries ----------------
-import { Carousel } from "react-responsive-carousel"
+// import { Carousel } from "react-responsive-carousel"
+import Carousel from "react-bootstrap/Carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 const UserAccountEdit = () => {
@@ -50,6 +51,7 @@ const UserAccountEdit = () => {
   // state ----------------
   const [deleteProfile, setDeletion] = useState(false)
   const [isPasswordOpen, setPasswordSection] = useState(false)
+  const [index, setIndex] = useState(currentUser.mascot)
   let [notification, setNotification] = useState(
     currentUser.allowEmailNotifications
   )
@@ -86,7 +88,7 @@ const UserAccountEdit = () => {
       if (formData.newPassword === formData.retypePassword) {
         document.getElementById("retype-password-error").style.display = "none"
 
-        let mascotId = mascotStore.mascot
+        let mascotId = index
         editUser({ mascotId, formData, updateUser, history, notification })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
@@ -97,7 +99,7 @@ const UserAccountEdit = () => {
   // TODO: fix reset mascot after button click
   // functions ----------------
   const handleMascotCallback = id => {
-    mascotStore.mascot = id
+    setIndex(id)
   }
 
   const handleUser = () => {
@@ -455,26 +457,31 @@ const UserAccountEdit = () => {
                             <h4>Choose your mascot</h4>
 
                             <Carousel
-                              showStatus={false}
-                              showThumbs={false}
-                              useKeyboardArrows={true}
-                              onChange={e => {
-                                handleMascotCallback(e)
-                              }}
-                              selectedItem={currentUser.mascot}
+                              activeIndex={index}
+                              onSelect={handleMascotCallback}
+                              pause={false}
+                              wrap={false}
                             >
-                              <Image
-                                path={VeryHappyMascot}
-                                text="a very happy mascot"
-                              />
-                              <Image
-                                path={VeryHappyGirlyMascot}
-                                text="a very happy girly mascot"
-                              />
-                              <Image
-                                path={VeryHappyCleverMascot}
-                                text="a very happy clever mascot"
-                              />
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyMascot}
+                                  text="a very happy mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyGirlyMascot}
+                                  text="a very happy girly mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyCleverMascot}
+                                  text="a very happy clever mascot"
+                                />
+                              </Carousel.Item>
                             </Carousel>
                           </div>
 
@@ -491,7 +498,7 @@ const UserAccountEdit = () => {
                           <div className="user-account__edit__carousel">
                             <h4>Choose your mascot</h4>
 
-                            <Carousel
+                            {/* <Carousel
                               showStatus={false}
                               showThumbs={false}
                               useKeyboardArrows={true}
@@ -512,7 +519,7 @@ const UserAccountEdit = () => {
                                 path={VeryHappyCleverMascot}
                                 text="a very happy clever mascot"
                               />
-                            </Carousel>
+                            </Carousel> */}
                           </div>
 
                           <div className="user-account__edit--form__button">
