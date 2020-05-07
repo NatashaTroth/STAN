@@ -14,8 +14,8 @@ import {
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // components ----------------
-import ExamDetailsEdit from "../current-exam/ExamDetailsEdit"
-import ExamDetailsInfo from "../current-exam/ExamDetailsInfo"
+import ExamDetailsEdit from "../exams/ExamDetailsEdit"
+import ExamDetailsInfo from "../exams/ExamDetailsInfo"
 
 // sub-components ----------------
 import Button from "../button/Button"
