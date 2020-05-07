@@ -73,11 +73,13 @@ const CurrentState = () => {
   // return ----------------
   return (
     <div className="current-state">
-      <RandomMascot
-        mascotId={currentUser.mascot}
-        num={randomNum.num}
-        mood={mood}
-      />
+      <div className="current-state__mascot">
+        <RandomMascot
+          mascotId={currentUser.mascot}
+          num={randomNum.num}
+          mood={mood}
+        />
+      </div>
       <div className="current-state__motivation">
         <p>{motivation}</p>
       </div>
