@@ -92,7 +92,7 @@ const UserAccountEdit = () => {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = index
-        editUser({ mascotId, formData, updateUser, history, notification })
+        editUser({ mascotId, formData, updateUser, notification })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
@@ -651,13 +651,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({
-  mascotId,
-  formData,
-  updateUser,
-  history,
-  notification,
-}) {
+async function editUser({ mascotId, formData, updateUser, notification }) {
   try {
     const resp = await updateUser({
       variables: {
