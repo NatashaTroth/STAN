@@ -18,67 +18,71 @@
   }
 }
 
-// MASCOTS BASIC STYLING
-.user-account__edit__carousel,
-.mascots,
-.current-state {
-  .carousel {
-    .control-dots {
-      padding-bottom: 20px;
+// BOOTSTRAP MASCOT
+.carousel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  img {
+    width: 220px !important;
+
+    @include media-breakpoint-down(lg) {
+      width: 160px !important;
+    }
+  }
+  .carousel-indicators {
+    li {
+      background-color: theme_color("dark");
+      height: 6px;
+      &:before {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
+  .carousel-inner {
+    text-align: center;
+    margin: 50px 0px;
+  }
+  .carousel-item {
+    margin: 20px 0;
+  }
+  .carousel-control-prev-icon {
+    background-image: none;
+    &:before {
+      content: "";
+      margin: 0;
+      border: solid theme_color("dark");
+      border-width: 0 5px 5px 0;
+      display: inline-block;
       padding: 10px;
-      .dot {
-        visibility: hidden;
-        &:before {
-          visibility: visible;
-        }
-      }
+      transform: rotate(135deg);
     }
-    .slide {
-      background: none;
-      padding-top: 30px;
-      padding-bottom: 30px;
-      &:before {
-        content: "";
-      }
-      img {
-        width: 220px;
-      }
+  }
+  .carousel-control-next {
+    background-image: none;
+    &:before {
+      content: "";
+      margin: 0;
+      border: solid theme_color("dark");
+      border-width: 0 5px 5px 0;
+      display: inline-block;
+      padding: 10px;
+      transform: rotate(-45deg);
+      transition: transform 0.3s ease-out;
     }
-    .control-arrow {
-      opacity: 1 !important;
-      &:hover {
-        background: none !important;
-      }
-    }
-    .control-next {
-      &:before {
-        content: "";
-        margin: 0;
-        border: solid black !important;
-        border-width: 0 5px 5px 0 !important;
-        display: inline-block;
-        padding: 10px;
-        transform: rotate(-45deg);
-        transition: transform 0.3s ease-out;
-      }
-      &:hover {
-        transform: translateX(4px);
-      }
-    }
-    .control-prev {
-      &:before {
-        content: "";
-        margin: 0;
-        border: solid black !important;
-        border-width: 0 5px 5px 0 !important;
-        display: inline-block;
-        padding: 10px;
-        transform: rotate(135deg);
-        transition: transform 0.2s ease-out;
-      }
-      &:hover {
-        transform: translateX(-4px);
-      }
-    }
+  }
+}
+// TODO: alle error messages / styling zusammenfassen
+// ERROR HANDLING
+#success-container-mascot-saved {
+  display: none;
+
+  .success {
+    display: flex;
+    justify-content: flex-end;
+    max-width: none;
+    padding-top: 20px;
   }
 }

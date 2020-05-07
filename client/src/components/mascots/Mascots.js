@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -7,8 +8,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
 
 // libraries
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
+import Carousel from "react-bootstrap/Carousel"
 
 // components ----------------
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
@@ -20,21 +20,24 @@ import Button from "../button/Button"
 import Image from "../image/Image"
 
 function Mascots() {
+  // form specific & routes ----------------
   const { handleSubmit } = useForm()
+  let history = useHistory()
+
+  // state ----------------
+  const [index, setIndex] = useState(0)
 
   // mutation ----------------
   const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
-  const mascotStore = { mascot: 0 }
 
   // form specific ----------------
-  const onSubmit = async data => {
-    data = mascotStore.mascot
-    handleMascot({ data, updateMascot })
+  const onSubmit = () => {
+    handleMascot({ index, updateMascot, history })
   }
 
   // functions ----------------
   const handleMascotCallback = id => {
-    mascotStore.mascot = id
+    setIndex(id)
   }
 
   return (
@@ -64,21 +67,31 @@ function Mascots() {
 
                 <div className="mascots__inner--form__carousel">
                   <Carousel
-                    showStatus={false}
-                    showThumbs={false}
-                    useKeyboardArrows={true}
-                    onChange={handleMascotCallback}
-                    mobile={true}
+                    activeIndex={index}
+                    onSelect={handleMascotCallback}
+                    wrap={false}
+                    interval={null}
                   >
-                    <Image path={VeryHappyMascot} text="a very happy mascot" />
-                    <Image
-                      path={VeryHappyGirlyMascot}
-                      text="a very happy girly mascot"
-                    />
-                    <Image
-                      path={VeryHappyCleverMascot}
-                      text="a very happy clever mascot"
-                    />
+                    <Carousel.Item>
+                      <Image
+                        path={VeryHappyMascot}
+                        text="a very happy mascot"
+                      />
+                    </Carousel.Item>
+
+                    <Carousel.Item>
+                      <Image
+                        path={VeryHappyGirlyMascot}
+                        text="a very happy girly mascot"
+                      />
+                    </Carousel.Item>
+
+                    <Carousel.Item>
+                      <Image
+                        path={VeryHappyCleverMascot}
+                        text="a very happy clever mascot"
+                      />
+                    </Carousel.Item>
                   </Carousel>
 
                   <div className="mascots__inner--form__button">
@@ -89,16 +102,16 @@ function Mascots() {
                     />
                   </div>
                 </div>
+                <div id="success-container-mascot-saved">
+                  <p className="success">the exam was successfully completed</p>
+                </div>
+                <div className="error">
+                  <p id="graphql-mascots-error"></p>
+                </div>
               </form>
             </div>
           </div>
           <div className="col-lg-3"></div>
-
-          <div className="col-md-12">
-            <div className="error-handling-form">
-              <p className="graphql-mascots-error"></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -107,25 +120,28 @@ function Mascots() {
 
 export default Mascots
 
-async function handleMascot({ data, updateMascot }) {
+async function handleMascot({ index, updateMascot, history }) {
   try {
     const resp = await updateMascot({
       variables: {
-        mascot: data,
+        mascot: index,
       },
     })
 
     if (resp && resp.data && resp.data.updateMascot) {
-      console.log("success: saved new mascot")
+      document.getElementById("success-container-mascot-saved").style.display =
+        "block"
     } else {
-      throw new Error()
+      throw new Error("The saving of mascot failed.")
     }
 
     // redirect ----------------
     window.localStorage.setItem("mascot-event", false)
-    window.location.reload()
+    setTimeout(() => {
+      history.push("/")
+    }, 1000)
   } catch (err) {
-    let element = document.getElementsByClassName("graphql-mascots-error")
+    let element = document.getElementById("graphql-mascots-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

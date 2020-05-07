@@ -37,11 +37,10 @@
 .current-state {
   display: flex;
   flex-direction: row-reverse;
-  text-align: right;
   align-items: flex-end;
   border-bottom: 3px solid theme_color("dark");
-  width: fit-content;
   margin: 0 0 0 auto;
+  width: fit-content;
 
   @include media-breakpoint-down(lg) {
     margin-bottom: 50px;
@@ -53,26 +52,17 @@
     margin-top: 2rem;
   }
 
-  .carousel {
-    width: 150px !important;
-    .slide {
-      padding: 10px 0;
-      margin-top: 45px;
-
-      &:hover {
-        animation: shake 0.5s;
-        animation-iteration-count: infinite;
-      }
-      img {
-        width: 120px;
-      }
-
-      @include media-breakpoint-down(sm) {
-        margin-top: 0;
-      }
+  &__mascot {
+    margin: 45px 0 0;
+    padding: 10px 0;
+    img {
+      width: fit-content;
+    }
+    &:hover {
+      animation: shake 0.5s;
+      animation-iteration-count: infinite;
     }
   }
-
   &__motivation {
     padding: 10px 10px;
 

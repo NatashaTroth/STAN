@@ -10,7 +10,7 @@ import { GET_EXAMS_QUERY } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
-import Exam from "../../components/current-exam/Exam"
+import Exam from "../../components/exams/Exam"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 

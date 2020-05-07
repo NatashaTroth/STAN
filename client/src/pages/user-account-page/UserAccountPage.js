@@ -1,6 +1,8 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
+import { flowRight as compose } from "lodash"
+import { graphql } from "react-apollo"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -11,7 +13,7 @@ import {
 
 // mutation & queries ----------------
 import { Redirect, Link } from "react-router-dom"
-import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
@@ -19,9 +21,8 @@ import {
 } from "../../graphQL/queries"
 
 // libraries ----------------
+import Carousel from "react-bootstrap/Carousel"
 import CountUp from "react-countup"
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 // components ----------------
 import QueryError from "../../components/error/Error"
@@ -31,20 +32,7 @@ import Loading from "../../components/loading/Loading"
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
-function UserAccount() {
-  // query ----------------
-  // TODO: use compose to combine queries
-  const {
-    data: dataExamsCount,
-    error: errorExamsCount,
-    loading: loadingExamsCount,
-  } = useQuery(GET_EXAMS_COUNT)
-  const {
-    data: dataCurrentState,
-    error: errorCurrentState,
-    loading: loadingCurrentState,
-  } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
-
+function UserAccount(props) {
   // mutation ----------------
   const [logout, { client }] = useMutation(LOGOUT_MUTATION)
 
@@ -54,23 +42,22 @@ function UserAccount() {
     return <Redirect to="/login" />
   }
 
-  // count all exams ----------------
-  let currentExams,
-    finishedExams,
-    currentState = 0
+  // variables ----------------
+  let currentExams = 0
+  let finishedExams = 0
+  let currentState = 0
 
   // error handling and get data ----------------
-  if (loadingExamsCount || loadingCurrentState) return <Loading />
-  if (errorExamsCount) {
-    return <QueryError errorMessage={errorExamsCount.message} />
+  if (props.loading) return <Loading />
+  if (props.error) return <QueryError errorMessage={props.error.message} />
+  if (props.getExamsQuery.examsCount) {
+    for (let [key, value] of Object.entries(props.getExamsQuery.examsCount)) {
+      if (key === "currentExams") currentExams = value
+      else if (key === "finishedExams") finishedExams = value
+    }
   }
-  if (errorCurrentState) {
-    return <QueryError errorMessage={errorCurrentState.message} />
-  }
-  if (dataExamsCount || dataCurrentState) {
-    currentExams = dataExamsCount.examsCount.currentExams
-    finishedExams = dataExamsCount.examsCount.finishedExams
-    currentState = dataCurrentState.todaysChunksProgress
+  if (props.getTodaysChunksProgressQuery.todaysChunksProgress) {
+    currentState = props.getTodaysChunksProgressQuery.todaysChunksProgress
   }
 
   // moods ----------------
@@ -187,46 +174,33 @@ function UserAccount() {
               </div>
 
               <div className="user-account__container--right--bottom box-content">
-                <Carousel
-                  showStatus={false}
-                  showThumbs={false}
-                  infiniteLoop={true}
-                  showIndicators={false}
-                  autoPlay={true}
-                  showArrows={false}
-                >
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-0.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                <Carousel indicators={false} controls={false}>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-0.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
 
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-1.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-1.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
 
-                  <CurrentUserContext.Consumer>
-                    {currentUser => (
-                      <Image
-                        path={require(`../../images/mascots/${
-                          currentUser.mascot
-                        }-${mood.replace(/ /g, "")}-2.svg`)}
-                        text=""
-                      />
-                    )}
-                  </CurrentUserContext.Consumer>
+                  <Carousel.Item>
+                    <Image
+                      path={require(`../../images/mascots/${
+                        currentUser.mascot
+                      }-${mood.replace(/ /g, "")}-2.svg`)}
+                      text=""
+                    />
+                  </Carousel.Item>
                 </Carousel>
               </div>
             </div>
@@ -238,8 +212,16 @@ function UserAccount() {
   )
 }
 
-export default UserAccount
+export default compose(
+  graphql(GET_EXAMS_COUNT, {
+    name: "getExamsQuery",
+  }),
+  graphql(GET_TODAYS_CHUNKS_PROGRESS, {
+    name: "getTodaysChunksProgressQuery",
+  })
+)(UserAccount)
 
+// TODO: do we need client?
 async function logUserOut({ logout, client }) {
   // reset refresh token ----------------
   await logout()

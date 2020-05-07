@@ -16,7 +16,7 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
-import ExamsDetails from "../../components/current-exam/ExamDetails"
+import ExamsDetails from "../../components/exams/ExamDetails"
 
 const Content = ({ location }) => {
   // return ----------------

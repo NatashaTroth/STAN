@@ -11,6 +11,9 @@ import {
 } from "../../components/STAN/STAN"
 
 // mutations ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
+
+// mutations ----------------
 import {
   DELETE_USER_MUTATION,
   UPDATE_MASCOT_MUTATION,
@@ -31,12 +34,11 @@ import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // libraries ----------------
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
+import Carousel from "react-bootstrap/Carousel"
 
+// TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
-  const mascotStore = { mascot: 0 }
   let history = useHistory()
 
   // context ----------------
@@ -45,12 +47,15 @@ const UserAccountEdit = () => {
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
   const [updateUser] = useMutation(UPDATE_USER_MUTATION)
-  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
+  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  })
 
   // state ----------------
   const [deleteProfile, setDeletion] = useState(false)
   const [isPasswordOpen, setPasswordSection] = useState(false)
-  let [notification, setNotification] = useState(
+  const [index, setIndex] = useState(currentUser.mascot)
+  const [notification, setNotification] = useState(
     currentUser.allowEmailNotifications
   )
 
@@ -79,25 +84,23 @@ const UserAccountEdit = () => {
   const onSubmit = formData => {
     // google login ----------------
     if (currentUser.googleLogin) {
-      formData = mascotStore.mascot
-      handleMascot({ formData, updateMascot })
+      handleMascot({ index, updateMascot })
     } else {
       // standard login ----------------
       if (formData.newPassword === formData.retypePassword) {
         document.getElementById("retype-password-error").style.display = "none"
 
-        let mascotId = mascotStore.mascot
-        editUser({ mascotId, formData, updateUser, history, notification })
+        let mascotId = index
+        editUser({ mascotId, formData, updateUser, notification })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
     }
   }
 
-  // TODO: fix reset mascot after button click
   // functions ----------------
   const handleMascotCallback = id => {
-    mascotStore.mascot = id
+    setIndex(id)
   }
 
   const handleUser = () => {
@@ -442,8 +445,7 @@ const UserAccountEdit = () => {
                                 onChange={handleNotification}
                               />
                               <span className="checkmark"></span>
-                              Allow email notifications when exam date is close
-                              (can be changed at any time in the user profile)
+                              Allow email notifications when exam date is close.
                             </label>
                           </div>
                         </div>
@@ -455,26 +457,31 @@ const UserAccountEdit = () => {
                             <h4>Choose your mascot</h4>
 
                             <Carousel
-                              showStatus={false}
-                              showThumbs={false}
-                              useKeyboardArrows={true}
-                              onChange={e => {
-                                handleMascotCallback(e)
-                              }}
-                              selectedItem={currentUser.mascot}
+                              activeIndex={index}
+                              onSelect={handleMascotCallback}
+                              wrap={false}
+                              interval={null}
                             >
-                              <Image
-                                path={VeryHappyMascot}
-                                text="a very happy mascot"
-                              />
-                              <Image
-                                path={VeryHappyGirlyMascot}
-                                text="a very happy girly mascot"
-                              />
-                              <Image
-                                path={VeryHappyCleverMascot}
-                                text="a very happy clever mascot"
-                              />
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyMascot}
+                                  text="a very happy mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyGirlyMascot}
+                                  text="a very happy girly mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyCleverMascot}
+                                  text="a very happy clever mascot"
+                                />
+                              </Carousel.Item>
                             </Carousel>
                           </div>
 
@@ -492,26 +499,31 @@ const UserAccountEdit = () => {
                             <h4>Choose your mascot</h4>
 
                             <Carousel
-                              showStatus={false}
-                              showThumbs={false}
-                              useKeyboardArrows={true}
-                              onChange={e => {
-                                handleMascotCallback(e)
-                              }}
-                              selectedItem={currentUser.mascot}
+                              activeIndex={index}
+                              onSelect={handleMascotCallback}
+                              wrap={false}
+                              interval={null}
                             >
-                              <Image
-                                path={VeryHappyMascot}
-                                text="a very happy mascot"
-                              />
-                              <Image
-                                path={VeryHappyGirlyMascot}
-                                text="a very happy girly mascot"
-                              />
-                              <Image
-                                path={VeryHappyCleverMascot}
-                                text="a very happy clever mascot"
-                              />
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyMascot}
+                                  text="a very happy mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyGirlyMascot}
+                                  text="a very happy girly mascot"
+                                />
+                              </Carousel.Item>
+
+                              <Carousel.Item>
+                                <Image
+                                  path={VeryHappyCleverMascot}
+                                  text="a very happy clever mascot"
+                                />
+                              </Carousel.Item>
                             </Carousel>
                           </div>
 
@@ -638,13 +650,7 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({
-  mascotId,
-  formData,
-  updateUser,
-  history,
-  notification,
-}) {
+async function editUser({ mascotId, formData, updateUser, notification }) {
   try {
     const resp = await updateUser({
       variables: {
@@ -663,11 +669,6 @@ async function editUser({
     } else {
       throw new Error("Cannot save user changes.")
     }
-
-    // redirect ----------------
-    setTimeout(() => {
-      history.push("/profile")
-    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
 
@@ -679,11 +680,11 @@ async function editUser({
   }
 }
 
-async function handleMascot({ formData, updateMascot }) {
+async function handleMascot({ index, updateMascot }) {
   try {
     const resp = await updateMascot({
       variables: {
-        mascot: formData,
+        mascot: index,
       },
     })
 
@@ -693,11 +694,6 @@ async function handleMascot({ formData, updateMascot }) {
     } else {
       throw new Error("Cannot save the selected mascot.")
     }
-
-    // redirect ----------------
-    setTimeout(() => {
-      window.location.href = "/profile"
-    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-user-mascot-edit-error"
