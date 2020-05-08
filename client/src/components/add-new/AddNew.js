@@ -126,7 +126,7 @@ function AddNew() {
                       ref={register({
                         required: true,
                         minLength: 1,
-                        maxLength: 20,
+                        maxLength: 50,
                       })}
                     />
                     {errors.exam_subject &&
@@ -144,7 +144,7 @@ function AddNew() {
                       errors.exam_subject.type === "maxLength" && (
                         <span className="error">
                           {" "}
-                          Maximum 20 characters allowed
+                          Maximum 50 characters allowed
                         </span>
                       )}
                   </div>
