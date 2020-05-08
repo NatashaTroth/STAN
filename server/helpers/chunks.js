@@ -64,12 +64,19 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       chunk = newChunk;
     }
 
+    const durationLeftToday = durationLeft(
+      chunk.startPage,
+      chunk.currentPage,
+      chunk.numberPagesToday,
+      exam.timePerPage
+    );
     return {
       exam,
       numberPagesToday: chunk.numberPagesToday,
       startPage: chunk.startPage,
       currentPage: chunk.currentPage,
       durationToday: chunk.durationToday,
+      durationLeftToday,
       daysLeft: chunk.daysLeft,
       notEnoughTime: chunk.notEnoughTime,
       completed: chunk.completed
@@ -293,12 +300,19 @@ function createTodaysChunkObject(exam) {
   //TODO: WHAT IS THIS? - CHECK, DURATION TODAY IS CREATED AS FLOAT SOMEWHERE
   const durationToday =
     exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
+  // const durationLeftToday = durationLeft(
+  //   chunk.startPage,
+  //   chunk.currentPage,
+  //   chunk.numberPagesToday,
+  //   exam.timePerPage
+  // );
   const chunk = {
     exam,
     numberPagesToday,
     startPage: exam.currentPage,
     currentPage: exam.currentPage,
     durationToday,
+    durationLeftToday: durationToday,
     daysLeft,
     notEnoughTime: false, //TODO: IMPLEMENT
     completed: false
@@ -482,4 +496,16 @@ export function numberOfPagesForChunk({
 function calcPagesLeft(numberOfPages, repeat, startPage, currentPage) {
   const endPageInclRepeat = numberOfPages * repeat + startPage;
   return endPageInclRepeat - currentPage;
+}
+
+function durationLeft(startPage, currentPage, numberOfPages, timePerPage) {
+  // const timePerPage = chunk.durationToday / chunk.numberPagesToday;
+  const numberPagesLeft = calcPagesLeft(
+    numberOfPages,
+    1,
+    startPage,
+    currentPage
+  );
+
+  return numberPagesLeft * timePerPage;
 }

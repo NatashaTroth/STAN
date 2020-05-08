@@ -127,6 +127,7 @@ describe("Test user resolver regex", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+    console.log(todaysChunks);
     console.log(todaysChunks.data.todaysChunkAndProgress);
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
