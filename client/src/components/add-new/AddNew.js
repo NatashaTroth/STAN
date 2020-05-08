@@ -159,6 +159,8 @@ function AddNew() {
                         onDaySelected={selectedDay => {
                           setMyExamDate(selectedDay)
                         }}
+                        placeholder="DD.MM.YYYY"
+                        required={true}
                       />
                     </div>
 
@@ -173,6 +175,8 @@ function AddNew() {
                           setMyStartDate(selectedDay)
                         }}
                         disabledAfter={myExamDate}
+                        placeholder="DD.MM.YYYY"
+                        required={true}
                       />
                     </div>
                   </div>

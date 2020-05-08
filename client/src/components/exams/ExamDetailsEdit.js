@@ -1,7 +1,8 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import moment from "moment"
 // --------------------------------------------------------------
 
 // context ----------------
@@ -21,6 +22,52 @@ import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
+import DatePicker from "../../components/datepicker/DatePicker"
+
+async function handleExam({
+  examId,
+  data,
+  updateExam,
+  formExamDate,
+  formStartDate,
+}) {
+  try {
+    const resp = await updateExam({
+      variables: {
+        id: examId,
+        subject: data.subject,
+        examDate: formExamDate,
+        startDate: formStartDate,
+        numberPages: parseInt(data.numberPages),
+        timePerPage: parseInt(data.timePerPage),
+        timesRepeat: parseInt(data.timesRepeat),
+        // startPage: parseInt(data.startPage),
+        startPage: 1,
+        currentPage: parseInt(data.currentPage),
+        notes: data.notes,
+        pdfLink: data.pdfLink,
+        completed: false,
+      },
+    })
+
+    if (resp && resp.data && resp.data.updateExam) {
+      document.getElementById("success-container-edit-exam").style.display =
+        "block"
+    } else {
+      throw new Error("Cannot edit current exam.")
+    }
+  } catch (err) {
+    let element = document.getElementsByClassName(
+      "graphql-exam-details-edit-error"
+    )
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
+  }
+}
 
 const ExamDetailsEdit = ({ examId }) => {
   // variables ----------------
@@ -31,16 +78,33 @@ const ExamDetailsEdit = ({ examId }) => {
     variables: { id: examId },
   })
 
+  // date picker
+  console.log(data)
+  const [myExamDate, setMyExamDate] = useState(moment(data.exam.examDate))
+  const [myStartDate, setMyStartDate] = useState(moment(data.exam.startDate))
+
+  // parse Date
+  let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
+  let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
+
+  console.log("form exam: " + formExamDate)
+  console.log("form start: " + formStartDate)
+
   if (data && data.exam) {
+    // set correct dates for exams
+    // setMyExamDate(moment(data.exam.examDate))
+    // setMyStartDate(moment(data.exam.startDate))
+
     defaultValues = {
       subject: data.exam.subject,
-      examDate: new Date(data.exam.examDate).toISOString().substr(0, 10),
-      startDate: new Date(data.exam.startDate).toISOString().substr(0, 10),
+      examDate: moment(data.exam.examDate),
+      startDate: moment(data.exam.startDate),
       numberPages: data.exam.numberPages,
       timePerPage: data.exam.timePerPage,
       timesRepeat: data.exam.timesRepeat,
       currentPage: data.exam.currentPage,
-      startPage: data.exam.startPage,
+      // startPage: data.exam.startPage,
+      startPage: 1,
       notes: data.exam.notes,
       pdfLink: data.exam.pdfLink,
     }
@@ -103,7 +167,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam })
+    handleExam({ examId, data, updateExam, formExamDate, formStartDate })
   }
 
   // return ----------------
@@ -149,44 +213,31 @@ const ExamDetailsEdit = ({ examId }) => {
               <Label
                 htmlFor="exam-date"
                 text="Exam date"
-                className="form__element__label input-required"
+                className="form__element__label"
               />
-              <input
-                className="form__element__input"
-                type="date"
-                id="exam-date"
-                label="exam_date"
-                name="examDate"
-                value={examDate}
-                onChange={handleChange.bind(null, "examDate")}
-                required
-                ref={register({
-                  required: true,
-                })}
+              <DatePicker
+                onDaySelected={selectedDay => {
+                  setMyExamDate(selectedDay)
+                }}
+                myValue={moment(examDate).format("DD.MM.YYYY")}
+                placeholder={moment(examDate).format("DD.MM.YYYY")}
+                required={true}
               />
-              {errors.exam_date && errors.exam_date.type === "required" && (
-                <span className="error">This field is required</span>
-              )}
             </div>
 
             <div className="form__element">
               <Label
                 htmlFor="study-start-date"
                 text="Start learning on"
-                className="form__element__label input-required"
+                className="form__element__label"
               />
-              <input
-                className="form__element__input"
-                type="date"
-                id="study-start-date"
-                label="exam_start_date"
-                name="startDate"
-                onChange={handleChange.bind(null, "startDate")}
-                value={startDate}
-                required
-                ref={register({
-                  required: false,
-                })}
+              <DatePicker
+                onDaySelected={selectedDay => {
+                  setMyStartDate(selectedDay)
+                }}
+                myValue={moment(startDate).format("DD.MM.YYYY")}
+                disabledAfter={moment(myExamDate).toDate()}
+                placeholder={moment(startDate).format("DD.MM.YYYY")}
               />
             </div>
           </div>
@@ -229,7 +280,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__element">
+            {/* TODO: implement */}
+            {/* <div className="form__element">
               <Label
                 htmlFor="startPage"
                 text="Start page"
@@ -259,6 +311,26 @@ const ExamDetailsEdit = ({ examId }) => {
                     Only positive numbers are allowed
                   </span>
                 )}
+            </div> */}
+
+            <div className="form__element">
+              <Label
+                htmlFor="currentPage"
+                text="Current page"
+                className="form__element__label"
+              ></Label>
+              <input
+                className="form__element__input"
+                type="text"
+                id="currentPage"
+                label="exam_current_page"
+                name="currentPage"
+                onChange={handleChange.bind(null, "currentPage")}
+                value={currentPage}
+                ref={register({
+                  required: false,
+                })}
+              />
             </div>
           </div>
 
@@ -364,27 +436,8 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__element">
-              <Label
-                htmlFor="currentPage"
-                text="Current page"
-                className="form__element__label"
-              ></Label>
-              <input
-                className="form__element__input"
-                type="text"
-                id="currentPage"
-                label="exam_current_page"
-                name="currentPage"
-                onChange={handleChange.bind(null, "currentPage")}
-                value={currentPage}
-                ref={register({
-                  required: false,
-                })}
-              />
-            </div>
-
-            <div className="form__element">
+            {/* TODO: implement */}
+            {/* <div className="form__element">
               <Label
                 htmlFor="pdf-link"
                 text="Pdf link"
@@ -402,7 +455,7 @@ const ExamDetailsEdit = ({ examId }) => {
                   required: false,
                 })}
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -439,41 +492,3 @@ const ExamDetailsEdit = ({ examId }) => {
 }
 
 export default ExamDetailsEdit
-
-async function handleExam({ examId, data, updateExam }) {
-  try {
-    const resp = await updateExam({
-      variables: {
-        id: examId,
-        subject: data.subject,
-        examDate: data.examDate,
-        startDate: data.startDate,
-        numberPages: parseInt(data.numberPages),
-        timePerPage: parseInt(data.timePerPage),
-        timesRepeat: parseInt(data.timesRepeat),
-        startPage: parseInt(data.startPage),
-        currentPage: parseInt(data.currentPage),
-        notes: data.notes,
-        pdfLink: data.pdfLink,
-        completed: false,
-      },
-    })
-
-    if (resp && resp.data && resp.data.updateExam) {
-      document.getElementById("success-container-edit-exam").style.display =
-        "block"
-    } else {
-      throw new Error("Cannot edit current exam.")
-    }
-  } catch (err) {
-    let element = document.getElementsByClassName(
-      "graphql-exam-details-edit-error"
-    )
-
-    if (err.graphQLErrors && err.graphQLErrors[0]) {
-      element[0].innerHTML = err.graphQLErrors[0].message
-    } else {
-      element[0].innerHTML = err.message
-    }
-  }
-}
