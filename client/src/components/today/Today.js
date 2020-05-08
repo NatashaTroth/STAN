@@ -167,7 +167,7 @@ function Today(props) {
     // duration ----------------
     duration =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .durationToday
+        .durationLeftToday
     // calculate duration display
     if (duration >= 60) {
       hours = Math.floor(duration / 60)

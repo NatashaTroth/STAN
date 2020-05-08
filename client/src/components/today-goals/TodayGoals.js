@@ -31,7 +31,8 @@ function TodayGoals(props) {
       subject = element.exam.subject
 
       // duration for 1 exam ----------------
-      duration = element.durationToday
+      duration = element.durationLeftToday
+
       // duration for all exams total
       totalDuration += duration
 
