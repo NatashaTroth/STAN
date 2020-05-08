@@ -78,23 +78,15 @@ const ExamDetailsEdit = ({ examId }) => {
     variables: { id: examId },
   })
 
-  // date picker
-  console.log(data)
+  // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(moment(data.exam.examDate))
   const [myStartDate, setMyStartDate] = useState(moment(data.exam.startDate))
 
-  // parse Date
+  // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
-  console.log("form exam: " + formExamDate)
-  console.log("form start: " + formStartDate)
-
   if (data && data.exam) {
-    // set correct dates for exams
-    // setMyExamDate(moment(data.exam.examDate))
-    // setMyStartDate(moment(data.exam.startDate))
-
     defaultValues = {
       subject: data.exam.subject,
       examDate: moment(data.exam.examDate),
