@@ -300,19 +300,19 @@ function createTodaysChunkObject(exam) {
   //TODO: WHAT IS THIS? - CHECK, DURATION TODAY IS CREATED AS FLOAT SOMEWHERE
   const durationToday =
     exam.timePerPage > 0 ? exam.timePerPage * numberPagesToday : null;
-  const durationLeftToday = durationLeft(
-    chunk.startPage,
-    chunk.currentPage,
-    chunk.numberPagesToday,
-    exam.timePerPage
-  );
+  // const durationLeftToday = durationLeft(
+  //   chunk.startPage,
+  //   chunk.currentPage,
+  //   chunk.numberPagesToday,
+  //   exam.timePerPage
+  // );
   const chunk = {
     exam,
     numberPagesToday,
     startPage: exam.currentPage,
     currentPage: exam.currentPage,
     durationToday,
-    durationLeftToday,
+    durationLeftToday: durationToday,
     daysLeft,
     notEnoughTime: false, //TODO: IMPLEMENT
     completed: false
