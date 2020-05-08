@@ -74,7 +74,8 @@
       .add-new,
       .login,
       .calendar,
-      .exams {
+      .exams,
+      .profile {
         padding: 0 0 17px 7px;
         a {
           font-family: $font-family-BasierCircle-SemiBold;
@@ -130,6 +131,25 @@
             width: 27px;
             height: 31px;
             margin-right: 13px;
+          }
+        }
+        .profile {
+          &:before {
+            display: none;
+          }
+          .user-avatar {
+            width: 28px;
+            height: 27px;
+            border: 1.5px solid theme_color("dark");
+            margin-right: 10.5px;
+            margin-bottom: 1px;
+            padding-top: 1px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-transform: uppercase;
+            font-family: $font-family-BasierCircle-SemiBold;
           }
         }
       }

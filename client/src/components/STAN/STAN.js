@@ -7,9 +7,7 @@ import { CURRENT_USER } from "../../graphQL/queries"
 import { useQuery } from "@apollo/react-hooks"
 
 // images & logos ----------------
-import Image from "../../components/image/Image"
 import Logo from "../../images/icons/logo.svg"
-import Pic1 from "../../images/icons/profile.png"
 
 // components ----------------
 import BurgerButton from "../burger-button/BurgerButton"
@@ -74,6 +72,7 @@ const Navbar = () => {
             </div>
 
             <ul className="navigation__items--list">
+              {/* PRIVATE ROUTES */}
               <div className="menu-top">
                 {/* HOME & DASHBOARD */}
                 {!currentUser ? (
@@ -170,12 +169,13 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ) : null}
-              </div>
 
-              <div className="menu-bottom">
                 {/* USER PROFILE */}
                 {currentUser ? (
-                  <li className="profile">
+                  <li className="logged-in profile">
+                    <span className="user-avatar">
+                      {currentUser.username.charAt(0)}
+                    </span>
                     <NavLink
                       strict
                       to="/profile"
@@ -183,16 +183,14 @@ const Navbar = () => {
                       activeClassName="active"
                       onClick={closeSidebar}
                     >
-                      <Image
-                        path={Pic1}
-                        alt="Shape of a person as profile Icon"
-                        className="profile-img"
-                      />
+                      Profile
                     </NavLink>
                   </li>
                 ) : null}
+              </div>
 
-                {/* PUBLIC ROUTES */}
+              {/* PUBLIC ROUTES */}
+              <div className="menu-bottom">
                 <li className="dark-mode">Dark mode</li>
                 <li className="imprint">
                   <NavLink
