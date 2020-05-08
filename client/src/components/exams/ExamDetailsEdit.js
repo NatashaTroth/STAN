@@ -53,6 +53,10 @@ async function handleExam({
     if (resp && resp.data && resp.data.updateExam) {
       document.getElementById("success-container-edit-exam").style.display =
         "block"
+      // redirect after success
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       throw new Error("Cannot edit current exam.")
     }
