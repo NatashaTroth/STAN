@@ -31,6 +31,7 @@ const examType = gql`
     startPage: Int!
     # currentPage: Int!
     durationToday: Int!
+    durationLeftToday: Int!
     daysLeft: Int! #incl. today
     # totalChunks: Int!
     # numberPagesWithRepeat: Int! #exam.pages*repeat
