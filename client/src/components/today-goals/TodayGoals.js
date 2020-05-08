@@ -17,19 +17,25 @@ function TodayGoals(props) {
   let hoursTotal
   let minutesTotal
 
+  // check if there is data ----------------
   if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // filter only not completed entries
+    // filter only not completed entries ----------------
     let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
         return el.completed == false
       }
     )
-    // map entries
+    // map entries ----------------
     todaySubject = filteredItems.map((element, index) => {
+      // subject ----------------
       subject = element.exam.subject
+
+      // duration for 1 exam ----------------
       duration = element.durationToday
+      // duration for all exams total
       totalDuration += duration
 
+      // calculate duration display
       if (duration >= 60) {
         hours = Math.floor(duration / 60)
         minutes = Math.floor(duration) - hours * 60
@@ -46,6 +52,7 @@ function TodayGoals(props) {
         totalDurationTime = minutesTotal + "m"
       }
 
+      // return ----------------
       return (
         <TodaySubject
           key={index}

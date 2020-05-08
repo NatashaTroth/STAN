@@ -17,12 +17,13 @@ import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
 function Today(props) {
-  console.log(props.data)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
+  // mutation data ----------------
   let pagesStudiedForm
 
+  // user click to add custom page number ----------------
   const onSubmit = async formData => {
     try {
       if (
@@ -64,6 +65,7 @@ function Today(props) {
     }
   }
 
+  // user click on goal-studied ----------------
   const onSubmitAll = async formData => {
     try {
       const resp = await updatePage({
@@ -113,50 +115,60 @@ function Today(props) {
   let noTime
   let noTimeMessage
 
+  // check if there is data ----------------
   if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
+    // subject ----------------
     subject =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .subject
 
+    // deadline ----------------
     deadline = props.data.todaysChunkAndProgress.todaysChunks[
       props.activeIndex
     ].exam.examDate.slice(0, 10)
+    // format deadline
     deadline = deadline
       .split("-")
       .reverse()
       .join("/")
 
+    // ----------------
     currentPage =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .currentPage
+    // ----------------
     amountPagesWithRepeat =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .numberPagesWithRepeat
+    // ----------------
     lastPage =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .numberPages
+    // ----------------
     realCurrentPage = currentPage % lastPage
-
+    // ----------------
     startPage =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .startPage
-
+    // ----------------
     numberPagesToday =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .numberPagesToday
-
+    // ----------------
     chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
-    // to display last page correctly
+    // to display last page correctly ----------------
     if (chunkGoalPage == -1) {
       chunkGoalPage = lastPage
     } else if (chunkGoalPage == 0) {
       chunkGoalPage = 1
     }
 
+    // duration ----------------
     duration =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .durationToday
+    // calculate duration display
     if (duration >= 60) {
       hours = Math.floor(duration / 60)
       minutes = Math.floor(duration) - hours * 60
@@ -166,12 +178,13 @@ function Today(props) {
       durationTime = minutes + " min"
     }
 
+    // ----------------
     // noTime = props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].notEnoughTime
     if (duration > 1440) {
       noTimeMessage =
         "Info: You need to study faster to finish all pages until the exam!"
     }
-
+    // ----------------
     repetitionCycles =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
         .timesRepeat
@@ -182,14 +195,14 @@ function Today(props) {
     } else {
       repetition = repetitionCycles
     }
-
+    // ----------------
     daysLeft =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].daysLeft
     totalDays =
       props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
         .totalNumberDays
     dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
-
+    // ----------------
     // calculation for chunks
     // chunksTotal = totalDays
     // chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
