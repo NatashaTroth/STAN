@@ -2,8 +2,8 @@ import React from "react"
 import { Link, Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
+// queries ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"
@@ -13,10 +13,13 @@ import SubHeading from "../../components/sub-heading/SubHeading"
 import Pic1 from "../../images/desk1.png"
 import Pic2 from "../../images/desk2.png"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 function About() {
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser !== undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser !== null) {
     return <Redirect to="/" />
   }
 
