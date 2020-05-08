@@ -6,68 +6,51 @@ import TodaySubject from "../../components/today-subject/TodaySubject"
 
 function TodayGoals(props) {
   // query data ----------------
-  let subject
   let todaySubject
-  let duration
-  let durationTime
-  let hours
-  let minutes
-  let totalDuration = 0
   let totalDurationTime
-  let hoursTotal
-  let minutesTotal
 
   // check if there is data ----------------
-  if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // filter only not completed entries ----------------
-    let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
-      function(el) {
-        return el.completed == false
-      }
-    )
-    // map entries ----------------
-    todaySubject = filteredItems.map((element, index) => {
-      // subject ----------------
-      subject = element.exam.subject
-
-      // duration for 1 exam ----------------
-      duration = element.durationLeftToday
-
-      // duration for all exams total
-      totalDuration += duration
-
-      // calculate duration display
-      if (duration >= 60) {
-        hours = Math.floor(duration / 60)
-        minutes = Math.floor(duration) - hours * 60
-        durationTime = hours + " hours " + minutes + " min"
-
-        hoursTotal = Math.floor(totalDuration / 60)
-        minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
-        totalDurationTime = hoursTotal + "h " + minutesTotal + "m"
-      } else {
-        minutes = duration
-        durationTime = minutes + " min"
-
-        minutesTotal = totalDuration
-        totalDurationTime = minutesTotal + "m"
-      }
-
-      // return ----------------
-      return (
-        <TodaySubject
-          key={index}
-          subject={subject}
-          durationTime={durationTime}
-          onClick={e => {
-            e.preventDefault()
-            props.activeElementIndexChange(index)
-          }}
-          className={props.activeIndex === index ? "active-subject" : undefined}
-        ></TodaySubject>
-      )
-    })
+  if (
+    props.data &&
+    props.data.todaysChunkAndProgress.todaysChunks.length === 0
+  ) {
+    return null
   }
+  // filter only not completed entries ----------------
+  let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
+    function(el) {
+      return el.completed == false
+    }
+  )
+  // map entries ----------------
+  todaySubject = filteredItems.map((element, index) => {
+    // subject ----------------
+    let subject = element.exam.subject
+
+    // duration for 1 exam ----------------
+    let duration = element.durationLeftToday
+    let durationTime = calculateDuration(element.durationLeftToday)
+
+    // duration for all exams total
+    let totalDuration = 0
+    totalDuration += duration
+    totalDurationTime = calculateDurationTotal(totalDuration)
+    console.log(totalDuration)
+
+    // return ----------------
+    return (
+      <TodaySubject
+        key={index}
+        subject={subject}
+        durationTime={durationTime}
+        onClick={e => {
+          e.preventDefault()
+          props.activeElementIndexChange(index)
+        }}
+        className={props.activeIndex === index ? "active-subject" : undefined}
+      ></TodaySubject>
+    )
+  })
 
   // return ----------------
   return (
@@ -96,3 +79,37 @@ function TodayGoals(props) {
 }
 
 export default TodayGoals
+
+export function calculateDuration(duration) {
+  let hours
+  let minutes
+  let durationTime
+
+  // calculate duration display
+  if (duration >= 60) {
+    hours = Math.floor(duration / 60)
+    minutes = Math.floor(duration) - hours * 60
+
+    return (durationTime = hours + " hours " + minutes + " min")
+  } else {
+    minutes = duration
+    return (durationTime = minutes + " min")
+  }
+}
+
+export function calculateDurationTotal(totalDuration) {
+  let hoursTotal
+  let minutesTotal
+  let totalDurationTime
+
+  if (totalDuration >= 60) {
+    hoursTotal = Math.floor(totalDuration / 60)
+    minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
+
+    return (totalDurationTime = hoursTotal + "h " + minutesTotal + "m")
+  } else {
+    minutesTotal = totalDuration
+
+    return (totalDurationTime = minutesTotal + "m")
+  }
+}
