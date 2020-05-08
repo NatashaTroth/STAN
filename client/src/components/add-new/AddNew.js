@@ -9,6 +9,7 @@ import {
 } from "../../graphQL/queries"
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
+import moment from "moment"
 // context ----------------
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 // --------------------------------------------------------------
@@ -31,23 +32,9 @@ function AddNew() {
   const [myExamDate, setMyExamDate] = useState(today)
   const [myStartDate, setMyStartDate] = useState(today)
 
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }
-
-  let formExamDate = myExamDate.toLocaleDateString(undefined, options)
-  formExamDate = formExamDate
-    .split(".")
-    .reverse()
-    .join(".")
-
-  let formStartDate = myStartDate.toLocaleDateString(undefined, options)
-  formStartDate = formStartDate
-    .split(".")
-    .reverse()
-    .join(".")
+  // parse Date
+  let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
+  let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
   // -----------------------------
 
   const onSubmit = async formData => {
