@@ -11,7 +11,7 @@ import Exam from "../../components/exams/Exam"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 
-// cache ----------------
+// apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 const Exams = () => {
@@ -36,7 +36,7 @@ const Exams = () => {
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
-  // run queries in cache ----------------
+  // run query in cache ----------------
   const data = client.readQuery({ query: GET_EXAMS_QUERY }).exams
 
   data.forEach(exam => {
