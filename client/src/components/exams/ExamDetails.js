@@ -6,7 +6,11 @@ import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { useCurrentUserValue } from "../../components/STAN/STAN"
 
 // queries ----------------
-import { GET_EXAM_QUERY, GET_EXAMS_QUERY } from "../../graphQL/queries"
+import {
+  GET_EXAM_QUERY,
+  GET_EXAMS_QUERY,
+  GET_CALENDAR_CHUNKS,
+} from "../../graphQL/queries"
 import {
   DELETE_EXAM_MUTATION,
   EXAM_COMPLETED_MUTATION,
@@ -50,7 +54,10 @@ const ExamDetails = () => {
     refetchQueries: [{ query: GET_EXAMS_QUERY }],
   })
   const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
-    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_CALENDAR_CHUNKS },
+    ],
   })
 
   // redirects ----------------
