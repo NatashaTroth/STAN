@@ -115,21 +115,8 @@
       }
       &--bottom {
         display: flex;
+        flex-direction: column;
         justify-content: center;
-
-        .carousel {
-          .slide {
-            background: none;
-            padding: 15px;
-
-            img {
-              width: 235px;
-            }
-            &:before {
-              content: "";
-            }
-          }
-        }
       }
     }
   }

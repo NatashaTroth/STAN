@@ -20,9 +20,11 @@
 
 // BOOTSTRAP MASCOT
 .carousel {
+  height: 340px;
+  // margin: 40px 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
 
   img {
     width: 220px !important;
@@ -43,10 +45,6 @@
   }
   .carousel-inner {
     text-align: center;
-    margin: 50px 0px;
-  }
-  .carousel-item {
-    margin: 20px 0;
   }
   .carousel-control-prev-icon {
     background-image: none;
