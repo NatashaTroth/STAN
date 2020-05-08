@@ -1,16 +1,20 @@
 import React from "react"
 // --------------------------------------------------------------
 
-// context
-import { useCurrentUserValue } from "../../components/STAN/STAN"
+// queries ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import LoginForm from "../../components/login/Login"
 import { Redirect } from "react-router-dom"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 function LoginPage() {
-  const currentUser = useCurrentUserValue()
-  if (currentUser !== undefined) {
+  // redirects ----------------
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser !== null) {
     return <Redirect to="/" />
   }
 
