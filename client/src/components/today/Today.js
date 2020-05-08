@@ -8,6 +8,8 @@ import {
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
 import { useForm } from "react-hook-form"
 import { Link, useRouteMatch } from "react-router-dom"
+import moment from "moment"
+import { calculateDuration } from "../today-goals/TodayGoals"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -86,131 +88,90 @@ function Today(props) {
       console.error(err.message)
     }
   }
-
+  // ------------------------------------------------------------------------------------------------
   // mutation ----------------
   const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
 
-  // query data ----------------
-  let deadline
-  let subject
-  let currentPage
-  let realCurrentPage
-  let chunkGoalPage
-  let numberPagesToday
-  let lastPage
-  let startPage
-  let amountPagesWithRepeat
-  let repetition
-  let repetitionCycles
-  let repetitionCounter
-  let duration
-  let durationTime
-  let hours
-  let minutes
-  let daysLeft
-  let totalDays
-  let dayPercentage
-  let chunksTotal
-  let chunkPercentage
-  let noTime
-  let noTimeMessage
-
   // check if there is data ----------------
-  if (props.data && props.data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // subject ----------------
-    subject =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
-        .subject
-
-    // deadline ----------------
-    deadline = props.data.todaysChunkAndProgress.todaysChunks[
-      props.activeIndex
-    ].exam.examDate.slice(0, 10)
-    // format deadline
-    deadline = deadline
-      .split("-")
-      .reverse()
-      .join("/")
-
-    // ----------------
-    currentPage =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
-        .currentPage
-    // ----------------
-    amountPagesWithRepeat =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .numberPagesWithRepeat
-    // ----------------
-    lastPage =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
-        .numberPages
-    // ----------------
-    realCurrentPage = currentPage % lastPage
-    // ----------------
-    startPage =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .startPage
-    // ----------------
-    numberPagesToday =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .numberPagesToday
-    // ----------------
-    chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
-
-    // to display last page correctly ----------------
-    if (chunkGoalPage == -1) {
-      chunkGoalPage = lastPage
-    } else if (chunkGoalPage == 0) {
-      chunkGoalPage = 1
-    }
-
-    // duration ----------------
-    duration =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .durationLeftToday
-    // calculate duration display
-    if (duration >= 60) {
-      hours = Math.floor(duration / 60)
-      minutes = Math.floor(duration) - hours * 60
-      durationTime = hours + " hours " + minutes + " min"
-    } else {
-      minutes = duration
-      durationTime = minutes + " min"
-    }
-
-    // ----------------
-    // noTime = props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].notEnoughTime
-    if (duration > 1440) {
-      noTimeMessage =
-        "Info: You need to study faster to finish all pages until the exam!"
-    }
-    // ----------------
-    repetitionCycles =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].exam
-        .timesRepeat
-    repetition = 1
-    repetitionCounter = Math.floor(currentPage / lastPage) + 1
-    if (repetitionCounter <= repetitionCycles) {
-      repetition = repetitionCounter
-    } else {
-      repetition = repetitionCycles
-    }
-    // ----------------
-    daysLeft =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex].daysLeft
-    totalDays =
-      props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-        .totalNumberDays
-    dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
-    // ----------------
-    // calculation for chunks
-    // chunksTotal = totalDays
-    // chunkPercentage = 100 - Math.round((daysLeft / chunksTotal) * 100)
-
-    // calculation for how many pages are left
-    chunksTotal = lastPage * repetitionCycles - currentPage + 1
-    chunkPercentage = Math.round((currentPage * 100) / chunksTotal)
+  if (
+    props.data &&
+    props.data.todaysChunkAndProgress.todaysChunks.length === 0
+  ) {
+    return null
   }
+
+  // load todaysChunk ----------------
+  let todaysChunk =
+    props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+
+  // subject ----------------
+  let subject = todaysChunk.exam.subject
+
+  // deadline ----------------
+  let deadline = moment(todaysChunk.exam.examDate).format("DD/MM/YYYY")
+
+  // current page total (total pages + real current page) ----------------
+  // ex: total 30, real current: 4, current: 34
+  let currentPage = todaysChunk.exam.currentPage
+
+  // last page to study ----------------
+  let lastPage = todaysChunk.exam.numberPages
+
+  // real current page to display ----------------
+  let realCurrentPage = currentPage % lastPage
+
+  // start page for today's chunk goal ----------------
+  let startPage = todaysChunk.startPage
+
+  // end page for today's chunk goal ----------------
+  let numberPagesToday = todaysChunk.numberPagesToday
+
+  // real end page for today's chunk goal ----------------
+  let chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
+  // to display the last page correctly (edge cases)
+  if (chunkGoalPage == -1) {
+    chunkGoalPage = lastPage
+  } else if (chunkGoalPage == 0) {
+    chunkGoalPage = 1
+  }
+  // --------------------------------
+
+  // duration ----------------
+  let duration = todaysChunk.durationLeftToday
+  let durationFormatted = calculateDuration(duration)
+
+  // alert no time left ----------------
+  let noTimeMessage
+  // noTime = todaysChunk.notEnoughTime
+  if (duration > 1440) {
+    noTimeMessage =
+      "Info: You need to study faster to finish all pages until the exam!"
+  }
+  // --------------------------------
+
+  // ----------------
+  let repetitionCycles = todaysChunk.exam.timesRepeat
+  let repetition = 1
+  let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  if (repetitionCounter <= repetitionCycles) {
+    repetition = repetitionCounter
+  } else {
+    repetition = repetitionCycles
+  }
+  // days till deadline ----------------
+  let daysLeft = todaysChunk.daysLeft
+  // total days from start to end date
+  let totalDays = todaysChunk.totalNumberDays
+  // percentage for bar
+  let dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
+  // --------------------------------
+
+  // pages are left in total with repetition cycles ----------------
+  let leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
+  // percentage for bar
+  let leftPagesPercentage = Math.round((currentPage * 100) / leftPagesTotal)
+  // --------------------------------
 
   // return ----------------
   return (
@@ -258,7 +219,7 @@ function Today(props) {
                         Duration:
                       </p>
                       <p className="today__container__content__text">
-                        {durationTime}
+                        {durationFormatted}
                       </p>
                     </div>
                   </div>
@@ -296,8 +257,8 @@ function Today(props) {
                 <div className="today__container__chunks-left">
                   <Timeline
                     heading="Study Progress (pages)"
-                    daysLeft={chunksTotal}
-                    percentage={chunkPercentage}
+                    daysLeft={leftPagesTotal}
+                    percentage={leftPagesPercentage}
                     style="bar"
                   ></Timeline>
                 </div>
@@ -306,15 +267,9 @@ function Today(props) {
                 <div className="today__container__buttons">
                   {/* open notes or link */}
                   <Link
-                    to={`/exams/${props.data.todaysChunkAndProgress.todaysChunks[
-                      props.activeIndex
-                    ].exam.subject
+                    to={`/exams/${todaysChunk.exam.subject
                       .toLowerCase()
-                      .replace(/ /g, "-")}?id=${
-                      props.data.todaysChunkAndProgress.todaysChunks[
-                        props.activeIndex
-                      ].exam.id
-                    }`}
+                      .replace(/ /g, "-")}?id=${todaysChunk.exam.id}`}
                     className="today__container__buttons__open"
                   >
                     open notes
@@ -343,7 +298,7 @@ function Today(props) {
                             placeholder={realCurrentPage}
                             ref={register({
                               required: true,
-                              min: startPage,
+                              min: realCurrentPage,
                               max: lastPage,
                             })}
                           />
