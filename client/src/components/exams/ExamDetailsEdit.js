@@ -12,6 +12,7 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
+  GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
@@ -81,6 +82,7 @@ const ExamDetailsEdit = ({ examId }) => {
     refetchQueries: [
       { query: GET_EXAMS_QUERY },
       { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_CALENDAR_CHUNKS },
     ],
   })
 
