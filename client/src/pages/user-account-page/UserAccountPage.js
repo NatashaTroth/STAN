@@ -1,9 +1,12 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
+import { Redirect, Link } from "react-router-dom"
+// --------------------------------------------------------------
+
+// composer ----------------
 import { flowRight as compose } from "lodash"
 import { graphql } from "react-apollo"
-// --------------------------------------------------------------
 
 // context ----------------
 import {
@@ -12,12 +15,12 @@ import {
 } from "../../components/STAN/STAN"
 
 // mutation & queries ----------------
-import { Redirect, Link } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
   GET_TODAYS_CHUNKS_PROGRESS,
+  CURRENT_USER,
 } from "../../graphQL/queries"
 
 // libraries ----------------
@@ -32,13 +35,17 @@ import Loading from "../../components/loading/Loading"
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
+// TODO: get data from cache?
 function UserAccount(props) {
   // mutation ----------------
-  const [logout, { client }] = useMutation(LOGOUT_MUTATION)
+  const [logout] = useMutation(LOGOUT_MUTATION)
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
@@ -71,7 +78,7 @@ function UserAccount(props) {
       <Button
         variant="button"
         className=""
-        onClick={async () => logUserOut({ logout, client })}
+        onClick={async () => logUserOut({ logout })}
         text="Logout"
       />
     )
@@ -221,8 +228,7 @@ export default compose(
   })
 )(UserAccount)
 
-// TODO: do we need client?
-async function logUserOut({ logout, client }) {
+async function logUserOut({ logout }) {
   // reset refresh token ----------------
   await logout()
 

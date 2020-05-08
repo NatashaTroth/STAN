@@ -1,10 +1,10 @@
 import React, { useState } from "react"
+import { useQuery } from "@apollo/react-hooks"
 import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
 import { GET_EXAMS_QUERY, CURRENT_USER } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
 import Exam from "../../components/exams/Exam"
