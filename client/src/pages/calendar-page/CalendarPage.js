@@ -3,12 +3,9 @@ import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // query ----------------
 import { useQuery } from "@apollo/react-hooks"
-import { GET_CALENDAR_CHUNKS } from "../../graphQL/queries"
+import { GET_CALENDAR_CHUNKS, CURRENT_USER } from "../../graphQL/queries"
 
 // helpers ----------------
 import { formatDate, minuteToHours } from "../../helpers/dates"
@@ -30,24 +27,29 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 const ExamsCalendar = () => {
   // query ----------------
-  const { loading, error, data } = useQuery(GET_CALENDAR_CHUNKS)
+  const { loading, error } = useQuery(GET_CALENDAR_CHUNKS)
   let chunks = []
   let exams = []
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (data && data.calendarChunks) {
-    chunks = data.calendarChunks.calendarChunks
-    exams = data.calendarChunks.calendarExams
-  }
+
+  // run query in cache ----------------
+  const data = client.readQuery({ query: GET_CALENDAR_CHUNKS }).calendarChunks
+  chunks = data.calendarChunks
+  exams = data.calendarExams
 
   // return ----------------
   return (
@@ -91,7 +93,7 @@ const ExamsCalendar = () => {
                 const durationPerDay = examDetails.durationPerDay
                 const pdfLink = examDetails.pdfLink
 
-                // background color for listview
+                // background color for list-view
                 info.el.style.backgroundColor = info.event.backgroundColor
 
                 let popover
