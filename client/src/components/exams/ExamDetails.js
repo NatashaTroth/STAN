@@ -2,9 +2,6 @@ import React, { useState } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // queries ----------------
 import {
   GET_EXAM_QUERY,
