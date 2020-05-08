@@ -35,7 +35,6 @@ function TodayGoals(props) {
     let totalDuration = 0
     totalDuration += duration
     totalDurationTime = calculateDurationTotal(totalDuration)
-    console.log(totalDuration)
 
     // return ----------------
     return (
