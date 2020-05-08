@@ -33,6 +33,7 @@ const Exams = () => {
     return <Redirect to="/login" />
   }
 
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 

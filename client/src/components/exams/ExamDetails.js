@@ -67,7 +67,7 @@ const ExamDetails = () => {
     return <Redirect to="/login" />
   }
 
-  // variables ----------------
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 

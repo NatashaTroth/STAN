@@ -105,7 +105,7 @@ const ExamDetailsEdit = ({ examId }) => {
     return <Redirect to="/login" />
   }
 
-  // error handling ----------------
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
