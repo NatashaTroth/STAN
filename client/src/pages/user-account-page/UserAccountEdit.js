@@ -36,13 +36,16 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 // libraries ----------------
 import Carousel from "react-bootstrap/Carousel"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 // TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
 
   // context ----------------
-  const currentUser = useCurrentUserValue()
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
