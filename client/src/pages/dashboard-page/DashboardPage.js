@@ -16,7 +16,6 @@ import Mascots from "../../components/mascots/Mascots"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 import CurrentState from "../../components/current-state/CurrentState"
-import { GOOGLE_URL_AUTH_CODE_MUTATION } from "../../graphQL/mutations"
 
 function Dashboard() {
   // query ----------------
@@ -42,13 +41,16 @@ function Dashboard() {
   // query data ----------------
   let usersToDos
 
+  // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // filter only not completed entries
+    // filter only not completed entries ----------------
     let filteredItems = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
         return el.completed == false
       }
     )
+
+    // exams to do ----------------
     if (filteredItems.length > 0) {
       usersToDos = (
         <div className="container-fluid">
@@ -74,6 +76,7 @@ function Dashboard() {
         </div>
       )
     } else {
+      // all done for today ----------------
       usersToDos = (
         <div className="container-fluid">
           <div className="row">
@@ -92,6 +95,7 @@ function Dashboard() {
       )
     }
   } else {
+    // no current exams ----------------
     usersToDos = (
       <div className="container-fluid">
         <div className="row">
