@@ -1,11 +1,12 @@
 import React from "react"
 import moment from "moment"
-import { calculateDuration } from "../today-goals/TodayGoals"
+// --------------------------------------------------------------
+
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
 
-// helpers ----------------
-import { getNumberOfDays } from "../../helpers/dates"
+// helpers functions ----------------
+import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------
@@ -15,7 +16,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
     today,
     new Date(examDetails.examDate)
   )
+
   console.log(examDetails)
+
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -25,12 +28,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
             <div className="exam-details__inner--details--left">
               <div className="exam-data">
                 <h4>Exam date</h4>
-                <p>{moment(examDetails.examDate).format("DD.MM.YYYY")}</p>
+                <p>{moment(examDetails.examDate).format("DD/MM/YYYY")}</p>
               </div>
 
               <div className="exam-data">
                 <h4>Start learning on</h4>
-                <p>{moment(examDetails.startDate).format("DD.MM.YYYY")}</p>
+                <p>{moment(examDetails.startDate).format("DD/MM/YYYY")}</p>
               </div>
 
               <div className="exam-data">
@@ -40,7 +43,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Time per pages</h4>
-                <p>{calculateDuration(examDetails.timePerPage)}</p>
+                <p>{minuteToHours(examDetails.timePerPage)}</p>
               </div>
 
               <div className="exam-data">
@@ -77,14 +80,14 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   <ExamBar
                     value={
                       (100 * (examDetails.currentPage - 1)) /
-                      (examDetails.numberPages * examDetails.timesRepeat)
+                      examDetails.numberPages
                     }
                   />
 
                   <div className="exam-pages__bar--status">
                     <p>
                       {Math.round(
-                        examDetails.numberPages - examDetails.currentPage
+                        examDetails.numberPages - (examDetails.currentPage - 1)
                       )}{" "}
                       pages left
                     </p>
@@ -97,6 +100,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   {examDetails.currentPage - 1}/{examDetails.numberPages}
                 </p>
               </div>
+
+              <div className="exam-data">
+                <h4>Repetition cycle</h4>
+                <p>1/{examDetails.timesRepeat}</p>
+              </div>
+
               <div className="pdf">
                 <div className="pdf--file">
                   <h4>PDF file</h4>

@@ -293,7 +293,6 @@ export default SignUp
 
 async function handleSignup({ formData, signup, notification }) {
   try {
-    console.log(notification)
     const resp = await signup({
       variables: {
         username: formData.username,
