@@ -48,6 +48,7 @@ describe("Test user resolver regex", () => {
     // console.log(JSON.stringify(resp));
 
     expect(resp.data.calendarChunks).toBeTruthy();
+    console.log(testExams);
     expect(resp.data.calendarChunks.calendarChunks.length).toBe(4);
     let exam;
     const examColor = "#ff554d";

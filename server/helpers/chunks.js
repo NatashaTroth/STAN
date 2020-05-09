@@ -65,7 +65,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       chunk = newChunk;
     }
 
-    durationLeftToday = durationLeft(
+    const durationLeftToday = durationLeft(
       chunk.startPage,
       chunk.currentPage,
       chunk.numberPagesToday,

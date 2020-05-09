@@ -143,6 +143,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+
     expect(resp.data.todaysChunkAndProgress).toBeTruthy();
     expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
