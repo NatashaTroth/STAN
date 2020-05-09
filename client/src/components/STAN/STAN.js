@@ -32,7 +32,7 @@ const Navbar = () => {
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
-  // run query in cache
+  // run query in cache ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
 
   // functions & conditions ----------------
