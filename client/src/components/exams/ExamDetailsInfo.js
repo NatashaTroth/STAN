@@ -17,8 +17,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  console.log(examDetails)
-
   // return ----------------
   return (
     <div className="exam-details__inner--details">
