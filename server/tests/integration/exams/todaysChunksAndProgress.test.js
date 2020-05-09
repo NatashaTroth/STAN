@@ -442,5 +442,8 @@ describe("Test user resolver regex", () => {
       ],
       todaysProgress: 100
     });
+
+    //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
+    //TODO - TEST NEXT DAY IF CACHE IS DELETED
   });
 });

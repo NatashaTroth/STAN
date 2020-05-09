@@ -247,6 +247,7 @@ export const examResolvers = {
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
+        //TODO-> also in updateexam
         const todaysChunkCache = await TodaysChunkCache.findOne({
           examId: args.id,
           userId: context.userInfo.userId
