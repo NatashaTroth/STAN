@@ -30,11 +30,6 @@ export function getNumberOfDays(startDate, examDate) {
   return Math.round(Math.abs((start - end) / oneDay))
 }
 
-export function formatDate(string) {
-  let options = { year: "numeric", month: "numeric", day: "numeric" }
-  return new Date(string).toLocaleDateString("en-GB", options)
-}
-
 export function minuteToHours(num) {
   let hours = num / 60
   let roundedHours = Math.floor(hours)
