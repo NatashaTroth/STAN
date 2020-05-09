@@ -475,9 +475,7 @@ async function handleExam({
       throw new Error("Cannot edit current exam.")
     }
   } catch (err) {
-    let element = document.getElementsByClassName(
-      "graphql-exam-details-edit-error"
-    )
+    let element = document.getElementsByClassName("graphql-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
