@@ -428,9 +428,6 @@ describe("Test user resolver regex", () => {
       ],
       todaysProgress: 100
     });
-
-    //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
-    //TODO - TEST NEXT DAY IF CACHE IS DELETED
   });
 
   it("should correctly fetch today's new chunks - on the next day", async () => {
@@ -600,7 +597,62 @@ describe("Test user resolver regex", () => {
       completed: false
     });
     const dateInTodaysChunkCacheDb = new Date(todaysChunkCacheDb.updatedAt);
-    console.log(dateInTodaysChunkCacheDb);
+
     expect(isTheSameDay(dateInTodaysChunkCacheDb, new Date())).toBeTruthy();
+  });
+
+  //-------EXAM COMPLETED TESTS----------
+  it("tests if finished exam deletes today's chunk cache from db ", async () => {
+    const testExam1 = await addTestExam({ subject: "Biology" });
+    const testExam2 = await addTestExam({ subject: "Chemistry" });
+    const testExam3 = await addTestExam({ subject: "Dance" });
+    const chunkStartPage = testExam1.currentPage;
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+
+    //---CHECK TODAYSCACHE---
+    let respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(3);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(3);
+
+    //---UPDATE CURRENT PAGE---
+    const updatePageResp1 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam1._id.toString(),
+        page: 51
+      }
+    });
+    expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
+
+    //---REFETCH TODAYSCHUNKS---
+    respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(2);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(2);
+
+    //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
   });
 });

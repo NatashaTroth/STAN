@@ -20,7 +20,8 @@ import {
   getTodaysChunkProgress,
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
-  handleUpdateExamInTodaysChunkCache
+  handleUpdateExamInTodaysChunkCache,
+  handleCompleteExamInTodaysCache
 } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -242,27 +243,12 @@ export const examResolvers = {
           { completed: true, updatedAt: new Date() }
         );
 
-        if (resp.ok === 1 && resp.nModified === 0)
-          throw new ApolloError("The exam is already completed.");
+        if (resp.ok === 1 && resp.nModified === 0) return true;
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        //TODO-> also in updateexam
-        const todaysChunkCache = await TodaysChunkCache.findOne({
-          examId: args.id,
-          userId: context.userInfo.userId
-        });
-        if (!todaysChunkCache) return true;
+        await handleCompleteExamInTodaysCache(context.userInfo.userId, args.id);
 
-        const respUpdateTodaysChunkCache = await TodaysChunkCache.updateOne(
-          { examId: args.id },
-          { completed: true, updatedAt: new Date() }
-        );
-        if (
-          respUpdateTodaysChunkCache.ok === 0 ||
-          respUpdateTodaysChunkCache.nModified === 0
-        )
-          throw new ApolloError("The chunk cache couldn't be updated.");
         return true;
       } catch (err) {
         handleResolverError(err);
