@@ -602,12 +602,12 @@ describe("Test user resolver regex", () => {
   });
 
   //-------EXAM COMPLETED TESTS----------
-  it.only("tests if finished exam deletes today's chunk cache from db ", async () => {
+  it("tests if finished exam deletes today's chunk cache from db ", async () => {
     const testExam1 = await addTestExam({ subject: "Biology" });
     const testExam2 = await addTestExam({ subject: "Chemistry" });
     const testExam3 = await addTestExam({ subject: "Dance" });
-    const testExam4 = await addTestExam({ subject: "English" });
-    const chunkStartPage = testExam1.currentPage;
+    await addTestExam({ subject: "English" });
+
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
