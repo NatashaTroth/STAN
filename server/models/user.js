@@ -40,7 +40,8 @@ const userSchema = new Schema(
     },
     allowEmailNotifications: {
       type: Boolean,
-      default: false
+      default: false,
+      index: true
     },
     createdAt: {
       type: Date,
