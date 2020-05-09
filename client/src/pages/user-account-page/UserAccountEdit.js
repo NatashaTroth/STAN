@@ -33,7 +33,6 @@ import Carousel from "react-bootstrap/Carousel"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
