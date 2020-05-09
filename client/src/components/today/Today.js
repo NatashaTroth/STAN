@@ -170,7 +170,9 @@ function Today(props) {
   // pages are left in total with repetition cycles ----------------
   let leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
   // percentage for bar
-  let leftPagesPercentage = Math.round((currentPage * 100) / leftPagesTotal)
+  let leftPagesPercentage = Math.round(
+    (currentPage * 100) / (leftPagesTotal + lastPage)
+  )
   // --------------------------------
 
   // return ----------------
