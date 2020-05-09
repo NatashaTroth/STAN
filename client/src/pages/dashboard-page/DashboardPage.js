@@ -48,7 +48,6 @@ function Dashboard() {
   // run query in cache ----------------
   const data = client.readQuery({ query: GET_TODAYS_CHUNKS_AND_PROGRESS })
 
-  console.log(data)
   // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
     // filter only not completed entries ----------------
