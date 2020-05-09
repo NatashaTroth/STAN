@@ -47,21 +47,7 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  // {
-  //   subject,
-  //   examDate,
-  //   startDate,
-  //   numberPages,
-  //   timePerPage,
-  //   startPage,
-  //   currentPage,
-  //   timesRepeat,
-  //   color,
-  //   userId,
-  //   completed
-  // })
-
-  it("should correctly fetch today's chunk", async () => {
+  it("should correctly fetch today's chunk - also after updating", async () => {
     const testExam = await addTestExam({ subject: "Biology" });
     const chunkStartPage = testExam.currentPage;
     expect(
@@ -445,5 +431,176 @@ describe("Test user resolver regex", () => {
 
     //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
     //TODO - TEST NEXT DAY IF CACHE IS DELETED
+  });
+
+  it("should correctly fetch today's new chunks - on the next day", async () => {
+    const testExam = await addTestExam({ subject: "Biology" });
+    const chunkStartPage = testExam.currentPage;
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(0);
+
+    //---CHECK TODAYSCACHE---
+    let respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(1);
+
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toMatchObject({
+      todaysChunks: [
+        {
+          exam: {
+            id: testExam._id.toString(),
+            subject: testExam.subject,
+            examDate: testExam.examDate,
+            startDate: testExam.startDate,
+            totalNumberDays: testExam.totalNumberDays,
+            timePerPage: testExam.timePerPage,
+            numberPages: testExam.numberPages,
+            timesRepeat: testExam.timesRepeat,
+            currentPage: testExam.currentPage,
+            pdfLink: testExam.pdfLink
+          },
+          numberPagesToday: 10,
+          startPage: chunkStartPage,
+          durationToday: 50,
+          durationLeftToday: 50,
+          daysLeft: 5,
+          completed: false
+        }
+      ],
+      todaysProgress: 0
+      // notEnoughTime: false
+    });
+
+    //---UPDATE CURRENT PAGE---
+    const updatePageResp1 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam._id.toString(),
+        page: 3
+      }
+    });
+    expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
+
+    //---REFETCH TODAYSCHUNKS---
+    respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(1);
+
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toMatchObject({
+      todaysChunks: [
+        {
+          exam: {
+            id: testExam._id.toString(),
+            subject: testExam.subject,
+            examDate: testExam.examDate,
+            startDate: testExam.startDate,
+            totalNumberDays: testExam.totalNumberDays,
+            timePerPage: testExam.timePerPage,
+            numberPages: testExam.numberPages,
+            timesRepeat: testExam.timesRepeat,
+            currentPage: 3,
+            pdfLink: testExam.pdfLink
+          },
+          numberPagesToday: 10,
+          startPage: chunkStartPage,
+          durationToday: 50,
+          durationLeftToday: 40,
+          daysLeft: 5,
+          completed: false
+        }
+      ],
+      todaysProgress: 20
+    });
+
+    //--UPDATE UPDATEDAT DATE IN TODAYSCACHE DATABASE
+    const updateDateResp = await TodaysChunkCache.updateOne(
+      { userId: "samanthasId", examId: testExam._id.toString() },
+      { updatedAt: getFutureDay(new Date(), -1) }
+    );
+    expect(updateDateResp.ok).toBe(1);
+    expect(updateDateResp.nModified).toBe(1);
+
+    //---REFETCH TODAYSCHUNKS---
+    respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(1);
+
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toMatchObject({
+      todaysChunks: [
+        {
+          exam: {
+            id: testExam._id.toString(),
+            subject: testExam.subject,
+            examDate: testExam.examDate,
+            startDate: testExam.startDate,
+            totalNumberDays: testExam.totalNumberDays,
+            timePerPage: testExam.timePerPage,
+            numberPages: testExam.numberPages,
+            timesRepeat: testExam.timesRepeat,
+            currentPage: 3,
+            pdfLink: testExam.pdfLink
+          },
+          numberPagesToday: 10, //newly calculated -> 47/5 days left = 9.4
+          startPage: 3,
+          durationToday: 50,
+          durationLeftToday: 50, //now 50 instead of 40
+          daysLeft: 5,
+          completed: false
+        }
+      ],
+      todaysProgress: 0 //now 0
+    });
+
+    //---CHECK DB TODAYSCACHE---
+    let todaysChunkCacheDb = await TodaysChunkCache.findOne({
+      userId: "samanthasId",
+      examId: testExam._id.toString()
+    });
+    expect(todaysChunkCacheDb).toBeTruthy();
+    expect(todaysChunkCacheDb).toMatchObject({
+      numberPagesToday: 10,
+      durationToday: 50,
+      startPage: 3,
+      currentPage: 3,
+      daysLeft: 5,
+      durationAlreadyLearned: 0,
+      completed: false
+    });
+    const dateInTodaysChunkCacheDb = new Date(todaysChunkCacheDb.updatedAt);
+    console.log(dateInTodaysChunkCacheDb);
+    expect(isTheSameDay(dateInTodaysChunkCacheDb, new Date())).toBeTruthy();
   });
 });

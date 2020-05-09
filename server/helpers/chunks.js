@@ -55,6 +55,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       } else {
         console.log("updating chunk with updates");
         console.log(newChunk);
+        newChunk.updatedAt = new Date();
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           newChunk
@@ -121,7 +122,8 @@ export async function handleUpdateExamInTodaysChunkCache(
         userId
       },
       {
-        ...updates
+        ...updates,
+        updatedAt: new Date()
       }
     );
 
@@ -155,7 +157,8 @@ export async function handleUpdateExamInTodaysChunkCache(
           userId
         },
         {
-          ...updates
+          ...updates,
+          updatedAt: new Date()
         }
       );
       if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
@@ -193,7 +196,8 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
     { examId: examId, userId },
     {
       currentPage: page,
-      completed
+      completed,
+      updatedAt: new Date()
     }
   );
 
@@ -269,6 +273,7 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
     notEnoughTime: newChunk.notEnoughTime,
     durationAlreadyLearned,
     completed: newChunk.completed
+    // updatedAt: new Date
   };
 
   return updates;

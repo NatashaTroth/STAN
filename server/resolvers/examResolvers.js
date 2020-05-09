@@ -159,7 +159,7 @@ export const examResolvers = {
 
         const resp = await Exam.updateOne(
           { _id: args.id, userId: context.userInfo.userId },
-          { ...processedArgs }
+          { ...processedArgs, updatedAt: new Date() }
         );
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
@@ -239,7 +239,7 @@ export const examResolvers = {
           );
         const resp = await Exam.updateOne(
           { _id: args.id },
-          { completed: true }
+          { completed: true, updatedAt: new Date() }
         );
 
         if (resp.ok === 1 && resp.nModified === 0)
@@ -256,7 +256,7 @@ export const examResolvers = {
 
         const respUpdateTodaysChunkCache = await TodaysChunkCache.updateOne(
           { examId: args.id },
-          { completed: true }
+          { completed: true, updatedAt: new Date() }
         );
         if (
           respUpdateTodaysChunkCache.ok === 0 ||
