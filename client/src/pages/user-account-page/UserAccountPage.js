@@ -32,7 +32,6 @@ import Image from "../../components/image/Image"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// TODO: get data from cache?
 function UserAccount(props) {
   // mutation ----------------
   const [logout] = useMutation(LOGOUT_MUTATION)
