@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Redirect } from "react-router-dom"
+import { Redirect, useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import moment from "moment"
 // --------------------------------------------------------------
@@ -26,6 +26,8 @@ import DatePicker from "../../components/datepicker/DatePicker"
 import { client } from "../../apolloClient"
 
 const ExamDetailsEdit = ({ examId }) => {
+  let history = useHistory()
+
   // query ----------------
   const { loading, error } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
@@ -116,7 +118,14 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
-    handleExam({ examId, data, updateExam, formExamDate, formStartDate })
+    handleExam({
+      examId,
+      data,
+      updateExam,
+      formExamDate,
+      formStartDate,
+      history,
+    })
   }
 
   // return ----------------
@@ -448,6 +457,7 @@ async function handleExam({
   updateExam,
   formExamDate,
   formStartDate,
+  history,
 }) {
   try {
     const resp = await updateExam({
@@ -474,6 +484,11 @@ async function handleExam({
     } else {
       throw new Error("Cannot edit current exam.")
     }
+
+    // redirect ----------------
+    setTimeout(() => {
+      history.push("/exams")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 
