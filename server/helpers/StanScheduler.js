@@ -36,8 +36,9 @@ export default class StanScheduler {
       console.log("Sending Mails");
 
       //TODO: INDEX allowEmailNotifications
-      const users = await User.find({ allowEmailNotifications: true });
 
+      const users = await User.find({ allowEmailNotifications: true });
+      console.log(users.length + " no users authenticated");
       users.forEach(async user => {
         const examsInOneDay = [];
         const examsInThreeDays = [];
