@@ -17,10 +17,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  console.log(examDetails)
-
-  // currentpage%lastpage
-  // lastpage = startpage + numberPages -1
+  let lastPage = examDetails.startPage + (examDetails.numberPages - 1)
+  let currentRepetition = Math.round(examDetails.currentPage / lastPage)
+  if (currentRepetition < 1) currentRepetition = 1
 
   // return ----------------
   return (
@@ -97,16 +96,18 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   </div>
                 </div>
               </div>
-              <div className="exam-data">
+              {/* <div className="exam-data">
                 <h4>Pages studied</h4>
                 <p>
                   {examDetails.currentPage - 1}/{examDetails.numberPages}
                 </p>
-              </div>
+              </div> */}
 
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
-                <p>1/{examDetails.timesRepeat}</p>
+                <p>
+                  {currentRepetition}/{examDetails.timesRepeat}
+                </p>
               </div>
 
               <div className="pdf">
