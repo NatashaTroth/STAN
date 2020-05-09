@@ -24,38 +24,6 @@ export default class StanEmail {
     this.sendMail(recipientEmail, subject, text, h1);
   }
 
-  // sendOneDayReminderMail(recipientEmail, exams) {
-  //   console.log("SENDING ONE DAY REMINDER MAIL");
-  //   let examWord = "exam";
-  //   if (exams.length > 1) examWord = "exams";
-  //   const subject = `${examWord} tomorrow`;
-  //   const h1 = `Reminder that you have ${exams.length} ${examWord} tomorrow`;
-  //   const text = `<p>stan wanted to remind you that you have the following ${examWord} tomorrow, which you haven't finished learning for yet:</p>
-  //                 <ul>${this.createExamsListString(exams)}</ul>
-
-  //                 <p>Please don't forget to learn, try to find the time today. Good luck!</p>
-
-  //   `;
-
-  //   this.sendMail(recipientEmail, subject, text, h1);
-  // }
-
-  // sendThreeDayReminderMail(recipientEmail, exams) {
-  //   console.log("SENDING THREE DAY REMINDER MAIL");
-  //   let examWord = "exam";
-  //   if (exams.length > 1) examWord = "exams";
-  //   const subject = `${exams.length} ${examWord} in three days`;
-  //   const h1 = `Reminder that you have ${exams.length} ${examWord} in three days`;
-  //   const text = `<p>stan wanted to remind you that you have the following ${examWord} in three days time, which you haven't finished learning for yet:</p>
-  //                 <ul>${this.createExamsListString(exams)}</ul>
-
-  //                 <p>Please don't forget to learn, you still have time. Good luck!</p>
-
-  //   `;
-
-  //   this.sendMail(recipientEmail, subject, text, h1);
-  // }
-
   sendExamDateReminderMail(
     email,
     examsInOneDay,
@@ -69,15 +37,11 @@ export default class StanEmail {
     if ((totalExamsLength = 1)) totalExamsLength = "";
     let examsListString = "";
     if (examsInOneDay.length > 0) {
-      // let oneDayExamsWord = "exam"
-      // if (examsInOneDay.length  > 1) oneDayExamsWord = "exams";
       examsListString += `<b>${examsInOneDay.length} ${
         examsInOneDay.length > 1 ? "exams" : "exam"
       } tomorrow:</b><ul>${this.createExamsListString(examsInOneDay)}</ul>`;
     }
     if (examsInThreeDays.length > 0) {
-      // let oneDayExamsWord = "exam"
-      // if (examsInOneDay.length  > 1) oneDayExamsWord = "exams";
       examsListString += `<b>${examsInThreeDays.length} ${
         examsInThreeDays.length > 1 ? "exams" : "exam"
       } in three days' time:</b><ul>${this.createExamsListString(

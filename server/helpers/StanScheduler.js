@@ -33,7 +33,7 @@ export default class StanScheduler {
 
   async notifyUsersAboutExams() {
     //{ hour: 17, minute: 32 }
-    schedule.scheduleJob({ hour: 23, minute: 16 }, async () => {
+    schedule.scheduleJob({ hour: 3, minute: 30 }, async () => {
       //3 UTC (Greenwich), 4am Austrian time
       console.log("Sending Mails");
 
