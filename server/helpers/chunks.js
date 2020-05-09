@@ -65,7 +65,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       chunk = newChunk;
     }
 
-    const durationLeftToday = durationLeft(
+    durationLeftToday = durationLeft(
       chunk.startPage,
       chunk.currentPage,
       chunk.numberPagesToday,
@@ -385,7 +385,7 @@ export async function getTodaysChunkProgress(userId) {
 }
 
 export function calculateChunkProgress(chunks) {
-  // console.log("IN CALC PROGRESS:");
+  console.log("IN CALC PROGRESS:");
 
   if (chunks.length <= 0) return 100;
   let totalDuration = 0;
@@ -402,23 +402,24 @@ export function calculateChunkProgress(chunks) {
       numberPages: chunk.numberPagesToday,
       completed: chunk.completed
     });
-    // console.log(".........");
-    // console.log("durationToday:" + chunk.durationToday);
-    // console.log("startPage:" + chunk.startPage); //16
+    console.log(".........");
+    console.log("durationToday:" + chunk.durationToday);
+    console.log("startPage:" + chunk.startPage); //16
 
-    // console.log("currentPage:" + chunk.exam.currentPage);
-    // console.log("numberPagesToday:" + chunk.numberPagesToday);
+    console.log("currentPage:" + chunk.exam.currentPage);
+    console.log("numberPagesToday:" + chunk.numberPagesToday);
   });
 
-  // console.log("-----------");
-  // console.log("totalDuration:" + totalDuration);
-  // console.log("totalDurationCompleted:" + totalDurationCompleted);
+  console.log("-----------");
+  console.log("totalDuration:" + totalDuration);
+  console.log("totalDurationCompleted:" + totalDurationCompleted);
 
   //duration ..... 100%
   //duration completed ... x
   if (totalDuration === 0) return 0;
   let progress = Math.round((100 / totalDuration) * totalDurationCompleted);
   if (progress < 0) progress = 0;
+  console.log("PROGRESS: " + progress);
   return progress;
 }
 
@@ -440,9 +441,12 @@ export function durationCompleted({
 
 export async function fetchCalendarChunks(userId) {
   const exams = await Exam.find({
-    userId: userId,
+    userId,
     completed: false
   }).sort({ examDate: "asc" });
+  // const exams = await fetchCurrentExams(userId);
+  console.log("fetched exams");
+
   return getCalendarChunks(exams);
 }
 
@@ -450,13 +454,19 @@ function getCalendarChunks(exams) {
   const calendarChunks = [];
   const calendarExams = [];
 
+  // to avoid division by daysleft = 0 -> and no longer need to show this exam
+  exams = exams.filter(exam => !isTheSameDay(exam.startDate, new Date()));
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
+
+    console.log("problem not here 1");
 
     //TODO - BETWEEN STARTDATE OR TODAY
     let dayToStartCounting = exam.startDate;
     if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
     const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
+    console.log("subject: " + exam.subject);
+    console.log("daysLeft: " + daysLeft);
 
     const numberPagesLeftTotal = calcPagesLeft(
       exam.numberPages,
@@ -464,8 +474,11 @@ function getCalendarChunks(exams) {
       exam.startPage,
       exam.currentPage
     );
+
     // exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
-    const numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
+    let numberPagesPerDay;
+    if (daysLeft === 0) numberPagesPerDay = 0;
+    else numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);
     let dayBeforeExam = getPastDay(exam.examDate, 1);
 
     calendarChunks.push({
