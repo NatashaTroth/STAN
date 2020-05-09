@@ -5,7 +5,7 @@ import {
   setupApolloServer,
   setupDb,
   addTestExam,
-  addTestExams,
+  // addTestExams,
   clearDatabase,
   teardown,
   getFutureDay
@@ -17,7 +17,7 @@ import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
 import {
-  EXAM_COMPLETED_MUTATION,
+  // EXAM_COMPLETED_MUTATION,
   UPDATE_CURRENT_PAGE_MUTATION,
   UPDATE_EXAM_MUTATION
 } from "../../mutations.js";
