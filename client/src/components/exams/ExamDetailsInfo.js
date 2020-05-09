@@ -28,12 +28,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
             <div className="exam-details__inner--details--left">
               <div className="exam-data">
                 <h4>Exam date</h4>
-                <p>{moment(examDetails.examDate).format("DD.MM.YYYY")}</p>
+                <p>{moment(examDetails.examDate).format("DD/MM/YYYY")}</p>
               </div>
 
               <div className="exam-data">
                 <h4>Start learning on</h4>
-                <p>{moment(examDetails.startDate).format("DD.MM.YYYY")}</p>
+                <p>{moment(examDetails.startDate).format("DD/MM/YYYY")}</p>
               </div>
 
               <div className="exam-data">
