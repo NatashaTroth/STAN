@@ -32,7 +32,8 @@ export default class StanScheduler {
 
   async notifyUsersAboutExams() {
     //{ hour: 17, minute: 32 }
-    schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
+    schedule.scheduleJob({ hour: 22, minute: 32 }, async () => {
+      //3 UTC (Greenwich), 4am Austrian time
       console.log("Sending Mails");
 
       //TODO: INDEX allowEmailNotifications
@@ -55,10 +56,15 @@ export default class StanScheduler {
           if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
           if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
         });
-        if (examsInOneDay.length > 0)
-          stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
-        if (examsInThreeDays.length > 0)
-          stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
+        // if (examsInOneDay.length > 0)
+        //   stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
+        // if (examsInThreeDays.length > 0)
+        //   stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
+        stanEmail.sendExamDateReminderMail(
+          user.email,
+          examsInOneDay,
+          examsInThreeDays
+        );
       });
     });
   }

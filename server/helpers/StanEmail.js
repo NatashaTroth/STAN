@@ -24,38 +24,67 @@ export default class StanEmail {
     this.sendMail(recipientEmail, subject, text, h1);
   }
 
-  sendOneDayReminderMail(recipientEmail, exams) {
-    console.log("SENDING ONE DAY REMINDER MAIL");
-    let examWord = "exam";
-    if (exams.length > 1) examWord = "exams";
-    const subject = `${examWord} tomorrow`;
-    const h1 = `Reminder that you have ${exams.length} ${examWord} tomorrow`;
-    const text = `<p>stan wanted to remind you that you have the following ${examWord} tomorrow, which you haven't finished learning for yet:</p>
-                  <ul>${this.createExamsListString(exams)}</ul>
+  // sendOneDayReminderMail(recipientEmail, exams) {
+  //   console.log("SENDING ONE DAY REMINDER MAIL");
+  //   let examWord = "exam";
+  //   if (exams.length > 1) examWord = "exams";
+  //   const subject = `${examWord} tomorrow`;
+  //   const h1 = `Reminder that you have ${exams.length} ${examWord} tomorrow`;
+  //   const text = `<p>stan wanted to remind you that you have the following ${examWord} tomorrow, which you haven't finished learning for yet:</p>
+  //                 <ul>${this.createExamsListString(exams)}</ul>
 
-                  <p>Please don't forget to learn, try to find the time today. Good luck!</p>
+  //                 <p>Please don't forget to learn, try to find the time today. Good luck!</p>
 
-                 
-    `;
+  //   `;
 
-    this.sendMail(recipientEmail, subject, text, h1);
-  }
+  //   this.sendMail(recipientEmail, subject, text, h1);
+  // }
 
-  sendThreeDayReminderMail(recipientEmail, exams) {
+  // sendThreeDayReminderMail(recipientEmail, exams) {
+  //   console.log("SENDING THREE DAY REMINDER MAIL");
+  //   let examWord = "exam";
+  //   if (exams.length > 1) examWord = "exams";
+  //   const subject = `${exams.length} ${examWord} in three days`;
+  //   const h1 = `Reminder that you have ${exams.length} ${examWord} in three days`;
+  //   const text = `<p>stan wanted to remind you that you have the following ${examWord} in three days time, which you haven't finished learning for yet:</p>
+  //                 <ul>${this.createExamsListString(exams)}</ul>
+
+  //                 <p>Please don't forget to learn, you still have time. Good luck!</p>
+
+  //   `;
+
+  //   this.sendMail(recipientEmail, subject, text, h1);
+  // }
+
+  sendExamDateReminderMail(email, examsInOneDay, examsInThreeDays) {
     console.log("SENDING THREE DAY REMINDER MAIL");
-    let examWord = "exam";
-    if (exams.length > 1) examWord = "exams";
-    const subject = `${exams.length} ${examWord} in three days`;
-    const h1 = `Reminder that you have ${exams.length} ${examWord} in three days`;
-    const text = `<p>stan wanted to remind you that you have the following ${examWord} in three days time, which you haven't finished learning for yet:</p>
-                  <ul>${this.createExamsListString(exams)}</ul>
+    let totalExamsLength = examsInOneDay.length + examsInThreeDays.length;
+    let examWord = "Exam";
+    if (totalExamsLength > 1) examWord = "Exams";
+    if ((totalExamsLength = 1)) totalExamsLength = "";
+    let examsListString = "";
+    if (examsInOneDay.length > 0) {
+      // let oneDayExamsWord = "exam"
+      // if (examsInOneDay.length  > 1) oneDayExamsWord = "exams";
+      examsListString += `<b>${examsInOneDay.length} ${
+        examsInOneDay.length > 1 ? "exams" : "exam"
+      } tomorrow:</b><ul>${this.createExamsListString(examsInOneDay)}</ul>`;
+    }
+    if (examsInThreeDays.length > 0) {
+      // let oneDayExamsWord = "exam"
+      // if (examsInOneDay.length  > 1) oneDayExamsWord = "exams";
+      examsListString += `<b>${examsInThreeDays.length} ${
+        examsInThreeDays.length > 1 ? "exams" : "exam"
+      } in three days' time:</b><ul>${this.createExamsListString(
+        examsInThreeDays
+      )}</ul>`;
+    }
 
-                  <p>Please don't forget to learn, you still have time. Good luck!</p>
-                  
-                 
-    `;
+    const subject = `${examWord} coming up!`;
+    const h1 = `Reminder that you have the following ${totalExamsLength} ${examWord.toLowerCase()} coming up`;
+    const text = `<p>stan wanted to remind you that you have the following ${examWord.toLowerCase()} in three days time, which you haven't finished learning for yet:</p>${examsListString}<p>Please don't forget to learn, you still have time. Good luck!</p>`;
 
-    this.sendMail(recipientEmail, subject, text, h1);
+    this.sendMail(email, subject, text, h1);
   }
 
   createExamsListString(exams) {
