@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom"
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // libraries
 import Carousel from "react-bootstrap/Carousel"
@@ -28,7 +29,9 @@ const Mascots = () => {
   const [index, setIndex] = useState(0)
 
   // mutation ----------------
-  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION)
+  const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  })
 
   // form specific ----------------
   const onSubmit = () => {
@@ -103,7 +106,7 @@ const Mascots = () => {
                   </div>
                 </div>
                 <div id="success-container-mascot-saved">
-                  <p className="success">the exam was successfully completed</p>
+                  <p className="success">the mascot was successfully saved</p>
                 </div>
                 <div className="error">
                   <p id="graphql-mascots-error"></p>
@@ -137,9 +140,7 @@ async function handleMascot({ index, updateMascot, history }) {
 
     // redirect ----------------
     window.localStorage.setItem("mascot-event", false)
-    setTimeout(() => {
-      history.push("/")
-    }, 1000)
+    history.push("/")
   } catch (err) {
     let element = document.getElementById("graphql-mascots-error")
 
