@@ -167,23 +167,13 @@ export async function handleUpdateExamInTodaysChunkCache(
   }
 }
 
-export async function handleCompleteExamInTodaysCache(userId, examId) {
-  //TODO-> also in updateexam
-  const todaysChunkCache = await TodaysChunkCache.findOne({
+export async function deleteExamsTodaysCache(userId, examId) {
+  const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
     examId,
     userId
   });
-  if (!todaysChunkCache) return true;
-
-  const respUpdateTodaysChunkCache = await TodaysChunkCache.updateOne(
-    { examId, userId },
-    { completed: true, updatedAt: new Date() }
-  );
-  if (
-    respUpdateTodaysChunkCache.ok === 0 ||
-    respUpdateTodaysChunkCache.nModified === 0
-  )
-    throw new ApolloError("The chunk cache couldn't be updated.");
+  if (respDeleteChunkCache.ok !== 1 || respDeleteChunkCache.deletedCount !== 1)
+    throw new ApolloError("The exam today's chunk cache couldn't be deleted");
 }
 
 function chunkHasToBeChanged(oldExam, newArgs) {

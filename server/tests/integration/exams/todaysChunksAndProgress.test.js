@@ -17,7 +17,7 @@ import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO: ADD THIS TO THIS TEST TOO?
 import {
-  // EXAM_COMPLETED_MUTATION,
+  EXAM_COMPLETED_MUTATION,
   UPDATE_CURRENT_PAGE_MUTATION,
   UPDATE_EXAM_MUTATION
 } from "../../mutations.js";
@@ -602,10 +602,11 @@ describe("Test user resolver regex", () => {
   });
 
   //-------EXAM COMPLETED TESTS----------
-  it("tests if finished exam deletes today's chunk cache from db ", async () => {
+  it.only("tests if finished exam deletes today's chunk cache from db ", async () => {
     const testExam1 = await addTestExam({ subject: "Biology" });
     const testExam2 = await addTestExam({ subject: "Chemistry" });
     const testExam3 = await addTestExam({ subject: "Dance" });
+    const testExam4 = await addTestExam({ subject: "English" });
     const chunkStartPage = testExam1.currentPage;
     expect(
       await TodaysChunkCache.countDocuments({
@@ -620,6 +621,31 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(4);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(4);
+
+    //---UPDATE CURRENT PAGE---
+    const updatePageResp1 = await mutate({
+      query: UPDATE_CURRENT_PAGE_MUTATION,
+      variables: {
+        examId: testExam1._id.toString(),
+        page: 52
+      }
+    });
+    expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
+
+    //---REFETCH TODAYSCHUNKS---
+    respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
     ).toBe(3);
 
     expect(
@@ -628,16 +654,22 @@ describe("Test user resolver regex", () => {
       })
     ).toBe(3);
 
-    //---UPDATE CURRENT PAGE---
-    const updatePageResp1 = await mutate({
-      query: UPDATE_CURRENT_PAGE_MUTATION,
+    //---UPDATE EXAM (current page)---
+    const respUpdateExam = await mutate({
+      query: UPDATE_EXAM_MUTATION,
       variables: {
-        examId: testExam1._id.toString(),
-        page: 51
+        id: testExam2._id.toString(),
+        subject: testExam2.subject,
+        examDate: testExam2.examDate,
+        startDate: testExam2.startDate,
+        currentPage: 52,
+        numberPages: testExam2.numberPages, //was 50
+        timePerPage: testExam2.timePerPage,
+        startPage: testExam2.startPage,
+        timesRepeat: testExam2.timesRepeat
       }
     });
-    expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
-
+    expect(respUpdateExam.data.updateExam).toBeTruthy();
     //---REFETCH TODAYSCHUNKS---
     respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
@@ -652,6 +684,30 @@ describe("Test user resolver regex", () => {
         userId: "samanthasId"
       })
     ).toBe(2);
+
+    //---UPDATE EXAM (current page)---
+    const respExamCompleted = await mutate({
+      query: EXAM_COMPLETED_MUTATION,
+      variables: {
+        id: testExam3._id.toString()
+      }
+    });
+    expect(respExamCompleted.data.examCompleted).toBeTruthy();
+
+    //---REFETCH TODAYSCHUNKS---
+    respTodaysChunks = await query({
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
+    });
+    expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
+    expect(
+      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
+    ).toBe(1);
+
+    expect(
+      await TodaysChunkCache.countDocuments({
+        userId: "samanthasId"
+      })
+    ).toBe(1);
 
     //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
   });

@@ -21,7 +21,7 @@ import {
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache,
-  handleCompleteExamInTodaysCache
+  deleteExamsTodaysCache
 } from "../helpers/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyUserInput";
@@ -162,15 +162,21 @@ export const examResolvers = {
           { _id: args.id, userId: context.userInfo.userId },
           { ...processedArgs, updatedAt: new Date() }
         );
+
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
+        console.log("hi");
+        console.log(processedArgs.completed);
+        if (processedArgs.completed)
+          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
         //TODO - NEED AWAIT HERE?
-        await handleUpdateExamInTodaysChunkCache(
-          context.userInfo.userId,
-          exam,
-          processedArgs
-        );
+        else
+          await handleUpdateExamInTodaysChunkCache(
+            context.userInfo.userId,
+            exam,
+            processedArgs
+          );
         const updatedExam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -196,8 +202,8 @@ export const examResolvers = {
         );
         if (exam.currentPage === args.page) return true;
 
-        // console.log("hi");
-        // console.log(exam.completed);
+        console.log("hi");
+        console.log(exam.completed);
         const resp = await Exam.updateOne(
           { _id: args.examId, userId: context.userInfo.userId },
           {
@@ -212,12 +218,14 @@ export const examResolvers = {
         console.log("upCurrPageRes - updated exam");
 
         //TODO - NEED AWAIT HERE?
-
-        await handleUpdateCurrentPageInTodaysChunkCache(
-          context.userInfo.userId,
-          exam._id,
-          args.page
-        );
+        if (exam.completed)
+          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        else
+          await handleUpdateCurrentPageInTodaysChunkCache(
+            context.userInfo.userId,
+            exam._id,
+            args.page
+          );
         console.log("upCurrPageRes - updated chunk");
 
         return true;
@@ -247,7 +255,7 @@ export const examResolvers = {
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        await handleCompleteExamInTodaysCache(context.userInfo.userId, args.id);
+        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
 
         return true;
       } catch (err) {
@@ -272,27 +280,12 @@ export const examResolvers = {
           userId: context.userInfo.userId
         });
 
-        const todaysChunkCacheNumber = await TodaysChunkCache.countDocuments({
-          examId: args.id,
-          userId: context.userInfo.userId
-        });
-        if (todaysChunkCacheNumber === 1) {
-          const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
-            examId: args.id,
-            userId: context.userInfo.userId
-          });
-          if (
-            respDeleteChunkCache.ok !== 1 ||
-            respDeleteChunkCache.deletedCount !== 1
-          )
-            throw new ApolloError(
-              "The exam today's chunk cache couldn't be deleted"
-            );
-        }
-
         // console.log(resp);
         if (resp.ok !== 1 || resp.deletedCount !== 1)
           throw new ApolloError("The exam couldn't be deleted");
+
+        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
+
         return true;
       } catch (err) {
         handleResolverError(err);
