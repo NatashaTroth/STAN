@@ -322,7 +322,7 @@ async function calculateTodaysChunks(currentExams) {
 
 function createTodaysChunkObject(exam) {
   const daysLeft = getNumberOfDays(new Date(), exam.examDate);
-
+  // if (daysLeft === 0) -> todo
   const numberPagesToday = numberOfPagesForChunk({
     numberOfPages: exam.numberPages,
     startPage: exam.startPage,
@@ -417,7 +417,9 @@ export function calculateChunkProgress(chunks) {
   //duration ..... 100%
   //duration completed ... x
   if (totalDuration === 0) return 0;
-  return Math.round((100 / totalDuration) * totalDurationCompleted);
+  let progress = Math.round((100 / totalDuration) * totalDurationCompleted);
+  if (progress < 0) progress = 0;
+  return progress;
 }
 
 export function durationCompleted({
@@ -509,6 +511,8 @@ export function numberOfPagesForChunk({
     isNaN(repeat)
   )
     throw new Error("Not all arguments for numberOfPagesForChunk are numbers.");
+
+  if (daysLeft === 0) return 0;
   // console.log("numberOfPages: " + numberOfPages);
   // console.log("startPage: " + startPage);
   // console.log("currentPage: " + currentPage);
