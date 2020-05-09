@@ -494,7 +494,7 @@ const UserAccountEdit = () => {
                       )}
 
                       <div className="col-xl-12">
-                        <div class="edit-form-bottom">
+                        <div className="edit-form-bottom">
                           <div className="form__notifications login__form__notifications">
                             <label htmlFor="notification" className="container">
                               <input
