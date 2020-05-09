@@ -23,20 +23,22 @@ export default class StanScheduler {
     //   console.log('Today is recognized by Rebecca Black!');
     // });
     this.notifyUsersAboutExams();
-    schedule.scheduleJob("*/1 * * * *", function() {
-      console.log("THE SCHEDULER IS WORKING");
-    });
+    // schedule.scheduleJob("*/1 * * * *", function() {
+    //   console.log("THE SCHEDULER IS WORKING");
+    // });
   }
 
   //TODO - SIGN UP MAIL, DELETE ACCOUNT MAIL, START LEARNING DATE MAILS
 
   async notifyUsersAboutExams() {
-    schedule.scheduleJob({ hour: 17, minute: 32 }, async () => {
+    //{ hour: 17, minute: 32 }
+    schedule.scheduleJob({ hour: 4, minute: 0 }, async () => {
       console.log("Sending Mails");
 
       //TODO: INDEX allowEmailNotifications
-      const users = await User.find({ allowEmailNotifications: true });
 
+      const users = await User.find({ allowEmailNotifications: true });
+      console.log(users.length + " no users authenticated");
       users.forEach(async user => {
         const examsInOneDay = [];
         const examsInThreeDays = [];
