@@ -76,32 +76,27 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 </p>
               </div>
               <div className="exam-pages">
-                <h4>Pages left</h4>
+                <h4>Pages left including repetition</h4>
 
                 <div className="exam-pages__bar">
                   <ExamBar
                     value={
                       (100 * (examDetails.currentPage - 1)) /
-                      examDetails.numberPages
+                      (examDetails.numberPages * examDetails.timesRepeat)
                     }
                   />
 
                   <div className="exam-pages__bar--status">
                     <p>
                       {Math.round(
-                        examDetails.numberPages - (examDetails.currentPage - 1)
+                        examDetails.numberPages * examDetails.timesRepeat -
+                          (examDetails.currentPage - 1)
                       )}{" "}
                       pages left
                     </p>
                   </div>
                 </div>
               </div>
-              {/* <div className="exam-data">
-                <h4>Pages studied</h4>
-                <p>
-                  {examDetails.currentPage - 1}/{examDetails.numberPages}
-                </p>
-              </div> */}
 
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
