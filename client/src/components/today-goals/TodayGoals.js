@@ -8,6 +8,7 @@ function TodayGoals(props) {
   // query data ----------------
   let todaySubject
   let totalDurationTime
+  let totalDuration = 0
 
   // check if there is data ----------------
   if (
@@ -22,6 +23,7 @@ function TodayGoals(props) {
       return el.completed == false
     }
   )
+
   // map entries ----------------
   todaySubject = filteredItems.map((element, index) => {
     // subject ----------------
@@ -32,9 +34,9 @@ function TodayGoals(props) {
     let durationTime = calculateDuration(element.durationLeftToday)
 
     // duration for all exams total
-    let totalDuration = 0
     totalDuration += duration
     totalDurationTime = calculateDurationTotal(totalDuration)
+    console.log(totalDuration)
 
     // return ----------------
     return (
