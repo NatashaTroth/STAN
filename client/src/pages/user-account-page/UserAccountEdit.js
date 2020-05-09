@@ -423,23 +423,6 @@ const UserAccountEdit = () => {
                               </div>
                             ) : null}
                           </div>
-
-                          <div className="form__notifications login__form__notifications">
-                            <label htmlFor="notification" className="container">
-                              <input
-                                type="checkbox"
-                                id="notification"
-                                name="notification"
-                                value="notification"
-                                defaultChecked={
-                                  currentUser.allowEmailNotifications
-                                }
-                                onChange={handleNotification}
-                              />
-                              <span className="checkmark"></span>
-                              Allow email notifications when exam date is close.
-                            </label>
-                          </div>
                         </div>
                       ) : null}
 
@@ -476,14 +459,6 @@ const UserAccountEdit = () => {
                               </Carousel.Item>
                             </Carousel>
                           </div>
-
-                          <div className="user-account__edit--form__button">
-                            <Button
-                              variant="button"
-                              text="Save"
-                              className="stan-btn-primary"
-                            />
-                          </div>
                         </div>
                       ) : (
                         <div className="col-xl-12">
@@ -518,6 +493,27 @@ const UserAccountEdit = () => {
                               </Carousel.Item>
                             </Carousel>
                           </div>
+                        </div>
+                      )}
+
+                      <div className="col-xl-12">
+                        <div class="edit-form-bottom">
+                          <div className="form__notifications login__form__notifications">
+                            <label htmlFor="notification" className="container">
+                              <input
+                                type="checkbox"
+                                id="notification"
+                                name="notification"
+                                value="notification"
+                                defaultChecked={
+                                  currentUser.allowEmailNotifications
+                                }
+                                onChange={handleNotification}
+                              />
+                              <span className="checkmark"></span>
+                              Allow email notifications when exam date is close.
+                            </label>
+                          </div>
 
                           <div className="user-account__edit--form__button">
                             <Button
@@ -527,7 +523,7 @@ const UserAccountEdit = () => {
                             />
                           </div>
                         </div>
-                      )}
+                      </div>
 
                       <div
                         className="col-md-12"
