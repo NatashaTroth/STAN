@@ -1,16 +1,20 @@
 import React from "react"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
+import moment from "moment"
+import { calculateDuration } from "../today-goals/TodayGoals"
+// --------------------------------------------------------------
+
+// queries ----------------
+import { useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
+
+// mutations ----------------
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
-import { useForm } from "react-hook-form"
-import { Link, useRouteMatch } from "react-router-dom"
-import moment from "moment"
-import { calculateDuration } from "../today-goals/TodayGoals"
-// --------------------------------------------------------------
 
 // components ----------------
 import Button from "../../components/button/Button"
@@ -22,36 +26,42 @@ function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
-  // mutation data ----------------
-  let pagesStudiedForm
-
   // user click to add custom page number ----------------
   const onSubmit = async formData => {
     try {
+      const chunk =
+        props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+      const exam = chunk.exam
+      const currentPage = exam.currentPage
+      const lastPage = exam.numberPages
+      let currentRepetion = Math.floor(currentPage / lastPage)
+      let newPage =
+        parseInt(formData.page_amount_studied) +
+        1 + // plus one to tell backend from which page to study next
+        lastPage * currentRepetion
+      const numberPagesToday = chunk.numberPagesToday
+      const chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
+      // update repetition cycle when entered number
+      // is (lower than current page) OR (lower than goal AND higher than current page)
+      // ex: goal 41 to 4
       if (
-        (parseInt(formData.page_amount_studied) >= chunkGoalPage &&
-          parseInt(formData.page_amount_studied) < realCurrentPage) ||
-        parseInt(formData.page_amount_studied) < realCurrentPage
+        (newPage >= chunkGoalPage && newPage < currentPage) ||
+        newPage < currentPage
       ) {
-        repetition++
-      }
-
-      if (repetition == 1) {
-        pagesStudiedForm = parseInt(formData.page_amount_studied) + 1
-      } else {
-        // (total pages * cycle) + current page in cycle + 1
-        pagesStudiedForm =
-          lastPage * (repetition - 1) +
+        // update repetition cycle
+        currentRepetion++
+        newPage =
           parseInt(formData.page_amount_studied) +
-          1
+          1 + // plus one to tell backend from which page to study next
+          lastPage * currentRepetion
       }
 
+      // update page ----------------
       const resp = await updatePage({
         variables: {
-          page: parseInt(pagesStudiedForm),
-          examId:
-            props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-              .exam.id,
+          page: newPage,
+          examId: exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
@@ -60,10 +70,21 @@ function Today(props) {
         ],
       })
 
-      reset({}) // reset form data
+      if (resp && resp.data && resp.data.updateCurrentPage) {
+        reset({}) // reset form data
+      } else {
+        throw new Error(
+          "Unable to update study progress, please check your input"
+        )
+      }
     } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-error")
+
+      if (err.graphQLErrors && err.graphQLErrors[0]) {
+        element[0].innerHTML = err.graphQLErrors[0].message
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
 
@@ -83,9 +104,19 @@ function Today(props) {
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
+
+      if (resp && resp.data && resp.data.updateCurrentPage) {
+      } else {
+        throw new Error("Unable to update study progress")
+      }
     } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-error")
+
+      if (err.graphQLErrors && err.graphQLErrors[0]) {
+        element[0].innerHTML = err.graphQLErrors[0].message
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
   // ------------------------------------------------------------------------------------------------
@@ -119,6 +150,10 @@ function Today(props) {
 
   // real current page to display ----------------
   let realCurrentPage = currentPage % lastPage
+  // to display the last page correctly (edge cases)
+  if (realCurrentPage == 0) {
+    realCurrentPage = lastPage
+  }
 
   // start page for today's chunk goal ----------------
   let startPage = todaysChunk.startPage
@@ -170,7 +205,9 @@ function Today(props) {
   // pages are left in total with repetition cycles ----------------
   let leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
   // percentage for bar
-  let leftPagesPercentage = Math.round((currentPage * 100) / leftPagesTotal)
+  let leftPagesPercentage = Math.round(
+    (currentPage * 100) / (leftPagesTotal + lastPage)
+  )
   // --------------------------------
 
   // return ----------------
@@ -298,7 +335,7 @@ function Today(props) {
                             placeholder={realCurrentPage}
                             ref={register({
                               required: true,
-                              min: realCurrentPage,
+                              min: 1,
                               max: lastPage,
                             })}
                           />
@@ -343,6 +380,9 @@ function Today(props) {
                       </div>
                     </form>
                   </div>
+                </div>
+                <div>
+                  <p className="error graphql-error"></p>
                 </div>
               </div>
             </div>

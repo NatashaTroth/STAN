@@ -72,11 +72,16 @@ function AddNew() {
         reset({}) // reset form data
       } else {
         // displays server error (backend)
-        throw new Error("The exam could not be added")
+        throw new Error("The exam could not be added, please check your input")
       }
     } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-error")
+
+      if (err.graphQLErrors && err.graphQLErrors[0]) {
+        element[0].innerHTML = err.graphQLErrors[0].message
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
 
@@ -365,6 +370,9 @@ function AddNew() {
                 </div>
               </div>
             </form>
+            <div>
+              <p className="error graphql-error"></p>
+            </div>
           </div>
           <div className="col-md-12" id="success-container-add-new">
             <p className="success">the exam was successfully added</p>

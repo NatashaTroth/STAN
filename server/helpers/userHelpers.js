@@ -92,7 +92,7 @@ export async function invalidateRefreshTokens(userId) {
   try {
     const resp = await User.updateOne(
       { _id: userId },
-      { $inc: { refreshTokenVersion: 1 } }
+      { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
     );
     if (resp.nModified === 0)
       throw Error("Refresh token version was not increased.");
@@ -107,7 +107,7 @@ export async function invalidateAccessTokens(userId) {
   try {
     const resp = await User.updateOne(
       { _id: userId },
-      { $inc: { accessTokenVersion: 1 } }
+      { $inc: { accessTokenVersion: 1 }, updatedAt: new Date() }
     );
     if (resp.nModified === 0)
       throw Error("Access token version was not increased.");
