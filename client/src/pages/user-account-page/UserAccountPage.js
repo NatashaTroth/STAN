@@ -8,12 +8,6 @@ import { Redirect, Link } from "react-router-dom"
 import { flowRight as compose } from "lodash"
 import { graphql } from "react-apollo"
 
-// context ----------------
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
-
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
@@ -109,16 +103,11 @@ function UserAccount(props) {
           <div className="col-md-1"></div>
           <div className="col-md-9">
             <div className="user-account__headline">
-              <CurrentUserContext.Consumer>
-                {currentUser => {
-                  let username = currentUser.username
-                  if (username.slice(-1) === "s") {
-                    return <h2>{username}' account</h2>
-                  } else {
-                    return <h2>{username}'s account</h2>
-                  }
-                }}
-              </CurrentUserContext.Consumer>
+              {currentUser.username.slice(-1) === "s" ? (
+                <h2>{currentUser.username}' account</h2>
+              ) : (
+                <h2>{currentUser.username}'s account</h2>
+              )}
             </div>
           </div>
           <div className="col-md-2"></div>
@@ -132,13 +121,8 @@ function UserAccount(props) {
             <div className="user-account__container--left">
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <h3>{currentUser.username}</h3>}
-                  </CurrentUserContext.Consumer>
-
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <p>{currentUser.email}</p>}
-                  </CurrentUserContext.Consumer>
+                  <h3>{currentUser.username}</h3>
+                  <p>{currentUser.email}</p>
                 </div>
 
                 <div className="buttons">
