@@ -34,7 +34,7 @@ export default class StanEmail {
     let totalExamsLength = examsInOneDay.length + examsInThreeDays.length;
     let examWord = "Exam";
     if (totalExamsLength > 1) examWord = "Exams";
-    if ((totalExamsLength = 1)) totalExamsLength = "";
+    if (totalExamsLength === 1) totalExamsLength = "";
     let examsListString = "";
     if (examsInOneDay.length > 0) {
       examsListString += `<b>${examsInOneDay.length} ${
