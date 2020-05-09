@@ -7,7 +7,7 @@ import Stan from "../../images/mascots/iAmStan.svg"
 // sub-components
 import Image from "../../components/image/Image"
 
-function Imprint() {
+const Imprint = () => {
   // return ----------------
   return (
     <div className="imprint">

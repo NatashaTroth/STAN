@@ -9,7 +9,7 @@ import AddNew from "../../components/add-new/AddNew"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function AddNewPage() {
+const AddNewPage = () => {
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser === null) {

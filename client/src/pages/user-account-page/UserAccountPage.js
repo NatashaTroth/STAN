@@ -32,7 +32,7 @@ import Image from "../../components/image/Image"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function UserAccount(props) {
+const UserAccount = props => {
   // mutation ----------------
   const [logout] = useMutation(LOGOUT_MUTATION)
 

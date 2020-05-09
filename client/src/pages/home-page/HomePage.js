@@ -16,7 +16,7 @@ import Particles from "react-particles-js"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function Home() {
+const Home = () => {
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser !== null) {

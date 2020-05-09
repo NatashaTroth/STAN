@@ -2,7 +2,7 @@ import React from "react"
 import Stan from "../../images/mascots/0-stressed-1.svg"
 // --------------------------------------------------------------
 
-function NoMatch404() {
+const NoMatch404 = () => {
   // return ----------------
   return (
     <div className="no-match">

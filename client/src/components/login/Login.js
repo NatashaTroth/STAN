@@ -14,7 +14,7 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
-function Login() {
+const Login = () => {
   // local-storage popup event ----------------
   window.localStorage.setItem("popup-event", false)
 

@@ -17,6 +17,7 @@ import motivationalSayings from "./json/motivational-sayings.json"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// random function ----------------
 const RandomMascot = ({ mascotId, num, mood }) => {
   return (
     <Image

@@ -16,7 +16,7 @@ import Pic2 from "../../images/desk2.png"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function About() {
+const About = () => {
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser !== null) {

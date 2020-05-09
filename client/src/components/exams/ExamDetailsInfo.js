@@ -5,7 +5,7 @@ import { calculateDuration } from "../today-goals/TodayGoals"
 import ExamBar from "../progressbar/ProgressBar"
 
 // helpers ----------------
-import { getNumberOfDays, formatDate } from "../../helpers/dates"
+import { getNumberOfDays } from "../../helpers/dates"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------

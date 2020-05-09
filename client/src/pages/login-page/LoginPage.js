@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function LoginPage() {
+const LoginPage = () => {
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser !== null) {

@@ -29,12 +29,12 @@ function AddNew() {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
-  // date picker
+  // date picker ----------------
   let today = new Date()
   const [myExamDate, setMyExamDate] = useState(today)
   const [myStartDate, setMyStartDate] = useState(today)
 
-  // parse Date
+  // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
   // -----------------------------
