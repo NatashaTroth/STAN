@@ -62,7 +62,7 @@ describe("Test user resolver regex", () => {
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
     expect(
       await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
-    ).toBe(1);
+    ).toBe(0);
 
     const exam = await Exam.findOne({ userId: "samanthasId" });
     const todaysChunkCache = await TodaysChunkCache.findOne({
@@ -70,7 +70,7 @@ describe("Test user resolver regex", () => {
     });
 
     expect(exam.completed).toBeTruthy();
-    expect(todaysChunkCache.completed).toBeTruthy();
+    expect(todaysChunkCache).toBeFalsy();
 
     // const exam = await query({
     //   query: GET_EXAM,

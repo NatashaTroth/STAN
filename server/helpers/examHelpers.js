@@ -71,11 +71,13 @@ export async function handleUpdateExamInput(exam, args, userId) {
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
   // learningIsComplete(args.currentPage, args.startPage, a);
   args.completed = exam.completed;
-  // args.completed = learningIsComplete(
-  //   exam.currentPage,
-  //   exam.startPage,
-  //   exam.numberPages
-  // );
+  if (!args.completed)
+    args.completed = learningIsComplete(
+      args.currentPage,
+      args.startPage,
+      args.numberPages,
+      args.repeat
+    );
 
   return prepareExamInputData({ ...args }, userId);
 }
