@@ -24,17 +24,17 @@ npm:client:
     # TODO: change when testing in client:
     - /^front-feature.*$/
 
-# lint:client:
-#   stage: lint
-#   tags:
-#     - node
-#   script:
-#     - cd client/
-#     - echo "Linting.."
-#     - npm run format
-#   except:
-#     - /^front-feature.*$/
-#     - /^back-feature.*$/
+lint:client:
+  stage: lint
+  tags:
+    - node
+  script:
+    - cd client/
+    - echo "Linting.."
+    - npm run format
+  except:
+    - /^front-feature.*$/
+    - /^back-feature.*$/
 
 staging:client:
   stage: staging client
