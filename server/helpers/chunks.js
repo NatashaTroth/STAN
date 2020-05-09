@@ -509,6 +509,8 @@ export function numberOfPagesForChunk({
     isNaN(repeat)
   )
     throw new Error("Not all arguments for numberOfPagesForChunk are numbers.");
+
+  if (daysLeft === 0) return 0;
   // console.log("numberOfPages: " + numberOfPages);
   // console.log("startPage: " + startPage);
   // console.log("currentPage: " + currentPage);
