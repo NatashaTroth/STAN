@@ -68,10 +68,10 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Studied</h4>
                 <p>
-                  {(
+                  {Math.round(
                     (100 * (examDetails.currentPage - 1)) /
-                    (examDetails.numberPages * examDetails.timesRepeat)
-                  ).toFixed(2)}
+                      (examDetails.numberPages * examDetails.timesRepeat)
+                  )}
                   % of 100%
                 </p>
               </div>
