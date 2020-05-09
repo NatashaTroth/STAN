@@ -322,7 +322,7 @@ async function calculateTodaysChunks(currentExams) {
 
 function createTodaysChunkObject(exam) {
   const daysLeft = getNumberOfDays(new Date(), exam.examDate);
-
+  // if (daysLeft === 0) -> todo
   const numberPagesToday = numberOfPagesForChunk({
     numberOfPages: exam.numberPages,
     startPage: exam.startPage,
