@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
 
 import { User, Exam } from "./../models";
-import { getNumberOfDays } from "./dates";
+import { getNumberOfDays, isTheSameDay } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
 
@@ -23,6 +23,7 @@ export default class StanScheduler {
     //   console.log('Today is recognized by Rebecca Black!');
     // });
     this.notifyUsersAboutExams();
+
     // schedule.scheduleJob("*/1 * * * *", function() {
     //   console.log("THE SCHEDULER IS WORKING");
     // });
@@ -32,7 +33,7 @@ export default class StanScheduler {
 
   async notifyUsersAboutExams() {
     //{ hour: 17, minute: 32 }
-    schedule.scheduleJob({ hour: 22, minute: 32 }, async () => {
+    schedule.scheduleJob({ hour: 23, minute: 16 }, async () => {
       //3 UTC (Greenwich), 4am Austrian time
       console.log("Sending Mails");
 
@@ -43,6 +44,7 @@ export default class StanScheduler {
       users.forEach(async user => {
         const examsInOneDay = [];
         const examsInThreeDays = [];
+        const startDatesToday = [];
         const exams = await Exam.find({
           userId: user._id,
           completed: false
@@ -55,6 +57,8 @@ export default class StanScheduler {
           console.log(numberOfDaysUntilExam);
           if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
           if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
+          if (isTheSameDay(new Date(), exam.startDate))
+            startDatesToday.push(exam.subject);
         });
         // if (examsInOneDay.length > 0)
         //   stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
@@ -63,7 +67,8 @@ export default class StanScheduler {
         stanEmail.sendExamDateReminderMail(
           user.email,
           examsInOneDay,
-          examsInThreeDays
+          examsInThreeDays,
+          startDatesToday
         );
       });
     });
