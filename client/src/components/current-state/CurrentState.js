@@ -33,7 +33,7 @@ const RandomMascot = ({ mascotId, num, mood }) => {
 const CurrentState = () => {
   // context ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
-
+  console.log(currentUser)
   // state ----------------
   const [randomNum, setRandomNum] = useState({ min: 0, max: 2, num: 0 })
 
@@ -61,7 +61,7 @@ const CurrentState = () => {
   mood = currentMood(
     client.readQuery({ query: GET_TODAYS_CHUNKS_PROGRESS }).todaysChunksProgress
   )
-
+  console.log(mood)
   motivationalSayings.forEach(element => {
     if (mood === element.mood) {
       if (element.id === randomNum.num) {
