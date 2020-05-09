@@ -19,6 +19,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
   console.log(examDetails)
 
+  // currentpage%lastpage
+  // lastpage = startpage + numberPages -1
+
   // return ----------------
   return (
     <div className="exam-details__inner--details">
