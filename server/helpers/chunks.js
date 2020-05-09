@@ -417,7 +417,9 @@ export function calculateChunkProgress(chunks) {
   //duration ..... 100%
   //duration completed ... x
   if (totalDuration === 0) return 0;
-  return Math.round((100 / totalDuration) * totalDurationCompleted);
+  let progress = Math.round((100 / totalDuration) * totalDurationCompleted);
+  if (progress < 0) progress = 0;
+  return progress;
 }
 
 export function durationCompleted({

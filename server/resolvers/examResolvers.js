@@ -113,8 +113,8 @@ export const examResolvers = {
         // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
         //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
         handleAuthentication(context.userInfo);
-
         return await getTodaysChunkProgress(context.userInfo.userId);
+
         // return calculateUserState(chunks);
         // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
         // return "VERY_HAPPY";
