@@ -36,7 +36,6 @@ function TodayGoals(props) {
     // duration for all exams total
     totalDuration += duration
     totalDurationTime = calculateDurationTotal(totalDuration)
-    console.log(totalDuration)
 
     // return ----------------
     return (
