@@ -19,7 +19,7 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 import Button from "../button/Button"
 import Image from "../image/Image"
 
-function Mascots() {
+const Mascots = () => {
   // form specific & routes ----------------
   const { handleSubmit } = useForm()
   let history = useHistory()

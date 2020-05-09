@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-function Exam({ subject, currentStatus }) {
+const Exam = ({ subject, currentStatus }) => {
   // return ----------------
   return (
     <div className="exam">

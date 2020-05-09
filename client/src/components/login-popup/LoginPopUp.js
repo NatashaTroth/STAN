@@ -8,7 +8,7 @@ import { CURRENT_USER } from "../../graphQL/queries"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-function LoginPopUp() {
+const LoginPopUp = () => {
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (
