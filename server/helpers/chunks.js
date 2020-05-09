@@ -55,6 +55,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       } else {
         console.log("updating chunk with updates");
         console.log(newChunk);
+        newChunk.updatedAt = new Date();
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           newChunk
@@ -121,7 +122,8 @@ export async function handleUpdateExamInTodaysChunkCache(
         userId
       },
       {
-        ...updates
+        ...updates,
+        updatedAt: new Date()
       }
     );
 
@@ -155,13 +157,23 @@ export async function handleUpdateExamInTodaysChunkCache(
           userId
         },
         {
-          ...updates
+          ...updates,
+          updatedAt: new Date()
         }
       );
       if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
         throw new ApolloError("The todays chunk cache could not be updated.");
     }
   }
+}
+
+export async function deleteExamsTodaysCache(userId, examId) {
+  const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
+    examId,
+    userId
+  });
+  if (respDeleteChunkCache.ok !== 1 || respDeleteChunkCache.deletedCount !== 1)
+    throw new ApolloError("The exam today's chunk cache couldn't be deleted");
 }
 
 function chunkHasToBeChanged(oldExam, newArgs) {
@@ -193,7 +205,8 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
     { examId: examId, userId },
     {
       currentPage: page,
-      completed
+      completed,
+      updatedAt: new Date()
     }
   );
 
@@ -269,6 +282,7 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
     notEnoughTime: newChunk.notEnoughTime,
     durationAlreadyLearned,
     completed: newChunk.completed
+    // updatedAt: new Date
   };
 
   return updates;
