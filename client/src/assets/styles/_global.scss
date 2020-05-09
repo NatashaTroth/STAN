@@ -314,6 +314,13 @@ html body {
     margin-top: 2px;
   }
 
+  .graphql-error {
+    text-align: left;
+    max-width: none;
+    width: 100%;
+    margin: 15px 0;
+  }
+
   .fadeOut {
     opacity: 0;
     transition: opacity 0.4s;
