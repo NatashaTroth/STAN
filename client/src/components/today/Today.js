@@ -69,10 +69,22 @@ function Today(props) {
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
-      reset({}) // reset form data
+
+      if (resp && resp.data && resp.data.updateCurrentPage) {
+        reset({}) // reset form data
+      } else {
+        throw new Error(
+          "Unable to update study progress, please check your input"
+        )
+      }
     } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-error")
+
+      if (err.graphQLErrors && err.graphQLErrors[0]) {
+        element[0].innerHTML = err.graphQLErrors[0].message
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
 
@@ -92,9 +104,19 @@ function Today(props) {
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
+
+      if (resp && resp.data && resp.data.updateCurrentPage) {
+      } else {
+        throw new Error("Unable to update study progress")
+      }
     } catch (err) {
-      // TODO: display error message
-      console.error(err.message)
+      let element = document.getElementsByClassName("graphql-error")
+
+      if (err.graphQLErrors && err.graphQLErrors[0]) {
+        element[0].innerHTML = err.graphQLErrors[0].message
+      } else {
+        element[0].innerHTML = err.message
+      }
     }
   }
   // ------------------------------------------------------------------------------------------------
@@ -358,6 +380,9 @@ function Today(props) {
                       </div>
                     </form>
                   </div>
+                </div>
+                <div>
+                  <p className="error graphql-error"></p>
                 </div>
               </div>
             </div>
