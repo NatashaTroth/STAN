@@ -2,14 +2,12 @@ import React, { useState } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // queries ----------------
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_CALENDAR_CHUNKS,
+  CURRENT_USER,
 } from "../../graphQL/queries"
 import {
   DELETE_EXAM_MUTATION,
@@ -25,6 +23,9 @@ import ExamDetailsInfo from "../exams/ExamDetailsInfo"
 import Button from "../button/Button"
 import QueryError from "../error/Error"
 import Loading from "../loading/Loading"
+
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
 
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)
@@ -45,7 +46,7 @@ const ExamDetails = () => {
   let paramId = getParamId(location)
 
   // query ----------------
-  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+  const { loading, error } = useQuery(GET_EXAM_QUERY, {
     variables: { id: paramId.id },
   })
 
@@ -61,18 +62,20 @@ const ExamDetails = () => {
   })
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined || paramId.id === "0") {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null || paramId.id === "0") {
     return <Redirect to="/login" />
   }
 
-  // variables ----------------
-  let examDetails
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (data) {
-    examDetails = data.exam
-  }
+
+  // run query in cache ----------------
+  const examDetails = client.readQuery({
+    query: GET_EXAM_QUERY,
+    variables: { id: paramId.id },
+  }).exam
 
   // functions ----------------
   const handleEdit = () => {

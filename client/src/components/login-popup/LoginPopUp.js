@@ -1,15 +1,18 @@
 import React from "react"
+import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../STAN/STAN"
-import { Redirect } from "react-router-dom"
+// queries ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
 
-function LoginPopUp() {
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
+const LoginPopUp = () => {
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (
-    currentUser !== undefined ||
+    currentUser !== null ||
     window.localStorage.getItem("popup-event") === "false"
   ) {
     return <Redirect to="/" />

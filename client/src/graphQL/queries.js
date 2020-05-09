@@ -50,12 +50,14 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
           totalNumberDays
           numberPages
           timesRepeat
+          timePerPage
           currentPage
           pdfLink
         }
         numberPagesToday
         startPage
         durationToday
+        durationLeftToday
         daysLeft
         completed
       }

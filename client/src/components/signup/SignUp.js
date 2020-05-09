@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
-// import { SUCCESS_SIGNUP } from "../../graphQL/queries"
 
 // google login ----------------
 import { GoogleLogin } from "react-google-login"
@@ -17,7 +16,7 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 
-function SignUp() {
+const SignUp = () => {
   // form ----------------
   const { register, errors, handleSubmit } = useForm()
 

@@ -1,27 +1,20 @@
 import React from "react"
-import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
 import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // components ----------------
 import AddNew from "../../components/add-new/AddNew"
 
-function AddNewPage() {
-  // query ----------------
-  const { loading, error } = useQuery(CURRENT_USER)
-  const currentUser = useCurrentUserValue()
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
 
-  if (currentUser === undefined) {
+const AddNewPage = () => {
+  // redirects ----------------
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
-
-  // error handling ----------------
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
 
   // return ----------------
   return (

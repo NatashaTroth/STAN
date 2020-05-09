@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react"
 import { useQuery } from "@apollo/react-hooks"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // query ----------------
-import { GET_TODAYS_CHUNKS_PROGRESS } from "../../graphQL/queries"
+import { GET_TODAYS_CHUNKS_PROGRESS, CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import Image from "../../components/image/Image"
@@ -17,6 +14,10 @@ import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
+// random function ----------------
 const RandomMascot = ({ mascotId, num, mood }) => {
   return (
     <Image
@@ -31,13 +32,13 @@ const RandomMascot = ({ mascotId, num, mood }) => {
 
 const CurrentState = () => {
   // context ----------------
-  const currentUser = useCurrentUserValue()
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
 
   // state ----------------
   const [randomNum, setRandomNum] = useState({ min: 0, max: 2, num: 0 })
 
   // query ----------------
-  const { data, loading, error } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
+  const { loading, error } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
 
   useEffect(() => {
     const generateNumber = (min, max) => {
@@ -55,9 +56,11 @@ const CurrentState = () => {
   // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (data) {
-    mood = currentMood(data.todaysChunksProgress)
-  }
+
+  // run query in cache ----------------
+  mood = currentMood(
+    client.readQuery({ query: GET_TODAYS_CHUNKS_PROGRESS }).todaysChunksProgress
+  )
 
   motivationalSayings.forEach(element => {
     if (mood === element.mood) {

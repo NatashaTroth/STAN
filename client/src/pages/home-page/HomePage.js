@@ -2,8 +2,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
+// queries ----------------
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import SubHeading from "../../components/sub-heading/SubHeading"
@@ -13,10 +13,13 @@ import Dashboard from "../dashboard-page/DashboardPage"
 // libraries ----------------
 import Particles from "react-particles-js"
 
-function Home() {
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
+const Home = () => {
   // redirects ----------------
-  let currentUser = useCurrentUserValue()
-  if (currentUser !== undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser !== null) {
     return <Dashboard />
   }
 

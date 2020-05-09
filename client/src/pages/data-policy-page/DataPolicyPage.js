@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-function DataPolicy() {
+const DataPolicy = () => {
   // return ----------------
   return (
     <div className="data-policy">

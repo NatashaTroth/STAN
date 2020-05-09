@@ -5,15 +5,13 @@ import { useForm } from "react-hook-form"
 import moment from "moment"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // queries & mutation ----------------
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
+  CURRENT_USER,
 } from "../../graphQL/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
 
@@ -24,90 +22,41 @@ import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 import DatePicker from "../../components/datepicker/DatePicker"
 
-async function handleExam({
-  examId,
-  data,
-  updateExam,
-  formExamDate,
-  formStartDate,
-}) {
-  try {
-    const resp = await updateExam({
-      variables: {
-        id: examId,
-        subject: data.subject,
-        examDate: formExamDate,
-        startDate: formStartDate,
-        numberPages: parseInt(data.numberPages),
-        timePerPage: parseInt(data.timePerPage),
-        timesRepeat: parseInt(data.timesRepeat),
-        // startPage: parseInt(data.startPage),
-        startPage: 1,
-        currentPage: parseInt(data.currentPage),
-        notes: data.notes,
-        pdfLink: data.pdfLink,
-        completed: false,
-      },
-    })
-
-    if (resp && resp.data && resp.data.updateExam) {
-      document.getElementById("success-container-edit-exam").style.display =
-        "block"
-    } else {
-      throw new Error("Cannot edit current exam.")
-    }
-  } catch (err) {
-    let element = document.getElementsByClassName(
-      "graphql-exam-details-edit-error"
-    )
-
-    if (err.graphQLErrors && err.graphQLErrors[0]) {
-      element[0].innerHTML = err.graphQLErrors[0].message
-    } else {
-      element[0].innerHTML = err.message
-    }
-  }
-}
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
 
 const ExamDetailsEdit = ({ examId }) => {
-  // variables ----------------
-  let defaultValues
-
   // query ----------------
-  const { loading, error, data } = useQuery(GET_EXAM_QUERY, {
+  const { loading, error } = useQuery(GET_EXAM_QUERY, {
     variables: { id: examId },
   })
 
-  // date picker
-  console.log(data)
-  const [myExamDate, setMyExamDate] = useState(moment(data.exam.examDate))
-  const [myStartDate, setMyStartDate] = useState(moment(data.exam.startDate))
+  // run query in cache ----------------
+  const data = client.readQuery({
+    query: GET_EXAM_QUERY,
+    variables: { id: examId },
+  }).exam
 
-  // parse Date
+  // date picker ----------------
+  const [myExamDate, setMyExamDate] = useState(data.examDate)
+  const [myStartDate, setMyStartDate] = useState(data.startDate)
+
+  // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
-  console.log("form exam: " + formExamDate)
-  console.log("form start: " + formStartDate)
-
-  if (data && data.exam) {
-    // set correct dates for exams
-    // setMyExamDate(moment(data.exam.examDate))
-    // setMyStartDate(moment(data.exam.startDate))
-
-    defaultValues = {
-      subject: data.exam.subject,
-      examDate: moment(data.exam.examDate),
-      startDate: moment(data.exam.startDate),
-      numberPages: data.exam.numberPages,
-      timePerPage: data.exam.timePerPage,
-      timesRepeat: data.exam.timesRepeat,
-      currentPage: data.exam.currentPage,
-      // startPage: data.exam.startPage,
-      startPage: 1,
-      notes: data.exam.notes,
-      pdfLink: data.exam.pdfLink,
-    }
+  let defaultValues = {
+    subject: data.subject,
+    examDate: moment(data.examDate),
+    startDate: moment(data.startDate),
+    numberPages: data.numberPages,
+    timePerPage: data.timePerPage,
+    timesRepeat: data.timesRepeat,
+    currentPage: data.currentPage,
+    // startPage: data.startPage,
+    startPage: 1,
+    notes: data.notes,
+    pdfLink: data.pdfLink,
   }
 
   // set default variables in form and make it editable ----------------
@@ -151,12 +100,12 @@ const ExamDetailsEdit = ({ examId }) => {
   })
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
-  // error handling ----------------
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 
@@ -492,3 +441,48 @@ const ExamDetailsEdit = ({ examId }) => {
 }
 
 export default ExamDetailsEdit
+
+async function handleExam({
+  examId,
+  data,
+  updateExam,
+  formExamDate,
+  formStartDate,
+}) {
+  try {
+    const resp = await updateExam({
+      variables: {
+        id: examId,
+        subject: data.subject,
+        examDate: formExamDate,
+        startDate: formStartDate,
+        numberPages: parseInt(data.numberPages),
+        timePerPage: parseInt(data.timePerPage),
+        timesRepeat: parseInt(data.timesRepeat),
+        // startPage: parseInt(data.startPage),
+        startPage: 1,
+        currentPage: parseInt(data.currentPage),
+        notes: data.notes,
+        pdfLink: data.pdfLink,
+        completed: false,
+      },
+    })
+
+    if (resp && resp.data && resp.data.updateExam) {
+      document.getElementById("success-container-edit-exam").style.display =
+        "block"
+    } else {
+      throw new Error("Cannot edit current exam.")
+    }
+  } catch (err) {
+    let element = document.getElementsByClassName(
+      "graphql-exam-details-edit-error"
+    )
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
+  }
+}

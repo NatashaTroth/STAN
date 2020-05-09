@@ -4,12 +4,6 @@ import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
-// context ----------------
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
-
 // mutations ----------------
 import { CURRENT_USER } from "../../graphQL/queries"
 
@@ -36,13 +30,16 @@ import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 // libraries ----------------
 import Carousel from "react-bootstrap/Carousel"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 // TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
 
   // context ----------------
-  const currentUser = useCurrentUserValue()
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
@@ -127,16 +124,11 @@ const UserAccountEdit = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="user-account__headline">
-              <CurrentUserContext.Consumer>
-                {currentUser => {
-                  let username = currentUser.username
-                  if (username.slice(-1) === "s") {
-                    return <h2>{username}' account</h2>
-                  } else {
-                    return <h2>{username}'s account</h2>
-                  }
-                }}
-              </CurrentUserContext.Consumer>
+              {currentUser.username.slice(-1) === "s" ? (
+                <h2>{currentUser.username}' account</h2>
+              ) : (
+                <h2>{currentUser.username}'s account</h2>
+              )}
             </div>
           </div>
           <div className="col-md-1"></div>

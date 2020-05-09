@@ -1,23 +1,20 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
-import { flowRight as compose } from "lodash"
-import { graphql } from "react-apollo"
+import { Redirect, Link } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
+// composer ----------------
+import { flowRight as compose } from "lodash"
+import { graphql } from "react-apollo"
 
 // mutation & queries ----------------
-import { Redirect, Link } from "react-router-dom"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
   GET_TODAYS_CHUNKS_PROGRESS,
+  CURRENT_USER,
 } from "../../graphQL/queries"
 
 // libraries ----------------
@@ -32,13 +29,16 @@ import Loading from "../../components/loading/Loading"
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
-function UserAccount(props) {
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
+const UserAccount = props => {
   // mutation ----------------
-  const [logout, { client }] = useMutation(LOGOUT_MUTATION)
+  const [logout] = useMutation(LOGOUT_MUTATION)
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
@@ -71,7 +71,7 @@ function UserAccount(props) {
       <Button
         variant="button"
         className=""
-        onClick={async () => logUserOut({ logout, client })}
+        onClick={async () => logUserOut({ logout })}
         text="Logout"
       />
     )
@@ -102,16 +102,11 @@ function UserAccount(props) {
           <div className="col-md-1"></div>
           <div className="col-md-9">
             <div className="user-account__headline">
-              <CurrentUserContext.Consumer>
-                {currentUser => {
-                  let username = currentUser.username
-                  if (username.slice(-1) === "s") {
-                    return <h2>{username}' account</h2>
-                  } else {
-                    return <h2>{username}'s account</h2>
-                  }
-                }}
-              </CurrentUserContext.Consumer>
+              {currentUser.username.slice(-1) === "s" ? (
+                <h2>{currentUser.username}' account</h2>
+              ) : (
+                <h2>{currentUser.username}'s account</h2>
+              )}
             </div>
           </div>
           <div className="col-md-2"></div>
@@ -125,13 +120,8 @@ function UserAccount(props) {
             <div className="user-account__container--left">
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <h3>{currentUser.username}</h3>}
-                  </CurrentUserContext.Consumer>
-
-                  <CurrentUserContext.Consumer>
-                    {currentUser => <p>{currentUser.email}</p>}
-                  </CurrentUserContext.Consumer>
+                  <h3>{currentUser.username}</h3>
+                  <p>{currentUser.email}</p>
                 </div>
 
                 <div className="buttons">
@@ -221,8 +211,7 @@ export default compose(
   })
 )(UserAccount)
 
-// TODO: do we need client?
-async function logUserOut({ logout, client }) {
+async function logUserOut({ logout }) {
   // reset refresh token ----------------
   await logout()
 

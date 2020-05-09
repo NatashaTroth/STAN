@@ -1,10 +1,11 @@
 import React from "react"
-
+import moment from "moment"
+import { calculateDuration } from "../today-goals/TodayGoals"
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
 
 // helpers ----------------
-import { getNumberOfDays, formatDate } from "../../helpers/dates"
+import { getNumberOfDays } from "../../helpers/dates"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------
@@ -14,7 +15,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
     today,
     new Date(examDetails.examDate)
   )
-
+  console.log(examDetails)
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -24,12 +25,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
             <div className="exam-details__inner--details--left">
               <div className="exam-data">
                 <h4>Exam date</h4>
-                <p>{formatDate(examDetails.examDate)}</p>
+                <p>{moment(examDetails.examDate).format("DD.MM.YYYY")}</p>
               </div>
 
               <div className="exam-data">
                 <h4>Start learning on</h4>
-                <p>{formatDate(examDetails.startDate)}</p>
+                <p>{moment(examDetails.startDate).format("DD.MM.YYYY")}</p>
               </div>
 
               <div className="exam-data">
@@ -39,7 +40,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Time per pages</h4>
-                <p>{examDetails.timePerPage} min.</p>
+                <p>{calculateDuration(examDetails.timePerPage)}</p>
               </div>
 
               <div className="exam-data">

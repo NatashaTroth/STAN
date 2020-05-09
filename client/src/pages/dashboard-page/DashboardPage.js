@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
-import {
-  CurrentUserContext,
-  useCurrentUserValue,
-} from "../../components/STAN/STAN"
-import { useQuery } from "@apollo/react-hooks"
-import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../graphQL/queries"
 // --------------------------------------------------------------
+
+// queries ----------------
+import { useQuery } from "@apollo/react-hooks"
+import {
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
+  CURRENT_USER,
+} from "../../graphQL/queries"
 
 // components ----------------
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
@@ -17,14 +18,17 @@ import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 import CurrentState from "../../components/current-state/CurrentState"
 
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
+
 function Dashboard() {
-  // query ----------------
-  const { loading, error, data } = useQuery(GET_TODAYS_CHUNKS_AND_PROGRESS)
+  // state & query ----------------
+  const { loading, error } = useQuery(GET_TODAYS_CHUNKS_AND_PROGRESS)
   const [activeElementIndex, setActiveElementIndex] = useState(0)
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
@@ -40,6 +44,9 @@ function Dashboard() {
 
   // query data ----------------
   let usersToDos
+
+  // run query in cache ----------------
+  const data = client.readQuery({ query: GET_TODAYS_CHUNKS_AND_PROGRESS })
 
   // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
@@ -121,13 +128,9 @@ function Dashboard() {
         <div className="row dashboard-header">
           <div className="col-xl-1"></div>
           <div className="col-xl-7">
-            <CurrentUserContext.Consumer>
-              {currentUser => (
-                <h2 className="dashboard-page__heading">
-                  Hello {currentUser.username}
-                </h2>
-              )}
-            </CurrentUserContext.Consumer>
+            <h2 className="dashboard-page__heading">
+              Hello {currentUser.username}
+            </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
           {/* Mascot */}

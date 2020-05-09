@@ -1,18 +1,18 @@
 import React, { useState } from "react"
+import { useQuery } from "@apollo/react-hooks"
 import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-
 // queries ----------------
-import { GET_EXAMS_QUERY } from "../../graphQL/queries"
-import { useQuery } from "@apollo/react-hooks"
+import { GET_EXAMS_QUERY, CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import Exam from "../../components/exams/Exam"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
+
+// apolloClient cache ----------------
+import { client } from "../../apolloClient"
 
 const Exams = () => {
   // router ----------------
@@ -20,7 +20,7 @@ const Exams = () => {
 
   // state & queries ----------------
   const [isArchiveOpen, setArchiveExams] = useState(false)
-  const { data, loading, error } = useQuery(GET_EXAMS_QUERY)
+  const { loading, error } = useQuery(GET_EXAMS_QUERY)
 
   // variables ----------------
   let currentExams, archiveExams
@@ -28,34 +28,37 @@ const Exams = () => {
   let archiveExamsList = []
 
   // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
+  const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
+  if (currentUser === null) {
     return <Redirect to="/login" />
   }
 
+  // loading & error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
-  if (data && data.exams) {
-    data.exams.forEach(exam => {
-      if (!exam.completed) {
-        currentExamsList.push({
-          id: exam.id,
-          subject: exam.subject,
-          numberPages: exam.numberPages,
-          currentPage: exam.currentPage,
-          timesRepeat: exam.timesRepeat,
-        })
-      } else {
-        archiveExamsList.push({
-          id: exam.id,
-          subject: exam.subject,
-          numberPages: exam.numberPages,
-          currentPage: exam.currentPage,
-          timesRepeat: exam.timesRepeat,
-        })
-      }
-    })
-  }
+
+  // run query in cache ----------------
+  const data = client.readQuery({ query: GET_EXAMS_QUERY }).exams
+
+  data.forEach(exam => {
+    if (!exam.completed) {
+      currentExamsList.push({
+        id: exam.id,
+        subject: exam.subject,
+        numberPages: exam.numberPages,
+        currentPage: exam.currentPage,
+        timesRepeat: exam.timesRepeat,
+      })
+    } else {
+      archiveExamsList.push({
+        id: exam.id,
+        subject: exam.subject,
+        numberPages: exam.numberPages,
+        currentPage: exam.currentPage,
+        timesRepeat: exam.timesRepeat,
+      })
+    }
+  })
 
   // functions ----------------
   currentExams = currentExamsList.map(function(exam) {

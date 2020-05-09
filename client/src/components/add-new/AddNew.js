@@ -1,38 +1,40 @@
 import React, { useState } from "react"
-import { Redirect } from "react-router-dom"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
+import { useForm } from "react-hook-form"
+import moment from "moment"
+// --------------------------------------------------------------
+
+// queries ----------------
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT,
 } from "../../graphQL/queries"
+
+// mutations ----------------
 import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
-import { useForm } from "react-hook-form"
-import moment from "moment"
-// context ----------------
-import { useCurrentUserValue } from "../../components/STAN/STAN"
-// --------------------------------------------------------------
 
 // components ----------------
 import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
 import DatePicker from "../../components/datepicker/DatePicker"
 
 function AddNew() {
+  // mutation ----------------
+  const [addExam] = useMutation(ADD_EXAM_MUTATION)
+
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
-  // date picker
+  // date picker ----------------
   let today = new Date()
   const [myExamDate, setMyExamDate] = useState(today)
   const [myStartDate, setMyStartDate] = useState(today)
 
-  // parse Date
+  // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
   // -----------------------------
@@ -78,22 +80,6 @@ function AddNew() {
     }
   }
 
-  // query ----------------
-  const { loading, error } = useQuery(GET_EXAMS_QUERY)
-
-  // mutation ----------------
-  const [addExam] = useMutation(ADD_EXAM_MUTATION)
-
-  // redirects ----------------
-  const currentUser = useCurrentUserValue()
-  if (currentUser === undefined) {
-    return <Redirect to="/login" />
-  }
-
-  // error handling ----------------
-  if (loading) return <Loading />
-  if (error) return <QueryError errorMessage={error.message} />
-
   // return ----------------
   return (
     <div className="add-new box-content">
@@ -126,7 +112,7 @@ function AddNew() {
                       ref={register({
                         required: true,
                         minLength: 1,
-                        maxLength: 20,
+                        maxLength: 50,
                       })}
                     />
                     {errors.exam_subject &&
@@ -144,7 +130,7 @@ function AddNew() {
                       errors.exam_subject.type === "maxLength" && (
                         <span className="error">
                           {" "}
-                          Maximum 20 characters allowed
+                          Maximum 50 characters allowed
                         </span>
                       )}
                   </div>
