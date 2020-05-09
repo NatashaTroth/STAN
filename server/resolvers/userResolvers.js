@@ -211,7 +211,8 @@ export const userResolvers = {
         sendRefreshToken(context.res, "");
 
         await deleteUser(context.userInfo.userId);
-
+        if (context.userInfo.user.allowEmailNotifications)
+          stanEmail.sendDeleteAccountMail(context.userInfo.user.email);
         return true;
       } catch (err) {
         handleResolverError(err);

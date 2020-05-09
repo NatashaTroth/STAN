@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 
 export default class StanEmail {
+  //TODO: singleton
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: "gmail",
@@ -18,14 +19,25 @@ export default class StanEmail {
     console.log("SENDING SIGNUP MAIL");
 
     const subject = "Welcome to stan!";
-    const h1 = `Welcome to stan`;
-    const text = `so cool that you joined!`;
+    const h1 = `Welcome to stan...`;
+    const text = `<p>It's so nice to meet you! We hope you enjoy all the features that stan has to offer. Add you first exam directly from the dashboard, keep track of your upcoming exams in the calendar view. But most importantly, toggle between light and dark mode!</p><p>We hope stan can help you with your upcoming exams!</p><p>Good luck and happy learning!</p>`;
+
+    this.sendMail(recipientEmail, subject, text, h1);
+  }
+
+  sendDeleteAccountMail(recipientEmail) {
+    console.log("SENDING DELETE ACCOUNT MAIL");
+
+    const subject = "Goodbye :(";
+    const h1 = `Sorry to hear you are leaving...`;
+    const text = `<p>We're sorry to hear that you have decided to stop using stan. Please remember, you are always welcome back! We have deleted all your data, so if you decide to visit again, be sure to create a new account. Until then, good luck, we wish you the best!</p>
+    <p>If you were unhappy with stan or you have ideas for improvements, please send us an <a href="mailto:stan.studyplan@gmail.com">email</a> and tell us what we can do better to help other students.</p>`;
 
     this.sendMail(recipientEmail, subject, text, h1);
   }
 
   sendExamDateReminderMail(
-    email,
+    recipientEmail,
     examsInOneDay,
     examsInThreeDays,
     startDatesToday
@@ -56,10 +68,10 @@ export default class StanEmail {
     } today:</b></p>
     <ul>${this.createExamsListString(
       startDatesToday
-    )}</ul> <br><p>Please don't forget to learn, you still have time. Good luck!</p><br>
+    )}</ul> <br><p>Please don't forget to learn, you still have time. Good luck!</p>
     `;
 
-    this.sendMail(email, subject, text, h1);
+    this.sendMail(recipientEmail, subject, text, h1);
   }
 
   createExamsListString(exams) {
@@ -73,7 +85,7 @@ export default class StanEmail {
   sendMail(to, subject, text, h1) {
     console.log("SENDING MAIL");
     //TODO (IF TIME): send correct mascot - 0,1 or 2
-    const html = `<h1 style="color:#00729e">${h1}</h1>${text}<p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
+    const html = `<h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
 
     console.log(__dirname + "/images/emailStan.svg");
     const mailOptions = {
