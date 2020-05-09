@@ -81,14 +81,14 @@ const UserAccountEdit = () => {
   const onSubmit = formData => {
     // google login ----------------
     if (currentUser.googleLogin) {
-      handleMascot({ index, updateMascot })
+      handleMascot({ index, updateMascot, history })
     } else {
       // standard login ----------------
       if (formData.newPassword === formData.retypePassword) {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = index
-        editUser({ mascotId, formData, updateUser, notification })
+        editUser({ mascotId, formData, updateUser, notification, history })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
@@ -642,7 +642,13 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser, notification }) {
+async function editUser({
+  mascotId,
+  formData,
+  updateUser,
+  notification,
+  history,
+}) {
   try {
     const resp = await updateUser({
       variables: {
@@ -661,6 +667,11 @@ async function editUser({ mascotId, formData, updateUser, notification }) {
     } else {
       throw new Error("Cannot save user changes.")
     }
+
+    // redirect ----------------
+    setTimeout(() => {
+      history.push("/profile")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
 
@@ -672,7 +683,7 @@ async function editUser({ mascotId, formData, updateUser, notification }) {
   }
 }
 
-async function handleMascot({ index, updateMascot }) {
+async function handleMascot({ index, updateMascot, history }) {
   try {
     const resp = await updateMascot({
       variables: {
@@ -686,6 +697,11 @@ async function handleMascot({ index, updateMascot }) {
     } else {
       throw new Error("Cannot save the selected mascot.")
     }
+
+    // redirect ----------------
+    setTimeout(() => {
+      history.push("/profile")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-user-mascot-edit-error"
