@@ -89,7 +89,7 @@ function Today(props) {
   }
 
   // user click on goal-studied ----------------
-  const onSubmitAll = async formData => {
+  const onSubmitAll = async Data => {
     try {
       const resp = await updatePage({
         variables: {
@@ -130,10 +130,14 @@ function Today(props) {
   ) {
     return null
   }
-
+  // filter only not completed entries ----------------
+  let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
+    function(el) {
+      return el.completed == false
+    }
+  )
   // load todaysChunk ----------------
-  let todaysChunk =
-    props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+  let todaysChunk = filteredItems[props.activeIndex]
 
   // subject ----------------
   let subject = todaysChunk.exam.subject
