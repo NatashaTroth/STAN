@@ -68,7 +68,8 @@ export default class StanScheduler {
           user.email,
           examsInOneDay,
           examsInThreeDays,
-          startDatesToday
+          startDatesToday,
+          user.mascot
         );
       });
     });

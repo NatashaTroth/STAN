@@ -112,7 +112,7 @@ export const userResolvers = {
         });
 
         const accessToken = logUserIn({ user, context });
-        if (allowEmailNotifications) stanEmail.sendSignupMail(email);
+        if (allowEmailNotifications) stanEmail.sendSignupMail(email, mascot);
         return accessToken;
       } catch (err) {
         handleResolverError(err);
@@ -212,7 +212,10 @@ export const userResolvers = {
 
         await deleteUser(context.userInfo.userId);
         if (context.userInfo.user.allowEmailNotifications)
-          stanEmail.sendDeleteAccountMail(context.userInfo.user.email);
+          stanEmail.sendDeleteAccountMail(
+            context.userInfo.user.email,
+            context.userInfo.user.mascot
+          );
         return true;
       } catch (err) {
         handleResolverError(err);
