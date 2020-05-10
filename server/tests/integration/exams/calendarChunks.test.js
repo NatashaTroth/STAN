@@ -149,7 +149,7 @@ describe("Test user resolver regex", () => {
   });
 
   it("should make sure that calendar chunks are empty, since the exam date in only exam added is today", async () => {
-    const testExam = await addTestExam({
+    await addTestExam({
       subject: "Biology",
       examDate: new Date()
     });
