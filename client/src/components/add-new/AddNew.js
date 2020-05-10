@@ -59,7 +59,7 @@ function AddNew() {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_CALENDAR_CHUNKS },
+          // { query: GET_CALENDAR_CHUNKS },
           { query: GET_EXAMS_COUNT },
         ],
       })

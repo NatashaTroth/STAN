@@ -82,9 +82,12 @@ export const examResolvers = {
       }
     },
     calendarChunks: async (root, args, context, info) => {
+      console.log("IN CALENDAR CHUNKS");
       try {
         handleAuthentication(context.userInfo);
+
         const chunks = await fetchCalendarChunks(context.userInfo.userId);
+
         return chunks;
       } catch (err) {
         handleResolverError(err);
