@@ -2,6 +2,17 @@
   &__edit {
     padding: 20px;
 
+    .edit-form-bottom {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      @include media-breakpoint-down(sm) {
+        flex-wrap: wrap;
+      }
+    }
+
     // ERROR HANDLING
     #retype-password-error {
       display: none;
@@ -54,11 +65,13 @@
       margin: 40px 15px;
 
       &__button {
-        display: flex;
-        justify-content: flex-end;
+        margin-top: 40px;
 
         @include media-breakpoint-down(sm) {
-          justify-content: center;
+          width: 100%;
+        }
+        @include media-breakpoint-down(lg) {
+          text-align: right;
         }
       }
     }
@@ -185,14 +198,6 @@
   &__element {
     &--headline {
       padding-bottom: 20px;
-    }
-  }
-  &__change-password {
-    height: 340px;
-
-    @include media-breakpoint-down(sm) {
-      height: auto;
-      overflow: scroll;
     }
   }
   &__passwordToggle {

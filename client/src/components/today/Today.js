@@ -10,6 +10,7 @@ import { useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
+  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 
@@ -29,8 +30,7 @@ function Today(props) {
   // user click to add custom page number ----------------
   const onSubmit = async formData => {
     try {
-      const chunk =
-        props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
+      const chunk = props.selectedGoal
       const exam = chunk.exam
       const currentPage = exam.currentPage
       const lastPage = exam.numberPages
@@ -66,6 +66,7 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -89,18 +90,18 @@ function Today(props) {
   }
 
   // user click on goal-studied ----------------
-  const onSubmitAll = async Data => {
+  const onSubmitAll = async e => {
+    e.preventDefault()
     try {
       const resp = await updatePage({
         variables: {
-          page: chunkGoalPage + 1,
-          examId:
-            props.data.todaysChunkAndProgress.todaysChunks[props.activeIndex]
-              .exam.id,
+          page: props.selectedGoal.numberPagesToday + 1,
+          examId: props.selectedGoal.exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -123,21 +124,8 @@ function Today(props) {
   // mutation ----------------
   const [updatePage] = useMutation(UPDATE_CURRENT_PAGE_MUTATION)
 
-  // check if there is data ----------------
-  if (
-    props.data &&
-    props.data.todaysChunkAndProgress.todaysChunks.length === 0
-  ) {
-    return null
-  }
-  // filter only not completed entries ----------------
-  let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
-    function(el) {
-      return el.completed == false
-    }
-  )
   // load todaysChunk ----------------
-  let todaysChunk = filteredItems[props.activeIndex]
+  let todaysChunk = props.selectedGoal
 
   // subject ----------------
   let subject = todaysChunk.exam.subject

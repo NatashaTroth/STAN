@@ -33,7 +33,6 @@ import Carousel from "react-bootstrap/Carousel"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// TODO: check responsive design again
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
@@ -81,14 +80,14 @@ const UserAccountEdit = () => {
   const onSubmit = formData => {
     // google login ----------------
     if (currentUser.googleLogin) {
-      handleMascot({ index, updateMascot })
+      handleMascot({ index, updateMascot, history })
     } else {
       // standard login ----------------
       if (formData.newPassword === formData.retypePassword) {
         document.getElementById("retype-password-error").style.display = "none"
 
         let mascotId = index
-        editUser({ mascotId, formData, updateUser, notification })
+        editUser({ mascotId, formData, updateUser, notification, history })
       } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
@@ -268,178 +267,159 @@ const UserAccountEdit = () => {
                             ) : null}
                           </div>
 
-                          <div className="form__change-password">
-                            <div className="form__passwordToggle">
-                              <button
-                                type="button"
-                                variant="button"
-                                onClick={handleChangedPassword}
-                                className="form__passwordToggle--button"
-                              >
-                                <h4>Change password</h4>
-                              </button>
-                              <i
-                                className={
-                                  isPasswordOpen ? "arrow down" : "arrow right"
-                                }
-                              ></i>
-                            </div>
-
-                            {isPasswordOpen ? (
-                              <div className="form__element">
-                                <Label
-                                  htmlFor="currentPassword"
-                                  text="Current password"
-                                  className="form__element__label input-required"
-                                />
-
-                                <input
-                                  type="password"
-                                  id="currentPassword"
-                                  label="currentPassword"
-                                  name="currentPassword"
-                                  required
-                                  ref={register({
-                                    required: true,
-                                    minLength: 8,
-                                    maxLength: 30,
-                                    pattern: /^.{8,30}$/,
-                                  })}
-                                />
-
-                                {errors.currentPassword &&
-                                errors.currentPassword.type === "minLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Minimum 8 characters required
-                                  </span>
-                                ) : null}
-                                {errors.currentPassword &&
-                                errors.currentPassword.type === "maxLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Maximum 30 characters allowed
-                                  </span>
-                                ) : null}
-                                {errors.currentPassword &&
-                                errors.currentPassword.type === "pattern" ? (
-                                  <span className="error">
-                                    The password needs to be between 8 and 30
-                                    characters long
-                                  </span>
-                                ) : null}
-                              </div>
-                            ) : null}
-
-                            {isPasswordOpen ? (
-                              <div className="form__element">
-                                <Label
-                                  htmlFor="newPassword"
-                                  text="New password"
-                                  className="form__element__label input-required"
-                                />
-
-                                <input
-                                  type="password"
-                                  id="newPassword"
-                                  label="newPassword"
-                                  name="newPassword"
-                                  required
-                                  ref={register({
-                                    required: true,
-                                    minLength: 8,
-                                    maxLength: 30,
-                                    pattern: /^.{8,30}$/,
-                                  })}
-                                />
-
-                                {errors.newPassword &&
-                                errors.newPassword.type === "minLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Minimum 8 characters required
-                                  </span>
-                                ) : null}
-                                {errors.newPassword &&
-                                errors.newPassword.type === "maxLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Maximum 30 characters allowed
-                                  </span>
-                                ) : null}
-                                {errors.newPassword &&
-                                errors.newPassword.type === "pattern" ? (
-                                  <span className="error">
-                                    The password needs to be between 8 and 30
-                                    characters long
-                                  </span>
-                                ) : null}
-                              </div>
-                            ) : null}
-
-                            {isPasswordOpen ? (
-                              <div className="form__element">
-                                <Label
-                                  htmlFor="retypePassword"
-                                  text="Retype new password"
-                                  className="form__element__label input-required"
-                                />
-
-                                <input
-                                  type="password"
-                                  id="retypePassword"
-                                  label="retypePassword"
-                                  name="retypePassword"
-                                  required
-                                  ref={register({
-                                    required: true,
-                                    minLength: 8,
-                                    maxLength: 30,
-                                    pattern: /^.{8,30}$/,
-                                  })}
-                                />
-
-                                {errors.retypePassword &&
-                                errors.retypePassword.type === "minLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Minimum 8 characters required
-                                  </span>
-                                ) : null}
-                                {errors.retypePassword &&
-                                errors.retypePassword.type === "maxLength" ? (
-                                  <span className="error">
-                                    {" "}
-                                    Maximum 30 characters allowed
-                                  </span>
-                                ) : null}
-                                {errors.retypePassword &&
-                                errors.retypePassword.type === "pattern" ? (
-                                  <span className="error">
-                                    The password needs to be between 8 and 30
-                                    characters long
-                                  </span>
-                                ) : null}
-                              </div>
-                            ) : null}
+                          <div className="form__passwordToggle">
+                            <button
+                              type="button"
+                              variant="button"
+                              onClick={handleChangedPassword}
+                              className="form__passwordToggle--button"
+                            >
+                              <h4>Change password</h4>
+                            </button>
+                            <i
+                              className={
+                                isPasswordOpen ? "arrow down" : "arrow right"
+                              }
+                            ></i>
                           </div>
 
-                          <div className="form__notifications login__form__notifications">
-                            <label htmlFor="notification" className="container">
-                              <input
-                                type="checkbox"
-                                id="notification"
-                                name="notification"
-                                value="notification"
-                                defaultChecked={
-                                  currentUser.allowEmailNotifications
-                                }
-                                onChange={handleNotification}
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="currentPassword"
+                                text="Current password"
+                                className="form__element__label input-required"
                               />
-                              <span className="checkmark"></span>
-                              Allow email notifications when exam date is close.
-                            </label>
-                          </div>
+
+                              <input
+                                type="password"
+                                id="currentPassword"
+                                label="currentPassword"
+                                name="currentPassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.currentPassword &&
+                              errors.currentPassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="newPassword"
+                                text="New password"
+                                className="form__element__label input-required"
+                              />
+
+                              <input
+                                type="password"
+                                id="newPassword"
+                                label="newPassword"
+                                name="newPassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.newPassword &&
+                              errors.newPassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.newPassword &&
+                              errors.newPassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.newPassword &&
+                              errors.newPassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {isPasswordOpen ? (
+                            <div className="form__element">
+                              <Label
+                                htmlFor="retypePassword"
+                                text="Retype new password"
+                                className="form__element__label input-required"
+                              />
+
+                              <input
+                                type="password"
+                                id="retypePassword"
+                                label="retypePassword"
+                                name="retypePassword"
+                                required
+                                ref={register({
+                                  required: true,
+                                  minLength: 8,
+                                  maxLength: 30,
+                                  pattern: /^.{8,30}$/,
+                                })}
+                              />
+
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "minLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Minimum 8 characters required
+                                </span>
+                              ) : null}
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "maxLength" ? (
+                                <span className="error">
+                                  {" "}
+                                  Maximum 30 characters allowed
+                                </span>
+                              ) : null}
+                              {errors.retypePassword &&
+                              errors.retypePassword.type === "pattern" ? (
+                                <span className="error">
+                                  The password needs to be between 8 and 30
+                                  characters long
+                                </span>
+                              ) : null}
+                            </div>
+                          ) : null}
                         </div>
                       ) : null}
 
@@ -476,14 +456,6 @@ const UserAccountEdit = () => {
                               </Carousel.Item>
                             </Carousel>
                           </div>
-
-                          <div className="user-account__edit--form__button">
-                            <Button
-                              variant="button"
-                              text="Save"
-                              className="stan-btn-primary"
-                            />
-                          </div>
                         </div>
                       ) : (
                         <div className="col-xl-12">
@@ -518,6 +490,27 @@ const UserAccountEdit = () => {
                               </Carousel.Item>
                             </Carousel>
                           </div>
+                        </div>
+                      )}
+
+                      <div className="col-xl-12">
+                        <div className="edit-form-bottom">
+                          <div className="form__notifications login__form__notifications">
+                            <label htmlFor="notification" className="container">
+                              <input
+                                type="checkbox"
+                                id="notification"
+                                name="notification"
+                                value="notification"
+                                defaultChecked={
+                                  currentUser.allowEmailNotifications
+                                }
+                                onChange={handleNotification}
+                              />
+                              <span className="checkmark"></span>
+                              Allow email notifications when exam date is close.
+                            </label>
+                          </div>
 
                           <div className="user-account__edit--form__button">
                             <Button
@@ -527,7 +520,7 @@ const UserAccountEdit = () => {
                             />
                           </div>
                         </div>
-                      )}
+                      </div>
 
                       <div
                         className="col-md-12"
@@ -642,7 +635,13 @@ async function userDeletion({ currentUser, deleteUser }) {
   }
 }
 
-async function editUser({ mascotId, formData, updateUser, notification }) {
+async function editUser({
+  mascotId,
+  formData,
+  updateUser,
+  notification,
+  history,
+}) {
   try {
     const resp = await updateUser({
       variables: {
@@ -661,6 +660,11 @@ async function editUser({ mascotId, formData, updateUser, notification }) {
     } else {
       throw new Error("Cannot save user changes.")
     }
+
+    // redirect ----------------
+    setTimeout(() => {
+      history.push("/profile")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-user-edit-error")
 
@@ -672,7 +676,7 @@ async function editUser({ mascotId, formData, updateUser, notification }) {
   }
 }
 
-async function handleMascot({ index, updateMascot }) {
+async function handleMascot({ index, updateMascot, history }) {
   try {
     const resp = await updateMascot({
       variables: {
@@ -686,6 +690,11 @@ async function handleMascot({ index, updateMascot }) {
     } else {
       throw new Error("Cannot save the selected mascot.")
     }
+
+    // redirect ----------------
+    setTimeout(() => {
+      history.push("/profile")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName(
       "graphql-user-mascot-edit-error"

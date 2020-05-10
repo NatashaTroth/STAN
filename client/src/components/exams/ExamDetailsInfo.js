@@ -17,6 +17,10 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
+  let lastPage = examDetails.startPage + (examDetails.numberPages - 1)
+  let currentRepetition = Math.round(examDetails.currentPage / lastPage)
+  if (currentRepetition < 1) currentRepetition = 1
+
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -64,44 +68,41 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Studied</h4>
                 <p>
-                  {(
+                  {Math.round(
                     (100 * (examDetails.currentPage - 1)) /
-                    (examDetails.numberPages * examDetails.timesRepeat)
-                  ).toFixed(2)}
+                      (examDetails.numberPages * examDetails.timesRepeat)
+                  )}
                   % of 100%
                 </p>
               </div>
               <div className="exam-pages">
-                <h4>Pages left</h4>
+                <h4>Pages left including repetition</h4>
 
                 <div className="exam-pages__bar">
                   <ExamBar
                     value={
                       (100 * (examDetails.currentPage - 1)) /
-                      examDetails.numberPages
+                      (examDetails.numberPages * examDetails.timesRepeat)
                     }
                   />
 
                   <div className="exam-pages__bar--status">
                     <p>
                       {Math.round(
-                        examDetails.numberPages - (examDetails.currentPage - 1)
+                        examDetails.numberPages * examDetails.timesRepeat -
+                          (examDetails.currentPage - 1)
                       )}{" "}
                       pages left
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="exam-data">
-                <h4>Pages studied</h4>
-                <p>
-                  {examDetails.currentPage - 1}/{examDetails.numberPages}
-                </p>
-              </div>
 
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
-                <p>1/{examDetails.timesRepeat}</p>
+                <p>
+                  {currentRepetition}/{examDetails.timesRepeat}
+                </p>
               </div>
 
               <div className="pdf">
