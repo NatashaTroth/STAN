@@ -47,7 +47,7 @@ const CurrentState = () => {
     setInterval(() => {
       setRandomNum({ num: generateNumber(randomNum.min, randomNum.max) })
     }, 30000)
-  }, [])
+  }, [randomNum])
 
   // variables ----------------
   let mood = "okay"
