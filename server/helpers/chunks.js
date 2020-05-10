@@ -444,8 +444,6 @@ export async function fetchCalendarChunks(userId) {
     userId,
     completed: false
   }).sort({ examDate: "asc" });
-  // const exams = await fetchCurrentExams(userId);
-  console.log("fetched exams");
 
   return getCalendarChunks(exams);
 }
@@ -455,18 +453,15 @@ function getCalendarChunks(exams) {
   const calendarExams = [];
 
   // to avoid division by daysleft = 0 -> and no longer need to show this exam
-  exams = exams.filter(exam => !isTheSameDay(exam.startDate, new Date()));
+
+  exams = exams.filter(exam => !isTheSameDay(exam.examDate, new Date()));
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
-
-    console.log("problem not here 1");
 
     //TODO - BETWEEN STARTDATE OR TODAY
     let dayToStartCounting = exam.startDate;
     if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
     const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
-    console.log("subject: " + exam.subject);
-    console.log("daysLeft: " + daysLeft);
 
     const numberPagesLeftTotal = calcPagesLeft(
       exam.numberPages,

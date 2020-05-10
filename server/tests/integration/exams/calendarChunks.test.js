@@ -4,9 +4,9 @@ import { createTestClient } from "apollo-server-testing";
 import {
   setupApolloServer,
   setupDb,
-  // addTestExam,
+  addTestExam,
   addTestExams,
-  // clearDatabase,
+  clearDatabase,
   getFutureDay,
   teardown
 } from "../setup";
@@ -23,32 +23,34 @@ import { GET_CALENDAR_CHUNKS } from "../../queries.js";
 describe("Test user resolver regex", () => {
   let server;
   let query;
-  let testExams;
 
   beforeAll(async () => {
     await setupDb();
     server = await setupApolloServer({ isAuth: true, userId: "samanthasId" });
     let client = createTestClient(server);
     query = client.query;
-    testExams = await addTestExams();
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
   });
 
   it("should correctly fetch the calendar chunks", async () => {
+    const testExams = await addTestExams();
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
     });
     // console.log(JSON.stringify(resp));
 
     expect(resp.data.calendarChunks).toBeTruthy();
-    console.log(testExams);
+    // console.log(testExams);
+    // console.log("----");
+    // console.log(resp.data.calendarChunks);
+
     expect(resp.data.calendarChunks.calendarChunks.length).toBe(4);
     let exam;
     const examColor = "#ff554d";
@@ -144,5 +146,19 @@ describe("Test user resolver regex", () => {
       end: exam.examDate,
       color: examColor
     });
+  });
+
+  it("should make sure that calendar chunks are empty, since the exam date in only exam added is today", async () => {
+    await addTestExam({
+      subject: "Biology",
+      examDate: new Date()
+    });
+    const resp = await query({
+      query: GET_CALENDAR_CHUNKS
+    });
+
+    expect(resp.data.calendarChunks).toBeTruthy();
+
+    expect(resp.data.calendarChunks.calendarChunks.length).toBe(0);
   });
 });
