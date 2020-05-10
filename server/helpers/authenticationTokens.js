@@ -5,7 +5,6 @@ import { ApolloError } from "apollo-server";
 
 export async function handleRefreshToken(req, res) {
   //read refresh cookie - validate that it's correct
-  //TODO: invalidate old refresh token  here too? although user is technically still logged in
   try {
     const payload = verifyRefreshToken(req);
     const user = await getUser(payload);
@@ -42,7 +41,6 @@ export const createAccessToken = user => {
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: "15m" //TODO CHANGE BACK TO 15m !!!!!!!!
-      // expiresIn: "15000m" //TODO CHANGE BACK TO 15m !!!!!!!!
     }
   );
 };
