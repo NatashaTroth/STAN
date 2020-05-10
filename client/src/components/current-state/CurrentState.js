@@ -1,70 +1,39 @@
-import React, { useState, useEffect } from "react"
-import { useQuery } from "@apollo/react-hooks"
+import React from "react"
 // --------------------------------------------------------------
 
 // query ----------------
-import { GET_TODAYS_CHUNKS_PROGRESS, CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import Image from "../../components/image/Image"
-import Loading from "../../components/loading/Loading"
-import QueryError from "../error/Error"
 import { currentMood } from "../../pages/user-account-page/UserAccountPage"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
+// libraries
+import Carousel from "react-bootstrap/Carousel"
+
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// random function ----------------
-const RandomMascot = ({ mascotId, num, mood }) => {
-  return (
-    <Image
-      path={require(`../../images/mascots/${mascotId}-${mood.replace(
-        / /g,
-        ""
-      )}-${num}.svg`)}
-      text="random mascots with different moods"
-    />
-  )
-}
+// random number ----------------
+const random = Math.floor(Math.random() * 3)
 
-const CurrentState = () => {
+const CurrentState = ({ todaysProgress }) => {
   // context ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
-
-  // state ----------------
-  const [randomNum, setRandomNum] = useState({ min: 0, max: 2, num: 0 })
-
-  // query ----------------
-  const { loading, error } = useQuery(GET_TODAYS_CHUNKS_PROGRESS)
-
-  useEffect(() => {
-    const generateNumber = (min, max) => {
-      return Math.floor(Math.random() * (max - min + 1) + min)
-    }
-    setInterval(() => {
-      setRandomNum({ num: generateNumber(randomNum.min, randomNum.max) })
-    }, 30000)
-  }, [randomNum])
 
   // variables ----------------
   let mood = "okay"
   let motivation
 
-  // error handling ----------------
-  if (loading) return <Loading />
-  if (error) return <QueryError errorMessage={error.message} />
-
   // run query in cache ----------------
-  mood = currentMood(
-    client.readQuery({ query: GET_TODAYS_CHUNKS_PROGRESS }).todaysChunksProgress
-  )
+  mood = currentMood(todaysProgress)
 
   motivationalSayings.forEach(element => {
     if (mood === element.mood) {
-      if (element.id === randomNum.num) {
+      if (element.id === random) {
         motivation = element.motivation
       }
     }
@@ -74,11 +43,39 @@ const CurrentState = () => {
   return (
     <div className="current-state">
       <div className="current-state__mascot">
-        <RandomMascot
-          mascotId={currentUser.mascot}
-          num={randomNum.num}
-          mood={mood}
-        />
+        <Carousel
+          wrap={false}
+          interval={30000}
+          indicators={false}
+          controls={false}
+        >
+          <Carousel.Item>
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-0.svg`)}
+              text=""
+            />
+          </Carousel.Item>
+
+          <Carousel.Item>
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-1.svg`)}
+              text=""
+            />
+          </Carousel.Item>
+
+          <Carousel.Item>
+            <Image
+              path={require(`../../images/mascots/${
+                currentUser.mascot
+              }-${mood.replace(/ /g, "")}-2.svg`)}
+              text=""
+            />
+          </Carousel.Item>
+        </Carousel>
       </div>
       <div className="current-state__motivation">
         <p>{motivation}</p>
