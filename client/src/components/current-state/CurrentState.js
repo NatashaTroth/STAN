@@ -44,10 +44,11 @@ const CurrentState = ({ todaysProgress }) => {
     <div className="current-state">
       <div className="current-state__mascot">
         <Carousel
-          wrap={false}
+          wrap={true}
           interval={30000}
           indicators={false}
           controls={false}
+          autoPlay={true}
         >
           <Carousel.Item>
             <Image
