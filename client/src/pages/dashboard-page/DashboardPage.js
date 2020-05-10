@@ -140,7 +140,9 @@ function Dashboard() {
           </div>
           {/* Mascot */}
           <div className="col-xl-4">
-            <CurrentState />
+            <CurrentState
+              todaysProgress={data.todaysChunkAndProgress.todaysProgress}
+            />
           </div>
         </div>
       </div>

@@ -38,7 +38,6 @@ const ExamDetails = () => {
   // states ----------------
   let [edit, openEdit] = useState(false)
   let [popup, openPopup] = useState(false)
-  let [completed, setCompleted] = useState(false)
 
   // routes ----------------
   let history = useHistory()
@@ -91,7 +90,6 @@ const ExamDetails = () => {
   }
 
   const handleCompletion = () => {
-    setCompleted(completed => !completed)
     completeExam({ paramId, examCompleted, history })
   }
 
@@ -212,7 +210,7 @@ const ExamDetails = () => {
                   </div>
                 ) : null}
 
-                {!edit ? (
+                {!edit && !examDetails.completed ? (
                   <div className="col-md-12">
                     <div className="exam-details__inner--button">
                       <Button
@@ -295,9 +293,7 @@ async function completeExam({ paramId, examCompleted, history }) {
     }
 
     // redirect ----------------
-    setTimeout(() => {
-      history.push("/exams")
-    }, 2000)
+    history.push("/exams")
   } catch (err) {
     // error handling ----------------
     let element = document.getElementById("graphql-exam-completion-error")
