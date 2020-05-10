@@ -56,6 +56,11 @@ function Dashboard() {
         return el.completed == false
       }
     )
+    // set index to last element in list (when only 1 is left)
+    if (activeElementIndex > filteredItems.length - 1) {
+      setActiveElementIndex(filteredItems.length - 1)
+      return null
+    }
 
     // exams to do ----------------
     if (filteredItems.length > 0) {
@@ -71,12 +76,12 @@ function Dashboard() {
                   setActiveElementIndex(index)
                 }}
                 activeIndex={activeElementIndex}
-                data={data}
+                data={filteredItems}
               ></TodayGoals>
             </div>
             <div className="col-xl-6 today-component-container">
               {/* Today */}
-              <Today activeIndex={activeElementIndex} data={data}></Today>
+              <Today selectedGoal={filteredItems[activeElementIndex]}></Today>
             </div>
             <div className="col-xl-2">{/* Today Progress */}</div>
           </div>

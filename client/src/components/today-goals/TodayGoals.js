@@ -10,22 +10,8 @@ function TodayGoals(props) {
   let totalDurationTime
   let totalDuration = 0
 
-  // check if there is data ----------------
-  if (
-    props.data &&
-    props.data.todaysChunkAndProgress.todaysChunks.length === 0
-  ) {
-    return null
-  }
-  // filter only not completed entries ----------------
-  let filteredItems = props.data.todaysChunkAndProgress.todaysChunks.filter(
-    function(el) {
-      return el.completed == false
-    }
-  )
-
   // map entries ----------------
-  todaySubject = filteredItems.map((element, index) => {
+  todaySubject = props.data.map((element, index) => {
     // subject ----------------
     let subject = element.exam.subject
 
@@ -36,7 +22,7 @@ function TodayGoals(props) {
     // duration for all exams total
     totalDuration += duration
     totalDurationTime = calculateDurationTotal(totalDuration)
-
+    // console.log(element)
     // return ----------------
     return (
       <TodaySubject
