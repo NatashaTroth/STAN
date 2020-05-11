@@ -20,27 +20,19 @@ const LoginPopUp = () => {
   // return ----------------
   return (
     <div className="popup">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-4"></div>
-          <div className="col-md-4">
-            <div className="popup__inner box-content">
-              <div className="popup__inner--headline">
-                <h4>Not Logged In</h4>
-              </div>
-              <div className="popup__inner--content">
-                <div className="text">
-                  <p>Please log in to continue.</p>
-                </div>
-                <div className="login-btn">
-                  <a href="/login" className="stan-btn-secondary">
-                    Login
-                  </a>
-                </div>
-              </div>
-            </div>
+      <div className="popup__inner box-content">
+        <div className="popup__inner--headline">
+          <h4>Not Logged In</h4>
+        </div>
+        <div className="popup__inner--content">
+          <div className="text">
+            <p>Please log in to continue.</p>
           </div>
-          <div className="col-md-4"></div>
+          <div className="login-btn">
+            <a href="/login" className="stan-btn-secondary">
+              Login
+            </a>
+          </div>
         </div>
       </div>
     </div>
