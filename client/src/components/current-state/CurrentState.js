@@ -37,9 +37,6 @@ const CurrentState = ({ todaysProgress }) => {
     }
   })
 
-  // fallback ----------------
-  if (motivation.length === 0) motivation = "Yay! Study break!"
-
   // return ----------------
   return (
     <div className="current-state">
