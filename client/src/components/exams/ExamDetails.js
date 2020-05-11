@@ -7,6 +7,7 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_CALENDAR_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   CURRENT_USER,
 } from "../../graphQL/queries"
 import {
@@ -54,12 +55,14 @@ const ExamDetails = () => {
     refetchQueries: [
       { query: GET_EXAMS_QUERY },
       { query: GET_CALENDAR_CHUNKS },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
     ],
   })
   const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
     refetchQueries: [
       { query: GET_EXAMS_QUERY },
       { query: GET_CALENDAR_CHUNKS },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
     ],
   })
 
