@@ -54,7 +54,7 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
     expect(exam.startPage).toBe(resp.data.exam.startPage);
     expect(exam.currentPage).toBe(resp.data.exam.currentPage);
-    expect(exam.pdfLink).toBe(resp.data.exam.pdfLink);
+    expect(exam.pdfLinks).toBe(resp.data.exam.pdfLinks);
     expect(exam.notes).toBe(resp.data.exam.notes);
     expect(exam.completed).toBe(resp.data.exam.completed);
   });
@@ -101,7 +101,7 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exams[2].timesRepeat);
     expect(exam.startPage).toBe(resp.data.exams[2].startPage);
     expect(exam.currentPage).toBe(resp.data.exams[2].currentPage);
-    expect(exam.pdfLink).toBe(resp.data.exams[2].pdfLink);
+    expect(exam.pdfLinks).toBe(resp.data.exams[2].pdfLinks);
     expect(exam.notes).toBe(resp.data.exams[2].notes);
     expect(exam.completed).toBe(resp.data.exams[2].completed);
   });
@@ -151,7 +151,7 @@ describe("Test user resolver regex", () => {
   //     currentPage: 1,
   //     timesRepeat: 2,
   //     notes: "Samantha's notes",
-  //     pdfLink: "samanthas-link.stan",
+  //     pdfLinks: "samanthas-link.stan",
   //     color: "#FFFFFF",
   //     completed: completed || false,
   //     userId: userId || "samanthasId"

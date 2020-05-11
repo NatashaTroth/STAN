@@ -39,7 +39,7 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it("should correctly fetch the calendar chunks", async () => {
+  it.only("should correctly fetch the calendar chunks", async () => {
     const testExams = await addTestExams();
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
@@ -56,6 +56,7 @@ describe("Test user resolver regex", () => {
     const examColor = "#ff554d";
 
     exam = testExams.exam1;
+    console.log(resp.data.calendarChunks.calendarChunks[2]);
     expect(resp.data.calendarChunks.calendarChunks[2]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
@@ -67,10 +68,13 @@ describe("Test user resolver regex", () => {
         numberPagesLeftTotal: 50,
         numberPagesPerDay: 10,
         durationTotal: 250,
-        durationPerDay: 50,
-        pdfLink: exam.pdfLink
+        durationPerDay: 50
       }
     });
+    a;
+    expect(
+      resp.data.calendarChunks.calendarChunks[2].extendedProps.pdfLinks[0]
+    ).toBe(exam.pdfLinks[0]);
     expect(resp.data.calendarChunks.calendarExams[2]).toMatchObject({
       title: exam.subject,
       start: exam.examDate,
@@ -91,7 +95,7 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 36,
         durationTotal: 710,
         durationPerDay: 360,
-        pdfLink: exam.pdfLink
+        pdfLinks: ["samanthas-link.stan"]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[1]).toMatchObject({
@@ -114,7 +118,7 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 48,
         durationTotal: 480,
         durationPerDay: 480,
-        pdfLink: exam.pdfLink
+        pdfLinks: [exam.pdfLinks]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[0]).toMatchObject({
@@ -125,7 +129,7 @@ describe("Test user resolver regex", () => {
     });
 
     exam = testExams.exam4;
-    console.log(resp.data.calendarChunks);
+
     expect(resp.data.calendarChunks.calendarChunks[3]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
@@ -138,7 +142,7 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 3,
         durationTotal: 250,
         durationPerDay: 15,
-        pdfLink: exam.pdfLink
+        pdfLinks: [exam.pdfLinks]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[3]).toMatchObject({

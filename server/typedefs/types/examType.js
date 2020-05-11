@@ -16,7 +16,7 @@ const examType = gql`
     startPage: Int!
     currentPage: Int!
     notes: String
-    pdfLink: String
+    pdfLinks: [String]
     color: String!
     completed: Boolean
     userId: ID!
@@ -51,7 +51,7 @@ const examType = gql`
     numberPagesPerDay: Int!
     durationTotal: Int!
     durationPerDay: Int!
-    pdfLink: String
+    pdfLinks: [String]
   }
 
   type CalendarChunk {

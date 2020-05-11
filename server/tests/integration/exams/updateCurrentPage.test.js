@@ -52,7 +52,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 1,
         notes: "My Test Notes",
-        pdfLink: "klsdjfs",
+        pdfLinks: "klsdjfs",
         completed: false
       }
     });

@@ -23,7 +23,7 @@ export const ADD_EXAM_MUTATION = gql`
     $timesRepeat: Int
     $startPage: Int
     $notes: String
-    $pdfLink: String
+    $pdfLinks: [String]
     $completed: Boolean
   ) {
     addExam(
@@ -35,7 +35,7 @@ export const ADD_EXAM_MUTATION = gql`
       timesRepeat: $timesRepeat
       startPage: $startPage
       notes: $notes
-      pdfLink: $pdfLink
+      pdfLinks: $pdfLinks
       completed: $completed
     )
   }
@@ -53,7 +53,7 @@ export const UPDATE_EXAM_MUTATION = gql`
     $startPage: Int!
     $currentPage: Int!
     $notes: String
-    $pdfLink: String # $completed: Boolean
+    $pdfLinks: [String] # $completed: Boolean
   ) {
     updateExam(
       id: $id
@@ -66,7 +66,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       startPage: $startPage
       currentPage: $currentPage
       notes: $notes
-      pdfLink: $pdfLink # completed: $completed
+      pdfLinks: $pdfLinks # completed: $completed
     ) {
       id
       subject
@@ -77,7 +77,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       timesRepeat
       startPage
       notes
-      pdfLink
+      pdfLinks
       completed
     }
   }

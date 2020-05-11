@@ -13,7 +13,7 @@ export const GET_EXAMS_QUERY = gql`
       currentPage
       startPage
       notes
-      pdfLink
+      pdfLinks
       completed
     }
   }
@@ -32,7 +32,7 @@ export const GET_EXAM_QUERY = gql`
       currentPage
       startPage
       notes
-      pdfLink
+      pdfLinks
       completed
     }
   }
@@ -52,7 +52,7 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
           timesRepeat
           timePerPage
           currentPage
-          pdfLink
+          pdfLinks
         }
         numberPagesToday
         startPage
@@ -81,7 +81,7 @@ export const GET_CALENDAR_CHUNKS = gql`
           numberPagesPerDay
           durationTotal
           durationPerDay
-          pdfLink
+          pdfLinks
         }
       }
       calendarExams {

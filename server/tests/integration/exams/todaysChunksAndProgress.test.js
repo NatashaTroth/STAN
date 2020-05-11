@@ -84,7 +84,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -175,7 +175,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -191,7 +191,7 @@ describe("Test user resolver regex", () => {
     //---UPDATE CURRENT PAGE (Update Exam Mutation - update unimportant things as well)---
     testExam.subject = "English";
     testExam.notes = "Teting";
-    testExam.pdfLink = "testingLink.at";
+    testExam.pdfLinks = "testingLink.at";
     const updateResp2 = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -205,7 +205,7 @@ describe("Test user resolver regex", () => {
         startPage: testExam.startPage,
         timesRepeat: testExam.timesRepeat,
         notes: testExam.notes,
-        pdfLink: testExam.pdfLink
+        pdfLinks: testExam.pdfLinks
       }
     });
 
@@ -259,7 +259,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 5,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -345,7 +345,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 7,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -416,7 +416,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 13,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -467,7 +467,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -519,7 +519,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -568,7 +568,7 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            pdfLinks: testExam.pdfLinks
           },
           numberPagesToday: 10, //newly calculated -> 47/5 days left = 9.4
           startPage: 3,

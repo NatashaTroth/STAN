@@ -48,8 +48,8 @@ const examSchema = new Schema({
   notes: {
     type: String
   },
-  pdfLink: {
-    type: String
+  pdfLinks: {
+    type: [String]
   },
   color: {
     type: String,
