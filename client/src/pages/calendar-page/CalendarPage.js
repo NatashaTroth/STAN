@@ -95,7 +95,7 @@ const ExamsCalendar = () => {
                   const numberPagesPerDay = examDetails.numberPagesPerDay
                   const durationTotal = examDetails.durationTotal
                   const durationPerDay = examDetails.durationPerDay
-                  const pdfLink = examDetails.pdfLink
+                  const links = examDetails.studyMaterialLinks
 
                   // background color for list-view ----------------
                   info.el.style.backgroundColor = info.event.backgroundColor
@@ -141,8 +141,13 @@ const ExamsCalendar = () => {
                             <h5>Duration total: </h5>
                             <p>{minuteToHours(durationTotal)}</p>
                           </div>
-                          <div className="pdfLink">
-                            <a href={pdfLink}>Link</a>
+                          <div className="link">
+                            <h5>Study material links:</h5>
+                            {links.map((value, index) => (
+                              <a key={index} href={value}>
+                                {extractDomain(value)}
+                              </a>
+                            ))}
                           </div>
                         </Popover.Content>
                       </Popover>
@@ -188,3 +193,23 @@ const ExamsCalendar = () => {
 }
 
 export default ExamsCalendar
+
+function extractDomain(url) {
+  var domain
+  //find & remove protocol (http, ftp, etc.) and get domain
+  if (url.indexOf("://") > -1) {
+    domain = url.split("/")[2]
+  } else {
+    domain = url.split("/")[0]
+  }
+
+  //find & remove www
+  if (domain.indexOf("www.") > -1) {
+    domain = domain.split("www.")[1]
+  }
+
+  domain = domain.split(":")[0] //find & remove port number
+  domain = domain.split("?")[0] //find & remove url params
+
+  return domain
+}

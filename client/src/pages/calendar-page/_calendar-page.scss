@@ -292,12 +292,20 @@
   .total-pages-left,
   .pages-per-day,
   .duration-per-day,
-  .duration-total,
-  .pdfLink {
+  .duration-total {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+  }
+  .link {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      text-decoration: underline;
+      text-align: right;
+    }
   }
 
   .exam-date {

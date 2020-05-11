@@ -340,10 +340,7 @@ function AddNew() {
                     </div>
 
                     {inputFields.map((inputField, index) => (
-                      <div
-                        key={`${inputField}~${index}`}
-                        className="form__study-links"
-                      >
+                      <div key={index} className="form__study-links">
                         <div className="form__element form__study-links--input">
                           <Label
                             htmlFor="study-links"
