@@ -1,11 +1,11 @@
 import React from "react"
 import { setAccessToken } from "../../accessToken"
+import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
 // mutation & queries
-import { useForm } from "react-hook-form"
 import { useMutation } from "@apollo/react-hooks"
 import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 

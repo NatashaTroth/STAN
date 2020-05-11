@@ -9,6 +9,7 @@
         display: flex;
         justify-content: center;
         text-align: center;
+        margin-bottom: 20px;
       }
       &__button {
         display: flex;
@@ -21,8 +22,6 @@
 // BOOTSTRAP MASCOT
 .carousel {
   height: 320px;
-  display: flex;
-  align-items: center;
   @include media-breakpoint-down(lg) {
     height: 250px;
   }
