@@ -23,7 +23,7 @@ export const ADD_EXAM_MUTATION = gql`
     $timesRepeat: Int
     $startPage: Int
     $notes: String
-    $studyMaterialLinks: String
+    $studyMaterialLinks: [String]
     $completed: Boolean
   ) {
     addExam(
@@ -53,7 +53,7 @@ export const UPDATE_EXAM_MUTATION = gql`
     $startPage: Int!
     $currentPage: Int!
     $notes: String
-    $studyMaterialLinks: String # $completed: Boolean
+    $studyMaterialLinks: [String] # $completed: Boolean
   ) {
     updateExam(
       id: $id
