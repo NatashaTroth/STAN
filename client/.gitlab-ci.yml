@@ -19,10 +19,10 @@ npm:client:
     - cd client/
     - echo "Running npm ci ..."
     - npm ci
-  except:
-    - /^back-feature.*$/
-    # TODO: change when testing in client:
-    - /^front-feature.*$/
+  # except:
+  #   - /^back-feature.*$/
+  #   # TODO: change when testing in client:
+  #   - /^front-feature.*$/
 
 lint:client:
   stage: lint

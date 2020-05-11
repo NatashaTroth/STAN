@@ -21,7 +21,8 @@ const PORT = process.env.PORT || 5000;
 app.use(compress());
 //TODO: EXTRACT MONGODB CONNECTIONS
 
-// connectionString += "retryWrites=false";
+connectionString += "?retryWrites=false";
+console.log(connectionString);
 
 mongoose
   .connect(connectionString, {
