@@ -40,7 +40,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }).exam
 
   // state ----------------
-  const [inputFields, setInputFields] = useState([...data.studyMaterialLinks])
+  const [inputFields, setInputFields] = useState([""])
 
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
@@ -61,13 +61,13 @@ const ExamDetailsEdit = ({ examId }) => {
     // startPage: data.startPage,
     startPage: 1,
     notes: data.notes,
-    studyLinks: data.studyMaterialLinks,
   }
 
   // set default variables in form and make it editable ----------------
   const { register, errors, watch, setValue, handleSubmit } = useForm({
     defaultValues,
   })
+  const studyLinks = data.studyMaterialLinks
 
   const {
     subject,
@@ -79,7 +79,6 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage,
     timesRepeat,
     notes,
-    studyLinks,
   } = watch()
 
   useEffect(() => {
@@ -92,7 +91,6 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
     register({ exam: "notes" })
-    register({ exam: "studyLinks" })
   }, [register])
 
   // mutation ----------------
@@ -121,6 +119,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   const onSubmit = data => {
+    const newLinks = inputFields.concat(studyLinks)
     handleExam({
       examId,
       data,
@@ -128,9 +127,11 @@ const ExamDetailsEdit = ({ examId }) => {
       formExamDate,
       formStartDate,
       history,
+      newLinks,
     })
   }
 
+  console.log(studyLinks)
   const handleInputChange = (index, event) => {
     const values = [...inputFields]
     if (event.target.name === "study-links") {
@@ -417,23 +418,59 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
+            <div className="form__study-links">
+              <div className="form__element study-links-controlled">
+                <Label
+                  htmlFor="studyLinks"
+                  text="Study material links"
+                  className="form__element__label"
+                />
+                {studyLinks.map((inputField, index) => (
+                  <div key={index} className="study-links-controlled__inner">
+                    <input
+                      className="form__element__input study-links-controlled__input"
+                      type="url"
+                      id="studyLinks"
+                      name="studyLinks"
+                      value={inputField}
+                      label="exam_links_upload"
+                      onChange={event => handleInputChange(index, event)}
+                      ref={register({
+                        required: false,
+                        pattern:
+                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                      })}
+                    />
+                    <div className="form__study-links--buttons study-links-controlled__buttons">
+                      <button
+                        className=""
+                        type="button"
+                        onClick={() => handleRemoveFields(index)}
+                      >
+                        -
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {inputFields.map((inputField, index) => (
               <div key={index} className="form__study-links">
                 <div className="form__element form__study-links--input">
                   <Label
-                    htmlFor="studyLinks"
+                    htmlFor="study-links"
                     text="Study material links"
                     className="form__element__label"
-                  ></Label>
+                  />
                   <input
                     className="form__element__input"
                     type="url"
-                    id="studyLinks"
-                    name="studyLinks"
-                    value={inputField}
+                    id="study-links"
+                    name="study-links"
+                    placeholder="https://example.com/math"
                     label="exam_links_upload"
-                    onChange={handleChange.bind(null, "studyLinks")}
-                    // onChange={event => handleInputChange(index, event)}
+                    onChange={event => handleInputChange(index, event)}
                     ref={register({
                       required: false,
                       pattern:
@@ -441,7 +478,6 @@ const ExamDetailsEdit = ({ examId }) => {
                     })}
                   />
                 </div>
-
                 <div className="form__study-links--buttons">
                   <button
                     className=""
@@ -504,6 +540,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   history,
+  inputFields,
 }) {
   try {
     const resp = await updateExam({
@@ -519,7 +556,7 @@ async function handleExam({
         startPage: 1,
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
-        studyMaterialLinks: data.studyMaterialLinks,
+        studyMaterialLinks: inputFields,
         completed: false,
       },
     })

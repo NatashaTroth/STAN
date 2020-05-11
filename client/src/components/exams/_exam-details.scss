@@ -71,6 +71,26 @@
     }
     // ==============
 
+    .study-links-controlled {
+      width: 100%;
+      &__inner {
+        display: flex;
+        flex-direction: row;
+        padding: 0 !important;
+      }
+
+      &__input {
+        border-bottom: none;
+        color: theme_color("grey-dark");
+      }
+      &__buttons {
+        button {
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+      }
+    }
+
     &--bar {
       display: flex;
       flex-direction: row;
