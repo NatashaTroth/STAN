@@ -54,7 +54,12 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
     expect(exam.startPage).toBe(resp.data.exam.startPage);
     expect(exam.currentPage).toBe(resp.data.exam.currentPage);
-    expect(exam.pdfLinks).toBe(resp.data.exam.pdfLinks);
+    expect(exam.studyMaterialLinks.length).toBe(
+      resp.data.exam.studyMaterialLinks.length
+    );
+    expect(exam.studyMaterialLinks[0]).toBe(
+      resp.data.exam.studyMaterialLinks[0]
+    );
     expect(exam.notes).toBe(resp.data.exam.notes);
     expect(exam.completed).toBe(resp.data.exam.completed);
   });
@@ -101,7 +106,12 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exams[2].timesRepeat);
     expect(exam.startPage).toBe(resp.data.exams[2].startPage);
     expect(exam.currentPage).toBe(resp.data.exams[2].currentPage);
-    expect(exam.pdfLinks).toBe(resp.data.exams[2].pdfLinks);
+    expect(exam.studyMaterialLinks.length).toBe(
+      resp.data.exams[2].studyMaterialLinks.length
+    );
+    expect(exam.studyMaterialLinks[0]).toBe(
+      resp.data.exams[2].studyMaterialLinks[0]
+    );
     expect(exam.notes).toBe(resp.data.exams[2].notes);
     expect(exam.completed).toBe(resp.data.exams[2].completed);
   });
@@ -151,7 +161,7 @@ describe("Test user resolver regex", () => {
   //     currentPage: 1,
   //     timesRepeat: 2,
   //     notes: "Samantha's notes",
-  //     pdfLinks: "samanthas-link.stan",
+  //     studyMaterialLinks: "samanthas-link.stan",
   //     color: "#FFFFFF",
   //     completed: completed || false,
   //     userId: userId || "samanthasId"

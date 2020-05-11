@@ -54,7 +54,7 @@ test("that the float is rounded to two decimals correctly", () => {
     completed: false,
     notes:
       "<img onerror='window.document.body.innerHTML = \"<h1>You have been hacked !</h1>\";' src=''>",
-    pdfLinks: "<script>alert('I like & to stay alerted')</script>"
+    studyMaterialLinks: "<script>alert('I like & to stay alerted')</script>"
   };
 
   expect(escapeObjectForHtml(exam)).toMatchObject({
@@ -70,7 +70,7 @@ test("that the float is rounded to two decimals correctly", () => {
     completed: false,
     notes:
       "&lt;img onerror=&#x27;window.document.body.innerHTML = &quot;&lt;h1&gt;You have been hacked !&lt;&#x2F;h1&gt;&quot;;&#x27; src=&#x27;&#x27;&gt;",
-    pdfLinks:
+    studyMaterialLinks:
       "&lt;script&gt;alert(&#x27;I like &amp; to stay alerted&#x27;)&lt;&#x2F;script&gt;"
   });
 });

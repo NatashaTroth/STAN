@@ -495,7 +495,7 @@ function getCalendarChunks(exams) {
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
         durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage),
-        pdfLinks: exam.pdfLinks || []
+        studyMaterialLinks: exam.studyMaterialLinks || []
       }
     });
 

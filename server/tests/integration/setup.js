@@ -112,7 +112,7 @@ export async function addTestExam({
     currentPage: currentPage || startPage || 1,
     timesRepeat: timesRepeat || 1,
     notes: "Samantha's notes",
-    pdfLinks: ["samanthas-link.stan"],
+    studyMaterialLinks: ["samanthas-link.stan"],
     color: color || "#FFFFFF",
     completed: completed || false,
     userId: userId || "samanthasId"

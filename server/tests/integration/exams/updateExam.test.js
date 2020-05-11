@@ -209,7 +209,7 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: "klsdjfs",
         completed: false
       }
     });
@@ -236,7 +236,7 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: "klsdjfs",
         completed: false
       }
     });
@@ -263,7 +263,7 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: "klsdjfs",
         completed: false
       }
     });
@@ -289,7 +289,7 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: "klsdjfs",
         completed: false
       }
     });

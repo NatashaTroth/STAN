@@ -36,7 +36,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -54,7 +54,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -72,7 +72,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -90,7 +90,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -111,7 +111,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -133,7 +133,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -155,7 +155,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -177,7 +177,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 0,
         startPage: null,
         notes: "NOTES",
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
@@ -199,7 +199,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 6,
         notes: "d".repeat(100000001),
-        pdfLinks: "klsdjfs",
+        studyMaterialLinks: ["klsdjfs"],
         completed: false
       }
     });
