@@ -30,6 +30,7 @@ import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { minuteToHours } from "../../helpers/dates"
+import { extractDomain } from "../../helpers/mascots"
 
 const ExamsCalendar = () => {
   // objects ----------------
@@ -193,23 +194,3 @@ const ExamsCalendar = () => {
 }
 
 export default ExamsCalendar
-
-function extractDomain(url) {
-  var domain
-  //find & remove protocol (http, ftp, etc.) and get domain
-  if (url.indexOf("://") > -1) {
-    domain = url.split("/")[2]
-  } else {
-    domain = url.split("/")[0]
-  }
-
-  //find & remove www
-  if (domain.indexOf("www.") > -1) {
-    domain = domain.split("www.")[1]
-  }
-
-  domain = domain.split(":")[0] //find & remove port number
-  domain = domain.split("?")[0] //find & remove url params
-
-  return domain
-}
