@@ -51,7 +51,10 @@ const ExamDetails = () => {
 
   // mutation ----------------
   const [deleteExam] = useMutation(DELETE_EXAM_MUTATION, {
-    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_CALENDAR_CHUNKS },
+    ],
   })
   const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
     refetchQueries: [
