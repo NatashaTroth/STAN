@@ -65,12 +65,11 @@ export const examResolvers = {
       }
     },
     todaysChunkAndProgress: async (root, args, context, info) => {
-      console.log("FTChR");
       try {
         handleAuthentication(context.userInfo);
-        console.log("FTChR - gonna fetch chunks");
+
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
-        console.log("FTChR - fetched chunks");
+
         const todaysProgress = calculateChunkProgress(chunks);
 
         //to avoid todayschunks and progress being fetched at the same time
@@ -82,7 +81,7 @@ export const examResolvers = {
       }
     },
     calendarChunks: async (root, args, context, info) => {
-      console.log("IN CALENDAR CHUNKS");
+      // console.log("IN CALENDAR CHUNKS");
       try {
         handleAuthentication(context.userInfo);
 
@@ -169,8 +168,6 @@ export const examResolvers = {
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        console.log("hi");
-        console.log(processedArgs.completed);
         if (processedArgs.completed)
           await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
         //TODO - NEED AWAIT HERE?
@@ -194,7 +191,6 @@ export const examResolvers = {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
       // console.log("IN UPDATE CURRENT PAGE RESOLVER");
-      console.log("upCurrPageRes");
 
       try {
         handleAuthentication(context.userInfo);
@@ -205,8 +201,6 @@ export const examResolvers = {
         );
         if (exam.currentPage === args.page) return true;
 
-        console.log("hi");
-        console.log(exam.completed);
         const resp = await Exam.updateOne(
           { _id: args.examId, userId: context.userInfo.userId },
           {
@@ -218,7 +212,6 @@ export const examResolvers = {
 
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
-        console.log("upCurrPageRes - updated exam");
 
         //TODO - NEED AWAIT HERE?
         if (exam.completed)
@@ -229,7 +222,6 @@ export const examResolvers = {
             exam._id,
             args.page
           );
-        console.log("upCurrPageRes - updated chunk");
 
         return true;
       } catch (err) {

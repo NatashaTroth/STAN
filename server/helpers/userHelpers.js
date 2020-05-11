@@ -9,6 +9,7 @@ import {
 import { createAccessToken, createRefreshToken } from "./authenticationTokens";
 import { sendRefreshToken } from "./authenticationTokens";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { OAuth2Client } from "google-auth-library";
 import {
@@ -208,6 +209,42 @@ export function userWantsPasswordUpdating(password, newPassword) {
   // return (
   //   password && password.length > 0 && newPassword && newPassword.length > 0
   // );
+}
+
+export async function createForgottenPasswordEmailLink(email) {
+  const user = await User.findOne({ email });
+
+  if (!user) throw new ApolloError("There is no user with that email address.");
+
+  const secret = createForgottenPasswordSecret(user);
+
+  // const token = jwt.encode(payload, secret)
+  const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
+    expiresIn: "10m"
+  });
+  return process.env.CLIENT_URL + "/" + user._id + "/" + token;
+}
+
+export function createForgottenPasswordSecret(user) {
+  return (
+    user.password +
+    "-" +
+    user.updatedAt.getTime() +
+    process.env.FORGOTTEN_PASSWORD_SECRET
+  );
+}
+
+export function validateForgottenPasswordToken(user, token, secret) {
+  const decodedToken = jwt.verify(token, secret);
+  if (!decodedToken)
+    throw new Error(
+      "Invalid url. Please click on the forgotten password button to try again."
+    );
+  if (decodedToken.userId.toString() !== user._id.toString())
+    throw new Error("Wrong user in the forgotten password token.");
+
+  if (decodedToken.userEmail !== user.email)
+    throw new Error("Wrong user email in the forgotten password token.");
 }
 
 export function verifySignupInputFormat({ username, email, password, mascot }) {

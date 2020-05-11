@@ -76,7 +76,7 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
-        pdfLink: testExams.exam1.pdfLink
+        studyMaterialLinks: [testExams.exam1.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 10,
       durationToday: 50,
@@ -95,7 +95,7 @@ describe("Test user resolver regex", () => {
     //     numberPages: testExams.exam2.numberPages,
     //     timesRepeat: testExams.exam2.timesRepeat,
     //     currentPage: testExams.exam2.currentPage,
-    //     pdfLink: testExams.exam2.pdfLink
+    //     studyMaterialLinks: [testExams.exam2.studyMaterialLinks[0].toString()]
     //   },
     //   numberPagesToday: 36,
     //   durationToday: 360,
@@ -114,7 +114,7 @@ describe("Test user resolver regex", () => {
     //     numberPages: testExams.exam3.numberPages,
     //     timesRepeat: testExams.exam3.timesRepeat,
     //     currentPage: testExams.exam3.currentPage,
-    //     pdfLink: testExams.exam3.pdfLink
+    //     studyMaterialLinks: [testExams.exam3.studyMaterialLinks[0].toString()]
     //   },
     //   numberPagesToday: 48,
     //   durationToday: 480,
@@ -162,7 +162,7 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
-        pdfLink: testExams.exam1.pdfLink
+        studyMaterialLinks: [testExams.exam1.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 10,
       durationToday: 50,
@@ -180,7 +180,7 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam2.numberPages,
         timesRepeat: testExams.exam2.timesRepeat,
         currentPage: testExams.exam2.currentPage,
-        pdfLink: testExams.exam2.pdfLink
+        studyMaterialLinks: [testExams.exam2.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 36,
       durationToday: 360,
@@ -199,7 +199,7 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam3.numberPages,
         timesRepeat: testExams.exam3.timesRepeat,
         currentPage: testExams.exam3.currentPage,
-        pdfLink: testExams.exam3.pdfLink
+        studyMaterialLinks: [testExams.exam3.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 48,
       durationToday: 480,
@@ -316,7 +316,7 @@ describe("Test user resolver regex", () => {
         numberPages: testExam.numberPages,
         timesRepeat: testExam.timesRepeat,
         currentPage: 3,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
       },
       numberPagesToday:
         respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
@@ -371,7 +371,7 @@ describe("Test user resolver regex", () => {
         numberPages: 200,
         timesRepeat: 1,
         currentPage: 23,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 27,
       startPage: 23,
@@ -418,7 +418,7 @@ describe("Test user resolver regex", () => {
         numberPages: 200,
         timesRepeat: 1,
         currentPage: 23,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
       },
       numberPagesToday: 32,
       startPage: 23, //TODO: or 23???

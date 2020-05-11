@@ -50,6 +50,8 @@ integration-testing:server:
   variables:
     ACCESS_TOKEN_SECRET: "(slkjdfpowefs-dopioufsdgsf$%&)sdlkngfsjdgsdf6573(45hru8§-§)$%lk4fwj9$3jhwo849ufepodv"
     REFRESH_TOKEN_SECRET: "klsd-jfoisjepeodfj!slkdghjsdg345678ceu-sdf2345§rhfs%%$%/(/&werldfgkhjkjpiodjfoieahf"
+    FORGOTTEN_PASSWORD_SECRET: "slhdfkjshadjfkh3458zt98rdhkjsh587teriusdhf4ter-qvwkjg478f-wer_Wti3u4434345535t"
+    CLIENT_URL: "http://localhost:3000"
   script:
     - cd server/
     - echo "Running integration tests ..."

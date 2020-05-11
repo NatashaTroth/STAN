@@ -33,7 +33,7 @@ describe("Test user resolver regex", () => {
         email: "user@stan.com",
         password: "12345678",
         mascot: 1,
-        allowEmailNotifications: true
+        allowEmailNotifications: false
       }
     });
     expect(resp.data.signup).toBeTruthy();
@@ -144,7 +144,7 @@ describe("Test user resolver regex", () => {
         email: "user@stan.com",
         password: "12345678",
         mascot: 1,
-        allowEmailNotifications: true
+        allowEmailNotifications: false
       }
     });
     expect(respSignup.data.signup).toBeTruthy();

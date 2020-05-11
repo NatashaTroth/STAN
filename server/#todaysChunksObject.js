@@ -8,7 +8,7 @@
 
 //     "numberPages": 53,
 //     "timesRepeat": 1,
-//     "pdfLink": "TODO: CHANGE LATER"
+//     "studyMaterialLinks": "TODO: CHANGE LATER"
 //   },
 //   "numberPagesToday": 4,
 //   "durationToday": 16,
