@@ -261,7 +261,7 @@ function verifyUsernameFormat(username) {
     );
 }
 
-function verifyEmailFormat(email) {
+export function verifyEmailFormat(email) {
   if (!verifyRegexEmail(email))
     throw new Error("Email input has the wrong format.");
 }

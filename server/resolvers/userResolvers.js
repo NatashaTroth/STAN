@@ -12,6 +12,7 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // import sanitizer from "sanitize";
 // import validator from "validator";
@@ -32,7 +33,8 @@ import {
   deleteUser,
   validatePassword,
   updateUserInDatabase,
-  userWantsPasswordUpdating
+  userWantsPasswordUpdating,
+  verifyEmailFormat
   // calculateUserState
 } from "../helpers/userHelpers";
 
@@ -44,7 +46,7 @@ const stanEmail = new StanEmail();
 //TODO: Authenticate Queries
 export const userResolvers = {
   Query: {
-    currentUser: async (parent, ars, { req, res, userInfo }) => {
+    currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
         if (!userInfo.isAuth) return null;
         // let user = {
@@ -61,6 +63,32 @@ export const userResolvers = {
       } catch (err) {
         console.error(err.message);
         return null;
+      }
+    },
+    forgottenPasswordEmail: async (parent, { email }, context) => {
+      try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
+
+        verifyEmailFormat(email);
+        const user = await User.findOne({ email });
+        if (!user)
+          throw new ApolloError("There is no user with that email address.");
+        const secret = user.password + "-" + user.createdAt.getTime();
+        // const token = jwt.encode(payload, secret)
+        const token = jwt.sign(
+          { userId: user._id, userEmail: email },
+          secret + process.env.FORGOTTEN_PASSWORD_SECRET,
+          {
+            expiresIn: "15m"
+          }
+        );
+        let link = process.env.CLIENT_URL + "/" + token;
+        stanEmail.sendForgottenPasswordMail(email, link);
+
+        return true;
+      } catch (err) {
+        handleResolverError(err);
       }
     }
   },

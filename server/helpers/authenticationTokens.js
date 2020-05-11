@@ -53,7 +53,7 @@ export const createRefreshToken = user => {
   if (!user)
     throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(
-    { userId: user.id, tokenVersion: user.refreshTokenVersion },
+    { userId: user._id, tokenVersion: user.refreshTokenVersion },
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: "7d"
