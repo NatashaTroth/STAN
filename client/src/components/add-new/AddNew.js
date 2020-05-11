@@ -53,8 +53,7 @@ function AddNew() {
           timePerPage: parseInt(formData.exam_page_time),
           timesRepeat: parseInt(formData.exam_page_repeat),
           notes: formData.exam_page_notes,
-          // pdfLink: formData.exam_pdf_upload,
-          pdfLink: "TODO: CHANGE LATER",
+          pdfLink: formData.exam_links_upload,
           completed: false,
         },
         refetchQueries: [
@@ -342,24 +341,25 @@ function AddNew() {
                         )}
                     </div>
 
-                    {/* TODO: implement file link or upload */}
-                    {/* <div className="form__element">
+                    <div className="form__element">
                       <Label
-                        for="pdf-upload"
-                        text="Upload PDF file"
+                        for="study-links"
+                        text="Study material links"
                         className="form__element__label"
                       ></Label>
                       <Input
                         className="form__element__input"
-                        type="file"
-                        accept="application/pdf, .pdf"
-                        id="pdf-upload"
-                        label="exam_pdf_upload"
+                        type="url"
+                        id="study-links"
+                        placeholder="https://example.com/math"
+                        label="exam_links_upload"
                         ref={register({
                           required: false,
+                          pattern:
+                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
                         })}
                       />
-                    </div> */}
+                    </div>
                   </div>
 
                   <div className="form__submit">
