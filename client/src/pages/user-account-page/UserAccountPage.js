@@ -223,5 +223,5 @@ async function logUserOut({ logout }) {
 
   // logout all other tabs ----------------
   localStorage.setItem("logout-event", Date.now())
-  window.location.reload()
+  window.location.href = "/"
 }
