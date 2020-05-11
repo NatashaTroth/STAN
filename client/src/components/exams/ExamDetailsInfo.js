@@ -7,6 +7,7 @@ import ExamBar from "../progressbar/ProgressBar"
 
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
+import { extractDomain } from "../../helpers/mascots"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------
@@ -20,6 +21,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
   let lastPage = examDetails.startPage + (examDetails.numberPages - 1)
   let currentRepetition = Math.round(examDetails.currentPage / lastPage)
   if (currentRepetition < 1) currentRepetition = 1
+  let links = examDetails.studyMaterialLinks
 
   // return ----------------
   return (
@@ -105,19 +107,23 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 </p>
               </div>
 
-              <div className="pdf">
-                <div className="pdf--file">
-                  <h4>PDF file</h4>
-
-                  <p>{examDetails.pdfLink}</p>
+              <div className="link">
+                <div className="link--headline">
+                  <h4>Study material links</h4>
                 </div>
-                <a
-                  href={examDetails.pdfLink}
-                  // target="_blank"
-                  className="stan-btn-secondary"
-                >
-                  open
-                </a>
+                <div className="link--buttons">
+                  {links.map((value, index) => (
+                    <div key={index}>
+                      <a
+                        href={value}
+                        target="_blank"
+                        className="stan-btn-secondary"
+                      >
+                        {extractDomain(value)}
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
