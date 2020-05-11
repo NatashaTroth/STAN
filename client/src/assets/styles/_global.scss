@@ -200,10 +200,11 @@ html body {
 
   input {
     border: none;
-    border-bottom: 2px solid theme-color("dark");
+    border-bottom: 2px solid;
+    border-color: theme-color("dark");
     padding: 5px 2px;
     color: theme-color("dark");
-    background-color: theme-color("light");
+    background-color: transparent;
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
     @include rem(line-height, 25px);
@@ -262,6 +263,9 @@ html body {
     }
   }
 
+  .DayPicker-Day {
+    padding: 0.4em;
+  }
   .DayPickerInput {
     input {
       width: 100%;
@@ -272,10 +276,11 @@ html body {
     width: 100%;
     min-height: 146px;
     border: none;
-    border-bottom: 2px solid theme-color("dark");
+    border-bottom: 2px solid;
+    border-color: theme-color("dark");
     padding: 5px 15px;
     color: theme-color("dark");
-    background-color: theme-color("light");
+    background-color: transparent;
     @include rem(font-size, $font-size-16);
     @include rem(letter-spacing, 0.2px);
     @include rem(line-height, 32px);
@@ -296,7 +301,8 @@ html body {
 
   .box-content {
     margin-bottom: 30px;
-    border: 4px solid theme-color("dark");
+    border: 4px solid;
+    border-color: theme-color("dark");
     box-shadow: 10px 10px 0px -2px theme-color("dark");
 
     @include media-breakpoint-down(sm) {

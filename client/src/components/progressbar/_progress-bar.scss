@@ -2,7 +2,8 @@
   position: relative;
   height: 15px;
   width: 100%;
-  border: 2px solid theme_color("dark");
+  border: 2px solid;
+  border-color: theme_color("dark");
 
   &__filler {
     position: absolute;

@@ -140,7 +140,8 @@
           .user-avatar {
             width: 28px;
             height: 27px;
-            border: 1.5px solid theme_color("dark");
+            border: 1.5px solid;
+            border-color: theme_color("dark");
             margin-right: 13px;
             margin-bottom: 1px;
             padding-top: 1px;

@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-end;
-  border-bottom: 3px solid theme_color("dark");
+  border-bottom: 3px solid;
+  border-color: theme_color("dark");
   margin: 0 0 0 auto;
   width: fit-content;
 

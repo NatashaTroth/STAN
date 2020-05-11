@@ -76,7 +76,8 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 3px solid theme_color("dark");
+      border-bottom: 3px solid;
+      border-color: theme_color("dark");
       padding: 5px 0;
       margin: 5px;
 

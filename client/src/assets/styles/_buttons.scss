@@ -2,7 +2,8 @@
 .stan-btn-primary {
   display: flex;
   background-color: theme-color("dark");
-  border: 3px solid theme-color("dark");
+  border: 3px solid;
+  border-color: theme-color("dark");
   color: theme-color("light");
   font-family: $font-family-BasierCircle-SemiBold;
   @include rem(font-size, $font-size-16);
@@ -35,7 +36,8 @@
 .stan-btn-secondary {
   display: flex;
   background-color: theme-color("light");
-  border: 3px solid theme-color("dark");
+  border: 3px solid;
+  border-color: theme-color("dark");
   color: theme-color("dark");
   font-family: $font-family-BasierCircle-SemiBold;
   @include rem(font-size, $font-size-16);
@@ -70,7 +72,8 @@
   padding: 15px 30px;
   text-transform: uppercase;
   background-color: theme-color("light");
-  border: 2px solid theme-color("dark");
+  border: 2px solid;
+  border-color: theme-color("dark");
   box-shadow: 5px 5px 0px 0px theme-color("dark");
   font-family: $font-family-BasierCircle-SemiBold;
   @include rem(font-size, $font-size-16);
@@ -90,7 +93,7 @@
   &:hover,
   &:active,
   &:focus {
-    box-shadow: 8px 8px 0px 0px #000000;
+    box-shadow: 8px 8px 0px 0px theme-color("dark");
     color: theme-color("dark");
   }
 }
