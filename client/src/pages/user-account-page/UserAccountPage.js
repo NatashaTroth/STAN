@@ -48,7 +48,7 @@ const UserAccount = props => {
   // variables ----------------
   let currentExams = 0
   let finishedExams = 0
-  let currentState = 0
+  let mood = "okay"
 
   // error handling and get data ----------------
   if (props.loading) return <Loading />
@@ -60,11 +60,8 @@ const UserAccount = props => {
     }
   }
   if (props.getTodaysChunksProgressQuery.todaysChunksProgress) {
-    currentState = props.getTodaysChunksProgressQuery.todaysChunksProgress
+    mood = currentMood(props.getTodaysChunksProgressQuery.todaysChunksProgress)
   }
-
-  // moods ----------------
-  let mood = currentMood(currentState)
 
   // google logout ----------------
   const currentUserGoogleLogin = currentUser.googleLogin
