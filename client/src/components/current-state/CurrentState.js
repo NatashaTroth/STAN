@@ -13,7 +13,7 @@ import { currentMood } from "../../helpers/mascots"
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
-// libraries
+// libraries ----------------
 import Carousel from "react-bootstrap/Carousel"
 
 // apolloClient cache ----------------
@@ -32,12 +32,13 @@ const CurrentState = ({ todaysProgress }) => {
 
   mood = currentMood(todaysProgress)
   motivationalSayings.forEach(element => {
-    if (mood === element.mood) {
-      if (element.id === random) {
-        motivation = element.motivation
-      }
+    if (mood === element.mood && element.id === random) {
+      motivation = element.motivation
     }
   })
+
+  // fallback ----------------
+  if (motivation.length === 0) motivation = "Yay! Study break!"
 
   // return ----------------
   return (
@@ -45,7 +46,7 @@ const CurrentState = ({ todaysProgress }) => {
       <div className="current-state__mascot">
         <Carousel
           wrap={true}
-          interval={5000}
+          interval={30000}
           indicators={false}
           controls={false}
           autoPlay={true}
