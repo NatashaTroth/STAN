@@ -35,7 +35,7 @@ function AddNew() {
     ],
   })
 
-  // mutation ----------------
+  // state ----------------
   const [inputFields, setInputFields] = useState([""])
 
   // form specific ----------------
@@ -353,7 +353,6 @@ function AddNew() {
                             id="study-links"
                             name="study-links"
                             placeholder="https://example.com/math"
-                            value={inputField.url}
                             label="exam_links_upload"
                             onChange={event => handleInputChange(index, event)}
                             ref={register({
