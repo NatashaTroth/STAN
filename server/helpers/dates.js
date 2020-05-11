@@ -39,7 +39,9 @@ export function getNumberOfDays(startDate, endDate) {
   );
 
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  return Math.round(Math.abs((start - end) / oneDay));
+  const numberOfDays = Math.round((start - end) / oneDay);
+  if (numberOfDays < 0) return 0;
+  return numberOfDays;
 }
 
 //------------------------HELPERS--------------------

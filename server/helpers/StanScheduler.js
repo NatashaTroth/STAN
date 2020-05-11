@@ -22,7 +22,7 @@ export default class StanScheduler {
     // const j = schedule.scheduleJob(rule, function(){
     //   console.log('Today is recognized by Rebecca Black!');
     // });
-    schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
+    schedule.scheduleJob({ hour: 11, minute: 3 }, async () => {
       this.notifyUsersAboutExams();
       this.completePastExams();
     });
@@ -60,6 +60,7 @@ export default class StanScheduler {
         console.log(numberOfDaysUntilExam);
         if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
         if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
+        console.log(JSON.stringify(examsInOneDay));
         if (isTheSameDay(new Date(), exam.startDate))
           startDatesToday.push(exam.subject);
       });
@@ -67,13 +68,18 @@ export default class StanScheduler {
       //   stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
       // if (examsInThreeDays.length > 0)
       //   stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
-      stanEmail.sendExamDateReminderMail(
-        user.email,
-        examsInOneDay,
-        examsInThreeDays,
-        startDatesToday,
-        user.mascot
-      );
+      if (
+        examsInOneDay.length > 0 ||
+        examsInThreeDays.length > 0 ||
+        startDatesToday.length > 0
+      )
+        stanEmail.sendExamDateReminderMail(
+          user.email,
+          examsInOneDay,
+          examsInThreeDays,
+          startDatesToday,
+          user.mascot
+        );
     });
     // });
   }
