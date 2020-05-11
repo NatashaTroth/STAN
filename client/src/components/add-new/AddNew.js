@@ -421,7 +421,6 @@ async function handleExam({
   reset,
 }) {
   try {
-    console.log(links)
     const resp = await addExam({
       variables: {
         subject: formData.exam_subject,
