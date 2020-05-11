@@ -150,29 +150,6 @@ function Today(props) {
   // start page for today's chunk goal ----------------
   let startPage = todaysChunk.startPage
 
-  // repetition goal to display next to goal ----------------
-  let repetitionGoal = 1
-
-  // end page for today's chunk goal ----------------
-  let numberPagesToday = todaysChunk.numberPagesToday
-  // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
-  if (numberPagesToday > lastPage) {
-    let pagesLeftInCycles = numberPagesToday - lastPage // get pages for new cycles
-    numberPagesToday = lastPage // maximum goal is last page
-    repetitionGoal = pagesLeftInCycles / lastPage + 1
-  }
-
-  // real end page for today's chunk goal ----------------
-  let chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
-
-  // to display the last page correctly (edge cases)
-  if (chunkGoalPage == -1) {
-    chunkGoalPage = lastPage
-  } else if (chunkGoalPage == 0) {
-    chunkGoalPage = 1
-  }
-  // --------------------------------
-
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
   let durationFormatted = minuteToHours(duration)
@@ -183,6 +160,36 @@ function Today(props) {
   if (duration > 1440) {
     noTimeMessage =
       "Info: You need to study faster to finish all pages until the exam!"
+  }
+  // --------------------------------
+
+  // repetition goal to display next to goal ----------------
+  let repetitionGoal = 1
+
+  // end page for today's chunk goal ----------------
+  let numberPagesToday = todaysChunk.numberPagesToday
+  // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
+  if (numberPagesToday > lastPage) {
+    // get pages for new cycles
+    let pagesLeftInCycles = numberPagesToday - lastPage
+    // maximum goal is last page
+    numberPagesToday = lastPage
+
+    repetitionGoal = pagesLeftInCycles / lastPage + 1
+
+    // show message
+    noTimeMessage = "Info: You have to study multiple repetition cycles today"
+  }
+  // --------------------------------
+
+  // real end page for today's chunk goal ----------------
+  let chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
+  // to display the last page correctly (edge cases)
+  if (chunkGoalPage == -1) {
+    chunkGoalPage = lastPage
+  } else if (chunkGoalPage == 0) {
+    chunkGoalPage = 1
   }
   // --------------------------------
 
@@ -204,11 +211,29 @@ function Today(props) {
   // --------------------------------
 
   // pages are left in total with repetition cycles ----------------
-  let leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
-  // percentage for bar
-  let leftPagesPercentage = Math.round(
-    (currentPage * 100) / (leftPagesTotal + lastPage)
-  )
+  let leftPagesTotal
+  let leftPagesPercentage
+  let currentPageBar
+
+  if (todaysChunk.numberPagesToday <= lastPage) {
+    // pages left
+    leftPagesTotal = lastPage - currentPage
+    // percentage for bar
+    currentPageBar = currentPage
+    if (currentPageBar == 1) currentPageBar = 0 // to start with 0 in bar
+    leftPagesPercentage = Math.round((currentPageBar * 100) / lastPage)
+
+    // when you have to study multiple repetition cycles a day
+  } else {
+    // pages left
+    leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
+    // percentage for bar
+    currentPageBar = currentPage
+    if (currentPageBar == 1) currentPageBar = 0 // to start with 0 in bar
+    leftPagesPercentage = Math.round(
+      (currentPage * 100) / (leftPagesTotal + lastPage)
+    )
+  }
   // --------------------------------
 
   // return ----------------
