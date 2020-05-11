@@ -10,7 +10,8 @@ const {
   verifyRegexPageTime,
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
-  verifyRegexPageNotes
+  verifyRegexPageNotes,
+  verifyRegexUrlLink
 } = require("../../helpers/verifyUserInput");
 
 test("verifies string is formatted as an email", () => {
@@ -147,6 +148,13 @@ test("verifies string is formatted as notes", () => {
 
   expect(verifyRegexPageNotes("d".repeat(100000001))).toBeFalsy();
 });
+
+// test("verifies string is formatted as a URL Link", () => {
+//   expect(verifyRegexUrlLink("https://google.at")).toBeTruthy();
+//   expect(verifyRegexUrlLink("")).toBeTruthy();
+
+//   expect(verifyRegexUrlLink("d".repeat(100000001))).toBeFalsy();
+// });
 
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
 function testVariousChars(regexFunction) {

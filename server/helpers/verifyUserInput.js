@@ -64,6 +64,14 @@ export function verifyRegexCurrentPage(string) {
   return string.match(/^\d{0,10000}$/);
 }
 
+export function verifyRegexUrlLink(string) {
+  if (!verifyStringFormat(string)) return false;
+  if (string.length === 0) return true;
+  return string.match(
+    "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/"
+  );
+}
+
 export function verifyRegexPageNotes(string) {
   if (!verifyStringFormat(string)) return false;
   //Regex returns: RangeError: Maximum call stack size exceeded at String.match (<anonymous>)

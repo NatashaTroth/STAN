@@ -52,7 +52,9 @@ export async function signUserUp({
 }) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail)
-    throw new UserInputError("User with email already exists.");
+    throw new UserInputError(
+      "User with email already exists. Have you forgotten your password?"
+    );
   let hashedPassword;
   if (googleLogin) hashedPassword = null;
   else hashedPassword = await bcrypt.hash(password, 10);
@@ -160,7 +162,9 @@ export async function deleteUser(userId) {
   });
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError("The user couldn't be deleted");
+    throw new ApolloError(
+      "The user couldn't be deleted. Please contact us at stan.studyplan@gmail.com, to delete your account."
+    );
 }
 
 export async function validatePassword(inputPassword, userPassword) {
