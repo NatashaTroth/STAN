@@ -8,6 +8,7 @@ import {
   GET_EXAMS_QUERY,
   GET_CALENDAR_CHUNKS,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
+  GET_EXAMS_COUNT,
   CURRENT_USER,
 } from "../../graphQL/queries"
 import {
@@ -56,6 +57,7 @@ const ExamDetails = () => {
       { query: GET_EXAMS_QUERY },
       { query: GET_CALENDAR_CHUNKS },
       { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_EXAMS_COUNT },
     ],
   })
   const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
@@ -63,6 +65,7 @@ const ExamDetails = () => {
       { query: GET_EXAMS_QUERY },
       { query: GET_CALENDAR_CHUNKS },
       { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_EXAMS_COUNT },
     ],
   })
 
