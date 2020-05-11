@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
+import ThemeMode from "../theme-changer/ThemeChanger"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -18,6 +19,7 @@ import Logo from "../../images/icons/logo.svg"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+import { ClickMode } from "react-particles-js"
 
 const Navbar = () => {
   // variables ----------------
@@ -190,7 +192,8 @@ const Navbar = () => {
 
             {/* PUBLIC ROUTES */}
             <div className="menu-bottom">
-              <li className="dark-mode">Dark mode</li>
+              {/* Light/Dark mode */}
+              <ThemeMode />
               <li className="imprint">
                 <NavLink
                   strict

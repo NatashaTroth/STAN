@@ -1,0 +1,26 @@
+// color themes ----------------
+body.dark-mode {
+  transition: all 1s ease-in-out;
+  background-color: theme-color("dark-mode");
+  color: theme-color("light");
+
+  .dark-mode-btn {
+    color: theme-color("light");
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: theme-color("primary-yellow");
+    }
+  }
+
+  .navigation {
+    &__items {
+      background-color: theme-color("dark-mode");
+      border-right: 4px solid theme-color("light");
+    }
+  }
+  .user-avatar {
+    border-color: theme_color("light");
+  }
+}
