@@ -1,4 +1,5 @@
 import React from "react"
+import { calculateDuration, calculateDurationTotal } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -65,37 +66,3 @@ function TodayGoals(props) {
 }
 
 export default TodayGoals
-
-export function calculateDuration(duration) {
-  let hours
-  let minutes
-  let durationTime
-
-  // calculate duration display
-  if (duration >= 60) {
-    hours = Math.floor(duration / 60)
-    minutes = Math.floor(duration) - hours * 60
-
-    return (durationTime = hours + " hours " + minutes + " min")
-  } else {
-    minutes = duration
-    return (durationTime = minutes + " min")
-  }
-}
-
-export function calculateDurationTotal(totalDuration) {
-  let hoursTotal
-  let minutesTotal
-  let totalDurationTime
-
-  if (totalDuration >= 60) {
-    hoursTotal = Math.floor(totalDuration / 60)
-    minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
-
-    return (totalDurationTime = hoursTotal + "h " + minutesTotal + "m")
-  } else {
-    minutesTotal = totalDuration
-
-    return (totalDurationTime = minutesTotal + "m")
-  }
-}

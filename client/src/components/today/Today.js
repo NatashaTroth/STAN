@@ -2,7 +2,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import moment from "moment"
-import { calculateDuration } from "../today-goals/TodayGoals"
+import { calculateDuration } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // queries ----------------
