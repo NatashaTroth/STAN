@@ -34,7 +34,10 @@ import {
   validatePassword,
   updateUserInDatabase,
   userWantsPasswordUpdating,
-  verifyEmailFormat
+  verifyEmailFormat,
+  createForgottenPasswordEmailLink,
+  createForgottenPasswordSecret,
+  validateForgottenPasswordToken
   // calculateUserState
 } from "../helpers/userHelpers";
 
@@ -71,19 +74,7 @@ export const userResolvers = {
           throw new AuthenticationError("Already logged in.");
 
         verifyEmailFormat(email);
-        const user = await User.findOne({ email });
-        if (!user)
-          throw new ApolloError("There is no user with that email address.");
-        const secret =
-          user.password +
-          "-" +
-          user.updatedAt.getTime() +
-          process.env.FORGOTTEN_PASSWORD_SECRET;
-        // const token = jwt.encode(payload, secret)
-        const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
-          expiresIn: "15m"
-        });
-        let link = process.env.CLIENT_URL + "/" + user._id + "/" + token;
+        const link = await createForgottenPasswordEmailLink(email);
         stanEmail.sendForgottenPasswordMail(email, link);
 
         return true;
@@ -237,17 +228,10 @@ export const userResolvers = {
 
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
-        const secret =
-          user.password +
-          "-" +
-          user.updatedAt.getTime() +
-          process.env.FORGOTTEN_PASSWORD_SECRET;
+        const secret = createForgottenPasswordSecret(user);
 
-        const decodedToken = jwt.verify(token, secret);
-        if (!decodedToken)
-          throw new Error(
-            "Invalid url. Please click on the forgotten password button to try again."
-          );
+        validateForgottenPasswordToken(user, token, secret);
+
         const passwordToSave = await bcrypt.hash(newPassword, 10);
         const updateResp = await User.updateOne(
           { _id: user._id },
