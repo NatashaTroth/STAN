@@ -14,6 +14,7 @@ import DataPolicy from "../../pages/data-policy-page/DataPolicyPage"
 import Login from "../../pages/login-page/LoginPage"
 import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
+import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamsDetails from "../../components/exams/ExamDetails"
@@ -24,6 +25,7 @@ const Content = ({ location }) => {
     <main className="content">
       <Switch location={location}>
         <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Dashboard} />
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
