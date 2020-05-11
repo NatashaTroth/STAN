@@ -149,12 +149,18 @@ test("verifies string is formatted as notes", () => {
   expect(verifyRegexPageNotes("d".repeat(100000001))).toBeFalsy();
 });
 
-// test("verifies string is formatted as a URL Link", () => {
-//   expect(verifyRegexUrlLink("https://google.at")).toBeTruthy();
-//   expect(verifyRegexUrlLink("")).toBeTruthy();
+test("verifies string is formatted as a URL Link", () => {
+  expect(verifyRegexUrlLink("https://google.at")).toBeTruthy();
+  expect(
+    verifyRegexUrlLink(
+      "https://wiki.mediacube.at/wiki/index.php?title=Studiowoche"
+    )
+  ).toBeTruthy();
+  expect(verifyRegexUrlLink("")).toBeTruthy();
 
-//   expect(verifyRegexUrlLink("d".repeat(100000001))).toBeFalsy();
-// });
+  expect(verifyRegexUrlLink("ddsfhj8o345")).toBeFalsy();
+  expect(verifyRegexUrlLink("https:/google.at")).toBeFalsy();
+});
 
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
 function testVariousChars(regexFunction) {

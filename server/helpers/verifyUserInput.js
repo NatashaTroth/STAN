@@ -68,7 +68,8 @@ export function verifyRegexUrlLink(string) {
   if (!verifyStringFormat(string)) return false;
   if (string.length === 0) return true;
   return string.match(
-    "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/"
+    /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
+    // /(http|https):\/\/(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/ | /([w#!:.?+=&%@!-/]))?/
   );
 }
 
