@@ -76,7 +76,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 </p>
               </div>
               <div className="exam-pages">
-                <h4>Pages left including repetition</h4>
+                <h4>Pages left incl. repetition</h4>
 
                 <div className="exam-pages__bar">
                   <ExamBar
