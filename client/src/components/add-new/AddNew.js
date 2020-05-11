@@ -25,7 +25,18 @@ import DatePicker from "../../components/datepicker/DatePicker"
 
 function AddNew() {
   // mutation ----------------
-  const [addExam] = useMutation(ADD_EXAM_MUTATION)
+  const [addExam] = useMutation(ADD_EXAM_MUTATION, {
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_TODAYS_CHUNKS_PROGRESS },
+      { query: GET_CALENDAR_CHUNKS },
+      { query: GET_EXAMS_COUNT },
+    ],
+  })
+
+  // mutation ----------------
+  const [inputFields, setInputFields] = useState([""])
 
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -40,50 +51,37 @@ function AddNew() {
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
   // -----------------------------
 
-  const onSubmit = async formData => {
-    try {
-      const resp = await addExam({
-        variables: {
-          subject: formData.exam_subject,
-          examDate: formExamDate,
-          startDate: formStartDate,
-          numberPages: parseInt(formData.exam_page_amount),
-          // startPage: parseInt(formData.exam_page_current),
-          startPage: 1,
-          timePerPage: parseInt(formData.exam_page_time),
-          timesRepeat: parseInt(formData.exam_page_repeat),
-          notes: formData.exam_page_notes,
-          pdfLink: formData.exam_links_upload,
-          completed: false,
-        },
-        refetchQueries: [
-          { query: GET_EXAMS_QUERY },
-          { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
-          { query: GET_CALENDAR_CHUNKS },
-          { query: GET_EXAMS_COUNT },
-        ],
-      })
+  const onSubmit = formData => {
+    let links = inputFields
+    handleExam({
+      formData,
+      addExam,
+      formExamDate,
+      formStartDate,
+      links,
+      reset,
+    })
+  }
 
-      if (resp && resp.data && resp.data.addExam) {
-        // success message ----------------
-        document.getElementById("success-container-add-new").style.display =
-          "block"
-
-        reset({}) // reset form data
-      } else {
-        // displays server error (backend)
-        throw new Error("The exam could not be added, please check your input")
-      }
-    } catch (err) {
-      let element = document.getElementsByClassName("graphql-error")
-
-      if (err.graphQLErrors && err.graphQLErrors[0]) {
-        element[0].innerHTML = err.graphQLErrors[0].message
-      } else {
-        element[0].innerHTML = err.message
-      }
+  // functions ----------------
+  const handleInputChange = (index, event) => {
+    const values = [...inputFields]
+    if (event.target.name === "study-links") {
+      values[index] = event.target.value
     }
+    setInputFields(values)
+  }
+
+  const handleAddFields = () => {
+    const values = [...inputFields]
+    values.push([""])
+    setInputFields(values)
+  }
+
+  const handleRemoveFields = index => {
+    const values = [...inputFields]
+    values.splice(index, 1)
+    setInputFields(values)
   }
 
   // return ----------------
@@ -341,25 +339,52 @@ function AddNew() {
                         )}
                     </div>
 
-                    <div className="form__element">
-                      <Label
-                        for="study-links"
-                        text="Study material links"
-                        className="form__element__label"
-                      ></Label>
-                      <Input
-                        className="form__element__input"
-                        type="url"
-                        id="study-links"
-                        placeholder="https://example.com/math"
-                        label="exam_links_upload"
-                        ref={register({
-                          required: false,
-                          pattern:
-                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                        })}
-                      />
-                    </div>
+                    {inputFields.map((inputField, index) => (
+                      <div
+                        key={`${inputField}~${index}`}
+                        className="form__study-links"
+                      >
+                        <div className="form__element form__study-links--input">
+                          <Label
+                            htmlFor="study-links"
+                            text="Study material links"
+                            className="form__element__label"
+                          ></Label>
+                          <input
+                            className="form__element__input"
+                            type="url"
+                            id="study-links"
+                            name="study-links"
+                            placeholder="https://example.com/math"
+                            value={inputField.url}
+                            label="exam_links_upload"
+                            onChange={event => handleInputChange(index, event)}
+                            ref={register({
+                              required: false,
+                              pattern:
+                                "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                            })}
+                          />
+                        </div>
+
+                        <div className="form__study-links--buttons">
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => handleRemoveFields(index)}
+                          >
+                            -
+                          </button>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => handleAddFields()}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="form__submit">
@@ -386,3 +411,50 @@ function AddNew() {
 }
 
 export default AddNew
+
+async function handleExam({
+  formData,
+  addExam,
+  formExamDate,
+  formStartDate,
+  links,
+  reset,
+}) {
+  try {
+    console.log(links)
+    const resp = await addExam({
+      variables: {
+        subject: formData.exam_subject,
+        examDate: formExamDate,
+        startDate: formStartDate,
+        numberPages: parseInt(formData.exam_page_amount),
+        // startPage: parseInt(formData.exam_page_current),
+        startPage: 1,
+        timePerPage: parseInt(formData.exam_page_time),
+        timesRepeat: parseInt(formData.exam_page_repeat),
+        notes: formData.exam_page_notes,
+        studyMaterialLinks: links,
+        completed: false,
+      },
+    })
+
+    if (resp && resp.data && resp.data.addExam) {
+      // success message ----------------
+      document.getElementById("success-container-add-new").style.display =
+        "block"
+
+      reset({}) // reset form data
+    } else {
+      // displays server error (backend)
+      throw new Error("The exam could not be added, please check your input")
+    }
+  } catch (err) {
+    let element = document.getElementsByClassName("graphql-error")
+
+    if (err.graphQLErrors && err.graphQLErrors[0]) {
+      element[0].innerHTML = err.graphQLErrors[0].message
+    } else {
+      element[0].innerHTML = err.message
+    }
+  }
+}
