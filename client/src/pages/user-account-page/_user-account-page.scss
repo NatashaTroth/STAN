@@ -67,7 +67,7 @@
         justify-content: space-around;
         padding: 40px;
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
           flex-direction: column;
           padding: 20px;
         }
