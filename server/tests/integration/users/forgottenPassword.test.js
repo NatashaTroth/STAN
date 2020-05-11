@@ -16,14 +16,13 @@ import jwt from "jsonwebtoken";
 import { User } from "../../../models";
 import {
   createForgottenPasswordEmailLink,
-  createForgottenPasswordSecret,
-  validateForgottenPasswordToken
+  createForgottenPasswordSecret
 } from "../../../helpers/userHelpers";
 import bcrypt from "bcrypt";
 
 describe("Test forgotten password resolver/helpers", () => {
   let server;
-  let mutate;
+
   let query;
 
   let testUser;
@@ -39,7 +38,7 @@ describe("Test forgotten password resolver/helpers", () => {
     });
 
     client = createTestClient(server);
-    mutate = client.mutate;
+
     query = client.query;
   });
 

@@ -12,7 +12,7 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 // import sanitizer from "sanitize";
 // import validator from "validator";
