@@ -394,26 +394,27 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            {/* TODO: implement */}
-            {/* <div className="form__element">
+            <div className="form__element">
               <Label
-                htmlFor="pdf-link"
-                text="Pdf link"
+                for="study-links"
+                text="Study material links"
                 className="form__element__label"
               ></Label>
               <input
                 className="form__element__input"
-                type="text"
-                id="pdf-link"
-                label="exam_pdf_upload"
-                name="pdfLink"
-                onChange={handleChange.bind(null, "pdfLink")}
-                value={pdfLink}
+                type="url"
+                id="study-links"
+                label="exam_links_upload"
+                name="links-upload"
+                onChange={handleChange.bind(null, "notes")}
+                value={notes}
                 ref={register({
                   required: false,
+                  pattern:
+                    "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
                 })}
               />
-            </div> */}
+            </div>
           </div>
         </div>
 
