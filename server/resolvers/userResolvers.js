@@ -12,6 +12,7 @@ import {
   handleAuthentication
 } from "../helpers/resolvers";
 import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
 
 // import sanitizer from "sanitize";
 // import validator from "validator";
@@ -32,7 +33,11 @@ import {
   deleteUser,
   validatePassword,
   updateUserInDatabase,
-  userWantsPasswordUpdating
+  userWantsPasswordUpdating,
+  verifyEmailFormat,
+  createForgottenPasswordEmailLink,
+  createForgottenPasswordSecret,
+  validateForgottenPasswordToken
   // calculateUserState
 } from "../helpers/userHelpers";
 
@@ -44,7 +49,7 @@ const stanEmail = new StanEmail();
 //TODO: Authenticate Queries
 export const userResolvers = {
   Query: {
-    currentUser: async (parent, ars, { req, res, userInfo }) => {
+    currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
         if (!userInfo.isAuth) return null;
         // let user = {
@@ -61,6 +66,20 @@ export const userResolvers = {
       } catch (err) {
         console.error(err.message);
         return null;
+      }
+    },
+    forgottenPasswordEmail: async (parent, { email }, context) => {
+      try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
+
+        verifyEmailFormat(email);
+        const link = await createForgottenPasswordEmailLink(email);
+        stanEmail.sendForgottenPasswordMail(email, link);
+
+        return true;
+      } catch (err) {
+        handleResolverError(err);
       }
     }
   },
@@ -202,7 +221,31 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
+    resetPassword: async (parent, { userId, token, newPassword }, context) => {
+      try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
 
+        const user = await User.findOne({ _id: userId });
+        if (!user) throw new ApolloError("There is no user with that id.");
+        const secret = createForgottenPasswordSecret(user);
+
+        validateForgottenPasswordToken(user, token, secret);
+
+        const passwordToSave = await bcrypt.hash(newPassword, 10);
+        const updateResp = await User.updateOne(
+          { _id: user._id },
+          { password: passwordToSave }
+        );
+        if (updateResp.ok === 0 && updateResp.nModified === 0)
+          throw new ApolloError(
+            "Unable to reset the password. Please try again."
+          );
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     deleteUser: async (parent, args, context) => {
       try {
         handleAuthentication(context.userInfo);

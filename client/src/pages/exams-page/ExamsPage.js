@@ -111,7 +111,7 @@ const Exams = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="exams__headline">
-              <h2>Current Exams</h2>
+              <h2>Exams</h2>
             </div>
           </div>
           <div className="col-md-1"></div>

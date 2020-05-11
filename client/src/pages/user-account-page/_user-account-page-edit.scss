@@ -241,5 +241,15 @@
   &__notifications {
     margin: 0 0 0 8px !important;
     padding-bottom: 0 !important;
+
+    label {
+      @include media-breakpoint-down(sm) {
+        font-size: 14px;
+      }
+
+      @include media-breakpoint-down(xs) {
+        font-size: 12px;
+      }
+    }
   }
 }
