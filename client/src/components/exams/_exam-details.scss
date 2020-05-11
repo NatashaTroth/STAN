@@ -186,10 +186,10 @@
           }
         }
 
-        .pdf {
+        .link {
           display: flex;
-          flex-direction: row;
-          align-items: center;
+          flex-direction: column;
+          justify-content: flex-start;
 
           @include media-breakpoint-down(md) {
             flex-direction: column;
@@ -199,11 +199,19 @@
           a {
             min-width: 90px;
           }
-          &--file {
+          &--headline {
             padding-right: 35px;
 
             @include media-breakpoint-down(md) {
               padding-bottom: 15px;
+            }
+          }
+          &--buttons {
+            display: flex;
+            flex-direction: row;
+            a {
+              margin-right: 20px;
+              margin-top: 10px;
             }
           }
         }
