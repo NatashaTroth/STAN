@@ -1,5 +1,5 @@
 import React from "react"
-import { calculateDuration, calculateDurationTotal } from "../../helpers/dates"
+import { minuteToHours, minuteToHoursShort } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -18,11 +18,11 @@ function TodayGoals(props) {
 
     // duration for 1 exam ----------------
     let duration = element.durationLeftToday
-    let durationTime = calculateDuration(element.durationLeftToday)
+    let durationTime = minuteToHours(element.durationLeftToday)
 
     // duration for all exams total
     totalDuration += duration
-    totalDurationTime = calculateDurationTotal(totalDuration)
+    totalDurationTime = minuteToHoursShort(totalDuration)
     // console.log(element)
     // return ----------------
     return (

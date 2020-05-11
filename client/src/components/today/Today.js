@@ -2,7 +2,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import moment from "moment"
-import { calculateDuration } from "../../helpers/dates"
+import { minuteToHours } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -166,7 +166,7 @@ function Today(props) {
 
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
-  let durationFormatted = calculateDuration(duration)
+  let durationFormatted = minuteToHours(duration)
 
   // alert no time left ----------------
   let noTimeMessage

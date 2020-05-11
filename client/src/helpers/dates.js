@@ -42,16 +42,31 @@ export function minuteToHours(num) {
   let roundedMinutes = Math.round(minutes)
 
   let finalHour, finalMinute
-  if (roundedHours > 1) finalHour = roundedHours + " hrs. "
-  if (roundedHours <= 1) finalHour = roundedHours + " hr. "
-  if (roundedMinutes > 1) finalMinute = roundedMinutes + " min."
-  if (roundedMinutes <= 1) finalMinute = roundedMinutes + " mins."
+  if (roundedHours > 1) finalHour = roundedHours + " hrs "
+  if (roundedHours <= 1) finalHour = roundedHours + " hr "
+  if (roundedMinutes > 1 || roundedMinutes <= 1)
+    finalMinute = roundedMinutes + " min"
   if (roundedHours === 0) finalHour = ""
   if (roundedMinutes === 0) finalMinute = ""
 
   return finalHour + finalMinute
 }
 
+export function minuteToHoursShort(num) {
+  let hours = num / 60
+  let roundedHours = Math.floor(hours)
+  let minutes = (hours - roundedHours) * 60
+  let roundedMinutes = Math.round(minutes)
+
+  let finalHour, finalMinute
+  if (roundedHours > 1 || roundedHours <= 1) finalHour = roundedHours + "h "
+  if (roundedMinutes > 1 || roundedMinutes <= 1)
+    finalMinute = roundedMinutes + "m"
+  if (roundedHours === 0) finalHour = ""
+  if (roundedMinutes === 0) finalMinute = ""
+
+  return finalHour + finalMinute
+}
 //------------------------HELPERS--------------------
 
 function datesAreNotPast(dates) {
@@ -78,39 +93,4 @@ function isToday(date) {
     date.getMonth() === today.getMonth() &&
     date.getFullYear() === today.getFullYear()
   )
-}
-
-// calculate time in hours and minutes
-export function calculateDuration(duration) {
-  let hours
-  let minutes
-  let durationTime
-
-  // calculate duration display
-  if (duration >= 60) {
-    hours = Math.floor(duration / 60)
-    minutes = Math.floor(duration) - hours * 60
-
-    return (durationTime = hours + " hours " + minutes + " min")
-  } else {
-    minutes = duration
-    return (durationTime = minutes + " min")
-  }
-}
-
-export function calculateDurationTotal(totalDuration) {
-  let hoursTotal
-  let minutesTotal
-  let totalDurationTime
-
-  if (totalDuration >= 60) {
-    hoursTotal = Math.floor(totalDuration / 60)
-    minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
-
-    return (totalDurationTime = hoursTotal + "h " + minutesTotal + "m")
-  } else {
-    minutesTotal = totalDuration
-
-    return (totalDurationTime = minutesTotal + "m")
-  }
 }
