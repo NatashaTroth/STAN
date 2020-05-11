@@ -44,6 +44,30 @@
     }
   }
 
+  &__study-links {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+
+    &--input {
+      flex: 1;
+    }
+
+    &--buttons {
+      button {
+        margin: 0 15px;
+        font-size: 25px;
+        background: none;
+        border: none;
+
+        &:focus,
+        &:active {
+          outline: none;
+        }
+      }
+    }
+  }
+
   &__submit {
     display: flex;
     justify-content: flex-end;
