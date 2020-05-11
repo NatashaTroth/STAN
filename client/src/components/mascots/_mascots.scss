@@ -21,8 +21,6 @@
 // BOOTSTRAP MASCOT
 .carousel {
   height: 320px;
-  // display: flex;
-  // align-items: flex-end;
   @include media-breakpoint-down(lg) {
     height: 250px;
   }
