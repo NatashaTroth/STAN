@@ -15,17 +15,20 @@ import compress from "compression";
 import StanScheduler from "./helpers/StanScheduler";
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
-const connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
+let connectionString = process.env.MONGODB_URI || "mongodb://localhost/MMP3";
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(compress());
 //TODO: EXTRACT MONGODB CONNECTIONS
+
+// connectionString += "retryWrites=false";
 
 mongoose
   .connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
+    // retryWrites: false
     // autoIndex: false
   })
 

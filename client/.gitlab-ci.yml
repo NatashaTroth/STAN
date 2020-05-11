@@ -52,8 +52,8 @@ staging:client:
     # #TODO: remove CI=false - so it treats warnings as errors again
     - CI=false npm run build
 
-  only:
-    - development
+  # only:
+  #   - development
 
 deployment:client:
   stage: deployment client

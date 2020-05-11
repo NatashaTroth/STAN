@@ -70,8 +70,8 @@ staging:server:
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY --skip-cleanup
   dependencies:
     - staging:client
-  only:
-    - development
+  # only:
+  #   - development
 
 deployment:server:
   stage: deployment server

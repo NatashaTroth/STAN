@@ -141,22 +141,31 @@ export async function logUserOut(res, userId) {
 }
 
 //TODAY: export exam.deletemany into examhelpers
-export async function deleteUsersData(userId) {
-  const respDeleteExams = await Exam.deleteMany({
-    userId
-  });
-  const respDeleteTodaysChunkCache = await TodaysChunkCache.deleteMany({
-    userId
-  });
+export async function deleteUsersData(userId, session) {
+  const respDeleteExams = await Exam.deleteMany(
+    {
+      userId
+    },
+    { session }
+  );
+  const respDeleteTodaysChunkCache = await TodaysChunkCache.deleteMany(
+    {
+      userId
+    },
+    { session }
+  );
 
   if (respDeleteExams.ok !== 1 || respDeleteTodaysChunkCache.ok !== 1)
     throw new ApolloError("The user's data couldn't be deleted");
 }
 
-export async function deleteUser(userId) {
-  const resp = await User.deleteOne({
-    _id: userId
-  });
+export async function deleteUser(userId, session) {
+  const resp = await User.deleteOne(
+    {
+      _id: userId
+    },
+    { session }
+  );
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
     throw new ApolloError("The user couldn't be deleted");

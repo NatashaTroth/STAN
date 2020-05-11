@@ -35,6 +35,7 @@ import {
   userWantsPasswordUpdating
   // calculateUserState
 } from "../helpers/userHelpers";
+import mongoose from "mongoose";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
@@ -204,13 +205,20 @@ export const userResolvers = {
     },
 
     deleteUser: async (parent, args, context) => {
+      const session = await mongoose.startSession();
+      session.startTransaction();
       try {
         handleAuthentication(context.userInfo);
-        //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
-        await deleteUsersData(context.userInfo.userId);
-        sendRefreshToken(context.res, "");
 
-        await deleteUser(context.userInfo.userId);
+        //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
+        await deleteUsersData(context.userInfo.userId, session);
+        console.log("hey");
+
+        await deleteUser(context.userInfo.userId, session);
+        throw new Error("TODO DELETE ME");
+
+        await session.commitTransaction();
+        sendRefreshToken(context.res, "");
         if (context.userInfo.user.allowEmailNotifications)
           stanEmail.sendDeleteAccountMail(
             context.userInfo.user.email,
@@ -218,7 +226,11 @@ export const userResolvers = {
           );
         return true;
       } catch (err) {
+        await session.abortTransaction();
         handleResolverError(err);
+      } finally {
+        // ending the session
+        session.endSession();
       }
     }
   }

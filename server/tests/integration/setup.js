@@ -41,7 +41,9 @@ export async function setupApolloServer({ isAuth, userId, user }) {
 export async function setupDb() {
   try {
     mongod = new MongoMemoryServer();
-    const uri = await mongod.getConnectionString();
+    let uri = await mongod.getConnectionString();
+    uri += "retryWrites=false";
+    console.log(uri);
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
