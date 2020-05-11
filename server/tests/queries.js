@@ -124,3 +124,9 @@ export const GET_EXAMS_COUNT = gql`
     }
   }
 `;
+
+export const FORGOTTEN_PASSWORD_EMAIL = gql`
+  query($email: String!) {
+    forgottenPasswordEmail(email: $email)
+  }
+`;
