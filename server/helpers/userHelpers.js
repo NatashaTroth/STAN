@@ -225,7 +225,7 @@ export async function createForgottenPasswordEmailLink(email) {
   return process.env.CLIENT_URL + "/" + user._id + "/" + token;
 }
 
-export async function createForgottenPasswordSecret(user) {
+export function createForgottenPasswordSecret(user) {
   return (
     user.password +
     "-" +

@@ -10,7 +10,7 @@ import {
   teardown
 } from "../setup";
 import { RESET_PASSWORD_MUTATION } from "../../mutations.js";
-import { FORGOTTEN_PASSWORD_EMAIL } from "../../queries.js";
+// import { FORGOTTEN_PASSWORD_EMAIL } from "../../queries.js";
 import jwt from "jsonwebtoken";
 
 import { User } from "../../../models";
@@ -35,9 +35,7 @@ describe("Test forgotten password resolver/helpers", () => {
   beforeEach(async () => {
     testUser = await signUpTestUser();
     server = await setupApolloServer({
-      isAuth: true,
-      userId: testUser._id,
-      user: testUser
+      isAuth: false
     });
 
     client = createTestClient(server);
@@ -55,8 +53,7 @@ describe("Test forgotten password resolver/helpers", () => {
   });
 
   it("should update the users password correctly", async () => {
-    // console.log(await User.findOne({ email: testUser.email }));
-    //create the email link
+    //---create the email link---
     const secret = createForgottenPasswordSecret(testUser);
     const token = jwt.sign(
       { userId: testUser._id, userEmail: testUser.email },
@@ -65,10 +62,44 @@ describe("Test forgotten password resolver/helpers", () => {
         expiresIn: "10m"
       }
     );
-    // const link = createForgottenPasswordEmailLink(testUser.email);
-    //   expect(link).toBeTruthy();
-    //   expect(link).toBe(
-    //     process.env.CLIENT_URL + "/" + testUser._id + "/" + token
-    //   );
+
+    const link = await createForgottenPasswordEmailLink(testUser.email);
+    expect(link).toBeTruthy();
+    expect(link).toBe(
+      process.env.CLIENT_URL + "/" + testUser._id + "/" + token
+    );
+
+    //---reset password---
+    const userBeforePasswordReset = await User.findOne({ _id: testUser._id });
+    expect(userBeforePasswordReset).toBeTruthy();
+
+    expect(
+      await bcrypt.compare("samantha", userBeforePasswordReset.password)
+    ).toBeTruthy();
+    const respResetPassword = await query({
+      query: RESET_PASSWORD_MUTATION,
+      variables: {
+        userId: testUser._id.toString(),
+        token,
+        newPassword: "myNewEvenMoreSecretPassword"
+      }
+    });
+
+    expect(respResetPassword).toBeTruthy();
+
+    const userAfterPasswordReset = await User.findOne({ _id: testUser._id });
+
+    expect(
+      await bcrypt.compare("samantha", userAfterPasswordReset.password)
+    ).toBeFalsy();
+    expect(
+      await bcrypt.compare(
+        userBeforePasswordReset.password,
+        userAfterPasswordReset.password
+      )
+    ).toBeFalsy();
+    expect(
+      await bcrypt.compare("samantha", userAfterPasswordReset.password)
+    ).toBeFalsy();
   });
 });
