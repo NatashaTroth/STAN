@@ -162,8 +162,8 @@ export async function addTestExams(inputUserId) {
   });
   const exam4 = await addTestExam({
     subject: "Dance",
-    examDate: getFutureDay(new Date(), 30),
-    startDate: getFutureDay(new Date(), 51),
+    examDate: getFutureDay(new Date(), 51),
+    startDate: getFutureDay(new Date(), 30),
     color: "#85625A",
     userId
   });

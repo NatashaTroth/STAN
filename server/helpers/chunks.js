@@ -168,6 +168,13 @@ export async function handleUpdateExamInTodaysChunkCache(
 }
 
 export async function deleteExamsTodaysCache(userId, examId) {
+  const todaysChunkCache = await TodaysChunkCache.countDocuments({
+    examId,
+    userId
+  });
+
+  if (todaysChunkCache <= 0) return;
+
   const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
     examId,
     userId

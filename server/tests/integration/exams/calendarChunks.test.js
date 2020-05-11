@@ -125,6 +125,7 @@ describe("Test user resolver regex", () => {
     });
 
     exam = testExams.exam4;
+    console.log(resp.data.calendarChunks);
     expect(resp.data.calendarChunks.calendarChunks[3]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
