@@ -39,6 +39,9 @@ const ExamDetailsEdit = ({ examId }) => {
     variables: { id: examId },
   }).exam
 
+  // state ----------------
+  const [inputFields, setInputFields] = useState([...data.studyMaterialLinks])
+
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
   const [myStartDate, setMyStartDate] = useState(data.startDate)
@@ -58,7 +61,7 @@ const ExamDetailsEdit = ({ examId }) => {
     // startPage: data.startPage,
     startPage: 1,
     notes: data.notes,
-    pdfLink: data.pdfLink,
+    studyLinks: data.studyMaterialLinks,
   }
 
   // set default variables in form and make it editable ----------------
@@ -76,7 +79,7 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage,
     timesRepeat,
     notes,
-    pdfLink,
+    studyLinks,
   } = watch()
 
   useEffect(() => {
@@ -89,7 +92,7 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
     register({ exam: "notes" })
-    register({ exam: "pdfLink" })
+    register({ exam: "studyLinks" })
   }, [register])
 
   // mutation ----------------
@@ -126,6 +129,26 @@ const ExamDetailsEdit = ({ examId }) => {
       formStartDate,
       history,
     })
+  }
+
+  const handleInputChange = (index, event) => {
+    const values = [...inputFields]
+    if (event.target.name === "study-links") {
+      values[index] = event.target.value
+    }
+    setInputFields(values)
+  }
+
+  const handleAddFields = () => {
+    const values = [...inputFields]
+    values.push([""])
+    setInputFields(values)
+  }
+
+  const handleRemoveFields = index => {
+    const values = [...inputFields]
+    values.splice(index, 1)
+    setInputFields(values)
   }
 
   // return ----------------
@@ -394,27 +417,49 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__element">
-              <Label
-                for="study-links"
-                text="Study material links"
-                className="form__element__label"
-              ></Label>
-              <input
-                className="form__element__input"
-                type="url"
-                id="study-links"
-                label="exam_links_upload"
-                name="links-upload"
-                onChange={handleChange.bind(null, "notes")}
-                value={notes}
-                ref={register({
-                  required: false,
-                  pattern:
-                    "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                })}
-              />
-            </div>
+            {inputFields.map((inputField, index) => (
+              <div key={index} className="form__study-links">
+                <div className="form__element form__study-links--input">
+                  <Label
+                    htmlFor="studyLinks"
+                    text="Study material links"
+                    className="form__element__label"
+                  ></Label>
+                  <input
+                    className="form__element__input"
+                    type="url"
+                    id="studyLinks"
+                    name="studyLinks"
+                    value={inputField}
+                    label="exam_links_upload"
+                    onChange={handleChange.bind(null, "studyLinks")}
+                    // onChange={event => handleInputChange(index, event)}
+                    ref={register({
+                      required: false,
+                      pattern:
+                        "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                    })}
+                  />
+                </div>
+
+                <div className="form__study-links--buttons">
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => handleRemoveFields(index)}
+                  >
+                    -
+                  </button>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => handleAddFields()}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -474,7 +519,7 @@ async function handleExam({
         startPage: 1,
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
-        pdfLink: data.pdfLink,
+        studyMaterialLinks: data.studyMaterialLinks,
         completed: false,
       },
     })
