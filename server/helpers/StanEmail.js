@@ -36,6 +36,16 @@ export default class StanEmail {
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
 
+  sendForgottenPasswordMail(recipientEmail, link) {
+    console.log("SENDING FORGOTTEN PASSWORD MAIL");
+
+    const subject = "Reset Password";
+    const h1 = `Reset your password...`;
+    const text = `<p>Don't worry, it's only human to forget things. Click <a href=" ${link}">here</a> to reset your password.</p>`;
+
+    this.sendMail(recipientEmail, subject, text, h1);
+  }
+
   sendExamDateReminderMail(
     recipientEmail,
     examsInOneDay,
