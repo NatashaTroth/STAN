@@ -29,6 +29,9 @@ import Loading from "../../components/loading/Loading"
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
+// helpers ----------------
+import { currentMood } from "../../helpers/mascots"
+
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
@@ -224,16 +227,4 @@ async function logUserOut({ logout }) {
   // logout all other tabs ----------------
   localStorage.setItem("logout-event", Date.now())
   window.location.reload()
-}
-
-export const currentMood = currentState => {
-  let mood
-
-  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
-  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
-  else if (currentState >= 50 && currentState <= 69) mood = "okay"
-  else if (currentState >= 70 && currentState <= 89) mood = "happy"
-  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
-
-  return mood
 }
