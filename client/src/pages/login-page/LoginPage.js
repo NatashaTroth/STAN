@@ -1,4 +1,5 @@
 import React from "react"
+import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -6,7 +7,6 @@ import { CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import LoginForm from "../../components/login/Login"
-import { Redirect } from "react-router-dom"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
