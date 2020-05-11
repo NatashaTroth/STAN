@@ -215,9 +215,9 @@ export async function createForgottenPasswordEmailLink(email) {
   const user = await User.findOne({ email });
 
   if (!user) throw new ApolloError("There is no user with that email address.");
-  console.log("HERE");
+
   const secret = createForgottenPasswordSecret(user);
-  console.log(secret);
+
   // const token = jwt.encode(payload, secret)
   const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
     expiresIn: "10m"

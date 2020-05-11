@@ -18,16 +18,16 @@ import { ApolloError } from "apollo-server";
 //---------------------------TODAY'S CHUNKS---------------------------
 
 export async function fetchTodaysChunks(userId) {
-  console.log("in FETCHChunkFunc");
+  // console.log("in FETCHChunkFunc");
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
 
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
-    console.log("cache empty");
+    // console.log("cache empty");
     chunks = await calculateTodaysChunks(currentExams);
   } else {
-    console.log("cache not empty");
+    // console.log("cache not empty");
     chunks = await createTodaysChunksFromCache(
       currentExams,
       todaysChunksFromCache
@@ -46,15 +46,15 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
 
     //cache calculated from scratch
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
-      console.log("invalid cache");
+      // console.log("invalid cache");
 
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
-        console.log("no chunk - recalc");
+        // console.log("no chunk - recalc");
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
-        console.log("updating chunk with updates");
-        console.log(newChunk);
+        // console.log("updating chunk with updates");
+        // console.log(newChunk);
         newChunk.updatedAt = new Date();
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
@@ -198,7 +198,7 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
   examId,
   page
 ) {
-  console.log("updateCurrChunkPageFunk  ");
+  // console.log("updateCurrChunkPageFunk  ");
   const todaysChunkCache = await TodaysChunkCache.findOne({
     examId: examId,
     userId
@@ -221,7 +221,7 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(
     throw new ApolloError(
       "The todays chunk cache current page could not be updated."
     );
-  console.log("updateCurrChunkPageFunk  - updated page");
+  // console.log("updateCurrChunkPageFunk  - updated page");
 }
 
 function todaysChunkIsCompleted(currentPage, todaysChunkCache) {
@@ -251,34 +251,34 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
       newChunk.exam.startPage,
       newChunk.exam.currentPage
     ) * newChunk.exam.timePerPage;
-  console.log(
-    "pages left " +
-      calcPagesLeft(
-        newChunk.exam.numberPages,
-        newChunk.exam.timesRepeat,
-        newChunk.exam.startPage,
-        newChunk.exam.currentPage
-      )
-  );
-  console.log("totalDurationLeft " + totalDurationLeft);
+  // console.log(
+  //   "pages left " +
+  //     calcPagesLeft(
+  //       newChunk.exam.numberPages,
+  //       newChunk.exam.timesRepeat,
+  //       newChunk.exam.startPage,
+  //       newChunk.exam.currentPage
+  //     )
+  // );
+  // console.log("totalDurationLeft " + totalDurationLeft);
   const dailyDurationWithCompletedDuration =
     (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
-  console.log(
-    "dailyDurationWithCompletedDuration " + dailyDurationWithCompletedDuration
-  );
+  // console.log(
+  //   "dailyDurationWithCompletedDuration " + dailyDurationWithCompletedDuration
+  // );
 
   let durationToday = Math.ceil(
     dailyDurationWithCompletedDuration - durationAlreadyLearned
   );
 
   if (durationToday < 0) durationToday = 0;
-  console.log("durationToday " + durationToday);
+  // console.log("durationToday " + durationToday);
 
   const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
-  console.log("numberPagesToday " + numberPagesToday);
+  // console.log("numberPagesToday " + numberPagesToday);
 
   durationToday = numberPagesToday * newChunk.exam.timePerPage;
-  console.log("durationToday " + durationToday);
+  // console.log("durationToday " + durationToday);
 
   updates = {
     numberPagesToday,
@@ -318,7 +318,7 @@ async function fetchCurrentExams(userId) {
 // }
 
 async function calculateTodaysChunks(currentExams) {
-  console.log("cahe was empty, calcing new chunks");
+  // console.log("cahe was empty, calcing new chunks");
   const chunks = currentExams.map(async exam => {
     const chunk = createTodaysChunkObject(exam);
     await addTodaysChunkToDatabase(chunk, exam.userId);
@@ -392,7 +392,7 @@ export async function getTodaysChunkProgress(userId) {
 }
 
 export function calculateChunkProgress(chunks) {
-  console.log("IN CALC PROGRESS:");
+  // console.log("IN CALC PROGRESS:");
 
   if (chunks.length <= 0) return 100;
   let totalDuration = 0;
@@ -409,24 +409,24 @@ export function calculateChunkProgress(chunks) {
       numberPages: chunk.numberPagesToday,
       completed: chunk.completed
     });
-    console.log(".........");
-    console.log("durationToday:" + chunk.durationToday);
-    console.log("startPage:" + chunk.startPage); //16
+    // console.log(".........");
+    // console.log("durationToday:" + chunk.durationToday);
+    // console.log("startPage:" + chunk.startPage); //16
 
-    console.log("currentPage:" + chunk.exam.currentPage);
-    console.log("numberPagesToday:" + chunk.numberPagesToday);
+    // console.log("currentPage:" + chunk.exam.currentPage);
+    // console.log("numberPagesToday:" + chunk.numberPagesToday);
   });
 
-  console.log("-----------");
-  console.log("totalDuration:" + totalDuration);
-  console.log("totalDurationCompleted:" + totalDurationCompleted);
+  // console.log("-----------");
+  // console.log("totalDuration:" + totalDuration);
+  // console.log("totalDurationCompleted:" + totalDurationCompleted);
 
   //duration ..... 100%
   //duration completed ... x
   if (totalDuration === 0) return 0;
   let progress = Math.round((100 / totalDuration) * totalDurationCompleted);
   if (progress < 0) progress = 0;
-  console.log("PROGRESS: " + progress);
+  // console.log("PROGRESS: " + progress);
   return progress;
 }
 
@@ -495,7 +495,7 @@ function getCalendarChunks(exams) {
         numberPagesPerDay,
         durationTotal: numberPagesLeftTotal * exam.timePerPage,
         durationPerDay: Math.ceil(numberPagesPerDay * exam.timePerPage),
-        pdfLink: exam.pdfLink || ""
+        studyMaterialLinks: exam.studyMaterialLinks || []
       }
     });
 
@@ -547,16 +547,16 @@ export function numberOfPagesForChunk({
 }
 
 function calcPagesLeft(numberOfPages, repeat, startPage, currentPage) {
-  console.log(
-    "nrpages " +
-      numberOfPages +
-      ", repeat " +
-      repeat +
-      ", startPage " +
-      startPage +
-      ", currentpage " +
-      currentPage
-  );
+  // console.log(
+  //   "nrpages " +
+  //     numberOfPages +
+  //     ", repeat " +
+  //     repeat +
+  //     ", startPage " +
+  //     startPage +
+  //     ", currentpage " +
+  //     currentPage
+  // );
   const endPageInclRepeat = numberOfPages * repeat + startPage;
   const pagesLeft = endPageInclRepeat - currentPage;
   if (pagesLeft <= 0) return 0;

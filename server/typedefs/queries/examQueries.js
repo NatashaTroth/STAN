@@ -22,7 +22,7 @@ const examQueries = gql`
       timesRepeat: Int
       startPage: Int
       notes: String
-      pdfLink: String
+      studyMaterialLinks: [String]
       completed: Boolean
     ): Boolean
 
@@ -37,7 +37,7 @@ const examQueries = gql`
       startPage: Int!
       currentPage: Int!
       notes: String
-      pdfLink: String # completed: Boolean
+      studyMaterialLinks: [String] # completed: Boolean
     ): Exam!
 
     #todo: change to just id
