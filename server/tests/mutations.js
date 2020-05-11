@@ -163,3 +163,9 @@ export const EXAM_COMPLETED_MUTATION = gql`
     examCompleted(id: $id)
   }
 `;
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation($userId: String!, $token: String!, $newPassword: String!) {
+    resetPassword(userId: $userId, token: $token, newPassword: $newPassword)
+  }
+`;

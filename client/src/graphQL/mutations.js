@@ -163,3 +163,9 @@ export const DELETE_USER_MUTATION = gql`
     deleteUser
   }
 `
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation($userId: String!, $token: String!, $newPassword: String!) {
+    resetPassword(userId: $userId, token: $token, newPassword: $newPassword)
+  }
+`
