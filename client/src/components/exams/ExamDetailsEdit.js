@@ -151,7 +151,7 @@ const ExamDetailsEdit = ({ examId }) => {
               ref={register({
                 required: true,
                 minLength: 1,
-                maxLength: 20,
+                maxLength: 50,
               })}
             />
             {errors.exam_subject && errors.exam_subject.type === "required" && (
@@ -163,7 +163,7 @@ const ExamDetailsEdit = ({ examId }) => {
               )}
             {errors.exam_subject &&
               errors.exam_subject.type === "maxLength" && (
-                <span className="error"> Maximum 20 characters allowed</span>
+                <span className="error"> Maximum 50 characters allowed</span>
               )}
           </div>
           <div className="form__container form__container--numbers">
