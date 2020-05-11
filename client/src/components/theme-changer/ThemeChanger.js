@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
+import useDarkMode from "use-dark-mode"
 
-const ThemeChanger = () => {
-  const [themeState, setThemeState] = useState(false)
-
-  const handleChange = () => {
-    setThemeState(!themeState)
-
-    console.log(themeState)
-
-    if (themeState) {
-      localStorage.setItem("Theme", "light")
-      document.body.classList.remove("dark-mode")
-      console.log("light")
-    } else {
-      localStorage.setItem("Theme", "dark")
-      document.body.classList.add("dark-mode")
-      console.log("dark")
-    }
+const DarkModeToggle = () => {
+  const darkMode = useDarkMode(false)
+  if (darkMode) {
+    console.log("yes")
   }
-  useEffect(() => {
-    const getTheme = localStorage.getItem("Theme")
-    if (getTheme === "dark") return document.body.classList.add("dark-mode")
-  })
+
   return (
-    <div>
-      <button onClick={handleChange} className="dark-mode-btn">
-        {themeState ? "Light Mode" : "Dark Mode"}
-      </button>
-    </div>
+    <button type="button" onClick={darkMode.toggle} className="dark-mode-btn">
+      {darkMode.value ? "Light Mode" : "Dark Mode"}
+    </button>
   )
 }
 
-export default ThemeChanger
+export default DarkModeToggle
