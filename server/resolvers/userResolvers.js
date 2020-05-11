@@ -74,16 +74,16 @@ export const userResolvers = {
         const user = await User.findOne({ email });
         if (!user)
           throw new ApolloError("There is no user with that email address.");
-        const secret = user.password + "-" + user.createdAt.getTime();
+        const secret =
+          user.password +
+          "-" +
+          user.updatedAt.getTime() +
+          process.env.FORGOTTEN_PASSWORD_SECRET;
         // const token = jwt.encode(payload, secret)
-        const token = jwt.sign(
-          { userId: user._id, userEmail: email },
-          secret + process.env.FORGOTTEN_PASSWORD_SECRET,
-          {
-            expiresIn: "15m"
-          }
-        );
-        let link = process.env.CLIENT_URL + "/" + token;
+        const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
+          expiresIn: "15m"
+        });
+        let link = process.env.CLIENT_URL + "/" + user._id + "/" + token;
         stanEmail.sendForgottenPasswordMail(email, link);
 
         return true;
@@ -230,7 +230,38 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
+    resetPassword: async (parent, { userId, token, newPassword }, context) => {
+      try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
 
+        const user = await User.findOne({ _id: userId });
+        if (!user) throw new ApolloError("There is no user with that id.");
+        const secret =
+          user.password +
+          "-" +
+          user.updatedAt.getTime() +
+          process.env.FORGOTTEN_PASSWORD_SECRET;
+
+        const decodedToken = jwt.verify(token, secret);
+        if (!decodedToken)
+          throw new Error(
+            "Invalid url. Please click on the forgotten password button to try again."
+          );
+        const passwordToSave = await bcrypt.hash(newPassword, 10);
+        const updateResp = await User.updateOne(
+          { _id: user._id },
+          { password: passwordToSave }
+        );
+        if (updateResp.ok === 0 && updateResp.nModified === 0)
+          throw new ApolloError(
+            "Unable to reset the password. Please try again."
+          );
+        return true;
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
     deleteUser: async (parent, args, context) => {
       try {
         handleAuthentication(context.userInfo);
