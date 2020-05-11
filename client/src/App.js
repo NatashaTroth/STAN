@@ -33,9 +33,10 @@ const App = () => {
   window.addEventListener("storage", e => {
     if (e.key === "logout-event") {
       localStorage.removeItem("logout-event")
+
       RedirectPopup()
       localStorage.setItem("popup-event", true)
-      window.location.replace("/popup")
+      window.location.href = "/popup"
     }
   })
 
@@ -53,8 +54,8 @@ const App = () => {
         console.error(err)
       })
 
-    //In case a second tab wasn't open, to make sure it is deleted
-    // localStorage.removeItem("logout-event")
+    // in case a second tab wasn't open, to make sure it is deleted
+    localStorage.removeItem("logout-event")
   }, [])
 
   if (loading) return <Loading />

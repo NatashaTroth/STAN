@@ -29,6 +29,10 @@
     flex-direction: row;
     padding-bottom: 80px;
     flex-wrap: wrap;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: center;
+    }
   }
   &__archiveExams {
     display: flex;

@@ -42,7 +42,9 @@ const UserAccountEdit = () => {
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
-  const [updateUser] = useMutation(UPDATE_USER_MUTATION)
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  })
   const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER }],
   })
