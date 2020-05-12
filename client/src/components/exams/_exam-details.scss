@@ -86,7 +86,7 @@
       &__buttons {
         button {
           margin: 0 !important;
-          padding: 0 !important;
+          padding: 0 0 0 20px !important;
         }
       }
     }
@@ -230,6 +230,7 @@
           &--buttons {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             a {
               margin-right: 20px;
               margin-top: 10px;
