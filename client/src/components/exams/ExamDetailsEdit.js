@@ -437,7 +437,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="form__element study-links-controlled">
                 <Label
                   htmlFor="studyLinks"
-                  text="Current study material links"
+                  text="Current study links"
                   className="form__element__label"
                 />
 
@@ -481,7 +481,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <div className="form__element form__study-links--input">
                   <Label
                     htmlFor="study-new-links"
-                    text="Add new study material links"
+                    text="Add new study links"
                     className="form__element__label"
                   />
                   <input
