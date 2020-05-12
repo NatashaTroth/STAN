@@ -478,46 +478,51 @@ const ExamDetailsEdit = ({ examId }) => {
               </div>
             ) : null}
 
-            {newUrls.map((inputField, index) => (
-              <div key={`${index}-newUrls`} className="form__study-links">
-                <div className="form__element form__study-links--input">
-                  <Label
-                    htmlFor="study-new-links"
-                    text="Add new study links"
-                    className="form__element__label"
-                  />
-                  <input
-                    className="form__element__input"
-                    type="url"
-                    id="study-new-links"
-                    name="study-new-links"
-                    placeholder="https://example.com/math"
-                    label="exam_links_upload"
-                    onChange={event => handleNewInputChange(index, event)}
-                    ref={register({
-                      required: false,
-                      pattern:
-                        "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                    })}
-                  />
-                </div>
-                <div className="form__study-links--buttons">
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveFields(index)}
-                  >
-                    -
-                  </button>
-                  <button
-                    className=""
-                    type="button"
-                    onClick={() => handleAddFields()}
-                  >
-                    +
-                  </button>
-                </div>
+            <div className="form__current-study-links">
+              <div className="form__element">
+                <Label
+                  htmlFor="study-new-links"
+                  text="Add new study links"
+                  className="form__element__label"
+                />
               </div>
-            ))}
+              {newUrls.map((inputField, index) => (
+                <div key={`${index}-newUrls`} className="form__study-links">
+                  <div className="form__element form__study-links--input">
+                    <input
+                      className="form__element__input"
+                      type="url"
+                      id="study-new-links"
+                      name="study-new-links"
+                      placeholder="https://example.com/math"
+                      label="exam_links_upload"
+                      onChange={event => handleNewInputChange(index, event)}
+                      ref={register({
+                        required: false,
+                        pattern:
+                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                      })}
+                    />
+                  </div>
+
+                  <div className="form__study-links--buttons">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFields(index)}
+                    >
+                      -
+                    </button>
+                    <button
+                      className=""
+                      type="button"
+                      onClick={() => handleAddFields()}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -92,7 +92,9 @@ describe("Test user sign up and login resolvers", () => {
       }
     });
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("User with email already exists.");
+    expect(resp.errors[0].message).toEqual(
+      "User with email already exists. Have you forgotten your password?"
+    );
   });
 
   it("should not update the mascot for a user", async () => {

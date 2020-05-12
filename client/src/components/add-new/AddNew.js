@@ -339,49 +339,55 @@ function AddNew() {
                         )}
                     </div>
 
-                    {inputFields.map((inputField, index) => (
-                      <div
-                        key={`${index}-addNewUrl`}
-                        className="form__study-links"
-                      >
-                        <div className="form__element form__study-links--input">
-                          <Label
-                            htmlFor="study-links"
-                            text="Study material links"
-                            className="form__element__label"
-                          ></Label>
-                          <input
-                            className="form__element__input"
-                            type="url"
-                            id="study-links"
-                            name="study-links"
-                            placeholder="https://example.com/math"
-                            label="exam_links_upload"
-                            onChange={event => handleInputChange(index, event)}
-                            ref={register({
-                              required: false,
-                              pattern:
-                                "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                            })}
-                          />
-                        </div>
-
-                        <div className="form__study-links--buttons">
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveFields(index)}
-                          >
-                            -
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleAddFields()}
-                          >
-                            +
-                          </button>
-                        </div>
+                    <div className="form__current-study-links">
+                      <div className="form__element">
+                        <Label
+                          htmlFor="study-new-links"
+                          text="Study material links"
+                          className="form__element__label"
+                        />
                       </div>
-                    ))}
+                      {inputFields.map((inputField, index) => (
+                        <div
+                          key={`${index}-newUrls`}
+                          className="form__study-links"
+                        >
+                          <div className="form__element form__study-links--input">
+                            <input
+                              className="form__element__input"
+                              type="url"
+                              id="study-links"
+                              name="study-links"
+                              placeholder="https://example.com/math"
+                              label="exam_links_upload"
+                              onChange={event =>
+                                handleInputChange(index, event)
+                              }
+                              ref={register({
+                                required: false,
+                                pattern:
+                                  "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                              })}
+                            />
+                          </div>
+
+                          <div className="form__study-links--buttons">
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveFields(index)}
+                            >
+                              -
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleAddFields()}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="form__submit">
