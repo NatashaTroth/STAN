@@ -112,7 +112,10 @@ export async function addTestExam({
     currentPage: currentPage || startPage || 1,
     timesRepeat: timesRepeat || 1,
     notes: "Samantha's notes",
-    studyMaterialLinks: ["samanthas-link.stan"],
+    studyMaterialLinks: [
+      "https://stan-studyplan-staging.herokuapp.com/",
+      "https://stan-studyplan.herokuapp.com/"
+    ],
     color: color || "#FFFFFF",
     completed: completed || false,
     userId: userId || "samanthasId"

@@ -41,7 +41,7 @@ export default class StanEmail {
 
     const subject = "Reset Password";
     const h1 = `Reset your password...`;
-    const text = `<p>Don't worry, it's only human to forget things. Click <a href=" ${link}">here</a> to reset your password.</p>`;
+    const text = `<p>Don't worry, it's only human to forget things. Click <a href=" ${link}">here</a> to reset your password. This link is only valid for 10 minutes. If you run out of time, request another link on the forgotten password page.</p>`;
 
     this.sendMail(recipientEmail, subject, text, h1);
   }

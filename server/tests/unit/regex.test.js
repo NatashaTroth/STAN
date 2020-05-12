@@ -10,7 +10,8 @@ const {
   verifyRegexPageTime,
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
-  verifyRegexPageNotes
+  verifyRegexPageNotes,
+  verifyRegexUrlLink
 } = require("../../helpers/verifyUserInput");
 
 test("verifies string is formatted as an email", () => {
@@ -146,6 +147,25 @@ test("verifies string is formatted as notes", () => {
   expect(verifyRegexPageNotes("")).toBeTruthy();
 
   expect(verifyRegexPageNotes("d".repeat(100000001))).toBeFalsy();
+});
+
+test("verifies string is formatted as a URL Link", () => {
+  expect(verifyRegexUrlLink("https://google.at")).toBeTruthy();
+  expect(
+    verifyRegexUrlLink(
+      "https://wiki.mediacube.at/wiki/index.php?title=Studiowoche"
+    )
+  ).toBeTruthy();
+  expect(
+    verifyRegexUrlLink("https://stan-studyplan-staging.herokuapp.com/")
+  ).toBeTruthy();
+  expect(
+    verifyRegexUrlLink("https://stan-studyplan.herokuapp.com/")
+  ).toBeTruthy();
+
+  expect(verifyRegexUrlLink("")).toBeFalsy();
+  expect(verifyRegexUrlLink("ddsfhj8o345")).toBeFalsy();
+  expect(verifyRegexUrlLink("https:/google.at")).toBeFalsy();
 });
 
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
