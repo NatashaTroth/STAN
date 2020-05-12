@@ -70,7 +70,7 @@ const ForgottenPassword = () => {
             )}
           </div>
 
-          <div className="login__form__buttons">
+          <div className="login__form__buttons forgottenPassword__form__button login__form__buttons__button-left">
             <Button
               type="submit"
               className="stan-btn-primary"
@@ -79,8 +79,8 @@ const ForgottenPassword = () => {
             />
           </div>
 
-          <div className="login__form__bottom">
-            <div className="login__form__bottom--redirect-signup">
+          <div className="login__form__bottom forgottenPassword__form__bottom">
+            <div className="login__form__bottom--redirect-signup forgottenPassword__form__bottom__inner">
               <p className="login__form__bottom--redirect-signup__text">
                 remember your password?
               </p>{" "}
