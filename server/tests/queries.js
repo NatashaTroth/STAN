@@ -53,6 +53,7 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
           timePerPage
           currentPage
           studyMaterialLinks
+          notes
         }
         numberPagesToday
         startPage

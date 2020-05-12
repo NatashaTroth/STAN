@@ -73,7 +73,7 @@ describe("Test update user resolver", () => {
         allowEmailNotifications: true
       }
     });
-    console.log(resp);
+
     expect(resp.data.updateUser).toBeTruthy();
 
     expect(resp.data.updateUser).toMatchObject({

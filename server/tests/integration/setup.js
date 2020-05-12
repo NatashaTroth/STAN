@@ -96,6 +96,7 @@ export async function addTestExam({
   timesRepeat,
   color,
   userId,
+  notes,
   completed
 }) {
   const finalExamDate = examDate || getFutureDay(new Date(), 5);
@@ -111,7 +112,7 @@ export async function addTestExam({
     startPage: startPage || 1,
     currentPage: currentPage || startPage || 1,
     timesRepeat: timesRepeat || 1,
-    notes: "Samantha's notes",
+    notes: notes || "Samantha's notes",
     studyMaterialLinks: [
       "https://stan-studyplan-staging.herokuapp.com/",
       "https://stan-studyplan.herokuapp.com/"

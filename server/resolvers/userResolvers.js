@@ -44,7 +44,7 @@ import {
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
-import { escapeObjectForHtml } from "../helpers/generalHelpers";
+// import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -52,6 +52,7 @@ export const userResolvers = {
   Query: {
     currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
+        console.log("is auth: " + userInfo.isAuth);
         if (!userInfo.isAuth) return null;
         // let user = {
         //   id: userInfo.userId,
@@ -62,6 +63,7 @@ export const userResolvers = {
         //   googleLogin: userInfo.user.googleLogin,
         //   allowEmailNotifications: userInfo.user.allowEmailNotifications
         // };
+
         return escapeUserObject(userInfo.user);
         // return user;
         // return userInfo.user;
