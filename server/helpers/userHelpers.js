@@ -22,6 +22,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
 import { escapeStringForHtml } from "./generalHelpers";
+import validator from "validator";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -311,7 +312,7 @@ function verifyUsernameFormat(username) {
 }
 
 export function verifyEmailFormat(email) {
-  if (!verifyRegexEmail(email))
+  if (!verifyRegexEmail(email) || !validator.isEmail(email))
     throw new Error("Email input has the wrong format.");
 }
 

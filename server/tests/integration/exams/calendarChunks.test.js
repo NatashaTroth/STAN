@@ -39,7 +39,7 @@ describe("Test user resolver regex", () => {
     await teardown();
   });
 
-  it.only("should correctly fetch the calendar chunks", async () => {
+  it("should correctly fetch the calendar chunks", async () => {
     const testExams = await addTestExams();
     const resp = await query({
       query: GET_CALENDAR_CHUNKS

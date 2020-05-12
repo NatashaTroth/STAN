@@ -21,6 +21,7 @@ import {
   getNumberOfDays,
   date1IsBeforeDate2
 } from "../helpers/dates";
+import validator from "validator";
 
 export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
@@ -237,9 +238,8 @@ export function escapeTodaysChunksObjects(chunks) {
 }
 
 export function escapeCalendarObjects(calendarObjects) {
-  console.log("here1");
   calendarObjects.forEach(calendarObject => {
-    calendarObject.title = escapeExamObject(calendarObject.title);
+    calendarObject.title = escapeStringForHtml(calendarObject.title);
   });
   return calendarObjects;
 }
@@ -251,7 +251,6 @@ function verifyNewExamInputFormat(args) {
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
   verifyNotesFormat(args.notes);
-
   verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }
 
@@ -295,7 +294,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
   if (studyMaterialLinks.length === 0) return;
 
   studyMaterialLinks.forEach(link => {
-    if (link === null || !verifyRegexUrlLink(link))
+    if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
       throw new AuthenticationError(
         "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."
       );

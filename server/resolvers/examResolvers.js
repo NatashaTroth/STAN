@@ -189,7 +189,7 @@ export const examResolvers = {
           userId: context.userInfo.userId
         });
 
-        return updatedExam;
+        return escapeExamObject(updatedExam);
       } catch (err) {
         handleResolverError(err);
       }
