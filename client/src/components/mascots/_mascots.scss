@@ -70,6 +70,10 @@
       transform: rotate(-45deg);
       transition: transform 0.3s ease-out;
     }
+
+    .carousel-control-next-icon {
+      display: none;
+    }
   }
 }
 // TODO: alle error messages / styling zusammenfassen
