@@ -241,7 +241,6 @@ export function createForgottenPasswordSecret(user) {
 }
 
 export function escapeUserObject(user) {
-  // const user = user };
   user.username = escapeStringForHtml(user.username);
   user.email = escapeStringForHtml(user.email);
   return user;

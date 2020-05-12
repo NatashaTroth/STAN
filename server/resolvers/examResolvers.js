@@ -10,7 +10,11 @@ import {
   // fetchTodaysChunks,
   // fetchCalendarChunks,
   handleUpdateExamInput,
-  verifyAddExamDates
+  verifyAddExamDates,
+  escapeExamObject,
+  escapeExamObjects,
+  escapeTodaysChunksObjects,
+  escapeCalendarObjects
   // learningIsComplete
 } from "../helpers/examHelpers";
 
@@ -44,7 +48,7 @@ export const examResolvers = {
           userId: context.userInfo.userId
         }).sort({ subject: "asc" });
         if (!resp) return [];
-        return resp;
+        return escapeExamObjects(resp);
       } catch (err) {
         handleResolverError(err);
       }
@@ -59,7 +63,7 @@ export const examResolvers = {
         });
 
         if (!resp) return {};
-        return resp;
+        return escapeExamObject(resp);
       } catch (err) {
         handleResolverError(err);
       }
@@ -74,8 +78,8 @@ export const examResolvers = {
 
         //to avoid todayschunks and progress being fetched at the same time
         //TODO: FETCH THE PRGORESS HERE AND RETURN IT
-
-        return { todaysChunks: chunks, todaysProgress };
+        const escapedChunks = escapeTodaysChunksObjects(chunks);
+        return { todaysChunks: escapedChunks, todaysProgress };
       } catch (err) {
         handleResolverError(err);
       }
@@ -87,7 +91,10 @@ export const examResolvers = {
 
         const chunks = await fetchCalendarChunks(context.userInfo.userId);
 
-        return chunks;
+        return {
+          calendarChunks: escapeCalendarObjects(chunks.calendarChunks),
+          calendarExams: escapeCalendarObjects(chunks.calendarExams)
+        };
       } catch (err) {
         handleResolverError(err);
       }

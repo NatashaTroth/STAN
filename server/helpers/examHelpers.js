@@ -10,7 +10,10 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 
-// import { roundToTwoDecimals } from "../helpers/generalHelpers";
+import {
+  escapeStringForHtml,
+  escapeArrayForHtml
+} from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   // startDateIsActive,
@@ -208,6 +211,37 @@ export function learningIsComplete(
   const endPage = startPage + numberPages * repeat - 1;
   // console.log("..." + currentPage + "  " + endPage);
   return currentPage > endPage;
+}
+
+export function escapeExamObject(exam) {
+  exam.subject = escapeStringForHtml(exam.subject);
+  exam.notes = escapeStringForHtml(exam.notes);
+  // exam.studyMaterialLinks = escapeArrayForHtml(exam.studyMaterialLinks);
+
+  return exam;
+}
+
+export function escapeExamObjects(exams) {
+  const escapedExams = [];
+  exams.forEach(exam => {
+    escapedExams.push(escapeExamObject(exam));
+  });
+  return escapedExams;
+}
+
+export function escapeTodaysChunksObjects(chunks) {
+  chunks.forEach(chunk => {
+    chunk.exam = escapeExamObject(chunk.exam);
+  });
+  return chunks;
+}
+
+export function escapeCalendarObjects(calendarObjects) {
+  console.log("here1");
+  calendarObjects.forEach(calendarObject => {
+    calendarObject.title = escapeExamObject(calendarObject.title);
+  });
+  return calendarObjects;
 }
 
 function verifyNewExamInputFormat(args) {
