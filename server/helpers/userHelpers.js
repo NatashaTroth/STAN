@@ -226,7 +226,8 @@ export async function createForgottenPasswordEmailLink(email) {
   const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
     expiresIn: "10m"
   });
-  return process.env.CLIENT_URL + "/" + user._id + "/" + token;
+  // return process.env.CLIENT_URL + "/" + user._id + "/" + token;
+  return `${process.env.CLIENT_URL}/resetpassword/${user._id}/${token}`;
 }
 
 export function createForgottenPasswordSecret(user) {
