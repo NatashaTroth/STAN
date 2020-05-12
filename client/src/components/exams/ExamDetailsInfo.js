@@ -21,7 +21,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
   let lastPage = examDetails.startPage + (examDetails.numberPages - 1)
   let currentRepetition = Math.round(examDetails.currentPage / lastPage)
   if (currentRepetition < 1) currentRepetition = 1
+
   let links = examDetails.studyMaterialLinks
+  let filteredLinks = links.filter(function(el) {
+    return el != ""
+  })
 
   // return ----------------
   return (
@@ -111,19 +115,25 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <div className="link--headline">
                   <h4>Study material links</h4>
                 </div>
-                <div className="link--buttons">
-                  {links.map((value, index) => (
-                    <div key={index}>
-                      <a
-                        href={value}
-                        target="_blank"
-                        className="stan-btn-secondary"
-                      >
-                        {extractDomain(value)}
-                      </a>
-                    </div>
-                  ))}
-                </div>
+                {filteredLinks.length > 0 ? (
+                  <div className="link--buttons">
+                    {filteredLinks.map((value, index) => (
+                      <div key={index}>
+                        <a
+                          href={value}
+                          target="_blank"
+                          className="stan-btn-secondary"
+                        >
+                          {extractDomain(value)}
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-link">
+                    <p>no links available</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -42,6 +42,7 @@ const ExamDetailsEdit = ({ examId }) => {
   // state ----------------
   const [oldUrls, setOldUrls] = useState(data.studyMaterialLinks)
   const [newUrls, setNewUrls] = useState([""])
+  const oldFilteredLinks = filteredLinks(oldUrls)
 
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
@@ -118,7 +119,8 @@ const ExamDetailsEdit = ({ examId }) => {
     setValue(exam, e.target.value)
   }
 
-  let newLinks = oldUrls.concat(newUrls)
+  let newLinks = filteredLinks(oldUrls.concat(newUrls))
+
   const onSubmit = data => {
     handleExam({
       examId,
@@ -433,48 +435,48 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__current-study-links">
-              <div className="form__element">
-                <Label
-                  htmlFor="studyLinks"
-                  text="Current study links"
-                  className="form__element__label"
-                />
-              </div>
-
-              {oldUrls.map((inputField, index) => (
-                <div
-                  key={`${index}-oldUrls`}
-                  className="form__study-links current-study-links"
-                >
-                  <div className="form__element form__study-links--input">
-                    <input
-                      className="form__element__input"
-                      type="url"
-                      id="studyLinks"
-                      name="studyLinks"
-                      value={inputField}
-                      label="exam_links_upload"
-                      onChange={event => handleOldInputChange(index, event)}
-                      ref={register({
-                        required: false,
-                        pattern:
-                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                      })}
-                    />
-                  </div>
-                  <div className="form__study-links--buttons">
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveOldFields(index)}
-                    >
-                      -
-                    </button>
-                  </div>
+            {oldFilteredLinks.length > 0 ? (
+              <div className="form__current-study-links">
+                <div className="form__element">
+                  <Label
+                    htmlFor="studyLinks"
+                    text="Current study links"
+                    className="form__element__label"
+                  />
                 </div>
-              ))}
-              {/* </div> */}
-            </div>
+                {oldUrls.map((inputField, index) => (
+                  <div
+                    key={`${index}-oldUrls`}
+                    className="form__study-links current-study-links"
+                  >
+                    <div className="form__element form__study-links--input">
+                      <input
+                        className="form__element__input"
+                        type="url"
+                        id="studyLinks"
+                        name="studyLinks"
+                        value={inputField}
+                        label="exam_links_upload"
+                        onChange={event => handleOldInputChange(index, event)}
+                        ref={register({
+                          required: false,
+                          pattern:
+                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                        })}
+                      />
+                    </div>
+                    <div className="form__study-links--buttons">
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveOldFields(index)}
+                      >
+                        -
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
             {newUrls.map((inputField, index) => (
               <div key={`${index}-newUrls`} className="form__study-links">
@@ -601,4 +603,12 @@ async function handleExam({
       element[0].innerHTML = err.message
     }
   }
+}
+
+function filteredLinks(array) {
+  const links = array.filter(function(el) {
+    return el != ""
+  })
+
+  return links
 }
