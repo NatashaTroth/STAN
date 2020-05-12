@@ -23,7 +23,7 @@ function TodayGoals(props) {
     // duration for all exams total
     totalDuration += duration
     totalDurationTime = minuteToHoursShort(totalDuration)
-    // console.log(element)
+
     // return ----------------
     return (
       <TodaySubject
