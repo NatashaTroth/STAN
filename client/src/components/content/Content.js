@@ -18,6 +18,7 @@ import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import About from "../../pages/about-page/AboutPage"
 import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamsDetails from "../../components/exams/ExamDetails"
+import ResetPassword from "../../components/reset-password/ResetPassword"
 
 const Content = ({ location }) => {
   // return ----------------
@@ -30,6 +31,11 @@ const Content = ({ location }) => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/popup" component={LoginPopUp} />
+        <Route
+          exact
+          path="/resetpassword/:id/:token"
+          component={ResetPassword}
+        />
 
         <Route exact path="/add-new" component={AddNew} />
         <Route exact path="/calendar" component={Calendar} />
