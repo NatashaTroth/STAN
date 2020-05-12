@@ -169,6 +169,7 @@ const Login = () => {
               />
             </div>
           </div>
+
           <div className="login__form__redirect-signup">
             <p className="login__form__redirect-signup__text">
               not registered?
@@ -176,6 +177,8 @@ const Login = () => {
             <Link to="/sign-up" className="login__form__redirect-signup__link">
               sign up
             </Link>
+            <span className="line"></span>
+            <Link to="/forgotten-password">forgotten password?</Link>
           </div>
         </div>
       </div>

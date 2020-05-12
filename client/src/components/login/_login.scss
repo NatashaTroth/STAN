@@ -141,6 +141,7 @@
       justify-content: center;
       align-items: baseline;
       padding-top: 20px;
+      position: relative;
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
@@ -150,6 +151,18 @@
       &__text {
         color: theme-color("grey-dark");
         padding-right: 10px;
+      }
+      a {
+        margin: 0 15px;
+      }
+
+      .line {
+        position: absolute;
+        bottom: 0;
+        width: 2px;
+        height: 20px;
+        margin: 0 12px;
+        background-color: theme_color("dark");
       }
     }
   }
