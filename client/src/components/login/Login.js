@@ -170,15 +170,21 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="login__form__redirect-signup">
-            <p className="login__form__redirect-signup__text">
-              not registered?
-            </p>{" "}
-            <Link to="/sign-up" className="login__form__redirect-signup__link">
-              sign up
-            </Link>
-            <span className="line"></span>
-            <Link to="/forgotten-password">forgotten password?</Link>
+          <div className="login__form__bottom">
+            <div className="login__form__bottom--redirect-signup">
+              <p className="login__form__bottom--redirect-signup__text">
+                not registered?
+              </p>{" "}
+              <Link to="/sign-up">sign up</Link>
+            </div>
+
+            <div className="login__form__bottom--line">
+              <span className="line"></span>
+            </div>
+
+            <div className="login__forn__bottom--forgotten-password">
+              <Link to="/forgotten-password">forgotten password?</Link>
+            </div>
           </div>
         </div>
       </div>
