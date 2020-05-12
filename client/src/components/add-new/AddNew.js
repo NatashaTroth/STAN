@@ -368,14 +368,12 @@ function AddNew() {
 
                         <div className="form__study-links--buttons">
                           <button
-                            className=""
                             type="button"
                             onClick={() => handleRemoveFields(index)}
                           >
                             -
                           </button>
                           <button
-                            className=""
                             type="button"
                             onClick={() => handleAddFields()}
                           >
