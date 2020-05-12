@@ -1,18 +1,19 @@
-import React from "react"
+import React, { useState } from "react"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
-// mutation & queries
+// mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 
-// components
+// components ----------------
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import ForgottenPassword from "../../components/forgotten-password/ForgottenPassword"
 
 const Login = () => {
   // local-storage popup event ----------------
@@ -53,11 +54,20 @@ const Login = () => {
   const [googleLogin] = useMutation(GOOGLE_LOGIN_MUTATION)
   const [login] = useMutation(LOGIN_MUTATION)
 
+  // state ----------------
+  const [openForgottenPassword, setForgottenPassword] = useState(false)
+
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
   const onSubmit = async formData => {
     await handleLogin({ formData, login })
   }
+
+  const handleForgottenPassword = () => {
+    setForgottenPassword(pw => !pw)
+  }
+
+  if (openForgottenPassword) return <ForgottenPassword />
 
   // return ----------------
   return (
@@ -182,8 +192,14 @@ const Login = () => {
               <span className="line"></span>
             </div>
 
-            <div className="login__forn__bottom--forgotten-password">
-              <Link to="/forgotten-password">forgotten password?</Link>
+            <div className="login__form__bottom--forgotten-password">
+              <button
+                type="button"
+                variant="button"
+                onClick={handleForgottenPassword}
+              >
+                forgotten password?
+              </button>
             </div>
           </div>
         </div>
