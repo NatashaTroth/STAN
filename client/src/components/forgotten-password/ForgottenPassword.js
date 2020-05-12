@@ -14,6 +14,8 @@ import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
+
+// image ----------------
 import Mascot from "../../images/mascots/forgottenPasswordStan.svg"
 
 const ForgottenPassword = () => {
@@ -40,7 +42,7 @@ const ForgottenPassword = () => {
 
   const onSubmit = async formData => {
     setEmail(formData.email)
-    await handleForgottenPassword({ formData, forgottenPasswordEmail })
+    handleForgottenPassword({ formData, forgottenPasswordEmail })
   }
 
   if (openLogin) return <Login />
