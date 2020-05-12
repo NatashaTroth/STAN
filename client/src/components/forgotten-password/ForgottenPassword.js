@@ -180,7 +180,7 @@ async function handleForgottenPassword({ formData, forgottenPasswordEmail }) {
         "success-container-forgotten-password"
       ).style.display = "block"
     } else {
-      throw new Error("Set forgotten password failed")
+      throw new Error("Reset forgotten password failed")
     }
   } catch (err) {
     // error handling ----------------
