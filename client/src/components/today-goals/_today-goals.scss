@@ -13,7 +13,8 @@
   &__container {
     padding: 10px 10px 0 10px;
     &__header {
-      border-bottom: 3px solid theme-color("dark");
+      border-bottom: 3px solid;
+      border-color: theme-color("dark");
       margin-bottom: 5px;
       display: flex;
       justify-content: space-between;

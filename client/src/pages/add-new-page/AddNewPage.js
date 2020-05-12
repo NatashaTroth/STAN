@@ -24,7 +24,7 @@ const AddNewPage = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <h2 className="add-new-page__heading">New exam</h2>
-            <p className="add-new-page__sub-heading">
+            <p className="add-new-page__sub-heading sub-heading">
               enter all details about the exam
             </p>
           </div>

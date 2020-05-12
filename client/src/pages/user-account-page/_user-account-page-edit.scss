@@ -216,7 +216,8 @@
     }
 
     i {
-      border: solid theme_color("dark");
+      border: solid;
+      border-color: theme_color("dark");
       border-width: 0 2px 2px 0;
       display: inline-block;
       padding: 3px;

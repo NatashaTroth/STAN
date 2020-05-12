@@ -142,7 +142,8 @@
   padding: 3px;
   padding-right: 2px;
   margin-bottom: 40px;
-  border: 4px solid theme-color("dark");
+  border: 4px solid;
+  border-color: theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
 
   &.fc-dayGridMonth-view {
