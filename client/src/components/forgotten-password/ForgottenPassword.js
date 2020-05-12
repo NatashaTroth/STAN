@@ -3,43 +3,44 @@ import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // mutations ----------------
-import { useQuery } from "@apollo/react-hooks"
-import { FORGOTTEN_PASSWORD_EMAIL } from "../../graphQL/queries"
+import { useMutation } from "@apollo/react-hooks"
+import { FORGOTTEN_PASSWORD_EMAIL } from "../../graphQL/mutations"
 
 // components ----------------
 import Login from "../../components/login/Login"
-import QueryError from "../error/Error"
-import Loading from "../loading/Loading"
 
 // sub-components ----------------
 import Input from "../../components/input/Input"
 import Label from "../../components/label/Label"
 import Button from "../../components/button/Button"
+import Image from "../../components/image/Image"
+import Mascot from "../../images/mascots/forgottenPasswordStan.svg"
 
 const ForgottenPassword = () => {
   // form specific ----------------
   const { register, errors, handleSubmit } = useForm()
 
   // mutations ----------------
-  //   const { data, loading, error } = useQuery(FORGOTTEN_PASSWORD_EMAIL)
+  const [forgottenPasswordEmail] = useMutation(FORGOTTEN_PASSWORD_EMAIL)
+  const [email, setEmail] = useState("")
 
   // state ----------------
   const [openLogin, setLogin] = useState(false)
-
-  // loading & error handling ----------------
-  //   if (loading) return <Loading />
-  //   if (error) return <QueryError errorMessage={error.message} />
-  //   if (data && data.forgottenPasswordEmail) {
-  //     console.log(data)
-  //   }
 
   // functions ----------------
   const handleLogin = () => {
     setLogin(openLogin => !openLogin)
   }
 
+  const showForgottenPassword = () => {
+    document.getElementById(
+      "success-container-forgotten-password"
+    ).style.display = "none"
+  }
+
   const onSubmit = async formData => {
-    await handleForgottenPassword({ formData })
+    setEmail(formData.email)
+    await handleForgottenPassword({ formData, forgottenPasswordEmail })
   }
 
   if (openLogin) return <Login />
@@ -49,9 +50,44 @@ const ForgottenPassword = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="login__form form-submit box-content"
     >
-      <div className="row">
-        <div id="success-container-forgotten-password">
-          <p className="success">the reset password link is in your inbox</p>
+      <div className="row forgotten-password">
+        <div
+          id="success-container-forgotten-password"
+          className="forgottenPassword__success box-content"
+        >
+          <div className="forgottenPassword__success--headline">
+            <h3>Reset password</h3>
+          </div>
+
+          <div className="forgottenPassword__success--content">
+            <p>
+              We have sent you an email to {email} with a link to reset your
+              password.
+            </p>
+            <p>
+              {" "}
+              Please click the reset password link to set your new password.
+            </p>
+
+            <div className="forgottenPassword__success--content--bottom">
+              <p>Didn't receive the email yet?</p>
+              <p>
+                Please check your spam folder, or{" "}
+                <button
+                  type="button"
+                  variant="button"
+                  onClick={showForgottenPassword}
+                >
+                  resend
+                </button>{" "}
+                the email.
+              </p>
+
+              <div className="mascot">
+                <Image path={Mascot} text="a mascot with a letter" />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="error-handling-form">
           <p className="error graphql-forgotten-password-error"></p>
