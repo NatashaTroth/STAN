@@ -285,8 +285,22 @@ body.dark-mode {
   .carousel .carousel-indicators li {
     background-color: theme-color("light");
   }
+  .carousel-control-prev-icon,
+  .carousel-control-next {
+    &:before {
+      border-color: theme_color("light");
+    }
+  }
   .form__passwordToggle i {
     border-color: theme_color("light");
+  }
+
+  .login__form__notifications input:checked ~ .checkmark {
+    background-color: theme-color("light");
+    border-color: theme-color("light");
+  }
+  .checkmark:after {
+    border-color: theme-color("dark-mode");
   }
   // ----------------------------------------------------------------
 }
