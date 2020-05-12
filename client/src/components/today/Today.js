@@ -175,7 +175,7 @@ function Today(props) {
     // maximum goal is last page
     numberPagesToday = lastPage
 
-    repetitionGoal = pagesLeftInCycles / lastPage + 1
+    repetitionGoal = Math.floor(pagesLeftInCycles / lastPage) + 1
 
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
