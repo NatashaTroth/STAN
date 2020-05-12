@@ -21,6 +21,7 @@ import {
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
+import { escapeStringForHtml } from "./generalHelpers";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -237,6 +238,13 @@ export function createForgottenPasswordSecret(user) {
     user.updatedAt.getTime() +
     process.env.FORGOTTEN_PASSWORD_SECRET
   );
+}
+
+export function escapeUserObject(user) {
+  // const user = user };
+  user.username = escapeStringForHtml(user.username);
+  user.email = escapeStringForHtml(user.email);
+  return user;
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {

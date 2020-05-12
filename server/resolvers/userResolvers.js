@@ -37,13 +37,14 @@ import {
   verifyEmailFormat,
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
-  validateForgottenPasswordToken
+  validateForgottenPasswordToken,
+  escapeUserObject
   // calculateUserState
 } from "../helpers/userHelpers";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
-// import { escapeObjectForHtml } from "../helpers/generalHelpers";
+import { escapeObjectForHtml } from "../helpers/generalHelpers";
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -58,11 +59,12 @@ export const userResolvers = {
         //   username: userInfo.user.username,
         //   email: userInfo.user.email,
         //   mascot: userInfo.user.mascot,
-        //   googleLogin: userInfo.user.googleLogin
+        //   googleLogin: userInfo.user.googleLogin,
+        //   allowEmailNotifications: userInfo.user.allowEmailNotifications
         // };
-        // user = escapeObjectForHtml({ ...user });
-
-        return userInfo.user;
+        return escapeUserObject(userInfo.user);
+        // return user;
+        // return userInfo.user;
       } catch (err) {
         console.error(err.message);
         return null;
@@ -75,7 +77,7 @@ export const userResolvers = {
 
         verifyEmailFormat(email);
         const link = await createForgottenPasswordEmailLink(email);
-        stanEmail.sendForgottenPasswordMail(email, link);
+        await stanEmail.sendForgottenPasswordMail(email, link);
 
         return true;
       } catch (err) {
@@ -216,7 +218,15 @@ export const userResolvers = {
           allowEmailNotifications
         );
 
-        return await User.findOne({ _id: context.userInfo.userId });
+        const updatedUser = await User.findOne({
+          _id: context.userInfo.userId
+        });
+        // console.log(updatedUser);
+        // return updatedUser;
+        // updatedUser.id = updatedUser._id;
+
+        return escapeUserObject(updatedUser);
+        // return await User.findOne({ _id: context.userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }
