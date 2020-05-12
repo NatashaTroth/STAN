@@ -161,8 +161,8 @@ const Exams = () => {
                 className="exams__archiveExamsToggle--button"
               >
                 <h3>Past exams</h3>
+                <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
               </button>
-              <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
             </div>
 
             <div className={isArchiveOpen ? "fadeIn" : "fadeOut"}>
