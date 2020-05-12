@@ -68,7 +68,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 10,
         durationTotal: 250,
         durationPerDay: 50,
-        studyMaterialLinks: ["samanthas-link.stan"]
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
 
@@ -92,7 +95,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 36,
         durationTotal: 710,
         durationPerDay: 360,
-        studyMaterialLinks: ["samanthas-link.stan"]
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[1]).toMatchObject({
@@ -115,7 +121,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 48,
         durationTotal: 480,
         durationPerDay: 480,
-        studyMaterialLinks: ["samanthas-link.stan"]
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[0]).toMatchObject({
@@ -139,7 +148,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 3,
         durationTotal: 250,
         durationPerDay: 15,
-        studyMaterialLinks: ["samanthas-link.stan"]
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[3]).toMatchObject({

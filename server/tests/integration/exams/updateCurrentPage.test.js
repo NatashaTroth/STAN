@@ -52,7 +52,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 1,
         notes: "My Test Notes",
-        studyMaterialLinks: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });

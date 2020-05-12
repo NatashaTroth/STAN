@@ -65,7 +65,7 @@ describe("Test forgotten password resolver/helpers", () => {
     const link = await createForgottenPasswordEmailLink(testUser.email);
     expect(link).toBeTruthy();
     expect(link).toBe(
-      process.env.CLIENT_URL + "/" + testUser._id + "/" + token
+      process.env.CLIENT_URL + "/resetpassword/" + testUser._id + "/" + token
     );
 
     //---reset password---

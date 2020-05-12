@@ -46,10 +46,11 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "My Test Notes",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: ["https://stan-studyplan-staging.herokuapp.com/"],
         completed: false
       }
     });
+
     expect(resp.data.addExam).toBeTruthy();
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount + 1);
@@ -81,7 +82,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -99,7 +103,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [],
         completed: false
       }
     });
@@ -121,7 +125,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -146,7 +153,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -171,7 +181,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -196,7 +209,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 40,
         notes: "NOTES",
-        studyMaterialLinks: ["klsdjfs"],
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });

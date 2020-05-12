@@ -25,6 +25,9 @@ import DatePicker from "../../components/datepicker/DatePicker"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers functions ----------------
+import { filteredLinks } from "../../helpers/mascots"
+
 const ExamDetailsEdit = ({ examId }) => {
   let history = useHistory()
 
@@ -608,12 +611,4 @@ async function handleExam({
       element[0].innerHTML = err.message
     }
   }
-}
-
-function filteredLinks(array) {
-  const links = array.filter(function(el) {
-    return el != ""
-  })
-
-  return links
 }
