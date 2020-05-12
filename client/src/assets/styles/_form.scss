@@ -54,6 +54,15 @@
       flex: 1;
     }
 
+    &.current-study-links {
+      height: 45px;
+
+      input {
+        border-bottom: none;
+        color: theme_color("grey-dark");
+      }
+    }
+
     &--buttons {
       @include media-breakpoint-down(lg) {
         margin-right: 11px;
