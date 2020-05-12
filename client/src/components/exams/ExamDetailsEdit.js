@@ -40,7 +40,8 @@ const ExamDetailsEdit = ({ examId }) => {
   }).exam
 
   // state ----------------
-  const [inputFields, setInputFields] = useState([""])
+  const [oldUrls, setOldUrls] = useState(data.studyMaterialLinks)
+  const [newUrls, setNewUrls] = useState([""])
 
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
@@ -67,7 +68,6 @@ const ExamDetailsEdit = ({ examId }) => {
   const { register, errors, watch, setValue, handleSubmit } = useForm({
     defaultValues,
   })
-  const studyLinks = data.studyMaterialLinks
 
   const {
     subject,
@@ -118,8 +118,8 @@ const ExamDetailsEdit = ({ examId }) => {
     setValue(exam, e.target.value)
   }
 
+  let newLinks = oldUrls.concat(newUrls)
   const onSubmit = data => {
-    const newLinks = inputFields.concat(studyLinks)
     handleExam({
       examId,
       data,
@@ -131,25 +131,40 @@ const ExamDetailsEdit = ({ examId }) => {
     })
   }
 
-  console.log(studyLinks)
-  const handleInputChange = (index, event) => {
-    const values = [...inputFields]
+  // input fields for current exam urls ----------------
+  const handleOldInputChange = (index, event) => {
+    const values = [...oldUrls]
     if (event.target.name === "study-links") {
       values[index] = event.target.value
     }
-    setInputFields(values)
+    setOldUrls(values)
   }
 
+  const handleRemoveOldFields = index => {
+    const values = [...oldUrls]
+    values.splice(index, 1)
+    setOldUrls(values)
+  }
+
+  // input fields for new exam urls ----------------
   const handleAddFields = () => {
-    const values = [...inputFields]
+    const values = [...newUrls]
     values.push([""])
-    setInputFields(values)
+    setNewUrls(values)
+  }
+
+  const handleNewInputChange = (index, event) => {
+    const values = [...newUrls]
+    if (event.target.name === "study-new-links") {
+      values[index] = event.target.value
+    }
+    setNewUrls(values)
   }
 
   const handleRemoveFields = index => {
-    const values = [...inputFields]
+    const values = [...newUrls]
     values.splice(index, 1)
-    setInputFields(values)
+    setNewUrls(values)
   }
 
   // return ----------------
@@ -422,55 +437,61 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="form__element study-links-controlled">
                 <Label
                   htmlFor="studyLinks"
-                  text="Study material links"
+                  text="Current study material links"
                   className="form__element__label"
                 />
-                {studyLinks.map((inputField, index) => (
-                  <div key={index} className="study-links-controlled__inner">
-                    <input
-                      className="form__element__input study-links-controlled__input"
-                      type="url"
-                      id="studyLinks"
-                      name="studyLinks"
-                      value={inputField}
-                      label="exam_links_upload"
-                      onChange={event => handleInputChange(index, event)}
-                      ref={register({
-                        required: false,
-                        pattern:
-                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                      })}
-                    />
-                    <div className="form__study-links--buttons study-links-controlled__buttons">
-                      <button
-                        className=""
-                        type="button"
-                        onClick={() => handleRemoveFields(index)}
-                      >
-                        -
-                      </button>
+
+                {oldUrls.map((inputField, index) => {
+                  return (
+                    <div
+                      key={`${index}-oldUrls`}
+                      className="study-links-controlled__inner"
+                    >
+                      <input
+                        className="form__element__input study-links-controlled__input"
+                        type="url"
+                        id="studyLinks"
+                        name="studyLinks"
+                        value={inputField}
+                        label="exam_links_upload"
+                        onChange={event => handleOldInputChange(index, event)}
+                        ref={register({
+                          required: false,
+                          pattern:
+                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                        })}
+                      />
+                      <div className="form__study-links--buttons study-links-controlled__buttons">
+                        <button
+                          className=""
+                          type="button"
+                          onClick={() => handleRemoveOldFields(index)}
+                        >
+                          -
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
 
-            {inputFields.map((inputField, index) => (
-              <div key={index} className="form__study-links">
+            {newUrls.map((inputField, index) => (
+              <div key={`${index}-newUrls`} className="form__study-links">
                 <div className="form__element form__study-links--input">
                   <Label
-                    htmlFor="study-links"
-                    text="Study material links"
+                    htmlFor="study-new-links"
+                    text="Add new study material links"
                     className="form__element__label"
                   />
                   <input
                     className="form__element__input"
                     type="url"
-                    id="study-links"
-                    name="study-links"
+                    id="study-new-links"
+                    name="study-new-links"
                     placeholder="https://example.com/math"
                     label="exam_links_upload"
-                    onChange={event => handleInputChange(index, event)}
+                    onChange={event => handleNewInputChange(index, event)}
                     ref={register({
                       required: false,
                       pattern:
@@ -520,7 +541,7 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
 
         <div className="col-md-12">
-          <p className="error graphql-exam-details-edit-error"></p>
+          <p className="error graphql-error"></p>
         </div>
 
         <div className="col-md-12" id="success-container-edit-exam">
@@ -540,7 +561,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   history,
-  inputFields,
+  newLinks,
 }) {
   try {
     const resp = await updateExam({
@@ -556,7 +577,7 @@ async function handleExam({
         startPage: 1,
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
-        studyMaterialLinks: inputFields,
+        studyMaterialLinks: newLinks,
         completed: false,
       },
     })
