@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { GoogleLogin } from "react-google-login"
 // --------------------------------------------------------------
 
-// mutation & queries ----------------
+// mutation ----------------
 import { useMutation } from "@apollo/react-hooks"
 import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
 
