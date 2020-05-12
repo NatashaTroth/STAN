@@ -279,6 +279,15 @@ body.dark-mode {
       }
     }
   }
+  button.back-button {
+    color: theme-color("light");
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: theme-color("primary-yellow");
+    }
+  }
   .user-account__container--left--bottom span {
     color: theme_color("primary-blue");
   }
@@ -301,6 +310,11 @@ body.dark-mode {
   }
   .checkmark:after {
     border-color: theme-color("dark-mode");
+  }
+  // ----------------------------------------------------------------
+  // login ----------------
+  .login__form__redirect-signup__text {
+    color: theme-color("grey-dark");
   }
   // ----------------------------------------------------------------
 }
