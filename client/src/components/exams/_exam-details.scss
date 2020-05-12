@@ -7,6 +7,7 @@
     padding-bottom: 15px;
 
     &--back-btn {
+      margin-top: 5rem;
       position: relative;
       border: none;
       background: none;
@@ -199,6 +200,7 @@
           a {
             min-width: 90px;
           }
+
           &--headline {
             padding-right: 35px;
 
@@ -206,13 +208,17 @@
               padding-bottom: 15px;
             }
           }
+
           &--buttons {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+
             a {
               margin-right: 20px;
               margin-top: 10px;
+              text-transform: lowercase;
+              padding: 8px 12px;
             }
           }
         }

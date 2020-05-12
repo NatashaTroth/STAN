@@ -49,7 +49,8 @@ const examSchema = new Schema({
     type: String
   },
   studyMaterialLinks: {
-    type: [String]
+    type: [String],
+    default: []
   },
   color: {
     type: String,

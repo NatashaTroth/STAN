@@ -209,7 +209,10 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        studyMaterialLinks: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -236,7 +239,10 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        studyMaterialLinks: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -263,7 +269,10 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        studyMaterialLinks: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -289,7 +298,10 @@ describe("Test user resolver regex", () => {
         timesRepeat: 2,
         currentPage: 5,
         notes: "NOTES",
-        studyMaterialLinks: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });

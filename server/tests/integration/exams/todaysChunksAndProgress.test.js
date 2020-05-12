@@ -84,7 +84,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -175,7 +178,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -205,7 +211,10 @@ describe("Test user resolver regex", () => {
         startPage: testExam.startPage,
         timesRepeat: testExam.timesRepeat,
         notes: testExam.notes,
-        studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
 
@@ -259,7 +268,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 5,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -345,7 +357,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 7,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -416,7 +431,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 13,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -467,7 +485,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -519,7 +540,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -568,7 +592,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            studyMaterialLinks: [testExam.studyMaterialLinks[0].toString()]
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10, //newly calculated -> 47/5 days left = 9.4
           startPage: 3,
