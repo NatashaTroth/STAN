@@ -7,7 +7,7 @@ import ExamBar from "../progressbar/ProgressBar"
 
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
-import { extractDomain } from "../../helpers/mascots"
+import { extractDomain, filteredLinks } from "../../helpers/mascots"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------
@@ -22,10 +22,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
   let currentRepetition = Math.round(examDetails.currentPage / lastPage)
   if (currentRepetition < 1) currentRepetition = 1
 
-  let links = examDetails.studyMaterialLinks
-  let filteredLinks = links.filter(function(el) {
-    return el != ""
-  })
+  const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
   // return ----------------
   return (
@@ -115,9 +112,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <div className="link--headline">
                   <h4>Study material links</h4>
                 </div>
-                {filteredLinks.length > 0 ? (
+                {newLinks.length > 0 ? (
                   <div className="link--buttons">
-                    {filteredLinks.map((value, index) => (
+                    {newLinks.map((value, index) => (
                       <div key={index}>
                         <a
                           href={value}

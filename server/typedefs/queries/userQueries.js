@@ -5,7 +5,6 @@ const userQueries = gql`
   type Query {
     currentUser: User
     # currentUserState: String!
-    forgottenPasswordEmail(email: String!): Boolean!
   }
 
   type Mutation {
@@ -20,7 +19,13 @@ const userQueries = gql`
     logout: Boolean
     login(email: String!, password: String): String!
     googleLogin(idToken: String!): String!
+    forgottenPasswordEmail(email: String!): Boolean!
 
+    resetPassword(
+      userId: String!
+      token: String!
+      newPassword: String!
+    ): Boolean!
     updateUser(
       username: String!
       email: String!
@@ -29,11 +34,7 @@ const userQueries = gql`
       mascot: Int!
       allowEmailNotifications: Boolean!
     ): User!
-    resetPassword(
-      userId: String!
-      token: String!
-      newPassword: String!
-    ): Boolean!
+
     updateMascot(mascot: Int!): Boolean
     deleteUser: Boolean
 

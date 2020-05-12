@@ -23,6 +23,9 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 import DatePicker from "../../components/datepicker/DatePicker"
 
+// helpers ----------------
+import { filteredLinks } from "../../helpers/mascots"
+
 function AddNew() {
   // mutation ----------------
   const [addExam] = useMutation(ADD_EXAM_MUTATION, {
@@ -51,14 +54,14 @@ function AddNew() {
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
   // -----------------------------
 
+  const newLinks = filteredLinks(inputFields)
   const onSubmit = formData => {
-    let links = inputFields
     handleExam({
       formData,
       addExam,
       formExamDate,
       formStartDate,
-      links,
+      newLinks,
       reset,
     })
   }
@@ -420,7 +423,7 @@ async function handleExam({
   addExam,
   formExamDate,
   formStartDate,
-  links,
+  newLinks,
   reset,
 }) {
   try {
@@ -435,7 +438,7 @@ async function handleExam({
         timePerPage: parseInt(formData.exam_page_time),
         timesRepeat: parseInt(formData.exam_page_repeat),
         notes: formData.exam_page_notes,
-        studyMaterialLinks: links,
+        studyMaterialLinks: newLinks,
         completed: false,
       },
     })

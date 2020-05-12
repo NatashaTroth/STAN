@@ -28,3 +28,11 @@ export const extractDomain = url => {
 
   return domain
 }
+
+export const filteredLinks = array => {
+  const links = array.filter(function(el) {
+    return el != ""
+  })
+
+  return links
+}

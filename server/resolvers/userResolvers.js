@@ -69,20 +69,6 @@ export const userResolvers = {
         console.error(err.message);
         return null;
       }
-    },
-    forgottenPasswordEmail: async (parent, { email }, context) => {
-      try {
-        if (context.userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
-
-        verifyEmailFormat(email);
-        const link = await createForgottenPasswordEmailLink(email);
-        await stanEmail.sendForgottenPasswordMail(email, link);
-
-        return true;
-      } catch (err) {
-        handleResolverError(err);
-      }
     }
   },
   Mutation: {
@@ -227,6 +213,20 @@ export const userResolvers = {
 
         return escapeUserObject(updatedUser);
         // return await User.findOne({ _id: context.userInfo.userId });
+      } catch (err) {
+        handleResolverError(err);
+      }
+    },
+    forgottenPasswordEmail: async (parent, { email }, context) => {
+      try {
+        if (context.userInfo.isAuth)
+          throw new AuthenticationError("Already logged in.");
+
+        verifyEmailFormat(email);
+        const link = await createForgottenPasswordEmailLink(email);
+        stanEmail.sendForgottenPasswordMail(email, link);
+
+        return true;
       } catch (err) {
         handleResolverError(err);
       }
