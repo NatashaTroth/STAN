@@ -433,47 +433,47 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            <div className="form__study-links">
-              <div className="form__element study-links-controlled">
+            <div className="form__current-study-links">
+              <div className="form__element">
                 <Label
                   htmlFor="studyLinks"
                   text="Current study links"
                   className="form__element__label"
                 />
-
-                {oldUrls.map((inputField, index) => {
-                  return (
-                    <div
-                      key={`${index}-oldUrls`}
-                      className="study-links-controlled__inner"
-                    >
-                      <input
-                        className="form__element__input study-links-controlled__input"
-                        type="url"
-                        id="studyLinks"
-                        name="studyLinks"
-                        value={inputField}
-                        label="exam_links_upload"
-                        onChange={event => handleOldInputChange(index, event)}
-                        ref={register({
-                          required: false,
-                          pattern:
-                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
-                        })}
-                      />
-                      <div className="form__study-links--buttons study-links-controlled__buttons">
-                        <button
-                          className=""
-                          type="button"
-                          onClick={() => handleRemoveOldFields(index)}
-                        >
-                          -
-                        </button>
-                      </div>
-                    </div>
-                  )
-                })}
               </div>
+
+              {oldUrls.map((inputField, index) => (
+                <div
+                  key={`${index}-oldUrls`}
+                  className="form__study-links current-study-links"
+                >
+                  <div className="form__element form__study-links--input">
+                    <input
+                      className="form__element__input"
+                      type="url"
+                      id="studyLinks"
+                      name="studyLinks"
+                      value={inputField}
+                      label="exam_links_upload"
+                      onChange={event => handleOldInputChange(index, event)}
+                      ref={register({
+                        required: false,
+                        pattern:
+                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                      })}
+                    />
+                  </div>
+                  <div className="form__study-links--buttons">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveOldFields(index)}
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {/* </div> */}
             </div>
 
             {newUrls.map((inputField, index) => (
@@ -501,7 +501,6 @@ const ExamDetailsEdit = ({ examId }) => {
                 </div>
                 <div className="form__study-links--buttons">
                   <button
-                    className=""
                     type="button"
                     onClick={() => handleRemoveFields(index)}
                   >
