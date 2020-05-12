@@ -16,13 +16,24 @@ export function escapeObjectForHtml(unescapedObject) {
       escapedObject[key] instanceof String
     )
       escapedObject[key] = escapeStringForHtml(escapedObject[key]);
+    else if (Array.isArray(escapedObject[key])) {
+      escapedObject[key] = escapeArrayForHtml(escapedObject[key]);
+    }
   }
   return escapedObject;
+}
+
+export function escapeArrayForHtml(unescapedArray) {
+  for (let i = 0; i < unescapedArray.length; i++) {
+    unescapedArray[i] = escapeStringForHtml(unescapedArray[i]);
+  }
+  return unescapedArray;
 }
 
 export function escapeStringForHtml(value) {
   if (typeof value === "string" || value instanceof String)
     return validator.escape(value);
+  else return value;
 }
 
 // function(obj, label) {

@@ -156,8 +156,14 @@ test("verifies string is formatted as a URL Link", () => {
       "https://wiki.mediacube.at/wiki/index.php?title=Studiowoche"
     )
   ).toBeTruthy();
-  expect(verifyRegexUrlLink("")).toBeTruthy();
+  expect(
+    verifyRegexUrlLink("https://stan-studyplan-staging.herokuapp.com/")
+  ).toBeTruthy();
+  expect(
+    verifyRegexUrlLink("https://stan-studyplan.herokuapp.com/")
+  ).toBeTruthy();
 
+  expect(verifyRegexUrlLink("")).toBeFalsy();
   expect(verifyRegexUrlLink("ddsfhj8o345")).toBeFalsy();
   expect(verifyRegexUrlLink("https:/google.at")).toBeFalsy();
 });

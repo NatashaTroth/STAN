@@ -4,7 +4,8 @@ import {
   verifyRegexPageTime,
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
-  verifyRegexPageNotes
+  verifyRegexPageNotes,
+  verifyRegexUrlLink
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
@@ -216,6 +217,8 @@ function verifyNewExamInputFormat(args) {
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
   verifyNotesFormat(args.notes);
+
+  verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }
 
 function verifySubjectFormat(subject) {
@@ -251,6 +254,18 @@ function verifyStartPageFormat(currentPage) {
     throw new AuthenticationError(
       "Start page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
     );
+}
+
+function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
+  if (!studyMaterialLinks) return;
+  if (studyMaterialLinks.length === 0) return;
+
+  studyMaterialLinks.forEach(link => {
+    if (link === null || !verifyRegexUrlLink(link))
+      throw new AuthenticationError(
+        "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."
+      );
+  });
 }
 
 function verifyNotesFormat(notes) {
