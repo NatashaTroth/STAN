@@ -278,7 +278,7 @@ describe("Test user resolver regex", () => {
     );
   });
 
-  it.only("should escape all output strings that came from user input", async () => {
+  it("should escape all output strings that came from user input", async () => {
     server = await setupApolloServer({
       isAuth: true,
       userId: "samanthasId"
