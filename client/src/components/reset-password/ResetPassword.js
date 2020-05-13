@@ -1,6 +1,7 @@
 import React from "react"
 import { Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -18,9 +19,16 @@ import Button from "../../components/button/Button"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-const ResetPassword = () => {
+const ResetPassword = props => {
+  const { match } = props
+  let history = useHistory()
+
   // form ----------------
   const { register, errors, handleSubmit } = useForm()
+
+  // get params from url ----------------
+  const userId = match.params.id
+  const token = match.params.token
 
   // mutations ----------------
   const [resetPassword] = useMutation(RESET_PASSWORD_MUTATION)
@@ -34,35 +42,45 @@ const ResetPassword = () => {
   // form specific ----------------
   const onSubmit = async formData => {
     if (formData.password === formData.retype_password) {
-      document.getElementById("signup-error").style.display = "none"
-      //   handleResetPassword({ formData, resetPassword })
+      document.getElementById("forgotten-password-error").style.display = "none"
+      handleResetPassword({ formData, userId, token, resetPassword, history })
     } else {
-      document.getElementById("signup-error").style.display = "block"
+      document.getElementById("forgotten-password-error").style.display =
+        "block"
     }
   }
 
   return (
     <div className="reset-password">
       <div className="container-fluid">
-        <div clasName="row">
+        <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10 login__headline">
-            <h2 className="login__headline__heading">Reset your password</h2>
+            <h2 className="login__headline__heading">Reset password</h2>
             <p className="login__headline__sub-heading">bla text bla</p>
           </div>
           <div className="col-md-1"></div>
 
           <div className="col-md-2"></div>
           <div className="col-md-8 login__form-container">
-            <form onSubmit={handleSubmit(onSubmit)} className="box-content">
-              <div id="signup-error">
-                <div className="error sign-up-error">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className=" login__form form-submit box-content"
+            >
+              <div id="success-save-password">
+                <p className="success">
+                  the new password was successfully saved
+                </p>
+              </div>
+
+              <div id="forgotten-password-error">
+                <div className="error forgotten-password-error">
                   <p>Please make sure your passwords match.</p>
                 </div>
               </div>
 
               <div className="error-handling-form">
-                <p className="error graphql-sign-up-error"></p>
+                <p className="error graphql-forgotten-password-error"></p>
               </div>
 
               <div className="login__form__element">
@@ -156,24 +174,36 @@ const ResetPassword = () => {
 
 export default ResetPassword
 
-async function handleResetPassword({ formData, resetPassword }) {
+async function handleResetPassword({
+  formData,
+  userId,
+  token,
+  resetPassword,
+  history,
+}) {
   try {
     const resp = await resetPassword({
       variables: {
-        // userId: ,
-        // token: ,
-        // newPassword ,
+        userId: userId,
+        token: token,
+        newPassword: formData.password,
       },
     })
 
     if (resp && resp.data && resp.data.resetPassword) {
+      document.getElementById("success-save-password").style.display = "block"
     } else {
       throw new Error("Reset password failed")
     }
 
     // redirect ----------------
+    setTimeout(() => {
+      history.push("/login")
+    }, 1500)
   } catch (err) {
-    let element = document.getElementsByClassName("graphql-sign-up-error")
+    let element = document.getElementsByClassName(
+      "graphql-forgotten-password-error"
+    )
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
