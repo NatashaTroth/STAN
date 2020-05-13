@@ -172,8 +172,7 @@ function AddNew() {
                           delay={{ show: 250, hide: 400 }}
                           overlay={
                             <Tooltip>
-                              The date when you want to start studying for your
-                              test.
+                              The date you want to start studying
                             </Tooltip>
                           }
                         >
@@ -204,8 +203,7 @@ function AddNew() {
                           delay={{ show: 250, hide: 400 }}
                           overlay={
                             <Tooltip>
-                              How many different pages you have to learn for
-                              your test.
+                              How many different pages you have to learn
                             </Tooltip>
                           }
                         >
@@ -287,7 +285,7 @@ function AddNew() {
                           delay={{ show: 250, hide: 400 }}
                           overlay={
                             <Tooltip>
-                              Average time it takes you to learn a page.
+                              Average time it takes you to learn a page
                             </Tooltip>
                           }
                         >
@@ -340,7 +338,7 @@ function AddNew() {
                           delay={{ show: 250, hide: 400 }}
                           overlay={
                             <Tooltip>
-                              How many times you want to study each page.
+                              How many times you want to study each page
                             </Tooltip>
                           }
                         >

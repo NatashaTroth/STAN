@@ -243,9 +243,7 @@ const ExamDetailsEdit = ({ examId }) => {
                   placement="top"
                   delay={{ show: 250, hide: 400 }}
                   overlay={
-                    <Tooltip>
-                      The date when you want to start studying for your test.
-                    </Tooltip>
+                    <Tooltip>The date you want to start studying</Tooltip>
                   }
                 >
                   <span className="info-circle">i</span>
@@ -276,7 +274,7 @@ const ExamDetailsEdit = ({ examId }) => {
                   delay={{ show: 250, hide: 400 }}
                   overlay={
                     <Tooltip>
-                      How many different pages you have to learn for your test.
+                      How many different pages you have to learn
                     </Tooltip>
                   }
                 >
@@ -360,8 +358,8 @@ const ExamDetailsEdit = ({ examId }) => {
                   delay={{ show: 250, hide: 400 }}
                   overlay={
                     <Tooltip>
-                      You have learnt all the pages up to this page. You are
-                      currently on this page.
+                      You have learnt all the pages up to this page, so you are
+                      currently on this page
                     </Tooltip>
                   }
                 >
@@ -396,9 +394,7 @@ const ExamDetailsEdit = ({ examId }) => {
                   placement="top"
                   delay={{ show: 250, hide: 400 }}
                   overlay={
-                    <Tooltip>
-                      Average time it takes you to learn a page.
-                    </Tooltip>
+                    <Tooltip>Average time it takes you to learn a page</Tooltip>
                   }
                 >
                   <span className="info-circle">i</span>
@@ -451,7 +447,7 @@ const ExamDetailsEdit = ({ examId }) => {
                   delay={{ show: 250, hide: 400 }}
                   overlay={
                     <Tooltip>
-                      How many times you want to study each page.
+                      How many times you want to study each page
                     </Tooltip>
                   }
                 >
