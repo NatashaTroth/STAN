@@ -316,17 +316,68 @@ body.dark-mode {
     border-color: theme_color("light");
   }
 
-  .login__form__notifications input:checked ~ .checkmark {
-    background-color: theme-color("light");
-    border-color: theme-color("light");
+  .login__form__notifications {
+    &:hover input ~ .checkmark {
+      background-color: theme-color("light");
+    }
+    .checkmark {
+      background-color: theme-color("dark-mode");
+      border-color: theme-color("light");
+    }
+    input:checked ~ .checkmark {
+      background-color: theme-color("light");
+      border-color: theme-color("light");
+    }
   }
   .checkmark:after {
     border-color: theme-color("dark-mode");
   }
   // ----------------------------------------------------------------
   // login ----------------
-  .login__form__redirect-signup__text {
-    color: theme-color("grey-dark");
+  .login__form {
+    &__redirect-signup__text {
+      color: theme-color("grey-dark");
+    }
+    &__bottom {
+      &--redirect-signup__text {
+        color: theme-color("grey-dark");
+      }
+
+      &--line {
+        span.line {
+          background-color: theme-color("light");
+        }
+      }
+
+      &--forgotten-password,
+      &--redirect-signup {
+        button {
+          color: theme-color("light");
+
+          &:hover,
+          &:active,
+          &:focus {
+            color: theme-color("primary-yellow");
+          }
+        }
+      }
+    }
+  }
+  // ----------------------------------------------------------------
+  // imprint ----------------
+  .imprint__contact-details--link {
+    border-color: theme-color("light");
+  }
+  .data-policy-page {
+    a {
+      border-color: theme-color("light");
+
+      &:focus,
+      &:active,
+      &:hover {
+        border-color: theme-color("primary-yellow");
+      }
+    }
   }
   // ----------------------------------------------------------------
 }
