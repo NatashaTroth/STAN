@@ -142,14 +142,16 @@ const ExamsCalendar = () => {
                             <h5>Duration total: </h5>
                             <p>{minuteToHours(durationTotal)}</p>
                           </div>
-                          <div className="link">
-                            <h5>Study material links:</h5>
-                            {links.map((value, index) => (
-                              <a key={index} href={value}>
-                                {extractDomain(value)}
-                              </a>
-                            ))}
-                          </div>
+                          {links.length > 0 ? (
+                            <div className="link">
+                              <h5>Study material links:</h5>
+                              {links.map((value, index) => (
+                                <a key={index} href={value}>
+                                  {extractDomain(value)}
+                                </a>
+                              ))}
+                            </div>
+                          ) : null}
                         </Popover.Content>
                       </Popover>
                     )
