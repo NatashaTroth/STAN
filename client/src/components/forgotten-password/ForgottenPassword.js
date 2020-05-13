@@ -63,7 +63,8 @@ const ForgottenPassword = () => {
 
           <div className="forgottenPassword__success--content">
             <p>
-              We have sent you an email to {email} with a link to reset your
+              We have sent you an email to{" "}
+              <span className="email">{email}</span> with a link to reset your
               password.
             </p>
             <p>
