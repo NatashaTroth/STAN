@@ -10,7 +10,6 @@ import { useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 
@@ -66,7 +65,6 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -101,7 +99,6 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })

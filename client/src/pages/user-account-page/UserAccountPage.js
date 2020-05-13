@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
-  GET_TODAYS_CHUNKS_PROGRESS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   CURRENT_USER,
 } from "../../graphQL/queries"
 
@@ -59,8 +59,11 @@ const UserAccount = props => {
       else if (key === "finishedExams") finishedExams = value
     }
   }
-  if (props.getTodaysChunksProgressQuery.todaysChunksProgress) {
-    mood = currentMood(props.getTodaysChunksProgressQuery.todaysChunksProgress)
+
+  if (props.getTodaysChunksProgressQuery.todaysChunkAndProgress) {
+    mood = currentMood(
+      props.getTodaysChunksProgressQuery.todaysChunkAndProgress.todaysProgress
+    )
   }
 
   // google logout ----------------
@@ -206,7 +209,7 @@ export default compose(
   graphql(GET_EXAMS_COUNT, {
     name: "getExamsQuery",
   }),
-  graphql(GET_TODAYS_CHUNKS_PROGRESS, {
+  graphql(GET_TODAYS_CHUNKS_AND_PROGRESS, {
     name: "getTodaysChunksProgressQuery",
   })
 )(UserAccount)
