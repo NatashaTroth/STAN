@@ -153,6 +153,16 @@ body.dark-mode {
       }
     }
   }
+  .burger {
+    background-color: theme_color("dark-mode");
+    border-color: theme_color("light");
+
+    &__btn {
+      &__line {
+        background: theme-color("light");
+      }
+    }
+  }
   // ----------------------------------------------------------------
   // dashboard ----------------
   .dashboard-page__current-date {
