@@ -24,13 +24,3 @@ const userType = gql`
 `;
 
 module.exports = { userType };
-
-// type Mutation {
-//   addUser(id: [ID]!): UserUpdateResponse!
-//   deleteUser(id: ID!): UserUpdateResponse!
-//   login(email: String): String # login token
-// }
-// type UserUpdateResponse {
-//   success: Boolean!
-//   message: String
-// }

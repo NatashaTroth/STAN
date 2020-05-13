@@ -77,7 +77,7 @@ describe("Test update user resolver", () => {
     expect(resp.data.updateUser).toBeTruthy();
 
     expect(resp.data.updateUser).toMatchObject({
-      username: "Samantha's new username",
+      username: "Samantha&#x27;s new username",
       email: "newSamantha@node.com",
       mascot: 2
     });

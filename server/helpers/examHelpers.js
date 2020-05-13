@@ -10,7 +10,7 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 
-// import { roundToTwoDecimals } from "../helpers/generalHelpers";
+import { escapeStringForHtml } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   // startDateIsActive,
@@ -18,6 +18,7 @@ import {
   getNumberOfDays,
   date1IsBeforeDate2
 } from "../helpers/dates";
+import validator from "validator";
 
 export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
@@ -210,6 +211,36 @@ export function learningIsComplete(
   return currentPage > endPage;
 }
 
+export function escapeExamObject(exam) {
+  exam.subject = escapeStringForHtml(exam.subject);
+  exam.notes = escapeStringForHtml(exam.notes);
+  // exam.studyMaterialLinks = escapeArrayForHtml(exam.studyMaterialLinks);
+
+  return exam;
+}
+
+export function escapeExamObjects(exams) {
+  const escapedExams = [];
+  exams.forEach(exam => {
+    escapedExams.push(escapeExamObject(exam));
+  });
+  return escapedExams;
+}
+
+export function escapeTodaysChunksObjects(chunks) {
+  chunks.forEach(chunk => {
+    chunk.exam = escapeExamObject(chunk.exam);
+  });
+  return chunks;
+}
+
+export function escapeCalendarObjects(calendarObjects) {
+  calendarObjects.forEach(calendarObject => {
+    calendarObject.title = escapeStringForHtml(calendarObject.title);
+  });
+  return calendarObjects;
+}
+
 function verifyNewExamInputFormat(args) {
   verifySubjectFormat(args.subject);
   verifyNumberPagesFormat(args.numberPages);
@@ -217,7 +248,6 @@ function verifyNewExamInputFormat(args) {
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
   verifyNotesFormat(args.notes);
-
   verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }
 
@@ -261,7 +291,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
   if (studyMaterialLinks.length === 0) return;
 
   studyMaterialLinks.forEach(link => {
-    if (link === null || !verifyRegexUrlLink(link))
+    if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
       throw new AuthenticationError(
         "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."
       );

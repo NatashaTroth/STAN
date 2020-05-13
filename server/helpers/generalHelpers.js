@@ -9,6 +9,7 @@ export function roundToTwoDecimals(num) {
 }
 
 export function escapeObjectForHtml(unescapedObject) {
+  console.log(unescapedObject);
   const escapedObject = { ...unescapedObject };
   for (var key in escapedObject) {
     if (
@@ -20,6 +21,9 @@ export function escapeObjectForHtml(unescapedObject) {
       escapedObject[key] = escapeArrayForHtml(escapedObject[key]);
     }
   }
+
+  // console.log("ESCAPED: ");
+  // console.log(escapedObject);
   return escapedObject;
 }
 

@@ -37,7 +37,8 @@ import {
   verifyEmailFormat,
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
-  validateForgottenPasswordToken
+  validateForgottenPasswordToken,
+  escapeUserObject
   // calculateUserState
 } from "../helpers/userHelpers";
 
@@ -51,6 +52,7 @@ export const userResolvers = {
   Query: {
     currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
+        console.log("is auth: " + userInfo.isAuth);
         if (!userInfo.isAuth) return null;
         // let user = {
         //   id: userInfo.userId,
@@ -58,11 +60,13 @@ export const userResolvers = {
         //   username: userInfo.user.username,
         //   email: userInfo.user.email,
         //   mascot: userInfo.user.mascot,
-        //   googleLogin: userInfo.user.googleLogin
+        //   googleLogin: userInfo.user.googleLogin,
+        //   allowEmailNotifications: userInfo.user.allowEmailNotifications
         // };
-        // user = escapeObjectForHtml({ ...user });
 
-        return userInfo.user;
+        return escapeUserObject(userInfo.user);
+        // return user;
+        // return userInfo.user;
       } catch (err) {
         console.error(err.message);
         return null;
@@ -202,7 +206,15 @@ export const userResolvers = {
           allowEmailNotifications
         );
 
-        return await User.findOne({ _id: context.userInfo.userId });
+        const updatedUser = await User.findOne({
+          _id: context.userInfo.userId
+        });
+        // console.log(updatedUser);
+        // return updatedUser;
+        // updatedUser.id = updatedUser._id;
+
+        return escapeUserObject(updatedUser);
+        // return await User.findOne({ _id: context.userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }

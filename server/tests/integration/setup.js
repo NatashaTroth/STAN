@@ -68,11 +68,11 @@ export async function setupDb() {
       }
      */
 
-export async function signUpTestUser() {
+export async function signUpTestUser(email) {
   const hashedPassword = await bcrypt.hash("samantha", 10);
   const user = await User.create({
     username: "Samantha",
-    email: "samantha@stan.com",
+    email: email || "samantha@stan.com",
     password: hashedPassword,
     mascot: 1,
     googleId: "",
@@ -96,6 +96,7 @@ export async function addTestExam({
   timesRepeat,
   color,
   userId,
+  notes,
   completed
 }) {
   const finalExamDate = examDate || getFutureDay(new Date(), 5);
@@ -111,7 +112,7 @@ export async function addTestExam({
     startPage: startPage || 1,
     currentPage: currentPage || startPage || 1,
     timesRepeat: timesRepeat || 1,
-    notes: "Samantha's notes",
+    notes: notes || "Samantha's notes",
     studyMaterialLinks: [
       "https://stan-studyplan-staging.herokuapp.com/",
       "https://stan-studyplan.herokuapp.com/"
