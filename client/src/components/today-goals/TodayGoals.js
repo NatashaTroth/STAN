@@ -10,6 +10,12 @@ function TodayGoals(props) {
   let todaySubject
   let totalDurationTime
   let totalDuration = 0
+  let className = "today-goals box-content"
+
+  // check length of bpx output
+  if (props.data.length >= 6) {
+    className += " today-goals-maxHeight"
+  }
 
   // map entries ----------------
   todaySubject = props.data.map((element, index) => {
@@ -41,7 +47,7 @@ function TodayGoals(props) {
 
   // return ----------------
   return (
-    <div className="today-goals box-content">
+    <div className={className}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">

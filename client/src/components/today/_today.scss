@@ -3,7 +3,12 @@
   max-width: 52rem;
 
   @include media-breakpoint-down(lg) {
+    max-width: 100%;
+    // margin: 0 10px 0px 0;
     margin: 0 auto 30px auto;
+  }
+  @include media-breakpoint-down(md) {
+    margin: 0;
   }
 }
 
@@ -12,6 +17,8 @@
   padding-bottom: 10px;
   border: 4px solid theme-color("primary-yellow-dark");
   box-shadow: 10px 10px 0px -2px theme-color("primary-yellow-dark");
+  background-color: theme-color("light");
+  transition: background-color 300ms ease-in-out;
 
   .container-fluid {
     padding: 0;

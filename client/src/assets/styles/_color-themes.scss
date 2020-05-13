@@ -132,20 +132,24 @@ body.dark-mode {
   .today-goals__container__header {
     border-color: theme-color("light");
   }
-  .today__container {
-    &__header {
-      border-color: theme-color("light");
-    }
-    &__content__text--warning {
-      color: theme-color("error");
-    }
-    &__buttons__open {
-      border-color: theme_color("light");
+  .today {
+    background-color: theme-color("dark-mode");
 
-      &:hover,
-      &:active,
-      &:focus {
-        border-color: theme-color("primary-yellow");
+    &__container {
+      &__header {
+        border-color: theme-color("light");
+      }
+      &__content__text--warning {
+        color: theme-color("error");
+      }
+      &__buttons__open {
+        border-color: theme_color("light");
+
+        &:hover,
+        &:active,
+        &:focus {
+          border-color: theme-color("primary-yellow");
+        }
       }
     }
   }
