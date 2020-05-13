@@ -1,28 +1,34 @@
 import React from "react"
-import { minuteToHours, minuteToHoursShort } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // components ----------------
 import Listing from "../listing/Listing"
+import Donut from "react-svg-donuts"
 
 function TodayProgress(props) {
   // query data ----------------
   let todaySubject
-  console.log(props.data)
+
   // map entries ----------------
   todaySubject = props.data.map((element, index) => {
     // subject ----------------
     let subject = element.exam.subject
-    console.log(subject)
+
     // return ----------------
     return (
       <Listing
         key={index}
         text={subject}
-        className={"today-progress__container__subjects__item"}
+        className={"today-progress__container__content__subjects__item"}
       ></Listing>
     )
   })
+
+  // Donut ----------------
+  let GoalTodayTotal = props.goalsPercentage
+  // calculate percentage
+  const progress = GoalTodayTotal
+  const renderProgress = progress => <strong>{progress}%</strong>
 
   // return ----------------
   return (
@@ -34,13 +40,17 @@ function TodayProgress(props) {
               <h3 className="today-progress__container__heading">
                 Today's Progress
               </h3>
-              {/* Pie/Circle Chart */}
-              <div className="today-progress__container__chart">pie chart</div>
-              {/* Subjects */}
-              <div className="today-progress__container__subjects">
-                {todaySubject}
+              <div className="today-progress__container__content">
+                {/* Donut Chart */}
+                <div className="today-progress__container__content__chart">
+                  <Donut progress={progress} onRender={renderProgress} />
+                </div>
+                {/* Subjects */}
+                <div className="today-progress__container__content__subjects">
+                  {todaySubject}
+                </div>
+                {/* ---------------- */}
               </div>
-              {/* ---------------- */}
             </div>
           </div>
         </div>

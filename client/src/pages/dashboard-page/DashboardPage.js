@@ -51,6 +51,8 @@ function Dashboard() {
 
   // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
+    // count total goals for today
+    let goalsTodayPercentage = data.todaysChunkAndProgress.todaysProgress
     // filter only completed entries ----------------
     let filteredItemsDONE = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
@@ -86,13 +88,16 @@ function Dashboard() {
                 data={filteredItems}
               ></TodayGoals>
             </div>
-            <div className="col-xl-6 today-component-container">
+            <div className="col-xl-5 today-component-container">
               {/* Today */}
               <Today selectedGoal={filteredItems[activeElementIndex]}></Today>
             </div>
-            <div className="col-xl-2">
+            <div className="col-xl-3">
               {/* Today Progress */}
-              <TodayProgress data={filteredItemsDONE}></TodayProgress>
+              <TodayProgress
+                data={filteredItemsDONE}
+                goalsPercentage={goalsTodayPercentage}
+              ></TodayProgress>
             </div>
           </div>
         </div>
