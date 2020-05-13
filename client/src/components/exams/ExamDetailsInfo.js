@@ -119,6 +119,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                         <a
                           href={value}
                           target="_blank"
+                          rel="noopener noreferrer"
                           className="stan-btn-secondary"
                         >
                           {extractDomain(value)}
