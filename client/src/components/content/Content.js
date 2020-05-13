@@ -16,7 +16,6 @@ import SignUp from "../../pages/sign-up-page/SignUpPage"
 import Home from "../../pages/home-page/HomePage"
 import Dashboard from "../../pages/dashboard-page/DashboardPage"
 import About from "../../pages/about-page/AboutPage"
-import LoginPopUp from "../../components/login-popup/LoginPopUp"
 import ExamsDetails from "../../components/exams/ExamDetails"
 import ResetPassword from "../../components/reset-password/ResetPassword"
 
@@ -30,7 +29,6 @@ const Content = ({ location }) => {
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/popup" component={LoginPopUp} />
         <Route
           exact
           path="/resetpassword/:id/:token"
