@@ -206,19 +206,8 @@ export function learningIsComplete(
 ) {
   // console.log("IN LEARNING COMPLETE FUNCTION");
 
-  console.log(
-    "currpage: " +
-      currentPage +
-      " startpage: " +
-      startPage +
-      " nrPages: " +
-      numberPages +
-      " repeat: " +
-      repeat
-  );
   const endPage = startPage + numberPages * repeat - 1;
 
-  console.log("..." + currentPage + "  " + endPage);
   return currentPage > endPage;
 }
 

@@ -52,7 +52,6 @@ export const userResolvers = {
   Query: {
     currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
-        console.log("is auth: " + userInfo.isAuth);
         if (!userInfo.isAuth) return null;
         // let user = {
         //   id: userInfo.userId,

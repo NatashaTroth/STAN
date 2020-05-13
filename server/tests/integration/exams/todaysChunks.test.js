@@ -382,7 +382,6 @@ describe("Test user resolver regex", () => {
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks.length
     ).toBe(1);
 
-    console.log(respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]);
     expect(
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]
     ).toMatchObject({
