@@ -68,11 +68,11 @@ export async function setupDb() {
       }
      */
 
-export async function signUpTestUser() {
+export async function signUpTestUser(email) {
   const hashedPassword = await bcrypt.hash("samantha", 10);
   const user = await User.create({
     username: "Samantha",
-    email: "samantha@stan.com",
+    email: email || "samantha@stan.com",
     password: hashedPassword,
     mascot: 1,
     googleId: "",
