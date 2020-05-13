@@ -30,7 +30,7 @@ import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
 // helpers ----------------
-import { currentMood } from "../../helpers/mascots"
+import { currentMood, decodeHtml } from "../../helpers/mascots"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
@@ -106,9 +106,9 @@ const UserAccount = props => {
           <div className="col-md-9">
             <div className="user-account__headline">
               {currentUser.username.slice(-1) === "s" ? (
-                <h2>{currentUser.username}' account</h2>
+                <h2>{decodeHtml(currentUser.username)}' account</h2>
               ) : (
-                <h2>{currentUser.username}'s account</h2>
+                <h2>{decodeHtml(currentUser.username)}'s account</h2>
               )}
             </div>
           </div>
@@ -123,7 +123,7 @@ const UserAccount = props => {
             <div className="user-account__container--left">
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
-                  <h3>{currentUser.username}</h3>
+                  <h3>{decodeHtml(currentUser.username)}</h3>
                   <p>{currentUser.email}</p>
                 </div>
 
