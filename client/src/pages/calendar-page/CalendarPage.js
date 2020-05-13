@@ -30,7 +30,7 @@ import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { minuteToHours } from "../../helpers/dates"
-import { extractDomain } from "../../helpers/mascots"
+import { extractDomain, decodeHtml } from "../../helpers/mascots"
 
 const ExamsCalendar = () => {
   // objects ----------------
@@ -107,7 +107,7 @@ const ExamsCalendar = () => {
                       <Popover id="popover-basic">
                         {examDetails.__typename === "CalendarChunkDetails" ? (
                           <Popover.Title as="h4" className="popover-title">
-                            {info.event.title}
+                            {decodeHtml(info.event.title)}
 
                             <Button
                               variant="button"
@@ -169,14 +169,14 @@ const ExamsCalendar = () => {
                       {info.view.type === "dayGridMonth" ? (
                         <div className="fc-content">
                           <span className="fc-content fc-title">
-                            {info.event.title}
+                            {decodeHtml(info.event.title)}
                           </span>
                         </div>
                       ) : (
                         <td>
                           <div className="fc-content">
                             <span className="fc-content fc-title">
-                              {info.event.title}
+                              {decodeHtml(info.event.title)}
                             </span>
                           </div>
                         </td>
