@@ -115,4 +115,8 @@
   &:focus {
     color: theme-color("primary-yellow");
   }
+
+  @include media-breakpoint-down(sm) {
+    @include rem(font-size, $font-size-14);
+  }
 }
