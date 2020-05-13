@@ -8,7 +8,6 @@ import moment from "moment"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT,
 } from "../../graphQL/queries"
@@ -23,6 +22,10 @@ import Textarea from "../../components/textarea/Textarea"
 import Button from "../../components/button/Button"
 import DatePicker from "../../components/datepicker/DatePicker"
 
+// react-bootstrap ----------------
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
 // helpers ----------------
 import { filteredLinks } from "../../helpers/mascots"
 
@@ -32,7 +35,6 @@ function AddNew() {
     refetchQueries: [
       { query: GET_EXAMS_QUERY },
       { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-      { query: GET_TODAYS_CHUNKS_PROGRESS },
       { query: GET_CALENDAR_CHUNKS },
       { query: GET_EXAMS_COUNT },
     ],
@@ -107,8 +109,8 @@ function AddNew() {
                     <Label
                       for="subject"
                       text="Subject"
-                      className="form__element__label input-required"
-                    ></Label>
+                      className="form__element__label input-required subject-label"
+                    />
                     <Input
                       className="form__element__input"
                       type="text"
@@ -158,11 +160,27 @@ function AddNew() {
                     </div>
 
                     <div className="form__element">
-                      <Label
-                        for="study-start-date"
-                        text="Start learning on"
-                        className="form__element__label input-required"
-                      ></Label>
+                      <div className="info-box-label">
+                        <Label
+                          for="study-start-date"
+                          text="Start learning on"
+                          className="form__element__label input-required"
+                        ></Label>
+
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={
+                            <Tooltip>
+                              The date when you want to start studying for your
+                              test.
+                            </Tooltip>
+                          }
+                        >
+                          <span className="info-circle">i</span>
+                        </OverlayTrigger>
+                      </div>
+
                       <DatePicker
                         onDaySelected={selectedDay => {
                           setMyStartDate(selectedDay)
@@ -175,11 +193,26 @@ function AddNew() {
                   </div>
                   <div className="form__container form__container--numbers">
                     <div className="form__element">
-                      <Label
-                        for="page-amount"
-                        text="Amount of pages"
-                        className="form__element__label input-required"
-                      ></Label>
+                      <div className="info-box-label">
+                        <Label
+                          for="page-amount"
+                          text="Number of pages"
+                          className="form__element__label input-required"
+                        ></Label>
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={
+                            <Tooltip>
+                              How many different pages you have to learn for
+                              your test.
+                            </Tooltip>
+                          }
+                        >
+                          <span className="info-circle">i</span>
+                        </OverlayTrigger>
+                      </div>
+
                       <Input
                         className="form__element__input"
                         type="number"
@@ -243,11 +276,25 @@ function AddNew() {
 
                   <div className="form__container form__container--numbers">
                     <div className="form__element">
-                      <Label
-                        for="page-time"
-                        text="Time per page (min)"
-                        className="form__element__label input-required"
-                      ></Label>
+                      <div className="info-box-label">
+                        <Label
+                          for="page-time"
+                          text="Time per page"
+                          className="form__element__label input-required"
+                        ></Label>
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={
+                            <Tooltip>
+                              Average time it takes you to learn a page.
+                            </Tooltip>
+                          }
+                        >
+                          <span className="info-circle">i</span>
+                        </OverlayTrigger>
+                      </div>
+
                       <Input
                         className="form__element__input"
                         type="number"
@@ -282,11 +329,25 @@ function AddNew() {
                     </div>
 
                     <div className="form__element">
-                      <Label
-                        for="page-repeat"
-                        text="Repeat"
-                        className="form__element__label"
-                      ></Label>
+                      <div className="info-box-label">
+                        <Label
+                          for="page-repeat"
+                          text="Repeat"
+                          className="form__element__label"
+                        ></Label>
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={
+                            <Tooltip>
+                              How many times you want to study each page.
+                            </Tooltip>
+                          }
+                        >
+                          <span className="info-circle">i</span>
+                        </OverlayTrigger>
+                      </div>
+
                       <Input
                         className="form__element__input"
                         type="number"
@@ -344,11 +405,25 @@ function AddNew() {
 
                     <div className="form__current-study-links">
                       <div className="form__element">
-                        <Label
-                          htmlFor="study-new-links"
-                          text="Study material links"
-                          className="form__element__label"
-                        />
+                        <div className="info-box-label">
+                          <Label
+                            htmlFor="study-new-links"
+                            text="Study material links"
+                            className="form__element__label"
+                          />
+                          <OverlayTrigger
+                            placement="top"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={
+                              <Tooltip>
+                                Links to your online study documents (e.g.
+                                slides, pdfs...)
+                              </Tooltip>
+                            }
+                          >
+                            <span className="info-circle">i</span>
+                          </OverlayTrigger>
+                        </div>
                       </div>
                       {inputFields.map((inputField, index) => (
                         <div
