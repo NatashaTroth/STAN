@@ -173,7 +173,6 @@ const Navbar = () => {
                   <NavLink
                     strict
                     to="/exams"
-                    exact
                     activeClassName="active"
                     onClick={closeSidebar}
                   >
