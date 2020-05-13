@@ -22,6 +22,9 @@ import CurrentState from "../../components/current-state/CurrentState"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 function Dashboard() {
   // state & query ----------------
   const { loading, error } = useQuery(GET_TODAYS_CHUNKS_AND_PROGRESS)
@@ -149,7 +152,7 @@ function Dashboard() {
           <div className="col-xl-1"></div>
           <div className="col-xl-7">
             <h2 className="dashboard-page__heading">
-              Hello {currentUser.username}
+              Hello {decodeHtml(currentUser.username)}
             </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>
