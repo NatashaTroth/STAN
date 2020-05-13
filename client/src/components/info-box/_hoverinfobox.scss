@@ -1,0 +1,19 @@
+.info-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: theme_color("dark");
+  color: theme_color("light");
+  font-family: $font-family-BasierCircle-Bold;
+  cursor: pointer;
+}
+
+.info-box-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
