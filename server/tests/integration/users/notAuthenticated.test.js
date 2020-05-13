@@ -4,8 +4,8 @@ import {
   setupApolloServer,
   setupDb,
   clearDatabase,
-  teardown,
-  signUpTestUser
+  teardown
+  // signUpTestUser
 } from "../setup";
 
 import {
@@ -14,8 +14,8 @@ import {
   UPDATE_MASCOT_MUTATION,
   UPDATE_USER_MUTATION,
   LOGOUT_MUTATION,
-  DELETE_USER_MUTATION,
-  FORGOTTEN_PASSWORD_EMAIL
+  DELETE_USER_MUTATION
+  // FORGOTTEN_PASSWORD_EMAIL
   // GOOGLE_LOGIN_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
