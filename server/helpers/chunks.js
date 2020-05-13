@@ -18,16 +18,16 @@ import { ApolloError } from "apollo-server";
 //---------------------------TODAY'S CHUNKS---------------------------
 
 export async function fetchTodaysChunks(userId) {
-  // console.log("in FETCHChunkFunc");
+  console.log("in FETCHChunkFunc");
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   let todaysChunksFromCache = await fetchTodaysChunksFromCache(userId);
 
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
-    // console.log("cache empty");
+    console.log("cache empty");
     chunks = await calculateTodaysChunks(currentExams);
   } else {
-    // console.log("cache not empty");
+    console.log("cache not empty");
     chunks = await createTodaysChunksFromCache(
       currentExams,
       todaysChunksFromCache
@@ -41,12 +41,14 @@ async function fetchTodaysChunksFromCache(userId) {
   return await TodaysChunkCache.find({ userId });
 }
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
+  console.log(currentExams);
   const chunks = currentExams.map(async exam => {
+    console.log(exam.subject);
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
     //cache calculated from scratch
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
-      // console.log("invalid cache");
+      console.log("invalid cache");
 
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
@@ -318,8 +320,18 @@ async function fetchCurrentExams(userId) {
 // }
 
 async function calculateTodaysChunks(currentExams) {
-  // console.log("cahe was empty, calcing new chunks");
+  console.log("cahe was empty, calcing new chunks");
   const chunks = currentExams.map(async exam => {
+    //if pages are complete, but completed is still false
+    if (
+      learningIsComplete(
+        exam.currentPage,
+        exam.startPage,
+        exam.numberPages,
+        exam.repeat
+      )
+    )
+      return;
     const chunk = createTodaysChunkObject(exam);
     await addTodaysChunkToDatabase(chunk, exam.userId);
     return chunk;

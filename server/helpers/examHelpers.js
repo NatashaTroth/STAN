@@ -72,14 +72,14 @@ export async function handleUpdateExamInput(exam, args, userId) {
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
   // learningIsComplete(args.currentPage, args.startPage, a);
-  args.completed = exam.completed;
-  if (!args.completed)
-    args.completed = learningIsComplete(
-      args.currentPage,
-      args.startPage,
-      args.numberPages,
-      args.repeat
-    );
+  // args.completed = exam.completed;
+  // if (!args.completed)
+  //   args.completed = learningIsComplete(
+  //     args.currentPage,
+  //     args.startPage,
+  //     args.numberPages,
+  //     args.repeat
+  //   );
 
   return prepareExamInputData({ ...args }, userId);
 }
@@ -97,7 +97,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
     );
-  if (page > exam.numberPages * exam.timesRepeat + exam.startPage + 1)
+  if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );

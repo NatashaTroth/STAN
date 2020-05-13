@@ -213,7 +213,7 @@ export const examResolvers = {
           { _id: args.examId, userId: context.userInfo.userId },
           {
             currentPage: args.page,
-            completed: exam.completed,
+            // completed: exam.completed,
             updatedAt: new Date()
           }
         );
@@ -258,7 +258,7 @@ export const examResolvers = {
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        // await deleteExamsTodaysCache(context.userInfo.userId, args.id);
+        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
 
         return true;
       } catch (err) {
