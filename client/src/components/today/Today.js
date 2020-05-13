@@ -22,6 +22,9 @@ import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -256,7 +259,7 @@ function Today(props) {
                   <div className="today__container__content__subject">
                     <p className="today__container__content__label">Subject</p>
                     <p className="today__container__content__text--big">
-                      {subject}
+                      {decodeHtml(subject)}
                     </p>
                   </div>
                   <div className="today__container__content__warning">
