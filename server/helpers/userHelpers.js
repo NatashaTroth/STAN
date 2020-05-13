@@ -248,11 +248,14 @@ export function escapeUserObject(user) {
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {
-  const decodedToken = jwt.verify(token, secret);
-  if (!decodedToken)
+  try {
+    const decodedToken = jwt.verify(token, secret);
+    if (!decodedToken) throw new Error();
+  } catch (err) {
     throw new Error(
-      "Invalid url. Please click on the forgotten password button to try again."
+      "Invalid url. Please use the forgotten password button to try again."
     );
+  }
   if (decodedToken.userId.toString() !== user._id.toString())
     throw new Error("Wrong user in the forgotten password token.");
 
