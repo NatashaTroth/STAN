@@ -126,8 +126,32 @@ body.dark-mode {
       transition: background-color 1s ease-in-out;
     }
   }
-  .navigation__items--list .menu-top .profile .user-avatar {
-    border-color: theme_color("light");
+  .menu-top {
+    .dashboard {
+      &:before {
+        content: url("../../images/icons/dashboard-light.svg");
+      }
+    }
+    .add-new {
+      &:before {
+        content: url("../../images/icons/add-new-light.svg");
+      }
+    }
+    .calendar {
+      &:before {
+        content: url("../../images/icons/calendar-light.svg");
+      }
+    }
+    .exams {
+      &:before {
+        content: url("../../images/icons/exams-light.svg");
+      }
+    }
+    .profile {
+      .user-avatar {
+        border-color: theme_color("light");
+      }
+    }
   }
   // ----------------------------------------------------------------
   // dashboard ----------------

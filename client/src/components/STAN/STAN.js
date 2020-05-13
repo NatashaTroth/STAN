@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import ThemeMode from "../theme-changer/ThemeChanger"
+import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -14,16 +15,26 @@ import Backdrop from "../backdrop/Backdrop"
 import QueryError from "../error/Error"
 import Loading from "../loading/Loading"
 
-// images & logos ----------------
-import Logo from "../../images/icons/logo.svg"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 import { ClickMode } from "react-particles-js"
 
+// images & logos ----------------
+import LogoDark from "../../images/icons/stan-logo-dark.svg"
+import LogoLight from "../../images/icons/stan-logo-light.svg"
+
 const Navbar = () => {
   // variables ----------------
   let backdrop = null
+  let Logo = LogoLight
+
+  // dark mode specific ----------------
+  const darkMode = useDarkMode(false)
+  if (darkMode.value) {
+    Logo = LogoLight
+  } else {
+    Logo = LogoDark
+  }
 
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
