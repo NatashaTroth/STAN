@@ -17,11 +17,13 @@ import Loading from "../loading/Loading"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
-import { ClickMode } from "react-particles-js"
 
 // images & logos ----------------
 import LogoDark from "../../images/icons/stan-logo-dark.svg"
 import LogoLight from "../../images/icons/stan-logo-light.svg"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
 
 const Navbar = () => {
   // variables ----------------
@@ -185,7 +187,7 @@ const Navbar = () => {
               {currentUser ? (
                 <li className="logged-in profile">
                   <span className="user-avatar">
-                    {currentUser.username.charAt(0)}
+                    {decodeHtml(currentUser.username).charAt(0)}
                   </span>
                   <NavLink
                     strict
