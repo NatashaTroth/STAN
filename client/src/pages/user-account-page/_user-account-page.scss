@@ -20,6 +20,7 @@
         .user-data {
           display: flex;
           flex-direction: column;
+          word-break: break-all;
           padding: 40px 20px 40px 40px;
 
           @include media-breakpoint-down(lg) {
