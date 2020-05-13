@@ -52,7 +52,6 @@ export const userResolvers = {
   Query: {
     currentUser: async (parent, args, { req, res, userInfo }) => {
       try {
-        console.log("is auth: " + userInfo.isAuth);
         if (!userInfo.isAuth) return null;
         // let user = {
         //   id: userInfo.userId,
@@ -237,7 +236,6 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
         const secret = createForgottenPasswordSecret(user);

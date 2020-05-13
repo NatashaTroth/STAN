@@ -9,7 +9,6 @@ export function roundToTwoDecimals(num) {
 }
 
 export function escapeObjectForHtml(unescapedObject) {
-  console.log(unescapedObject);
   const escapedObject = { ...unescapedObject };
   for (var key in escapedObject) {
     if (

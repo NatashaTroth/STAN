@@ -44,8 +44,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
     });
-    // console.log(JSON.stringify(resp));
-    console.log(resp);
+
     expect(resp.data.calendarChunks).toBeTruthy();
     // console.log(testExams);
     // console.log("----");

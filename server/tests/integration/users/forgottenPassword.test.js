@@ -89,6 +89,13 @@ describe("Test forgotten password resolver/helpers", () => {
     const userAfterPasswordReset = await User.findOne({ _id: testUser._id });
 
     expect(
+      await bcrypt.compare(
+        "myNewEvenMoreSecretPassword",
+        userAfterPasswordReset.password
+      )
+    ).toBeTruthy();
+
+    expect(
       await bcrypt.compare("samantha", userAfterPasswordReset.password)
     ).toBeFalsy();
     expect(

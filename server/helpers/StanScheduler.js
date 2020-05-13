@@ -4,6 +4,7 @@ import { User, Exam } from "./../models";
 import { getNumberOfDays, isTheSameDay, date1IsBeforeDate2 } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
+import { deleteExamsTodaysCache } from "../helpers/chunks";
 
 export default class StanScheduler {
   constructor() {
@@ -22,9 +23,10 @@ export default class StanScheduler {
     // const j = schedule.scheduleJob(rule, function(){
     //   console.log('Today is recognized by Rebecca Black!');
     // });
-    schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
+    schedule.scheduleJob({ hour: 11, minute: 36 }, async () => {
       this.notifyUsersAboutExams();
       this.completePastExams();
+      this.removeNoLongerNeededCache();
     });
 
     // schedule.scheduleJob("*/1 * * * *", function() {
@@ -96,8 +98,19 @@ export default class StanScheduler {
       if (date1IsBeforeDate2(exam.examDate, new Date())) {
         await Exam.updateOne({ _id: exam._id }, { completed: true });
         console.log("updating exam " + exam.subject);
+        await deleteExamsTodaysCache(exam.userId, exam._id);
       }
     });
     // });
+  }
+
+  async removeNoLongerNeededCache() {
+    console.log("REMOVING NO LONGER NEEDED CACHE");
+    const exams = await Exam.find({
+      completed: true
+    });
+    exams.forEach(async exam => {
+      await deleteExamsTodaysCache(exam.userId, exam._id);
+    });
   }
 }

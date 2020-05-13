@@ -58,6 +58,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+
     expect(resp.data.todaysChunkAndProgress).toBeTruthy();
     expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
@@ -381,7 +382,6 @@ describe("Test user resolver regex", () => {
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks.length
     ).toBe(1);
 
-    console.log(respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]);
     expect(
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]
     ).toMatchObject({
