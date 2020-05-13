@@ -143,19 +143,55 @@
         &__goal {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__duration {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__total-pages {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__repetition {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
       }
     }

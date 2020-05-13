@@ -109,6 +109,14 @@ body.dark-mode {
     /* Firefox 18- */
     color: theme-color("grey-light");
   }
+
+  .loader {
+    background-color: theme-color("dark-mode");
+
+    .square {
+      background: theme-color("light");
+    }
+  }
   // ----------------------------------------------------------------
   // navigation ----------------
   .navigation {
