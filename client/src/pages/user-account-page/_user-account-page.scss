@@ -1,7 +1,7 @@
 .user-account {
   &__headline {
     padding-bottom: 60px;
-    word-break: break-all;
+    word-break: normal;
 
     @include media-breakpoint-down(sm) {
       padding-bottom: 40px;
