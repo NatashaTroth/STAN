@@ -262,6 +262,18 @@ body.dark-mode {
   .fc-list-heading-alt {
     color: theme-color("dark-mode");
   }
+  .fade.show {
+    color: theme-color("light");
+    border-color: theme-color("light");
+    background-color: theme-color("dark-mode");
+  }
+  .popover {
+    border-color: theme_color("light");
+    background-color: theme-color("dark-mode");
+  }
+  .popover-header {
+    border-color: theme_color("light");
+  }
   // ----------------------------------------------------------------
   // exams ----------------
   .exam__subject {
