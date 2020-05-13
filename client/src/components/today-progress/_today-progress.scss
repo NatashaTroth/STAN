@@ -1,0 +1,21 @@
+.today-progress {
+  &__container {
+    padding: 10px 0 20px;
+
+    &__chart {
+      margin: 20px 0;
+    }
+
+    &__subjects {
+      margin-top: 10px;
+
+      &__item {
+        padding: 1px 0;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+}

@@ -13,6 +13,7 @@ import {
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
+import TodayProgress from "../../components/today-progress/TodayProgress"
 import Mascots from "../../components/mascots/Mascots"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
@@ -50,7 +51,13 @@ function Dashboard() {
 
   // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // filter only not completed entries ----------------
+    // filter only completed entries ----------------
+    let filteredItemsDONE = data.todaysChunkAndProgress.todaysChunks.filter(
+      function(el) {
+        return el.completed == true
+      }
+    )
+    // filter only NOT completed entries ----------------
     let filteredItems = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
         return el.completed == false
@@ -83,7 +90,10 @@ function Dashboard() {
               {/* Today */}
               <Today selectedGoal={filteredItems[activeElementIndex]}></Today>
             </div>
-            <div className="col-xl-2">{/* Today Progress */}</div>
+            <div className="col-xl-2">
+              {/* Today Progress */}
+              <TodayProgress data={filteredItemsDONE}></TodayProgress>
+            </div>
           </div>
         </div>
       )
