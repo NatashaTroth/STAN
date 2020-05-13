@@ -17,6 +17,7 @@ function TodayProgress(props) {
     // return ----------------
     return (
       <Listing
+        key={index}
         text={subject}
         className={"today-progress__container__subjects__item"}
       ></Listing>
