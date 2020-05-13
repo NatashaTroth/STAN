@@ -257,7 +257,7 @@ export const examResolvers = {
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
+        // await deleteExamsTodaysCache(context.userInfo.userId, args.id);
 
         return true;
       } catch (err) {
