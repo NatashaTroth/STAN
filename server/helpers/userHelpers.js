@@ -21,6 +21,8 @@ import {
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
+import { escapeStringForHtml } from "./generalHelpers";
+import validator from "validator";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -239,6 +241,12 @@ export function createForgottenPasswordSecret(user) {
   );
 }
 
+export function escapeUserObject(user) {
+  user.username = escapeStringForHtml(user.username);
+  user.email = escapeStringForHtml(user.email);
+  return user;
+}
+
 export function validateForgottenPasswordToken(user, token, secret) {
   const decodedToken = jwt.verify(token, secret);
   if (!decodedToken)
@@ -304,7 +312,7 @@ function verifyUsernameFormat(username) {
 }
 
 export function verifyEmailFormat(email) {
-  if (!verifyRegexEmail(email))
+  if (!verifyRegexEmail(email) || !validator.isEmail(email))
     throw new Error("Email input has the wrong format.");
 }
 

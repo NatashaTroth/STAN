@@ -8,13 +8,6 @@ const userQueries = gql`
   }
 
   type Mutation {
-    #TODO: delete addUser afterwards
-    addUser(
-      username: String!
-      password: String
-      email: String!
-      mascot: Int
-    ): User
     signup(
       username: String!
       email: String!
@@ -51,13 +44,3 @@ const userQueries = gql`
 `;
 
 module.exports = { userQueries };
-
-// type Mutation {
-//   addUser(id: [ID]!): UserUpdateResponse!
-//   deleteUser(id: ID!): UserUpdateResponse!
-//   login(email: String): String # login token
-// }
-// type UserUpdateResponse {
-//   success: Boolean!
-//   message: String
-// }
