@@ -13,11 +13,18 @@
         flex-direction: row;
         justify-content: space-between;
 
+        @include media-breakpoint-down(lg) {
+          flex-direction: column-reverse;
+        }
+
         .user-data {
           display: flex;
           flex-direction: column;
-          padding: 40px;
+          padding: 40px 20px 40px 40px;
 
+          @include media-breakpoint-down(lg) {
+            padding: 10px 40px 40px;
+          }
           @include media-breakpoint-down(md) {
             padding: 30px;
           }
