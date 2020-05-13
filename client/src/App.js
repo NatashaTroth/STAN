@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { setAccessToken } from "./accessToken"
-import { BrowserRouter as Router, Redirect } from "react-router-dom"
 import "./App.scss"
 // --------------------------------------------------------------
 
@@ -16,27 +15,21 @@ import Loading from "./components/loading/Loading"
 // preloader animation ----------------
 import { Cube } from "react-preloaders"
 
-// redirect function ----------------
-const RedirectPopup = () => {
-  return (
-    <Router>
-      <Redirect to="/popup" />
-    </Router>
-  )
-}
-
 /* TODO: CACHING APOLLO */
 const App = () => {
   const [loading, setLoading] = useState(true)
 
-  // TODO: LOGOUT-ALL-TABS
   window.addEventListener("storage", e => {
     if (e.key === "logout-event") {
       localStorage.removeItem("logout-event")
 
-      RedirectPopup()
       localStorage.setItem("popup-event", true)
-      window.location.href = "/popup"
+      window.location.href = "/login"
+    }
+
+    if (e.key === "login-event") {
+      localStorage.removeItem("login-event")
+      window.location.href = "/"
     }
   })
 

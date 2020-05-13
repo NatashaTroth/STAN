@@ -214,6 +214,14 @@
 
 .fc-listWeek-view {
   min-height: 70px;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+
+  @include media-breakpoint-down(lg) {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 // empty list
