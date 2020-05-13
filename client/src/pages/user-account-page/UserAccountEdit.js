@@ -33,6 +33,9 @@ import Carousel from "react-bootstrap/Carousel"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
@@ -60,8 +63,8 @@ const UserAccountEdit = () => {
   // set default variables in form and make it editable ----------------
   const { register, errors, watch, setValue, handleSubmit } = useForm({
     defaultValues: {
-      username: currentUser.username,
-      email: currentUser.email,
+      username: decodeHtml(currentUser.username),
+      email: decodeHtml(currentUser.email),
     },
   })
 
@@ -126,9 +129,9 @@ const UserAccountEdit = () => {
           <div className="col-md-10">
             <div className="user-account__headline">
               {currentUser.username.slice(-1) === "s" ? (
-                <h2>{currentUser.username}' account</h2>
+                <h2>{decodeHtml(currentUser.username)}' account</h2>
               ) : (
-                <h2>{currentUser.username}'s account</h2>
+                <h2>{decodeHtml(currentUser.username)}'s account</h2>
               )}
             </div>
           </div>

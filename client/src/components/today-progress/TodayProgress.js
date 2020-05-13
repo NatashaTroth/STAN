@@ -5,6 +5,9 @@ import React from "react"
 import Listing from "../listing/Listing"
 import Donut from "react-svg-donuts"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 function TodayProgress(props) {
   // query data ----------------
   let todaySubject
@@ -18,7 +21,7 @@ function TodayProgress(props) {
     return (
       <Listing
         key={index}
-        text={subject}
+        text={decodeHtml(subject)}
         className={"today-progress__container__content__subjects__item"}
       ></Listing>
     )

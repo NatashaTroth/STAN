@@ -29,6 +29,9 @@ import Loading from "../loading/Loading"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)
   return {
@@ -110,7 +113,7 @@ const ExamDetails = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="exam-details__headline">
-              <h2>{examDetails.subject}</h2>
+              <h2>{decodeHtml(examDetails.subject)}</h2>
 
               <Button
                 variant="button"
