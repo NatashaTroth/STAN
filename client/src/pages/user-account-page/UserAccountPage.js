@@ -124,7 +124,7 @@ const UserAccount = props => {
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
                   <h3>{decodeHtml(currentUser.username)}</h3>
-                  <p>{currentUser.email}</p>
+                  <p>{decodeHtml(currentUser.email)}</p>
                 </div>
 
                 <div className="buttons">
