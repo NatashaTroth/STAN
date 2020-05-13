@@ -232,6 +232,21 @@ body.dark-mode {
       background-color: red !important;
     }
   }
+  .info-circle {
+    background-color: theme_color("light");
+    color: theme_color("dark-mode");
+  }
+  .fade.show.tooltip.bs-tooltip-top {
+    color: theme-color("dark-mode");
+    border-color: theme-color("dark-mode");
+    background-color: theme-color("light");
+
+    .tooltip-inner {
+      color: theme-color("dark-mode");
+      background-color: theme-color("light");
+    }
+  }
+
   // ----------------------------------------------------------------
   // calendar ----------------
   .fc-header-toolbar .fc-right .fc-button-primary {
