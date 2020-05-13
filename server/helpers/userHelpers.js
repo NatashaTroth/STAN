@@ -248,8 +248,9 @@ export function escapeUserObject(user) {
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {
+  let decodedToken;
   try {
-    const decodedToken = jwt.verify(token, secret);
+    decodedToken = jwt.verify(token, secret);
     if (!decodedToken) throw new Error();
   } catch (err) {
     throw new Error(

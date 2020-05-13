@@ -237,7 +237,6 @@ export const userResolvers = {
       try {
         if (context.userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
-
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
         const secret = createForgottenPasswordSecret(user);

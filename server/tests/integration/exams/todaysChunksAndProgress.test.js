@@ -661,9 +661,10 @@ describe("Test user resolver regex", () => {
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
         examId: testExam1._id.toString(),
-        page: 52
+        page: 51
       }
     });
+
     expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
 
     //---REFETCH TODAYSCHUNKS---
@@ -712,7 +713,7 @@ describe("Test user resolver regex", () => {
       })
     ).toBe(4);
 
-    //---UPDATE EXAM (current page)---
+    //---EXAM COMPLETED---
     const respExamCompleted = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
@@ -728,13 +729,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(4); //should still be 2, since chunk is not deleted until the next day (so can still be shown in chunk progress)
+    ).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(4);
+    ).toBe(3);
 
     //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
   });

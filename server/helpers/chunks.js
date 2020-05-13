@@ -321,18 +321,23 @@ async function fetchCurrentExams(userId) {
 
 async function calculateTodaysChunks(currentExams) {
   console.log("cahe was empty, calcing new chunks");
-  const chunks = currentExams.map(async exam => {
-    //if pages are complete, but completed is still false
-    if (
-      learningIsComplete(
+  //remove exams where completed = false, but learning is finished
+  const exams = currentExams.filter(
+    exam =>
+      !learningIsComplete(
         exam.currentPage,
         exam.startPage,
         exam.numberPages,
-        exam.repeat
+        exam.timesRepeat
       )
-    )
-      return;
+  );
+  const chunks = exams.map(async exam => {
+    console.log("HERE1");
+    //if pages are complete, but completed is still false
+
+    console.log("HERE2");
     const chunk = createTodaysChunkObject(exam);
+
     await addTodaysChunkToDatabase(chunk, exam.userId);
     return chunk;
   });
