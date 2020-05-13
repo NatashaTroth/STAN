@@ -225,6 +225,7 @@ async function handleLogin({ formData, login }) {
     }
 
     // redirect ----------------
+    localStorage.setItem("login-event", Date.now())
     window.location.reload()
   } catch (err) {
     // error handling ----------------
