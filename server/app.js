@@ -58,9 +58,9 @@ const apolloServer = new ApolloServer({
   context: async ({ req, res }) => ({
     req,
     res,
-    userInfo: await isAuth(req),
-    introspection: true, //TODO DELETE
-    playground: true //TODO DELETE
+    userInfo: await isAuth(req)
+    // introspection: true, //TODO DELETE
+    // playground: true //TODO DELETE
   }),
   playground: {
     settings: {
