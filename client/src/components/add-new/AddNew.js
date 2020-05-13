@@ -160,7 +160,7 @@ function AddNew() {
                     </div>
 
                     <div className="form__element">
-                      <div className="info-box-label info-box-start-date-label">
+                      <div className="info-box-label">
                         <Label
                           for="study-start-date"
                           text="Start learning on"
