@@ -116,6 +116,10 @@
     color: theme-color("primary-yellow");
   }
 
+  &:focus {
+    outline: none;
+  }
+
   @include media-breakpoint-down(sm) {
     @include rem(font-size, $font-size-14);
   }
