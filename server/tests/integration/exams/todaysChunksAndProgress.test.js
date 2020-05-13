@@ -629,7 +629,7 @@ describe("Test user resolver regex", () => {
   });
 
   //-------EXAM COMPLETED TESTS----------
-  it("tests if finished exam deletes today's chunk cache from db ", async () => {
+  it("tests that finished exam does not delete today's chunk cache from db ", async () => {
     const testExam1 = await addTestExam({ subject: "Biology" });
     const testExam2 = await addTestExam({ subject: "Chemistry" });
     const testExam3 = await addTestExam({ subject: "Dance" });
@@ -673,13 +673,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(3);
+    ).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(3);
+    ).toBe(4);
 
     //---UPDATE EXAM (current page)---
     const respUpdateExam = await mutate({
@@ -704,13 +704,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(2);
+    ).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(2);
+    ).toBe(4);
 
     //---UPDATE EXAM (current page)---
     const respExamCompleted = await mutate({
@@ -728,13 +728,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    ).toBe(4); //should still be 2, since chunk is not deleted until the next day (so can still be shown in chunk progress)
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(1);
+    ).toBe(4);
 
     //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
   });

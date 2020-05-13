@@ -175,15 +175,16 @@ export const examResolvers = {
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        if (processedArgs.completed)
-          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
-        //TODO - NEED AWAIT HERE?
-        else
-          await handleUpdateExamInTodaysChunkCache(
-            context.userInfo.userId,
-            exam,
-            processedArgs
-          );
+        //TODO: DON'T THINK I NEED, SINCE DELETED NEXT DAY
+        // if (processedArgs.completed)
+        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        // //TODO - NEED AWAIT HERE?
+        // else
+        await handleUpdateExamInTodaysChunkCache(
+          context.userInfo.userId,
+          exam,
+          processedArgs
+        );
         const updatedExam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
@@ -220,15 +221,15 @@ export const examResolvers = {
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
 
-        //TODO - NEED AWAIT HERE?
-        if (exam.completed)
-          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
-        else
-          await handleUpdateCurrentPageInTodaysChunkCache(
-            context.userInfo.userId,
-            exam._id,
-            args.page
-          );
+        //TODO - don't think need anymore
+        // if (exam.completed)
+        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        // else
+        await handleUpdateCurrentPageInTodaysChunkCache(
+          context.userInfo.userId,
+          exam._id,
+          args.page
+        );
 
         return true;
       } catch (err) {
