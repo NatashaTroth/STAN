@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { setAccessToken } from "./accessToken"
 import "./App.scss"
+import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // inserts received data into our app ----------------
@@ -15,10 +16,22 @@ import Loading from "./components/loading/Loading"
 // preloader animation ----------------
 import { Cube } from "react-preloaders"
 
-/* TODO: CACHING APOLLO */
 const App = () => {
+  // state ----------------
   const [loading, setLoading] = useState(true)
 
+  // dark mode specific ----------------
+  const darkMode = useDarkMode(false)
+  let background, color
+  if (darkMode.value) {
+    background = "#101926"
+    color = "#ffffff"
+  } else {
+    background = "#ffffff"
+    color = "#000000"
+  }
+
+  // storage listener for automatic login/logout ----------------
   window.addEventListener("storage", e => {
     if (e.key === "logout-event") {
       localStorage.removeItem("logout-event")
@@ -60,7 +73,7 @@ const App = () => {
       </header>
 
       <STAN />
-      <Cube customLoading={loading} background="#ffffff" />
+      <Cube customLoading={loading} background={background} color={color} />
     </ApolloProvider>
   )
 }
