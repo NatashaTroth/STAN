@@ -55,7 +55,9 @@ function TodayProgress(props) {
                 </div>
                 {/* Subjects */}
                 <div className="today-progress__container__content__subjects">
-                  <h4>{goalHeading}</h4>
+                  <h4 className="today-progress__container__content__subjects__heading">
+                    {goalHeading}
+                  </h4>
                   {todaySubject}
                 </div>
                 {/* ---------------- */}
