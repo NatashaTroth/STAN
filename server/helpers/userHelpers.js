@@ -52,11 +52,11 @@ export async function signUserUp({
   googleLogin,
   allowEmailNotifications
 }) {
-  const userWithEmail = await User.findOne({ email: email });
-  if (userWithEmail)
-    throw new UserInputError(
-      "User with email already exists. Have you forgotten your password?"
-    );
+  // const userWithEmail = await User.findOne({ email: email });
+  // if (userWithEmail)
+  //   throw new UserInputError(
+  //     "User with email already exists. Have you forgotten your password?"
+  //   );
   let hashedPassword;
   if (googleLogin) hashedPassword = null;
   else hashedPassword = await bcrypt.hash(password, 10);
