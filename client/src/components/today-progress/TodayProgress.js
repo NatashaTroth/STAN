@@ -11,6 +11,7 @@ import { decodeHtml } from "../../helpers/mascots"
 function TodayProgress(props) {
   // query data ----------------
   let todaySubject
+  let goalHeading
 
   // map entries ----------------
   todaySubject = props.data.map((element, index) => {
@@ -26,6 +27,10 @@ function TodayProgress(props) {
       ></Listing>
     )
   })
+
+  if (todaySubject.length > 0) {
+    goalHeading = "Completed goals:"
+  }
 
   // Donut ----------------
   let GoalTodayTotal = props.goalsPercentage
@@ -50,6 +55,7 @@ function TodayProgress(props) {
                 </div>
                 {/* Subjects */}
                 <div className="today-progress__container__content__subjects">
+                  <h4>{goalHeading}</h4>
                   {todaySubject}
                 </div>
                 {/* ---------------- */}
