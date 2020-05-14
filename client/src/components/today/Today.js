@@ -150,6 +150,14 @@ function Today(props) {
   // start page for today's chunk goal ----------------
   let startPage = todaysChunk.startPage
 
+  // last page minus start page ----------------
+  let totalPages
+  if (startPage > 1) {
+    totalPages = lastPage - startPage
+  } else {
+    totalPages = lastPage
+  }
+
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
   let durationFormatted = minuteToHours(duration)
@@ -291,13 +299,20 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total pages:
+                        Total nr. of pages:
                       </p>
                       <p className="today__container__content__text">
-                        {realCurrentPage} / {lastPage}
+                        {realCurrentPage - startPage + 1} / {totalPages}
                       </p>
                     </div>
-
+                    <div className="today__container__content__details__total-pages">
+                      <p className="today__container__content__label">
+                        Page numbers:
+                      </p>
+                      <p className="today__container__content__text">
+                        {startPage} - {lastPage}
+                      </p>
+                    </div>
                     <div className="today__container__content__details__repetition">
                       <p className="today__container__content__label">
                         Repetition cycle:
