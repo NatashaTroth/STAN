@@ -241,12 +241,27 @@ function AddNew() {
                         )}
                     </div>
 
-                    {/* <div className="form__element">
-                      <Label
-                        for="page-current"
-                        text="Start page"
-                        className="form__element__label"
-                      ></Label>
+                    <div className="form__element">
+                      <div className="info-box-label">
+                        <Label
+                          for="page-current"
+                          text="Start page"
+                          className="form__element__label input-required"
+                        ></Label>
+
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={
+                            <Tooltip>
+                              The page number from which you start studying
+                            </Tooltip>
+                          }
+                        >
+                          <span className="info-circle">i</span>
+                        </OverlayTrigger>
+                      </div>
+
                       <Input
                         className="form__element__input"
                         type="number"
@@ -255,21 +270,26 @@ function AddNew() {
                         label="exam_page_current"
                         placeholder="1"
                         ref={register({
+                          required: true,
                           min: 1,
                           max: 10000,
                         })}
                       />
-                      {errors.exam_page_amount &&
-                        errors.exam_page_amount.type === "max" && (
+                      {errors.exam_page_current &&
+                        errors.exam_page_current.type === "required" && (
+                          <span className="error">This field is required</span>
+                        )}
+                      {errors.exam_page_current &&
+                        errors.exam_page_current.type === "max" && (
                           <span className="error">The maximum is 10.000</span>
                         )}
-                      {errors.exam_page_amount &&
-                        errors.exam_page_amount.type === "min" && (
+                      {errors.exam_page_current &&
+                        errors.exam_page_current.type === "min" && (
                           <span className="error">
                             Only positive numbers are allowed
                           </span>
                         )}
-                    </div> */}
+                    </div>
                   </div>
 
                   <div className="form__container form__container--numbers">
@@ -506,8 +526,7 @@ async function handleExam({
         examDate: formExamDate,
         startDate: formStartDate,
         numberPages: parseInt(formData.exam_page_amount),
-        // startPage: parseInt(formData.exam_page_current),
-        startPage: 1,
+        startPage: parseInt(formData.exam_page_current),
         timePerPage: parseInt(formData.exam_page_time),
         timesRepeat: parseInt(formData.exam_page_repeat),
         notes: formData.exam_page_notes,
