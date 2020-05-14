@@ -20,7 +20,7 @@ export default class StanEmail {
 
     const subject = "Welcome to stan!";
     const h1 = `Welcome to stan...`;
-    const text = `<p>It's so nice to meet you! We hope you enjoy all the features that stan has to offer. Add you first exam directly from the dashboard, keep track of your upcoming exams in the calendar view. But most importantly, toggle between light and dark mode!</p><p>We hope stan can help you with your upcoming exams!</p><p>Good luck and happy learning!</p>`;
+    const text = `<p>It's so nice to meet you! We hope you enjoy all the features that stan has to offer. Add your first exam directly from the dashboard, keep track of your upcoming exams in the calendar view. But most importantly, toggle between light and dark mode!</p><p>We hope stan can help you with your upcoming exams!</p><p>Good luck and happy learning!</p>`;
 
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
