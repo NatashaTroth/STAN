@@ -244,7 +244,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="page-current"
+                          for="start-page"
                           text="Start page"
                           className="form__element__label input-required"
                         ></Label>
@@ -266,7 +266,7 @@ function AddNew() {
                         className="form__element__input"
                         type="number"
                         min="0"
-                        id="page-current"
+                        id="start-page"
                         label="exam_page_current"
                         placeholder="1"
                         ref={register({
