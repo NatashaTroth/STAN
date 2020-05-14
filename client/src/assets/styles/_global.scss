@@ -441,6 +441,7 @@ html body {
   }
 }
 
+#success-save-password,
 #success-container-delete-user,
 #success-container-exam-detail {
   display: none;
@@ -450,8 +451,7 @@ html body {
   }
 }
 
-#forgotten-password-error,
-#success-save-password {
+#forgotten-password-error {
   display: none;
   p {
     text-align: center;
