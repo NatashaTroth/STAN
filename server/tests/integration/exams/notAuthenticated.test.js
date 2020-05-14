@@ -147,7 +147,8 @@ describe("Test user resolver regex", () => {
     const resp = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: "makes no difference"
+        id: "makes no difference",
+        completed: true
       }
     });
 

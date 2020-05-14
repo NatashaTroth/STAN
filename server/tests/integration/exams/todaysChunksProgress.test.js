@@ -106,7 +106,8 @@ describe("Test user resolver regex", () => {
     const respExamCompleted = await query({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam._id.toString()
+        id: testExam._id.toString(),
+        completed: true
       }
     });
 

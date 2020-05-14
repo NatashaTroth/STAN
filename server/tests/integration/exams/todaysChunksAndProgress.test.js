@@ -717,7 +717,8 @@ describe("Test user resolver regex", () => {
     const respExamCompleted = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam3._id.toString()
+        id: testExam3._id.toString(),
+        completed: true
       }
     });
     expect(respExamCompleted.data.examCompleted).toBeTruthy();

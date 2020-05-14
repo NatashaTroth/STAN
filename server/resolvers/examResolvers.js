@@ -253,7 +253,7 @@ export const examResolvers = {
           );
         const resp = await Exam.updateOne(
           { _id: args.id },
-          { completed: true, updatedAt: new Date() }
+          { completed: args.completed, updatedAt: new Date() }
         );
 
         if (resp.ok === 1 && resp.nModified === 0) return true;
