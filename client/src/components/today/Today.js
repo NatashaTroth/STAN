@@ -300,7 +300,7 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total nr. of pages:
+                        Total no. of pages:
                       </p>
                       <p className="today__container__content__text">
                         {realCurrentPage - startPage + 1} / {totalPages}
