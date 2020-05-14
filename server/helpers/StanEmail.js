@@ -75,7 +75,7 @@ export default class StanEmail {
 
     const subject = `${examWord} coming up!`;
     const h1 = `Reminder that you have the following ${examWord.toLowerCase()} coming up`;
-    const text = `<p>stan wanted to remind you that you have the following ${examWord.toLowerCase()} in three days time, which you haven't finished learning for yet:</p>${examsListString}<p><b>You also need to start learning for the following ${
+    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you haven't finished learning for yet.</p>${examsListString}<p><b>You need to start learning for the following ${
       startDatesToday.length > 1 ? "exams" : "exam"
     } today:</b></p>
     <ul>${this.createExamsListString(
@@ -100,7 +100,7 @@ export default class StanEmail {
     let image = `${mascot}-emailStan.svg`;
 
     //TODO (IF TIME): send correct mascot - 0,1 or 2
-    const html = `<h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
+    const html = `<style>*{font-family: Verdana, sans-serif}</style><h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
 
     console.log(`${__dirname}/images/${image}`);
     const mailOptions = {
