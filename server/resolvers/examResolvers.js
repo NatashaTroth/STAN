@@ -21,7 +21,7 @@ import {
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  getTodaysChunkProgress,
+  // getTodaysChunkProgress,
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache,
