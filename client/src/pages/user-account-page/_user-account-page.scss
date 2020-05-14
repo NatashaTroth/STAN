@@ -6,6 +6,11 @@
     @include media-breakpoint-down(sm) {
       padding-bottom: 40px;
     }
+
+    h2 {
+      hyphens: auto;
+      word-break: break-word;
+    }
   }
   &__container {
     &--left {
