@@ -190,6 +190,10 @@
         .exam-pages {
           padding: 10px 0;
 
+          h4 {
+            margin-bottom: 5px;
+          }
+
           &__bar {
             display: flex;
             flex-direction: row;
