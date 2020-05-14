@@ -111,15 +111,22 @@ function Dashboard() {
         <div className="container-fluid">
           <div className="row">
             {/* ------ no tasks ------*/}
-            <div className="col-md-1"></div>
-            <div className="col-md-7">
+            <div className="col-xl-1"></div>
+            <div className="col-xl-7">
               <EmptyDashboard
                 heading="No open tasks"
                 text="You finished studying for today, come back tomorrow"
                 showBtn="no"
               ></EmptyDashboard>
             </div>
-            <div className="col-md-4"></div>
+            <div className="col-xl-3">
+              {/* Today Progress */}
+              <TodayProgress
+                data={filteredItemsDONE}
+                goalsPercentage={goalsTodayPercentage}
+              ></TodayProgress>
+            </div>
+            <div className="col-xl-1"></div>
           </div>
         </div>
       )
