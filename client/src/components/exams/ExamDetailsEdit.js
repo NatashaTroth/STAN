@@ -356,7 +356,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <Label
                   htmlFor="currentPage"
                   text="Current page"
-                  className="form__element__label"
+                  className="form__element__label input-required"
                 ></Label>
                 <OverlayTrigger
                   placement="top"
@@ -381,11 +381,17 @@ const ExamDetailsEdit = ({ examId }) => {
                 onChange={handleChange.bind(null, "currentPage")}
                 value={currentPage}
                 ref={register({
-                  required: false,
+                  required: true,
                   min: startPage,
                   max: numberPages,
                 })}
               />
+              {errors.currentPage && errors.currentPage.type === "required" && (
+                <span className="error">
+                  This field is required. If you haven't started studying yet,
+                  set it to the value of your start page: {startPage}
+                </span>
+              )}
               {errors.currentPage && errors.currentPage.type === "min" && (
                 <span className="error">
                   The minimum is your start page: {startPage}
