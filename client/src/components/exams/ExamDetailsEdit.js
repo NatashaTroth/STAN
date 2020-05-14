@@ -174,6 +174,7 @@ const ExamDetailsEdit = ({ examId }) => {
     values.splice(index, 1)
     setNewUrls(values)
   }
+  console.log(errors)
 
   // return ----------------
   return (
@@ -201,17 +202,15 @@ const ExamDetailsEdit = ({ examId }) => {
                 maxLength: 50,
               })}
             />
-            {errors.exam_subject && errors.exam_subject.type === "required" && (
+            {errors.subject && errors.subject.type === "required" && (
               <span className="error">This field is required</span>
             )}
-            {errors.exam_subject &&
-              errors.exam_subject.type === "minLength" && (
-                <span className="error"> Minimum 1 character required</span>
-              )}
-            {errors.exam_subject &&
-              errors.exam_subject.type === "maxLength" && (
-                <span className="error"> Maximum 50 characters allowed</span>
-              )}
+            {errors.subject && errors.subject.type === "minLength" && (
+              <span className="error"> Minimum 1 character required</span>
+            )}
+            {errors.subject && errors.subject.type === "maxLength" && (
+              <span className="error"> Maximum 50 characters allowed</span>
+            )}
           </div>
           <div className="form__container form__container--numbers">
             <div className="form__element">
@@ -263,7 +262,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="page-amount"
+                  htmlFor="pageAmount"
                   text="Number of pages"
                   className="form__element__label input-required"
                 />
@@ -284,7 +283,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 className="form__element__input"
                 type="number"
                 min="0"
-                id="page-amount"
+                id="pageAmount"
                 label="exam_page_amount"
                 name="numberPages"
                 onChange={handleChange.bind(null, "numberPages")}
@@ -296,20 +295,15 @@ const ExamDetailsEdit = ({ examId }) => {
                   max: 10000,
                 })}
               />
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "required" && (
-                  <span className="error">This field is required</span>
-                )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "max" && (
-                  <span className="error">The maximum is 10.000</span>
-                )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
+              {errors.numberPages && errors.numberPages.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "max" && (
+                <span className="error">The maximum is 10.000</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
             </div>
 
             <div className="form__element">
@@ -345,20 +339,15 @@ const ExamDetailsEdit = ({ examId }) => {
                   max: 10000,
                 })}
               />
-              {errors.exam_start_page &&
-                errors.exam_start_page.type === "required" && (
-                  <span className="error">This field is required</span>
-                )}
-              {errors.exam_start_page &&
-                errors.exam_start_page.type === "max" && (
-                  <span className="error">The maximum is 10.000</span>
-                )}
-              {errors.exam_start_page &&
-                errors.exam_start_page.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
+              {errors.startPage && errors.startPage.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.startPage && errors.startPage.type === "max" && (
+                <span className="error">The maximum is 10.000</span>
+              )}
+              {errors.startPage && errors.startPage.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
             </div>
           </div>
 
@@ -398,24 +387,22 @@ const ExamDetailsEdit = ({ examId }) => {
                   max: numberPages,
                 })}
               />
-              {errors.exam_current_page &&
-                errors.exam_current_page.type === "max" && (
-                  <span className="error">
-                    The maximum is your last page: {numberPages}
-                  </span>
-                )}
-              {errors.exam_current_page &&
-                errors.exam_current_page.type === "min" && (
-                  <span className="error">
-                    The minimum is your start page: {startPage}
-                  </span>
-                )}
+              {errors.currentPage && errors.currentPage.type === "min" && (
+                <span className="error">
+                  The minimum is your start page: {startPage}
+                </span>
+              )}
+              {errors.currentPage && errors.currentPage.type === "max" && (
+                <span className="error">
+                  The maximum is your last page: {numberPages}
+                </span>
+              )}
             </div>
 
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="page-time"
+                  htmlFor="pageTime"
                   text="Time per page"
                   className="form__element__label input-required"
                 ></Label>
@@ -433,7 +420,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 className="form__element__input"
                 type="number"
                 min="0"
-                id="page-time"
+                id="pageTime"
                 label="exam_page_time"
                 name="timePerPage"
                 onChange={handleChange.bind(null, "timePerPage")}
@@ -445,23 +432,18 @@ const ExamDetailsEdit = ({ examId }) => {
                 })}
                 required
               />
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "required" && (
-                  <span className="error">This field is required</span>
-                )}
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "max" && (
-                  <span className="error">
-                    {" "}
-                    The maximum is 600 minutes (10 hours)
-                  </span>
-                )}
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
+              {errors.timePerPage && errors.timePerPage.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.timePerPage && errors.timePerPage.type === "max" && (
+                <span className="error">
+                  {" "}
+                  The maximum is 600 minutes (10 hours)
+                </span>
+              )}
+              {errors.timePerPage && errors.timePerPage.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
             </div>
           </div>
 
@@ -469,7 +451,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="page-repeat"
+                  htmlFor="pageRepeat"
                   text="Repeat"
                   className="form__element__label"
                 />
@@ -488,7 +470,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <input
                 className="form__element__input"
                 type="number"
-                id="page-repeat"
+                id="pageRepeat"
                 label="exam_page_repeat"
                 name="timesRepeat"
                 onChange={handleChange.bind(null, "timesRepeat")}
@@ -500,14 +482,12 @@ const ExamDetailsEdit = ({ examId }) => {
                 })}
               />
             </div>
-            {errors.exam_page_repeat &&
-              errors.exam_page_repeat.type === "max" && (
-                <span className="error"> The maximum is 1000 repeats</span>
-              )}
-            {errors.exam_page_repeat &&
-              errors.exam_page_repeat.type === "min" && (
-                <span className="error">Only positive numbers are allowed</span>
-              )}
+            {errors.timesRepeat && errors.timesRepeat.type === "max" && (
+              <span className="error"> The maximum is 1000 repeats</span>
+            )}
+            {errors.timesRepeat && errors.timesRepeat.type === "min" && (
+              <span className="error">Only positive numbers are allowed</span>
+            )}
           </div>
         </div>
 
@@ -515,13 +495,13 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="form__right--top">
             <div className="form__element">
               <Label
-                htmlFor="page-notes"
+                htmlFor="pageNotes"
                 text="Notes"
                 className="form__element__label"
               />
               <textarea
                 className="form__element__input"
-                id="page-notes"
+                id="pageNotes"
                 label="exam_page_notes"
                 name="notes"
                 onChange={handleChange.bind(null, "notes")}
@@ -531,12 +511,11 @@ const ExamDetailsEdit = ({ examId }) => {
                   maxLength: 100000000,
                 })}
               />
-              {errors.exam_page_notes &&
-                errors.exam_page_notes.type === "maxLength" && (
-                  <span className="error">
-                    The maximal length is 100.000.000 characters
-                  </span>
-                )}
+              {errors.notes && errors.notes.type === "maxLength" && (
+                <span className="error">
+                  The maximal length is 100.000.000 characters
+                </span>
+              )}
             </div>
 
             {oldFilteredLinks.length > 0 ? (
