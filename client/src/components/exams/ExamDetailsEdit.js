@@ -306,22 +306,24 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
 
             <div className="form__element">
-              <Label
-                htmlFor="startPage"
-                text="Start page"
-                className="form__element__label input-required"
-              />
-              <OverlayTrigger
-                placement="top"
-                delay={{ show: 250, hide: 400 }}
-                overlay={
-                  <Tooltip>
-                    The page number from which you start studying
-                  </Tooltip>
-                }
-              >
-                <span className="info-circle">i</span>
-              </OverlayTrigger>
+              <div className="info-box-label">
+                <Label
+                  htmlFor="startPage"
+                  text="Start page"
+                  className="form__element__label input-required"
+                />
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      The page number from which you start studying
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
 
               <input
                 className="form__element__input"
