@@ -101,23 +101,4 @@
       justify-content: center;
     }
   }
-
-  // ERROR HANDLING - EDIT EXAM
-  .graphql-error {
-    margin-left: 25px;
-  }
-
-  #success-container-edit-exam {
-    display: none;
-    .success {
-      text-align: right;
-      max-width: none;
-      margin-top: 30px;
-    }
-  }
-  // ----------------
-
-  .exam-edit-message {
-    margin-top: 20px;
-  }
 }
