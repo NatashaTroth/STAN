@@ -281,6 +281,13 @@ body.dark-mode {
   .fc-list-heading-alt {
     color: theme-color("dark-mode");
   }
+  .fc-widget-header {
+    background-color: theme-color("dark-mode") !important;
+
+    a {
+      color: theme-color("light") !important;
+    }
+  }
   .fade.show {
     color: theme-color("light");
     border-color: theme-color("light");
