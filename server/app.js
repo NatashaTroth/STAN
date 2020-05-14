@@ -81,7 +81,11 @@ const apolloServer = new ApolloServer({
     // playground: true //TODO DELETE
   }),
   engine: {
-    apiKey: process.env.ENGINE_API_KEY
+    apiKey: process.env.ENGINE_API_KEY,
+    schemaTag: process.env.NODE_ENV
+  },
+  cacheControl: {
+    defaultMaxAge: 20
   },
   // engine: {
   //   // The Graph Manager API key
