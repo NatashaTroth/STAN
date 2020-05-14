@@ -526,7 +526,7 @@ async function handleExam({
         examDate: formExamDate,
         startDate: formStartDate,
         numberPages: parseInt(formData.exam_page_amount),
-        startPage: parseInt(formData.exam_page_current),
+        startPage: parseInt(formData.exam_start_page),
         timePerPage: parseInt(formData.exam_page_time),
         timesRepeat: parseInt(formData.exam_page_repeat),
         notes: formData.exam_page_notes,
