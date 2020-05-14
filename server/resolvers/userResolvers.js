@@ -123,10 +123,10 @@ export const userResolvers = {
         if (allowEmailNotifications) stanEmail.sendSignupMail(email, mascot);
         return accessToken;
       } catch (err) {
-        if (err.code === 11000)
-          throw new ApolloError(
-            "User with email already exists. Have you forgotten your password?"
-          );
+        // if (err.code === 11000)
+        //   throw new ApolloError(
+        //     "User with email already exists. Have you forgotten your password?"
+        //   );
         handleResolverError(err);
       }
     },

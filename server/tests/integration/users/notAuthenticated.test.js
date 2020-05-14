@@ -36,9 +36,9 @@ describe("Test user sign up and login resolvers", () => {
     query = client.query;
   });
 
-  // afterEach(async () => {
-  //   await clearDatabase();
-  // });
+  afterEach(async () => {
+    await clearDatabase();
+  });
 
   afterAll(async () => {
     await teardown();
@@ -88,7 +88,7 @@ describe("Test user sign up and login resolvers", () => {
 
   it("should not sign the user up again with the same email address", async () => {
     await signUserUp("Stan2", "user2@stan.com", "12345678");
-    console.log(await User.find());
+
     const resp = await mutate({
       query: SIGNUP_MUTATION,
       variables: {
