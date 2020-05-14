@@ -127,6 +127,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <h4>Pages left incl. repetition</h4>
 
                 <div className="exam-pages__bar">
+                  {/* TODO: start page berücksichtigen */}
                   <ExamBar
                     value={
                       (100 * (examDetails.currentPage - 1)) /
