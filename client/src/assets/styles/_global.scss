@@ -341,7 +341,22 @@ html body {
     text-align: left;
     max-width: none;
     width: 100%;
-    margin: 15px 0;
+    margin: 15px 25px;
+
+    &.error-completion {
+      margin: 15px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      text-align: center;
+      margin: 15px 0;
+    }
+  }
+
+  .graphql-popup-error {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
   }
 
   .fadeOut {

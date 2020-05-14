@@ -34,24 +34,8 @@
         }
       }
     }
-    .graphql-user-edit-error,
-    .graphql-user-mascot-edit-error {
-      display: flex;
-      justify-content: flex-start;
-      max-width: none;
-      padding: 0 25px;
-
-      @include media-breakpoint-down(sm) {
-        justify-content: center;
-      }
-    }
 
     // delete user
-    .graphql-user-delete-error {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-    }
     #success-container-delete-user {
       display: none;
       .success {

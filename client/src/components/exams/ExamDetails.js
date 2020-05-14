@@ -206,7 +206,7 @@ const ExamDetails = () => {
                         </div>
 
                         <div className="col-md-12">
-                          <p className="error graphql-exam-details-error"></p>
+                          <p className="error graphql-popup-error"></p>
                         </div>
 
                         <div
@@ -235,9 +235,11 @@ const ExamDetails = () => {
                   </div>
                 ) : null}
 
-                <div className="col-md-12">
-                  <p className="error graphql-exam-completion-error"></p>
-                </div>
+                {!edit ? (
+                  <div className="col-md-12">
+                    <p className="error graphql-error error-completion"></p>
+                  </div>
+                ) : null}
 
                 <div
                   className="col-md-12"
@@ -278,7 +280,7 @@ async function examDeletion({ paramId, deleteExam, history }) {
     }, 1000)
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName("graphql-exam-details-error")
+    let element = document.getElementsByClassName("graphql-popup-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -308,7 +310,9 @@ async function completeExam({ paramId, examCompleted, history }) {
     history.push("/exams")
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementById("graphql-exam-completion-error")
+    let element = document.getElementsByClassName(
+      "graphql-error error-completion"
+    )
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
