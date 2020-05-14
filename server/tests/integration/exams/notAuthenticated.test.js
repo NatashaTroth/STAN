@@ -14,7 +14,7 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS,
+  // GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT
 } from "../../queries.js";
@@ -100,13 +100,13 @@ describe("Test user resolver regex", () => {
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
 
-  it("should not fetch today's chunks progress", async () => {
-    const resp = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
-    });
-    expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("Unauthorised");
-  });
+  // it("should not fetch today's chunks progress", async () => {
+  //   const resp = await query({
+  //     query: GET_TODAYS_CHUNKS_PROGRESS
+  //   });
+  //   expect(resp.data).toBeFalsy();
+  //   expect(resp.errors[0].message).toEqual("Unauthorised");
+  // });
 
   it("should not be able to fetch calendar chunks", async () => {
     const resp = await query({
@@ -147,7 +147,8 @@ describe("Test user resolver regex", () => {
     const resp = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: "makes no difference"
+        id: "makes no difference",
+        completed: true
       }
     });
 

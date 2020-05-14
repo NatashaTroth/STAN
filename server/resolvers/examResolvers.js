@@ -21,7 +21,7 @@ import {
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  getTodaysChunkProgress,
+  // getTodaysChunkProgress,
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache,
@@ -117,21 +117,21 @@ export const examResolvers = {
       } catch (err) {
         handleResolverError(err);
       }
-    },
-    todaysChunksProgress: async (parent, args, context) => {
-      try {
-        // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
-        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
-        handleAuthentication(context.userInfo);
-        return await getTodaysChunkProgress(context.userInfo.userId);
-
-        // return calculateUserState(chunks);
-        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
-        // return "VERY_HAPPY";
-      } catch (err) {
-        handleResolverError(err);
-      }
     }
+    // todaysChunksProgress: async (parent, args, context) => {
+    //   try {
+    //     // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
+    //     //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+    //     handleAuthentication(context.userInfo);
+    //     return await getTodaysChunkProgress(context.userInfo.userId);
+
+    //     // return calculateUserState(chunks);
+    //     // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
+    //     // return "VERY_HAPPY";
+    //   } catch (err) {
+    //     handleResolverError(err);
+    //   }
+    // }
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
@@ -253,7 +253,7 @@ export const examResolvers = {
           );
         const resp = await Exam.updateOne(
           { _id: args.id },
-          { completed: true, updatedAt: new Date() }
+          { completed: args.completed, updatedAt: new Date() }
         );
 
         if (resp.ok === 1 && resp.nModified === 0) return true;

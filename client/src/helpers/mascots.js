@@ -31,7 +31,7 @@ export const extractDomain = url => {
 
 export const filteredLinks = array => {
   const links = array.filter(function(el) {
-    return el != ""
+    return el !== ""
   })
 
   return links

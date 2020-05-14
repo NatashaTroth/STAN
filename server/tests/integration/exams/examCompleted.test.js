@@ -55,7 +55,8 @@ describe("Test user resolver regex", () => {
     const resp = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam._id.toString()
+        id: testExam._id.toString(),
+        completed: true
       }
     });
     expect(resp.data.examCompleted).toBeTruthy();
@@ -78,5 +79,24 @@ describe("Test user resolver regex", () => {
     //     id:testExam._id.toString()
     //   }
     // });
+  });
+
+  it("should set exam completed as false", async () => {
+    const testExam = await addTestExam({ subject: "Biology", completed: true });
+
+    expect(testExam.completed).toBeTruthy();
+
+    const resp = await mutate({
+      query: EXAM_COMPLETED_MUTATION,
+      variables: {
+        id: testExam._id.toString(),
+        completed: false
+      }
+    });
+    expect(resp.data.examCompleted).toBeTruthy();
+
+    const exam = await Exam.findOne({ userId: "samanthasId" });
+
+    expect(exam.completed).toBeFalsy();
   });
 });

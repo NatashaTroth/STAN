@@ -111,11 +111,11 @@ export const CURRENT_USER = gql`
   }
 `;
 
-export const GET_TODAYS_CHUNKS_PROGRESS = gql`
-  query {
-    todaysChunksProgress
-  }
-`;
+// export const GET_TODAYS_CHUNKS_PROGRESS = gql`
+//   query {
+//     todaysChunksProgress
+//   }
+// `;
 
 export const GET_EXAMS_COUNT = gql`
   query {

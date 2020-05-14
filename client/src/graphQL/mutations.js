@@ -84,8 +84,8 @@ export const UPDATE_EXAM_MUTATION = gql`
 `
 
 export const EXAM_COMPLETED_MUTATION = gql`
-  mutation($id: ID!) {
-    examCompleted(id: $id)
+  mutation($id: ID!, $completed: Boolean!) {
+    examCompleted(id: $id, completed: $completed)
   }
 `
 

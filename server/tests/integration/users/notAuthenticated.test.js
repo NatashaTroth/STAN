@@ -88,6 +88,7 @@ describe("Test user sign up and login resolvers", () => {
 
   it("should not sign the user up again with the same email address", async () => {
     await signUserUp("Stan2", "user2@stan.com", "12345678");
+
     const resp = await mutate({
       query: SIGNUP_MUTATION,
       variables: {
@@ -98,6 +99,8 @@ describe("Test user sign up and login resolvers", () => {
         allowEmailNotifications: false
       }
     });
+    // console.log(await User.find());
+
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "User with email already exists. Have you forgotten your password?"
