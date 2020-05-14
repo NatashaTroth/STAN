@@ -239,7 +239,9 @@ const ExamDetails = () => {
                       />
                     </div>
                   </div>
-                ) : (
+                ) : null}
+
+                {!edit && examDetails.completed ? (
                   <div className="col-md-12">
                     <div className="exam-details__inner--button">
                       <Button
@@ -250,7 +252,7 @@ const ExamDetails = () => {
                       />
                     </div>
                   </div>
-                )}
+                ) : null}
 
                 {!edit ? (
                   <div className="col-md-12">
