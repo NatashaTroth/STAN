@@ -81,7 +81,7 @@ const apolloServer = new ApolloServer({
     // playground: true //TODO DELETE
   }),
   engine: {
-    apiKey: process.env.ENGINE_API_KEY,
+    apiKey: process.env.ENGINE_API_KEY_VAR,
     schemaTag: process.env.NODE_ENV
   },
   cacheControl: {
