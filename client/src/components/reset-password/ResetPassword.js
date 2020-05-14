@@ -57,7 +57,11 @@ const ResetPassword = props => {
           <div className="col-md-1"></div>
           <div className="col-md-10 login__headline">
             <h2 className="login__headline__heading">Reset password</h2>
-            <p className="login__headline__sub-heading">bla text bla</p>
+            <p className="login__headline__sub-heading">
+              {/* TODO: texxt überlegen */}
+              You can reset the password right here, so that you can login to
+              stan again.
+            </p>
           </div>
           <div className="col-md-1"></div>
 
