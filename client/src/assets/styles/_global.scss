@@ -372,12 +372,10 @@ html body {
   }
 
   .fadeOut {
-    opacity: 0;
-    transition: opacity 0.4s;
+    display: none;
   }
   .fadeIn {
-    opacity: 1;
-    transition: opacity 0.4s;
+    display: block;
   }
 
   .sub-heading {
