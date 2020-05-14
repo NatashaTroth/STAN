@@ -305,6 +305,15 @@ body.dark-mode {
   .popover-header {
     border-color: theme_color("light");
   }
+  .bs-popover-top > .arrow::after,
+  .bs-popover-auto[x-placement^="top"] > .arrow::after {
+    border-top-color: theme-color("dark-mode");
+  }
+  .bs-popover-top > .arrow::before,
+  .bs-popover-auto[x-placement^="top"] > .arrow::before,
+  .bs-popover-auto[x-placement^="top"] > .arrow::before {
+    border-top-color: theme-color("light");
+  }
   // ----------------------------------------------------------------
   // exams ----------------
   .exam__subject {
