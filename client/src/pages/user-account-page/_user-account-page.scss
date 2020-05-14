@@ -123,13 +123,10 @@
         margin-bottom: 32px !important;
       }
       &--bottom {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
         .carousel {
-          display: flex;
-          align-items: center;
+          height: auto;
+          margin-top: 20px;
+          margin-bottom: 50px;
         }
       }
     }
