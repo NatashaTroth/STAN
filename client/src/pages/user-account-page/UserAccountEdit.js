@@ -550,13 +550,13 @@ const UserAccountEdit = () => {
                         </p>
                       </div>
 
-                      {isPasswordOpen ? (
-                        <div className="col-md-12">
-                          <div id="retype-password-error" className="error">
+                      <div className="col-md-12">
+                        <div id="retype-password-error" className="error">
+                          {isPasswordOpen ? (
                             <p>Please make sure your new passwords match.</p>
-                          </div>
+                          ) : null}
                         </div>
-                      ) : null}
+                      </div>
                     </div>
                   </form>
                 </div>
