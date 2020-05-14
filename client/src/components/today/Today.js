@@ -217,19 +217,19 @@ function Today(props) {
 
   if (todaysChunk.numberPagesToday <= lastPage) {
     // pages left
-    leftPagesTotal = lastPage - currentPage
+    leftPagesTotal = lastPage - currentPage + startPage
     // percentage for bar
     currentPageBar = currentPage
-    if (currentPageBar == 1) currentPageBar = 0 // to start with 0 in bar
+    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
     leftPagesPercentage = Math.round((currentPageBar * 100) / lastPage)
 
     // when you have to study multiple repetition cycles a day
   } else {
     // pages left
-    leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
+    leftPagesTotal = lastPage * repetitionCycles - currentPage + 1 + startPage
     // percentage for bar
     currentPageBar = currentPage
-    if (currentPageBar == 1) currentPageBar = 0 // to start with 0 in bar
+    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
     leftPagesPercentage = Math.round(
       (currentPage * 100) / (leftPagesTotal + lastPage)
     )
