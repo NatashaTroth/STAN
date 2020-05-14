@@ -93,7 +93,7 @@ const UserAccountEdit = () => {
 
         let mascotId = index
         editUser({ mascotId, formData, updateUser, notification, history })
-      } else if (isPasswordOpen) {
+      } else {
         document.getElementById("retype-password-error").style.display = "block"
       }
     }
@@ -669,9 +669,9 @@ async function editUser({
     }
 
     // redirect ----------------
-    // setTimeout(() => {
-    //   history.push("/profile")
-    // }, 1000)
+    setTimeout(() => {
+      history.push("/profile")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 
