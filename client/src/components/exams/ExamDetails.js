@@ -102,7 +102,13 @@ const ExamDetails = () => {
   }
 
   const handleCompletion = () => {
-    completeExam({ paramId, examCompleted, history })
+    const completed = true
+    completeExam({ paramId, examCompleted, history, completed })
+  }
+
+  const handleReactivation = () => {
+    const completed = false
+    completeExam({ paramId, examCompleted, history, completed })
   }
 
   // return ----------------
@@ -233,22 +239,22 @@ const ExamDetails = () => {
                       />
                     </div>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--button">
+                      <Button
+                        className="stan-btn-primary"
+                        variant="button"
+                        text="reactivate exam"
+                        onClick={handleReactivation}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {!edit ? (
                   <div className="col-md-12">
                     <p className="error graphql-error error-completion"></p>
-                  </div>
-                ) : null}
-
-                {!edit ? (
-                  <div
-                    className="col-md-12"
-                    id="success-container-exam-completed"
-                  >
-                    <p className="success">
-                      the exam was successfully completed
-                    </p>
                   </div>
                 ) : null}
               </div>
@@ -294,26 +300,23 @@ async function examDeletion({ paramId, deleteExam, history }) {
   }
 }
 
-async function completeExam({ paramId, examCompleted, history }) {
+async function completeExam({ paramId, examCompleted, history, completed }) {
   try {
     const resp = await examCompleted({
       variables: {
         id: paramId.id,
+        completed: completed,
       },
     })
 
     if (resp && resp.data && resp.data.examCompleted) {
-      document.getElementById(
-        "success-container-exam-completed"
-      ).style.display = "block"
+      console.log("The completion of exam was successfully.")
     } else {
       throw new Error("The completion of current exam failed.")
     }
 
     // redirect ----------------
-    // setTimeout(() => {
     history.push("/exams")
-    // }, 1000)
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName(
