@@ -93,7 +93,7 @@ const UserAccountEdit = () => {
 
         let mascotId = index
         editUser({ mascotId, formData, updateUser, notification, history })
-      } else {
+      } else if (isPasswordOpen) {
         document.getElementById("retype-password-error").style.display = "block"
       }
     }
@@ -527,6 +527,11 @@ const UserAccountEdit = () => {
                         </div>
                       </div>
 
+                      <div className="col-md-12">
+                        <p className="error graphql-error"></p>
+                        <p className="error graphql-error"></p>
+                      </div>
+
                       <div
                         className="col-md-12"
                         id="success-container-edit-user"
@@ -545,16 +550,13 @@ const UserAccountEdit = () => {
                         </p>
                       </div>
 
-                      <div className="col-md-12">
-                        <div id="retype-password-error" className="error">
-                          <p>Please make sure your new passwords match.</p>
+                      {isPasswordOpen ? (
+                        <div className="col-md-12">
+                          <div id="retype-password-error" className="error">
+                            <p>Please make sure your new passwords match.</p>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="col-md-12">
-                        <p className="error graphql-error"></p>
-                        <p className="error graphql-error"></p>
-                      </div>
+                      ) : null}
                     </div>
                   </form>
                 </div>
@@ -667,9 +669,9 @@ async function editUser({
     }
 
     // redirect ----------------
-    setTimeout(() => {
-      history.push("/profile")
-    }, 1000)
+    // setTimeout(() => {
+    //   history.push("/profile")
+    // }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 

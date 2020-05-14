@@ -327,6 +327,11 @@ html body {
     }
   }
 
+  #retype-password-error {
+    display: none;
+    padding-left: 25px;
+  }
+
   .error {
     color: theme-color("error-hover");
     margin: 2px 10px 0 0;
@@ -415,3 +420,29 @@ html body {
     }
   }
 }
+
+// SUCCESS MESSAGES
+// user profile edit ----------------
+#success-container-edit-user,
+#success-container-edit-mascot {
+  display: none;
+  .success {
+    display: flex;
+    justify-content: flex-end;
+    max-width: none;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: center;
+    }
+  }
+}
+
+#success-container-delete-user {
+  display: none;
+  .success {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// exams ----------------
