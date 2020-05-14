@@ -424,7 +424,7 @@ function AddNew() {
                         <div className="info-box-label">
                           <Label
                             htmlFor="study-new-links"
-                            text="Study material links"
+                            text="Study material links (https://...)"
                             className="form__element__label"
                           />
                           <OverlayTrigger
