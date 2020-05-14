@@ -267,7 +267,7 @@ function AddNew() {
                         type="number"
                         min="0"
                         id="start-page"
-                        label="exam_page_current"
+                        label="exam_start_page"
                         placeholder="1"
                         ref={register({
                           required: true,
@@ -275,16 +275,16 @@ function AddNew() {
                           max: 10000,
                         })}
                       />
-                      {errors.exam_page_current &&
-                        errors.exam_page_current.type === "required" && (
+                      {errors.exam_start_page &&
+                        errors.exam_start_page.type === "required" && (
                           <span className="error">This field is required</span>
                         )}
-                      {errors.exam_page_current &&
-                        errors.exam_page_current.type === "max" && (
+                      {errors.exam_start_page &&
+                        errors.exam_start_page.type === "max" && (
                           <span className="error">The maximum is 10.000</span>
                         )}
-                      {errors.exam_page_current &&
-                        errors.exam_page_current.type === "min" && (
+                      {errors.exam_start_page &&
+                        errors.exam_start_page.type === "min" && (
                           <span className="error">
                             Only positive numbers are allowed
                           </span>
