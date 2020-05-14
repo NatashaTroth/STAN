@@ -116,21 +116,21 @@ export const examResolvers = {
       } catch (err) {
         handleResolverError(err);
       }
-    },
-    todaysChunksProgress: async (parent, args, context) => {
-      try {
-        // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
-        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
-        handleAuthentication(context.userInfo);
-        return await getTodaysChunkProgress(context.userInfo.userId);
-
-        // return calculateUserState(chunks);
-        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
-        // return "VERY_HAPPY";
-      } catch (err) {
-        handleResolverError(err);
-      }
     }
+    // todaysChunksProgress: async (parent, args, context) => {
+    //   try {
+    //     // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
+    //     //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+    //     handleAuthentication(context.userInfo);
+    //     return await getTodaysChunkProgress(context.userInfo.userId);
+
+    //     // return calculateUserState(chunks);
+    //     // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
+    //     // return "VERY_HAPPY";
+    //   } catch (err) {
+    //     handleResolverError(err);
+    //   }
+    // }
   },
   Mutation: {
     addExam: async (root, args, context, info) => {

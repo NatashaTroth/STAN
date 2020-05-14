@@ -8,7 +8,7 @@ const examQueries = gql`
     todaysChunkAndProgress: TodaysChunkAndProgress!
     calendarChunks: CalendarObject!
     examsCount: ExamsCount!
-    todaysChunksProgress: Int!
+    # todaysChunksProgress: Int!
   }
 
   type Mutation {
