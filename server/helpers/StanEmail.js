@@ -54,7 +54,8 @@ export default class StanEmail {
     mascot
   ) {
     console.log("SENDING THREE DAY REMINDER MAIL");
-    let totalExamsLength = examsInOneDay.length + examsInThreeDays.length;
+    let totalExamsLength =
+      examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
     let examWord = "Exam";
     if (totalExamsLength > 1) examWord = "Exams";
     if (totalExamsLength === 1) totalExamsLength = "";
@@ -73,7 +74,7 @@ export default class StanEmail {
     }
 
     const subject = `${examWord} coming up!`;
-    const h1 = `Reminder that you have the following ${totalExamsLength} ${examWord.toLowerCase()} coming up`;
+    const h1 = `Reminder that you have the following ${examWord.toLowerCase()} coming up`;
     const text = `<p>stan wanted to remind you that you have the following ${examWord.toLowerCase()} in three days time, which you haven't finished learning for yet:</p>${examsListString}<p><b>You also need to start learning for the following ${
       startDatesToday.length > 1 ? "exams" : "exam"
     } today:</b></p>
