@@ -41,7 +41,13 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      padding: 25px;
+
+      h4 {
+        hyphens: auto;
+        word-break: break-word;
+        text-align: center;
+        padding: 25px;
+      }
     }
     &--current-status {
       position: absolute;
