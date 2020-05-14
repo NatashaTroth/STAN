@@ -5,6 +5,10 @@ import moment from "moment"
 // sub-components ----------------
 import ExamBar from "../progressbar/ProgressBar"
 
+// react-bootstrap ----------------
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
 import { extractDomain, filteredLinks } from "../../helpers/mascots"
@@ -22,6 +26,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
   let currentRepetition = Math.round(examDetails.currentPage / lastPage)
   if (currentRepetition < 1) currentRepetition = 1
 
+  let numberOfPages
+  if (examDetails.startPage > 1) {
+    numberOfPages = examDetails.numberPages - examDetails.startPage
+  } else {
+    numberOfPages = examDetails.numberPages
+  }
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
   // return ----------------
@@ -42,18 +52,54 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
-                <h4>Start page</h4>
+                <div className="exam-data__heading">
+                  <h4>Start page</h4>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        The page number from which you start studying
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
                 <p>{examDetails.startPage}</p>
               </div>
 
               <div className="exam-data">
-                <h4>Last page</h4>
-                <p>{examDetails.startPage + (examDetails.numberPages - 1)}</p>
+                <div className="exam-data__heading">
+                  <h4>Last page</h4>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={<Tooltip>The last page you have to learn</Tooltip>}
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <p>{examDetails.numberPages}</p>
               </div>
 
               <div className="exam-data">
-                <h4>Number of pages</h4>
-                <p>{examDetails.numberPages}</p>
+                <div className="exam-data__heading">
+                  <h4>Number of pages</h4>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        How many pages you have to learn in total (in each
+                        repetition cycle)
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <p>{numberOfPages}</p>
               </div>
 
               <div className="exam-data">

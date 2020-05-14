@@ -166,8 +166,18 @@
       &--left {
         .exam-data {
           padding: 10px 0;
+
+          &__heading {
+            display: flex;
+            align-items: baseline;
+
+            .info-circle {
+              margin-left: 10px;
+            }
+          }
         }
       }
+
       &--right {
         .exam-data {
           padding: 10px 0;

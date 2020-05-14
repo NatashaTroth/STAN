@@ -261,53 +261,6 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="pageAmount"
-                  text="Number of pages"
-                  className="form__element__label input-required"
-                />
-
-                <OverlayTrigger
-                  placement="top"
-                  delay={{ show: 250, hide: 400 }}
-                  overlay={
-                    <Tooltip>
-                      How many different pages you have to learn
-                    </Tooltip>
-                  }
-                >
-                  <span className="info-circle">i</span>
-                </OverlayTrigger>
-              </div>
-              <input
-                className="form__element__input"
-                type="number"
-                min="0"
-                id="pageAmount"
-                label="exam_page_amount"
-                name="numberPages"
-                onChange={handleChange.bind(null, "numberPages")}
-                value={numberPages}
-                required
-                ref={register({
-                  required: true,
-                  min: 1,
-                  max: 10000,
-                })}
-              />
-              {errors.numberPages && errors.numberPages.type === "required" && (
-                <span className="error">This field is required</span>
-              )}
-              {errors.numberPages && errors.numberPages.type === "max" && (
-                <span className="error">The maximum is 10.000</span>
-              )}
-              {errors.numberPages && errors.numberPages.type === "min" && (
-                <span className="error">Only positive numbers are allowed</span>
-              )}
-            </div>
-
-            <div className="form__element">
-              <div className="info-box-label">
-                <Label
                   htmlFor="startPage"
                   text="Start page"
                   className="form__element__label input-required"
@@ -347,6 +300,49 @@ const ExamDetailsEdit = ({ examId }) => {
                 <span className="error">The maximum is 10.000</span>
               )}
               {errors.startPage && errors.startPage.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
+            </div>
+
+            <div className="form__element">
+              <div className="info-box-label">
+                <Label
+                  htmlFor="pageAmount"
+                  text="Last page"
+                  className="form__element__label input-required"
+                />
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={<Tooltip>The last page you have to learn</Tooltip>}
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+              <input
+                className="form__element__input"
+                type="number"
+                min="0"
+                id="pageAmount"
+                label="exam_page_amount"
+                name="numberPages"
+                onChange={handleChange.bind(null, "numberPages")}
+                value={numberPages}
+                required
+                ref={register({
+                  required: true,
+                  min: 1,
+                  max: 10000,
+                })}
+              />
+              {errors.numberPages && errors.numberPages.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "max" && (
+                <span className="error">The maximum is 10.000</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "min" && (
                 <span className="error">Only positive numbers are allowed</span>
               )}
             </div>
