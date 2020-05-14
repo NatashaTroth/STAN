@@ -30,7 +30,6 @@ const QueryError = ({ errorMessage }) => {
               <a href="/" className="stan-btn-primary">
                 Home
               </a>
-              -
             </div>
           </div>
         </div>
