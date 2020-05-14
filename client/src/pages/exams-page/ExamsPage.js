@@ -75,7 +75,8 @@ const Exams = () => {
           <Exam
             subject={decodeHtml(exam.subject)}
             currentStatus={Math.round(
-              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
+              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat) -
+                1
             )}
           />
         </Link>
