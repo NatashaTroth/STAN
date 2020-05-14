@@ -340,6 +340,9 @@ body.dark-mode {
         color: theme_color("error");
       }
     }
+    &__popup--inner {
+      background-color: theme-color("dark-mode");
+    }
   }
   .exam-bar {
     border-color: theme_color("light");
