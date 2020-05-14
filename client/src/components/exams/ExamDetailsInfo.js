@@ -11,7 +11,11 @@ import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
-import { extractDomain, filteredLinks } from "../../helpers/mascots"
+import {
+  extractDomain,
+  filteredLinks,
+  calcExamProgress,
+} from "../../helpers/mascots"
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------
@@ -117,13 +121,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
               <div className="exam-data">
                 <h4>Studied</h4>
-                <p>
-                  {Math.round(
-                    (100 * (examDetails.currentPage - 1)) /
-                      (examDetails.numberPages * examDetails.timesRepeat)
-                  )}
-                  % of 100%
-                </p>
+                <p>{calcExamProgress(examDetails)}% of 100%</p>
               </div>
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
