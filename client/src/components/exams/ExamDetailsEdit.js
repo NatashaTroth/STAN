@@ -583,7 +583,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <div className="info-box-label">
                   <Label
                     htmlFor="study-new-links"
-                    text="Add new study links"
+                    text="Add new study links (https://...)"
                     className="form__element__label"
                   />
                   <OverlayTrigger
