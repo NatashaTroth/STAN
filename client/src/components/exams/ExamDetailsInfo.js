@@ -47,22 +47,18 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
-                <h4>Last Page</h4>
+                <h4>Last page</h4>
+                <p>{examDetails.startPage + (examDetails.numberPages - 1)}</p>
+              </div>
+
+              <div className="exam-data">
+                <h4>Number of pages</h4>
                 <p>{examDetails.numberPages}</p>
               </div>
 
               <div className="exam-data">
                 <h4>Time per page</h4>
                 <p>{minuteToHours(examDetails.timePerPage)}</p>
-              </div>
-
-              <div className="exam-data">
-                <h4>Repeat</h4>
-                {examDetails.timesRepeat > 1 ? (
-                  <p>{examDetails.timesRepeat} times</p>
-                ) : (
-                  <p>{examDetails.timesRepeat} time</p>
-                )}
               </div>
             </div>
           </div>
@@ -107,37 +103,53 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
+                <h4>Current page</h4>
+                <p>{examDetails.currentPage}</p>
+              </div>
+
+              <div className="exam-data">
+                <h4>Repeat</h4>
+                {examDetails.timesRepeat > 1 ? (
+                  <p>{examDetails.timesRepeat} times</p>
+                ) : (
+                  <p>{examDetails.timesRepeat} time</p>
+                )}
+              </div>
+
+              <div className="exam-data">
                 <h4>Repetition cycle</h4>
                 <p>
                   {currentRepetition}/{examDetails.timesRepeat}
                 </p>
               </div>
+            </div>
+          </div>
 
-              <div className="link">
-                <div className="link--headline">
-                  <h4>Study material links</h4>
-                </div>
-                {newLinks.length > 0 ? (
-                  <div className="link--buttons">
-                    {newLinks.map((value, index) => (
-                      <div key={index}>
-                        <a
-                          href={value}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="stan-btn-secondary"
-                        >
-                          {extractDomain(value)}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="empty-link">
-                    <p>no links available</p>
-                  </div>
-                )}
+          <div className="col-md-12">
+            <div className="link">
+              <div className="link--headline">
+                <h4>Study material links</h4>
               </div>
+              {newLinks.length > 0 ? (
+                <div className="link--buttons">
+                  {newLinks.map((value, index) => (
+                    <div key={index}>
+                      <a
+                        href={value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="stan-btn-secondary link-button"
+                      >
+                        {extractDomain(value)}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-link">
+                  <p>no links available</p>
+                </div>
+              )}
             </div>
           </div>
           <div className="col-md-12">

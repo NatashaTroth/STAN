@@ -132,6 +132,37 @@
     &--details {
       padding: 20px 0;
 
+      .link {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        @include media-breakpoint-down(md) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        a {
+          min-width: 90px;
+        }
+
+        &--headline {
+          padding-right: 35px;
+          margin-bottom: 10px;
+        }
+
+        &--buttons {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          a {
+            margin-right: 10px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+
       &--left {
         .exam-data {
           padding: 10px 0;
@@ -165,42 +196,6 @@
               @include media-breakpoint-down(md) {
                 min-width: 0px;
               }
-            }
-          }
-        }
-
-        .link {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-
-          @include media-breakpoint-down(md) {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          a {
-            min-width: 90px;
-          }
-
-          &--headline {
-            padding-right: 35px;
-
-            @include media-breakpoint-down(md) {
-              padding-bottom: 15px;
-            }
-          }
-
-          &--buttons {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-
-            a {
-              margin-right: 20px;
-              margin-top: 10px;
-              text-transform: lowercase;
-              padding: 8px 12px;
             }
           }
         }
