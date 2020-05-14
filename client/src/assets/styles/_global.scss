@@ -422,14 +422,16 @@ html body {
 }
 
 // SUCCESS MESSAGES
-// user profile edit ----------------
 #success-container-edit-user,
-#success-container-edit-mascot {
+#success-container-edit-exam,
+#success-container-edit-mascot,
+#success-container-exam-completed {
   display: none;
   .success {
     display: flex;
     justify-content: flex-end;
     max-width: none;
+    margin-top: 20px;
 
     @include media-breakpoint-down(sm) {
       justify-content: center;
@@ -437,12 +439,11 @@ html body {
   }
 }
 
-#success-container-delete-user {
+#success-container-delete-user,
+#success-container-exam-detail {
   display: none;
   .success {
     display: flex;
     justify-content: center;
   }
 }
-
-// exams ----------------

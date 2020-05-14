@@ -241,12 +241,16 @@ const ExamDetails = () => {
                   </div>
                 ) : null}
 
-                <div
-                  className="col-md-12"
-                  id="success-container-exam-completed"
-                >
-                  <p className="success">the exam was successfully completed</p>
-                </div>
+                {!edit ? (
+                  <div
+                    className="col-md-12"
+                    id="success-container-exam-completed"
+                  >
+                    <p className="success">
+                      the exam was successfully completed
+                    </p>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -307,7 +311,9 @@ async function completeExam({ paramId, examCompleted, history }) {
     }
 
     // redirect ----------------
+    // setTimeout(() => {
     history.push("/exams")
+    // }, 1000)
   } catch (err) {
     // error handling ----------------
     let element = document.getElementsByClassName(
