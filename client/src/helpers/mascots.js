@@ -36,3 +36,9 @@ export const filteredLinks = array => {
 
   return links
 }
+
+export const decodeHtml = html => {
+  let txt = document.createElement("textarea")
+  txt.innerHTML = html
+  return txt.value
+}

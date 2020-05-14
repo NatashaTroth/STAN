@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import ThemeMode from "../theme-changer/ThemeChanger"
+import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
@@ -14,16 +15,28 @@ import Backdrop from "../backdrop/Backdrop"
 import QueryError from "../error/Error"
 import Loading from "../loading/Loading"
 
-// images & logos ----------------
-import Logo from "../../images/icons/logo.svg"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
-import { ClickMode } from "react-particles-js"
+
+// images & logos ----------------
+import LogoDark from "../../images/icons/stan-logo-dark.svg"
+import LogoLight from "../../images/icons/stan-logo-light.svg"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
 
 const Navbar = () => {
   // variables ----------------
   let backdrop = null
+  let Logo = LogoDark
+
+  // dark mode specific ----------------
+  const darkMode = useDarkMode(false)
+  if (darkMode.value) {
+    Logo = LogoLight
+  } else {
+    Logo = LogoDark
+  }
 
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
@@ -162,7 +175,6 @@ const Navbar = () => {
                   <NavLink
                     strict
                     to="/exams"
-                    exact
                     activeClassName="active"
                     onClick={closeSidebar}
                   >
@@ -175,7 +187,7 @@ const Navbar = () => {
               {currentUser ? (
                 <li className="logged-in profile">
                   <span className="user-avatar">
-                    {currentUser.username.charAt(0)}
+                    {decodeHtml(currentUser.username).charAt(0)}
                   </span>
                   <NavLink
                     strict

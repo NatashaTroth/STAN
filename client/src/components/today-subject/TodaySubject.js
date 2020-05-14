@@ -1,6 +1,9 @@
 import React from "react"
 // --------------------------------------------------------------
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const TodaySubject = ({ subject, durationTime, id, onClick, className }) => {
   // return ----------------
   return (
@@ -8,7 +11,7 @@ const TodaySubject = ({ subject, durationTime, id, onClick, className }) => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <h4 className="today-subject__heading">{subject}</h4>
+            <h4 className="today-subject__heading">{decodeHtml(subject)}</h4>
           </div>
           <div className="col-md-12">
             <div className="today-subject__duration">

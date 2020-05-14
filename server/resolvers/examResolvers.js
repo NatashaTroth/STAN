@@ -69,6 +69,7 @@ export const examResolvers = {
       }
     },
     todaysChunkAndProgress: async (root, args, context, info) => {
+      console.log("IN TODAYS CHUNK PROGRESS");
       try {
         handleAuthentication(context.userInfo);
 
@@ -143,6 +144,7 @@ export const examResolvers = {
           context.userInfo.userId
         );
         // console.log(processedArgs);
+
         await Exam.create(processedArgs);
       } catch (err) {
         handleResolverError(err);

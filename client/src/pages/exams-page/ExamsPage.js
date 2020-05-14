@@ -14,6 +14,9 @@ import Loading from "../../components/loading/Loading"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const Exams = () => {
   // router ----------------
   let { url } = useRouteMatch()
@@ -70,7 +73,7 @@ const Exams = () => {
           }`}
         >
           <Exam
-            subject={exam.subject}
+            subject={decodeHtml(exam.subject)}
             currentStatus={Math.round(
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}
@@ -89,7 +92,7 @@ const Exams = () => {
           }`}
         >
           <Exam
-            subject={exam.subject}
+            subject={decodeHtml(exam.subject)}
             currentStatus={Math.round(
               (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
             )}

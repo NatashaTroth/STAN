@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
-  GET_TODAYS_CHUNKS_PROGRESS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   CURRENT_USER,
 } from "../../graphQL/queries"
 
@@ -30,7 +30,7 @@ import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
 // helpers ----------------
-import { currentMood } from "../../helpers/mascots"
+import { currentMood, decodeHtml } from "../../helpers/mascots"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
@@ -59,8 +59,11 @@ const UserAccount = props => {
       else if (key === "finishedExams") finishedExams = value
     }
   }
-  if (props.getTodaysChunksProgressQuery.todaysChunksProgress) {
-    mood = currentMood(props.getTodaysChunksProgressQuery.todaysChunksProgress)
+
+  if (props.getTodaysChunksProgressQuery.todaysChunkAndProgress) {
+    mood = currentMood(
+      props.getTodaysChunksProgressQuery.todaysChunkAndProgress.todaysProgress
+    )
   }
 
   // google logout ----------------
@@ -103,9 +106,9 @@ const UserAccount = props => {
           <div className="col-md-9">
             <div className="user-account__headline">
               {currentUser.username.slice(-1) === "s" ? (
-                <h2>{currentUser.username}' account</h2>
+                <h2>{decodeHtml(currentUser.username)}' account</h2>
               ) : (
-                <h2>{currentUser.username}'s account</h2>
+                <h2>{decodeHtml(currentUser.username)}'s account</h2>
               )}
             </div>
           </div>
@@ -120,8 +123,8 @@ const UserAccount = props => {
             <div className="user-account__container--left">
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
-                  <h3>{currentUser.username}</h3>
-                  <p>{currentUser.email}</p>
+                  <h3>{decodeHtml(currentUser.username)}</h3>
+                  <p>{decodeHtml(currentUser.email)}</p>
                 </div>
 
                 <div className="buttons">
@@ -206,7 +209,7 @@ export default compose(
   graphql(GET_EXAMS_COUNT, {
     name: "getExamsQuery",
   }),
-  graphql(GET_TODAYS_CHUNKS_PROGRESS, {
+  graphql(GET_TODAYS_CHUNKS_AND_PROGRESS, {
     name: "getTodaysChunksProgressQuery",
   })
 )(UserAccount)

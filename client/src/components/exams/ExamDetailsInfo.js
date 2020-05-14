@@ -42,7 +42,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
-                <h4>Amount of pages</h4>
+                <h4>Number of pages</h4>
                 <p>{examDetails.numberPages}</p>
               </div>
 

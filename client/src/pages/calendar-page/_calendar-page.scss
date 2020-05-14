@@ -275,15 +275,32 @@
   min-height: 3em !important;
 }
 
+// displays exam deadline
+.fade.show {
+  @include rem(font-size, 12px);
+  @include rem(letter-spacing, 0.5px);
+  font-family: $font-family-BasierCircle-SemiBold;
+  text-transform: lowercase;
+  z-index: 1;
+  border: 1.5px solid;
+  color: theme-color("dark");
+  border-color: theme-color("dark");
+  padding: 2px 5px;
+  background-color: theme-color("light");
+}
+
 // popup
-.popover {
-  border: 2px solid theme_color("dark");
+.fade.show.popover {
+  border: 2px solid;
+  border-color: theme_color("dark");
   border-radius: 0;
   min-width: 320px;
+  background-color: theme-color("light");
 }
 .popover-header {
   background-color: transparent;
-  border-bottom: 2px solid theme_color("dark");
+  border-bottom: 2px solid;
+  border-color: theme_color("dark");
 }
 
 .bs-popover-top > .arrow::before,

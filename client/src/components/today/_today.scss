@@ -3,7 +3,11 @@
   max-width: 52rem;
 
   @include media-breakpoint-down(lg) {
-    margin: 0 auto 30px auto;
+    max-width: 100%;
+    margin: 0 10px 0px 0;
+  }
+  @include media-breakpoint-down(md) {
+    margin: 0;
   }
 }
 
@@ -12,6 +16,8 @@
   padding-bottom: 10px;
   border: 4px solid theme-color("primary-yellow-dark");
   box-shadow: 10px 10px 0px -2px theme-color("primary-yellow-dark");
+  background-color: theme-color("light");
+  transition: background-color 300ms ease-in-out;
 
   .container-fluid {
     padding: 0;
@@ -137,19 +143,55 @@
         &__goal {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__duration {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__total-pages {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__repetition {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
       }
     }

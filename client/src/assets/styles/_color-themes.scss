@@ -1,6 +1,6 @@
 // color themes ----------------
 body.dark-mode {
-  transition: all 1s ease-in-out;
+  transition: all 500ms ease-in-out;
   background-color: theme-color("dark-mode");
   color: theme-color("light");
 
@@ -92,6 +92,7 @@ body.dark-mode {
   input,
   textarea {
     border-color: theme-color("light");
+    color: theme-color("light");
   }
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
@@ -109,17 +110,59 @@ body.dark-mode {
     /* Firefox 18- */
     color: theme-color("grey-light");
   }
+
+  .loader {
+    background-color: theme-color("dark-mode");
+
+    .square {
+      background: theme-color("light");
+    }
+  }
   // ----------------------------------------------------------------
   // navigation ----------------
   .navigation {
     &__items {
       background-color: theme-color("dark-mode");
       border-right: 4px solid theme-color("light");
-      transition: background-color 1s ease-in-out;
+      transition: background-color 500ms ease-in-out;
     }
   }
-  .navigation__items--list .menu-top .profile .user-avatar {
+  .menu-top {
+    .dashboard {
+      &:before {
+        content: url("../../images/icons/dashboard-light.svg");
+      }
+    }
+    .add-new {
+      &:before {
+        content: url("../../images/icons/add-new-light.svg");
+      }
+    }
+    .calendar {
+      &:before {
+        content: url("../../images/icons/calendar-light.svg");
+      }
+    }
+    .exams {
+      &:before {
+        content: url("../../images/icons/exams-light.svg");
+      }
+    }
+    .profile {
+      .user-avatar {
+        border-color: theme_color("light");
+      }
+    }
+  }
+  .burger {
+    background-color: theme_color("dark-mode");
     border-color: theme_color("light");
+
+    &__btn {
+      &__line {
+        background: theme-color("light");
+      }
+    }
   }
   // ----------------------------------------------------------------
   // dashboard ----------------
@@ -132,20 +175,24 @@ body.dark-mode {
   .today-goals__container__header {
     border-color: theme-color("light");
   }
-  .today__container {
-    &__header {
-      border-color: theme-color("light");
-    }
-    &__content__text--warning {
-      color: theme-color("error");
-    }
-    &__buttons__open {
-      border-color: theme_color("light");
+  .today {
+    background-color: theme-color("dark-mode");
 
-      &:hover,
-      &:active,
-      &:focus {
-        border-color: theme-color("primary-yellow");
+    &__container {
+      &__header {
+        border-color: theme-color("light");
+      }
+      &__content__text--warning {
+        color: theme-color("error");
+      }
+      &__buttons__open {
+        border-color: theme_color("light");
+
+        &:hover,
+        &:active,
+        &:focus {
+          border-color: theme-color("primary-yellow");
+        }
       }
     }
   }
@@ -186,6 +233,21 @@ body.dark-mode {
       background-color: red !important;
     }
   }
+  .info-circle {
+    background-color: theme_color("light");
+    color: theme_color("dark-mode");
+  }
+  .fade.show.tooltip.bs-tooltip-top {
+    color: theme-color("dark-mode");
+    border-color: theme-color("dark-mode");
+    background-color: theme-color("light");
+
+    .tooltip-inner {
+      color: theme-color("dark-mode");
+      background-color: theme-color("light");
+    }
+  }
+
   // ----------------------------------------------------------------
   // calendar ----------------
   .fc-header-toolbar .fc-right .fc-button-primary {
@@ -215,6 +277,18 @@ body.dark-mode {
   .fc-list-heading-main,
   .fc-list-heading-alt {
     color: theme-color("dark-mode");
+  }
+  .fade.show {
+    color: theme-color("light");
+    border-color: theme-color("light");
+    background-color: theme-color("dark-mode");
+  }
+  .popover {
+    border-color: theme_color("light");
+    background-color: theme-color("dark-mode");
+  }
+  .popover-header {
+    border-color: theme_color("light");
   }
   // ----------------------------------------------------------------
   // exams ----------------
@@ -266,17 +340,27 @@ body.dark-mode {
   }
   // ----------------------------------------------------------------
   // profile ----------------
-  .user-account__container--left--top {
-    .buttons {
-      button {
-        color: theme-color("light");
+  .user-account {
+    &__container {
+      &--left--bottom span {
+        color: theme_color("primary-blue");
+      }
+      &--left--top {
+        .buttons {
+          button {
+            color: theme-color("light");
 
-        &:hover,
-        &:active,
-        &:focus {
-          color: theme-color("primary-yellow");
+            &:hover,
+            &:active,
+            &:focus {
+              color: theme-color("primary-yellow");
+            }
+          }
         }
       }
+    }
+    &__edit--popup--inner {
+      background-color: theme-color("dark-mode");
     }
   }
   button.back-button {
@@ -287,9 +371,6 @@ body.dark-mode {
     &:focus {
       color: theme-color("primary-yellow");
     }
-  }
-  .user-account__container--left--bottom span {
-    color: theme_color("primary-blue");
   }
   .carousel .carousel-indicators li {
     background-color: theme-color("light");
@@ -304,17 +385,68 @@ body.dark-mode {
     border-color: theme_color("light");
   }
 
-  .login__form__notifications input:checked ~ .checkmark {
-    background-color: theme-color("light");
-    border-color: theme-color("light");
+  .login__form__notifications {
+    &:hover input ~ .checkmark {
+      background-color: theme-color("light");
+    }
+    .checkmark {
+      background-color: theme-color("dark-mode");
+      border-color: theme-color("light");
+    }
+    input:checked ~ .checkmark {
+      background-color: theme-color("light");
+      border-color: theme-color("light");
+    }
   }
   .checkmark:after {
     border-color: theme-color("dark-mode");
   }
   // ----------------------------------------------------------------
   // login ----------------
-  .login__form__redirect-signup__text {
-    color: theme-color("grey-dark");
+  .login__form {
+    &__redirect-signup__text {
+      color: theme-color("grey-dark");
+    }
+    &__bottom {
+      &--redirect-signup__text {
+        color: theme-color("grey-dark");
+      }
+
+      &--line {
+        span.line {
+          background-color: theme-color("light");
+        }
+      }
+
+      &--forgotten-password,
+      &--redirect-signup {
+        button {
+          color: theme-color("light");
+
+          &:hover,
+          &:active,
+          &:focus {
+            color: theme-color("primary-yellow");
+          }
+        }
+      }
+    }
+  }
+  // ----------------------------------------------------------------
+  // imprint ----------------
+  .imprint__contact-details--link {
+    border-color: theme-color("light");
+  }
+  .data-policy-page {
+    a {
+      border-color: theme-color("light");
+
+      &:focus,
+      &:active,
+      &:hover {
+        border-color: theme-color("primary-yellow");
+      }
+    }
   }
   // ----------------------------------------------------------------
 }

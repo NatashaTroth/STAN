@@ -80,6 +80,21 @@ const apolloServer = new ApolloServer({
     // introspection: true, //TODO DELETE
     // playground: true //TODO DELETE
   }),
+  engine: {
+    apiKey: process.env.ENGINE_API_KEY_VAR,
+    schemaTag: process.env.NODE_ENV
+  },
+  cacheControl: {
+    defaultMaxAge: 20
+  },
+  // engine: {
+  //   // The Graph Manager API key
+  //   apiKey: process.env.ENGINE_API_KEY
+  //   // A tag for this specific environment (e.g. `development` or `production`).
+  //   // For more information on schema tags/variants, see
+  //   // https://www.apollographql.com/docs/platform/schema-registry/#associating-metrics-with-a-variant
+  //   // schemaTag: "development"
+  // },
   playground: {
     settings: {
       "request.credentials": "same-origin"

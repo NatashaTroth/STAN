@@ -10,7 +10,6 @@ import { useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 
@@ -22,6 +21,9 @@ import Button from "../../components/button/Button"
 import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
 
 function Today(props) {
   // form specific ----------------
@@ -66,7 +68,6 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -101,7 +102,6 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -259,7 +259,7 @@ function Today(props) {
                   <div className="today__container__content__subject">
                     <p className="today__container__content__label">Subject</p>
                     <p className="today__container__content__text--big">
-                      {subject}
+                      {decodeHtml(subject)}
                     </p>
                   </div>
                   <div className="today__container__content__warning">

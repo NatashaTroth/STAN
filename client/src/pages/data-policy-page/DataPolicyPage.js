@@ -4,7 +4,7 @@ import React from "react"
 const DataPolicy = () => {
   // return ----------------
   return (
-    <div className="data-policy">
+    <div className="data-policy-page">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>

@@ -10,6 +10,7 @@
 @import "./assets/styles/form";
 @import "./assets/styles/color-themes";
 @import "./assets/styles/animations";
+@import "./assets/styles/hover-infobox";
 
 // Pages
 @import "pages/add-new-page/add-new-page";
@@ -38,6 +39,7 @@
 @import "components/current-state/current-state";
 @import "components/error/error";
 @import "components/loading/loading";
+@import "components/today-progress/today-progress";
 @import "components/forgotten-password/forgotten-password";
 @import "components/reset-password/reset-password";
 

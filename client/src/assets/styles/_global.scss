@@ -272,6 +272,23 @@ html body {
     }
   }
 
+  .fade.show.tooltip.bs-tooltip-top {
+    @include rem(font-size, $font-size-14);
+    @include rem(letter-spacing, 0.5px);
+    font-family: $font-family-BasierCircle-SemiBold;
+    text-transform: initial;
+    z-index: 1;
+    border: 2px solid;
+    border-color: theme-color("light");
+    padding: 5px 0;
+    background-color: theme-color("dark");
+    opacity: 1;
+
+    .arrow {
+      display: none;
+    }
+  }
+
   textarea {
     width: 100%;
     min-height: 146px;

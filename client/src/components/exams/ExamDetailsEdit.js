@@ -25,6 +25,10 @@ import DatePicker from "../../components/datepicker/DatePicker"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// react-bootstrap ----------------
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
 // helpers functions ----------------
 import { filteredLinks } from "../../helpers/mascots"
 
@@ -228,11 +232,24 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
 
             <div className="form__element">
-              <Label
-                htmlFor="study-start-date"
-                text="Start learning on"
-                className="form__element__label"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="study-start-date"
+                  text="Start learning on"
+                  className="form__element__label"
+                />
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>The date you want to start studying</Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+
               <DatePicker
                 onDaySelected={selectedDay => {
                   setMyStartDate(selectedDay)
@@ -245,11 +262,25 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
           <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="page-amount"
-                text="Number of pages"
-                className="form__element__label input-required"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="page-amount"
+                  text="Number of pages"
+                  className="form__element__label input-required"
+                />
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      How many different pages you have to learn
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
               <input
                 className="form__element__input"
                 type="number"
@@ -316,11 +347,26 @@ const ExamDetailsEdit = ({ examId }) => {
             </div> */}
 
             <div className="form__element">
-              <Label
-                htmlFor="currentPage"
-                text="Current page"
-                className="form__element__label"
-              ></Label>
+              <div className="info-box-label">
+                <Label
+                  htmlFor="currentPage"
+                  text="Current page"
+                  className="form__element__label"
+                ></Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      You have learnt all the pages up to this page, so you are
+                      currently on this page
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+
               <input
                 className="form__element__input"
                 type="text"
@@ -338,11 +384,22 @@ const ExamDetailsEdit = ({ examId }) => {
 
           <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="page-time"
-                text="Time per page (min)"
-                className="form__element__label input-required"
-              ></Label>
+              <div className="info-box-label">
+                <Label
+                  htmlFor="page-time"
+                  text="Time per page"
+                  className="form__element__label input-required"
+                ></Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>Average time it takes you to learn a page</Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
               <input
                 className="form__element__input"
                 type="number"
@@ -379,11 +436,24 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
 
             <div className="form__element">
-              <Label
-                htmlFor="page-repeat"
-                text="Repeat"
-                className="form__element__label"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="page-repeat"
+                  text="Repeat"
+                  className="form__element__label"
+                />
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      How many times you want to study each page
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
               <input
                 className="form__element__input"
                 type="number"
@@ -441,11 +511,25 @@ const ExamDetailsEdit = ({ examId }) => {
             {oldFilteredLinks.length > 0 ? (
               <div className="form__current-study-links">
                 <div className="form__element">
-                  <Label
-                    htmlFor="studyLinks"
-                    text="Current study links"
-                    className="form__element__label"
-                  />
+                  <div className="info-box-label">
+                    <Label
+                      htmlFor="studyLinks"
+                      text="Current study links"
+                      className="form__element__label"
+                    />
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip>
+                          Links to your online study documents (e.g. slides,
+                          pdfs...)
+                        </Tooltip>
+                      }
+                    >
+                      <span className="info-circle">i</span>
+                    </OverlayTrigger>
+                  </div>
                 </div>
                 {oldUrls.map((inputField, index) => (
                   <div
@@ -483,11 +567,25 @@ const ExamDetailsEdit = ({ examId }) => {
 
             <div className="form__current-study-links">
               <div className="form__element">
-                <Label
-                  htmlFor="study-new-links"
-                  text="Add new study links"
-                  className="form__element__label"
-                />
+                <div className="info-box-label">
+                  <Label
+                    htmlFor="study-new-links"
+                    text="Add new study links"
+                    className="form__element__label"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        Links to your online study documents (e.g. slides,
+                        pdfs...)
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
               </div>
               {newUrls.map((inputField, index) => (
                 <div key={`${index}-newUrls`} className="form__study-links">

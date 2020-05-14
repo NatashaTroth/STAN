@@ -23,7 +23,7 @@ export default class StanScheduler {
     // const j = schedule.scheduleJob(rule, function(){
     //   console.log('Today is recognized by Rebecca Black!');
     // });
-    schedule.scheduleJob({ hour: 11, minute: 36 }, async () => {
+    schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
       this.notifyUsersAboutExams();
       this.completePastExams();
       this.removeNoLongerNeededCache();
