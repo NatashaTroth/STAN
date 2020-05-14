@@ -1,7 +1,7 @@
 // color themes ----------------
 body.dark-mode {
   transition: all 500ms ease-in-out;
-  background-color: theme-color("dark-mode");
+  background-color: theme-color("dark-mode") !important;
   color: theme-color("light");
 
   // general ----------------
@@ -68,6 +68,11 @@ body.dark-mode {
   }
   .error {
     color: theme-color("error");
+  }
+  .error.forgotten-password-error {
+    p {
+      color: theme-color("error");
+    }
   }
   .query-error__inner {
     background-color: theme-color("dark-mode");
@@ -335,6 +340,9 @@ body.dark-mode {
         color: theme_color("error");
       }
     }
+    &__popup--inner {
+      background-color: theme-color("dark-mode");
+    }
   }
   .exam-bar {
     border-color: theme_color("light");
@@ -439,6 +447,21 @@ body.dark-mode {
             color: theme-color("primary-yellow");
           }
         }
+      }
+    }
+  }
+  #success-container-forgotten-password {
+    background-color: theme-color("dark-mode") !important;
+
+    button {
+      color: theme-color("light");
+      border-color: theme-color("light");
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: theme-color("primary-yellow");
+        border-color: theme-color("primary-yellow");
       }
     }
   }

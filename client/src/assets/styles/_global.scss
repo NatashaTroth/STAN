@@ -280,7 +280,7 @@ html body {
     z-index: 1;
     border: 2px solid;
     border-color: theme-color("light");
-    padding: 5px 0;
+    padding: 5px 5px;
     background-color: theme-color("dark");
     opacity: 1;
 
@@ -471,6 +471,19 @@ html body {
 
   p {
     max-width: none;
+  }
+
+  button {
+    text-decoration: none;
+    border-bottom: 2px solid;
+    border-color: theme-color("dark");
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: theme-color("primary-yellow");
+      border-color: theme-color("primary-yellow");
+    }
   }
 
   @include media-breakpoint-down(xs) {

@@ -125,6 +125,7 @@ app.post("/refresh_token", async (req, res) => {
 
 // TODO: remove /graphql when deployed
 if (process.env.NODE_ENV === "production") {
+  //think it might have looped insecure
   // app.use(function(req, res, next) {
   //   if (req.secure) {
   //     console.log("secure");
