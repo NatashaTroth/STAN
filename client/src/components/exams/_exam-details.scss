@@ -53,24 +53,6 @@
   &__inner {
     padding: 20px;
 
-    // ERROR HANDLING
-    #success-container-exam-completed {
-      display: none;
-
-      .success {
-        display: flex;
-        justify-content: flex-end;
-        max-width: none;
-        padding-top: 20px;
-      }
-    }
-    .graphql-exam-completion-error {
-      display: flex;
-      justify-content: flex-start;
-      max-width: none;
-      margin-left: 15px;
-    }
-
     &--bar {
       display: flex;
       flex-direction: row;
@@ -254,23 +236,6 @@
       background-color: theme_color("light");
       padding-bottom: 20px;
 
-      // ERROR HANDLING
-      .graphql-exam-details-error {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-      }
-
-      #success-container-exam-detail {
-        display: none;
-
-        .success {
-          display: flex;
-          justify-content: center;
-        }
-      }
-      // ----------------
-
       &--headline {
         padding: 50px 50px 40px 50px;
         text-align: center;
@@ -298,7 +263,8 @@
 
 // Extra styling in edit form
 .exam-edit-message {
-  margin-left: 25px;
+  margin: 25px 25px 0 25px;
+
   p {
     max-width: none;
     font-size: 13px;

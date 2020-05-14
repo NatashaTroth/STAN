@@ -93,7 +93,7 @@ const ForgottenPassword = () => {
           </div>
         </div>
         <div className="error-handling-form">
-          <p className="error graphql-forgotten-password-error"></p>
+          <p id="graphql-forgotten-password-error" className="error"></p>
         </div>
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element forgottenPassword__form__headline">
@@ -185,9 +185,7 @@ async function handleForgottenPassword({ formData, forgottenPasswordEmail }) {
     }
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName(
-      "graphql-forgotten-password-error"
-    )
+    let element = document.getElementById("graphql-forgotten-password-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

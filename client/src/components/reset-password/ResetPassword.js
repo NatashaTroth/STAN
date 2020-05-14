@@ -57,7 +57,9 @@ const ResetPassword = props => {
           <div className="col-md-1"></div>
           <div className="col-md-10 login__headline">
             <h2 className="login__headline__heading">Reset password</h2>
-            <p className="login__headline__sub-heading">bla text bla</p>
+            <p className="login__headline__sub-heading">
+              Follow the prompts to reset your password.
+            </p>
           </div>
           <div className="col-md-1"></div>
 
@@ -80,7 +82,7 @@ const ResetPassword = props => {
               </div>
 
               <div className="error-handling-form">
-                <p className="error graphql-forgotten-password-error"></p>
+                <p id="graphql-forgotten-password-error" className="error"></p>
               </div>
 
               <div className="login__form__element">
@@ -201,9 +203,7 @@ async function handleResetPassword({
       history.push("/login")
     }, 1500)
   } catch (err) {
-    let element = document.getElementsByClassName(
-      "graphql-forgotten-password-error"
-    )
+    let element = document.getElementById("graphql-forgotten-password-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
