@@ -92,6 +92,7 @@ body.dark-mode {
   input,
   textarea {
     border-color: theme-color("light");
+    color: theme-color("light");
   }
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */

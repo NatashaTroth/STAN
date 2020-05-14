@@ -28,7 +28,7 @@ import { decodeHtml } from "../../helpers/mascots"
 const Navbar = () => {
   // variables ----------------
   let backdrop = null
-  let Logo = LogoLight
+  let Logo = LogoDark
 
   // dark mode specific ----------------
   const darkMode = useDarkMode(false)
