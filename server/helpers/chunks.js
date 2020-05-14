@@ -77,6 +77,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       startPage: chunk.startPage,
       currentPage: chunk.currentPage,
       durationToday: chunk.durationToday,
+      durationAlreadyLearned: chunk.durationAlreadyLearned,
       durationLeftToday,
       daysLeft: chunk.daysLeft,
       notEnoughTime: chunk.notEnoughTime,
@@ -367,6 +368,7 @@ function createTodaysChunkObject(exam) {
     currentPage: exam.currentPage,
     durationToday,
     durationLeftToday: durationToday,
+    durationAlreadyLearned: 0,
     daysLeft,
     notEnoughTime: false, //TODO: IMPLEMENT
     completed: false
@@ -413,15 +415,17 @@ export function calculateChunkProgress(chunks) {
   chunks.forEach(chunk => {
     //INDEX USERID FOR TODAYSCHUNKS AND EXAMID FOR EXAMSs
 
-    totalDuration += chunk.durationToday;
+    let durationAlreadyLearned = chunk.durationAlreadyLearned || 0;
+    totalDuration += chunk.durationToday + durationAlreadyLearned;
 
-    totalDurationCompleted += durationCompleted({
-      duration: chunk.durationToday,
-      startPage: chunk.startPage,
-      currentPage: chunk.currentPage,
-      numberPages: chunk.numberPagesToday,
-      completed: chunk.completed
-    });
+    totalDurationCompleted +=
+      durationCompleted({
+        duration: chunk.durationToday,
+        startPage: chunk.startPage,
+        currentPage: chunk.currentPage,
+        numberPages: chunk.numberPagesToday,
+        completed: chunk.completed
+      }) + durationAlreadyLearned;
     // console.log(".........");
     // console.log("durationToday:" + chunk.durationToday);
     // console.log("startPage:" + chunk.startPage); //16

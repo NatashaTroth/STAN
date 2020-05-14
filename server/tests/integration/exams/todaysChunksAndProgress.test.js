@@ -370,7 +370,7 @@ describe("Test user resolver regex", () => {
           completed: false
         }
       ],
-      todaysProgress: 0 //TODO: SHOULD IT BE 0? - CAN CHANGE IT
+      todaysProgress: 29 //already learnt 20min today - new total today 70min -> 70...100%, 20...x -> x=29%
     });
 
     //---UPDATE CURRENT PAGE TO COMPLETE CHUNK---
