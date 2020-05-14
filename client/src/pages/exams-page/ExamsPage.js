@@ -15,21 +15,7 @@ import Loading from "../../components/loading/Loading"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
-
-function calcExamProgress(exam) {
-  /**
-   * nr pages * repeat....100%
-   * currentPage - startPage (as if startpage = 0)...x
-   */
-  const currentPageWithoutStartpage = exam.currentPage - exam.startPage
-  const totalNumberPages = exam.numberPages * exam.timesRepeat
-  if (totalNumberPages === 0) return 0 //to avoid division by 0 which would return infinity
-  const examProgress = Math.round(
-    (100 * currentPageWithoutStartpage) / totalNumberPages
-  )
-  return examProgress
-}
+import { decodeHtml, calcExamProgress } from "../../helpers/mascots"
 
 const Exams = () => {
   // router ----------------
