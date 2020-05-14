@@ -340,17 +340,27 @@ body.dark-mode {
   }
   // ----------------------------------------------------------------
   // profile ----------------
-  .user-account__container--left--top {
-    .buttons {
-      button {
-        color: theme-color("light");
+  .user-account {
+    &__container {
+      &--left--bottom span {
+        color: theme_color("primary-blue");
+      }
+      &--left--top {
+        .buttons {
+          button {
+            color: theme-color("light");
 
-        &:hover,
-        &:active,
-        &:focus {
-          color: theme-color("primary-yellow");
+            &:hover,
+            &:active,
+            &:focus {
+              color: theme-color("primary-yellow");
+            }
+          }
         }
       }
+    }
+    &__edit--popup--inner {
+      background-color: theme-color("dark-mode");
     }
   }
   button.back-button {
@@ -361,9 +371,6 @@ body.dark-mode {
     &:focus {
       color: theme-color("primary-yellow");
     }
-  }
-  .user-account__container--left--bottom span {
-    color: theme_color("primary-blue");
   }
   .carousel .carousel-indicators li {
     background-color: theme-color("light");
