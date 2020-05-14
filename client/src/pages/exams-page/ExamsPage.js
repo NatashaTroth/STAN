@@ -67,14 +67,6 @@ const Exams = () => {
 
   // functions ----------------
   currentExams = currentExamsList.map(function(exam) {
-    console.log(exam.currentPage)
-    console.log(exam)
-    console.log(exam.numberPages)
-    console.log(exam.timesRepeat)
-    console.log(
-      (100 * (exam.currentPage - 1)) /
-        (exam.startPage + exam.numberPages * exam.timesRepeat)
-    )
     return (
       <div key={exam.id}>
         <Link
