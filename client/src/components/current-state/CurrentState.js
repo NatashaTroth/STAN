@@ -43,7 +43,7 @@ const CurrentState = ({ todaysProgress }) => {
       <div className="current-state__mascot">
         <Carousel
           wrap={true}
-          interval={30000}
+          interval={2000}
           indicators={false}
           controls={false}
           autoPlay={true}
