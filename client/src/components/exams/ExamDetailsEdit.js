@@ -174,7 +174,6 @@ const ExamDetailsEdit = ({ examId }) => {
     values.splice(index, 1)
     setNewUrls(values)
   }
-  console.log(errors)
 
   // return ----------------
   return (
