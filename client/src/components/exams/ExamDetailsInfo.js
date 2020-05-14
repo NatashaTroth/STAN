@@ -42,12 +42,17 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
-                <h4>Number of pages</h4>
+                <h4>Start page</h4>
+                <p>{examDetails.startPage}</p>
+              </div>
+
+              <div className="exam-data">
+                <h4>Last Page</h4>
                 <p>{examDetails.numberPages}</p>
               </div>
 
               <div className="exam-data">
-                <h4>Time per pages</h4>
+                <h4>Time per page</h4>
                 <p>{minuteToHours(examDetails.timePerPage)}</p>
               </div>
 

@@ -67,8 +67,7 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
     currentPage: data.currentPage,
-    // startPage: data.startPage,
-    startPage: 1,
+    startPage: data.startPage,
     notes: data.notes,
   }
 
@@ -313,13 +312,24 @@ const ExamDetailsEdit = ({ examId }) => {
                 )}
             </div>
 
-            {/* TODO: implement */}
-            {/* <div className="form__element">
+            <div className="form__element">
               <Label
                 htmlFor="startPage"
                 text="Start page"
-                className="form__element__label"
+                className="form__element__label input-required"
               />
+              <OverlayTrigger
+                placement="top"
+                delay={{ show: 250, hide: 400 }}
+                overlay={
+                  <Tooltip>
+                    The page number from which you start studying
+                  </Tooltip>
+                }
+              >
+                <span className="info-circle">i</span>
+              </OverlayTrigger>
+
               <input
                 className="form__element__input"
                 type="number"
@@ -330,22 +340,29 @@ const ExamDetailsEdit = ({ examId }) => {
                 onChange={handleChange.bind(null, "startPage")}
                 value={startPage}
                 ref={register({
+                  required: true,
                   min: 1,
                   max: 10000,
                 })}
               />
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "max" && (
+              {errors.exam_start_page &&
+                errors.exam_start_page.type === "required" && (
+                  <span className="error">This field is required</span>
+                )}
+              {errors.exam_start_page &&
+                errors.exam_start_page.type === "max" && (
                   <span className="error">The maximum is 10.000</span>
                 )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "min" && (
+              {errors.exam_start_page &&
+                errors.exam_start_page.type === "min" && (
                   <span className="error">
                     Only positive numbers are allowed
                   </span>
                 )}
-            </div> */}
+            </div>
+          </div>
 
+          <div className="form__container form__container--numbers">
             <div className="form__element">
               <div className="info-box-label">
                 <Label
@@ -377,12 +394,24 @@ const ExamDetailsEdit = ({ examId }) => {
                 value={currentPage}
                 ref={register({
                   required: false,
+                  min: startPage,
+                  max: numberPages,
                 })}
               />
+              {errors.exam_current_page &&
+                errors.exam_current_page.type === "max" && (
+                  <span className="error">
+                    The maximum is your last page: {numberPages}
+                  </span>
+                )}
+              {errors.exam_current_page &&
+                errors.exam_current_page.type === "min" && (
+                  <span className="error">
+                    The minimum is your start page: {startPage}
+                  </span>
+                )}
             </div>
-          </div>
 
-          <div className="form__container form__container--numbers">
             <div className="form__element">
               <div className="info-box-label">
                 <Label
@@ -434,7 +463,9 @@ const ExamDetailsEdit = ({ examId }) => {
                   </span>
                 )}
             </div>
+          </div>
 
+          <div className="form__container form__container--numbers">
             <div className="form__element">
               <div className="info-box-label">
                 <Label
@@ -680,8 +711,7 @@ async function handleExam({
         numberPages: parseInt(data.numberPages),
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
-        // startPage: parseInt(data.startPage),
-        startPage: 1,
+        startPage: parseInt(data.startPage),
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
         studyMaterialLinks: newLinks,
