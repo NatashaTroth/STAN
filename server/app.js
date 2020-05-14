@@ -125,18 +125,18 @@ app.post("/refresh_token", async (req, res) => {
 
 // TODO: remove /graphql when deployed
 if (process.env.NODE_ENV === "production") {
-  app.use(function(req, res, next) {
-    if (req.secure) {
-      console.log("secure");
+  // app.use(function(req, res, next) {
+  //   if (req.secure) {
+  //     console.log("secure");
 
-      // request was via https, so do no special handling
-      next();
-    } else {
-      console.log("insecure");
-      // request was via http, so redirect to https
-      res.redirect("https://" + req.headers.host + req.url);
-    }
-  });
+  //     // request was via https, so do no special handling
+  //     next();
+  //   } else {
+  //     console.log("insecure");
+  //     // request was via http, so redirect to https
+  //     res.redirect("https://" + req.headers.host + req.url);
+  //   }
+  // });
   //TODO: CHANGE TO /graphql
   app.use("/backend", express.static(__dirname + "/backend"));
   app.get("/backend", (req, res) => {
