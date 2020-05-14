@@ -96,7 +96,8 @@ function Today(props) {
     try {
       const resp = await updatePage({
         variables: {
-          page: props.selectedGoal.numberPagesToday + 1,
+          page:
+            props.selectedGoal.numberPagesToday + props.selectedGoal.startPage,
           examId: props.selectedGoal.exam.id,
         },
         refetchQueries: [
@@ -140,15 +141,15 @@ function Today(props) {
   // last page to study ----------------
   let lastPage = todaysChunk.exam.numberPages
 
+  // start page for today's chunk goal ----------------
+  let startPage = todaysChunk.startPage
+
   // real current page to display ----------------
   let realCurrentPage = currentPage % lastPage
   // to display the last page correctly (edge cases)
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
   }
-
-  // start page for today's chunk goal ----------------
-  let startPage = todaysChunk.startPage
 
   // last page minus start page ----------------
   let totalPages
@@ -377,7 +378,7 @@ function Today(props) {
                             placeholder={realCurrentPage}
                             ref={register({
                               required: true,
-                              min: 1,
+                              min: startPage,
                               max: lastPage,
                             })}
                           />
@@ -397,13 +398,15 @@ function Today(props) {
                       {errors.page_amount_studied &&
                         errors.page_amount_studied.type === "max" && (
                           <span className="error">
-                            The maximum is your last page: {lastPage}
+                            The maximum is your study materials last page:{" "}
+                            {lastPage}
                           </span>
                         )}
                       {errors.page_amount_studied &&
                         errors.page_amount_studied.type === "min" && (
                           <span className="error">
-                            The minimum page is today's start page
+                            The minimum page your study materials start page:{" "}
+                            {startPage}
                           </span>
                         )}
                     </form>
