@@ -426,7 +426,8 @@ html body {
 #success-container-edit-exam,
 #success-container-edit-mascot,
 #success-container-exam-completed,
-#success-container-add-new {
+#success-container-add-new,
+#success-container-mascot-saved {
   display: none;
   .success {
     display: flex;
@@ -446,5 +447,36 @@ html body {
   .success {
     display: flex;
     justify-content: center;
+  }
+}
+
+#forgotten-password-error,
+#success-save-password {
+  display: none;
+  p {
+    text-align: center;
+    max-width: none;
+  }
+}
+
+#success-container-forgotten-password {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: theme_color("light");
+  max-width: 50rem;
+  padding: 80px 75px;
+  z-index: 10;
+
+  p {
+    max-width: none;
+  }
+
+  @include media-breakpoint-down(xs) {
+    padding: 40px 37.5px;
   }
 }
