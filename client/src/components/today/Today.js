@@ -34,30 +34,32 @@ function Today(props) {
     try {
       const chunk = props.selectedGoal
       const exam = chunk.exam
-      const currentPage = exam.currentPage
       const lastPage = exam.numberPages
-      let currentRepetion = Math.floor(currentPage / lastPage)
+      let cyclesStudied = parseInt(formData.cycles_studied)
+      // const currentPage = exam.currentPage
+      // let currentRepetion = Math.floor(currentPage / lastPage)
       let newPage =
         parseInt(formData.page_amount_studied) +
-        1 + // plus one to tell backend from which page to study next
-        lastPage * currentRepetion
-      const numberPagesToday = chunk.numberPagesToday
-      const chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+        lastPage * (cyclesStudied - 1) +
+        1 // plus one to tell backend from which page to study next
+
+      // const numberPagesToday = chunk.numberPagesToday
+      // const chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
       // update repetition cycle when entered number
       // is (lower than current page) OR (lower than goal AND higher than current page)
       // ex: goal 41 to 4
-      if (
-        (newPage >= chunkGoalPage && newPage < currentPage) ||
-        newPage < currentPage
-      ) {
-        // update repetition cycle
-        currentRepetion++
-        newPage =
-          parseInt(formData.page_amount_studied) +
-          1 + // plus one to tell backend from which page to study next
-          lastPage * currentRepetion
-      }
+      // if (
+      //   (newPage >= chunkGoalPage && newPage < currentPage) ||
+      //   newPage < currentPage
+      // ) {
+      //   // update repetition cycle
+      //   currentRepetion++
+      //   newPage =
+      //     parseInt(formData.page_amount_studied) +
+      //     1 + // plus one to tell backend from which page to study next
+      //     lastPage * currentRepetion
+      // }
 
       // update page ----------------
       const resp = await updatePage({
@@ -161,13 +163,16 @@ function Today(props) {
   if (realCurrentPageTotal < startPage) {
     realCurrentPageTotal = startPage
   }
+  if (realCurrentPageTotal == lastPage) {
+    realCurrentPageTotal = 1
+  }
   // --------------------------------
 
   // last page for todays goal ----------------
   let totalPages
   // if start page is bigger than 1 -> last page minus start page
   if (startPage > 1) {
-    totalPages = lastPage - startPage
+    totalPages = lastPage - startPage + 1
   } else {
     totalPages = lastPage
   }
@@ -195,12 +200,19 @@ function Today(props) {
   // ----------------
   let repetitionCycles = todaysChunk.exam.timesRepeat
   let repetition = 1
-  let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  let repetitionCounter
+  // if there is only 1 page to study
+  if (currentPage == lastPage)
+    repetitionCounter = Math.floor(currentPage / lastPage)
+  else repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  // check which cycle to display
   if (repetitionCounter <= repetitionCycles) {
     repetition = repetitionCounter
   } else {
     repetition = repetitionCycles
   }
+  // --------------------------------
+
   // days till deadline ----------------
   let daysLeft = todaysChunk.daysLeft
   // total days from start to end date
@@ -210,8 +222,7 @@ function Today(props) {
   // --------------------------------
 
   // repetition goal to display next to goal ----------------
-  let repetitionGoal = 1
-
+  let repetitionGoal = Math.floor(currentPage / lastPage) + 1
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday
   // if start page is bigger
@@ -226,17 +237,22 @@ function Today(props) {
     numberPagesToday = lastPage
 
     repetitionGoal = Math.floor(pagesLeftInCycles / lastPage) + 1
-
-    // show message
-    noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
   // if there is only 1 page to study
-  if (realCurrentPage == numberPagesToday) {
+  if (realCurrentPage == numberPagesToday && repetition != repetitionCycles) {
     // to display correct rep cycle goal
-    repetitionGoal = repetition
+    repetitionGoal = repetition + 1
     // to display correct total no. of pages if there is only 1 page
     totalPages = 1
     realCurrentPageTotal = 1
+  }
+  // display message only if there is more than 1 cycle for 1 day
+  if (
+    (numberPagesToday > lastPage && repetition != repetitionCycles) ||
+    (numberPagesToday == lastPage && repetitionGoal > repetition)
+  ) {
+    // show message
+    noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
   // --------------------------------
 
@@ -376,16 +392,6 @@ function Today(props) {
 
                 {/* buttons */}
                 <div className="today__container__buttons">
-                  {/* open notes or link */}
-                  <Link
-                    to={`/exams/${todaysChunk.exam.subject
-                      .toLowerCase()
-                      .replace(/ /g, "-")}?id=${todaysChunk.exam.id}`}
-                    className="today__container__buttons__open"
-                  >
-                    open notes
-                  </Link>
-
                   <div className="today__container__buttons__submit">
                     {/* pages done */}
                     <form
@@ -414,43 +420,94 @@ function Today(props) {
                             })}
                           />
                         </div>
-                        <Button
-                          className="today__container__buttons__submit__form__btn stan-btn-secondary"
-                          variant="button"
-                          text="save"
-                          type="submit"
-                        />
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "required" && (
+                            <span className="error">
+                              Please enter a page number
+                            </span>
+                          )}
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "max" && (
+                            <span className="error">
+                              The maximum is your study materials last page:{" "}
+                              {lastPage}
+                            </span>
+                          )}
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "min" && (
+                            <span className="error">
+                              The minimum page your study materials start page:{" "}
+                              {startPage}
+                            </span>
+                          )}
+                        <div className="today__container__buttons__submit__form__elements-container__elements">
+                          <Label
+                            for="page"
+                            text="in repetition cycle:"
+                            className="today__container__buttons__submit__form__elements-container__elements__label"
+                          ></Label>
+                          <Input
+                            className="today__container__buttons__submit__form__elements-container__elements__input"
+                            type="number"
+                            min="0"
+                            id="page"
+                            label="cycles_studied"
+                            placeholder={repetition}
+                            ref={register({
+                              required: true,
+                              min: repetition,
+                              max: repetitionCycles,
+                            })}
+                          />
+                        </div>
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "required" && (
+                            <span className="error">
+                              Please enter a cycle number
+                            </span>
+                          )}
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "max" && (
+                            <span className="error">
+                              The maximum is your last cycle: {repetitionCycles}
+                            </span>
+                          )}
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "min" && (
+                            <span className="error">
+                              The minimum is your current cycle: {repetition}
+                            </span>
+                          )}
                       </div>
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "required" && (
-                          <span className="error">
-                            Please enter a page number
-                          </span>
-                        )}
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "max" && (
-                          <span className="error">
-                            The maximum is your study materials last page:{" "}
-                            {lastPage}
-                          </span>
-                        )}
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "min" && (
-                          <span className="error">
-                            The minimum page your study materials start page:{" "}
-                            {startPage}
-                          </span>
-                        )}
+
+                      <Button
+                        className="today__container__buttons__submit__form__btn stan-btn-secondary"
+                        variant="button"
+                        text="save"
+                        type="submit"
+                      />
                     </form>
+                  </div>
+                  <div className="today__container__buttons__submit-all">
+                    {/* open notes or link */}
+                    <Link
+                      to={`/exams/${todaysChunk.exam.subject
+                        .toLowerCase()
+                        .replace(/ /g, "-")}?id=${todaysChunk.exam.id}`}
+                      className="today__container__buttons__open"
+                    >
+                      open notes
+                    </Link>
+
                     <form
                       onSubmit={onSubmitAll}
                       id="study-chunk-all"
-                      className="today__container__buttons__submit__form-all"
+                      className="today__container__buttons__submit-all__form-all"
                     >
                       {/* all done */}
-                      <div className="today__container__buttons__submit__all-done">
+                      <div className="today__container__buttons__submit-all__all-done">
                         <Button
-                          className="today__container__buttons__submit__all-done__btn stan-btn-primary"
+                          className="today__container__buttons__submit-all__all-done__btn stan-btn-primary"
                           variant="button"
                           text="goal studied"
                           type="submit"
