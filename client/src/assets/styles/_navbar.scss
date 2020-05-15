@@ -173,8 +173,21 @@
           margin-bottom: 35px;
         }
 
-        .profile-img {
-          width: 70px;
+        .logout {
+          button {
+            font-family: $font-family-BasierCircle-SemiBold;
+            @include rem(letter-spacing, 1px);
+            background: none;
+            border: none;
+            text-transform: uppercase;
+            padding: 0;
+            color: theme_color("dark");
+            transition: all 200ms ease-in-out;
+
+            &:hover {
+              color: theme-color("primary-yellow");
+            }
+          }
         }
 
         li {
@@ -192,15 +205,6 @@
 
             &.active {
               color: theme-color("primary-yellow");
-            }
-          }
-
-          .profile-img {
-            width: 60%;
-            margin-bottom: 5px;
-
-            @include media-breakpoint-down(md) {
-              margin-top: 15px;
             }
           }
         }
