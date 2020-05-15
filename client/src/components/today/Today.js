@@ -418,6 +418,7 @@ function Today(props) {
                           className="today__container__buttons__submit__form__btn stan-btn-secondary"
                           variant="button"
                           text="save"
+                          type="submit"
                         />
                       </div>
                       {errors.page_amount_studied &&
@@ -452,6 +453,7 @@ function Today(props) {
                           className="today__container__buttons__submit__all-done__btn stan-btn-primary"
                           variant="button"
                           text="goal studied"
+                          type="submit"
                         />
                       </div>
                     </form>
