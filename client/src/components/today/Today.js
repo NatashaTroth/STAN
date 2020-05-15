@@ -151,13 +151,21 @@ function Today(props) {
     realCurrentPage = lastPage
   }
 
-  // last page minus start page ----------------
+  // last page for todays goal ----------------
   let totalPages
+  // if start page is bigger than 1 -> last page minus start page
   if (startPage > 1) {
     totalPages = lastPage - startPage
   } else {
     totalPages = lastPage
   }
+  // if numberPagesToday is bigger than last page
+  // (happens when more than 1 cycle has to be studied in a day)
+  if (todaysChunk.numberPagesToday > lastPage) {
+    totalPages = todaysChunk.numberPagesToday - startPage
+  }
+  // happens if startPage = lastPage (only study 1 page)
+  if (totalPages == 0) totalPages = lastPage - 1
 
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
@@ -177,6 +185,7 @@ function Today(props) {
 
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday
+
   // if start page is bigger
   if (numberPagesToday < startPage) {
     numberPagesToday = startPage + numberPagesToday
