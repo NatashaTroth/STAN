@@ -72,7 +72,7 @@ function AddNew() {
   const handleInputChange = (index, event) => {
     const values = [...inputFields]
     if (event.target.name === "study-links") {
-      values[index] = event.target.value
+      values[index] = event.target.value.trim()
     }
     setInputFields(values)
   }
