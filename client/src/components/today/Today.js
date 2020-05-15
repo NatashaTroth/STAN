@@ -177,6 +177,10 @@ function Today(props) {
 
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday
+  // if start page is bigger
+  if (numberPagesToday < startPage) {
+    numberPagesToday = startPage + numberPagesToday
+  }
   // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
   if (numberPagesToday > lastPage) {
     // get pages for new cycles
@@ -189,6 +193,7 @@ function Today(props) {
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
+
   // --------------------------------
 
   // real end page for today's chunk goal ----------------
@@ -283,8 +288,8 @@ function Today(props) {
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
                         page {realCurrentPage} to{" "}
-                        {startPage + numberPagesToday - 1} (rep.{" "}
-                        {repetitionGoal})
+                        {/* {startPage + numberPagesToday - 1} (rep.{" "} */}
+                        {numberPagesToday} (rep. {repetitionGoal})
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
