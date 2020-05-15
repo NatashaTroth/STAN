@@ -247,9 +247,10 @@ const Navbar = () => {
 
             {/* PUBLIC ROUTES */}
             <div className="menu-bottom">
-              <li className="logout">{logoutButton}</li>
-
+              {/* Dark /Light mode button */}
               <ThemeMode />
+              {/* other menu buttons */}
+              <li className="logout">{logoutButton}</li>
               <li className="imprint">
                 <NavLink
                   strict
