@@ -48,7 +48,7 @@ export function verifyExamInput(args) {
   }
 
   if (args.startPage && args.startPage > args.numberPages)
-    throw new ApolloError("Start page cannot higher than the number of pages.");
+    throw new ApolloError("Start page cannot higher than the last page.");
 }
 
 export function verifyAddExamDates(startDate, examDate) {

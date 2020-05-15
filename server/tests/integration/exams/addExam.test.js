@@ -218,7 +218,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Start page cannot higher than the number of pages."
+      "Start page cannot higher than the last page."
     );
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
