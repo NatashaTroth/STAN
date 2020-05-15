@@ -79,6 +79,7 @@ const ExamsCalendar = () => {
                 eventOrder={"duration"}
                 columnHeaderFormat={{ weekday: "long" }}
                 noEventsMessage="You've earned a break by now."
+                weekNumbers={true}
                 views={{
                   listWeek: {
                     buttonText: "week",
