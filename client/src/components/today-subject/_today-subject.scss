@@ -24,6 +24,8 @@
 
   &__heading {
     transition: all 150ms ease-in-out;
+    hyphens: auto;
+    word-break: break-word;
   }
 
   &__duration {
