@@ -127,11 +127,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <h4>Pages left incl. repetition</h4>
 
                 <div className="exam-pages__bar">
-                  {/* TODO: start page berücksichtigen */}
                   <ExamBar
                     value={
-                      (100 * (examDetails.currentPage - 1)) /
-                      (examDetails.numberPages * examDetails.timesRepeat)
+                      (100 *
+                        (examDetails.numberPages * examDetails.timesRepeat)) /
+                      (examDetails.currentPage - examDetails.startPage)
                     }
                   />
 
@@ -139,7 +139,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <p>
                       {Math.round(
                         examDetails.numberPages * examDetails.timesRepeat -
-                          (examDetails.currentPage - 1)
+                          (examDetails.currentPage - examDetails.startPage)
                       )}{" "}
                       pages left
                     </p>
