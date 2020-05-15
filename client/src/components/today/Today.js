@@ -150,6 +150,18 @@ function Today(props) {
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
   }
+  if (realCurrentPage < startPage) {
+    realCurrentPage = startPage
+  }
+  // display for total no. of pages
+  let realCurrentPageTotal = currentPage % lastPage
+  if (realCurrentPageTotal == 0) {
+    realCurrentPageTotal = lastPage
+  }
+  if (realCurrentPageTotal < startPage) {
+    realCurrentPageTotal = startPage
+  }
+  // --------------------------------
 
   // last page for todays goal ----------------
   let totalPages
@@ -202,7 +214,6 @@ function Today(props) {
 
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday
-
   // if start page is bigger
   if (numberPagesToday < startPage) {
     numberPagesToday = startPage + numberPagesToday
@@ -218,6 +229,14 @@ function Today(props) {
 
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
+  }
+  // if there is only 1 page to study
+  if (realCurrentPage == numberPagesToday) {
+    // to display correct rep cycle goal
+    repetitionGoal = repetition
+    // to display correct total no. of pages if there is only 1 page
+    totalPages = 1
+    realCurrentPageTotal = 1
   }
   // --------------------------------
 
@@ -315,7 +334,7 @@ function Today(props) {
                         Total no. of pages:
                       </p>
                       <p className="today__container__content__text">
-                        {realCurrentPage} / {totalPages}
+                        {realCurrentPageTotal} / {totalPages}
                       </p>
                     </div>
                     <div className="today__container__content__details__total-pages">
