@@ -53,6 +53,11 @@
     padding: 0 !important;
     height: 45px;
 
+    @include media-breakpoint-down(xs) {
+      display: block;
+      height: 90px;
+    }
+
     &--input {
       flex: 1;
     }
@@ -71,7 +76,7 @@
         margin-right: 11px;
       }
       @include media-breakpoint-down(xs) {
-        text-align: center;
+        text-align: right;
       }
 
       button {
