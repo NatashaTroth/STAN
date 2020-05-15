@@ -13,7 +13,7 @@ function TodayGoals(props) {
   let className = "today-goals box-content"
 
   // check length of bpx output
-  if (props.data.length >= 6) {
+  if (props.data.length >= 9) {
     className += " today-goals-maxHeight"
   }
 
