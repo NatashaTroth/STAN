@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, initialState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import ThemeMode from "../theme-changer/ThemeChanger"
 import useDarkMode from "use-dark-mode"
@@ -39,7 +39,9 @@ const Navbar = () => {
   let Logo = LogoDark
 
   // dark mode specific ----------------
-  const darkMode = useDarkMode(false)
+  const darkMode = useDarkMode(initialState, {
+    element: document.documentElement,
+  })
   if (darkMode.value) {
     Logo = LogoLight
   } else {

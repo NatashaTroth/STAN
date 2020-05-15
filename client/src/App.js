@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, initialState } from "react"
 import { setAccessToken } from "./accessToken"
 import "./App.scss"
 import useDarkMode from "use-dark-mode"
@@ -21,7 +21,9 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
   // dark mode specific ----------------
-  const darkMode = useDarkMode(false)
+  const darkMode = useDarkMode(initialState, {
+    element: document.documentElement,
+  })
   let background, color
   if (darkMode.value) {
     background = "#101926"

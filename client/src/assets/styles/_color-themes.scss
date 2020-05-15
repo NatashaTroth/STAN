@@ -1,8 +1,13 @@
 // color themes ----------------
-body.dark-mode {
-  transition: all 500ms ease-in-out;
+html.dark-mode {
   background-color: theme-color("dark-mode") !important;
-  color: theme-color("light");
+  transition: all 500ms ease-in-out;
+
+  body {
+    transition: all 500ms ease-in-out;
+    background-color: theme-color("dark-mode") !important;
+    color: theme-color("light");
+  }
 
   // general ----------------
   // white in dark theme

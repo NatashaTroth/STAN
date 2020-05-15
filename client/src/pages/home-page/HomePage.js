@@ -1,4 +1,4 @@
-import React from "react"
+import React, { initialState } from "react"
 import { Link } from "react-router-dom"
 import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
@@ -19,7 +19,9 @@ import { client } from "../../apolloClient"
 
 const Home = () => {
   // dark mode specific ----------------
-  const darkMode = useDarkMode(false)
+  const darkMode = useDarkMode(initialState, {
+    element: document.documentElement,
+  })
   let particleColor
   if (darkMode.value) {
     particleColor = "#ffffff"

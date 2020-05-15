@@ -63,6 +63,8 @@
 
         &__item {
           padding: 1px 0;
+          hyphens: auto;
+          word-break: break-word;
 
           &::before {
             display: none;

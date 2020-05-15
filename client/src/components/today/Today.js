@@ -150,6 +150,18 @@ function Today(props) {
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
   }
+  if (realCurrentPage < startPage) {
+    realCurrentPage = startPage
+  }
+  // display for total no. of pages
+  let realCurrentPageTotal = currentPage % lastPage
+  if (realCurrentPageTotal == 0) {
+    realCurrentPageTotal = lastPage
+  }
+  if (realCurrentPageTotal < startPage) {
+    realCurrentPageTotal = startPage
+  }
+  // --------------------------------
 
   // last page for todays goal ----------------
   let totalPages
@@ -180,12 +192,28 @@ function Today(props) {
   }
   // --------------------------------
 
+  // ----------------
+  let repetitionCycles = todaysChunk.exam.timesRepeat
+  let repetition = 1
+  let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  if (repetitionCounter <= repetitionCycles) {
+    repetition = repetitionCounter
+  } else {
+    repetition = repetitionCycles
+  }
+  // days till deadline ----------------
+  let daysLeft = todaysChunk.daysLeft
+  // total days from start to end date
+  let totalDays = todaysChunk.totalNumberDays
+  // percentage for bar
+  let dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
+  // --------------------------------
+
   // repetition goal to display next to goal ----------------
   let repetitionGoal = 1
 
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday
-
   // if start page is bigger
   if (numberPagesToday < startPage) {
     numberPagesToday = startPage + numberPagesToday
@@ -202,7 +230,14 @@ function Today(props) {
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
-
+  // if there is only 1 page to study
+  if (realCurrentPage == numberPagesToday) {
+    // to display correct rep cycle goal
+    repetitionGoal = repetition
+    // to display correct total no. of pages if there is only 1 page
+    totalPages = 1
+    realCurrentPageTotal = 1
+  }
   // --------------------------------
 
   // real end page for today's chunk goal ----------------
@@ -214,23 +249,6 @@ function Today(props) {
   } else if (chunkGoalPage == 0) {
     chunkGoalPage = 1
   }
-  // --------------------------------
-
-  // ----------------
-  let repetitionCycles = todaysChunk.exam.timesRepeat
-  let repetition = 1
-  let repetitionCounter = Math.floor(currentPage / lastPage) + 1
-  if (repetitionCounter <= repetitionCycles) {
-    repetition = repetitionCounter
-  } else {
-    repetition = repetitionCycles
-  }
-  // days till deadline ----------------
-  let daysLeft = todaysChunk.daysLeft
-  // total days from start to end date
-  let totalDays = todaysChunk.totalNumberDays
-  // percentage for bar
-  let dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
   // --------------------------------
 
   // pages are left in total with repetition cycles ----------------
@@ -296,9 +314,8 @@ function Today(props) {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
-                        page {realCurrentPage} to{" "}
-                        {/* {startPage + numberPagesToday - 1} (rep.{" "} */}
-                        {numberPagesToday} (rep. {repetitionGoal})
+                        page {realCurrentPage} to {numberPagesToday} (rep.{" "}
+                        {repetitionGoal})
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
@@ -317,7 +334,7 @@ function Today(props) {
                         Total no. of pages:
                       </p>
                       <p className="today__container__content__text">
-                        {realCurrentPage - startPage + 1} / {totalPages}
+                        {realCurrentPageTotal} / {totalPages}
                       </p>
                     </div>
                     <div className="today__container__content__details__total-pages">

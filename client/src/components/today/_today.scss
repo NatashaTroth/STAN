@@ -84,6 +84,8 @@
           @include rem(font-size, $font-size-18);
           @include rem(line-height, 24px);
           @include rem(letter-spacing, 0.5px);
+          hyphens: auto;
+          word-break: break-word;
 
           @include media-breakpoint-down(sm) {
             @include rem(font-size, $font-size-14);
