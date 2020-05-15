@@ -1,6 +1,4 @@
 import React from "react"
-import { setAccessToken } from "../../accessToken"
-import { GoogleLogout } from "react-google-login"
 import { Redirect, Link } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -9,8 +7,6 @@ import { flowRight as compose } from "lodash"
 import { graphql } from "react-apollo"
 
 // mutation & queries ----------------
-import { useMutation } from "@apollo/react-hooks"
-import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
@@ -26,7 +22,6 @@ import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 
 // sub components ----------------
-import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
 
 // helpers ----------------
@@ -36,9 +31,6 @@ import { currentMood, decodeHtml } from "../../helpers/mascots"
 import { client } from "../../apolloClient"
 
 const UserAccount = props => {
-  // mutation ----------------
-  const [logout] = useMutation(LOGOUT_MUTATION)
-
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser === null) {
@@ -63,37 +55,6 @@ const UserAccount = props => {
   if (props.getTodaysChunksProgressQuery.todaysChunkAndProgress) {
     mood = currentMood(
       props.getTodaysChunksProgressQuery.todaysChunkAndProgress.todaysProgress
-    )
-  }
-
-  // google logout ----------------
-  const currentUserGoogleLogin = currentUser.googleLogin
-  let logoutButton
-  if (!currentUserGoogleLogin) {
-    logoutButton = (
-      <Button
-        variant="button"
-        className=""
-        onClick={async () => logUserOut({ logout })}
-        text="Logout"
-      />
-    )
-  } else {
-    logoutButton = (
-      <GoogleLogout
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Logout"
-        onLogoutSuccess={async () => logUserOut({ logout, client })}
-        render={renderProps => (
-          <button
-            variant="button"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Logout
-          </button>
-        )}
-      />
     )
   }
 
@@ -127,9 +88,8 @@ const UserAccount = props => {
                   <p>{decodeHtml(currentUser.email)}</p>
                 </div>
 
-                <div className="buttons">
+                <div className="button">
                   <Link to="/profile/edit">edit</Link>
-                  {logoutButton}
                 </div>
               </div>
 
@@ -213,18 +173,3 @@ export default compose(
     name: "getTodaysChunksProgressQuery",
   })
 )(UserAccount)
-
-async function logUserOut({ logout }) {
-  // reset refresh token ----------------
-  await logout()
-
-  // reset access token ----------------
-  setAccessToken("")
-
-  // reset mascot event ----------------
-  window.localStorage.setItem("mascot-event", false)
-
-  // logout all other tabs ----------------
-  localStorage.setItem("logout-event", Date.now())
-  window.location.href = "/login"
-}

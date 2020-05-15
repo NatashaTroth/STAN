@@ -143,7 +143,7 @@ const ExamDetailsEdit = ({ examId }) => {
   const handleOldInputChange = (index, event) => {
     const values = [...oldUrls]
     if (event.target.name === "study-links") {
-      values[index] = event.target.value
+      values[index] = event.target.value.trim()
     }
     setOldUrls(values)
   }

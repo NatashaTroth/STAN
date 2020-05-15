@@ -36,13 +36,12 @@
             padding: 30px;
           }
         }
-        .buttons {
+        .button {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
           padding: 10px;
 
-          button,
           a {
             border: none;
             text-transform: lowercase;
@@ -70,9 +69,6 @@
               @include rem(line-height, 18px);
             }
           }
-        }
-        button {
-          padding-right: 0;
         }
       }
       &--bottom {

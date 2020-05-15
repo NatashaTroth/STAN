@@ -2,10 +2,14 @@ import React, { useState, initialState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
 import ThemeMode from "../theme-changer/ThemeChanger"
 import useDarkMode from "use-dark-mode"
+import { setAccessToken } from "../../accessToken"
+import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
+import { useMutation } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
+import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
@@ -14,6 +18,7 @@ import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import QueryError from "../error/Error"
 import Loading from "../loading/Loading"
+import Button from "../../components/button/Button"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
@@ -26,6 +31,9 @@ import LogoLight from "../../images/icons/stan-logo-light.svg"
 import { decodeHtml } from "../../helpers/mascots"
 
 const Navbar = () => {
+  // mutation ----------------
+  const [logout] = useMutation(LOGOUT_MUTATION)
+
   // variables ----------------
   let backdrop = null
   let Logo = LogoDark
@@ -62,6 +70,39 @@ const Navbar = () => {
   }
 
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
+
+  // google logout ----------------
+  let logoutButton
+  if (currentUser !== null) {
+    const currentUserGoogleLogin = currentUser.googleLogin
+    if (!currentUserGoogleLogin) {
+      logoutButton = (
+        <Button
+          variant="button"
+          className=""
+          onClick={async () => logUserOut({ logout })}
+          text="Logout"
+        />
+      )
+    } else {
+      logoutButton = (
+        <GoogleLogout
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          buttonText="Logout"
+          onLogoutSuccess={async () => logUserOut({ logout, client })}
+          render={renderProps => (
+            <button
+              variant="button"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Logout
+            </button>
+          )}
+        />
+      )
+    }
+  }
 
   // return ----------------
   return (
@@ -206,7 +247,8 @@ const Navbar = () => {
 
             {/* PUBLIC ROUTES */}
             <div className="menu-bottom">
-              {/* Light/Dark mode */}
+              <li className="logout">{logoutButton}</li>
+
               <ThemeMode />
               <li className="imprint">
                 <NavLink
@@ -242,3 +284,18 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+async function logUserOut({ logout }) {
+  // reset refresh token ----------------
+  await logout()
+
+  // reset access token ----------------
+  setAccessToken("")
+
+  // reset mascot event ----------------
+  window.localStorage.setItem("mascot-event", false)
+
+  // logout all other tabs ----------------
+  localStorage.setItem("logout-event", Date.now())
+  window.location.href = "/login"
+}
