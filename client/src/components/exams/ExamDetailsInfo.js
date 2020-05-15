@@ -130,8 +130,8 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   <ExamBar
                     value={
                       (100 *
-                        (examDetails.numberPages * examDetails.timesRepeat)) /
-                      (examDetails.currentPage - examDetails.startPage)
+                        (examDetails.currentPage - examDetails.startPage)) /
+                      (examDetails.numberPages * examDetails.timesRepeat)
                     }
                   />
 
