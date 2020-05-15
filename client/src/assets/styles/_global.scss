@@ -1,10 +1,12 @@
 html {
   scroll-behavior: smooth;
+  background-color: transparent;
 }
 html body {
   height: 100%;
   font-size: 62.5%; // for px to rem conversion
   overflow-x: hidden; // hide horizontal scroll bar
+  background-color: theme-color("light");
 
   a:focus {
     outline: none;
