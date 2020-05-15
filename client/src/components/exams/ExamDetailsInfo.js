@@ -132,10 +132,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
                       (100 *
                         (examDetails.currentPage - examDetails.startPage)) /
                       (examDetails.numberPages * examDetails.timesRepeat)
-                      //   100 *
-                      //     (examDetails.numberPages * examDetails.timesRepeat)
-                      // ) /
-                      // (examDetails.currentPage - examDetails.startPage)
                     }
                   />
 
