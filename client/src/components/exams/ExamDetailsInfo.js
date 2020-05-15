@@ -137,12 +137,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
                   <div className="exam-pages__bar--status">
                     <p>
-                      {Math.round(
-                        (100 *
-                          (examDetails.numberPages * examDetails.timesRepeat) -
-                          (examDetails.currentPage - examDetails.startPage)) /
-                          (examDetails.numberPages * examDetails.timesRepeat)
-                      )}{" "}
+                      {examDetails.numberPages -
+                        examDetails.startPage -
+                        (examDetails.currentPage -
+                          examDetails.startPage -
+                          1)}{" "}
                       pages left
                     </p>
                   </div>
