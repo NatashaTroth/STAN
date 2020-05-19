@@ -60,7 +60,6 @@ describe("Test user resolver regex", () => {
     let respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    console.log(respTodaysChunks);
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length

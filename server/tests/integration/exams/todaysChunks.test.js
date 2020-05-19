@@ -75,6 +75,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam1.startDate,
         totalNumberDays: testExams.exam1.totalNumberDays,
         numberPages: testExams.exam1.numberPages,
+        lastPage: testExams.exam1.lastPage,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
         studyMaterialLinks: [
@@ -97,6 +98,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam2.startDate,
         totalNumberDays: testExams.exam2.totalNumberDays,
         numberPages: testExams.exam2.numberPages,
+        lastPage: testExams.exam2.lastPage,
         timesRepeat: testExams.exam2.timesRepeat,
         currentPage: testExams.exam2.currentPage,
         studyMaterialLinks: [
@@ -119,6 +121,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam3.startDate,
         totalNumberDays: testExams.exam3.totalNumberDays,
         numberPages: testExams.exam3.numberPages,
+        lastPage: testExams.exam3.lastPage,
         timesRepeat: testExams.exam3.timesRepeat,
         currentPage: testExams.exam3.currentPage,
         studyMaterialLinks: [
@@ -170,6 +173,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam1.startDate,
         totalNumberDays: testExams.exam1.totalNumberDays,
         numberPages: testExams.exam1.numberPages,
+        lastPage: testExams.exam1.lastPage,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
         studyMaterialLinks: [
@@ -191,6 +195,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam2.startDate,
         totalNumberDays: testExams.exam2.totalNumberDays,
         numberPages: testExams.exam2.numberPages,
+        lastPage: testExams.exam2.lastPage,
         timesRepeat: testExams.exam2.timesRepeat,
         currentPage: testExams.exam2.currentPage,
         studyMaterialLinks: [
@@ -213,6 +218,7 @@ describe("Test user resolver regex", () => {
         startDate: testExams.exam3.startDate,
         totalNumberDays: testExams.exam3.totalNumberDays,
         numberPages: testExams.exam3.numberPages,
+        lastPage: testExams.exam3.lastPage,
         timesRepeat: testExams.exam3.timesRepeat,
         currentPage: testExams.exam3.currentPage,
         studyMaterialLinks: [
@@ -334,6 +340,7 @@ describe("Test user resolver regex", () => {
         startDate: testExam.startDate,
         totalNumberDays: testExam.totalNumberDays,
         numberPages: testExam.numberPages,
+        lastPage: testExam.lastPage,
         timesRepeat: testExam.timesRepeat,
         currentPage: 3,
         studyMaterialLinks: [

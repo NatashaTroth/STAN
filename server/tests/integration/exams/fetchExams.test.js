@@ -50,6 +50,7 @@ describe("Test user resolver regex", () => {
     expect(exam.subject).toBe(resp.data.exam.subject);
     expect(exam.examDate.toString()).toBe(resp.data.exam.examDate.toString());
     expect(exam.startDate.toString()).toBe(resp.data.exam.startDate.toString());
+    expect(exam.lastPage).toBe(resp.data.exam.lastPage);
     expect(exam.numberPages).toBe(resp.data.exam.numberPages);
     expect(exam.timePerPage).toBe(resp.data.exam.timePerPage);
     expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
@@ -102,6 +103,7 @@ describe("Test user resolver regex", () => {
     expect(exam.startDate.toString()).toBe(
       resp.data.exams[2].startDate.toString()
     );
+    expect(exam.lastPage).toBe(resp.data.exams[2].lastPage);
     expect(exam.numberPages).toBe(resp.data.exams[2].numberPages);
     expect(exam.timePerPage).toBe(resp.data.exams[2].timePerPage);
     expect(exam.timesRepeat).toBe(resp.data.exams[2].timesRepeat);
