@@ -63,7 +63,7 @@ export const examResolvers = {
           userId: userInfo.userId
         });
 
-        if (!resp) return {};
+        if (!resp) throw new ApolloError("This exam does not exist.");
         return escapeExamObject(resp);
       } catch (err) {
         handleResolverError(err);
