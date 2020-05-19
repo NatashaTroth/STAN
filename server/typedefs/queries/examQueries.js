@@ -31,7 +31,7 @@ const examQueries = gql`
       subject: String!
       examDate: Date!
       startDate: Date!
-      numberPages: Int!
+      lastPage: Int!
       timePerPage: Int!
       timesRepeat: Int!
       startPage: Int!

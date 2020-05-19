@@ -86,36 +86,41 @@ export async function signUpTestUser() {
 }
 
 export async function addTestExam({
-  subject,
+  subject = "Biology",
   examDate,
   startDate,
-  numberPages,
-  timePerPage,
-  startPage,
+  startPage = 1,
+  lastPage = 50,
+  timePerPage = 5,
   currentPage,
-  timesRepeat,
-  color,
-  userId,
-  completed
+  timesRepeat = 1,
+  color = "#FFFFFF",
+  userId = "samanthasId",
+  completed = false
 }) {
+  let numberPages = lastPage - startPage + 1;
+  if (lastPage <= startPage)
+    throw new Error("The last page should be higher than the start page.");
+
   const finalExamDate = examDate || getFutureDay(new Date(), 5);
   const finalStartDate = startDate || new Date();
   const totalNumberDays = getNumberOfDays(finalStartDate, finalExamDate);
   const exam = await Exam.create({
-    subject: subject || "Biology",
+    subject: subject,
     examDate: finalExamDate,
     startDate: finalStartDate,
     totalNumberDays,
-    numberPages: numberPages || 50,
-    timePerPage: timePerPage || 5,
-    startPage: startPage || 1,
+    startPage,
+    lastPage,
+    numberPages,
+    timePerPage,
     currentPage: currentPage || startPage || 1,
-    timesRepeat: timesRepeat || 1,
+    timesRepeat,
     notes: "Samantha's notes",
     pdfLink: "samanthas-link.stan",
-    color: color || "#FFFFFF",
-    completed: completed || false,
-    userId: userId || "samanthasId"
+    color,
+    userId,
+    completed
   });
 
   if (!exam) throw new Error("Could not add a test exam");
@@ -140,7 +145,7 @@ export async function addTestExams(inputUserId) {
     subject: "Archeology",
     examDate: getFutureDay(new Date(), 2),
     startDate: getFutureDay(new Date(), -5),
-    numberPages: 42,
+    lastPage: 42,
     timePerPage: 10,
     startPage: 7,
     currentPage: 20,
@@ -152,7 +157,7 @@ export async function addTestExams(inputUserId) {
     subject: "Chemistry",
     examDate: getFutureDay(new Date(), 1),
     startDate: getFutureDay(new Date(), -20),
-    numberPages: 40,
+    lastPage: 40,
     timePerPage: 10,
     startPage: 8,
     currentPage: 160,

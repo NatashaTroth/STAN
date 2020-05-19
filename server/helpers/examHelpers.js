@@ -23,7 +23,7 @@ export function prepareExamInputData(args, userId) {
   if (!args.startDate || args.startDate.length <= 0) {
     args.startDate = new Date();
   }
-  args.numberPages = calcNumberPagesFromPastNumbers(
+  args.numberPages = calcNumberPagesFromPageNumbers(
     args.startPage,
     args.lastPage
   );
@@ -59,7 +59,7 @@ export function verifyAddExamDates(startDate, examDate) {
       "Dates cannot be in the past and start learning date must be before exam date."
     );
 }
-export function calcNumberPagesFromPastNumbers(startPage, lastPage) {
+export function calcNumberPagesFromPageNumbers(startPage, lastPage) {
   if (lastPage <= startPage)
     throw new Error("The last page should be higher than the start page.");
   return lastPage - startPage + 1;
@@ -78,6 +78,10 @@ export async function handleUpdateExamInput(exam, args, userId) {
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
+  args.numberPages = calcNumberPagesFromPageNumbers(
+    args.startPage,
+    args.lastPage
+  );
   // learningIsComplete(args.currentPage, args.startPage, a);
   args.completed = exam.completed;
   if (!args.completed)

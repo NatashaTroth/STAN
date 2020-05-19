@@ -47,7 +47,7 @@ export const UPDATE_EXAM_MUTATION = gql`
     $subject: String!
     $examDate: Date!
     $startDate: Date!
-    $numberPages: Int!
+    $lastPage: Int!
     $timePerPage: Int!
     $timesRepeat: Int!
     $startPage: Int!
@@ -60,7 +60,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       subject: $subject
       examDate: $examDate
       startDate: $startDate
-      numberPages: $numberPages
+      lastPage: $lastPage
       timePerPage: $timePerPage
       timesRepeat: $timesRepeat
       startPage: $startPage
