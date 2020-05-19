@@ -49,7 +49,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120-08-11"),
         startDate: new Date("2120-08-05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -70,7 +70,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120/08/11"),
         startDate: new Date("2120/08/05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -91,7 +91,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120.08.11"),
         startDate: new Date("2120.08.05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -112,7 +112,7 @@ describe("Test user resolver regex", () => {
         subject: "",
         examDate: new Date("2120-09-11"),
         startDate: new Date("2120-08-05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
@@ -136,7 +136,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: "test",
         startDate: new Date("2120-08-11"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
@@ -161,7 +161,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120-08-11"),
         startDate: "test",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
@@ -186,7 +186,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2150-08-11"),
         startDate: "",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 6,
         notes: "NOTES",
@@ -204,6 +204,31 @@ describe("Test user resolver regex", () => {
     );
   });
 
+  it("should not add exam because startPage is null", async () => {
+    const resp = await mutate({
+      query: ADD_EXAM_MUTATION,
+      variables: {
+        subject: "Maths",
+        examDate: new Date("2120-08-11"),
+        startDate: new Date("2120-08-05"),
+        lastPage: 5,
+        timePerPage: 0,
+        startPage: null,
+        notes: "NOTES",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
+        completed: false
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual(
+      'Variable "$startPage" of non-null type "Int!" must not be null.'
+    );
+  });
+
   it("should use regex to filter out wrong time per page format", async () => {
     const resp = await mutate({
       query: ADD_EXAM_MUTATION,
@@ -211,9 +236,9 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120-08-11"),
         startDate: new Date("2120-08-05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 0,
-        startPage: null,
+        startPage: 1,
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
@@ -236,7 +261,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120-08-11"),
         startDate: new Date("2120-08-05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 2,
         startPage: 1,
         notes: "NOTES",
@@ -261,7 +286,7 @@ describe("Test user resolver regex", () => {
         subject: "Maths",
         examDate: new Date("2120-08-11"),
         startDate: new Date("2120-08-05"),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 6,
         notes: "d".repeat(100000001),
@@ -354,7 +379,7 @@ describe("Test user resolver regex", () => {
         subject: "&<>'\"/",
         examDate: getFutureDay(new Date(), 5),
         startDate: new Date(),
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         timesRepeat: 2,
         startPage: 1,

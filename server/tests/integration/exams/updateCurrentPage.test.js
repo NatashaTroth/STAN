@@ -48,7 +48,7 @@ describe("Test user resolver regex", () => {
         subject: "Editable Exam",
         examDate: "2122-08-11",
         startDate: "2122-08-05",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 1,
         notes: "My Test Notes",

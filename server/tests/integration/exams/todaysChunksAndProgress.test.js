@@ -60,6 +60,7 @@ describe("Test user resolver regex", () => {
     let respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+    console.log(respTodaysChunks);
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
@@ -82,6 +83,7 @@ describe("Test user resolver regex", () => {
             totalNumberDays: testExam.totalNumberDays,
             timePerPage: testExam.timePerPage,
             numberPages: testExam.numberPages,
+            lastPage: testExam.lastPage,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
             studyMaterialLinks: [
@@ -176,6 +178,7 @@ describe("Test user resolver regex", () => {
             totalNumberDays: testExam.totalNumberDays,
             timePerPage: testExam.timePerPage,
             numberPages: testExam.numberPages,
+            lastPage: testExam.lastPage,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
             studyMaterialLinks: [
@@ -206,7 +209,7 @@ describe("Test user resolver regex", () => {
         examDate: testExam.examDate,
         startDate: testExam.startDate,
         currentPage: 5,
-        numberPages: testExam.numberPages, //was 50
+        lastPage: testExam.lastPage, //was 50
         timePerPage: testExam.timePerPage,
         startPage: testExam.startPage,
         timesRepeat: testExam.timesRepeat,
@@ -288,6 +291,7 @@ describe("Test user resolver regex", () => {
     testExam.examDate = getFutureDay(new Date(), 6);
     testExam.currentPage = 7;
     testExam.numberPages = 20;
+    testExam.lastPage = 21;
     testExam.timePerPage = 10;
     testExam.startPage = 2;
     testExam.timesRepeat = 2;
@@ -300,7 +304,7 @@ describe("Test user resolver regex", () => {
         examDate: testExam.examDate,
         startDate: testExam.startDate,
         currentPage: testExam.currentPage,
-        numberPages: testExam.numberPages, //was 50
+        lastPage: testExam.lastPage, //was 50
         timePerPage: testExam.timePerPage,
         startPage: testExam.startPage,
         timesRepeat: testExam.startPage
@@ -691,7 +695,7 @@ describe("Test user resolver regex", () => {
         examDate: testExam2.examDate,
         startDate: testExam2.startDate,
         currentPage: 52,
-        numberPages: testExam2.numberPages, //was 50
+        lastPage: testExam2.lastPage, //was 50
         timePerPage: testExam2.timePerPage,
         startPage: testExam2.startPage,
         timesRepeat: testExam2.timesRepeat

@@ -96,6 +96,7 @@ export async function addTestExam({
   timesRepeat = 1,
   color = "#FFFFFF",
   userId = "samanthasId",
+  notes = "Samantha's notes",
   completed = false
 }) {
   let numberPages = lastPage - startPage + 1;
@@ -116,7 +117,7 @@ export async function addTestExam({
     timePerPage,
     currentPage: currentPage || startPage || 1,
     timesRepeat,
-    notes: "Samantha's notes",
+    notes,
     studyMaterialLinks: [
       "https://stan-studyplan-staging.herokuapp.com/",
       "https://stan-studyplan.herokuapp.com/"
@@ -148,7 +149,7 @@ export async function addTestExams(inputUserId) {
     subject: "Archeology",
     examDate: getFutureDay(new Date(), 2),
     startDate: getFutureDay(new Date(), -5),
-    lastPage: 42,
+    lastPage: 48,
     timePerPage: 10,
     startPage: 7,
     currentPage: 20,
@@ -160,7 +161,7 @@ export async function addTestExams(inputUserId) {
     subject: "Chemistry",
     examDate: getFutureDay(new Date(), 1),
     startDate: getFutureDay(new Date(), -20),
-    lastPage: 40,
+    lastPage: 47,
     timePerPage: 10,
     startPage: 8,
     currentPage: 160,

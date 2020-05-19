@@ -11,6 +11,7 @@ const examType = gql`
     startDate: Date
     totalNumberDays: Int!
     numberPages: Int!
+    lastPage: Int!
     timePerPage: Int!
     timesRepeat: Int!
     startPage: Int!

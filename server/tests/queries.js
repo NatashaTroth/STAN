@@ -8,6 +8,7 @@ export const GET_EXAMS_QUERY = gql`
       examDate
       startDate
       numberPages
+      lastPage
       timePerPage
       timesRepeat
       currentPage
@@ -27,6 +28,7 @@ export const GET_EXAM_QUERY = gql`
       examDate
       startDate
       numberPages
+      lastPage
       timePerPage
       timesRepeat
       currentPage
@@ -49,6 +51,7 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
           startDate
           totalNumberDays
           numberPages
+          lastPage
           timesRepeat
           timePerPage
           currentPage

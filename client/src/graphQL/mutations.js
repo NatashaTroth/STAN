@@ -73,6 +73,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       examDate
       startDate
       numberPages
+      lastPage
       timePerPage
       timesRepeat
       startPage

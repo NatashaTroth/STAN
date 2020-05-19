@@ -364,7 +364,7 @@ describe("Test user resolver regex", () => {
         examDate: getFutureDay(testExam.examDate, 2),
         startDate: testExam.startDate,
         currentPage: 23,
-        numberPages: 200, //was 50
+        lastPage: 219, //was 50
         timePerPage: 5,
         startPage: 20,
         timesRepeat: 1
@@ -417,7 +417,7 @@ describe("Test user resolver regex", () => {
         examDate: getFutureDay(testExam.examDate, 1),
         startDate: testExam.startDate,
         currentPage: 23,
-        numberPages: 200, //was 50
+        lastPage: 219,
         timePerPage: 5,
         startPage: 20,
         timesRepeat: 1
@@ -627,7 +627,7 @@ describe("Test user resolver regex", () => {
         examDate: testExam.examDate,
         startDate: testExam.startDate,
         currentPage: completedPage,
-        numberPages: testExam.numberPages, //was 50
+        lastPage: testExam.lastPage, //was 50
         timePerPage: testExam.timePerPage,
         startPage: testExam.startPage,
         timesRepeat: testExam.timesRepeat
