@@ -7,6 +7,7 @@
     padding-bottom: 15px;
 
     &--back-btn {
+      margin-top: 5rem;
       position: relative;
       border: none;
       background: none;
@@ -30,6 +31,11 @@
         transform: rotate(-45deg);
         background-color: theme_color("dark");
         transition: all 0.25s ease-out;
+
+        &:focus,
+        &:active {
+          outline: none;
+        }
       }
       &:after {
         transform: rotate(-135deg);
@@ -52,31 +58,13 @@
   &__inner {
     padding: 20px;
 
-    // ERROR HANDLING
-    #success-container-exam-completed {
-      display: none;
-
-      .success {
-        display: flex;
-        justify-content: flex-end;
-        max-width: none;
-        padding-top: 20px;
-      }
-    }
-    .graphql-exam-completion-error {
-      display: flex;
-      justify-content: flex-start;
-      max-width: none;
-      margin-left: 15px;
-    }
-    // ==============
-
     &--bar {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 3px solid theme_color("dark");
+      border-bottom: 3px solid;
+      border-color: theme_color("dark");
       padding: 5px 0;
       margin: 5px;
 
@@ -149,11 +137,56 @@
     &--details {
       padding: 20px 0;
 
+      .link {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        @include media-breakpoint-down(md) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        a {
+          min-width: 90px;
+        }
+
+        &--headline {
+          padding-right: 35px;
+          margin: 10px 0;
+        }
+
+        &--buttons {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          a {
+            margin-right: 10px;
+            margin-bottom: 10px;
+          }
+        }
+
+        .empty-link {
+          margin-bottom: 15px;
+        }
+      }
+
       &--left {
         .exam-data {
           padding: 10px 0;
+
+          &__heading {
+            display: flex;
+            align-items: baseline;
+
+            .info-circle {
+              margin-left: 10px;
+            }
+          }
         }
       }
+
       &--right {
         .exam-data {
           padding: 10px 0;
@@ -161,6 +194,10 @@
 
         .exam-pages {
           padding: 10px 0;
+
+          h4 {
+            margin-bottom: 5px;
+          }
 
           &__bar {
             display: flex;
@@ -182,28 +219,6 @@
               @include media-breakpoint-down(md) {
                 min-width: 0px;
               }
-            }
-          }
-        }
-
-        .pdf {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
-          @include media-breakpoint-down(md) {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          a {
-            min-width: 90px;
-          }
-          &--file {
-            padding-right: 35px;
-
-            @include media-breakpoint-down(md) {
-              padding-bottom: 15px;
             }
           }
         }
@@ -239,23 +254,6 @@
       background-color: theme_color("light");
       padding-bottom: 20px;
 
-      // ERROR HANDLING
-      .graphql-exam-details-error {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-      }
-
-      #success-container-exam-detail {
-        display: none;
-
-        .success {
-          display: flex;
-          justify-content: center;
-        }
-      }
-      // ----------------
-
       &--headline {
         padding: 50px 50px 40px 50px;
         text-align: center;
@@ -283,7 +281,8 @@
 
 // Extra styling in edit form
 .exam-edit-message {
-  margin-left: 25px;
+  margin: 25px 25px 0 25px;
+
   p {
     max-width: none;
     font-size: 13px;
@@ -291,4 +290,10 @@
 }
 .exam-edit-button {
   margin-top: 20px;
+}
+
+.popover-body,
+.fc-widget-header,
+td.fc-widget-header a {
+  text-transform: initial;
 }

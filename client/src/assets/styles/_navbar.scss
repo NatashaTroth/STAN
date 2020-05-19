@@ -46,10 +46,17 @@
     &--logo {
       display: flex;
       justify-content: flex-start;
-      padding: 30px 32px 35px 32px;
+      padding: 25px 32px 30px 30px;
 
       @include media-breakpoint-down(md) {
         display: none;
+      }
+
+      a {
+        img {
+          width: 85%;
+          height: 90px;
+        }
       }
     }
 
@@ -103,34 +110,38 @@
       .menu-top {
         .dashboard {
           &:before {
-            content: url("../../images/icons/dashboard.svg");
+            content: url("../../images/icons/dashboard-dark.svg");
             width: 29px;
             height: 26px;
             margin-right: 13px;
+            padding: 0;
           }
         }
         .add-new {
           &:before {
-            content: url("../../images/icons/add-new.svg");
+            content: url("../../images/icons/add-new-dark.svg");
             width: 28px;
             height: 33px;
             margin-right: 13px;
+            padding: 0;
           }
         }
         .calendar {
           &:before {
-            content: url("../../images/icons/calendar.svg");
+            content: url("../../images/icons/calendar-dark.svg");
             width: 28px;
             height: 27px;
             margin-right: 13px;
+            padding: 0;
           }
         }
         .exams {
           &:before {
-            content: url("../../images/icons/exams.svg");
+            content: url("../../images/icons/exams-dark.svg");
             width: 27px;
             height: 31px;
             margin-right: 13px;
+            padding: 0;
           }
         }
         .profile {
@@ -140,7 +151,8 @@
           .user-avatar {
             width: 28px;
             height: 27px;
-            border: 1.5px solid theme_color("dark");
+            border: 1.5px solid;
+            border-color: theme_color("dark");
             margin-right: 13px;
             margin-bottom: 1px;
             padding-top: 1px;
@@ -161,8 +173,21 @@
           margin-bottom: 35px;
         }
 
-        .profile-img {
-          width: 70px;
+        .logout {
+          button {
+            font-family: $font-family-BasierCircle-SemiBold;
+            @include rem(letter-spacing, 1px);
+            background: none;
+            border: none;
+            text-transform: uppercase;
+            padding: 0;
+            color: theme_color("dark");
+            transition: all 200ms ease-in-out;
+
+            &:hover {
+              color: theme-color("primary-yellow");
+            }
+          }
         }
 
         li {
@@ -180,15 +205,6 @@
 
             &.active {
               color: theme-color("primary-yellow");
-            }
-          }
-
-          .profile-img {
-            width: 60%;
-            margin-bottom: 5px;
-
-            @include media-breakpoint-down(md) {
-              margin-top: 15px;
             }
           }
         }

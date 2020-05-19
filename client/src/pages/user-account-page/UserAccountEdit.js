@@ -33,6 +33,9 @@ import Carousel from "react-bootstrap/Carousel"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const UserAccountEdit = () => {
   // variables ----------------
   let history = useHistory()
@@ -42,7 +45,9 @@ const UserAccountEdit = () => {
 
   // mutations ----------------
   const [deleteUser] = useMutation(DELETE_USER_MUTATION)
-  const [updateUser] = useMutation(UPDATE_USER_MUTATION)
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER }],
+  })
   const [updateMascot] = useMutation(UPDATE_MASCOT_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER }],
   })
@@ -58,8 +63,8 @@ const UserAccountEdit = () => {
   // set default variables in form and make it editable ----------------
   const { register, errors, watch, setValue, handleSubmit } = useForm({
     defaultValues: {
-      username: currentUser.username,
-      email: currentUser.email,
+      username: decodeHtml(currentUser.username),
+      email: decodeHtml(currentUser.email),
     },
   })
 
@@ -124,9 +129,9 @@ const UserAccountEdit = () => {
           <div className="col-md-10">
             <div className="user-account__headline">
               {currentUser.username.slice(-1) === "s" ? (
-                <h2>{currentUser.username}' account</h2>
+                <h2>{decodeHtml(currentUser.username)}' account</h2>
               ) : (
-                <h2>{currentUser.username}'s account</h2>
+                <h2>{decodeHtml(currentUser.username)}'s account</h2>
               )}
             </div>
           </div>
@@ -522,6 +527,11 @@ const UserAccountEdit = () => {
                         </div>
                       </div>
 
+                      <div className="col-md-12">
+                        <p className="error graphql-error"></p>
+                        <p className="error graphql-error"></p>
+                      </div>
+
                       <div
                         className="col-md-12"
                         id="success-container-edit-user"
@@ -542,13 +552,10 @@ const UserAccountEdit = () => {
 
                       <div className="col-md-12">
                         <div id="retype-password-error" className="error">
-                          <p>Please make sure your new passwords match.</p>
+                          {isPasswordOpen ? (
+                            <p>Please make sure your new passwords match.</p>
+                          ) : null}
                         </div>
-                      </div>
-
-                      <div className="col-md-12">
-                        <p className="error graphql-user-edit-error"></p>
-                        <p className="error graphql-user-mascot-edit-error"></p>
                       </div>
                     </div>
                   </form>
@@ -576,7 +583,7 @@ const UserAccountEdit = () => {
                         </div>
 
                         <div className="col-md-12">
-                          <p className="error graphql-user-delete-error"></p>
+                          <p className="error graphql-popup-error"></p>
                         </div>
 
                         <div
@@ -625,7 +632,7 @@ async function userDeletion({ currentUser, deleteUser }) {
       window.location.href = "/sign-up"
     }, 1000)
   } catch (err) {
-    let element = document.getElementsByClassName("graphql-user-delete-error")
+    let element = document.getElementsByClassName("graphql-popup-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -666,7 +673,7 @@ async function editUser({
       history.push("/profile")
     }, 1000)
   } catch (err) {
-    let element = document.getElementsByClassName("graphql-user-edit-error")
+    let element = document.getElementsByClassName("graphql-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -696,9 +703,7 @@ async function handleMascot({ index, updateMascot, history }) {
       history.push("/profile")
     }, 1000)
   } catch (err) {
-    let element = document.getElementsByClassName(
-      "graphql-user-mascot-edit-error"
-    )
+    let element = document.getElementsByClassName("graphql-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

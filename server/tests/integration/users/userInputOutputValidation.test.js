@@ -2,19 +2,28 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../mutations.js";
+import {
+  setupApolloServer,
+  setupDb,
+  signUpTestUser,
+  clearDatabase,
+  teardown
+} from "../setup";
+import {
+  LOGIN_MUTATION,
+  SIGNUP_MUTATION,
+  UPDATE_USER_MUTATION
+} from "../../mutations.js";
+import { CURRENT_USER } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test user resolver input (regex) and output (escape)", () => {
   let server;
   let mutate;
+  let query;
   beforeAll(async () => {
     await setupDb();
-    server = await setupApolloServer({ isAuth: false });
-    let client = createTestClient(server);
-    mutate = client.mutate;
   });
 
   afterEach(async () => {
@@ -26,6 +35,9 @@ describe("Test user resolver regex", () => {
   });
 
   it("should pass the regex tests and sign up a user", async () => {
+    server = await setupApolloServer({ isAuth: false });
+    let client = createTestClient(server);
+    mutate = client.mutate;
     const resp = await mutate({
       query: SIGNUP_MUTATION,
       variables: {
@@ -33,7 +45,7 @@ describe("Test user resolver regex", () => {
         email: "user@stan.com",
         password: "12345678",
         mascot: 1,
-        allowEmailNotifications: true
+        allowEmailNotifications: false
       }
     });
     expect(resp.data.signup).toBeTruthy();
@@ -144,7 +156,7 @@ describe("Test user resolver regex", () => {
         email: "user@stan.com",
         password: "12345678",
         mascot: 1,
-        allowEmailNotifications: true
+        allowEmailNotifications: false
       }
     });
     expect(respSignup.data.signup).toBeTruthy();
@@ -208,6 +220,45 @@ describe("Test user resolver regex", () => {
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
       "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
+    );
+  });
+
+  it("should escape all output strings that came from user input", async () => {
+    let testUser = await signUpTestUser();
+    testUser.username = "<script>alert('I'm an evil user')</script>";
+    server = await setupApolloServer({
+      isAuth: true,
+      userId: testUser._id,
+      user: testUser
+    });
+    let client = createTestClient(server);
+    mutate = client.mutate;
+    query = client.query;
+
+    //---get current user---
+    const respCurrentUser = await query({
+      query: CURRENT_USER
+    });
+    expect(respCurrentUser.data.currentUser).toBeTruthy();
+    expect(respCurrentUser.data.currentUser.username).toBe(
+      "&lt;script&gt;alert(&#x27;I&#x27;m an evil user&#x27;)&lt;&#x2F;script&gt;"
+    );
+
+    //---get current user---
+    const respUpdateUser = await mutate({
+      query: UPDATE_USER_MUTATION,
+      variables: {
+        username: "Samantha's new username",
+        email: "newSamantha@node.com",
+        password: "samantha",
+        newPassword: "12345678",
+        mascot: 2,
+        allowEmailNotifications: true
+      }
+    });
+    expect(respUpdateUser.data.updateUser).toBeTruthy();
+    expect(respUpdateUser.data.updateUser.username).toBe(
+      "Samantha&#x27;s new username"
     );
   });
 });

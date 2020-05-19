@@ -7,7 +7,10 @@
 @import "./assets/styles/fonts";
 @import "./assets/styles/buttons";
 @import "./assets/styles/navbar";
-@import "./assets/styles//form";
+@import "./assets/styles/form";
+@import "./assets/styles/color-themes";
+@import "./assets/styles/animations";
+@import "./assets/styles/hover-infobox";
 
 // Pages
 @import "pages/add-new-page/add-new-page";
@@ -28,7 +31,6 @@
 @import "components/login/login";
 @import "components/empty-dashboard/empty-dashboard";
 @import "components/today-goals/today-goals";
-@import "components/login-popup/login-popup";
 @import "components/exams/exam";
 @import "components/exams/exam-details";
 @import "components/mascots/mascots";
@@ -37,6 +39,8 @@
 @import "components/current-state/current-state";
 @import "components/error/error";
 @import "components/loading/loading";
+@import "components/today-progress/today-progress";
+@import "components/forgotten-password/forgotten-password";
 
 // Calendar
 @import "~@fullcalendar/core/main.css";

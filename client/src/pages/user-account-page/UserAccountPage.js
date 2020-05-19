@@ -1,6 +1,4 @@
 import React from "react"
-import { setAccessToken } from "../../accessToken"
-import { GoogleLogout } from "react-google-login"
 import { Redirect, Link } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -9,11 +7,9 @@ import { flowRight as compose } from "lodash"
 import { graphql } from "react-apollo"
 
 // mutation & queries ----------------
-import { useMutation } from "@apollo/react-hooks"
-import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import {
   GET_EXAMS_COUNT,
-  GET_TODAYS_CHUNKS_PROGRESS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
   CURRENT_USER,
 } from "../../graphQL/queries"
 
@@ -26,16 +22,15 @@ import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
 
 // sub components ----------------
-import Button from "../../components/button/Button"
 import Image from "../../components/image/Image"
+
+// helpers ----------------
+import { currentMood, decodeHtml } from "../../helpers/mascots"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 const UserAccount = props => {
-  // mutation ----------------
-  const [logout] = useMutation(LOGOUT_MUTATION)
-
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser === null) {
@@ -45,7 +40,7 @@ const UserAccount = props => {
   // variables ----------------
   let currentExams = 0
   let finishedExams = 0
-  let currentState = 0
+  let mood = "okay"
 
   // error handling and get data ----------------
   if (props.loading) return <Loading />
@@ -56,41 +51,10 @@ const UserAccount = props => {
       else if (key === "finishedExams") finishedExams = value
     }
   }
-  if (props.getTodaysChunksProgressQuery.todaysChunksProgress) {
-    currentState = props.getTodaysChunksProgressQuery.todaysChunksProgress
-  }
 
-  // moods ----------------
-  let mood = currentMood(currentState)
-
-  // google logout ----------------
-  const currentUserGoogleLogin = currentUser.googleLogin
-  let logoutButton
-  if (!currentUserGoogleLogin) {
-    logoutButton = (
-      <Button
-        variant="button"
-        className=""
-        onClick={async () => logUserOut({ logout })}
-        text="Logout"
-      />
-    )
-  } else {
-    logoutButton = (
-      <GoogleLogout
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Logout"
-        onLogoutSuccess={async () => logUserOut({ logout, client })}
-        render={renderProps => (
-          <button
-            variant="button"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Logout
-          </button>
-        )}
-      />
+  if (props.getTodaysChunksProgressQuery.todaysChunkAndProgress) {
+    mood = currentMood(
+      props.getTodaysChunksProgressQuery.todaysChunkAndProgress.todaysProgress
     )
   }
 
@@ -103,9 +67,9 @@ const UserAccount = props => {
           <div className="col-md-9">
             <div className="user-account__headline">
               {currentUser.username.slice(-1) === "s" ? (
-                <h2>{currentUser.username}' account</h2>
+                <h2>{decodeHtml(currentUser.username)}' account</h2>
               ) : (
-                <h2>{currentUser.username}'s account</h2>
+                <h2>{decodeHtml(currentUser.username)}'s account</h2>
               )}
             </div>
           </div>
@@ -120,13 +84,12 @@ const UserAccount = props => {
             <div className="user-account__container--left">
               <div className="user-account__container--left--top box-content">
                 <div className="user-data">
-                  <h3>{currentUser.username}</h3>
-                  <p>{currentUser.email}</p>
+                  <h3>{decodeHtml(currentUser.username)}</h3>
+                  <p>{decodeHtml(currentUser.email)}</p>
                 </div>
 
-                <div className="buttons">
+                <div className="button">
                   <Link to="/profile/edit">edit</Link>
-                  {logoutButton}
                 </div>
               </div>
 
@@ -206,34 +169,7 @@ export default compose(
   graphql(GET_EXAMS_COUNT, {
     name: "getExamsQuery",
   }),
-  graphql(GET_TODAYS_CHUNKS_PROGRESS, {
+  graphql(GET_TODAYS_CHUNKS_AND_PROGRESS, {
     name: "getTodaysChunksProgressQuery",
   })
 )(UserAccount)
-
-async function logUserOut({ logout }) {
-  // reset refresh token ----------------
-  await logout()
-
-  // reset access token ----------------
-  setAccessToken("")
-
-  // reset mascot event ----------------
-  window.localStorage.setItem("mascot-event", false)
-
-  // logout all other tabs ----------------
-  localStorage.setItem("logout-event", Date.now())
-  window.location.reload()
-}
-
-export const currentMood = currentState => {
-  let mood
-
-  if (currentState >= 0 && currentState <= 19) mood = "very stressed"
-  else if (currentState >= 20 && currentState <= 49) mood = "stressed"
-  else if (currentState >= 50 && currentState <= 69) mood = "okay"
-  else if (currentState >= 70 && currentState <= 89) mood = "happy"
-  else if (currentState >= 90 && currentState <= 100) mood = "very happy"
-
-  return mood
-}

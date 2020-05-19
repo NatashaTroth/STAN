@@ -8,7 +8,7 @@ const examQueries = gql`
     todaysChunkAndProgress: TodaysChunkAndProgress!
     calendarChunks: CalendarObject!
     examsCount: ExamsCount!
-    todaysChunksProgress: Int!
+    # todaysChunksProgress: Int!
   }
 
   type Mutation {
@@ -22,7 +22,7 @@ const examQueries = gql`
       timesRepeat: Int
       startPage: Int
       notes: String
-      pdfLink: String
+      studyMaterialLinks: [String]
       completed: Boolean
     ): Boolean
 
@@ -37,13 +37,13 @@ const examQueries = gql`
       startPage: Int!
       currentPage: Int!
       notes: String
-      pdfLink: String # completed: Boolean
+      studyMaterialLinks: [String] # completed: Boolean
     ): Exam!
 
     #todo: change to just id
     updateCurrentPage(examId: ID!, page: Int!): Boolean
     deleteExam(id: ID!): Boolean
-    examCompleted(id: ID!): Boolean
+    examCompleted(id: ID!, completed: Boolean!): Boolean
   }
 `;
 

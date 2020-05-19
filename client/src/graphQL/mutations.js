@@ -23,7 +23,7 @@ export const ADD_EXAM_MUTATION = gql`
     $timesRepeat: Int
     $startPage: Int
     $notes: String
-    $pdfLink: String
+    $studyMaterialLinks: [String]
     $completed: Boolean
   ) {
     addExam(
@@ -35,7 +35,7 @@ export const ADD_EXAM_MUTATION = gql`
       timesRepeat: $timesRepeat
       startPage: $startPage
       notes: $notes
-      pdfLink: $pdfLink
+      studyMaterialLinks: $studyMaterialLinks
       completed: $completed
     )
   }
@@ -53,7 +53,7 @@ export const UPDATE_EXAM_MUTATION = gql`
     $startPage: Int!
     $currentPage: Int!
     $notes: String
-    $pdfLink: String # $completed: Boolean
+    $studyMaterialLinks: [String] # $completed: Boolean
   ) {
     updateExam(
       id: $id
@@ -66,7 +66,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       startPage: $startPage
       currentPage: $currentPage
       notes: $notes
-      pdfLink: $pdfLink # completed: $completed
+      studyMaterialLinks: $studyMaterialLinks # completed: $completed
     ) {
       id
       subject
@@ -77,15 +77,15 @@ export const UPDATE_EXAM_MUTATION = gql`
       timesRepeat
       startPage
       notes
-      pdfLink
+      studyMaterialLinks
       completed
     }
   }
 `
 
 export const EXAM_COMPLETED_MUTATION = gql`
-  mutation($id: ID!) {
-    examCompleted(id: $id)
+  mutation($id: ID!, $completed: Boolean!) {
+    examCompleted(id: $id, completed: $completed)
   }
 `
 
@@ -161,5 +161,16 @@ export const UPDATE_USER_MUTATION = gql`
 export const DELETE_USER_MUTATION = gql`
   mutation {
     deleteUser
+  }
+`
+export const FORGOTTEN_PASSWORD_EMAIL = gql`
+  mutation($email: String!) {
+    forgottenPasswordEmail(email: $email)
+  }
+`
+
+export const RESET_PASSWORD_MUTATION = gql`
+  mutation($userId: String!, $token: String!, $newPassword: String!) {
+    resetPassword(userId: $userId, token: $token, newPassword: $newPassword)
   }
 `

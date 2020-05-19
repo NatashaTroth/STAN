@@ -84,7 +84,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -175,7 +178,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -191,7 +197,7 @@ describe("Test user resolver regex", () => {
     //---UPDATE CURRENT PAGE (Update Exam Mutation - update unimportant things as well)---
     testExam.subject = "English";
     testExam.notes = "Teting";
-    testExam.pdfLink = "testingLink.at";
+    testExam.studyMaterialLinks = ["testingLink.at"];
     const updateResp2 = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -205,7 +211,10 @@ describe("Test user resolver regex", () => {
         startPage: testExam.startPage,
         timesRepeat: testExam.timesRepeat,
         notes: testExam.notes,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
 
@@ -259,7 +268,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 5,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -294,7 +306,7 @@ describe("Test user resolver regex", () => {
         timesRepeat: testExam.startPage
       }
     });
-    console.log(updateResp3);
+
     expect(updateResp3.data.updateExam).toBeTruthy();
     todaysChunkCacheDb = await TodaysChunkCache.findOne({
       userId: "samanthasId",
@@ -345,7 +357,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 7,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -355,7 +370,7 @@ describe("Test user resolver regex", () => {
           completed: false
         }
       ],
-      todaysProgress: 0 //TODO: SHOULD IT BE 0? - CAN CHANGE IT
+      todaysProgress: 29 //already learnt 20min today - new total today 70min -> 70...100%, 20...x -> x=29%
     });
 
     //---UPDATE CURRENT PAGE TO COMPLETE CHUNK---
@@ -416,7 +431,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 13,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 5,
           startPage: 7,
@@ -467,7 +485,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: testExam.currentPage,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -519,7 +540,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10,
           startPage: chunkStartPage,
@@ -568,7 +592,10 @@ describe("Test user resolver regex", () => {
             numberPages: testExam.numberPages,
             timesRepeat: testExam.timesRepeat,
             currentPage: 3,
-            pdfLink: testExam.pdfLink
+            studyMaterialLinks: [
+              "https://stan-studyplan-staging.herokuapp.com/",
+              "https://stan-studyplan.herokuapp.com/"
+            ]
           },
           numberPagesToday: 10, //newly calculated -> 47/5 days left = 9.4
           startPage: 3,
@@ -602,7 +629,7 @@ describe("Test user resolver regex", () => {
   });
 
   //-------EXAM COMPLETED TESTS----------
-  it("tests if finished exam deletes today's chunk cache from db ", async () => {
+  it("tests that finished exam does not delete today's chunk cache from db ", async () => {
     const testExam1 = await addTestExam({ subject: "Biology" });
     const testExam2 = await addTestExam({ subject: "Chemistry" });
     const testExam3 = await addTestExam({ subject: "Dance" });
@@ -634,9 +661,10 @@ describe("Test user resolver regex", () => {
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
         examId: testExam1._id.toString(),
-        page: 52
+        page: 51
       }
     });
+
     expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
 
     //---REFETCH TODAYSCHUNKS---
@@ -646,13 +674,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(3);
+    ).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(3);
+    ).toBe(4);
 
     //---UPDATE EXAM (current page)---
     const respUpdateExam = await mutate({
@@ -677,19 +705,20 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(2);
+    ).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(2);
+    ).toBe(4);
 
-    //---UPDATE EXAM (current page)---
+    //---EXAM COMPLETED---
     const respExamCompleted = await mutate({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam3._id.toString()
+        id: testExam3._id.toString(),
+        completed: true
       }
     });
     expect(respExamCompleted.data.examCompleted).toBeTruthy();
@@ -701,13 +730,13 @@ describe("Test user resolver regex", () => {
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(
       respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    ).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({
         userId: "samanthasId"
       })
-    ).toBe(1);
+    ).toBe(3);
 
     //TODO- TEST IF FINISHING EXAM (IN EXAM COMPETED, THROUGH UPDATE CURRENTPAGE OR UPDATE EXAM ACTUALLY ALL DELETE THE CACHE)
   });

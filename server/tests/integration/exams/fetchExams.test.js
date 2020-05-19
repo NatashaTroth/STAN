@@ -45,6 +45,7 @@ describe("Test user resolver regex", () => {
         id: exam._id.toString()
       }
     });
+
     expect(resp.data.exam).toBeTruthy();
     expect(exam.subject).toBe(resp.data.exam.subject);
     expect(exam.examDate.toString()).toBe(resp.data.exam.examDate.toString());
@@ -54,8 +55,13 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
     expect(exam.startPage).toBe(resp.data.exam.startPage);
     expect(exam.currentPage).toBe(resp.data.exam.currentPage);
-    expect(exam.pdfLink).toBe(resp.data.exam.pdfLink);
-    expect(exam.notes).toBe(resp.data.exam.notes);
+    expect(exam.studyMaterialLinks.length).toBe(
+      resp.data.exam.studyMaterialLinks.length
+    );
+    expect(exam.studyMaterialLinks[0]).toBe(
+      resp.data.exam.studyMaterialLinks[0]
+    );
+    expect("Samantha&#x27;s notes").toBe(resp.data.exam.notes);
     expect(exam.completed).toBe(resp.data.exam.completed);
   });
 
@@ -101,8 +107,13 @@ describe("Test user resolver regex", () => {
     expect(exam.timesRepeat).toBe(resp.data.exams[2].timesRepeat);
     expect(exam.startPage).toBe(resp.data.exams[2].startPage);
     expect(exam.currentPage).toBe(resp.data.exams[2].currentPage);
-    expect(exam.pdfLink).toBe(resp.data.exams[2].pdfLink);
-    expect(exam.notes).toBe(resp.data.exams[2].notes);
+    expect(exam.studyMaterialLinks.length).toBe(
+      resp.data.exams[2].studyMaterialLinks.length
+    );
+    expect(exam.studyMaterialLinks[0]).toBe(
+      resp.data.exams[2].studyMaterialLinks[0]
+    );
+    expect("Samantha&#x27;s notes").toBe(resp.data.exams[2].notes);
     expect(exam.completed).toBe(resp.data.exams[2].completed);
   });
 
@@ -139,26 +150,4 @@ describe("Test user resolver regex", () => {
     expect(resp.data.examsCount.currentExams).toBe(0);
     expect(resp.data.examsCount.finishedExams).toBe(0);
   });
-
-  // async function addTestExam(subject, userId, completed) {
-  //   const exam = await Exam.create({
-  //     subject: subject,
-  //     examDate: "2522-04-11",
-  //     startDate: "2522-04-05",
-  //     numberPages: 50,
-  //     timePerPage: 5,
-  //     startPage: 1,
-  //     currentPage: 1,
-  //     timesRepeat: 2,
-  //     notes: "Samantha's notes",
-  //     pdfLink: "samanthas-link.stan",
-  //     color: "#FFFFFF",
-  //     completed: completed || false,
-  //     userId: userId || "samanthasId"
-  //   });
-
-  //   if (!exam) throw new Error("Could not add a test exam");
-
-  //   return exam;
-  // }
 });

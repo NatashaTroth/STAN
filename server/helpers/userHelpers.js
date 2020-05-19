@@ -9,6 +9,7 @@ import {
 import { createAccessToken, createRefreshToken } from "./authenticationTokens";
 import { sendRefreshToken } from "./authenticationTokens";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { OAuth2Client } from "google-auth-library";
 import {
@@ -20,6 +21,8 @@ import {
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { handleResolverError } from "../helpers/resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
+import { escapeStringForHtml } from "./generalHelpers";
+import validator from "validator";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -51,7 +54,9 @@ export async function signUserUp({
 }) {
   const userWithEmail = await User.findOne({ email: email });
   if (userWithEmail)
-    throw new UserInputError("User with email already exists.");
+    throw new UserInputError(
+      "User with email already exists. Have you forgotten your password?"
+    );
   let hashedPassword;
   if (googleLogin) hashedPassword = null;
   else hashedPassword = await bcrypt.hash(password, 10);
@@ -159,7 +164,9 @@ export async function deleteUser(userId) {
   });
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError("The user couldn't be deleted");
+    throw new ApolloError(
+      "The user couldn't be deleted. Please contact us at stan.studyplan@gmail.com, to delete your account."
+    );
 }
 
 export async function validatePassword(inputPassword, userPassword) {
@@ -208,6 +215,53 @@ export function userWantsPasswordUpdating(password, newPassword) {
   // return (
   //   password && password.length > 0 && newPassword && newPassword.length > 0
   // );
+}
+
+export async function createForgottenPasswordEmailLink(email) {
+  const user = await User.findOne({ email });
+
+  if (!user) throw new ApolloError("There is no user with that email address.");
+
+  const secret = createForgottenPasswordSecret(user);
+
+  // const token = jwt.encode(payload, secret)
+  const token = jwt.sign({ userId: user._id, userEmail: email }, secret, {
+    expiresIn: "10m"
+  });
+  // return process.env.CLIENT_URL + "/" + user._id + "/" + token;
+  return `${process.env.CLIENT_URL}/resetpassword/${user._id}/${token}`;
+}
+
+export function createForgottenPasswordSecret(user) {
+  return (
+    user.password +
+    "-" +
+    user.updatedAt.getTime() +
+    process.env.FORGOTTEN_PASSWORD_SECRET
+  );
+}
+
+export function escapeUserObject(user) {
+  user.username = escapeStringForHtml(user.username);
+  user.email = escapeStringForHtml(user.email);
+  return user;
+}
+
+export function validateForgottenPasswordToken(user, token, secret) {
+  let decodedToken;
+  try {
+    decodedToken = jwt.verify(token, secret);
+    if (!decodedToken) throw new Error();
+  } catch (err) {
+    throw new Error(
+      "Invalid url. Please use the forgotten password button to try again."
+    );
+  }
+  if (decodedToken.userId.toString() !== user._id.toString())
+    throw new Error("Wrong user in the forgotten password token.");
+
+  if (decodedToken.userEmail !== user.email)
+    throw new Error("Wrong user email in the forgotten password token.");
 }
 
 export function verifySignupInputFormat({ username, email, password, mascot }) {
@@ -261,8 +315,8 @@ function verifyUsernameFormat(username) {
     );
 }
 
-function verifyEmailFormat(email) {
-  if (!verifyRegexEmail(email))
+export function verifyEmailFormat(email) {
+  if (!verifyRegexEmail(email) || !validator.isEmail(email))
     throw new Error("Email input has the wrong format.");
 }
 

@@ -2,7 +2,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import moment from "moment"
-import { calculateDuration } from "../today-goals/TodayGoals"
+import { minuteToHours } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -10,7 +10,6 @@ import { useMutation } from "@apollo/react-hooks"
 import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/queries"
 
@@ -23,6 +22,9 @@ import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -32,30 +34,32 @@ function Today(props) {
     try {
       const chunk = props.selectedGoal
       const exam = chunk.exam
-      const currentPage = exam.currentPage
       const lastPage = exam.numberPages
-      let currentRepetion = Math.floor(currentPage / lastPage)
+      let cyclesStudied = parseInt(formData.cycles_studied)
+      // const currentPage = exam.currentPage
+      // let currentRepetion = Math.floor(currentPage / lastPage)
       let newPage =
         parseInt(formData.page_amount_studied) +
-        1 + // plus one to tell backend from which page to study next
-        lastPage * currentRepetion
-      const numberPagesToday = chunk.numberPagesToday
-      const chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+        lastPage * (cyclesStudied - 1) +
+        1 // plus one to tell backend from which page to study next
+
+      // const numberPagesToday = chunk.numberPagesToday
+      // const chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
 
       // update repetition cycle when entered number
       // is (lower than current page) OR (lower than goal AND higher than current page)
       // ex: goal 41 to 4
-      if (
-        (newPage >= chunkGoalPage && newPage < currentPage) ||
-        newPage < currentPage
-      ) {
-        // update repetition cycle
-        currentRepetion++
-        newPage =
-          parseInt(formData.page_amount_studied) +
-          1 + // plus one to tell backend from which page to study next
-          lastPage * currentRepetion
-      }
+      // if (
+      //   (newPage >= chunkGoalPage && newPage < currentPage) ||
+      //   newPage < currentPage
+      // ) {
+      //   // update repetition cycle
+      //   currentRepetion++
+      //   newPage =
+      //     parseInt(formData.page_amount_studied) +
+      //     1 + // plus one to tell backend from which page to study next
+      //     lastPage * currentRepetion
+      // }
 
       // update page ----------------
       const resp = await updatePage({
@@ -66,7 +70,6 @@ function Today(props) {
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -95,13 +98,13 @@ function Today(props) {
     try {
       const resp = await updatePage({
         variables: {
-          page: props.selectedGoal.numberPagesToday + 1,
+          page:
+            props.selectedGoal.numberPagesToday + props.selectedGoal.startPage,
           examId: props.selectedGoal.exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
           { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
-          { query: GET_TODAYS_CHUNKS_PROGRESS },
           { query: GET_CALENDAR_CHUNKS },
         ],
       })
@@ -140,33 +143,50 @@ function Today(props) {
   // last page to study ----------------
   let lastPage = todaysChunk.exam.numberPages
 
+  // start page for today's chunk goal ----------------
+  let startPage = todaysChunk.startPage
+
   // real current page to display ----------------
   let realCurrentPage = currentPage % lastPage
   // to display the last page correctly (edge cases)
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
   }
-
-  // start page for today's chunk goal ----------------
-  let startPage = todaysChunk.startPage
-
-  // end page for today's chunk goal ----------------
-  let numberPagesToday = todaysChunk.numberPagesToday
-
-  // real end page for today's chunk goal ----------------
-  let chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
-
-  // to display the last page correctly (edge cases)
-  if (chunkGoalPage == -1) {
-    chunkGoalPage = lastPage
-  } else if (chunkGoalPage == 0) {
-    chunkGoalPage = 1
+  if (realCurrentPage < startPage) {
+    realCurrentPage = startPage
+  }
+  // display for total no. of pages
+  let realCurrentPageTotal = currentPage % lastPage
+  if (realCurrentPageTotal == 0) {
+    realCurrentPageTotal = lastPage
+  }
+  if (realCurrentPageTotal < startPage) {
+    realCurrentPageTotal = startPage
+  }
+  if (realCurrentPageTotal == lastPage) {
+    realCurrentPageTotal = 1
   }
   // --------------------------------
 
+  // last page for todays goal ----------------
+  let totalPages
+  // if start page is bigger than 1 -> last page minus start page
+  if (startPage > 1) {
+    totalPages = lastPage - startPage + 1
+  } else {
+    totalPages = lastPage
+  }
+  // if numberPagesToday is bigger than last page
+  // (happens when more than 1 cycle has to be studied in a day)
+  if (todaysChunk.numberPagesToday > lastPage) {
+    totalPages = todaysChunk.numberPagesToday - startPage
+  }
+  // happens if startPage = lastPage (only study 1 page)
+  if (totalPages == 0) totalPages = lastPage - 1
+
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
-  let durationFormatted = calculateDuration(duration)
+  let durationFormatted = minuteToHours(duration)
 
   // alert no time left ----------------
   let noTimeMessage
@@ -180,12 +200,19 @@ function Today(props) {
   // ----------------
   let repetitionCycles = todaysChunk.exam.timesRepeat
   let repetition = 1
-  let repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  let repetitionCounter
+  // if there is only 1 page to study
+  if (currentPage == lastPage)
+    repetitionCounter = Math.floor(currentPage / lastPage)
+  else repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  // check which cycle to display
   if (repetitionCounter <= repetitionCycles) {
     repetition = repetitionCounter
   } else {
     repetition = repetitionCycles
   }
+  // --------------------------------
+
   // days till deadline ----------------
   let daysLeft = todaysChunk.daysLeft
   // total days from start to end date
@@ -194,12 +221,76 @@ function Today(props) {
   let dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
   // --------------------------------
 
+  // repetition goal to display next to goal ----------------
+  let repetitionGoal = Math.floor(currentPage / lastPage) + 1
+  // end page for today's chunk goal ----------------
+  let numberPagesToday = todaysChunk.numberPagesToday
+  // if start page is bigger
+  if (numberPagesToday < startPage) {
+    numberPagesToday = startPage + numberPagesToday
+  }
+  // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
+  if (numberPagesToday > lastPage) {
+    // get pages for new cycles
+    let pagesLeftInCycles = numberPagesToday - lastPage
+    // maximum goal is last page
+    numberPagesToday = lastPage
+
+    repetitionGoal = Math.floor(pagesLeftInCycles / lastPage) + 1
+  }
+  // if there is only 1 page to study
+  if (realCurrentPage == numberPagesToday && repetition != repetitionCycles) {
+    // to display correct rep cycle goal
+    repetitionGoal = repetition + 1
+    // to display correct total no. of pages if there is only 1 page
+    totalPages = 1
+    realCurrentPageTotal = 1
+  }
+  // display message only if there is more than 1 cycle for 1 day
+  if (
+    (numberPagesToday > lastPage && repetition != repetitionCycles) ||
+    (numberPagesToday == lastPage && repetitionGoal > repetition)
+  ) {
+    // show message
+    noTimeMessage = "Info: You have to study multiple repetition cycles today"
+  }
+  // --------------------------------
+
+  // real end page for today's chunk goal ----------------
+  let chunkGoalPage = ((currentPage + numberPagesToday) % lastPage) - 1
+
+  // to display the last page correctly (edge cases)
+  if (chunkGoalPage == -1) {
+    chunkGoalPage = lastPage
+  } else if (chunkGoalPage == 0) {
+    chunkGoalPage = 1
+  }
+  // --------------------------------
+
   // pages are left in total with repetition cycles ----------------
-  let leftPagesTotal = lastPage * repetitionCycles - currentPage + 1
-  // percentage for bar
-  let leftPagesPercentage = Math.round(
-    (currentPage * 100) / (leftPagesTotal + lastPage)
-  )
+  let leftPagesTotal
+  let leftPagesPercentage
+  let currentPageBar
+
+  if (todaysChunk.numberPagesToday <= lastPage) {
+    // pages left
+    leftPagesTotal = lastPage - currentPage + startPage
+    // percentage for bar
+    currentPageBar = currentPage
+    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
+    leftPagesPercentage = Math.round((currentPageBar * 100) / lastPage)
+
+    // when you have to study multiple repetition cycles a day
+  } else {
+    // pages left
+    leftPagesTotal = lastPage * repetitionCycles - currentPage + 1 + startPage
+    // percentage for bar
+    currentPageBar = currentPage
+    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
+    leftPagesPercentage = Math.round(
+      (currentPage * 100) / (leftPagesTotal + lastPage)
+    )
+  }
   // --------------------------------
 
   // return ----------------
@@ -225,7 +316,7 @@ function Today(props) {
                   <div className="today__container__content__subject">
                     <p className="today__container__content__label">Subject</p>
                     <p className="today__container__content__text--big">
-                      {subject}
+                      {decodeHtml(subject)}
                     </p>
                   </div>
                   <div className="today__container__content__warning">
@@ -239,8 +330,8 @@ function Today(props) {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text">
-                        page {realCurrentPage} to{" "}
-                        {startPage + numberPagesToday - 1}
+                        page {realCurrentPage} to {numberPagesToday} (rep.{" "}
+                        {repetitionGoal})
                       </p>
                     </div>
                     <div className="today__container__content__details__duration">
@@ -256,13 +347,20 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total pages:
+                        Total no. of pages:
                       </p>
                       <p className="today__container__content__text">
-                        {realCurrentPage} / {lastPage}
+                        {realCurrentPageTotal} / {totalPages}
                       </p>
                     </div>
-
+                    <div className="today__container__content__details__total-pages">
+                      <p className="today__container__content__label">
+                        Page numbers:
+                      </p>
+                      <p className="today__container__content__text">
+                        {startPage} - {lastPage}
+                      </p>
+                    </div>
                     <div className="today__container__content__details__repetition">
                       <p className="today__container__content__label">
                         Repetition cycle:
@@ -294,16 +392,6 @@ function Today(props) {
 
                 {/* buttons */}
                 <div className="today__container__buttons">
-                  {/* open notes or link */}
-                  <Link
-                    to={`/exams/${todaysChunk.exam.subject
-                      .toLowerCase()
-                      .replace(/ /g, "-")}?id=${todaysChunk.exam.id}`}
-                    className="today__container__buttons__open"
-                  >
-                    open notes
-                  </Link>
-
                   <div className="today__container__buttons__submit">
                     {/* pages done */}
                     <form
@@ -327,47 +415,102 @@ function Today(props) {
                             placeholder={realCurrentPage}
                             ref={register({
                               required: true,
-                              min: 1,
+                              min: startPage,
                               max: lastPage,
                             })}
                           />
                         </div>
-                        <Button
-                          className="today__container__buttons__submit__form__btn stan-btn-secondary"
-                          variant="button"
-                          text="save"
-                        />
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "required" && (
+                            <span className="error">
+                              Please enter a page number
+                            </span>
+                          )}
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "max" && (
+                            <span className="error">
+                              The maximum is your study materials last page:{" "}
+                              {lastPage}
+                            </span>
+                          )}
+                        {errors.page_amount_studied &&
+                          errors.page_amount_studied.type === "min" && (
+                            <span className="error">
+                              The minimum page your study materials start page:{" "}
+                              {startPage}
+                            </span>
+                          )}
+                        <div className="today__container__buttons__submit__form__elements-container__elements">
+                          <Label
+                            for="page"
+                            text="in repetition cycle:"
+                            className="today__container__buttons__submit__form__elements-container__elements__label"
+                          ></Label>
+                          <Input
+                            className="today__container__buttons__submit__form__elements-container__elements__input"
+                            type="number"
+                            min="0"
+                            id="page"
+                            label="cycles_studied"
+                            placeholder={repetition}
+                            ref={register({
+                              required: true,
+                              min: repetition,
+                              max: repetitionCycles,
+                            })}
+                          />
+                        </div>
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "required" && (
+                            <span className="error">
+                              Please enter a cycle number
+                            </span>
+                          )}
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "max" && (
+                            <span className="error">
+                              The maximum is your last cycle: {repetitionCycles}
+                            </span>
+                          )}
+                        {errors.cycles_studied &&
+                          errors.cycles_studied.type === "min" && (
+                            <span className="error">
+                              The minimum is your current cycle: {repetition}
+                            </span>
+                          )}
                       </div>
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "required" && (
-                          <span className="error">
-                            Please enter a page number
-                          </span>
-                        )}
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "max" && (
-                          <span className="error">
-                            The maximum is your last page: {lastPage}
-                          </span>
-                        )}
-                      {errors.page_amount_studied &&
-                        errors.page_amount_studied.type === "min" && (
-                          <span className="error">
-                            The minimum page is today's start page
-                          </span>
-                        )}
+
+                      <Button
+                        className="today__container__buttons__submit__form__btn stan-btn-secondary"
+                        variant="button"
+                        text="save"
+                        type="submit"
+                      />
                     </form>
+                  </div>
+                  <div className="today__container__buttons__submit-all">
+                    {/* open notes or link */}
+                    <Link
+                      to={`/exams/${todaysChunk.exam.subject
+                        .toLowerCase()
+                        .replace(/ /g, "-")}?id=${todaysChunk.exam.id}`}
+                      className="today__container__buttons__open"
+                    >
+                      open notes
+                    </Link>
+
                     <form
                       onSubmit={onSubmitAll}
                       id="study-chunk-all"
-                      className="today__container__buttons__submit__form-all"
+                      className="today__container__buttons__submit-all__form-all"
                     >
                       {/* all done */}
-                      <div className="today__container__buttons__submit__all-done">
+                      <div className="today__container__buttons__submit-all__all-done">
                         <Button
-                          className="today__container__buttons__submit__all-done__btn stan-btn-primary"
+                          className="today__container__buttons__submit-all__all-done__btn stan-btn-primary"
                           variant="button"
                           text="goal studied"
+                          type="submit"
                         />
                       </div>
                     </form>

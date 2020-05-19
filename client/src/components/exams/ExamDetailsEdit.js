@@ -25,6 +25,13 @@ import DatePicker from "../../components/datepicker/DatePicker"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// react-bootstrap ----------------
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
+// helpers functions ----------------
+import { filteredLinks } from "../../helpers/mascots"
+
 const ExamDetailsEdit = ({ examId }) => {
   let history = useHistory()
 
@@ -38,6 +45,11 @@ const ExamDetailsEdit = ({ examId }) => {
     query: GET_EXAM_QUERY,
     variables: { id: examId },
   }).exam
+
+  // state ----------------
+  const [oldUrls, setOldUrls] = useState(data.studyMaterialLinks)
+  const [newUrls, setNewUrls] = useState([""])
+  const oldFilteredLinks = filteredLinks(oldUrls)
 
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
@@ -55,10 +67,8 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
     currentPage: data.currentPage,
-    // startPage: data.startPage,
-    startPage: 1,
+    startPage: data.startPage,
     notes: data.notes,
-    pdfLink: data.pdfLink,
   }
 
   // set default variables in form and make it editable ----------------
@@ -76,7 +86,6 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage,
     timesRepeat,
     notes,
-    pdfLink,
   } = watch()
 
   useEffect(() => {
@@ -89,7 +98,6 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
     register({ exam: "notes" })
-    register({ exam: "pdfLink" })
   }, [register])
 
   // mutation ----------------
@@ -117,6 +125,8 @@ const ExamDetailsEdit = ({ examId }) => {
     setValue(exam, e.target.value)
   }
 
+  let newLinks = filteredLinks(oldUrls.concat(newUrls))
+
   const onSubmit = data => {
     handleExam({
       examId,
@@ -125,7 +135,44 @@ const ExamDetailsEdit = ({ examId }) => {
       formExamDate,
       formStartDate,
       history,
+      newLinks,
     })
+  }
+
+  // input fields for current exam urls ----------------
+  const handleOldInputChange = (index, event) => {
+    const values = [...oldUrls]
+    if (event.target.name === "study-links") {
+      values[index] = event.target.value.trim()
+    }
+    setOldUrls(values)
+  }
+
+  const handleRemoveOldFields = index => {
+    const values = [...oldUrls]
+    values.splice(index, 1)
+    setOldUrls(values)
+  }
+
+  // input fields for new exam urls ----------------
+  const handleAddFields = () => {
+    const values = [...newUrls]
+    values.push([""])
+    setNewUrls(values)
+  }
+
+  const handleNewInputChange = (index, event) => {
+    const values = [...newUrls]
+    if (event.target.name === "study-new-links") {
+      values[index] = event.target.value
+    }
+    setNewUrls(values)
+  }
+
+  const handleRemoveFields = index => {
+    const values = [...newUrls]
+    values.splice(index, 1)
+    setNewUrls(values)
   }
 
   // return ----------------
@@ -151,20 +198,18 @@ const ExamDetailsEdit = ({ examId }) => {
               ref={register({
                 required: true,
                 minLength: 1,
-                maxLength: 20,
+                maxLength: 50,
               })}
             />
-            {errors.exam_subject && errors.exam_subject.type === "required" && (
+            {errors.subject && errors.subject.type === "required" && (
               <span className="error">This field is required</span>
             )}
-            {errors.exam_subject &&
-              errors.exam_subject.type === "minLength" && (
-                <span className="error"> Minimum 1 character required</span>
-              )}
-            {errors.exam_subject &&
-              errors.exam_subject.type === "maxLength" && (
-                <span className="error"> Maximum 20 characters allowed</span>
-              )}
+            {errors.subject && errors.subject.type === "minLength" && (
+              <span className="error"> Minimum 1 character required</span>
+            )}
+            {errors.subject && errors.subject.type === "maxLength" && (
+              <span className="error"> Maximum 50 characters allowed</span>
+            )}
           </div>
           <div className="form__container form__container--numbers">
             <div className="form__element">
@@ -184,11 +229,24 @@ const ExamDetailsEdit = ({ examId }) => {
             </div>
 
             <div className="form__element">
-              <Label
-                htmlFor="study-start-date"
-                text="Start learning on"
-                className="form__element__label"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="study-start-date"
+                  text="Start learning on"
+                  className="form__element__label"
+                />
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>The date you want to start studying</Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+
               <DatePicker
                 onDaySelected={selectedDay => {
                   setMyStartDate(selectedDay)
@@ -201,16 +259,72 @@ const ExamDetailsEdit = ({ examId }) => {
           </div>
           <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="page-amount"
-                text="Number of pages"
-                className="form__element__label input-required"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="startPage"
+                  text="Start page"
+                  className="form__element__label input-required"
+                />
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      The page number from which you start studying
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+
               <input
                 className="form__element__input"
                 type="number"
                 min="0"
-                id="page-amount"
+                id="startPage"
+                label="exam_start_page"
+                name="startPage"
+                onChange={handleChange.bind(null, "startPage")}
+                value={startPage}
+                ref={register({
+                  required: true,
+                  min: 1,
+                  max: 10000,
+                })}
+              />
+              {errors.startPage && errors.startPage.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.startPage && errors.startPage.type === "max" && (
+                <span className="error">The maximum is 10.000</span>
+              )}
+              {errors.startPage && errors.startPage.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
+            </div>
+
+            <div className="form__element">
+              <div className="info-box-label">
+                <Label
+                  htmlFor="pageAmount"
+                  text="Last page"
+                  className="form__element__label input-required"
+                />
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={<Tooltip>The last page you have to learn</Tooltip>}
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+              <input
+                className="form__element__input"
+                type="number"
+                min="0"
+                id="pageAmount"
                 label="exam_page_amount"
                 name="numberPages"
                 onChange={handleChange.bind(null, "numberPages")}
@@ -222,61 +336,40 @@ const ExamDetailsEdit = ({ examId }) => {
                   max: 10000,
                 })}
               />
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "required" && (
-                  <span className="error">This field is required</span>
-                )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "max" && (
-                  <span className="error">The maximum is 10.000</span>
-                )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
+              {errors.numberPages && errors.numberPages.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "max" && (
+                <span className="error">The maximum is 10.000</span>
+              )}
+              {errors.numberPages && errors.numberPages.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
             </div>
+          </div>
 
-            {/* TODO: implement */}
-            {/* <div className="form__element">
-              <Label
-                htmlFor="startPage"
-                text="Start page"
-                className="form__element__label"
-              />
-              <input
-                className="form__element__input"
-                type="number"
-                min="0"
-                id="startPage"
-                label="exam_start_page"
-                name="startPage"
-                onChange={handleChange.bind(null, "startPage")}
-                value={startPage}
-                ref={register({
-                  min: 1,
-                  max: 10000,
-                })}
-              />
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "max" && (
-                  <span className="error">The maximum is 10.000</span>
-                )}
-              {errors.exam_page_amount &&
-                errors.exam_page_amount.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
-            </div> */}
-
+          <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="currentPage"
-                text="Current page"
-                className="form__element__label"
-              ></Label>
+              <div className="info-box-label">
+                <Label
+                  htmlFor="currentPage"
+                  text="Current page"
+                  className="form__element__label input-required"
+                ></Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      You have learnt all the pages up to this page, so you are
+                      currently on this page
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+
               <input
                 className="form__element__input"
                 type="text"
@@ -286,24 +379,51 @@ const ExamDetailsEdit = ({ examId }) => {
                 onChange={handleChange.bind(null, "currentPage")}
                 value={currentPage}
                 ref={register({
-                  required: false,
+                  required: true,
+                  min: startPage,
+                  max: numberPages,
                 })}
               />
+              {errors.currentPage && errors.currentPage.type === "required" && (
+                <span className="error">
+                  This field is required. If you haven't started studying yet,
+                  set it to the value of your start page: {startPage}
+                </span>
+              )}
+              {errors.currentPage && errors.currentPage.type === "min" && (
+                <span className="error">
+                  The minimum is your start page: {startPage}
+                </span>
+              )}
+              {errors.currentPage && errors.currentPage.type === "max" && (
+                <span className="error">
+                  The maximum is your last page: {numberPages}
+                </span>
+              )}
             </div>
-          </div>
 
-          <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="page-time"
-                text="Time per page (min)"
-                className="form__element__label input-required"
-              ></Label>
+              <div className="info-box-label">
+                <Label
+                  htmlFor="pageTime"
+                  text="Time per page"
+                  className="form__element__label input-required"
+                ></Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>Average time it takes you to learn a page</Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
               <input
                 className="form__element__input"
                 type="number"
                 min="0"
-                id="page-time"
+                id="pageTime"
                 label="exam_page_time"
                 name="timePerPage"
                 onChange={handleChange.bind(null, "timePerPage")}
@@ -315,35 +435,45 @@ const ExamDetailsEdit = ({ examId }) => {
                 })}
                 required
               />
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "required" && (
-                  <span className="error">This field is required</span>
-                )}
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "max" && (
-                  <span className="error">
-                    {" "}
-                    The maximum is 600 minutes (10 hours)
-                  </span>
-                )}
-              {errors.exam_page_time &&
-                errors.exam_page_time.type === "min" && (
-                  <span className="error">
-                    Only positive numbers are allowed
-                  </span>
-                )}
+              {errors.timePerPage && errors.timePerPage.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.timePerPage && errors.timePerPage.type === "max" && (
+                <span className="error">
+                  {" "}
+                  The maximum is 600 minutes (10 hours)
+                </span>
+              )}
+              {errors.timePerPage && errors.timePerPage.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
             </div>
+          </div>
 
+          <div className="form__container form__container--numbers">
             <div className="form__element">
-              <Label
-                htmlFor="page-repeat"
-                text="Repeat"
-                className="form__element__label"
-              />
+              <div className="info-box-label">
+                <Label
+                  htmlFor="pageRepeat"
+                  text="Repeat"
+                  className="form__element__label"
+                />
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={
+                    <Tooltip>
+                      How many times you want to study each page
+                    </Tooltip>
+                  }
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
               <input
                 className="form__element__input"
                 type="number"
-                id="page-repeat"
+                id="pageRepeat"
                 label="exam_page_repeat"
                 name="timesRepeat"
                 onChange={handleChange.bind(null, "timesRepeat")}
@@ -355,14 +485,12 @@ const ExamDetailsEdit = ({ examId }) => {
                 })}
               />
             </div>
-            {errors.exam_page_repeat &&
-              errors.exam_page_repeat.type === "max" && (
-                <span className="error"> The maximum is 1000 repeats</span>
-              )}
-            {errors.exam_page_repeat &&
-              errors.exam_page_repeat.type === "min" && (
-                <span className="error">Only positive numbers are allowed</span>
-              )}
+            {errors.timesRepeat && errors.timesRepeat.type === "max" && (
+              <span className="error"> The maximum is 1000 repeats</span>
+            )}
+            {errors.timesRepeat && errors.timesRepeat.type === "min" && (
+              <span className="error">Only positive numbers are allowed</span>
+            )}
           </div>
         </div>
 
@@ -370,13 +498,13 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="form__right--top">
             <div className="form__element">
               <Label
-                htmlFor="page-notes"
+                htmlFor="pageNotes"
                 text="Notes"
                 className="form__element__label"
               />
               <textarea
                 className="form__element__input"
-                id="page-notes"
+                id="pageNotes"
                 label="exam_page_notes"
                 name="notes"
                 onChange={handleChange.bind(null, "notes")}
@@ -386,34 +514,129 @@ const ExamDetailsEdit = ({ examId }) => {
                   maxLength: 100000000,
                 })}
               />
-              {errors.exam_page_notes &&
-                errors.exam_page_notes.type === "maxLength" && (
-                  <span className="error">
-                    The maximal length is 100.000.000 characters
-                  </span>
-                )}
+              {errors.notes && errors.notes.type === "maxLength" && (
+                <span className="error">
+                  The maximal length is 100.000.000 characters
+                </span>
+              )}
             </div>
 
-            {/* TODO: implement */}
-            {/* <div className="form__element">
-              <Label
-                htmlFor="pdf-link"
-                text="Pdf link"
-                className="form__element__label"
-              ></Label>
-              <input
-                className="form__element__input"
-                type="text"
-                id="pdf-link"
-                label="exam_pdf_upload"
-                name="pdfLink"
-                onChange={handleChange.bind(null, "pdfLink")}
-                value={pdfLink}
-                ref={register({
-                  required: false,
-                })}
-              />
-            </div> */}
+            {oldFilteredLinks.length > 0 ? (
+              <div className="form__current-study-links">
+                <div className="form__element">
+                  <div className="info-box-label">
+                    <Label
+                      htmlFor="studyLinks"
+                      text="Current study links"
+                      className="form__element__label"
+                    />
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip>
+                          Links to your online study documents (e.g. slides,
+                          pdfs...)
+                        </Tooltip>
+                      }
+                    >
+                      <span className="info-circle">i</span>
+                    </OverlayTrigger>
+                  </div>
+                </div>
+                {oldUrls.map((inputField, index) => (
+                  <div
+                    key={`${index}-oldUrls`}
+                    className="form__study-links current-study-links"
+                  >
+                    <div className="form__element form__study-links--input">
+                      <input
+                        className="form__element__input"
+                        type="url"
+                        id="studyLinks"
+                        name="studyLinks"
+                        value={inputField}
+                        label="exam_links_upload"
+                        onChange={event => handleOldInputChange(index, event)}
+                        ref={register({
+                          required: false,
+                          pattern:
+                            "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                        })}
+                      />
+                    </div>
+                    <div className="form__study-links--buttons">
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveOldFields(index)}
+                      >
+                        -
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            <div className="form__current-study-links">
+              <div className="form__element">
+                <div className="info-box-label">
+                  <Label
+                    htmlFor="study-new-links"
+                    text="Add new study links (https://...)"
+                    className="form__element__label"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        Links to your online study documents (e.g. slides,
+                        pdfs...)
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+              </div>
+              {newUrls.map((inputField, index) => (
+                <div key={`${index}-newUrls`} className="form__study-links">
+                  <div className="form__element form__study-links--input">
+                    <input
+                      className="form__element__input"
+                      type="url"
+                      id="study-new-links"
+                      name="study-new-links"
+                      placeholder="https://example.com/math"
+                      label="exam_links_upload"
+                      onChange={event => handleNewInputChange(index, event)}
+                      ref={register({
+                        required: false,
+                        pattern:
+                          "/(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?/",
+                      })}
+                    />
+                  </div>
+
+                  <div className="form__study-links--buttons">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFields(index)}
+                    >
+                      -
+                    </button>
+                    <button
+                      className=""
+                      type="button"
+                      onClick={() => handleAddFields()}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -438,7 +661,7 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
 
         <div className="col-md-12">
-          <p className="error graphql-exam-details-edit-error"></p>
+          <p className="error graphql-error"></p>
         </div>
 
         <div className="col-md-12" id="success-container-edit-exam">
@@ -458,6 +681,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   history,
+  newLinks,
 }) {
   try {
     const resp = await updateExam({
@@ -469,11 +693,10 @@ async function handleExam({
         numberPages: parseInt(data.numberPages),
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
-        // startPage: parseInt(data.startPage),
-        startPage: 1,
+        startPage: parseInt(data.startPage),
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
-        pdfLink: data.pdfLink,
+        studyMaterialLinks: newLinks,
         completed: false,
       },
     })

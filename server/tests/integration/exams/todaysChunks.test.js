@@ -58,6 +58,7 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+
     expect(resp.data.todaysChunkAndProgress).toBeTruthy();
     expect(resp.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
@@ -76,7 +77,10 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
-        pdfLink: testExams.exam1.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 10,
       durationToday: 50,
@@ -85,43 +89,49 @@ describe("Test user resolver regex", () => {
       // notEnoughTime: false
     });
 
-    // expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
-    //   exam: {
-    //     id: testExams.exam2._id.toString(),
-    //     subject: testExams.exam2.subject,
-    //     examDate: testExams.exam2.examDate,
-    //     startDate: testExams.exam2.startDate,
-    //     totalNumberDays: testExams.exam2.totalNumberDays,
-    //     numberPages: testExams.exam2.numberPages,
-    //     timesRepeat: testExams.exam2.timesRepeat,
-    //     currentPage: testExams.exam2.currentPage,
-    //     pdfLink: testExams.exam2.pdfLink
-    //   },
-    //   numberPagesToday: 36,
-    //   durationToday: 360,
-    //   daysLeft: 2
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
+      exam: {
+        id: testExams.exam2._id.toString(),
+        subject: testExams.exam2.subject,
+        examDate: testExams.exam2.examDate,
+        startDate: testExams.exam2.startDate,
+        totalNumberDays: testExams.exam2.totalNumberDays,
+        numberPages: testExams.exam2.numberPages,
+        timesRepeat: testExams.exam2.timesRepeat,
+        currentPage: testExams.exam2.currentPage,
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
+      },
+      numberPagesToday: 36,
+      durationToday: 360,
+      daysLeft: 2
 
-    //   // notEnoughTime: false
-    // });
+      // notEnoughTime: false
+    });
 
-    // expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
-    //   exam: {
-    //     id: testExams.exam3._id.toString(),
-    //     subject: testExams.exam3.subject,
-    //     examDate: testExams.exam3.examDate,
-    //     startDate: testExams.exam3.startDate,
-    //     totalNumberDays: testExams.exam3.totalNumberDays,
-    //     numberPages: testExams.exam3.numberPages,
-    //     timesRepeat: testExams.exam3.timesRepeat,
-    //     currentPage: testExams.exam3.currentPage,
-    //     pdfLink: testExams.exam3.pdfLink
-    //   },
-    //   numberPagesToday: 48,
-    //   durationToday: 480,
-    //   daysLeft: 1
+    expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
+      exam: {
+        id: testExams.exam3._id.toString(),
+        subject: testExams.exam3.subject,
+        examDate: testExams.exam3.examDate,
+        startDate: testExams.exam3.startDate,
+        totalNumberDays: testExams.exam3.totalNumberDays,
+        numberPages: testExams.exam3.numberPages,
+        timesRepeat: testExams.exam3.timesRepeat,
+        currentPage: testExams.exam3.currentPage,
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
+      },
+      numberPagesToday: 48,
+      durationToday: 480,
+      daysLeft: 1
 
-    //   // notEnoughTime: false
-    // });
+      // notEnoughTime: false
+    });
   });
 
   it("should correctly fetch today's chunks if the cache is not empty", async () => {
@@ -162,7 +172,10 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam1.numberPages,
         timesRepeat: testExams.exam1.timesRepeat,
         currentPage: testExams.exam1.currentPage,
-        pdfLink: testExams.exam1.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 10,
       durationToday: 50,
@@ -180,7 +193,10 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam2.numberPages,
         timesRepeat: testExams.exam2.timesRepeat,
         currentPage: testExams.exam2.currentPage,
-        pdfLink: testExams.exam2.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 36,
       durationToday: 360,
@@ -199,7 +215,10 @@ describe("Test user resolver regex", () => {
         numberPages: testExams.exam3.numberPages,
         timesRepeat: testExams.exam3.timesRepeat,
         currentPage: testExams.exam3.currentPage,
-        pdfLink: testExams.exam3.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 48,
       durationToday: 480,
@@ -244,7 +263,8 @@ describe("Test user resolver regex", () => {
     const respExamCompleted = await query({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam._id.toString()
+        id: testExam._id.toString(),
+        completed: true
       }
     });
     expect(respExamCompleted.data).toBeTruthy();
@@ -316,7 +336,10 @@ describe("Test user resolver regex", () => {
         numberPages: testExam.numberPages,
         timesRepeat: testExam.timesRepeat,
         currentPage: 3,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday:
         respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0]
@@ -359,6 +382,7 @@ describe("Test user resolver regex", () => {
     expect(
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks.length
     ).toBe(1);
+
     expect(
       respFetchChunks3.data.todaysChunkAndProgress.todaysChunks[0]
     ).toMatchObject({
@@ -371,7 +395,10 @@ describe("Test user resolver regex", () => {
         numberPages: 200,
         timesRepeat: 1,
         currentPage: 23,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 27,
       startPage: 23,
@@ -418,7 +445,10 @@ describe("Test user resolver regex", () => {
         numberPages: 200,
         timesRepeat: 1,
         currentPage: 23,
-        pdfLink: testExam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       },
       numberPagesToday: 32,
       startPage: 23, //TODO: or 23???

@@ -6,12 +6,14 @@ import { CURRENT_USER } from "../../graphQL/queries"
 
 // components ----------------
 import Image from "../../components/image/Image"
-import { currentMood } from "../../pages/user-account-page/UserAccountPage"
+
+// helpers ----------------
+import { currentMood } from "../../helpers/mascots"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"
 
-// libraries
+// libraries ----------------
 import Carousel from "react-bootstrap/Carousel"
 
 // apolloClient cache ----------------
@@ -21,21 +23,17 @@ import { client } from "../../apolloClient"
 const random = Math.floor(Math.random() * 3)
 
 const CurrentState = ({ todaysProgress }) => {
-  // context ----------------
+  // run query in cache ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
 
-  // variables ----------------
+  // variables & default values ----------------
   let mood = "okay"
   let motivation
 
-  // run query in cache ----------------
   mood = currentMood(todaysProgress)
-
   motivationalSayings.forEach(element => {
-    if (mood === element.mood) {
-      if (element.id === random) {
-        motivation = element.motivation
-      }
+    if (mood === element.mood && element.id === random) {
+      motivation = element.motivation
     }
   })
 

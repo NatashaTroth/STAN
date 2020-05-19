@@ -1,6 +1,12 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
+import {
+  setupApolloServer,
+  setupDb,
+  clearDatabase,
+  teardown
+  // signUpTestUser
+} from "../setup";
 
 import {
   LOGIN_MUTATION,
@@ -9,6 +15,7 @@ import {
   UPDATE_USER_MUTATION,
   LOGOUT_MUTATION,
   DELETE_USER_MUTATION
+  // FORGOTTEN_PASSWORD_EMAIL
   // GOOGLE_LOGIN_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
@@ -81,6 +88,7 @@ describe("Test user sign up and login resolvers", () => {
 
   it("should not sign the user up again with the same email address", async () => {
     await signUserUp("Stan2", "user2@stan.com", "12345678");
+
     const resp = await mutate({
       query: SIGNUP_MUTATION,
       variables: {
@@ -91,8 +99,12 @@ describe("Test user sign up and login resolvers", () => {
         allowEmailNotifications: false
       }
     });
+    // console.log(await User.find());
+
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual("User with email already exists.");
+    expect(resp.errors[0].message).toEqual(
+      "User with email already exists. Have you forgotten your password?"
+    );
   });
 
   it("should not update the mascot for a user", async () => {
@@ -223,4 +235,19 @@ describe("Test user sign up and login resolvers", () => {
     expect(resp.data.logout).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
+  // it("should not log the user out - user isn't logged in", async () => {
+  //   let testUser = await signUpTestUser("tashy.troth@gmx.at");
+  //   console.log(await User.find());
+  //   //Already logged in
+  //   const resp = await mutate({
+  //     query: FORGOTTEN_PASSWORD_EMAIL,
+  //     variables: {
+  //       email: "tashy.troth@gmx.at"
+  //     }
+  //   });
+  //   console.log(resp);
+  //   expect(resp.data.forgottenPasswordEmail).toBeTruthy();
+  //   //   expect(resp.errors[0].message).toEqual("Unauthorised");
+  //   // });
+  // });
 });

@@ -54,7 +54,8 @@
       width: 85%;
       height: 17px;
       margin: 0;
-      border: 2.5px solid theme-color("dark");
+      border: 2.5px solid;
+      border-color: theme-color("dark");
 
       @include media-breakpoint-down(xs) {
         width: 100%;

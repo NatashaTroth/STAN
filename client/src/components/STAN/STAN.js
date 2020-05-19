@@ -1,9 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, initialState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
+import ThemeMode from "../theme-changer/ThemeChanger"
+import useDarkMode from "use-dark-mode"
+import { setAccessToken } from "../../accessToken"
+import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
+import { useMutation } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/queries"
+import { LOGOUT_MUTATION } from "../../graphQL/mutations"
 import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------
@@ -12,16 +18,35 @@ import Content from "../content/Content"
 import Backdrop from "../backdrop/Backdrop"
 import QueryError from "../error/Error"
 import Loading from "../loading/Loading"
-
-// images & logos ----------------
-import Logo from "../../images/icons/logo.svg"
+import Button from "../../components/button/Button"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// images & logos ----------------
+import LogoDark from "../../images/icons/stan-logo-dark.svg"
+import LogoLight from "../../images/icons/stan-logo-light.svg"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
+
 const Navbar = () => {
+  // mutation ----------------
+  const [logout] = useMutation(LOGOUT_MUTATION)
+
   // variables ----------------
   let backdrop = null
+  let Logo = LogoDark
+
+  // dark mode specific ----------------
+  const darkMode = useDarkMode(initialState, {
+    element: document.documentElement,
+  })
+  if (darkMode.value) {
+    Logo = LogoLight
+  } else {
+    Logo = LogoDark
+  }
 
   // state ----------------
   const [isSideBarOpen, setSideBar] = useState(false)
@@ -45,6 +70,39 @@ const Navbar = () => {
   }
 
   if (isSideBarOpen) backdrop = <Backdrop click={handleClickSidebar} />
+
+  // google logout ----------------
+  let logoutButton
+  if (currentUser !== null) {
+    const currentUserGoogleLogin = currentUser.googleLogin
+    if (!currentUserGoogleLogin) {
+      logoutButton = (
+        <Button
+          variant="button"
+          className=""
+          onClick={async () => logUserOut({ logout })}
+          text="Logout"
+        />
+      )
+    } else {
+      logoutButton = (
+        <GoogleLogout
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          buttonText="Logout"
+          onLogoutSuccess={async () => logUserOut({ logout, client })}
+          render={renderProps => (
+            <button
+              variant="button"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Logout
+            </button>
+          )}
+        />
+      )
+    }
+  }
 
   // return ----------------
   return (
@@ -160,7 +218,6 @@ const Navbar = () => {
                   <NavLink
                     strict
                     to="/exams"
-                    exact
                     activeClassName="active"
                     onClick={closeSidebar}
                   >
@@ -173,7 +230,7 @@ const Navbar = () => {
               {currentUser ? (
                 <li className="logged-in profile">
                   <span className="user-avatar">
-                    {currentUser.username.charAt(0)}
+                    {decodeHtml(currentUser.username).charAt(0)}
                   </span>
                   <NavLink
                     strict
@@ -190,7 +247,9 @@ const Navbar = () => {
 
             {/* PUBLIC ROUTES */}
             <div className="menu-bottom">
-              <li className="dark-mode">Dark mode</li>
+              <li className="logout">{logoutButton}</li>
+
+              <ThemeMode />
               <li className="imprint">
                 <NavLink
                   strict
@@ -225,3 +284,18 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+async function logUserOut({ logout }) {
+  // reset refresh token ----------------
+  await logout()
+
+  // reset access token ----------------
+  setAccessToken("")
+
+  // reset mascot event ----------------
+  window.localStorage.setItem("mascot-event", false)
+
+  // logout all other tabs ----------------
+  localStorage.setItem("logout-event", Date.now())
+  window.location.href = "/login"
+}

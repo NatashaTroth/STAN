@@ -80,15 +80,15 @@
           content: "";
           position: absolute;
           display: inline-block;
-          width: 0;
-          height: 4px;
+          width: 100%;
+          height: 3px;
           bottom: 0;
           right: 0;
           background-color: theme_color("dark");
           transition: all 0.3s ease-in-out;
         }
         &:hover:after {
-          width: 100%;
+          width: 0;
         }
 
         @include media-breakpoint-down(xs) {
@@ -137,12 +137,16 @@
   border-color: theme_color("dark");
 }
 
+.fc-week-number {
+  padding: 0 2px;
+}
 // box content
 .fc-view {
   padding: 3px;
   padding-right: 2px;
   margin-bottom: 40px;
-  border: 4px solid theme-color("dark");
+  border: 4px solid;
+  border-color: theme-color("dark");
   box-shadow: 10px 10px 0px -2px theme-color("dark");
 
   &.fc-dayGridMonth-view {
@@ -213,6 +217,14 @@
 
 .fc-listWeek-view {
   min-height: 70px;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+
+  @include media-breakpoint-down(lg) {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 // empty list
@@ -266,15 +278,32 @@
   min-height: 3em !important;
 }
 
+// displays exam deadline
+.fade.show {
+  @include rem(font-size, 12px);
+  @include rem(letter-spacing, 0.5px);
+  font-family: $font-family-BasierCircle-SemiBold;
+  text-transform: lowercase;
+  z-index: 1;
+  border: 1.5px solid;
+  color: theme-color("dark");
+  border-color: theme-color("dark");
+  padding: 2px 5px;
+  background-color: theme-color("light");
+}
+
 // popup
-.popover {
-  border: 2px solid theme_color("dark");
+.fade.show.popover {
+  border: 2px solid;
+  border-color: theme_color("dark");
   border-radius: 0;
   min-width: 320px;
+  background-color: theme-color("light");
 }
 .popover-header {
   background-color: transparent;
-  border-bottom: 2px solid theme_color("dark");
+  border-bottom: 2px solid;
+  border-color: theme_color("dark");
 }
 
 .bs-popover-top > .arrow::before,
@@ -292,12 +321,20 @@
   .total-pages-left,
   .pages-per-day,
   .duration-per-day,
-  .duration-total,
-  .pdfLink {
+  .duration-total {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+  }
+  .link {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      text-decoration: underline;
+      text-align: right;
+    }
   }
 
   .exam-date {
@@ -310,7 +347,7 @@
   .popover-title {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
   }
   .close-calendar-popup {
     width: 20px;

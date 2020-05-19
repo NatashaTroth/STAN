@@ -20,7 +20,7 @@ export default class StanEmail {
 
     const subject = "Welcome to stan!";
     const h1 = `Welcome to stan...`;
-    const text = `<p>It's so nice to meet you! We hope you enjoy all the features that stan has to offer. Add you first exam directly from the dashboard, keep track of your upcoming exams in the calendar view. But most importantly, toggle between light and dark mode!</p><p>We hope stan can help you with your upcoming exams!</p><p>Good luck and happy learning!</p>`;
+    const text = `<p>It's so nice to meet you! We hope you enjoy all the features that stan has to offer. Add your first exam directly from the dashboard, keep track of your upcoming exams in the calendar view. But most importantly, toggle between light and dark mode!</p><p>We hope stan can help you with your upcoming exams!</p><p>Good luck and happy learning!</p>`;
 
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
@@ -36,6 +36,16 @@ export default class StanEmail {
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
 
+  sendForgottenPasswordMail(recipientEmail, link) {
+    console.log("SENDING FORGOTTEN PASSWORD MAIL");
+
+    const subject = "Reset Password";
+    const h1 = `Reset your password...`;
+    const text = `<p>Don't worry, it's only human to forget things. Click <a href=" ${link}">here</a> to reset your password. This link is only valid for 10 minutes. If you run out of time, request another link on the forgotten password page.</p>`;
+
+    this.sendMail(recipientEmail, subject, text, h1);
+  }
+
   sendExamDateReminderMail(
     recipientEmail,
     examsInOneDay,
@@ -44,7 +54,8 @@ export default class StanEmail {
     mascot
   ) {
     console.log("SENDING THREE DAY REMINDER MAIL");
-    let totalExamsLength = examsInOneDay.length + examsInThreeDays.length;
+    let totalExamsLength =
+      examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
     let examWord = "Exam";
     if (totalExamsLength > 1) examWord = "Exams";
     if (totalExamsLength === 1) totalExamsLength = "";
@@ -63,8 +74,8 @@ export default class StanEmail {
     }
 
     const subject = `${examWord} coming up!`;
-    const h1 = `Reminder that you have the following ${totalExamsLength} ${examWord.toLowerCase()} coming up`;
-    const text = `<p>stan wanted to remind you that you have the following ${examWord.toLowerCase()} in three days time, which you haven't finished learning for yet:</p>${examsListString}<p><b>You also need to start learning for the following ${
+    const h1 = `Reminder that you have the following ${examWord.toLowerCase()} coming up`;
+    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you haven't finished learning for yet.</p>${examsListString}<p><b>You need to start learning for the following ${
       startDatesToday.length > 1 ? "exams" : "exam"
     } today:</b></p>
     <ul>${this.createExamsListString(
@@ -89,7 +100,7 @@ export default class StanEmail {
     let image = `${mascot}-emailStan.svg`;
 
     //TODO (IF TIME): send correct mascot - 0,1 or 2
-    const html = `<h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
+    const html = `<style>*{font-family: Verdana, sans-serif}</style><h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
 
     console.log(`${__dirname}/images/${image}`);
     const mailOptions = {

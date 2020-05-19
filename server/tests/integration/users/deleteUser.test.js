@@ -117,7 +117,7 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(respDelete2.data.deleteUser).toBeFalsy();
     expect(respDelete2.errors[0].message).toEqual(
-      "The user couldn't be deleted"
+      "The user couldn't be deleted. Please contact us at stan.studyplan@gmail.com, to delete your account."
     );
   });
 

@@ -109,7 +109,7 @@ const Mascots = () => {
                   <p className="success">the mascot was successfully saved</p>
                 </div>
                 <div className="error">
-                  <p id="graphql-mascots-error"></p>
+                  <p className="graphql-error"></p>
                 </div>
               </form>
             </div>
@@ -142,7 +142,7 @@ async function handleMascot({ index, updateMascot, history }) {
     window.localStorage.setItem("mascot-event", false)
     history.push("/")
   } catch (err) {
-    let element = document.getElementById("graphql-mascots-error")
+    let element = document.getElementsByClassName("graphql-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

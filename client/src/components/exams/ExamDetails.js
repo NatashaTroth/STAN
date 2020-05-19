@@ -7,6 +7,8 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_CALENDAR_CHUNKS,
+  GET_TODAYS_CHUNKS_AND_PROGRESS,
+  GET_EXAMS_COUNT,
   CURRENT_USER,
 } from "../../graphQL/queries"
 import {
@@ -26,6 +28,9 @@ import Loading from "../loading/Loading"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
 
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)
@@ -51,12 +56,19 @@ const ExamDetails = () => {
 
   // mutation ----------------
   const [deleteExam] = useMutation(DELETE_EXAM_MUTATION, {
-    refetchQueries: [{ query: GET_EXAMS_QUERY }],
+    refetchQueries: [
+      { query: GET_EXAMS_QUERY },
+      { query: GET_CALENDAR_CHUNKS },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_EXAMS_COUNT },
+    ],
   })
   const [examCompleted] = useMutation(EXAM_COMPLETED_MUTATION, {
     refetchQueries: [
       { query: GET_EXAMS_QUERY },
       { query: GET_CALENDAR_CHUNKS },
+      { query: GET_TODAYS_CHUNKS_AND_PROGRESS },
+      { query: GET_EXAMS_COUNT },
     ],
   })
 
@@ -90,7 +102,13 @@ const ExamDetails = () => {
   }
 
   const handleCompletion = () => {
-    completeExam({ paramId, examCompleted, history })
+    const completed = true
+    completeExam({ paramId, examCompleted, history, completed })
+  }
+
+  const handleReactivation = () => {
+    const completed = false
+    completeExam({ paramId, examCompleted, history, completed })
   }
 
   // return ----------------
@@ -101,7 +119,7 @@ const ExamDetails = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="exam-details__headline">
-              <h2>{examDetails.subject}</h2>
+              <h2>{decodeHtml(examDetails.subject)}</h2>
 
               <Button
                 variant="button"
@@ -194,7 +212,7 @@ const ExamDetails = () => {
                         </div>
 
                         <div className="col-md-12">
-                          <p className="error graphql-exam-details-error"></p>
+                          <p className="error graphql-popup-error"></p>
                         </div>
 
                         <div
@@ -223,16 +241,24 @@ const ExamDetails = () => {
                   </div>
                 ) : null}
 
-                <div className="col-md-12">
-                  <p className="error graphql-exam-completion-error"></p>
-                </div>
+                {!edit && examDetails.completed ? (
+                  <div className="col-md-12">
+                    <div className="exam-details__inner--button">
+                      <Button
+                        className="stan-btn-primary"
+                        variant="button"
+                        text="reactivate exam"
+                        onClick={handleReactivation}
+                      />
+                    </div>
+                  </div>
+                ) : null}
 
-                <div
-                  className="col-md-12"
-                  id="success-container-exam-completed"
-                >
-                  <p className="success">the exam was successfully completed</p>
-                </div>
+                {!edit ? (
+                  <div className="col-md-12">
+                    <p className="error graphql-error error-completion"></p>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -266,7 +292,7 @@ async function examDeletion({ paramId, deleteExam, history }) {
     }, 1000)
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementsByClassName("graphql-exam-details-error")
+    let element = document.getElementsByClassName("graphql-popup-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
@@ -276,18 +302,17 @@ async function examDeletion({ paramId, deleteExam, history }) {
   }
 }
 
-async function completeExam({ paramId, examCompleted, history }) {
+async function completeExam({ paramId, examCompleted, history, completed }) {
   try {
     const resp = await examCompleted({
       variables: {
         id: paramId.id,
+        completed: completed,
       },
     })
 
     if (resp && resp.data && resp.data.examCompleted) {
-      document.getElementById(
-        "success-container-exam-completed"
-      ).style.display = "block"
+      console.log("The completion of exam was successfully.")
     } else {
       throw new Error("The completion of current exam failed.")
     }
@@ -296,7 +321,9 @@ async function completeExam({ paramId, examCompleted, history }) {
     history.push("/exams")
   } catch (err) {
     // error handling ----------------
-    let element = document.getElementById("graphql-exam-completion-error")
+    let element = document.getElementsByClassName(
+      "graphql-error error-completion"
+    )
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message

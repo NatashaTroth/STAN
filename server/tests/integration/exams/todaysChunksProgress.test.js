@@ -11,10 +11,7 @@ import {
 } from "../setup";
 import { Exam, TodaysChunkCache } from "../../../models";
 
-import {
-  GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_TODAYS_CHUNKS_PROGRESS
-} from "../../queries.js";
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 import {
   UPDATE_CURRENT_PAGE_MUTATION,
@@ -50,11 +47,11 @@ describe("Test user resolver regex", () => {
       subject: "Biology"
     });
     const resp = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp.data).toBeTruthy();
-    expect(resp.data.todaysChunksProgress).toBe(0);
+    expect(resp.data.todaysChunkAndProgress.todaysProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 1);
 
@@ -84,12 +81,12 @@ describe("Test user resolver regex", () => {
     ).toBe(3);
 
     const resp2 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp2.data).toBeTruthy();
     //2 pages of 10 completed = 20%
-    expect(resp2.data.todaysChunksProgress).toBe(20);
+    expect(resp2.data.todaysChunkAndProgress.todaysProgress).toBe(20);
 
     // update current page to 7
     const respUpdate2 = await TodaysChunkCache.updateOne(
@@ -100,27 +97,28 @@ describe("Test user resolver regex", () => {
     expect(respUpdate2.nModified).toBe(1);
 
     const resp3 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp3.data).toBeTruthy();
     //6 pages of 10 completed = 60%
-    expect(resp3.data.todaysChunksProgress).toBe(60);
+    expect(resp3.data.todaysChunkAndProgress.todaysProgress).toBe(60);
 
     const respExamCompleted = await query({
       query: EXAM_COMPLETED_MUTATION,
       variables: {
-        id: testExam._id.toString()
+        id: testExam._id.toString(),
+        completed: true
       }
     });
 
     expect(respExamCompleted.data).toBeTruthy();
 
     const resp4 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp4.data).toBeTruthy();
     //completed = 100%
-    expect(resp4.data.todaysChunksProgress).toBe(100);
+    expect(resp4.data.todaysChunkAndProgress.todaysProgress).toBe(100);
   });
 
   it("should correctly fetch today's chunks progress after updating current page (update current page mutation)", async () => {
@@ -133,11 +131,11 @@ describe("Test user resolver regex", () => {
 
     //Current todays chunks progress should be 0
     const resp1 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp1.data).toBeTruthy();
-    expect(resp1.data.todaysChunksProgress).toBe(0);
+    expect(resp1.data.todaysChunkAndProgress.todaysProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 1);
 
@@ -153,12 +151,12 @@ describe("Test user resolver regex", () => {
 
     //refetch progress - should have changed
     const resp2 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp2.data).toBeTruthy();
     //2 pages of 10 completed = 20%
-    expect(resp2.data.todaysChunksProgress).toBe(20);
+    expect(resp2.data.todaysChunkAndProgress.todaysProgress).toBe(20);
   });
 
   it("should correctly fetch today's chunks progress, when there are no chunks today/no exams", async () => {
@@ -176,11 +174,11 @@ describe("Test user resolver regex", () => {
     ).toBe(0);
 
     const resp1 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp1.data).toBeTruthy();
-    expect(resp1.data.todaysChunksProgress).toBe(100);
+    expect(resp1.data.todaysChunkAndProgress.todaysProgress).toBe(100);
   });
 
   it("should correctly fetch today's chunks progress when there are multiple exams", async () => {
@@ -191,11 +189,11 @@ describe("Test user resolver regex", () => {
 
     //Current todays chunks progress should be 0
     const resp1 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp1.data).toBeTruthy();
-    expect(resp1.data.todaysChunksProgress).toBe(0);
+    expect(resp1.data.todaysChunkAndProgress.todaysProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 3);
 
@@ -221,10 +219,10 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
     const resp2 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp2.data).toBeTruthy();
-    expect(resp2.data.todaysChunksProgress).toBe(1);
+    expect(resp2.data.todaysChunkAndProgress.todaysProgress).toBe(1);
 
     //---UPDATE SECOND EXAM---
     const updateResp2 = await mutate({
@@ -245,9 +243,9 @@ describe("Test user resolver regex", () => {
     expect(respFetchCache).toBeTruthy();
     expect(respFetchCache.completed).toBeTruthy();
     const resp3 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(resp3.data.todaysChunksProgress).toBe(42);
+    expect(resp3.data.todaysChunkAndProgress.todaysProgress).toBe(42);
 
     //---UPDATE THIRD EXAM---
     const updateResp3 = await mutate({
@@ -259,9 +257,9 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp3.data.updateCurrentPage).toBeTruthy();
     const resp4 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(resp4.data.todaysChunksProgress).toBe(73);
+    expect(resp4.data.todaysChunkAndProgress.todaysProgress).toBe(73);
 
     //---UPDATE FOURTH EXAM---
     //shouldn't affect the results of the progress since the exam is in the future
@@ -274,10 +272,10 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp4.data.updateCurrentPage).toBeTruthy();
     const resp5 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
-    expect(resp5.data.todaysChunksProgress).toBe(73);
+    expect(resp5.data.todaysChunkAndProgress.todaysProgress).toBe(73);
   });
 
   it("should correctly fetch today's chunks progress after deleting an exam", async () => {
@@ -285,11 +283,11 @@ describe("Test user resolver regex", () => {
     const { exam1 } = await addTestExams();
 
     const resp = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp.data).toBeTruthy();
-    expect(resp.data.todaysChunksProgress).toBe(0);
+    expect(resp.data.todaysChunkAndProgress.todaysProgress).toBe(0);
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 3);
 
@@ -302,10 +300,10 @@ describe("Test user resolver regex", () => {
     });
     expect(updateResp.data.updateCurrentPage).toBeTruthy();
     const resp2 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(resp2.data).toBeTruthy();
-    expect(resp2.data.todaysChunksProgress).toBe(1);
+    expect(resp2.data.todaysChunkAndProgress.todaysProgress).toBe(1);
 
     const respDelete = await mutate({
       query: DELETE_EXAM_MUTATION,
@@ -315,10 +313,10 @@ describe("Test user resolver regex", () => {
     });
     expect(respDelete.data.deleteExam).toBeTruthy();
     const resp3 = await query({
-      query: GET_TODAYS_CHUNKS_PROGRESS
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
 
     expect(resp3.data).toBeTruthy();
-    expect(resp3.data.todaysChunksProgress).toBe(0);
+    expect(resp3.data.todaysChunkAndProgress.todaysProgress).toBe(0);
   });
 });

@@ -8,13 +8,6 @@ const userQueries = gql`
   }
 
   type Mutation {
-    #TODO: delete addUser afterwards
-    addUser(
-      username: String!
-      password: String
-      email: String!
-      mascot: Int
-    ): User
     signup(
       username: String!
       email: String!
@@ -26,7 +19,12 @@ const userQueries = gql`
     logout: Boolean
     login(email: String!, password: String): String!
     googleLogin(idToken: String!): String!
-
+    forgottenPasswordEmail(email: String!): Boolean!
+    resetPassword(
+      userId: String!
+      token: String!
+      newPassword: String!
+    ): Boolean!
     updateUser(
       username: String!
       email: String!
@@ -38,19 +36,10 @@ const userQueries = gql`
 
     updateMascot(mascot: Int!): Boolean
     deleteUser: Boolean
+
     #in case refresh tokens get comprimised
     # revokeRefreshTokensForUser(userId: ID!): Boolean
   }
 `;
 
 module.exports = { userQueries };
-
-// type Mutation {
-//   addUser(id: [ID]!): UserUpdateResponse!
-//   deleteUser(id: ID!): UserUpdateResponse!
-//   login(email: String): String # login token
-// }
-// type UserUpdateResponse {
-//   success: Boolean!
-//   message: String
-// }

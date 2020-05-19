@@ -52,7 +52,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 1,
         notes: "My Test Notes",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -127,8 +130,7 @@ describe("Test user resolver regex", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    console.log(todaysChunks);
-    console.log(todaysChunks.data.todaysChunkAndProgress);
+
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
       1

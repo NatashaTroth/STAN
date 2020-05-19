@@ -4,12 +4,13 @@ import {
   verifyRegexPageTime,
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
-  verifyRegexPageNotes
+  verifyRegexPageNotes,
+  verifyRegexUrlLink
 } from "../helpers/verifyUserInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 
-// import { roundToTwoDecimals } from "../helpers/generalHelpers";
+import { escapeStringForHtml } from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   // startDateIsActive,
@@ -17,6 +18,7 @@ import {
   getNumberOfDays,
   date1IsBeforeDate2
 } from "../helpers/dates";
+import validator from "validator";
 
 export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
@@ -83,14 +85,14 @@ export async function handleUpdateExamInput(exam, args, userId) {
     args.lastPage
   );
   // learningIsComplete(args.currentPage, args.startPage, a);
-  args.completed = exam.completed;
-  if (!args.completed)
-    args.completed = learningIsComplete(
-      args.currentPage,
-      args.startPage,
-      args.numberPages,
-      args.repeat
-    );
+  // args.completed = exam.completed;
+  // if (!args.completed)
+  //   args.completed = learningIsComplete(
+  //     args.currentPage,
+  //     args.startPage,
+  //     args.numberPages,
+  //     args.repeat
+  //   );
 
   return prepareExamInputData({ ...args }, userId);
 }
@@ -108,7 +110,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
     throw new ApolloError(
       "The entered current page is lower than the start page for this exam."
     );
-  if (page > exam.numberPages * exam.timesRepeat + exam.startPage + 1)
+  if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
@@ -218,8 +220,38 @@ export function learningIsComplete(
   // console.log("IN LEARNING COMPLETE FUNCTION");
 
   const endPage = startPage + numberPages * repeat - 1;
-  // console.log("..." + currentPage + "  " + endPage);
+
   return currentPage > endPage;
+}
+
+export function escapeExamObject(exam) {
+  exam.subject = escapeStringForHtml(exam.subject);
+  exam.notes = escapeStringForHtml(exam.notes);
+  // exam.studyMaterialLinks = escapeArrayForHtml(exam.studyMaterialLinks);
+
+  return exam;
+}
+
+export function escapeExamObjects(exams) {
+  const escapedExams = [];
+  exams.forEach(exam => {
+    escapedExams.push(escapeExamObject(exam));
+  });
+  return escapedExams;
+}
+
+export function escapeTodaysChunksObjects(chunks) {
+  chunks.forEach(chunk => {
+    chunk.exam = escapeExamObject(chunk.exam);
+  });
+  return chunks;
+}
+
+export function escapeCalendarObjects(calendarObjects) {
+  calendarObjects.forEach(calendarObject => {
+    calendarObject.title = escapeStringForHtml(calendarObject.title);
+  });
+  return calendarObjects;
 }
 
 function verifyNewExamInputFormat(args) {
@@ -229,6 +261,7 @@ function verifyNewExamInputFormat(args) {
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
   verifyNotesFormat(args.notes);
+  verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }
 
 function verifySubjectFormat(subject) {
@@ -264,6 +297,18 @@ function verifyStartPageFormat(currentPage) {
     throw new AuthenticationError(
       "Start page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
     );
+}
+
+function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
+  if (!studyMaterialLinks) return;
+  if (studyMaterialLinks.length === 0) return;
+
+  studyMaterialLinks.forEach(link => {
+    if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
+      throw new AuthenticationError(
+        "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."
+      );
+  });
 }
 
 function verifyNotesFormat(notes) {

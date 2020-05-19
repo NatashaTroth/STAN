@@ -13,6 +13,7 @@ import {
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
 import TodayGoals from "../../components/today-goals/TodayGoals"
 import Today from "../../components/today/Today"
+import TodayProgress from "../../components/today-progress/TodayProgress"
 import Mascots from "../../components/mascots/Mascots"
 import QueryError from "../../components/error/Error"
 import Loading from "../../components/loading/Loading"
@@ -20,6 +21,9 @@ import CurrentState from "../../components/current-state/CurrentState"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// helpers ----------------
+import { decodeHtml } from "../../helpers/mascots"
 
 function Dashboard() {
   // state & query ----------------
@@ -50,7 +54,15 @@ function Dashboard() {
 
   // check if there is data ----------------
   if (data && data.todaysChunkAndProgress.todaysChunks.length > 0) {
-    // filter only not completed entries ----------------
+    // count total goals for today
+    let goalsTodayPercentage = data.todaysChunkAndProgress.todaysProgress
+    // filter only completed entries ----------------
+    let filteredItemsDONE = data.todaysChunkAndProgress.todaysChunks.filter(
+      function(el) {
+        return el.completed == true
+      }
+    )
+    // filter only NOT completed entries ----------------
     let filteredItems = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
         return el.completed == false
@@ -79,11 +91,17 @@ function Dashboard() {
                 data={filteredItems}
               ></TodayGoals>
             </div>
-            <div className="col-xl-6 today-component-container">
+            <div className="col-xl-5 today-component-container">
               {/* Today */}
               <Today selectedGoal={filteredItems[activeElementIndex]}></Today>
             </div>
-            <div className="col-xl-2">{/* Today Progress */}</div>
+            <div className="col-xl-3">
+              {/* Today Progress */}
+              <TodayProgress
+                data={filteredItemsDONE}
+                goalsPercentage={goalsTodayPercentage}
+              ></TodayProgress>
+            </div>
           </div>
         </div>
       )
@@ -93,15 +111,22 @@ function Dashboard() {
         <div className="container-fluid">
           <div className="row">
             {/* ------ no tasks ------*/}
-            <div className="col-md-1"></div>
-            <div className="col-md-7">
+            <div className="col-xl-1"></div>
+            <div className="col-xl-7">
               <EmptyDashboard
                 heading="No open tasks"
                 text="You finished studying for today, come back tomorrow"
                 showBtn="no"
               ></EmptyDashboard>
             </div>
-            <div className="col-md-4"></div>
+            <div className="col-xl-3">
+              {/* Today Progress */}
+              <TodayProgress
+                data={filteredItemsDONE}
+                goalsPercentage={goalsTodayPercentage}
+              ></TodayProgress>
+            </div>
+            <div className="col-xl-1"></div>
           </div>
         </div>
       )
@@ -134,7 +159,7 @@ function Dashboard() {
           <div className="col-xl-1"></div>
           <div className="col-xl-7">
             <h2 className="dashboard-page__heading">
-              Hello {currentUser.username}
+              Hello {decodeHtml(currentUser.username)}
             </h2>
             <p className="dashboard-page__current-date">{getCurrentDate()}</p>
           </div>

@@ -46,7 +46,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "My Test Notes",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: ["https://stan-studyplan-staging.herokuapp.com/"],
         completed: false
       }
     });
@@ -83,7 +83,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -101,7 +104,7 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [],
         completed: false
       }
     });
@@ -123,7 +126,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -148,7 +154,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -173,7 +182,10 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
@@ -198,13 +210,16 @@ describe("Test user resolver regex", () => {
         timePerPage: 5,
         startPage: 40,
         notes: "NOTES",
-        pdfLink: "klsdjfs",
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ],
         completed: false
       }
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "The last page should be higher than the start page."
+      "Start page cannot higher than the last page."
     );
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);

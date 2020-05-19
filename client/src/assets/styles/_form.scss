@@ -5,12 +5,6 @@
     justify-content: space-between;
     display: flex;
     flex-direction: column;
-
-    &--top {
-      div:nth-child(2) {
-        padding: 25px 0;
-      }
-    }
   }
   &__container {
     display: flex;
@@ -44,27 +38,72 @@
     }
   }
 
+  &__current-study-links {
+    padding: 25px 0;
+
+    .form__element {
+      margin: 0 25px;
+    }
+  }
+
+  &__study-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 !important;
+    height: 45px;
+
+    @include media-breakpoint-down(xs) {
+      display: block;
+      height: 90px;
+    }
+
+    &--input {
+      flex: 1;
+    }
+
+    &.current-study-links {
+      height: 45px;
+
+      input {
+        border-bottom: none;
+        color: theme_color("grey-dark");
+      }
+    }
+
+    &--buttons {
+      @include media-breakpoint-down(lg) {
+        margin-right: 11px;
+      }
+      @include media-breakpoint-down(xs) {
+        text-align: right;
+      }
+
+      button {
+        margin: 0 16px;
+        font-size: 25px;
+        background: none;
+        border: none;
+
+        &:focus,
+        &:active {
+          outline: none;
+        }
+
+        @include media-breakpoint-down(lg) {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
   &__submit {
     display: flex;
     justify-content: flex-end;
+    margin-top: 20px;
 
     @include media-breakpoint-down(xs) {
       justify-content: center;
     }
   }
-
-  // ERROR HANDLING - EDIT EXAM
-  .graphql-error {
-    margin-left: 25px;
-  }
-
-  #success-container-edit-exam {
-    display: none;
-    .success {
-      text-align: right;
-      max-width: none;
-      margin-top: 30px;
-    }
-  }
-  // ----------------
 }

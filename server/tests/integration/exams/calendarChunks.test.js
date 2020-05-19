@@ -44,7 +44,6 @@ describe("Test user resolver regex", () => {
     const resp = await query({
       query: GET_CALENDAR_CHUNKS
     });
-    // console.log(JSON.stringify(resp));
 
     expect(resp.data.calendarChunks).toBeTruthy();
     // console.log(testExams);
@@ -68,9 +67,13 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 10,
         durationTotal: 250,
         durationPerDay: 50,
-        pdfLink: exam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
+
     expect(resp.data.calendarChunks.calendarExams[2]).toMatchObject({
       title: exam.subject,
       start: exam.examDate,
@@ -91,7 +94,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 36,
         durationTotal: 710,
         durationPerDay: 360,
-        pdfLink: exam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[1]).toMatchObject({
@@ -114,7 +120,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 48,
         durationTotal: 480,
         durationPerDay: 480,
-        pdfLink: exam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[0]).toMatchObject({
@@ -125,7 +134,7 @@ describe("Test user resolver regex", () => {
     });
 
     exam = testExams.exam4;
-    console.log(resp.data.calendarChunks);
+
     expect(resp.data.calendarChunks.calendarChunks[3]).toMatchObject({
       title: exam.subject,
       start: exam.startDate,
@@ -138,7 +147,10 @@ describe("Test user resolver regex", () => {
         numberPagesPerDay: 3,
         durationTotal: 250,
         durationPerDay: 15,
-        pdfLink: exam.pdfLink
+        studyMaterialLinks: [
+          "https://stan-studyplan-staging.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
+        ]
       }
     });
     expect(resp.data.calendarChunks.calendarExams[3]).toMatchObject({

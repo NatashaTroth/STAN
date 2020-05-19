@@ -1,5 +1,6 @@
-import React from "react"
+import React, { initialState } from "react"
 import { Link } from "react-router-dom"
+import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -17,6 +18,17 @@ import Particles from "react-particles-js"
 import { client } from "../../apolloClient"
 
 const Home = () => {
+  // dark mode specific ----------------
+  const darkMode = useDarkMode(initialState, {
+    element: document.documentElement,
+  })
+  let particleColor
+  if (darkMode.value) {
+    particleColor = "#ffffff"
+  } else {
+    particleColor = "#000000"
+  }
+
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser !== null) {
@@ -72,7 +84,7 @@ const Home = () => {
                   },
                 },
                 color: {
-                  value: "#0000",
+                  value: particleColor,
                 },
                 size: {
                   value: 3,

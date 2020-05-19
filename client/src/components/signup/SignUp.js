@@ -275,13 +275,15 @@ const SignUp = () => {
             </div>
           </div>
 
-          <div className="login__form__redirect-signup">
-            <p className="login__form__redirect-signup__text">
-              already have an account?
-            </p>
-            <Link to="/login" className="login__form__redirect-signup__link">
-              login
-            </Link>
+          <div className="login__form__bottom">
+            <div className="login__form__bottom--redirect-signup">
+              <p className="login__form__redirect-signup__text">
+                already have an account?
+              </p>
+              <Link to="/login" className="login__form__redirect-signup__link">
+                login
+              </Link>
+            </div>
           </div>
         </div>
       </div>

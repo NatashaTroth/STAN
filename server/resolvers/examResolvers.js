@@ -10,14 +10,18 @@ import {
   // fetchTodaysChunks,
   // fetchCalendarChunks,
   handleUpdateExamInput,
-  verifyAddExamDates
+  verifyAddExamDates,
+  escapeExamObject,
+  escapeExamObjects,
+  escapeTodaysChunksObjects,
+  escapeCalendarObjects
   // learningIsComplete
 } from "../helpers/examHelpers";
 
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  getTodaysChunkProgress,
+  // getTodaysChunkProgress,
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache,
@@ -44,7 +48,7 @@ export const examResolvers = {
           userId: context.userInfo.userId
         }).sort({ subject: "asc" });
         if (!resp) return [];
-        return resp;
+        return escapeExamObjects(resp);
       } catch (err) {
         handleResolverError(err);
       }
@@ -59,36 +63,39 @@ export const examResolvers = {
         });
 
         if (!resp) return {};
-        return resp;
+        return escapeExamObject(resp);
       } catch (err) {
         handleResolverError(err);
       }
     },
     todaysChunkAndProgress: async (root, args, context, info) => {
-      console.log("FTChR");
+      console.log("IN TODAYS CHUNK PROGRESS");
       try {
         handleAuthentication(context.userInfo);
-        console.log("FTChR - gonna fetch chunks");
+
         const chunks = await fetchTodaysChunks(context.userInfo.userId);
-        console.log("FTChR - fetched chunks");
+
         const todaysProgress = calculateChunkProgress(chunks);
 
         //to avoid todayschunks and progress being fetched at the same time
         //TODO: FETCH THE PRGORESS HERE AND RETURN IT
-
-        return { todaysChunks: chunks, todaysProgress };
+        const escapedChunks = escapeTodaysChunksObjects(chunks);
+        return { todaysChunks: escapedChunks, todaysProgress };
       } catch (err) {
         handleResolverError(err);
       }
     },
     calendarChunks: async (root, args, context, info) => {
-      console.log("IN CALENDAR CHUNKS");
+      // console.log("IN CALENDAR CHUNKS");
       try {
         handleAuthentication(context.userInfo);
 
         const chunks = await fetchCalendarChunks(context.userInfo.userId);
 
-        return chunks;
+        return {
+          calendarChunks: escapeCalendarObjects(chunks.calendarChunks),
+          calendarExams: escapeCalendarObjects(chunks.calendarExams)
+        };
       } catch (err) {
         handleResolverError(err);
       }
@@ -110,21 +117,21 @@ export const examResolvers = {
       } catch (err) {
         handleResolverError(err);
       }
-    },
-    todaysChunksProgress: async (parent, args, context) => {
-      try {
-        // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
-        //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
-        handleAuthentication(context.userInfo);
-        return await getTodaysChunkProgress(context.userInfo.userId);
-
-        // return calculateUserState(chunks);
-        // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
-        // return "VERY_HAPPY";
-      } catch (err) {
-        handleResolverError(err);
-      }
     }
+    // todaysChunksProgress: async (parent, args, context) => {
+    //   try {
+    //     // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
+    //     //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
+    //     handleAuthentication(context.userInfo);
+    //     return await getTodaysChunkProgress(context.userInfo.userId);
+
+    //     // return calculateUserState(chunks);
+    //     // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
+    //     // return "VERY_HAPPY";
+    //   } catch (err) {
+    //     handleResolverError(err);
+    //   }
+    // }
   },
   Mutation: {
     addExam: async (root, args, context, info) => {
@@ -141,6 +148,7 @@ export const examResolvers = {
         );
 
         // console.log(processedArgs);
+
         await Exam.create(processedArgs);
       } catch (err) {
         handleResolverError(err);
@@ -173,23 +181,22 @@ export const examResolvers = {
         if (resp.ok === 0 || resp.nModified === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        console.log("hi");
-        console.log(processedArgs.completed);
-        if (processedArgs.completed)
-          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
-        //TODO - NEED AWAIT HERE?
-        else
-          await handleUpdateExamInTodaysChunkCache(
-            context.userInfo.userId,
-            exam,
-            processedArgs
-          );
+        //TODO: DON'T THINK I NEED, SINCE DELETED NEXT DAY
+        // if (processedArgs.completed)
+        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        // //TODO - NEED AWAIT HERE?
+        // else
+        await handleUpdateExamInTodaysChunkCache(
+          context.userInfo.userId,
+          exam,
+          processedArgs
+        );
         const updatedExam = await Exam.findOne({
           _id: args.id,
           userId: context.userInfo.userId
         });
 
-        return updatedExam;
+        return escapeExamObject(updatedExam);
       } catch (err) {
         handleResolverError(err);
       }
@@ -198,7 +205,6 @@ export const examResolvers = {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
       // console.log("IN UPDATE CURRENT PAGE RESOLVER");
-      console.log("upCurrPageRes");
 
       try {
         handleAuthentication(context.userInfo);
@@ -209,31 +215,27 @@ export const examResolvers = {
         );
         if (exam.currentPage === args.page) return true;
 
-        console.log("hi");
-        console.log(exam.completed);
         const resp = await Exam.updateOne(
           { _id: args.examId, userId: context.userInfo.userId },
           {
             currentPage: args.page,
-            completed: exam.completed,
+            // completed: exam.completed,
             updatedAt: new Date()
           }
         );
 
         if (resp.ok !== 1 || resp.nModified !== 1)
           throw new ApolloError("The current page couldn't be updated.");
-        console.log("upCurrPageRes - updated exam");
 
-        //TODO - NEED AWAIT HERE?
-        if (exam.completed)
-          await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
-        else
-          await handleUpdateCurrentPageInTodaysChunkCache(
-            context.userInfo.userId,
-            exam._id,
-            args.page
-          );
-        console.log("upCurrPageRes - updated chunk");
+        //TODO - don't think need anymore
+        // if (exam.completed)
+        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        // else
+        await handleUpdateCurrentPageInTodaysChunkCache(
+          context.userInfo.userId,
+          exam._id,
+          args.page
+        );
 
         return true;
       } catch (err) {
@@ -255,7 +257,7 @@ export const examResolvers = {
           );
         const resp = await Exam.updateOne(
           { _id: args.id },
-          { completed: true, updatedAt: new Date() }
+          { completed: args.completed, updatedAt: new Date() }
         );
 
         if (resp.ok === 1 && resp.nModified === 0) return true;

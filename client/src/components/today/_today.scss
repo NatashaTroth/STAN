@@ -3,7 +3,11 @@
   max-width: 52rem;
 
   @include media-breakpoint-down(lg) {
-    margin: 0 auto 30px auto;
+    max-width: 100%;
+    margin: 0 10px 0px 0;
+  }
+  @include media-breakpoint-down(md) {
+    margin: 0;
   }
 }
 
@@ -13,6 +17,7 @@
   border: 4px solid theme-color("primary-yellow-dark");
   box-shadow: 10px 10px 0px -2px theme-color("primary-yellow-dark");
   background-color: theme-color("light");
+  transition: background-color 300ms ease-in-out;
 
   .container-fluid {
     padding: 0;
@@ -22,7 +27,8 @@
     padding: 10px 10px 0 10px;
 
     &__header {
-      border-bottom: 3px solid theme-color("dark");
+      border-bottom: 3px solid;
+      border-color: theme-color("dark");
       margin-bottom: 5px;
       display: flex;
       justify-content: space-between;
@@ -43,7 +49,6 @@
 
         &__text {
           margin-right: 10px;
-          color: theme-color("dark");
           font-family: $font-family-BasierCircle-Bold;
           @include rem(font-size, $font-size-20);
           @include rem(line-height, 26px);
@@ -79,6 +84,8 @@
           @include rem(font-size, $font-size-18);
           @include rem(line-height, 24px);
           @include rem(letter-spacing, 0.5px);
+          hyphens: auto;
+          word-break: break-word;
 
           @include media-breakpoint-down(sm) {
             @include rem(font-size, $font-size-14);
@@ -138,19 +145,55 @@
         &__goal {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__duration {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__total-pages {
           margin: 0 0 3px 0;
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
 
         &__repetition {
           display: flex;
+
+          @media (max-width: 1380px) {
+            flex-direction: column;
+            margin-top: 10px;
+          }
+          @include media-breakpoint-down(lg) {
+            flex-direction: row;
+            margin-top: 0;
+          }
         }
       }
     }
@@ -164,6 +207,7 @@
     &__buttons {
       display: flex;
       justify-content: space-between;
+      flex-direction: column;
       align-items: flex-end;
       margin-top: 20px;
 
@@ -173,7 +217,8 @@
       }
 
       &__open {
-        border-bottom: 1.5px solid theme-color("dark");
+        border-bottom: 1.5px solid;
+        border-color: theme-color("dark");
         min-width: fit-content;
 
         @include media-breakpoint-down(xs) {
@@ -184,7 +229,28 @@
         &:hover,
         &:active,
         &:focus {
-          border-bottom: 1.5px solid theme-color("primary-yellow");
+          border-bottom: 1.5px solid;
+          border-color: theme-color("primary-yellow");
+        }
+      }
+
+      &__submit-all {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin: 10px 0 0 0;
+
+        &__all-done {
+          margin-left: 10px;
+
+          @include media-breakpoint-down(xs) {
+            width: 100%;
+          }
+          &__btn {
+            // min-width: 150px;
+          }
         }
       }
 
@@ -199,7 +265,7 @@
 
         &__form {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           align-items: flex-end;
           margin: 0 0 15px 0;
 
@@ -214,11 +280,18 @@
 
           &__elements-container {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
+            flex-direction: column;
+            margin: 12px 15px 0 0;
 
             &__elements {
               display: flex;
               align-items: center;
+
+              &__container {
+                display: flex;
+                flex-direction: column;
+              }
 
               &__label {
                 @include media-breakpoint-down(xs) {
@@ -229,7 +302,7 @@
               &__input {
                 min-width: initial;
                 width: 60px;
-                margin: 0 10px;
+                margin: 0 0 0 10px;
 
                 @include media-breakpoint-down(xs) {
                   margin: 0 7px;
@@ -245,15 +318,6 @@
             @include media-breakpoint-down(sm) {
               width: auto;
             }
-          }
-        }
-
-        &__all-done {
-          @include media-breakpoint-down(xs) {
-            width: 100%;
-          }
-          &__btn {
-            // min-width: 150px;
           }
         }
       }

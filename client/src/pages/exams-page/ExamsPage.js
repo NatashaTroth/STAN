@@ -14,6 +14,9 @@ import Loading from "../../components/loading/Loading"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
+// helpers ----------------
+import { decodeHtml, calcExamProgress } from "../../helpers/mascots"
+
 const Exams = () => {
   // router ----------------
   let { url } = useRouteMatch()
@@ -47,6 +50,7 @@ const Exams = () => {
         subject: exam.subject,
         numberPages: exam.numberPages,
         currentPage: exam.currentPage,
+        startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
       })
     } else {
@@ -55,6 +59,7 @@ const Exams = () => {
         subject: exam.subject,
         numberPages: exam.numberPages,
         currentPage: exam.currentPage,
+        startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
       })
     }
@@ -70,10 +75,8 @@ const Exams = () => {
           }`}
         >
           <Exam
-            subject={exam.subject}
-            currentStatus={Math.round(
-              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-            )}
+            subject={decodeHtml(exam.subject)}
+            currentStatus={calcExamProgress(exam)}
           />
         </Link>
       </div>
@@ -89,10 +92,8 @@ const Exams = () => {
           }`}
         >
           <Exam
-            subject={exam.subject}
-            currentStatus={Math.round(
-              (100 * exam.currentPage) / (exam.numberPages * exam.timesRepeat)
-            )}
+            subject={decodeHtml(exam.subject)}
+            currentStatus={calcExamProgress(exam)}
           />
         </Link>
       </div>
@@ -111,7 +112,7 @@ const Exams = () => {
           <div className="col-md-1"></div>
           <div className="col-md-10">
             <div className="exams__headline">
-              <h2>Current Exams</h2>
+              <h2>Exams</h2>
             </div>
           </div>
           <div className="col-md-1"></div>
@@ -161,8 +162,8 @@ const Exams = () => {
                 className="exams__archiveExamsToggle--button"
               >
                 <h3>Past exams</h3>
+                <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
               </button>
-              <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
             </div>
 
             <div className={isArchiveOpen ? "fadeIn" : "fadeOut"}>

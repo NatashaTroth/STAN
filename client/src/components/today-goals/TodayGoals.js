@@ -1,4 +1,5 @@
 import React from "react"
+import { minuteToHours, minuteToHoursShort } from "../../helpers/dates"
 // --------------------------------------------------------------
 
 // components ----------------
@@ -9,6 +10,12 @@ function TodayGoals(props) {
   let todaySubject
   let totalDurationTime
   let totalDuration = 0
+  let className = "today-goals box-content"
+
+  // check length of bpx output
+  if (props.data.length >= 9) {
+    className += " today-goals-maxHeight"
+  }
 
   // map entries ----------------
   todaySubject = props.data.map((element, index) => {
@@ -17,12 +24,12 @@ function TodayGoals(props) {
 
     // duration for 1 exam ----------------
     let duration = element.durationLeftToday
-    let durationTime = calculateDuration(element.durationLeftToday)
+    let durationTime = minuteToHours(element.durationLeftToday)
 
     // duration for all exams total
     totalDuration += duration
-    totalDurationTime = calculateDurationTotal(totalDuration)
-    // console.log(element)
+    totalDurationTime = minuteToHoursShort(totalDuration)
+
     // return ----------------
     return (
       <TodaySubject
@@ -40,7 +47,7 @@ function TodayGoals(props) {
 
   // return ----------------
   return (
-    <div className="today-goals box-content">
+    <div className={className}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
@@ -65,37 +72,3 @@ function TodayGoals(props) {
 }
 
 export default TodayGoals
-
-export function calculateDuration(duration) {
-  let hours
-  let minutes
-  let durationTime
-
-  // calculate duration display
-  if (duration >= 60) {
-    hours = Math.floor(duration / 60)
-    minutes = Math.floor(duration) - hours * 60
-
-    return (durationTime = hours + " hours " + minutes + " min")
-  } else {
-    minutes = duration
-    return (durationTime = minutes + " min")
-  }
-}
-
-export function calculateDurationTotal(totalDuration) {
-  let hoursTotal
-  let minutesTotal
-  let totalDurationTime
-
-  if (totalDuration >= 60) {
-    hoursTotal = Math.floor(totalDuration / 60)
-    minutesTotal = Math.floor(totalDuration) - hoursTotal * 60
-
-    return (totalDurationTime = hoursTotal + "h " + minutesTotal + "m")
-  } else {
-    minutesTotal = totalDuration
-
-    return (totalDurationTime = minutesTotal + "m")
-  }
-}

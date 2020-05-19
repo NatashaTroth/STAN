@@ -14,7 +14,7 @@ module.exports = {
   //   // NOT setupFiles
   //   "./src/jest/defaultTimeout.js"
   // ]
-  testTimeout: 20000
+  testTimeout: 30000
   // roots: ["src"]
 };
 
