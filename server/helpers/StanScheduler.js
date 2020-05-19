@@ -143,7 +143,7 @@ export default class StanScheduler {
         );
         await User.updateOne(
           { _id: user._id },
-          { lastVisited: new Date(), sentOneMonthDeleteReminder: false }
+          { sentOneMonthDeleteReminder: true }
         );
       }
     });
