@@ -369,6 +369,17 @@ const DataPolicy = () => {
             </p>
             <br></br>
             <br></br>
+            <h3>Data deletion after 365 days of inactivity</h3>
+            <br></br>
+            <p>
+              If your account hasn't been activated (logged into) or used after
+              365 consecutive days, your account and all your account data saved
+              with stan we automatically be deleted. You will receive an email
+              warning you that your account will be deleted 30 days and 1 day
+              before the account deletion.
+            </p>
+            <br></br>
+            <br></br>
           </div>
           <div className="col-md-1"></div>
         </div>
