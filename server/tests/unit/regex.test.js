@@ -1,4 +1,4 @@
-const {
+import {
   verifyRegexEmail,
   verifyRegexUsername,
   verifyRegexPassword,
@@ -12,7 +12,7 @@ const {
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
   verifyRegexUrlLink
-} = require("../../helpers/verifyUserInput");
+} from "../../helpers/verifyUserInput";
 
 test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();

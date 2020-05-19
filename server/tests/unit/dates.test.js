@@ -1,10 +1,10 @@
-const {
+import {
   datesTimingIsValid,
   startDateIsActive,
   isTheSameDay,
   getNumberOfDays,
   date1IsBeforeDate2
-} = require("../../helpers/dates");
+} from "../../helpers/dates";
 
 test("verifies datesTimingIsValid", () => {
   expect(
