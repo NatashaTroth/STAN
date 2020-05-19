@@ -38,7 +38,8 @@ import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
   validateForgottenPasswordToken,
-  escapeUserObject
+  escapeUserObject,
+  updateUserLastVisited
   // calculateUserState
 } from "../helpers/userHelpers";
 
@@ -62,7 +63,7 @@ export const userResolvers = {
         //   googleLogin: userInfo.user.googleLogin,
         //   allowEmailNotifications: userInfo.user.allowEmailNotifications
         // };
-
+        updateUserLastVisited(userInfo.userId);
         return escapeUserObject(userInfo.user);
         // return user;
         // return userInfo.user;

@@ -50,6 +50,10 @@ const userSchema = new Schema(
     updatedAt: {
       type: Date,
       default: new Date()
+    },
+    lastVisited: {
+      type: Date,
+      default: new Date()
     }
   }
   // { _id: false }
