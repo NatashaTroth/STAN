@@ -92,7 +92,10 @@ export function signUpGoogleUser(payload) {
 }
 
 export async function updateUserLastVisited(userId) {
-  await User.updateOne({ _id: userId }, { lastVisited: new Date() });
+  await User.updateOne(
+    { _id: userId },
+    { lastVisited: new Date(), sentOneMonthDeleteReminder: false }
+  );
 }
 
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions

@@ -5,6 +5,7 @@ import { getNumberOfDays, isTheSameDay, date1IsBeforeDate2 } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
 import { deleteExamsTodaysCache } from "../helpers/chunks";
+import { deleteUsersData, deleteUser } from "../helpers/userHelpers";
 
 export default class StanScheduler {
   constructor() {
@@ -27,6 +28,7 @@ export default class StanScheduler {
       this.notifyUsersAboutExams();
       this.completePastExams();
       this.removeNoLongerNeededCache();
+      this.notifyAndDeleteOldUsers();
     });
 
     // schedule.scheduleJob("*/1 * * * *", function() {
@@ -111,6 +113,39 @@ export default class StanScheduler {
     });
     exams.forEach(async exam => {
       await deleteExamsTodaysCache(exam.userId, exam._id);
+    });
+  }
+
+  async notifyAndDeleteOldUsers() {
+    const users = await User.find();
+    users.forEach(async user => {
+      const daysSinceLastVisited = getNumberOfDays(
+        user.lastVisited,
+        new Date()
+      );
+      console.log("user: " + user.username);
+      console.log("-------days since last visited: " + daysSinceLastVisited);
+
+      if (daysSinceLastVisited === 365)
+        stanEmail.sendExamDeleteAccountWarning(user.email, 1, user.mascot);
+      else if (daysSinceLastVisited >= 366) {
+        await deleteUsersData(user._id);
+        await deleteUser(user._id);
+        stanEmail.sendDeleteAccountMail(user.email, user.mascot);
+      } else if (
+        daysSinceLastVisited >= 336 &&
+        user.sentOneMonthDeleteReminder === false
+      ) {
+        stanEmail.sendExamDeleteAccountWarning(
+          user.email,
+          366 - daysSinceLastVisited,
+          user.mascot
+        );
+        await User.updateOne(
+          { _id: user._id },
+          { lastVisited: new Date(), sentOneMonthDeleteReminder: false }
+        );
+      }
     });
   }
 }

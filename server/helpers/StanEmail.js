@@ -72,16 +72,19 @@ export default class StanEmail {
         examsInThreeDays
       )}</ul>`;
     }
+    if (startDatesToday.length > 0) {
+      examsListString += `<p><b>You need to start learning for the following ${
+        startDatesToday.length > 1 ? "exams" : "exam"
+      } today:</b></p>
+      <ul>${this.createExamsListString(
+        startDatesToday
+      )}</ul> <br><p>Please don't forget to learn, you still have time. Good luck!</p>
+      `;
+    }
 
     const subject = `${examWord} coming up!`;
     const h1 = `Reminder that you have the following ${examWord.toLowerCase()} coming up`;
-    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you haven't finished learning for yet.</p>${examsListString}<p><b>You need to start learning for the following ${
-      startDatesToday.length > 1 ? "exams" : "exam"
-    } today:</b></p>
-    <ul>${this.createExamsListString(
-      startDatesToday
-    )}</ul> <br><p>Please don't forget to learn, you still have time. Good luck!</p>
-    `;
+    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you haven't finished learning for yet.</p>${examsListString}`;
 
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
@@ -92,6 +95,17 @@ export default class StanEmail {
       examsListString += `<li>${exam}</li>`;
     });
     return examsListString;
+  }
+
+  sendExamDeleteAccountWarning(recipientEmail, daysUntilDelete, mascot) {
+    console.log("SENDING delete account warning");
+
+    const subject = "Your account will be deleted soon";
+    const h1 = `You haven't visited stan in a while...`;
+    const text = `<p>stan will automatically delete your account after a year of not being used. Your exams and account will be deleted ${
+      daysUntilDelete > 1 ? "in " + daysUntilDelete + " days" : "tomorrow"
+    }, if you don't login to it before then.</p><p>We hope to see you soon!</p>`;
+    this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
 
   sendMail(to, subject, text, h1, mascot = 0) {

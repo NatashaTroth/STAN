@@ -54,6 +54,10 @@ const userSchema = new Schema(
     lastVisited: {
       type: Date,
       default: new Date()
+    },
+    sentOneMonthDeleteReminder: {
+      type: Boolean,
+      default: false
     }
   }
   // { _id: false }
