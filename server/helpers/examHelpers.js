@@ -10,7 +10,10 @@ import {
 import { AuthenticationError, ApolloError } from "apollo-server";
 import { Exam } from "../models";
 
-import { escapeStringForHtml } from "../helpers/generalHelpers";
+import {
+  escapeStringForHtml,
+  removeWhitespace
+} from "../helpers/generalHelpers";
 import {
   datesTimingIsValid,
   // startDateIsActive,
@@ -37,7 +40,6 @@ export function prepareExamInputData(args, userId) {
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
-  console.log("hi3");
 
   args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
@@ -203,12 +205,11 @@ function generateSubjectColor(exam) {
   let color = "#";
 
   let counter = 0;
-  console.log("in gen color");
+
   // console.log(hexCharsFirstTwoDigits);
   // console.log(hexCharsSecondTwoDigits);
   // console.log(hexCharsThirdTwoDigits);
   colorNumbers.forEach(colorNumber => {
-    console.log("whaa " + colorNumber);
     if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
     else if (counter < 4)
       color += hexCharsSecondTwoDigits[colorNumber].toString();
@@ -216,7 +217,6 @@ function generateSubjectColor(exam) {
 
     counter++;
   });
-  console.log("end gen color");
 
   return color;
 }
@@ -314,6 +314,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
   if (studyMaterialLinks.length === 0) return;
 
   studyMaterialLinks.forEach(link => {
+    link = removeWhitespace(link);
     if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
       throw new AuthenticationError(
         "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."

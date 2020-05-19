@@ -54,12 +54,13 @@ describe("Test user resolver regex", () => {
         startPage: 4,
         notes: "NOTES",
         studyMaterialLinks: [
-          "https://stan-studyplan-staging.herokuapp.com/",
+          " https://stan-studyplan-staging.herokuapp.com/",
           "https://stan-studyplan.herokuapp.com/"
         ],
         completed: false
       }
     });
+    console.log(resp);
     expect(resp.data.addExam).toBeTruthy();
   });
 

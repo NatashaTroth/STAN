@@ -39,6 +39,12 @@ export function escapeStringForHtml(value) {
   else return value;
 }
 
+export function removeWhitespace(string) {
+  if (typeof string !== "string")
+    throw new Error("Can only remove whitespace of type string.");
+  return string.replace(/\s/g, "");
+}
+
 // function(obj, label) {
 //   if(obj.label === label) { return obj; }
 //   for(var i in obj) {

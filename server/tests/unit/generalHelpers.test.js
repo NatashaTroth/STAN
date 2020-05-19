@@ -1,7 +1,8 @@
 import {
   roundToTwoDecimals,
   escapeObjectForHtml,
-  escapeStringForHtml
+  escapeStringForHtml,
+  removeWhitespace
 } from "../../helpers/generalHelpers";
 
 test("that the float is rounded to two decimals correctly", () => {
@@ -14,6 +15,11 @@ test("that the float is rounded to two decimals correctly", () => {
   expect(roundToTwoDecimals(345.657)).toBe(345.66);
   expect(roundToTwoDecimals(0.459437584)).toBe(0.46);
   expect(roundToTwoDecimals(20384.999)).toBe(20385);
+});
+
+test("that removeWhitespace works properly", () => {
+  expect(removeWhitespace(" h e l l o ")).toBe("hello");
+  expect(removeWhitespace(" https ://google.at ")).toBe("https://google.at");
 });
 
 test("that the float is rounded to two decimals correctly", () => {
