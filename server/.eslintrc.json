@@ -16,8 +16,8 @@
   },
   "ignorePatterns": ["public/", "node_modules/"],
   "rules": {
-    "prettier/prettier": "error",
-    "no-unused-vars": ["error", { "args": "none" }]
+    "prettier/prettier": "error"
+    // "no-unused-vars": ["error", { "args": "none" }]
   },
 
   "plugins": ["prettier", "jest"]

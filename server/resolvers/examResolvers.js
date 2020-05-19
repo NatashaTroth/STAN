@@ -40,13 +40,13 @@ import { ApolloError } from "apollo-server";
 //TODO: Authentication
 export const examResolvers = {
   Query: {
-    exams: async (root, args, context, info) => {
+    exams: async (_, __, { userInfo }) => {
       try {
         //TODO: SORT BY Alphabet
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
         const resp = await Exam.find({
-          userId: context.userInfo.userId
+          userId: userInfo.userId
         }).sort({ subject: "asc" });
         if (!resp) return [];
         return escapeExamObjects(resp);
@@ -54,13 +54,13 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    exam: async (root, args, context, info) => {
+    exam: async (_, args, { userInfo }) => {
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
         const resp = await Exam.findOne({
           _id: args.id,
-          userId: context.userInfo.userId
+          userId: userInfo.userId
         });
 
         if (!resp) return {};
@@ -69,12 +69,12 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    todaysChunkAndProgress: async (root, args, context, info) => {
+    todaysChunkAndProgress: async (_, __, { userInfo }) => {
       console.log("IN TODAYS CHUNK PROGRESS");
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
-        const chunks = await fetchTodaysChunks(context.userInfo.userId);
+        const chunks = await fetchTodaysChunks(userInfo.userId);
 
         const todaysProgress = calculateChunkProgress(chunks);
 
@@ -86,12 +86,12 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    calendarChunks: async (root, args, context, info) => {
+    calendarChunks: async (_, __, { userInfo }) => {
       // console.log("IN CALENDAR CHUNKS");
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
-        const chunks = await fetchCalendarChunks(context.userInfo.userId);
+        const chunks = await fetchCalendarChunks(userInfo.userId);
 
         return {
           calendarChunks: escapeCalendarObjects(chunks.calendarChunks),
@@ -101,15 +101,15 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    examsCount: async (root, args, context, info) => {
+    examsCount: async (_, __, { userInfo }) => {
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
         const currentExams = await Exam.countDocuments({
-          userId: context.userInfo.userId,
+          userId: userInfo.userId,
           completed: false
         });
         const finishedExams = await Exam.countDocuments({
-          userId: context.userInfo.userId,
+          userId: userInfo.userId,
           completed: true
         });
 
@@ -119,33 +119,19 @@ export const examResolvers = {
         handleResolverError(err);
       }
     }
-    // todaysChunksProgress: async (parent, args, context) => {
-    //   try {
-    //     // console.log("IN QUERY TODAYS CHUNKS PROGRESS");
-    //     //TODO - REFACTOR SO NOT ITERATING THROUGH 2 TIMES
-    //     handleAuthentication(context.userInfo);
-    //     return await getTodaysChunkProgress(context.userInfo.userId);
-
-    //     // return calculateUserState(chunks);
-    //     // returnVAlues: "VERY_HAPPY", "HAPPY", "OKAY", "STRESSED", "VERY_STRESSED"
-    //     // return "VERY_HAPPY";
-    //   } catch (err) {
-    //     handleResolverError(err);
-    //   }
-    // }
   },
   Mutation: {
-    addExam: async (root, args, context, info) => {
+    addExam: async (_, args, { userInfo }) => {
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
-        verifyExamInput(args, context.userInfo.userId);
+        verifyExamInput(args, userInfo.userId);
 
         verifyAddExamDates(args.startDate, args.examDate);
 
         const processedArgs = prepareExamInputData(
           { ...args },
-          context.userInfo.userId
+          userInfo.userId
         );
 
         // console.log(processedArgs);
@@ -157,20 +143,20 @@ export const examResolvers = {
       }
       return true;
     },
-    updateExam: async (root, args, context, info) => {
+    updateExam: async (_, args, { userInfo }) => {
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
         // console.log("IN UPDATE EXAM MUTAION");
-        const exam = await fetchExam(args.id, context.userInfo.userId);
+        const exam = await fetchExam(args.id, userInfo.userId);
 
         const processedArgs = await handleUpdateExamInput(
           exam,
           args,
-          context.userInfo.userId
+          userInfo.userId
         );
 
         const resp = await Exam.updateOne(
-          { _id: args.id, userId: context.userInfo.userId },
+          { _id: args.id, userId: userInfo.userId },
           { ...processedArgs, updatedAt: new Date() }
         );
 
@@ -179,17 +165,17 @@ export const examResolvers = {
 
         //TODO: DON'T THINK I NEED, SINCE DELETED NEXT DAY
         // if (processedArgs.completed)
-        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
         // //TODO - NEED AWAIT HERE?
         // else
         await handleUpdateExamInTodaysChunkCache(
-          context.userInfo.userId,
+          userInfo.userId,
           exam,
           processedArgs
         );
         const updatedExam = await Exam.findOne({
           _id: args.id,
-          userId: context.userInfo.userId
+          userId: userInfo.userId
         });
 
         return escapeExamObject(updatedExam);
@@ -197,22 +183,22 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    updateCurrentPage: async (root, args, context, info) => {
+    updateCurrentPage: async (_, args, { userInfo }) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
       // console.log("IN UPDATE CURRENT PAGE RESOLVER");
 
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
         const exam = await handleCurrentPageInput(
           args.page,
           args.examId,
-          context.userInfo.userId
+          userInfo.userId
         );
         if (exam.currentPage === args.page) return true;
 
         const resp = await Exam.updateOne(
-          { _id: args.examId, userId: context.userInfo.userId },
+          { _id: args.examId, userId: userInfo.userId },
           {
             currentPage: args.page,
             // completed: exam.completed,
@@ -225,10 +211,10 @@ export const examResolvers = {
 
         //TODO - don't think need anymore
         // if (exam.completed)
-        //   await deleteExamsTodaysCache(context.userInfo.userId, exam._id);
+        //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
         // else
         await handleUpdateCurrentPageInTodaysChunkCache(
-          context.userInfo.userId,
+          userInfo.userId,
           exam._id,
           args.page
         );
@@ -238,13 +224,13 @@ export const examResolvers = {
         handleResolverError(err);
       }
     },
-    examCompleted: async (root, args, context, info) => {
+    examCompleted: async (_, args, { userInfo }) => {
       try {
         // console.log(await Exam.find({ userId: context.userInfo.userId }));
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
 
         // //todo: remove?
-        // await fetchExam(args.id, context.userInfo.userId);
+        // await fetchExam(args.id, userInfo.userId);
 
         const resp = await Exam.updateOne(
           { _id: args.id },
@@ -255,30 +241,30 @@ export const examResolvers = {
         if (resp.ok === 0)
           throw new ApolloError("The exam couldn't be updated.");
 
-        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
+        await deleteExamsTodaysCache(userInfo.userId, args.id);
 
         return true;
       } catch (err) {
         handleResolverError(err);
       }
     },
-    deleteExam: async (root, args, context, info) => {
+    deleteExam: async (_, args, { userInfo }) => {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
         //TODO need?
-        await fetchExam(args.id, context.userInfo.userId);
+        await fetchExam(args.id, userInfo.userId);
 
         const resp = await Exam.deleteOne({
           _id: args.id,
-          userId: context.userInfo.userId
+          userId: userInfo.userId
         });
 
         // console.log(resp);
         if (resp.ok !== 1 || resp.deletedCount !== 1)
           throw new ApolloError("The exam couldn't be deleted");
 
-        await deleteExamsTodaysCache(context.userInfo.userId, args.id);
+        await deleteExamsTodaysCache(userInfo.userId, args.id);
 
         return true;
       } catch (err) {

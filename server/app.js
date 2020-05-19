@@ -35,7 +35,7 @@ mongoose
     // autoIndex: false
   })
 
-  .then(db => {
+  .then(() => {
     console.log("connected to db ");
     // console.log(db.modelSchemas.User._indexes);
   })
