@@ -16,6 +16,7 @@ import StanScheduler from "./helpers/StanScheduler";
 import depthLimit from "graphql-depth-limit";
 import { createComplexityLimitRule } from "graphql-validation-complexity";
 import timeout from "connect-timeout";
+import sslRedirect from "heroku-ssl-redirect";
 
 // import { stanImage } from "./stanBackend.svg";
 //TODO: CACHING APOLLO
@@ -125,6 +126,7 @@ app.post("/refresh_token", async (req, res) => {
 
 // TODO: remove /graphql when deployed
 if (process.env.NODE_ENV === "production") {
+  app.use(sslRedirect());
   //think it might have looped insecure
   // app.use(function(req, res, next) {
   //   if (req.secure) {
