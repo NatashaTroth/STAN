@@ -42,7 +42,7 @@ describe("Test user resolver regex", () => {
         subject: "MyStanTestExam",
         examDate: "2122.08.11",
         startDate: "2122.08.05",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "My Test Notes",
@@ -50,6 +50,7 @@ describe("Test user resolver regex", () => {
         completed: false
       }
     });
+
     expect(resp.data.addExam).toBeTruthy();
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount + 1);
@@ -62,7 +63,8 @@ describe("Test user resolver regex", () => {
     expect(exam.subject).toBe("MyStanTestExam");
     expect(exam.examDate.toString()).toBe(new Date("2122.08.11").toString());
     expect(exam.startDate.toString()).toBe(new Date("2122.08.05").toString());
-    expect(exam.numberPages).toBe(5);
+    expect(exam.lastPage).toBe(5);
+    expect(exam.numberPages).toBe(2);
     expect(exam.timePerPage).toBe(5);
     expect(exam.timesRepeat).toBe(1);
     expect(exam.startPage).toBe(4);
@@ -77,7 +79,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: "2122-08-06",
         startDate: "2122-08-05",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -95,7 +97,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: new Date("2122-08-06"),
         startDate: "2122-08-05",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -117,7 +119,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: "2122-08-05",
         startDate: "2122-08-11",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -142,7 +144,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: "2122-08-05",
         startDate: "2122-08-05",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -167,7 +169,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: "1922-08-05",
         startDate: "1922-08-11",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 4,
         notes: "NOTES",
@@ -192,7 +194,7 @@ describe("Test user resolver regex", () => {
         subject: "German",
         examDate: "2122-08-05",
         startDate: "2122-08-02",
-        numberPages: 5,
+        lastPage: 5,
         timePerPage: 5,
         startPage: 40,
         notes: "NOTES",
@@ -202,7 +204,7 @@ describe("Test user resolver regex", () => {
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      "Start page cannot higher than the number of pages."
+      "The last page should be higher than the start page."
     );
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);

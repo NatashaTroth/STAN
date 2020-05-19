@@ -22,6 +22,10 @@ const examSchema = new Schema({
     type: Number,
     required: true
   },
+  lastPage: {
+    type: Number,
+    required: true
+  },
   numberPages: {
     type: Number,
     required: true

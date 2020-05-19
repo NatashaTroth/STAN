@@ -23,6 +23,10 @@ export function prepareExamInputData(args, userId) {
   if (!args.startDate || args.startDate.length <= 0) {
     args.startDate = new Date();
   }
+  args.numberPages = calcNumberPagesFromPastNumbers(
+    args.startPage,
+    args.lastPage
+  );
   args.timesRepeat = args.timesRepeat || 1;
   args.startPage = args.startPage || 1;
   args.currentPage = args.currentPage || args.startPage;
@@ -45,8 +49,8 @@ export function verifyExamInput(args) {
     );
   }
 
-  if (args.startPage && args.startPage > args.numberPages)
-    throw new ApolloError("Start page cannot higher than the number of pages.");
+  // if (args.startPage && args.startPage > args.lastPage)
+  //   throw new ApolloError("Start page cannot higher than the number of pages.");
 }
 
 export function verifyAddExamDates(startDate, examDate) {
@@ -54,6 +58,11 @@ export function verifyAddExamDates(startDate, examDate) {
     throw new ApolloError(
       "Dates cannot be in the past and start learning date must be before exam date."
     );
+}
+export function calcNumberPagesFromPastNumbers(startPage, lastPage) {
+  if (lastPage <= startPage)
+    throw new Error("The last page should be higher than the start page.");
+  return lastPage - startPage + 1;
 }
 
 export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
@@ -211,7 +220,7 @@ export function learningIsComplete(
 
 function verifyNewExamInputFormat(args) {
   verifySubjectFormat(args.subject);
-  verifyNumberPagesFormat(args.numberPages);
+  verifyLastPageFormat(args.lastPage);
   verifyTimePerPageFormat(args.timePerPage);
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
@@ -225,8 +234,8 @@ function verifySubjectFormat(subject) {
     );
 }
 
-function verifyNumberPagesFormat(numberPages) {
-  if (!verifyRegexPageAmount(numberPages.toString()))
+function verifyLastPageFormat(lastPage) {
+  if (!verifyRegexPageAmount(lastPage.toString()))
     throw new AuthenticationError(
       "Number of pages input has the wrong format. It must be a positive number and cannot be empty. Max length 10000 characters."
     );

@@ -130,12 +130,16 @@ export const examResolvers = {
     addExam: async (root, args, context, info) => {
       try {
         handleAuthentication(context.userInfo);
+
         verifyExamInput(args, context.userInfo.userId);
+
         verifyAddExamDates(args.startDate, args.examDate);
+
         const processedArgs = prepareExamInputData(
           { ...args },
           context.userInfo.userId
         );
+
         // console.log(processedArgs);
         await Exam.create(processedArgs);
       } catch (err) {
