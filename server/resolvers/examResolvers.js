@@ -42,7 +42,6 @@ export const examResolvers = {
   Query: {
     exams: async (_, __, { userInfo }) => {
       try {
-        //TODO: SORT BY Alphabet
         handleAuthentication(userInfo);
 
         const resp = await Exam.find({
