@@ -177,6 +177,9 @@ html.dark-mode {
       }
     }
   }
+  .navigation__items--list .menu-bottom .logout button {
+    color: theme-color("light");
+  }
   // ----------------------------------------------------------------
   // dashboard ----------------
   .dashboard-page__current-date {
