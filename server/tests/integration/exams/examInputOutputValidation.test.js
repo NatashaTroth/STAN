@@ -20,7 +20,7 @@ import {
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test exam input and output validations/regex/escape", () => {
   let server;
   let mutate;
   let query;

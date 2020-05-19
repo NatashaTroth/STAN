@@ -20,7 +20,7 @@ import { GET_CALENDAR_CHUNKS } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test get calendar chunks query", () => {
   let server;
   let query;
 

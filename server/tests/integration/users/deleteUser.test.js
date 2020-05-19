@@ -20,7 +20,7 @@ import {
 import { User, Exam, TodaysChunkCache } from "../../../models";
 // import { getNumberOfDays } from "../../../helpers/dates";
 
-describe("Test user sign up and login resolvers", () => {
+describe("Test delete user mutation", () => {
   let server;
   let mutate;
   let query;

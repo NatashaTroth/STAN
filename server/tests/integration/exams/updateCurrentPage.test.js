@@ -19,7 +19,7 @@ import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test update currentPage mutation", () => {
   let server;
   let mutate;
   let query;

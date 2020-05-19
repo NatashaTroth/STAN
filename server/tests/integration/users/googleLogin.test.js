@@ -12,7 +12,7 @@ import {
 import { UPDATE_USER_MUTATION } from "../../mutations.js";
 
 //TODO: ADD MORE TESTS
-describe("Test user sign up and login resolvers", () => {
+describe("Test google login mutation", () => {
   let server;
   let mutate;
 

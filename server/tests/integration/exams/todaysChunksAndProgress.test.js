@@ -26,7 +26,7 @@ import { isTheSameDay } from "../../../helpers/dates";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test todays chunks and progress are created/updated correctly", () => {
   let server;
   let query;
   let mutate;

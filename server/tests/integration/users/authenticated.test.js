@@ -23,7 +23,7 @@ import { createAccessToken } from "../../../helpers/authenticationTokens";
 import jwt from "jsonwebtoken";
 import { isAuth } from "../../../helpers/is-auth";
 
-describe("Test user sign up and login resolvers", () => {
+describe("Test resolvers are accessed correctly when authenticated", () => {
   let server;
   let mutate;
   let query;

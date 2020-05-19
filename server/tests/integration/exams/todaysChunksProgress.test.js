@@ -19,7 +19,7 @@ import {
   DELETE_EXAM_MUTATION
 } from "../../mutations.js";
 
-describe("Test user resolver regex", () => {
+describe("Test todays progress query is calculated correctly", () => {
   let server;
   let query;
   let mutate;

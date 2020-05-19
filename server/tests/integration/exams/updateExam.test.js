@@ -16,7 +16,7 @@ import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
 //TODO TEST REGEX HERE TOO?
 
-describe("Test user resolver regex", () => {
+describe("Test update exam mutation", () => {
   let server;
   let mutate;
   let query;

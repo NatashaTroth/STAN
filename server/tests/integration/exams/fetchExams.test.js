@@ -18,7 +18,7 @@ import {
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test get exams queries", () => {
   let server;
   let query;
   beforeAll(async () => {

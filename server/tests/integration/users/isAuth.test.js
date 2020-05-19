@@ -11,7 +11,7 @@ import {
   teardown
 } from "../setup";
 
-describe("Test user sign up and login resolvers", () => {
+describe("Test is auth (verifies access token and authenticates that user)", () => {
   let testUser;
 
   beforeAll(async () => {

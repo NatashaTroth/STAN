@@ -14,7 +14,7 @@ import { UPDATE_USER_MUTATION } from "../../mutations.js";
 import { User } from "../../../models";
 import bcrypt from "bcrypt";
 
-describe("Test update user resolver", () => {
+describe("Test update user mutation", () => {
   let server;
   let mutate;
 
