@@ -13,7 +13,9 @@ import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
   UPDATE_MASCOT_MUTATION,
-  LOGOUT_MUTATION
+  LOGOUT_MUTATION,
+  FORGOTTEN_PASSWORD_EMAIL,
+  RESET_PASSWORD_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -131,6 +133,31 @@ describe("Test user sign up and login resolvers", () => {
     });
     expect(resp2.data).toBeFalsy();
     expect(resp2.errors[0].message).toEqual("Already logged in.");
+  });
+
+  it("should access forgotten or reset password", async () => {
+    //Already logged in
+    let resp = await mutate({
+      query: FORGOTTEN_PASSWORD_EMAIL,
+      variables: {
+        email: "user@stan.com"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Already logged in.");
+
+    resp = await mutate({
+      query: RESET_PASSWORD_MUTATION,
+      variables: {
+        userId: "doesnotmatter",
+        token: "alsodoesnotmatter",
+        newPassword: "alsoreallydoesntmater"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Already logged in.");
   });
 
   it("should log the user out", async () => {
