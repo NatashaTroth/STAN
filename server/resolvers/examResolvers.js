@@ -14,7 +14,8 @@ import {
   escapeExamObject,
   escapeExamObjects,
   escapeTodaysChunksObjects,
-  escapeCalendarObjects
+  escapeCalendarObjects,
+  fetchExam
   // learningIsComplete
 } from "../helpers/examHelpers";
 
@@ -160,14 +161,8 @@ export const examResolvers = {
       try {
         handleAuthentication(context.userInfo);
         // console.log("IN UPDATE EXAM MUTAION");
-        const exam = await Exam.findOne({
-          _id: args.id,
-          userId: context.userInfo.userId
-        });
-        if (!exam)
-          throw new ApolloError(
-            "No exam exists with this exam id: " + args.id + " for this user."
-          );
+        const exam = await fetchExam(args.id, context.userInfo.userId);
+
         const processedArgs = await handleUpdateExamInput(
           exam,
           args,
@@ -248,14 +243,9 @@ export const examResolvers = {
         // console.log(await Exam.find({ userId: context.userInfo.userId }));
         handleAuthentication(context.userInfo);
 
-        const exam = await Exam.findOne({
-          _id: args.id,
-          userId: context.userInfo.userId
-        });
-        if (!exam)
-          throw new ApolloError(
-            "There is no exam with the id: " + args.id + " for that user."
-          );
+        // //todo: remove?
+        // await fetchExam(args.id, context.userInfo.userId);
+
         const resp = await Exam.updateOne(
           { _id: args.id },
           { completed: args.completed, updatedAt: new Date() }
@@ -276,15 +266,9 @@ export const examResolvers = {
       //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(context.userInfo);
-        //TODO ASK - WHETHER TO CHECK FIRST IF EXAM EXISTS
-        const exam = await Exam.findOne({
-          _id: args.id,
-          userId: context.userInfo.userId
-        });
-        if (!exam)
-          throw new ApolloError(
-            "No exam exists with this exam id: " + args.id + " for this user."
-          );
+        //TODO need?
+        await fetchExam(args.id, context.userInfo.userId);
+
         const resp = await Exam.deleteOne({
           _id: args.id,
           userId: context.userInfo.userId

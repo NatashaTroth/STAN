@@ -23,6 +23,18 @@ import {
 } from "../helpers/dates";
 import validator from "validator";
 
+export async function fetchExam(examId, userId) {
+  const exam = await Exam.findOne({
+    _id: examId,
+    userId
+  });
+  if (!exam)
+    throw new ApolloError(
+      "No exam exists with this exam id: " + examId + " for this user."
+    );
+  return exam;
+}
+
 export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
   if (!args.startDate || args.startDate.length <= 0) {
