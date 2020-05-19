@@ -20,7 +20,7 @@ const examQueries = gql`
       lastPage: Int!
       timePerPage: Int!
       timesRepeat: Int
-      startPage: Int
+      startPage: Int!
       notes: String
       studyMaterialLinks: [String]
       completed: Boolean

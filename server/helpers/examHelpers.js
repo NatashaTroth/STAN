@@ -25,16 +25,21 @@ export function prepareExamInputData(args, userId) {
   if (!args.startDate || args.startDate.length <= 0) {
     args.startDate = new Date();
   }
+  console.log("hi1");
   args.numberPages = calcNumberPagesFromPageNumbers(
     args.startPage,
     args.lastPage
   );
+  console.log("hi2");
+
   args.timesRepeat = args.timesRepeat || 1;
   args.startPage = args.startPage || 1;
   args.currentPage = args.currentPage || args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
   args.color = generateSubjectColor(args);
+  console.log("hi3");
+
   args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
 
@@ -129,6 +134,7 @@ export async function handleCurrentPageInput(page, examId, userId) {
 //middle color
 //fist light
 function generateSubjectColor(exam) {
+  console.log(exam);
   const hexCharsFirstTwoDigits = ["A", "B", "C", "D", "E", "F"]; //(red)
   // const hexChars = [1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   const hexCharsSecondTwoDigits = [9, "A", "B", "C", "D", "E", "F"]; //(green)
@@ -199,7 +205,12 @@ function generateSubjectColor(exam) {
   let color = "#";
 
   let counter = 0;
+  console.log("in gen color");
+  // console.log(hexCharsFirstTwoDigits);
+  // console.log(hexCharsSecondTwoDigits);
+  // console.log(hexCharsThirdTwoDigits);
   colorNumbers.forEach(colorNumber => {
+    console.log("whaa " + colorNumber);
     if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
     else if (counter < 4)
       color += hexCharsSecondTwoDigits[colorNumber].toString();
@@ -207,6 +218,7 @@ function generateSubjectColor(exam) {
 
     counter++;
   });
+  console.log("end gen color");
 
   return color;
 }

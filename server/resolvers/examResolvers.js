@@ -150,6 +150,7 @@ export const examResolvers = {
         // console.log(processedArgs);
 
         await Exam.create(processedArgs);
+        //TODO ERROR HANDLING?
       } catch (err) {
         handleResolverError(err);
       }
