@@ -12,6 +12,7 @@ import {
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
   verifyRegexUrlLink
+  // verifyRegexHexColor
 } from "../../helpers/verifyUserInput";
 
 test("verifies string is formatted as an email", () => {
@@ -167,6 +168,10 @@ test("verifies string is formatted as a URL Link", () => {
   expect(verifyRegexUrlLink("ddsfhj8o345")).toBeFalsy();
   expect(verifyRegexUrlLink("https:/google.at")).toBeFalsy();
 });
+
+// test("verifies string is formatted as a hex color", () => {
+//   expect(verifyRegexHexColor("ffffff")).toBeTruthy();
+// });
 
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
 function testVariousChars(regexFunction) {

@@ -127,7 +127,6 @@ export const examResolvers = {
         verifyExamInput(args, userInfo.userId);
 
         verifyAddExamDates(args.startDate, args.examDate);
-
         const processedArgs = prepareExamInputData(
           { ...args },
           userInfo.userId

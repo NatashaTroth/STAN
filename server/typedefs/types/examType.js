@@ -60,6 +60,7 @@ const examType = gql`
     start: Date!
     end: Date!
     color: String!
+    textColor: String!
     extendedProps: CalendarChunkDetails!
   }
 

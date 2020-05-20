@@ -64,6 +64,12 @@ export function verifyRegexCurrentPage(string) {
   return string.match(/^\d{0,10000}$/);
 }
 
+// export function verifyRegexHexColor(string) {
+//   if (!verifyStringFormat(string)) return false;
+//   console.log(string + " here");
+//   return string.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/);
+// }
+
 export function verifyRegexUrlLink(string) {
   if (!verifyStringFormat(string)) return false;
   // if (string.length === 0) return true;

@@ -98,7 +98,10 @@ export default class StanScheduler {
     exams.forEach(async exam => {
       console.log(exam.subject);
       if (date1IsBeforeDate2(exam.examDate, new Date())) {
-        await Exam.updateOne({ _id: exam._id }, { completed: true });
+        await Exam.updateOne(
+          { _id: exam._id },
+          { completed: true, updatedAt: new Date() }
+        );
         console.log("updating exam " + exam.subject);
         await deleteExamsTodaysCache(exam.userId, exam._id);
       }
@@ -143,7 +146,7 @@ export default class StanScheduler {
         );
         await User.updateOne(
           { _id: user._id },
-          { sentOneMonthDeleteReminder: true }
+          { sentOneMonthDeleteReminder: true, updatedAt: new Date() }
         );
       }
     });

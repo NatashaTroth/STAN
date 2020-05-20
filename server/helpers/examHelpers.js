@@ -3,6 +3,7 @@ import {
   verifyRegexPageAmount,
   verifyRegexPageTime,
   verifyRegexPageRepeat,
+  // verifyRegexHexColor,
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
   verifyRegexUrlLink
@@ -22,6 +23,7 @@ import {
   date1IsBeforeDate2
 } from "../helpers/dates";
 import validator from "validator";
+import tinycolor from "tinycolor2";
 
 export async function fetchExam(examId, userId) {
   const exam = await Exam.findOne({
@@ -51,7 +53,10 @@ export function prepareExamInputData(args, userId) {
   args.currentPage = args.currentPage || args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
-  args.color = generateSubjectColor(args);
+
+  args.color = getBackgroundColor(args.color, args);
+
+  args.textColor = generateTextColor(args.color);
 
   args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
@@ -59,6 +64,19 @@ export function prepareExamInputData(args, userId) {
   return { ...args };
 }
 
+function getBackgroundColor(color, args) {
+  const tinycolorResp = tinycolor(color);
+  if (tinycolorResp.isValid()) return color;
+  console.log("color was not ok");
+  return generateSubjectColor(args);
+}
+
+function generateTextColor(backgroundColor) {
+  const backgroundColorBrightness = tinycolor(backgroundColor).getBrightness();
+  //255 shades, 5 different possible grades in the frontend, the two darkest ones should have a white text color
+  if (backgroundColorBrightness <= (255 / 5) * 2) return "#ffffff";
+  return "#000000";
+}
 export function verifyExamInput(args) {
   //regex
   verifyNewExamInputFormat(args);
@@ -102,6 +120,8 @@ export async function handleUpdateExamInput(exam, args, userId) {
     args.startPage,
     args.lastPage
   );
+  args.color = getBackgroundColor(args.color, args);
+  args.textColor = generateTextColor(args.color);
   // learningIsComplete(args.currentPage, args.startPage, a);
   // args.completed = exam.completed;
   // if (!args.completed)
@@ -148,34 +168,17 @@ export async function handleCurrentPageInput(page, examId, userId) {
 //fist light
 function generateSubjectColor(exam) {
   const hexCharsFirstTwoDigits = ["A", "B", "C", "D", "E", "F"]; //(red)
-  // const hexChars = [1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
   const hexCharsSecondTwoDigits = [9, "A", "B", "C", "D", "E", "F"]; //(green)
   const hexCharsThirdTwoDigits = [9, "A", "B", "C", "D", "E", "F"]; //(blue)
   const colorNumbers = [];
   let subjectAsciiNumber = 0;
   for (let i = 0; i < exam.subject.length; i++) {
-    // console.log(exam.subject.charCodeAt(i));
     subjectAsciiNumber += exam.subject.charCodeAt(i);
-    // console.log("total: " + subjectAsciiNumber);
   }
-  // console.log("sum: " + subjectAsciiNumber);
-  // console.log("sum2: " + Math.round(subjectAsciiNumber + Math.random() * 10));
-  // console.log("sum: " + (subjectAsciiNumber % hexCharsFirstDigit.length));
   colorNumbers.push(
     Math.round(subjectAsciiNumber * Math.random() * 10) %
       hexCharsFirstTwoDigits.length
   );
-  // colorNumbers.push(
-  //   Math.round(
-  //     exam.subject.length +
-  //       Math.random() * 10 +
-  //       exam.examDate.getDay() +
-  //       exam.examDate.getMonth() +
-  //       exam.startDate.getDay() +
-  //       exam.startDate.getMonth() +
-  //       exam.numberPages * exam.timesRepeat * exam.timePerPage
-  //   ) % hexCharsFirstDigit.length
-  // );
 
   colorNumbers.push(
     Math.round(
@@ -187,12 +190,6 @@ function generateSubjectColor(exam) {
       exam.startDate.getDay() + exam.startDate.getMonth() * Math.random() * 10
     ) % hexCharsSecondTwoDigits.length
   );
-  //TO AVOID WHITE
-  // let thirdColor =
-  //   (exam.startDate.getDay() + exam.startDate.getMonth()) % hexChars.length;
-  // if (thirdColor === 10) thirdColor = 6;
-  // console.log(thirdColor);
-  // colorNumbers.push(thirdColor);
   colorNumbers.push(
     Math.round(exam.numberPages * exam.timesRepeat * Math.random() * 10) %
       hexCharsSecondTwoDigits.length
@@ -206,27 +203,13 @@ function generateSubjectColor(exam) {
       colorNumbers[4]) %
       hexCharsThirdTwoDigits.length
   );
-
-  // colorNumbers.push(0);
-  // colorNumbers.push(1);
-  // colorNumbers.push(2);
-  // colorNumbers.push(3);
-  // colorNumbers.push(4);
-  // colorNumbers.push(5);
-  // console.log(colorNumbers);
   let color = "#";
-
   let counter = 0;
-
-  // console.log(hexCharsFirstTwoDigits);
-  // console.log(hexCharsSecondTwoDigits);
-  // console.log(hexCharsThirdTwoDigits);
   colorNumbers.forEach(colorNumber => {
     if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
     else if (counter < 4)
       color += hexCharsSecondTwoDigits[colorNumber].toString();
     else color += hexCharsThirdTwoDigits[colorNumber].toString();
-
     counter++;
   });
 
@@ -282,6 +265,8 @@ function verifyNewExamInputFormat(args) {
   verifyTimePerPageFormat(args.timePerPage);
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
+  // verifyHexColorFormat(args.color, args);
+  console.log("here");
   verifyNotesFormat(args.notes);
   verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }
