@@ -94,7 +94,11 @@ export function signUpGoogleUser(payload) {
 export async function updateUserLastVisited(userId) {
   await User.updateOne(
     { _id: userId },
-    { lastVisited: new Date(), sentOneMonthDeleteReminder: false }
+    {
+      lastVisited: new Date(),
+      sentOneMonthDeleteReminder: false,
+      updatedAt: new Date()
+    }
   );
 }
 
@@ -199,13 +203,13 @@ export async function updateUserInDatabase(
     email,
     password: passwordToSave,
     mascot,
-    updatedAt: new Date(),
+
     allowEmailNotifications
   };
 
   const resp = await User.updateOne(
     { _id: userId.toString() },
-    { ...updatedUser }
+    { ...updatedUser, updatedAt: new Date() }
   );
 
   if (resp.ok === 0 || resp.nModified === 0)

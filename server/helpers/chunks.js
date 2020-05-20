@@ -58,7 +58,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
         newChunk.updatedAt = new Date();
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
-          newChunk
+          { ...newChunk, updatedAt: new Date() }
         );
         if (!resp) throw new Error("Unable to update today's chunk cache.");
       }

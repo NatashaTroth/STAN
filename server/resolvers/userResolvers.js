@@ -239,7 +239,7 @@ export const userResolvers = {
         const passwordToSave = await bcrypt.hash(newPassword, 10);
         const updateResp = await User.updateOne(
           { _id: user._id },
-          { password: passwordToSave }
+          { password: passwordToSave, updatedAt: new Date() }
         );
         if (updateResp.ok === 0 && updateResp.nModified === 0)
           throw new ApolloError(
