@@ -11,8 +11,8 @@ import {
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
-  verifyRegexUrlLink,
-  verifyRegexHexColor
+  verifyRegexUrlLink
+  // verifyRegexHexColor
 } from "../../helpers/verifyUserInput";
 
 test("verifies string is formatted as an email", () => {
