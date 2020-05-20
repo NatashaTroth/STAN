@@ -60,7 +60,7 @@ function Today(props) {
       //     1 + // plus one to tell backend from which page to study next
       //     lastPage * currentRepetion
       // }
-      console.log("number form input field: " + newPage)
+
       // update page ----------------
       const resp = await updatePage({
         variables: {
@@ -142,7 +142,7 @@ function Today(props) {
 
   // last page to study ----------------
   let lastPage = todaysChunk.exam.lastPage
-  console.log(todaysChunk)
+
   // start page for today's chunk goal ----------------
   let startPage = todaysChunk.startPage
 
@@ -167,9 +167,10 @@ function Today(props) {
   if (startPage == 1) {
     realCurrentPage = currentPage % lastPage
   } else {
-    realCurrentPage = (currentPage % lastPage) + repetition + 1
+    realCurrentPage = currentPage % lastPage
+    // + repetition + 1
   }
-  console.log(realCurrentPage)
+
   // to display the last page correctly (edge cases)
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
@@ -281,27 +282,48 @@ function Today(props) {
 
   if (todaysChunk.numberPagesToday <= lastPage) {
     // pages left
-    // leftPagesTotal = lastPage - currentPage + startPage
-    leftPagesTotal = numberPages - realCurrentPage
+    leftPagesTotal = numberPagesToday - realCurrentPage
     // percentage for bar
     currentPageBar = realCurrentPage
     if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
     leftPagesPercentage = Math.round((currentPageBar * 100) / numberPages)
-
-    // when you have to study multiple repetition cycles a day
   }
-  // if only 2 pages
-  if (realCurrentPage > numberPages) {
+  // if only 2 pages & NOT multiple cycles a day
+  if (
+    realCurrentPage > numberPages &&
+    todaysChunk.numberPagesToday < numberPages
+  ) {
     leftPagesTotal = numberPages - realCurrentPageTotal + 1
-    currentPageBar = currentPage
-    leftPagesPercentage = Math.round((currentPageBar * 100) / lastPage)
-  } else {
-    // pages left
-    // leftPagesTotal = lastPage * repetitionCycles - currentPage + 1 + startPage
-    leftPagesTotal = numberPages
+    currentPageBar = realCurrentPage
+    if (currentPageBar == 1 || currentPageBar === startPage) {
+      leftPagesPercentage = 0 // to start with 0 in bar
+    } else {
+      leftPagesPercentage = Math.round(
+        (realCurrentPageTotal * 100) / (lastPage - startPage + 1)
+      )
+    }
+  }
+  // if only 2 pages & multiple cycles a day
+  if (
+    realCurrentPage > numberPages &&
+    todaysChunk.numberPagesToday > numberPages
+  ) {
+    if (realCurrentPageTotal == lastPage) {
+      leftPagesTotal =
+        todaysChunk.numberPagesToday - numberPages * repetition - 1
+    } else {
+      leftPagesTotal = todaysChunk.numberPagesToday - numberPages * repetition
+    }
     // percentage for bar
-    currentPageBar = currentPage
-    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
+    leftPagesPercentage = Math.round(
+      (realCurrentPageTotal * 100) / (leftPagesTotal + 1)
+    )
+  }
+  // if more than 1 cycle a day
+  else {
+    // pages left
+    leftPagesTotal = numberPages - realCurrentPageTotal + 1
+    // percentage for bar
     leftPagesPercentage = Math.round(
       (currentPage * 100) / (leftPagesTotal + lastPage)
     )
