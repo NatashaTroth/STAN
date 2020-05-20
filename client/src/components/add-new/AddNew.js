@@ -96,8 +96,6 @@ function AddNew() {
     setColor(color.hex)
   }
 
-  console.log(color)
-
   // return ----------------
   return (
     <div className="add-new box-content">

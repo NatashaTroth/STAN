@@ -102,6 +102,7 @@ const ExamsCalendar = () => {
 
                   // background color for list-view ----------------
                   info.el.style.backgroundColor = info.event.backgroundColor
+                  info.el.style.color = info.event.textColor
 
                   let popover
                   if (examDetails.__typename === "CalendarChunkDetails") {
@@ -158,7 +159,9 @@ const ExamsCalendar = () => {
                       </Popover>
                     )
                   } else {
-                    popover = <div className="">Exam deadline</div>
+                    popover = (
+                      <Popover id="exam-deadline">Exam deadline</Popover>
+                    )
                   }
 
                   const content = (
