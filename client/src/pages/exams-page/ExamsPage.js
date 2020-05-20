@@ -48,7 +48,7 @@ const Exams = () => {
       currentExamsList.push({
         id: exam.id,
         subject: exam.subject,
-        numberPages: exam.numberPages,
+        numberPages: exam.lastPage,
         currentPage: exam.currentPage,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
@@ -57,7 +57,7 @@ const Exams = () => {
       archiveExamsList.push({
         id: exam.id,
         subject: exam.subject,
-        numberPages: exam.numberPages,
+        numberPages: exam.lastPage,
         currentPage: exam.currentPage,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
