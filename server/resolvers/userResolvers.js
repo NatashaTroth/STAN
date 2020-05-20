@@ -23,18 +23,11 @@ import {
   logUserIn,
   signUpGoogleUser,
   verifyGoogleIdToken,
-  verifySignupInputFormat,
-  verifyLoginInputFormat,
-  verifyMascotInputFormat,
-  verifyUpdateUserInputFormat,
-  verifyUpdatePasswordInputFormat,
   logUserOut,
   deleteUsersData,
   deleteUser,
-  validatePassword,
   updateUserInDatabase,
   userWantsPasswordUpdating,
-  verifyEmailFormat,
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
   validateForgottenPasswordToken,
@@ -42,6 +35,16 @@ import {
   updateUserLastVisited
   // calculateUserState
 } from "../helpers/users/userHelpers";
+
+import {
+  verifySignupInputFormat,
+  verifyLoginInputFormat,
+  verifyMascotInputFormat,
+  verifyUpdateUserInputFormat,
+  verifyUpdatePasswordInputFormat,
+  verifyEmailFormat,
+  validatePassword
+} from "../helpers/users/validateUserInput";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();

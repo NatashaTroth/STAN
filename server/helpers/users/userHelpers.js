@@ -15,17 +15,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { OAuth2Client } from "google-auth-library";
-import {
-  verifyRegexEmail,
-  verifyRegexUsername,
-  verifyRegexPassword,
-  verifyRegexMascot
-} from "../verifyInput";
+import { verifyRegexPassword } from "../verifyInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // import { handleResolverError } from "../resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
 import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
 import validator from "validator";
+import { validatePassword } from "./validateUserInput";
 
 export async function authenticateUser({ email, password }) {
   const user = await User.findOne({ email: email });
@@ -183,15 +179,15 @@ export async function deleteUser(userId) {
     );
 }
 
-export async function validatePassword(inputPassword, userPassword) {
-  try {
-    if (!verifyRegexPassword(inputPassword)) throw new Error();
-    const valid = await bcrypt.compare(inputPassword, userPassword);
-    if (!valid) throw new Error();
-  } catch (err) {
-    throw new AuthenticationError("Password is incorrect.");
-  }
-}
+// export async function validatePassword(inputPassword, userPassword) {
+//   try {
+//     if (!verifyRegexPassword(inputPassword)) throw new Error();
+//     const valid = await bcrypt.compare(inputPassword, userPassword);
+//     if (!valid) throw new Error();
+//   } catch (err) {
+//     throw new AuthenticationError("Password is incorrect.");
+//   }
+// }
 
 export async function updateUserInDatabase(
   userId,
@@ -276,69 +272,4 @@ export function validateForgottenPasswordToken(user, token, secret) {
 
   if (decodedToken.userEmail !== user.email)
     throw new Error("Wrong user email in the forgotten password token.");
-}
-
-export function verifySignupInputFormat({ username, email, password, mascot }) {
-  verifyUsernameFormat(username);
-  verifyEmailFormat(email);
-  verifyPasswordFormat(password);
-  verifyMascotFormat(mascot);
-}
-
-export function verifyUpdateUserInputFormat({ username, email, mascot }) {
-  verifyUsernameFormat(username);
-  verifyEmailFormat(email);
-  verifyMascotFormat(mascot);
-}
-
-export function verifyUpdatePasswordInputFormat(password) {
-  try {
-    verifyPasswordFormat(password);
-  } catch (err) {
-    throw new Error(
-      "New password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
-    );
-  }
-}
-
-// export function updateUser({ username, email, password, mascot }) {
-//   verifyUsernameFormat(username);
-//   verifyEmailFormat(email);
-//   verifyPasswordFormat(password);
-//   verifyMascotFormat(mascot);
-// }
-
-export function verifyLoginInputFormat({ email, password }) {
-  verifyEmailFormat(email);
-  verifyPasswordFormat(password);
-}
-
-export function verifyMascotInputFormat({ mascot }) {
-  verifyMascotFormat(mascot);
-}
-
-function verifyUsernameFormat(username) {
-  if (!verifyRegexUsername(username))
-    throw new Error(
-      "Username input has the wrong format. It cannot be empty. Max length 30 characters."
-    );
-}
-
-export function verifyEmailFormat(email) {
-  if (!verifyRegexEmail(email) || !validator.isEmail(email))
-    throw new Error("Email input has the wrong format.");
-}
-
-export function verifyPasswordFormat(password) {
-  if (!verifyRegexPassword(password))
-    throw new Error(
-      "Password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
-    );
-}
-
-function verifyMascotFormat(mascot) {
-  if (!verifyRegexMascot(mascot))
-    throw new Error(
-      "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
-    );
 }
