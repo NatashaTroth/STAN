@@ -505,6 +505,7 @@ function getCalendarChunks(exams) {
       start: exam.startDate,
       end: dayBeforeExam,
       color: exam.color,
+      textColor: exam.textColor,
       extendedProps: {
         examDate: exam.examDate,
         currentPage: exam.currentPage,
