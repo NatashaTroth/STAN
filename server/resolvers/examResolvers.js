@@ -191,13 +191,13 @@ export const examResolvers = {
         handleAuthentication(userInfo);
         const exam = await handleCurrentPageInput(
           args.page,
-          args.examId,
+          args.id,
           userInfo.userId
         );
         if (exam.currentPage === args.page) return true;
 
         const resp = await Exam.updateOne(
-          { _id: args.examId, userId: userInfo.userId },
+          { _id: args.id, userId: userInfo.userId },
           {
             currentPage: args.page,
             // completed: exam.completed,

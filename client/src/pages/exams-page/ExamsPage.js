@@ -4,7 +4,8 @@ import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { GET_EXAMS_QUERY, CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
+import { GET_EXAMS_QUERY } from "../../graphQL/exams/queries"
 
 // components ----------------
 import Exam from "../../components/exams/Exam"
@@ -48,7 +49,7 @@ const Exams = () => {
       currentExamsList.push({
         id: exam.id,
         subject: exam.subject,
-        numberPages: exam.numberPages,
+        lastPage: exam.lastPage,
         currentPage: exam.currentPage,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
@@ -57,7 +58,7 @@ const Exams = () => {
       archiveExamsList.push({
         id: exam.id,
         subject: exam.subject,
-        numberPages: exam.numberPages,
+        lastPage: exam.lastPage,
         currentPage: exam.currentPage,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,

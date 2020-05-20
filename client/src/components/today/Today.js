@@ -11,10 +11,10 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
-} from "../../graphQL/queries"
+} from "../../graphQL/exams/queries"
 
 // mutations ----------------
-import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
+import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/exams/mutations"
 
 // components ----------------
 import Button from "../../components/button/Button"
@@ -65,7 +65,7 @@ function Today(props) {
       const resp = await updatePage({
         variables: {
           page: newPage,
-          examId: exam.id,
+          id: exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
@@ -100,7 +100,7 @@ function Today(props) {
         variables: {
           page:
             props.selectedGoal.numberPagesToday + props.selectedGoal.startPage,
-          examId: props.selectedGoal.exam.id,
+          id: props.selectedGoal.exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },

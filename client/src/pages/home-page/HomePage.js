@@ -4,7 +4,7 @@ import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // components ----------------
 import SubHeading from "../../components/sub-heading/SubHeading"

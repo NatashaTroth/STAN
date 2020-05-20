@@ -64,7 +64,7 @@ describe("Test exam resolvers cannot be accessed if not authenticated", () => {
     const resp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: "testId",
+        id: "testId",
         page: 5
       }
     });

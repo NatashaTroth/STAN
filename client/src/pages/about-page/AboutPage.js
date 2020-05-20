@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // sub-components ----------------
 import Image from "../../components/image/Image"

@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
 // mutations ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // mutations ----------------
 import {
   DELETE_USER_MUTATION,
   UPDATE_MASCOT_MUTATION,
   UPDATE_USER_MUTATION,
-} from "../../graphQL/mutations"
+} from "../../graphQL/users/mutations"
 import { useMutation } from "@apollo/react-hooks"
 
 // components ----------------

@@ -11,9 +11,9 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
-  CURRENT_USER,
-} from "../../graphQL/queries"
-import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
+} from "../../graphQL/exams/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
+import { UPDATE_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"
@@ -63,7 +63,7 @@ const ExamDetailsEdit = ({ examId }) => {
     subject: data.subject,
     examDate: moment(data.examDate),
     startDate: moment(data.startDate),
-    numberPages: data.numberPages,
+    lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
     currentPage: data.currentPage,
@@ -80,7 +80,7 @@ const ExamDetailsEdit = ({ examId }) => {
     subject,
     examDate,
     startDate,
-    numberPages,
+    lastPage,
     startPage,
     currentPage,
     timePerPage,
@@ -92,7 +92,7 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "subject" })
     register({ exam: "examDate" })
     register({ exam: "startDate" })
-    register({ exam: "numberPages" })
+    register({ exam: "lastPage" })
     register({ exam: "startPage" })
     register({ exam: "currentPage" })
     register({ exam: "timePerPage" })
@@ -174,6 +174,9 @@ const ExamDetailsEdit = ({ examId }) => {
     values.splice(index, 1)
     setNewUrls(values)
   }
+
+  let currentRepetition = Math.round(data.currentPage / data.lastPage)
+  if (currentRepetition < 1) currentRepetition = 1
 
   // return ----------------
   return (
@@ -326,9 +329,9 @@ const ExamDetailsEdit = ({ examId }) => {
                 min="0"
                 id="pageAmount"
                 label="exam_page_amount"
-                name="numberPages"
-                onChange={handleChange.bind(null, "numberPages")}
-                value={numberPages}
+                name="lastPage"
+                onChange={handleChange.bind(null, "lastPage")}
+                value={lastPage}
                 required
                 ref={register({
                   required: true,
@@ -336,13 +339,13 @@ const ExamDetailsEdit = ({ examId }) => {
                   max: 10000,
                 })}
               />
-              {errors.numberPages && errors.numberPages.type === "required" && (
+              {errors.numberPages && errors.lastPage.type === "required" && (
                 <span className="error">This field is required</span>
               )}
-              {errors.numberPages && errors.numberPages.type === "max" && (
+              {errors.numberPages && errors.lastPage.type === "max" && (
                 <span className="error">The maximum is 10.000</span>
               )}
-              {errors.numberPages && errors.numberPages.type === "min" && (
+              {errors.numberPages && errors.lastPage.type === "min" && (
                 <span className="error">Only positive numbers are allowed</span>
               )}
             </div>
@@ -381,7 +384,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 ref={register({
                   required: true,
                   min: startPage,
-                  max: numberPages,
+                  max: lastPage,
                 })}
               />
               {errors.currentPage && errors.currentPage.type === "required" && (
@@ -397,7 +400,7 @@ const ExamDetailsEdit = ({ examId }) => {
               )}
               {errors.currentPage && errors.currentPage.type === "max" && (
                 <span className="error">
-                  The maximum is your last page: {numberPages}
+                  The maximum is your last page: {lastPage}
                 </span>
               )}
             </div>
@@ -491,6 +494,48 @@ const ExamDetailsEdit = ({ examId }) => {
             {errors.timesRepeat && errors.timesRepeat.type === "min" && (
               <span className="error">Only positive numbers are allowed</span>
             )}
+
+            <div className="form__element">
+              <div className="info-box-label">
+                <Label
+                  htmlFor="cycle"
+                  text="Repetition cycle"
+                  className="form__element__label input-required"
+                ></Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={<Tooltip>Your repetition cycle.</Tooltip>}
+                >
+                  <span className="info-circle">i</span>
+                </OverlayTrigger>
+              </div>
+              <input
+                className="form__element__input"
+                type="number"
+                min="1"
+                id="cycle"
+                label="exam_cycle"
+                name="cycle"
+                onChange={handleChange.bind(null, "cycle")}
+                value={currentRepetition}
+                ref={register({
+                  required: true,
+                  min: 1,
+                  max: { timesRepeat },
+                })}
+                required
+              />
+              {errors.timePerPage && errors.cycle.type === "required" && (
+                <span className="error">This field is required</span>
+              )}
+              {errors.timePerPage && errors.cycle.type === "max" && (
+                <span className="error"> The maximum is 100 cycles.</span>
+              )}
+              {errors.timePerPage && errors.cycle.type === "min" && (
+                <span className="error">Only positive numbers are allowed</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -690,7 +735,7 @@ async function handleExam({
         subject: data.subject,
         examDate: formExamDate,
         startDate: formStartDate,
-        numberPages: parseInt(data.numberPages),
+        lastPage: parseInt(data.lastPage),
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
         startPage: parseInt(data.startPage),

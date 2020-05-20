@@ -1,20 +1,5 @@
-import { gql } from "apollo-boost" //to make queries
+import { gql } from "apollo-boost"
 
-//-----------------USER QUERIES-----------------
-export const CURRENT_USER = gql`
-  query {
-    currentUser {
-      id
-      username
-      email
-      mascot
-      googleLogin
-      allowEmailNotifications
-    }
-  }
-`
-
-//-----------------EXAM QUERIES-----------------
 export const GET_EXAMS_QUERY = gql`
   {
     exams {
@@ -109,6 +94,12 @@ export const GET_CALENDAR_CHUNKS = gql`
         color
       }
     }
+  }
+`
+
+export const GET_TODAYS_CHUNKS_PROGRESS = gql`
+  query {
+    todaysChunksProgress
   }
 `
 

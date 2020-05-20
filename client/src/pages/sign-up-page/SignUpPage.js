@@ -2,7 +2,7 @@ import React from "react"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // components ----------------
 import SignUpForm from "../../components/signup/SignUp"

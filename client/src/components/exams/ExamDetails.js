@@ -2,19 +2,19 @@ import React, { useState } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
-// queries ----------------
+// queries & mutations ----------------
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_CALENDAR_CHUNKS,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_EXAMS_COUNT,
-  CURRENT_USER,
-} from "../../graphQL/queries"
+} from "../../graphQL/exams/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 import {
   DELETE_EXAM_MUTATION,
   EXAM_COMPLETED_MUTATION,
-} from "../../graphQL/mutations"
+} from "../../graphQL/exams/mutations"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // components ----------------

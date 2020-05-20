@@ -26,8 +26,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  let lastPage = examDetails.startPage + (examDetails.numberPages - 1)
-  let currentRepetition = Math.round(examDetails.currentPage / lastPage)
+  let currentRepetition = Math.round(
+    examDetails.currentPage / examDetails.lastPage
+  )
   if (currentRepetition < 1) currentRepetition = 1
 
   let numberOfPages
@@ -84,7 +85,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <p>{examDetails.numberPages}</p>
+                <p>{examDetails.lastPage}</p>
               </div>
 
               <div className="exam-data">

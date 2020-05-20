@@ -312,7 +312,7 @@ describe("Test get todays chunks query", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -489,7 +489,7 @@ describe("Test get todays chunks query", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -523,7 +523,7 @@ describe("Test get todays chunks query", () => {
     const updateResp2 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 11
       }
     });
@@ -576,7 +576,7 @@ describe("Test get todays chunks query", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: completedPage
       }
     });
