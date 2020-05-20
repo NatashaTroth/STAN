@@ -77,6 +77,7 @@ export const GET_CALENDAR_CHUNKS = gql`
         start
         end
         color
+        textColor
         extendedProps {
           examDate
           currentPage
