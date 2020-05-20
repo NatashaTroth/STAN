@@ -95,7 +95,7 @@ export function verifyAddExamDates(startDate, examDate) {
     );
 }
 export function calcNumberPagesFromPageNumbers(startPage, lastPage) {
-  if (lastPage <= startPage)
+  if (lastPage < startPage)
     throw new Error("The last page should be higher than the start page.");
   return lastPage - startPage + 1;
 }
