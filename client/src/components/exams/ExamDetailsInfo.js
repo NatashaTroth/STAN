@@ -132,13 +132,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     value={
                       (100 *
                         (examDetails.currentPage - examDetails.startPage)) /
-                      (examDetails.lastPage * examDetails.timesRepeat)
+                      (examDetails.numberPages * examDetails.timesRepeat)
                     }
                   />
 
                   <div className="exam-pages__bar--status">
                     <p>
-                      {examDetails.lastPage -
+                      {examDetails.numberPages -
                         examDetails.startPage -
                         (examDetails.currentPage -
                           examDetails.startPage -
