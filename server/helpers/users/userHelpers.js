@@ -1,6 +1,6 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
-import { User, Exam, TodaysChunkCache } from "../../models";
+import { User } from "../../models";
 import {
   UserInputError,
   AuthenticationError,
@@ -15,12 +15,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { OAuth2Client } from "google-auth-library";
-import { verifyRegexPassword } from "../verifyInput";
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // import { handleResolverError } from "../resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
 import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
-import validator from "validator";
+
 import { validatePassword } from "./validateUserInput";
 
 export async function authenticateUser({ email, password }) {

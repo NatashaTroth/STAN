@@ -6,8 +6,7 @@ import {
 } from "../verifyInput";
 import {
   // UserInputError,
-  AuthenticationError,
-  ApolloError
+  AuthenticationError
 } from "apollo-server";
 import validator from "validator";
 import bcrypt from "bcrypt";
