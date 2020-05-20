@@ -24,8 +24,6 @@ import {
   signUpGoogleUser,
   verifyGoogleIdToken,
   logUserOut,
-  deleteUsersData,
-  deleteUser,
   updateUserInDatabase,
   userWantsPasswordUpdating,
   createForgottenPasswordEmailLink,
@@ -45,6 +43,7 @@ import {
   verifyEmailFormat,
   validatePassword
 } from "../helpers/users/validateUserInput";
+import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
