@@ -21,6 +21,7 @@ const examQueries = gql`
       timePerPage: Int!
       timesRepeat: Int
       startPage: Int!
+      color: String
       notes: String
       studyMaterialLinks: [String]
       completed: Boolean
@@ -36,6 +37,7 @@ const examQueries = gql`
       timesRepeat: Int!
       startPage: Int!
       currentPage: Int!
+      color: String
       notes: String
       studyMaterialLinks: [String] # completed: Boolean
     ): Exam!

@@ -97,6 +97,7 @@ export const ADD_EXAM_MUTATION = gql`
     $timePerPage: Int!
     $timesRepeat: Int
     $startPage: Int!
+    $color: String
     $notes: String
     $studyMaterialLinks: [String]
     $completed: Boolean
@@ -109,6 +110,7 @@ export const ADD_EXAM_MUTATION = gql`
       timePerPage: $timePerPage
       timesRepeat: $timesRepeat
       startPage: $startPage
+      color: $color
       notes: $notes
       studyMaterialLinks: $studyMaterialLinks
       completed: $completed
@@ -127,6 +129,7 @@ export const UPDATE_EXAM_MUTATION = gql`
     $timesRepeat: Int!
     $startPage: Int!
     $currentPage: Int!
+    $color: String
     $notes: String
     $studyMaterialLinks: [String] # $completed: Boolean
   ) {
@@ -140,6 +143,7 @@ export const UPDATE_EXAM_MUTATION = gql`
       timesRepeat: $timesRepeat
       startPage: $startPage
       currentPage: $currentPage
+      color: $color
       notes: $notes
       studyMaterialLinks: $studyMaterialLinks # completed: $completed
     ) {

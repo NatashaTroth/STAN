@@ -60,6 +60,10 @@ const examSchema = new Schema({
     type: String,
     required: true
   },
+  textColor: {
+    type: String,
+    default: "#000000"
+  },
   completed: {
     type: Boolean,
     default: false
