@@ -66,6 +66,7 @@ function AddNew() {
       formExamDate,
       formStartDate,
       newLinks,
+      color,
       reset,
     })
   }
@@ -94,6 +95,8 @@ function AddNew() {
   const handleColor = color => {
     setColor(color.hex)
   }
+
+  console.log(color)
 
   // return ----------------
   return (
@@ -494,7 +497,7 @@ function AddNew() {
                         <div className="info-box-label">
                           <Label
                             htmlFor="color"
-                            text="Choose an exam color"
+                            text="Select an exam color"
                             className="form__element__label"
                           />
                           <OverlayTrigger
@@ -502,7 +505,10 @@ function AddNew() {
                             delay={{ show: 250, hide: 400 }}
                             overlay={
                               <Tooltip>
-                                You will see this color in your calendar.
+                                Give your exam a unique color to make it stick
+                                out in the calendar overview. If no color is
+                                selected, stan will generate a random exam color
+                                for you.
                               </Tooltip>
                             }
                           >
@@ -510,7 +516,7 @@ function AddNew() {
                           </OverlayTrigger>
                         </div>
                         <SliderPicker
-                          onChangeComplete={handleColor}
+                          onChange={handleColor}
                           color={[
                             "#D9E3F0",
                             "#F47373",
@@ -524,11 +530,15 @@ function AddNew() {
                           ]}
                         />
                       </div>
-                    </div>
 
-                    {/* <div className="form__element">
-                      <div className="add-new__color" style={color}></div>
-                    </div> */}
+                      <div className="form__showColor">
+                        <h5 className="form__element__label">Selected color</h5>
+                        <div
+                          className="color"
+                          style={{ backgroundColor: color }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="form__submit">
@@ -562,6 +572,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   newLinks,
+  color,
   reset,
 }) {
   try {
@@ -575,6 +586,7 @@ async function handleExam({
         timePerPage: parseInt(formData.exam_page_time),
         timesRepeat: parseInt(formData.exam_page_repeat),
         notes: formData.exam_page_notes,
+        color: color,
         studyMaterialLinks: newLinks,
         completed: false,
       },
