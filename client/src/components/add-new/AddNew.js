@@ -43,6 +43,17 @@ function AddNew() {
 
   // state ----------------
   const [inputFields, setInputFields] = useState([""])
+  const [color, setColor] = useState([
+    "#D9E3F0",
+    "#F47373",
+    "#697689",
+    "#37D67A",
+    "#2CCCE4",
+    "#555555",
+    "#dce775",
+    "#ff8a65",
+    "#ba68c8",
+  ])
 
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -88,6 +99,10 @@ function AddNew() {
     const values = [...inputFields]
     values.splice(index, 1)
     setInputFields(values)
+  }
+
+  const handleColor = color => {
+    setColor(color.hex)
   }
 
   // return ----------------
@@ -504,7 +519,10 @@ function AddNew() {
                             <span className="info-circle">i</span>
                           </OverlayTrigger>
                         </div>
-                        <SliderPicker />
+                        <SliderPicker
+                          onChangeComplete={handleColor}
+                          color={color}
+                        />
                       </div>
                     </div>
                   </div>
