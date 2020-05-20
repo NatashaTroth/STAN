@@ -21,7 +21,7 @@ export async function setupApolloServer({ isAuth, userId, user }) {
     server = new ApolloServer({
       typeDefs,
       resolvers,
-      context: async ({ req, res }) => ({
+      context: async () => ({
         req: {},
         res: {
           cookie: (name, value, options) => {

@@ -19,7 +19,9 @@
     "test": "node --expose-gc ./node_modules/.bin/jest --watchAll",
     "ciTest": "jest",
     "testUnit": "jest --watch ./tests/unit",
-    "testIntegration": "jest --watch ./tests/integration"
+    "testIntegration": "jest --watch ./tests/integration",
+    "jscpd": "npx jscpd  -i \"**/+(node_modules|tests)/**\" /Users/natashatroth/Documents/FHS/MMP3/git/mmp3-stan/server",
+    "jsinspect": "npx jsinspect /Users/natashatroth/Documents/FHS/MMP3/git/mmp3-stan/server --ignore \"node_modules|tests\""
   },
   "author": "",
   "license": "ISC",

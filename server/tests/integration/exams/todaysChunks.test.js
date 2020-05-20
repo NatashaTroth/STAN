@@ -24,7 +24,7 @@ import {
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test get todays chunks query", () => {
   let server;
   let query;
   let mutate;

@@ -21,7 +21,7 @@ import {
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
-describe("Test user resolver regex", () => {
+describe("Test exam resolvers cannot be accessed if not authenticated", () => {
   let server;
   let mutate;
   let query;

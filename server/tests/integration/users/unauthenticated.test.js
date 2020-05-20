@@ -24,7 +24,7 @@ import jwt from "jsonwebtoken";
 
 //TODO: TEST GOOGLE LOGIN??
 
-describe("Test user sign up and login resolvers", () => {
+describe("Test resolvers are accessed correctly when the user is unauthenticated", () => {
   let server;
   let mutate;
   let query;

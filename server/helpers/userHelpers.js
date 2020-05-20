@@ -74,9 +74,9 @@ export async function signUserUp({
   return resp;
 }
 
-export function logUserIn({ user, context }) {
+export function logUserIn({ user, res }) {
   let userAccessToken = createAccessToken(user);
-  sendRefreshToken(context.res, createRefreshToken(user));
+  sendRefreshToken(res, createRefreshToken(user));
   return userAccessToken;
 }
 
@@ -278,12 +278,7 @@ export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyMascotFormat(mascot);
 }
 
-export function verifyUpdateUserInputFormat({
-  username,
-  email,
-  password,
-  mascot
-}) {
+export function verifyUpdateUserInputFormat({ username, email, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);
   verifyMascotFormat(mascot);

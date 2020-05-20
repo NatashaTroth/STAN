@@ -89,7 +89,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   return resp;
 }
 
-export function chunkCacheIsValid(chunkUpdatedAt, examUpdatedAt) {
+export function chunkCacheIsValid(chunkUpdatedAt) {
   return isTheSameDay(chunkUpdatedAt, new Date());
   //TODO do i need this? don't think so now
   // && date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)

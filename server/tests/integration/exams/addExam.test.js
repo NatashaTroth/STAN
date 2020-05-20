@@ -15,7 +15,7 @@ import { ADD_EXAM_MUTATION } from "../../mutations.js";
 // import { createTestClient } from "apollo-server-integration-testing";
 
 //TODO: add totalNumberDays to the test
-describe("Test user resolver regex", () => {
+describe("Test add exam mutation", () => {
   let server;
   let mutate;
   beforeAll(async () => {

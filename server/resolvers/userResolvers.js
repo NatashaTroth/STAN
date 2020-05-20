@@ -51,22 +51,11 @@ const stanEmail = new StanEmail();
 //TODO: Authenticate Queries
 export const userResolvers = {
   Query: {
-    currentUser: async (parent, args, { req, res, userInfo }) => {
+    currentUser: async (_, __, { userInfo }) => {
       try {
         if (!userInfo.isAuth) return null;
-        // let user = {
-        //   id: userInfo.userId,
-        //   googleId: userInfo.user.googleId,
-        //   username: userInfo.user.username,
-        //   email: userInfo.user.email,
-        //   mascot: userInfo.user.mascot,
-        //   googleLogin: userInfo.user.googleLogin,
-        //   allowEmailNotifications: userInfo.user.allowEmailNotifications
-        // };
         updateUserLastVisited(userInfo.userId);
         return escapeUserObject(userInfo.user);
-        // return user;
-        // return userInfo.user;
       } catch (err) {
         console.error(err.message);
         return null;
@@ -74,7 +63,7 @@ export const userResolvers = {
     }
   },
   Mutation: {
-    logout: async (root, args, { req, res, userInfo }, info) => {
+    logout: async (_, __, { res, userInfo }) => {
       try {
         handleAuthentication(userInfo);
         await logUserOut(res, userInfo.userId);
@@ -83,13 +72,13 @@ export const userResolvers = {
       }
       return true;
     },
-    login: async (parent, { email, password }, context) => {
+    login: async (_, { email, password }, { res, userInfo }) => {
       try {
-        if (context.userInfo.isAuth)
+        if (userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
         verifyLoginInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
-        const accessToken = logUserIn({ user, context });
+        const accessToken = logUserIn({ user, res });
         // return { user: user, accessToken: accessToken, tokenExpiration: 15 };
         return accessToken;
       } catch (err) {
@@ -97,12 +86,12 @@ export const userResolvers = {
       }
     },
     signup: async (
-      parent,
+      _,
       { username, email, password, mascot, allowEmailNotifications },
-      context
+      { res, userInfo }
     ) => {
       try {
-        if (context.userInfo.isAuth)
+        if (userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
         if (!mascot) mascot = 0;
         verifySignupInputFormat({
@@ -120,7 +109,7 @@ export const userResolvers = {
           allowEmailNotifications
         });
 
-        const accessToken = logUserIn({ user, context });
+        const accessToken = logUserIn({ user, res });
         if (allowEmailNotifications) stanEmail.sendSignupMail(email, mascot);
         return accessToken;
       } catch (err) {
@@ -131,7 +120,7 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
-    updateMascot: async (parent, { mascot }, { req, res, userInfo }) => {
+    updateMascot: async (_, { mascot }, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
         verifyMascotInputFormat({ mascot: mascot.toString() });
@@ -148,10 +137,10 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
-    googleLogin: async (parent, { idToken }, context) => {
+    googleLogin: async (_, { idToken }, { res, userInfo }) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
-        if (context.userInfo.isAuth)
+        if (userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
         const payload = await verifyGoogleIdToken(idToken);
         if (!payload)
@@ -161,7 +150,7 @@ export const userResolvers = {
 
         if (!user) user = await signUpGoogleUser(payload);
 
-        const accessToken = logUserIn({ user, context });
+        const accessToken = logUserIn({ user, res });
         // return { user, accessToken, tokenExpiration: 15 };
         return accessToken;
       } catch (err) {
@@ -169,7 +158,7 @@ export const userResolvers = {
       }
     },
     updateUser: async (
-      parent,
+      _,
       {
         username,
         email,
@@ -178,11 +167,11 @@ export const userResolvers = {
         mascot,
         allowEmailNotifications
       },
-      context
+      { userInfo }
     ) => {
       try {
-        handleAuthentication(context.userInfo);
-        const user = context.userInfo.user;
+        handleAuthentication(userInfo);
+        const user = userInfo.user;
         if (user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
         verifyUpdateUserInputFormat({
@@ -202,7 +191,7 @@ export const userResolvers = {
         // console.log("passwordToSave: " + passwordToSave);
 
         await updateUserInDatabase(
-          context.userInfo.userId,
+          userInfo.userId,
           username,
           email,
           passwordToSave,
@@ -211,21 +200,21 @@ export const userResolvers = {
         );
 
         const updatedUser = await User.findOne({
-          _id: context.userInfo.userId
+          _id: userInfo.userId
         });
         // console.log(updatedUser);
         // return updatedUser;
         // updatedUser.id = updatedUser._id;
 
         return escapeUserObject(updatedUser);
-        // return await User.findOne({ _id: context.userInfo.userId });
+        // return await User.findOne({ _id: userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }
     },
-    forgottenPasswordEmail: async (parent, { email }, context) => {
+    forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
-        if (context.userInfo.isAuth)
+        if (userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
 
         verifyEmailFormat(email);
@@ -237,9 +226,9 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
-    resetPassword: async (parent, { userId, token, newPassword }, context) => {
+    resetPassword: async (_, { userId, token, newPassword }, { userInfo }) => {
       try {
-        if (context.userInfo.isAuth)
+        if (userInfo.isAuth)
           throw new AuthenticationError("Already logged in.");
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
@@ -261,18 +250,18 @@ export const userResolvers = {
         handleResolverError(err);
       }
     },
-    deleteUser: async (parent, args, context) => {
+    deleteUser: async (_, __, { res, userInfo }) => {
       try {
-        handleAuthentication(context.userInfo);
+        handleAuthentication(userInfo);
         //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
-        await deleteUsersData(context.userInfo.userId);
-        sendRefreshToken(context.res, "");
+        await deleteUsersData(userInfo.userId);
+        sendRefreshToken(res, "");
 
-        await deleteUser(context.userInfo.userId);
-        if (context.userInfo.user.allowEmailNotifications)
+        await deleteUser(userInfo.userId);
+        if (userInfo.user.allowEmailNotifications)
           stanEmail.sendDeleteAccountMail(
-            context.userInfo.user.email,
-            context.userInfo.user.mascot
+            userInfo.user.email,
+            userInfo.user.mascot
           );
         return true;
       } catch (err) {
