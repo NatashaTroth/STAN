@@ -10,10 +10,10 @@ import {
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT,
-} from "../../graphQL/queries"
+} from "../../graphQL/exams/queries"
 
 // mutations ----------------
-import { ADD_EXAM_MUTATION } from "../../graphQL/mutations"
+import { ADD_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
 // components ----------------
 import Label from "../../components/label/Label"

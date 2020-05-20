@@ -7,7 +7,10 @@ import { GoogleLogin } from "react-google-login"
 
 // mutation ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { LOGIN_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
+import {
+  LOGIN_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
+} from "../../graphQL/users/mutations"
 
 // components ----------------
 import Input from "../../components/input/Input"

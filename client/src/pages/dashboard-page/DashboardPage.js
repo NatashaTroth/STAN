@@ -4,10 +4,8 @@ import { Redirect } from "react-router-dom"
 
 // queries ----------------
 import { useQuery } from "@apollo/react-hooks"
-import {
-  GET_TODAYS_CHUNKS_AND_PROGRESS,
-  CURRENT_USER,
-} from "../../graphQL/queries"
+import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../graphQL/exams/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // components ----------------
 import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"

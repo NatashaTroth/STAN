@@ -5,7 +5,8 @@ import ReactDOM from "react-dom"
 
 // query ----------------
 import { useQuery } from "@apollo/react-hooks"
-import { GET_CALENDAR_CHUNKS, CURRENT_USER } from "../../graphQL/queries"
+import { GET_CALENDAR_CHUNKS } from "../../graphQL/exams/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // libraries ----------------
 import moment from "moment"

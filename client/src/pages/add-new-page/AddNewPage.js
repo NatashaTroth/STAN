@@ -1,5 +1,5 @@
 import React from "react"
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 

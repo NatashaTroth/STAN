@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 
 // mutations ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { FORGOTTEN_PASSWORD_EMAIL } from "../../graphQL/mutations"
+import { FORGOTTEN_PASSWORD_EMAIL } from "../../graphQL/users/mutations"
 
 // components ----------------
 import Login from "../../components/login/Login"

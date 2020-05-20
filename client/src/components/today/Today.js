@@ -11,10 +11,10 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
-} from "../../graphQL/queries"
+} from "../../graphQL/exams/queries"
 
 // mutations ----------------
-import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/mutations"
+import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/exams/mutations"
 
 // components ----------------
 import Button from "../../components/button/Button"

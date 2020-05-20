@@ -2,7 +2,7 @@ import React from "react"
 // --------------------------------------------------------------
 
 // query ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // components ----------------
 import Image from "../../components/image/Image"

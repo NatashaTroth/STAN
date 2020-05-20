@@ -7,11 +7,11 @@ import { flowRight as compose } from "lodash"
 import { graphql } from "react-apollo"
 
 // mutation & queries ----------------
+import { CURRENT_USER } from "../../graphQL/users/queries"
 import {
   GET_EXAMS_COUNT,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  CURRENT_USER,
-} from "../../graphQL/queries"
+} from "../../graphQL/exams/queries"
 
 // libraries ----------------
 import Carousel from "react-bootstrap/Carousel"

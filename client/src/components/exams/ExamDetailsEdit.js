@@ -11,9 +11,9 @@ import {
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
   GET_CALENDAR_CHUNKS,
-  CURRENT_USER,
-} from "../../graphQL/queries"
-import { UPDATE_EXAM_MUTATION } from "../../graphQL/mutations"
+} from "../../graphQL/exams/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
+import { UPDATE_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
 // sub-components ----------------
 import Label from "../../components/label/Label"

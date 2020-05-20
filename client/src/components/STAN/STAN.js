@@ -8,8 +8,8 @@ import { GoogleLogout } from "react-google-login"
 
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { CURRENT_USER } from "../../graphQL/queries"
-import { LOGOUT_MUTATION } from "../../graphQL/mutations"
+import { CURRENT_USER } from "../../graphQL/users/queries"
+import { LOGOUT_MUTATION } from "../../graphQL/users/mutations"
 import { useQuery } from "@apollo/react-hooks"
 
 // components ----------------

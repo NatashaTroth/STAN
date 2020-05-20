@@ -4,7 +4,8 @@ import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { GET_EXAMS_QUERY, CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
+import { GET_EXAMS_QUERY } from "../../graphQL/exams/queries"
 
 // components ----------------
 import Exam from "../../components/exams/Exam"

@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // mutations ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { RESET_PASSWORD_MUTATION } from "../../graphQL/mutations"
+import { RESET_PASSWORD_MUTATION } from "../../graphQL/users/mutations"
 
 // components ----------------
 import Input from "../../components/input/Input"

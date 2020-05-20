@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
-import { CURRENT_USER } from "../../graphQL/queries"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // components ----------------
 import LoginForm from "../../components/login/Login"

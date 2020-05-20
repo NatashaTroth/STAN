@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom"
 
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { UPDATE_MASCOT_MUTATION } from "../../graphQL/mutations"
-import { CURRENT_USER } from "../../graphQL/queries"
+import { UPDATE_MASCOT_MUTATION } from "../../graphQL/users/mutations"
+import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // libraries
 import Carousel from "react-bootstrap/Carousel"

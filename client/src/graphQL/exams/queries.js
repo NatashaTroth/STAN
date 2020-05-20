@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost" //to make queries
+import { gql } from "apollo-boost"
 
 export const GET_EXAMS_QUERY = gql`
   {
@@ -93,21 +93,6 @@ export const GET_CALENDAR_CHUNKS = gql`
         end
         color
       }
-    }
-  }
-`
-
-//TODO: cache result of current user query - so you don't have to keep fetching it from the server - use apollo!
-//https://www.youtube.com/watch?v=25GS0MLT8JU 2:52:35
-export const CURRENT_USER = gql`
-  query {
-    currentUser {
-      id
-      username
-      email
-      mascot
-      googleLogin
-      allowEmailNotifications
     }
   }
 `

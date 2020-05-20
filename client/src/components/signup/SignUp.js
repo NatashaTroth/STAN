@@ -6,7 +6,10 @@ import { useForm } from "react-hook-form"
 
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
-import { SIGNUP_MUTATION, GOOGLE_LOGIN_MUTATION } from "../../graphQL/mutations"
+import {
+  SIGNUP_MUTATION,
+  GOOGLE_LOGIN_MUTATION,
+} from "../../graphQL/users/mutations"
 
 // google login ----------------
 import { GoogleLogin } from "react-google-login"
