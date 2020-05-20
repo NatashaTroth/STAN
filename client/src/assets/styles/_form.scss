@@ -97,6 +97,12 @@
     }
   }
 
+  &__color-picker {
+    .info-box-label {
+      margin-bottom: 10px;
+    }
+  }
+
   &__submit {
     display: flex;
     justify-content: flex-end;

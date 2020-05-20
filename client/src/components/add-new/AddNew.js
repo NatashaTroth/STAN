@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import { useForm } from "react-hook-form"
 import moment from "moment"
+import { SliderPicker } from "react-color"
 // --------------------------------------------------------------
 
 // queries ----------------
@@ -481,6 +482,30 @@ function AddNew() {
                           </div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="form__element">
+                      <div className="form__color-picker">
+                        <div className="info-box-label">
+                          <Label
+                            htmlFor="color"
+                            text="Choose an exam color"
+                            className="form__element__label"
+                          />
+                          <OverlayTrigger
+                            placement="top"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={
+                              <Tooltip>
+                                You will see this color in your calendar.
+                              </Tooltip>
+                            }
+                          >
+                            <span className="info-circle">i</span>
+                          </OverlayTrigger>
+                        </div>
+                        <SliderPicker />
+                      </div>
                     </div>
                   </div>
 
