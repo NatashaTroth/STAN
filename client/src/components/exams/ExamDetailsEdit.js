@@ -25,9 +25,10 @@ import DatePicker from "../../components/datepicker/DatePicker"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// react-bootstrap ----------------
+// react-bootstrap & color picker ----------------
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
+import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
 import { filteredLinks } from "../../helpers/mascots"
@@ -54,6 +55,9 @@ const ExamDetailsEdit = ({ examId }) => {
   // date picker ----------------
   const [myExamDate, setMyExamDate] = useState(data.examDate)
   const [myStartDate, setMyStartDate] = useState(data.startDate)
+
+  // color picker ----------------
+  const [color, setColor] = useState("")
 
   // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
@@ -173,6 +177,10 @@ const ExamDetailsEdit = ({ examId }) => {
     const values = [...newUrls]
     values.splice(index, 1)
     setNewUrls(values)
+  }
+
+  const handleColor = color => {
+    setColor(color.hex)
   }
 
   let currentRepetition = Math.round(data.currentPage / data.lastPage)
@@ -622,6 +630,30 @@ const ExamDetailsEdit = ({ examId }) => {
                 ))}
               </div>
             ) : null}
+
+            <div className="form__element">
+              <div className="form__color-picker">
+                <div className="info-box-label">
+                  <Label
+                    htmlFor="color"
+                    text="Choose an exam color"
+                    className="form__element__label"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        You will see this color in your calendar.
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <SliderPicker onChangeComplete={handleColor} color={color} />
+              </div>
+            </div>
 
             <div className="form__current-study-links">
               <div className="form__element">

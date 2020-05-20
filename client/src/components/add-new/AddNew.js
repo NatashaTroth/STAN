@@ -43,17 +43,7 @@ function AddNew() {
 
   // state ----------------
   const [inputFields, setInputFields] = useState([""])
-  const [color, setColor] = useState([
-    "#D9E3F0",
-    "#F47373",
-    "#697689",
-    "#37D67A",
-    "#2CCCE4",
-    "#555555",
-    "#dce775",
-    "#ff8a65",
-    "#ba68c8",
-  ])
+  const [color, setColor] = useState("")
 
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -521,10 +511,24 @@ function AddNew() {
                         </div>
                         <SliderPicker
                           onChangeComplete={handleColor}
-                          color={color}
+                          color={[
+                            "#D9E3F0",
+                            "#F47373",
+                            "#697689",
+                            "#37D67A",
+                            "#2CCCE4",
+                            "#555555",
+                            "#dce775",
+                            "#ff8a65",
+                            "#ba68c8",
+                          ]}
                         />
                       </div>
                     </div>
+
+                    {/* <div className="form__element">
+                      <div className="add-new__color" style={color}></div>
+                    </div> */}
                   </div>
 
                   <div className="form__submit">
