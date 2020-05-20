@@ -1,7 +1,7 @@
 import {
   createAccessToken,
   createRefreshToken
-} from "../../helpers/authenticationTokens";
+} from "../../helpers/authentication/authenticationTokens";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 

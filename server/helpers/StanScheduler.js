@@ -4,8 +4,8 @@ import { User, Exam } from "./../models";
 import { getNumberOfDays, isTheSameDay, date1IsBeforeDate2 } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
-import { deleteExamsTodaysCache } from "../helpers/chunks";
-import { deleteUsersData, deleteUser } from "../helpers/userHelpers";
+import { deleteExamsTodaysCache } from "./exams/chunks";
+import { deleteUsersData, deleteUser } from "./users/deleteUser";
 
 export default class StanScheduler {
   constructor() {

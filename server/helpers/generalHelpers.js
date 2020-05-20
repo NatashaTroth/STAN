@@ -2,6 +2,21 @@
 //   return JSON.parse(JSON.stringify(obj));
 // }
 import validator from "validator";
+import { AuthenticationError } from "apollo-server";
+
+export function handleResolverError(err) {
+  if (
+    err.extensions &&
+    err.extensions.code &&
+    err.extensions.code !== "UNAUTHENTICATED"
+  )
+    throw new AuthenticationError(err.message);
+  throw err;
+}
+
+export function handleAuthentication(userInfo) {
+  if (!userInfo.isAuth) throw new AuthenticationError("Unauthorised");
+}
 
 export function roundToTwoDecimals(num) {
   //source: https://stackoverflow.com/a/41716722

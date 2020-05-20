@@ -17,7 +17,7 @@ import {
   escapeCalendarObjects,
   fetchExam
   // learningIsComplete
-} from "../helpers/examHelpers";
+} from "../helpers/exams/examHelpers";
 
 import {
   fetchTodaysChunks,
@@ -27,14 +27,14 @@ import {
   handleUpdateCurrentPageInTodaysChunkCache,
   handleUpdateExamInTodaysChunkCache,
   deleteExamsTodaysCache
-} from "../helpers/chunks";
+} from "../helpers/exams/chunks";
 
-import { verifyRegexDate } from "../helpers/verifyUserInput";
+import { verifyRegexDate } from "../helpers/verifyInput";
 // import { ApolloError } from "apollo-server";
 import {
   handleResolverError,
   handleAuthentication
-} from "../helpers/resolvers";
+} from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
 
 //TODO: Authentication

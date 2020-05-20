@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models";
+import { User } from "../../models";
 import { AuthenticationError } from "apollo-server";
 
 //TODO: RETURN MESSAGE WHY IT DIDN'T WORK?? - SAVE WRITING ERROR IN CONSOLE - SEE LOGOUT TEST IN AUTHENTICATED.TEST.JS

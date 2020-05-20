@@ -2,7 +2,7 @@ import {
   numberOfPagesForChunk,
   durationCompleted,
   chunkCacheIsValid
-} from "../../helpers/chunks";
+} from "../../helpers/exams/chunks";
 
 test("the number of pages for each chunk is correct", () => {
   expect(

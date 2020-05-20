@@ -1,5 +1,5 @@
-import { createAccessToken } from "../../../helpers/authenticationTokens";
-import { isAuth } from "../../../helpers/is-auth";
+import { createAccessToken } from "../../../helpers/authentication/authenticationTokens";
+import { isAuth } from "../../../helpers/authentication/is-auth";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
