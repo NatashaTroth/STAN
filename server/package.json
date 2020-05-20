@@ -70,6 +70,7 @@
     "prettier": "^1.19.1",
     "query-string": "^6.11.1",
     "sanitize": "^2.1.0",
+    "tinycolor2": "^1.4.1",
     "uuid": "^3.4.0",
     "validator": "^13.0.0",
     "weak-napi": "^1.0.3"
