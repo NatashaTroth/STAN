@@ -166,8 +166,8 @@ export const DELETE_EXAM_MUTATION = gql`
 `;
 
 export const UPDATE_CURRENT_PAGE_MUTATION = gql`
-  mutation($examId: ID!, $page: Int!) {
-    updateCurrentPage(examId: $examId, page: $page)
+  mutation($id: ID!, $page: Int!) {
+    updateCurrentPage(id: $id, page: $page)
   }
 `;
 

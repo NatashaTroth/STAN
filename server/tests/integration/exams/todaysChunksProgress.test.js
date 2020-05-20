@@ -66,7 +66,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -143,7 +143,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -213,7 +213,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam1._id.toString(),
+        id: exam1._id.toString(),
         page: 3
       }
     });
@@ -228,7 +228,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp2 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam2._id.toString(),
+        id: exam2._id.toString(),
         page: 56 //completed
       }
     });
@@ -251,7 +251,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp3 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam3._id.toString(),
+        id: exam3._id.toString(),
         page: 188
       }
     });
@@ -266,7 +266,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp4 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam4._id.toString(),
+        id: exam4._id.toString(),
         page: 20
       }
     });
@@ -294,7 +294,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam1._id.toString(),
+        id: exam1._id.toString(),
         page: 3
       }
     });

@@ -73,7 +73,7 @@ describe("Test update currentPage mutation", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam._id.toString(),
+        id: exam._id.toString(),
         page: 5
       }
     });
@@ -89,7 +89,7 @@ describe("Test update currentPage mutation", () => {
     const updateResp2 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam._id.toString(),
+        id: exam._id.toString(),
         page: 50
       }
     });
@@ -101,7 +101,7 @@ describe("Test update currentPage mutation", () => {
     const updateResp3 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: exam._id.toString(),
+        id: exam._id.toString(),
         page: 0
       }
     });
@@ -115,7 +115,7 @@ describe("Test update currentPage mutation", () => {
     const resp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: "5e8ef5f1800a7ded589961a4", //false Id
+        id: "5e8ef5f1800a7ded589961a4", //false Id
         page: 5
       }
     });
@@ -142,7 +142,7 @@ describe("Test update currentPage mutation", () => {
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });

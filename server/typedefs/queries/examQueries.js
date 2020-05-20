@@ -41,7 +41,7 @@ const examQueries = gql`
     ): Exam!
 
     #todo: change to just id
-    updateCurrentPage(examId: ID!, page: Int!): Boolean
+    updateCurrentPage(id: ID!, page: Int!): Boolean
     deleteExam(id: ID!): Boolean
     examCompleted(id: ID!, completed: Boolean!): Boolean
   }

@@ -65,7 +65,7 @@ function Today(props) {
       const resp = await updatePage({
         variables: {
           page: newPage,
-          examId: exam.id,
+          id: exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },
@@ -100,7 +100,7 @@ function Today(props) {
         variables: {
           page:
             props.selectedGoal.numberPagesToday + props.selectedGoal.startPage,
-          examId: props.selectedGoal.exam.id,
+          id: props.selectedGoal.exam.id,
         },
         refetchQueries: [
           { query: GET_EXAMS_QUERY },

@@ -125,7 +125,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     const updatePageResp1 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -380,7 +380,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     const updatePageResp4 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 13
       }
     });
@@ -509,7 +509,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     const updatePageResp1 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam._id.toString(),
+        id: testExam._id.toString(),
         page: 3
       }
     });
@@ -663,7 +663,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     const updatePageResp1 = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {
-        examId: testExam1._id.toString(),
+        id: testExam1._id.toString(),
         page: 51
       }
     });
