@@ -747,8 +747,12 @@ async function handleExam({
     })
 
     if (resp && resp.data && resp.data.updateExam) {
-      document.getElementById("success-container-edit-exam").style.display =
-        "block"
+      // remove error message ----------------
+      let element = document.getElementsByClassName("graphql-error")
+      element[0].innerHTML = ""
+      // success message ----------------
+      let successBox = document.getElementById("success-container-edit-exam")
+      successBox.style.display = "block"
     } else {
       throw new Error("Cannot edit current exam.")
     }
@@ -756,7 +760,7 @@ async function handleExam({
     // redirect ----------------
     setTimeout(() => {
       history.push("/exams")
-    }, 1000)
+    }, 2000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 
