@@ -13,7 +13,7 @@ import {
   verifyRegexPageNotes,
   verifyRegexUrlLink
   // verifyRegexHexColor
-} from "../../helpers/verifyUserInput";
+} from "../../helpers/verifyInput";
 
 test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail("ntroth.mmt-b2017@fh-salzburg.ac.at")).toBeTruthy();

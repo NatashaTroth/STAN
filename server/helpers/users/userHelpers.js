@@ -1,13 +1,16 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
-import { User, Exam, TodaysChunkCache } from "../models";
+import { User, Exam, TodaysChunkCache } from "../../models";
 import {
   UserInputError,
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { createAccessToken, createRefreshToken } from "./authenticationTokens";
-import { sendRefreshToken } from "./authenticationTokens";
+import {
+  createAccessToken,
+  createRefreshToken
+} from "../authentication/authenticationTokens";
+import { sendRefreshToken } from "../authentication/authenticationTokens";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -17,11 +20,11 @@ import {
   verifyRegexUsername,
   verifyRegexPassword,
   verifyRegexMascot
-} from "../helpers/verifyUserInput";
+} from "../verifyInput";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-import { handleResolverError } from "../helpers/resolvers";
+// import { handleResolverError } from "../resolvers";
 // import { totalDurationCompleted } from "../helpers/chunks";
-import { escapeStringForHtml } from "./generalHelpers";
+import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
 import validator from "validator";
 
 export async function authenticateUser({ email, password }) {

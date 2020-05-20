@@ -6,11 +6,11 @@ import {
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { sendRefreshToken } from "../helpers/authenticationTokens";
+import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
 import {
   handleResolverError,
   handleAuthentication
-} from "../helpers/resolvers";
+} from "../helpers/generalHelpers";
 import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
 
@@ -41,7 +41,7 @@ import {
   escapeUserObject,
   updateUserLastVisited
   // calculateUserState
-} from "../helpers/userHelpers";
+} from "../helpers/users/userHelpers";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();

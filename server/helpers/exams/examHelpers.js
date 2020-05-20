@@ -7,21 +7,18 @@ import {
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
   verifyRegexUrlLink
-} from "../helpers/verifyUserInput";
+} from "../verifyInput";
 import { AuthenticationError, ApolloError } from "apollo-server";
-import { Exam } from "../models";
+import { Exam } from "../../models";
 
-import {
-  escapeStringForHtml,
-  removeWhitespace
-} from "../helpers/generalHelpers";
+import { escapeStringForHtml, removeWhitespace } from "../generalHelpers";
 import {
   datesTimingIsValid,
   // startDateIsActive,
   isTheSameDay,
   getNumberOfDays,
   date1IsBeforeDate2
-} from "../helpers/dates";
+} from "../dates";
 import validator from "validator";
 import tinycolor from "tinycolor2";
 

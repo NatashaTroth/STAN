@@ -19,9 +19,9 @@ import {
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
-import { createAccessToken } from "../../../helpers/authenticationTokens";
+import { createAccessToken } from "../../../helpers/authentication/authenticationTokens";
 import jwt from "jsonwebtoken";
-import { isAuth } from "../../../helpers/is-auth";
+import { isAuth } from "../../../helpers/authentication/is-auth";
 
 describe("Test resolvers are accessed correctly when authenticated", () => {
   let server;

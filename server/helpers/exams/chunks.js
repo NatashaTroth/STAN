@@ -1,18 +1,18 @@
 //TODO CHANGE ORDER of all the functions
 // import { ApolloError } from "apollo-server";
-import { Exam, TodaysChunkCache } from "../models";
+import { Exam, TodaysChunkCache } from "../../models";
 
 import {
   startDateIsActive,
   getNumberOfDays,
   isTheSameDay,
   getPastDay
-} from "../helpers/dates";
+} from "../dates";
 
 import {
   learningIsComplete
   // handleCurrentPageInput
-} from "../helpers/examHelpers";
+} from "./examHelpers";
 import { ApolloError } from "apollo-server";
 
 //---------------------------TODAY'S CHUNKS---------------------------
