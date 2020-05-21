@@ -1,9 +1,5 @@
-//TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-
-import { User } from "../models";
 import {
   // UserInputError,
-
   ApolloError
 } from "apollo-server";
 import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
@@ -12,17 +8,12 @@ import {
   handleAuthentication,
   handleAuthenticationAlreadyLoggedIn
 } from "../helpers/generalHelpers";
-import bcrypt from "bcrypt";
-
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
 import { handleUpdateUser, handleUpdateMascot } from "../helpers/users/updateUser";
 import {
   createForgottenPasswordEmailLink,
-  createForgottenPasswordSecret,
-  validateForgottenPasswordToken,
-  updatePassword
+  handleResetPassword
 } from "../helpers/users/forgottenResetPassword";
-import { verifyEmailFormat } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { handleSignUp } from "../helpers/users/signup";
 import { handleGoogleLogin } from "../helpers/users/googleLogin";
@@ -30,7 +21,7 @@ import { handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
-// import { escapeObjectForHtml } from "../helpers/generalHelpers";
+
 //TODO CHANGE
 
 //TODO: Authenticate Queries
@@ -103,24 +94,16 @@ export const userResolvers = {
     forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        verifyEmailFormat(email);
-        const link = await createForgottenPasswordEmailLink(email);
-        stanEmail.sendForgottenPasswordMail(email, link);
+        await createForgottenPasswordEmailLink(email);
         return true;
       } catch (err) {
         handleResolverError(err);
       }
     },
-    resetPassword: async (_, { userId, token, newPassword }, { userInfo }) => {
+    resetPassword: async (_, args, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        // handleResetPassword(args, userInfo)
-        const user = await User.findOne({ _id: userId });
-        if (!user) throw new ApolloError("There is no user with that id.");
-        const secret = createForgottenPasswordSecret(user);
-        validateForgottenPasswordToken(user, token, secret);
-        const passwordToSave = await bcrypt.hash(newPassword, 10);
-        await updatePassword(user._id, passwordToSave);
+        await handleResetPassword(args);
         return true;
       } catch (err) {
         handleResolverError(err);

@@ -4,6 +4,15 @@ import { User } from "../../models";
 import { ApolloError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { verifyEmailFormat } from "./validateUserInput";
+import StanEmail from "../StanEmail";
+
+export async function handleForgottenPasswordEmail(email) {
+  verifyEmailFormat(email);
+  const link = await createForgottenPasswordEmailLink(email);
+  const stanEmail = new StanEmail();
+  stanEmail.sendForgottenPasswordMail(email, link);
+}
 
 export async function createForgottenPasswordEmailLink(email) {
   const user = await User.findOne({ email });
@@ -22,6 +31,17 @@ export async function createForgottenPasswordEmailLink(email) {
 
 export function createForgottenPasswordSecret(user) {
   return user.password + "-" + user.updatedAt.getTime() + process.env.FORGOTTEN_PASSWORD_SECRET;
+}
+
+//--------Reset password--------
+export async function handleResetPassword({ userId, token, newPassword }) {
+  // handleResetPassword(args, userInfo)
+  const user = await User.findOne({ _id: userId });
+  if (!user) throw new ApolloError("There is no user with that id.");
+  const secret = createForgottenPasswordSecret(user);
+  validateForgottenPasswordToken(user, token, secret);
+  const passwordToSave = await bcrypt.hash(newPassword, 10);
+  await updatePassword(user._id, passwordToSave);
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {
