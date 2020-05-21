@@ -19,7 +19,6 @@ import bcrypt from "bcrypt";
 
 import {
   authenticateUser,
-  logUserIn,
   logUserOut,
   updateUserInDatabase,
   userWantsPasswordUpdating,
@@ -43,7 +42,7 @@ import {
 } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
-
+import { logUserIn } from "../helpers/users/login";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
 // import { escapeObjectForHtml } from "../helpers/generalHelpers";

@@ -186,6 +186,20 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     expect(decodedToken.tokenVersion).toBe(0);
   });
 
+  it("should not login a user with the wrong password", async () => {
+    await signUserUp("Stan3", "user3@stan.com", "12345678");
+
+    const resp = await mutate({
+      query: LOGIN_MUTATION,
+      variables: {
+        email: "user3@stan.com",
+        password: "wrong password"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+  });
+
   it("should not login a non existing user", async () => {
     const resp = await mutate({
       query: LOGIN_MUTATION,
