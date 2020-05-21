@@ -11,11 +11,9 @@ import {
   fetchExam
 } from "../helpers/exams/examHelpers";
 
-import {
-  fetchTodaysChunks,
-  calculateChunkProgress,
-  deleteExamsTodaysCache
-} from "../helpers/exams/chunks";
+import { fetchTodaysChunks, deleteExamsTodaysCache } from "../helpers/exams/chunks";
+
+import { calculateChunkProgress } from "../helpers/exams/todaysChunkProgress";
 
 import { fetchCalendarChunks } from "../helpers/exams/calendarChunks";
 

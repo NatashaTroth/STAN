@@ -1,8 +1,6 @@
-import {
-  numberOfPagesForChunk,
-  durationCompleted,
-  chunkCacheIsValid
-} from "../../helpers/exams/chunks";
+import { numberOfPagesForChunk, chunkCacheIsValid } from "../../helpers/exams/chunks";
+
+import { durationCompleted } from "../../helpers/exams/todaysChunkProgress";
 
 test("the number of pages for each chunk is correct", () => {
   expect(
