@@ -348,7 +348,7 @@ describe("Test get todays chunks query", () => {
         timesRepeat: 1
       }
     });
-
+    console.log(respUpdateExam);
     expect(respUpdateExam.data.updateExam).toBeTruthy();
     const respFetchChunks3 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS

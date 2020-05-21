@@ -1,11 +1,9 @@
-//TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
-import { Exam } from "../../models";
+import { Exam, TodaysChunkCache } from "../../models";
 import { handleUpdateExamInput, fetchExam, learningIsComplete } from "./examHelpers";
-import {
-  handleUpdateExamInTodaysChunkCache,
-  handleUpdateCurrentPageInTodaysChunkCache
-} from "./chunks";
+import { createTodaysChunkObject } from "./todaysChunks";
+import { calcPagesLeft, todaysChunkIsCompleted } from "./chunks";
 import { ApolloError } from "apollo-server";
+import { isTheSameDay } from "../dates";
 
 export async function handleUpdateExam(args, userInfo) {
   // console.log("IN UPDATE EXAM MUTAION");
@@ -29,44 +27,134 @@ export async function handleUpdateExam(args, userInfo) {
   return fetchExam(args.id, userInfo.userId);
 }
 
-export async function handleUpdateCurrentPage(args, userInfo) {
-  const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
-  if (exam.currentPage === args.page) return true;
-
-  const resp = await Exam.updateOne(
-    { _id: args.id, userId: userInfo.userId },
-    {
-      currentPage: args.page,
-      // completed: exam.completed,
-      updatedAt: new Date()
-    }
-  );
-
-  if (resp.ok !== 1 || resp.nModified !== 1)
-    throw new ApolloError("The current page couldn't be updated.");
-
-  //TODO - don't think need anymore
-  // if (exam.completed)
-  //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
-  // else
-  await handleUpdateCurrentPageInTodaysChunkCache(userInfo.userId, exam._id, args.page);
-}
-
-export async function handleCurrentPageInput(page, examId, userId) {
-  const exam = await Exam.findOne({
-    _id: examId,
-    userId: userId
+async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
+  // console.log("in handleUpdateExamInTodaysChunkCache");
+  const todaysChunkCache = await TodaysChunkCache.findOne({
+    examId: exam._id.toString(),
+    userId
   });
-  if (!exam) throw new ApolloError("There is no exam with the id: " + examId + " for that user.");
-  if (page < exam.startPage)
-    throw new ApolloError("The entered current page is lower than the start page for this exam.");
-  if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
-    throw new ApolloError(
-      "The entered current page is higher than the number of pages for this exam."
+
+  if (!todaysChunkCache) return;
+
+  if (chunkHasToBeChanged(exam, newArgs)) {
+    // console.log("chunk has to be changed");
+
+    const updates = filterOutUpdatesInTodaysChunk(exam, newArgs, todaysChunkCache);
+    //TODO EXTRAct
+    const updateCacheResp = await TodaysChunkCache.updateOne(
+      {
+        examId: exam._id.toString(),
+        userId
+      },
+      {
+        ...updates,
+        updatedAt: new Date()
+      }
     );
 
-  // console.log("checking exam learning complete not chunk");
-  exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages, exam.timesRepeat);
+    if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+      throw new ApolloError("The todays chunk cache could not be updated.");
+  } else {
+    // console.log("chunk has not changed much");
+    const updates = {};
+    let updateNeeded = false;
+    if (exam.currentPage !== newArgs.currentPage) {
+      updates.currentPage = newArgs.currentPage;
+      updateNeeded = true;
+    }
+    if (exam.timePerPage !== newArgs.timePerPage) {
+      updates.durationToday = todaysChunkCache.numberPagesToday * newArgs.timePerPage;
+      updateNeeded = true;
+    }
+    updates.completed = todaysChunkIsCompleted(newArgs.currentPage, todaysChunkCache);
 
-  return exam;
+    if (updateNeeded) {
+      // console.log("update was needed");
+      //TODO EXTRAct
+
+      const updateCacheResp = await TodaysChunkCache.updateOne(
+        {
+          examId: exam._id.toString(),
+          userId
+        },
+        {
+          ...updates,
+          updatedAt: new Date()
+        }
+      );
+      if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
+        throw new ApolloError("The todays chunk cache could not be updated.");
+    }
+  }
+}
+
+function chunkHasToBeChanged(oldExam, newArgs) {
+  return (
+    !isTheSameDay(oldExam.examDate, newArgs.examDate) ||
+    !isTheSameDay(oldExam.startDate, newArgs.startDate) ||
+    oldExam.numberPages !== newArgs.numberPages ||
+    oldExam.timesRepeat !== newArgs.timesRepeat ||
+    oldExam.startPage !== newArgs.startPage
+  );
+}
+
+function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
+  let updates;
+  const newChunk = createTodaysChunkObject(newArgs);
+  const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
+
+  const totalDurationLeft =
+    calcPagesLeft(
+      newChunk.exam.numberPages,
+      newChunk.exam.timesRepeat,
+      newChunk.exam.startPage,
+      newChunk.exam.currentPage
+    ) * newChunk.exam.timePerPage;
+  // console.log(
+  //   "pages left " +
+  //     calcPagesLeft(
+  //       newChunk.exam.numberPages,
+  //       newChunk.exam.timesRepeat,
+  //       newChunk.exam.startPage,
+  //       newChunk.exam.currentPage
+  //     )
+  // );
+  // console.log("totalDurationLeft " + totalDurationLeft);
+  const dailyDurationWithCompletedDuration =
+    (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
+  // console.log(
+  //   "dailyDurationWithCompletedDuration " + dailyDurationWithCompletedDuration
+  // );
+
+  let durationToday = Math.ceil(dailyDurationWithCompletedDuration - durationAlreadyLearned);
+
+  if (durationToday < 0) durationToday = 0;
+  // console.log("durationToday " + durationToday);
+
+  const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
+  // console.log("numberPagesToday " + numberPagesToday);
+
+  durationToday = numberPagesToday * newChunk.exam.timePerPage;
+  // console.log("durationToday " + durationToday);
+
+  updates = {
+    numberPagesToday,
+    durationToday,
+    startPage: newChunk.currentPage,
+    currentPage: newChunk.currentPage,
+    daysLeft: newChunk.daysLeft,
+    notEnoughTime: newChunk.notEnoughTime,
+    durationAlreadyLearned,
+    completed: newChunk.completed
+    // updatedAt: new Date
+  };
+
+  return updates;
+}
+
+function calcCompletedDuration(chunk) {
+  const timePerPage = chunk.durationToday / chunk.numberPagesToday;
+  const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
+
+  return timePerPage * numberOfCompletedPages;
 }

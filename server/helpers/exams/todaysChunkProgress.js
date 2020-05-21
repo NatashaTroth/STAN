@@ -2,7 +2,7 @@ import {
   learningIsComplete
   // handleCurrentPageInput
 } from "./examHelpers";
-import { fetchTodaysChunks } from "./chunks";
+import { fetchTodaysChunks } from "./todaysChunks";
 
 // export async function getTodaysChunkProgress(userId) {
 //   //TODO: INDEX userid

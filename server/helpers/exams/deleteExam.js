@@ -1,7 +1,7 @@
 //TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 import { Exam } from "../../models";
 import { fetchExam } from "./examHelpers";
-import { deleteExamsTodaysCache } from "./chunks";
+import { deleteExamsTodaysCache } from "./todaysChunks";
 import { ApolloError } from "apollo-server";
 
 export async function handleDeleteExam(args, userInfo) {
