@@ -15,7 +15,6 @@ import {
   extractDomain,
   filteredLinks,
   calcExamProgress,
-  getRealCurrentPage,
 } from "../../helpers/mascots"
 
 const ExamDetailsInfo = ({ examDetails }) => {
@@ -28,20 +27,23 @@ const ExamDetailsInfo = ({ examDetails }) => {
   )
 
   let currentRepetition = Math.round(
-    examDetails.currentPage / examDetails.lastPage
+    examDetails.currentPage / examDetails.numberPages
   )
   if (currentRepetition < 1) currentRepetition = 1
 
   let numberOfPages
   if (examDetails.startPage > 1) {
-    numberOfPages = examDetails.numberPages - examDetails.startPage
+    numberOfPages = examDetails.lastPage - examDetails.startPage
   } else {
-    numberOfPages = examDetails.numberPages
+    numberOfPages = examDetails.lastPage
   }
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
-  // real current page ----------------
-  const realCurrentPage = getRealCurrentPage(examDetails)
+  let progressbar =
+    (100 * (examDetails.currentPage - examDetails.startPage)) /
+    (examDetails.numberPages * examDetails.timesRepeat)
+
+  if (progressbar > 100) progressbar = 100
 
   // return ----------------
   return (
@@ -132,13 +134,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                 <h4>Pages left incl. repetition</h4>
 
                 <div className="exam-pages__bar">
-                  <ExamBar
-                    value={
-                      (100 *
-                        (examDetails.currentPage - examDetails.startPage)) /
-                      (examDetails.numberPages * examDetails.timesRepeat)
-                    }
-                  />
+                  <ExamBar value={progressbar} />
 
                   <div className="exam-pages__bar--status">
                     <p>
@@ -155,7 +151,10 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>{realCurrentPage}</p>
+                <p>
+                  {examDetails.currentPage -
+                    numberOfPages * (currentRepetition - 1)}
+                </p>
               </div>
 
               <div className="exam-data">

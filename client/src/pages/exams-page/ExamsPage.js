@@ -66,6 +66,7 @@ const Exams = () => {
     }
   })
 
+  // TODO: NaN on exam
   // functions ----------------
   currentExams = currentExamsList.map(function(exam) {
     return (
