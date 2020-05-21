@@ -3,13 +3,10 @@
 import { User } from "../models";
 import {
   // UserInputError,
-  AuthenticationError,
+
   ApolloError
 } from "apollo-server";
-import {
-  sendRefreshToken,
-  createLoginTokens
-} from "../helpers/authentication/authenticationTokens";
+import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
 import {
   handleResolverError,
   handleAuthentication,
@@ -18,23 +15,18 @@ import {
 import bcrypt from "bcrypt";
 
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
-import { updateUser, handleUpdateMascot } from "../helpers/users/updateUser";
+import { handleUpdateUser, handleUpdateMascot } from "../helpers/users/updateUser";
 import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
   validateForgottenPasswordToken,
   updatePassword
 } from "../helpers/users/forgottenResetPassword";
-import {
-  verifySignupInputFormat,
-  verifyMascotInputFormat,
-  verifyUpdateUserInputFormat,
-  verifyEmailFormat
-} from "../helpers/users/validateUserInput";
+import { verifyEmailFormat } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
-import { signUserUp, signUpGoogleUser, handleSignUp } from "../helpers/users/signup";
+import { handleSignUp } from "../helpers/users/signup";
 import { handleGoogleLogin } from "../helpers/users/googleLogin";
-import { verifyGoogleIdToken, handleLogin } from "../helpers/users/login";
+import { handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
@@ -102,14 +94,7 @@ export const userResolvers = {
     updateUser: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        if (userInfo.user.googleLogin)
-          throw new ApolloError("Cannot update Google Login user account.");
-        verifyUpdateUserInputFormat({ ...args });
-        const updatedUser = await updateUser({
-          userId: userInfo.userId,
-          currentUser: userInfo.user,
-          ...args
-        });
+        const updatedUser = await handleUpdateUser(args, userInfo);
         return escapeUserObject(updatedUser);
       } catch (err) {
         handleResolverError(err);

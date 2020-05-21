@@ -6,9 +6,28 @@ import bcrypt from "bcrypt";
 import {
   validatePassword,
   verifyUpdatePasswordInputFormat,
-  verifyMascotInputFormat
+  verifyMascotInputFormat,
+  verifyUpdateUserInputFormat
 } from "./validateUserInput";
 import { verifyEmailIsUnique } from "./userHelpers";
+
+export async function handleUpdateUser(args, userInfo) {
+  if (userInfo.user.googleLogin) throw new ApolloError("Cannot update Google Login user account.");
+  verifyUpdateUserInputFormat({ ...args });
+  return await updateUser({
+    userId: userInfo.userId,
+    currentUser: userInfo.user,
+    ...args
+  });
+}
+
+export async function handleUpdateMascot(mascot, userInfo) {
+  verifyMascotInputFormat({ mascot });
+  if (userInfo.user.mascot === mascot) return true;
+  const resp = await User.updateOne({ _id: userInfo.userId }, { mascot, updatedAt: new Date() });
+  if (resp.ok === 0 || resp.nModified === 0)
+    throw new ApolloError("The mascot couldn't be updated.");
+}
 
 export async function updateUser(args) {
   if (args.email !== args.currentUser.email) await verifyEmailIsUnique(args.email);
@@ -48,12 +67,4 @@ export async function getPasswordToSave(currentPassword, inputOldPassword, input
     return await bcrypt.hash(inputNewPassword, 10);
   }
   return currentPassword;
-}
-
-export async function handleUpdateMascot(mascot, userInfo) {
-  verifyMascotInputFormat({ mascot });
-  if (userInfo.user.mascot === mascot) return true;
-  const resp = await User.updateOne({ _id: userInfo.userId }, { mascot, updatedAt: new Date() });
-  if (resp.ok === 0 || resp.nModified === 0)
-    throw new ApolloError("The mascot couldn't be updated.");
 }

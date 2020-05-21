@@ -1,9 +1,5 @@
-import {
-  createAccessToken,
-  createRefreshToken,
-  createLoginTokens
-} from "../authentication/authenticationTokens";
-import { sendRefreshToken } from "../authentication/authenticationTokens";
+import { createLoginTokens } from "../authentication/authenticationTokens";
+
 import { validatePassword, verifyLoginInputFormat } from "./validateUserInput";
 
 import {
@@ -12,10 +8,6 @@ import {
 } from "apollo-server";
 
 import { User } from "../../models";
-
-import { OAuth2Client } from "google-auth-library";
-import { signUserUp, signUpGoogleUser, handleSignUp } from "./signup";
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export async function handleLogin({ email, password }, res) {
   verifyLoginInputFormat({ email, password });
