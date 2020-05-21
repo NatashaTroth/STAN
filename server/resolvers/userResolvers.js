@@ -6,7 +6,10 @@ import {
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
+import {
+  sendRefreshToken,
+  createLoginTokens
+} from "../helpers/authentication/authenticationTokens";
 import {
   handleResolverError,
   handleAuthentication,
@@ -24,15 +27,13 @@ import {
 } from "../helpers/users/forgottenResetPassword";
 import {
   verifySignupInputFormat,
-  verifyLoginInputFormat,
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
-  verifyEmailFormat,
-  verifyUpdatePasswordInputFormat
+  verifyEmailFormat
 } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
-import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
-import { logUserIn, authenticateUser, verifyGoogleIdToken } from "../helpers/users/login";
+import { signUserUp, signUpGoogleUser, handleSignUp } from "../helpers/users/signup";
+import { verifyGoogleIdToken, handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
@@ -63,27 +64,18 @@ export const userResolvers = {
       }
       return true;
     },
-    login: async (_, { email, password }, { res, userInfo }) => {
+    login: async (_, args, { res, userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        verifyLoginInputFormat({ email, password });
-        const user = await authenticateUser({ email, password });
-        const accessToken = logUserIn({ user, res });
-
-        return accessToken;
+        return await handleLogin({ ...args }, res);
       } catch (err) {
         handleResolverError(err);
       }
     },
     signup: async (_, args, { res, userInfo }) => {
       try {
-        if (!args.mascot) args.mascot = 0;
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        verifySignupInputFormat({ ...args });
-        const user = await signUserUp({ ...args });
-        const accessToken = logUserIn({ user, res });
-        if (args.allowEmailNotifications) stanEmail.sendSignupMail(args.email, args.mascot);
-        return accessToken;
+        return handleSignUp(args, res);
       } catch (err) {
         handleResolverError(err);
       }
@@ -112,7 +104,7 @@ export const userResolvers = {
         if (!payload) throw new AuthenticationError("Google id token was not verified.");
         let user = await User.findOne({ googleId: payload.sub });
         if (!user) user = await signUpGoogleUser(payload);
-        const accessToken = logUserIn({ user, res });
+        const accessToken = createLoginTokens({ user, res });
         return accessToken;
       } catch (err) {
         handleResolverError(err);

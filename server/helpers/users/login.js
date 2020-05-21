@@ -1,6 +1,10 @@
-import { createAccessToken, createRefreshToken } from "../authentication/authenticationTokens";
+import {
+  createAccessToken,
+  createRefreshToken,
+  createLoginTokens
+} from "../authentication/authenticationTokens";
 import { sendRefreshToken } from "../authentication/authenticationTokens";
-import { validatePassword } from "./validateUserInput";
+import { validatePassword, verifyLoginInputFormat } from "./validateUserInput";
 
 import {
   // UserInputError,
@@ -12,10 +16,11 @@ import { User } from "../../models";
 import { OAuth2Client } from "google-auth-library";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-export function logUserIn({ user, res }) {
-  let userAccessToken = createAccessToken(user);
-  sendRefreshToken(res, createRefreshToken(user));
-  return userAccessToken;
+
+export async function handleLogin({ email, password }, res) {
+  verifyLoginInputFormat({ email, password });
+  const user = await authenticateUser({ email, password });
+  return createLoginTokens({ user, res });
 }
 
 export async function authenticateUser({ email, password }) {

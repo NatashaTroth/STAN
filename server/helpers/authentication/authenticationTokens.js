@@ -4,6 +4,12 @@ import { ApolloError } from "apollo-server";
 import { handleResolverError } from "../generalHelpers";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
+export function createLoginTokens({ user, res }) {
+  let userAccessToken = createAccessToken(user);
+  sendRefreshToken(res, createRefreshToken(user));
+  return userAccessToken;
+}
+
 export async function handleRefreshTokenRoute(req, res) {
   //read refresh cookie - validate that it's correct
   try {
