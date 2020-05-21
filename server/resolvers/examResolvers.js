@@ -25,6 +25,7 @@ import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
 import { handleUpdateExam, handleUpdateCurrentPage } from "../helpers/exams/updateExam";
 import { handleExamCompleted } from "../helpers/exams/examCompleted";
+import { handleDeleteExam } from "../helpers/exams/deleteExam";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -144,23 +145,9 @@ export const examResolvers = {
       }
     },
     deleteExam: async (_, args, { userInfo }) => {
-      //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
       try {
         handleAuthentication(userInfo);
-        //TODO need?
-        await fetchExam(args.id, userInfo.userId);
-
-        const resp = await Exam.deleteOne({
-          _id: args.id,
-          userId: userInfo.userId
-        });
-
-        // console.log(resp);
-        if (resp.ok !== 1 || resp.deletedCount !== 1)
-          throw new ApolloError("The exam couldn't be deleted");
-
-        await deleteExamsTodaysCache(userInfo.userId, args.id);
-
+        await handleDeleteExam(args, userInfo);
         return true;
       } catch (err) {
         handleResolverError(err);

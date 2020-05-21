@@ -94,7 +94,7 @@ describe("Test delete exam mutation", () => {
     ).toBe(0);
   });
 
-  it("shouldn't delete the exam - since it doesn't exist", async () => {
+  it("shouldn't delete an exam that doesn't exist", async () => {
     const testExam = await addTestExam({ subject: "Biology" });
 
     let falseId = "5e923a29a39c7738fb50e632";
