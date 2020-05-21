@@ -18,7 +18,6 @@ import bcrypt from "bcrypt";
 // import validator from "validator";
 
 import {
-  authenticateUser,
   logUserOut,
   updateUserInDatabase,
   userWantsPasswordUpdating,
@@ -36,10 +35,14 @@ import {
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
   verifyUpdatePasswordInputFormat,
-  verifyEmailFormat,
+  verifyEmailFormat
+} from "../helpers/users/verifyInputFormat";
+import {
   validatePassword,
-  verifyGoogleIdToken
-} from "../helpers/users/validateUserInput";
+  verifyGoogleIdToken,
+  authenticateUser
+} from "../helpers/users/validateInput";
+
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
 import { logUserIn } from "../helpers/users/login";

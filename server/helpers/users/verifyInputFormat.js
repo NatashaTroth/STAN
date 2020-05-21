@@ -12,6 +12,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 
 import { OAuth2Client } from "google-auth-library";
+import { User } from "../../models";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export function verifySignupInputFormat({ username, email, password, mascot }) {
@@ -36,13 +37,6 @@ export function verifyUpdatePasswordInputFormat(password) {
     );
   }
 }
-
-// export function updateUser({ username, email, password, mascot }) {
-//   verifyUsernameFormat(username);
-//   verifyEmailFormat(email);
-//   verifyPasswordFormat(password);
-//   verifyMascotFormat(mascot);
-// }
 
 export function verifyLoginInputFormat({ email, password }) {
   verifyEmailFormat(email);
@@ -77,24 +71,4 @@ function verifyMascotFormat(mascot) {
     throw new Error(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
-}
-
-export async function validatePassword(inputPassword, userPassword) {
-  try {
-    if (!verifyRegexPassword(inputPassword)) throw new Error();
-    const valid = await bcrypt.compare(inputPassword, userPassword);
-    if (!valid) throw new Error();
-  } catch (err) {
-    throw new AuthenticationError("Password is incorrect.");
-  }
-}
-
-//source: https://developers.google.com/identity/sign-in/web/backend-auth
-export async function verifyGoogleIdToken(token) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID
-  });
-  const payload = ticket.getPayload();
-  return payload;
 }

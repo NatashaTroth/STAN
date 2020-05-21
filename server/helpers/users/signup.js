@@ -19,7 +19,7 @@ import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
 
-import { validatePassword } from "./validateUserInput";
+import { validatePassword } from "./validateInput";
 
 export async function signUserUp({
   username,

@@ -19,19 +19,19 @@ import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
 
-import { validatePassword } from "./validateUserInput";
-export async function authenticateUser({ email, password }) {
-  const user = await User.findOne({ email: email });
-  if (!user)
-    throw new AuthenticationError("User with this email does not exist.");
+import { validatePassword } from "./validateInput";
 
-  //in case user tries to login with google login data in normal login - cause no password!
-  if (user.googleLogin)
-    throw new AuthenticationError("User has to login with google.");
-  await validatePassword(password, user.password);
+// export async function authenticateUser({ email, password }) {
+//   const user = await User.findOne({ email: email });
+//   if (!user)
+//     throw new AuthenticationError("User with this email does not exist.");
 
-  return user;
-}
+//   //in case user tries to login with google login data in normal login - cause no password!
+//   if (user.googleLogin)
+//     throw new AuthenticationError("User has to login with google.");
+//   await validatePassword(password, user.password);
+//   return user;
+// }
 
 export async function updateUserLastVisited(userId) {
   await User.updateOne(
