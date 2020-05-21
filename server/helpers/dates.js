@@ -1,6 +1,14 @@
 import dayjs from "dayjs";
+import { verifyRegexDate } from "./verifyInput";
+
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+
+export function isDateInvalid(value) {
+  return (
+    !value || value.length <= 0 || isNaN(Date.parse(value)) || !verifyRegexDate(value.toString())
+  );
+}
 
 export function datesTimingIsValid(startDate, examDate) {
   // console.log(datesAreNotPast([startDate, examDate]));

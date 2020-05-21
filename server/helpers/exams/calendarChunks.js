@@ -1,7 +1,7 @@
 //TODO CHANGE ORDER of all the functions
 // import { ApolloError } from "apollo-server";
 import { Exam } from "../../models";
-import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunks";
+import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunkHelpers";
 import { startDateIsActive, getNumberOfDays, isTheSameDay, getPastDay } from "../dates";
 
 export async function fetchCalendarChunks(userId) {

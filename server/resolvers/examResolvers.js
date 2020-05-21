@@ -2,7 +2,6 @@
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
-
 import {
   escapeExamObject,
   escapeExamObjects,
@@ -10,15 +9,9 @@ import {
   escapeCalendarObjects,
   fetchExam
 } from "../helpers/exams/examHelpers";
-
 import { fetchTodaysChunks } from "../helpers/exams/todaysChunks";
-
 import { calculateChunkProgress } from "../helpers/exams/todaysChunkProgress";
-
 import { fetchCalendarChunks } from "../helpers/exams/calendarChunks";
-
-import { verifyRegexDate } from "../helpers/verifyInput";
-
 import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
@@ -26,6 +19,7 @@ import { handleUpdateExam } from "../helpers/exams/updateExam";
 import { handleUpdateCurrentPage } from "../helpers/exams/updateCurrentPage";
 import { handleExamCompleted } from "../helpers/exams/examCompleted";
 import { handleDeleteExam } from "../helpers/exams/deleteExam";
+import { isDateInvalid } from "../helpers/dates";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -90,7 +84,6 @@ export const examResolvers = {
           userId: userInfo.userId,
           completed: true
         });
-
         //TODO: ERROR HANDLING?
         return { currentExams, finishedExams };
       } catch (err) {
@@ -151,12 +144,7 @@ export const examResolvers = {
     description: "GraphqL date scalar",
     parseValue(value) {
       if (value instanceof Date) return value;
-      if (
-        !value ||
-        value.length <= 0 ||
-        isNaN(Date.parse(value)) ||
-        !verifyRegexDate(value.toString())
-      )
+      if (isDateInvalid(value))
         throw new Error(
           "Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -"
         );

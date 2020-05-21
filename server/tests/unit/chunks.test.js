@@ -1,4 +1,4 @@
-import { numberOfPagesForChunk } from "../../helpers/exams/chunks";
+import { numberOfPagesForChunk } from "../../helpers/exams/chunkHelpers";
 import { chunkCacheIsValid } from "../../helpers/exams/todaysChunks";
 
 import { durationCompleted } from "../../helpers/exams/todaysChunkProgress";

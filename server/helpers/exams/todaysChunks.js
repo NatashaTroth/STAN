@@ -9,7 +9,7 @@ import {
   // handleCurrentPageInput
 } from "./examHelpers";
 import { ApolloError } from "apollo-server";
-import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunks";
+import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunkHelpers";
 
 export async function fetchTodaysChunks(userId) {
   // console.log("in FETCHChunkFunc");
@@ -83,61 +83,6 @@ export function chunkCacheIsValid(chunkUpdatedAt) {
   // && date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
 }
 
-export async function deleteExamsTodaysCache(userId, examId) {
-  const todaysChunkCache = await TodaysChunkCache.countDocuments({
-    examId,
-    userId
-  });
-
-  if (todaysChunkCache <= 0) return;
-
-  const respDeleteChunkCache = await TodaysChunkCache.deleteOne({
-    examId,
-    userId
-  });
-  if (respDeleteChunkCache.ok !== 1 || respDeleteChunkCache.deletedCount !== 1)
-    throw new ApolloError("The exam today's chunk cache couldn't be deleted");
-}
-
-// export async function handleUpdateCurrentPageInTodaysChunkCache(userId, examId, page) {
-//   // console.log("updateCurrChunkPageFunk  ");
-//   const todaysChunkCache = await TodaysChunkCache.findOne({
-//     examId: examId,
-//     userId
-//   });
-
-//   if (!todaysChunkCache) return;
-
-//   let completed = todaysChunkIsCompleted(page, todaysChunkCache);
-
-//   const updateCacheResp = await TodaysChunkCache.updateOne(
-//     { examId: examId, userId },
-//     {
-//       currentPage: page,
-//       completed,
-//       updatedAt: new Date()
-//     }
-//   );
-
-//   if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-//     throw new ApolloError("The todays chunk cache current page could not be updated.");
-//   // console.log("updateCurrChunkPageFunk  - updated page");
-// }
-
-// export function todaysChunkIsCompleted(currentPage, todaysChunkCache) {
-//   let completed = todaysChunkCache.completed;
-//   if (
-//     learningIsComplete(
-//       currentPage,
-//       todaysChunkCache.startPage,
-//       todaysChunkCache.numberPagesToday,
-//       1
-//     )
-//   )
-//     completed = true;
-//   return completed;
-// }
-
 async function fetchCurrentExams(userId) {
   const exams = await Exam.find({
     userId: userId,
@@ -148,10 +93,6 @@ async function fetchCurrentExams(userId) {
   });
   return currentExams;
 }
-
-// export async function todaysChunkCacheEmpty(userId) {
-//   return (await TodaysChunkCache.countDocuments({ userId })) === 0;
-// }
 
 async function calculateTodaysChunks(currentExams) {
   // console.log("cahe was empty, calcing new chunks");
