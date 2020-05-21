@@ -57,7 +57,7 @@ const ExamDetailsEdit = ({ examId }) => {
   const [myStartDate, setMyStartDate] = useState(data.startDate)
 
   // color picker ----------------
-  const [color, setColor] = useState("")
+  const [color, setColor] = useState() // data.color
 
   // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
@@ -139,6 +139,7 @@ const ExamDetailsEdit = ({ examId }) => {
       formExamDate,
       formStartDate,
       history,
+      color,
       newLinks,
     })
   }
@@ -636,7 +637,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <div className="info-box-label">
                   <Label
                     htmlFor="color"
-                    text="Choose an exam color"
+                    text="Select an exam color"
                     className="form__element__label"
                   />
                   <OverlayTrigger
@@ -644,14 +645,34 @@ const ExamDetailsEdit = ({ examId }) => {
                     delay={{ show: 250, hide: 400 }}
                     overlay={
                       <Tooltip>
-                        You will see this color in your calendar.
+                        Give your exam a unique color to make it stick out in
+                        the calendar overview. If no color is selected, stan
+                        will generate a random exam color for you.
                       </Tooltip>
                     }
                   >
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <SliderPicker onChangeComplete={handleColor} color={color} />
+                <SliderPicker
+                  onChange={handleColor}
+                  color={[
+                    "#D9E3F0",
+                    "#F47373",
+                    "#697689",
+                    "#37D67A",
+                    "#2CCCE4",
+                    "#555555",
+                    "#dce775",
+                    "#ff8a65",
+                    "#ba68c8",
+                  ]}
+                />
+              </div>
+
+              <div className="form__showColor">
+                <h5 className="form__element__label">Selected color</h5>
+                <div className="color" style={{ backgroundColor: color }}></div>
               </div>
             </div>
 
@@ -758,6 +779,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   history,
+  color,
   newLinks,
 }) {
   try {
@@ -771,6 +793,7 @@ async function handleExam({
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
         startPage: parseInt(data.startPage),
+        color: color,
         currentPage: parseInt(data.currentPage),
         notes: data.notes,
         studyMaterialLinks: newLinks,
