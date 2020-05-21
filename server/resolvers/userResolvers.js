@@ -18,7 +18,7 @@ import {
 import bcrypt from "bcrypt";
 
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
-import { updateUser } from "../helpers/users/updateUser";
+import { updateUser, handleUpdateMascot } from "../helpers/users/updateUser";
 import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
@@ -83,14 +83,7 @@ export const userResolvers = {
     updateMascot: async (_, { mascot }, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        verifyMascotInputFormat({ mascot: mascot });
-        if (userInfo.user.mascot === mascot) return true;
-        const resp = await User.updateOne(
-          { _id: userInfo.userId },
-          { mascot: mascot, updatedAt: new Date() }
-        );
-        if (resp.ok === 0 || resp.nModified === 0)
-          throw new ApolloError("The mascot couldn't be updated.");
+        await handleUpdateMascot(mascot, userInfo);
         return true;
       } catch (err) {
         handleResolverError(err);

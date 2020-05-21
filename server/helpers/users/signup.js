@@ -6,11 +6,10 @@ import { UserInputError, AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
 import { verifySignupInputFormat } from "./validateUserInput";
 import { createLoginTokens } from "./../authentication/authenticationTokens";
-
 import StanEmail from "./../StanEmail";
+
 export async function handleSignUp(args, res) {
   if (!args.mascot) args.mascot = 0;
-
   verifySignupInputFormat({ ...args });
   const user = await signUserUp({ ...args });
   const accessToken = createLoginTokens({ user, res });
