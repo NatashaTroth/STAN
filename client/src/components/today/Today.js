@@ -141,18 +141,60 @@ function Today(props) {
   let currentPage = todaysChunk.exam.currentPage
 
   // last page to study ----------------
-  let lastPage = todaysChunk.exam.numberPages
+  let lastPage = todaysChunk.exam.lastPage
 
   // start page for today's chunk goal ----------------
   let startPage = todaysChunk.startPage
 
+  // ----------------
+  let repetitionCycles = todaysChunk.exam.timesRepeat
+  let repetition = 1
+  let repetitionCounter
+  // if there is only 1 page to study
+  if (startPage == lastPage) {
+    // get current repetition
+    let currentRep = currentPage - startPage
+    // backend returns start page + 1 for each cycle if only 1 page to study
+    // ex: page to study = 5 in cycle 3:
+    // ((7-2) * 1 = 10 / 5 = 2 + 1 = 3
+    repetitionCounter = Math.round(
+      ((currentPage - currentRep) * currentRep) / lastPage + 1
+    )
+  } else {
+    repetitionCounter = Math.floor(currentPage / lastPage) + 1
+  }
+  // check which cycle to display
+  if (repetitionCounter <= repetitionCycles) {
+    repetition = repetitionCounter
+  } else {
+    repetition = repetitionCycles
+  }
+  // --------------------------------
+
   // real current page to display ----------------
-  let realCurrentPage = currentPage % lastPage
+  let realCurrentPage
+  if (startPage == 1) {
+    realCurrentPage = currentPage % lastPage
+    // only 1 page to study
+  } else if (startPage == lastPage) {
+    realCurrentPage = currentPage % lastPage
+    // consider start page in calculation
+  } else {
+    realCurrentPage =
+      (currentPage % lastPage) +
+      startPage * repetition -
+      startPage -
+      repetition +
+      1
+  }
   // to display the last page correctly (edge cases)
   if (realCurrentPage == 0) {
     realCurrentPage = lastPage
   }
   if (realCurrentPage < startPage) {
+    realCurrentPage = startPage
+  }
+  if (realCurrentPage > lastPage) {
     realCurrentPage = startPage
   }
   // display for total no. of pages
@@ -163,26 +205,28 @@ function Today(props) {
   if (realCurrentPageTotal < startPage) {
     realCurrentPageTotal = startPage
   }
-  if (realCurrentPageTotal == lastPage) {
+  if (realCurrentPageTotal == startPage) {
     realCurrentPageTotal = 1
   }
   // --------------------------------
 
   // last page for todays goal ----------------
-  let totalPages
-  // if start page is bigger than 1 -> last page minus start page
-  if (startPage > 1) {
-    totalPages = lastPage - startPage + 1
-  } else {
-    totalPages = lastPage
-  }
-  // if numberPagesToday is bigger than last page
-  // (happens when more than 1 cycle has to be studied in a day)
-  if (todaysChunk.numberPagesToday > lastPage) {
-    totalPages = todaysChunk.numberPagesToday - startPage
-  }
-  // happens if startPage = lastPage (only study 1 page)
-  if (totalPages == 0) totalPages = lastPage - 1
+  let numberPages = todaysChunk.exam.numberPages
+  // if start page is bigger than 1 -> last page minus start page (calculation from backend)
+  // if (startPage > 1 && startPage != lastPage) {
+  //   numberPages = todaysChunk.exam.numberPages
+  // }
+  // // if numberPagesToday is bigger than last page
+  // // (happens when more than 1 cycle has to be studied in a day)
+  // else if (
+  //   todaysChunk.numberPagesToday > lastPage ||
+  //   (todaysChunk.numberPagesToday >= lastPage && startPage == lastPage)
+  // ) {
+  //   numberPages =
+  //     todaysChunk.numberPagesToday - startPage + todaysChunk.exam.timesRepeat
+  // }
+  // // happens if startPage = lastPage (only study 1 page)
+  // else if (numberPages == 0) numberPages = lastPage - 1
 
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
@@ -197,22 +241,6 @@ function Today(props) {
   }
   // --------------------------------
 
-  // ----------------
-  let repetitionCycles = todaysChunk.exam.timesRepeat
-  let repetition = 1
-  let repetitionCounter
-  // if there is only 1 page to study
-  if (currentPage == lastPage)
-    repetitionCounter = Math.floor(currentPage / lastPage)
-  else repetitionCounter = Math.floor(currentPage / lastPage) + 1
-  // check which cycle to display
-  if (repetitionCounter <= repetitionCycles) {
-    repetition = repetitionCounter
-  } else {
-    repetition = repetitionCycles
-  }
-  // --------------------------------
-
   // days till deadline ----------------
   let daysLeft = todaysChunk.daysLeft
   // total days from start to end date
@@ -223,11 +251,22 @@ function Today(props) {
 
   // repetition goal to display next to goal ----------------
   let repetitionGoal = Math.floor(currentPage / lastPage) + 1
+
   // end page for today's chunk goal ----------------
-  let numberPagesToday = todaysChunk.numberPagesToday
+  let numberPagesToday = todaysChunk.numberPagesToday + startPage - 1
   // if start page is bigger
   if (numberPagesToday < startPage) {
     numberPagesToday = startPage + numberPagesToday
+  }
+  // only 1 page & multiple repetition cycles
+  if (
+    (numberPagesToday > lastPage && realCurrentPage == lastPage) ||
+    (numberPagesToday >= lastPage && startPage == lastPage)
+  ) {
+    // maximum goal is last page
+    numberPagesToday = lastPage
+    // to display correct rep cycle goal
+    repetitionGoal = repetitionCycles
   }
   // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
   if (numberPagesToday > lastPage) {
@@ -235,22 +274,30 @@ function Today(props) {
     let pagesLeftInCycles = numberPagesToday - lastPage
     // maximum goal is last page
     numberPagesToday = lastPage
-
-    repetitionGoal = Math.floor(pagesLeftInCycles / lastPage) + 1
+    // to display correct rep cycle goal
+    repetitionGoal = Math.round((startPage + pagesLeftInCycles) / lastPage) + 1
   }
   // if there is only 1 page to study
-  if (realCurrentPage == numberPagesToday && repetition != repetitionCycles) {
+  if (
+    realCurrentPage == numberPagesToday &&
+    repetition != repetitionCycles &&
+    todaysChunk.numberPagesToday == 1
+  ) {
     // to display correct rep cycle goal
-    repetitionGoal = repetition + 1
+    repetitionGoal = repetition
     // to display correct total no. of pages if there is only 1 page
-    totalPages = 1
+    numberPages = 1
     realCurrentPageTotal = 1
   }
   // display message only if there is more than 1 cycle for 1 day
   if (
     (numberPagesToday > lastPage && repetition != repetitionCycles) ||
-    (numberPagesToday == lastPage && repetitionGoal > repetition)
+    (numberPagesToday == lastPage &&
+      repetitionGoal > repetition &&
+      todaysChunk.numberPagesToday !== 1)
   ) {
+    // to display correct rep cycle goal
+    repetitionGoal = repetitionCycles
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
@@ -272,23 +319,67 @@ function Today(props) {
   let leftPagesPercentage
   let currentPageBar
 
-  if (todaysChunk.numberPagesToday <= lastPage) {
+  if (
+    todaysChunk.numberPagesToday <= lastPage &&
+    realCurrentPage !== lastPage
+  ) {
     // pages left
-    leftPagesTotal = lastPage - currentPage + startPage
+    leftPagesTotal = numberPagesToday - realCurrentPage + 1
     // percentage for bar
-    currentPageBar = currentPage
+    currentPageBar = realCurrentPage
     if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
-    leftPagesPercentage = Math.round((currentPageBar * 100) / lastPage)
-
-    // when you have to study multiple repetition cycles a day
-  } else {
-    // pages left
-    leftPagesTotal = lastPage * repetitionCycles - currentPage + 1 + startPage
+    leftPagesPercentage = Math.round((currentPageBar * 100) / numberPages)
+  }
+  // if only 2 pages & NOT multiple cycles a day
+  else if (
+    realCurrentPage > numberPages &&
+    todaysChunk.numberPagesToday < numberPages
+  ) {
+    leftPagesTotal = numberPages - realCurrentPageTotal + 1
+    currentPageBar = realCurrentPage
+    if (currentPageBar == 1 || currentPageBar === startPage) {
+      leftPagesPercentage = 0 // to start with 0 in bar
+    } else {
+      leftPagesPercentage = Math.round(
+        (realCurrentPageTotal * 100) / (lastPage - startPage + 1)
+      )
+    }
+  }
+  // if only 1 page
+  else if (realCurrentPage == lastPage) {
+    leftPagesTotal = numberPages - realCurrentPageTotal + 1
+    currentPageBar = realCurrentPage
+    if (currentPageBar == 1 || currentPageBar === lastPage) {
+      leftPagesPercentage = 0 // to start with 0 in bar
+    } else {
+      leftPagesPercentage = Math.round(
+        (realCurrentPageTotal * 100) / (lastPage - startPage + 1)
+      )
+    }
+  }
+  // if only 2 pages & multiple cycles a day
+  else if (
+    realCurrentPage > numberPages &&
+    todaysChunk.numberPagesToday > numberPages
+  ) {
+    if (realCurrentPageTotal == lastPage) {
+      leftPagesTotal =
+        todaysChunk.numberPagesToday - numberPages * repetition - 1
+    } else {
+      leftPagesTotal = todaysChunk.numberPagesToday - numberPages * repetition
+    }
     // percentage for bar
-    currentPageBar = currentPage
-    if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
     leftPagesPercentage = Math.round(
-      (currentPage * 100) / (leftPagesTotal + lastPage)
+      (realCurrentPageTotal * 100) / (leftPagesTotal + 1)
+    )
+  }
+  // if more than 1 cycle a day
+  else {
+    // pages left
+    leftPagesTotal = numberPages - realCurrentPageTotal + 1
+    // percentage for bar
+    leftPagesPercentage = Math.round(
+      (100 / numberPages) * (currentPage - startPage + 1)
     )
   }
   // --------------------------------
@@ -347,15 +438,15 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total no. of pages:
+                        Total no. of pages per cycle:
                       </p>
                       <p className="today__container__content__text">
-                        {realCurrentPageTotal} / {totalPages}
+                        {realCurrentPageTotal} / {numberPages}
                       </p>
                     </div>
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Page numbers:
+                        Total page numbers per cycle:
                       </p>
                       <p className="today__container__content__text">
                         {startPage} - {lastPage}
@@ -383,7 +474,7 @@ function Today(props) {
                 {/* chunks left */}
                 <div className="today__container__chunks-left">
                   <Timeline
-                    heading="Study Progress (pages)"
+                    heading="Pages left to study for today"
                     daysLeft={leftPagesTotal}
                     percentage={leftPagesPercentage}
                     style="bar"

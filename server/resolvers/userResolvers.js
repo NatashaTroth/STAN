@@ -6,11 +6,11 @@ import {
   AuthenticationError,
   ApolloError
 } from "apollo-server";
-import { sendRefreshToken } from "../helpers/authenticationTokens";
+import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
 import {
   handleResolverError,
   handleAuthentication
-} from "../helpers/resolvers";
+} from "../helpers/generalHelpers";
 import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
 
@@ -23,25 +23,27 @@ import {
   logUserIn,
   signUpGoogleUser,
   verifyGoogleIdToken,
-  verifySignupInputFormat,
-  verifyLoginInputFormat,
-  verifyMascotInputFormat,
-  verifyUpdateUserInputFormat,
-  verifyUpdatePasswordInputFormat,
   logUserOut,
-  deleteUsersData,
-  deleteUser,
-  validatePassword,
   updateUserInDatabase,
   userWantsPasswordUpdating,
-  verifyEmailFormat,
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
   validateForgottenPasswordToken,
   escapeUserObject,
   updateUserLastVisited
   // calculateUserState
-} from "../helpers/userHelpers";
+} from "../helpers/users/userHelpers";
+
+import {
+  verifySignupInputFormat,
+  verifyLoginInputFormat,
+  verifyMascotInputFormat,
+  verifyUpdateUserInputFormat,
+  verifyUpdatePasswordInputFormat,
+  verifyEmailFormat,
+  validatePassword
+} from "../helpers/users/validateUserInput";
+import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
