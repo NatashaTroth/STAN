@@ -15,28 +15,21 @@ import {
 import bcrypt from "bcrypt";
 
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
-
-import {
-  updateUser,
-  userWantsPasswordUpdating,
-  getPasswordToSave
-} from "../helpers/users/updateUser";
-
+import { updateUser } from "../helpers/users/updateUser";
 import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret,
-  validateForgottenPasswordToken
-} from "../helpers/users/forgottenPassword";
+  validateForgottenPasswordToken,
+  updatePassword
+} from "../helpers/users/forgottenResetPassword";
 import {
-  validatePassword,
   verifySignupInputFormat,
   verifyLoginInputFormat,
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
-  verifyUpdatePasswordInputFormat,
-  verifyEmailFormat
+  verifyEmailFormat,
+  verifyUpdatePasswordInputFormat
 } from "../helpers/users/validateUserInput";
-
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
 import { logUserIn, authenticateUser, verifyGoogleIdToken } from "../helpers/users/login";
@@ -76,34 +69,20 @@ export const userResolvers = {
         verifyLoginInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, res });
-        // return { user: user, accessToken: accessToken, tokenExpiration: 15 };
+
         return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
     },
-    signup: async (
-      _,
-      { username, email, password, mascot = 0, allowEmailNotifications },
-      { res, userInfo }
-    ) => {
+    signup: async (_, args, { res, userInfo }) => {
       try {
+        if (!args.mascot) args.mascot = 0;
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        verifySignupInputFormat({
-          username,
-          email,
-          password,
-          mascot
-        });
-        const user = await signUserUp({
-          username,
-          email,
-          password,
-          mascot,
-          allowEmailNotifications
-        });
+        verifySignupInputFormat({ ...args });
+        const user = await signUserUp({ ...args });
         const accessToken = logUserIn({ user, res });
-        if (allowEmailNotifications) stanEmail.sendSignupMail(email, mascot);
+        if (args.allowEmailNotifications) stanEmail.sendSignupMail(args.email, args.mascot);
         return accessToken;
       } catch (err) {
         handleResolverError(err);
@@ -169,20 +148,13 @@ export const userResolvers = {
     resetPassword: async (_, { userId, token, newPassword }, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-
+        // handleResetPassword(args, userInfo)
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
         const secret = createForgottenPasswordSecret(user);
-
         validateForgottenPasswordToken(user, token, secret);
-
         const passwordToSave = await bcrypt.hash(newPassword, 10);
-        const updateResp = await User.updateOne(
-          { _id: user._id },
-          { password: passwordToSave, updatedAt: new Date() }
-        );
-        if (updateResp.ok === 0 && updateResp.nModified === 0)
-          throw new ApolloError("Unable to reset the password. Please try again.");
+        await updatePassword(user._id, passwordToSave);
         return true;
       } catch (err) {
         handleResolverError(err);

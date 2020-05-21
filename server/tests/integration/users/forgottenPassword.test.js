@@ -11,7 +11,7 @@ import { User } from "../../../models";
 import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret
-} from "../../../helpers/users/forgottenPassword";
+} from "../../../helpers/users/forgottenResetPassword";
 import bcrypt from "bcrypt";
 
 describe("Test forgotten password resolver/helpers", () => {

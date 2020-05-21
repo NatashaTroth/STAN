@@ -3,6 +3,7 @@
 import { User } from "../../models";
 import { ApolloError } from "apollo-server";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export async function createForgottenPasswordEmailLink(email) {
   const user = await User.findOne({ email });
@@ -36,4 +37,10 @@ export function validateForgottenPasswordToken(user, token, secret) {
 
   if (decodedToken.userEmail !== user.email)
     throw new Error("Wrong user email in the forgotten password token.");
+}
+
+export async function updatePassword(userId, password) {
+  const updateResp = await User.updateOne({ _id: userId }, { password, updatedAt: new Date() });
+  if (updateResp.ok === 0 && updateResp.nModified === 0)
+    throw new ApolloError("Unable to reset the password. Please try again.");
 }
