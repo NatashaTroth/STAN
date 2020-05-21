@@ -4,7 +4,6 @@ import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 
 import {
-  handleCurrentPageInput,
   escapeExamObject,
   escapeExamObjects,
   escapeTodaysChunksObjects,
@@ -16,7 +15,6 @@ import {
   fetchTodaysChunks,
   fetchCalendarChunks,
   calculateChunkProgress,
-  handleUpdateCurrentPageInTodaysChunkCache,
   deleteExamsTodaysCache
 } from "../helpers/exams/chunks";
 
@@ -26,6 +24,7 @@ import { handleResolverError, handleAuthentication } from "../helpers/generalHel
 import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
 import { handleUpdateExam, handleUpdateCurrentPage } from "../helpers/exams/updateExam";
+import { handleExamCompleted } from "../helpers/exams/examCompleted";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -33,7 +32,6 @@ export const examResolvers = {
     exams: async (_, __, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-
         const resp = await Exam.find({
           userId: userInfo.userId
         }).sort({ subject: "asc" });
@@ -46,12 +44,10 @@ export const examResolvers = {
     exam: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-
         const resp = await Exam.findOne({
           _id: args.id,
           userId: userInfo.userId
         });
-
         if (!resp) throw new ApolloError("This exam does not exist.");
         return escapeExamObject(resp);
       } catch (err) {
@@ -123,7 +119,6 @@ export const examResolvers = {
       try {
         handleAuthentication(userInfo);
         const updatedExam = await handleUpdateExam(args, userInfo);
-
         return escapeExamObject(updatedExam);
       } catch (err) {
         handleResolverError(err);
@@ -140,21 +135,8 @@ export const examResolvers = {
     },
     examCompleted: async (_, args, { userInfo }) => {
       try {
-        // console.log(await Exam.find({ userId: context.userInfo.userId }));
         handleAuthentication(userInfo);
-
-        // //todo: remove?
-        // await fetchExam(args.id, userInfo.userId);
-
-        const resp = await Exam.updateOne(
-          { _id: args.id },
-          { completed: args.completed, updatedAt: new Date() }
-        );
-
-        if (resp.ok === 1 && resp.nModified === 0) return true;
-        if (resp.ok === 0) throw new ApolloError("The exam couldn't be updated.");
-
-        await deleteExamsTodaysCache(userInfo.userId, args.id);
+        await handleExamCompleted(args, userInfo);
 
         return true;
       } catch (err) {
