@@ -14,7 +14,7 @@ import {
 import { User } from "../../models";
 
 import { OAuth2Client } from "google-auth-library";
-
+import { signUserUp, signUpGoogleUser, handleSignUp } from "./signup";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export async function handleLogin({ email, password }, res) {
@@ -31,14 +31,4 @@ export async function authenticateUser({ email, password }) {
   if (user.googleLogin) throw new AuthenticationError("User has to login with google.");
   await validatePassword(password, user.password);
   return user;
-}
-
-//source: https://developers.google.com/identity/sign-in/web/backend-auth
-export async function verifyGoogleIdToken(token) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID
-  });
-  const payload = ticket.getPayload();
-  return payload;
 }

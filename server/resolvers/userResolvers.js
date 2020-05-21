@@ -33,6 +33,7 @@ import {
 } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser, handleSignUp } from "../helpers/users/signup";
+import { handleGoogleLogin } from "../helpers/users/googleLogin";
 import { verifyGoogleIdToken, handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
@@ -93,12 +94,7 @@ export const userResolvers = {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        const payload = await verifyGoogleIdToken(idToken);
-        if (!payload) throw new AuthenticationError("Google id token was not verified.");
-        let user = await User.findOne({ googleId: payload.sub });
-        if (!user) user = await signUpGoogleUser(payload);
-        const accessToken = createLoginTokens({ user, res });
-        return accessToken;
+        return await handleGoogleLogin(idToken, res);
       } catch (err) {
         handleResolverError(err);
       }

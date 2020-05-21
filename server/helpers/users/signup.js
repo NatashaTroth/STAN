@@ -48,14 +48,3 @@ export async function signUserUp({
   if (!resp) throw new AuthenticationError("User could not be created.");
   return resp;
 }
-
-export function signUpGoogleUser(payload) {
-  return signUserUp({
-    username: payload.name,
-    email: payload.email,
-    password: null,
-    googleId: payload.sub,
-    googleLogin: true
-    // mascot: 1 //TODO GET MASCOT USER CHOSE
-  });
-}
