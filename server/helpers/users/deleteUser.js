@@ -3,8 +3,7 @@
 import { User, Exam, TodaysChunkCache } from "../../models";
 import { ApolloError } from "apollo-server";
 import { sendRefreshToken } from "../authentication/authenticationTokens";
-// import { handleResolverError } from "../resolvers";
-// import { totalDurationCompleted } from "../helpers/chunks";
+
 import StanEmail from "../StanEmail";
 const stanEmail = new StanEmail();
 

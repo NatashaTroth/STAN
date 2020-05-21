@@ -2,15 +2,16 @@
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
+import { verifyExamInput, verifyAddExamDates } from "../helpers/exams/validateExamInput";
 
 import {
   prepareExamInputData,
-  verifyExamInput,
+  // verifyExamInput,
   handleCurrentPageInput,
   // fetchTodaysChunks,
   // fetchCalendarChunks,
   handleUpdateExamInput,
-  verifyAddExamDates,
+  // verifyAddExamDates,
   escapeExamObject,
   escapeExamObjects,
   escapeTodaysChunksObjects,
