@@ -15,6 +15,7 @@ import {
   extractDomain,
   filteredLinks,
   calcExamProgress,
+  getRealCurrentPage,
 } from "../../helpers/mascots"
 
 const ExamDetailsInfo = ({ examDetails }) => {
@@ -40,30 +41,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
   // real current page ----------------
-  let realCurrentPage
-  if (examDetails.startPage === 1) {
-    realCurrentPage = examDetails.currentPage % examDetails.lastPage
-    // only 1 page to study
-  } else if (examDetails.startPage === examDetails.lastPage) {
-    realCurrentPage = examDetails.currentPage % examDetails.lastPage
-    // consider start page in calculation
-  } else {
-    realCurrentPage =
-      (examDetails.currentPage % examDetails.lastPage) +
-      examDetails.startPage * examDetails.timesRepeat -
-      (examDetails.startPage - examDetails.timesRepeat + 1)
-  }
-
-  // to display the last page correctly (edge cases)
-  if (realCurrentPage === 0) {
-    realCurrentPage = examDetails.lastPage
-  }
-  if (realCurrentPage < examDetails.startPage) {
-    realCurrentPage = examDetails.startPage
-  }
-  if (realCurrentPage > examDetails.lastPage) {
-    realCurrentPage = examDetails.startPage
-  }
+  const realCurrentPage = getRealCurrentPage(examDetails)
 
   // return ----------------
   return (

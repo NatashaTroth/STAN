@@ -31,7 +31,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
-import { filteredLinks } from "../../helpers/mascots"
+import { filteredLinks, getRealCurrentPage } from "../../helpers/mascots"
 
 const ExamDetailsEdit = ({ examId }) => {
   let history = useHistory()
@@ -64,30 +64,7 @@ const ExamDetailsEdit = ({ examId }) => {
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
   // real current page ----------------
-  let realCurrentPage
-  if (data.startPage === 1) {
-    realCurrentPage = data.currentPage % data.lastPage
-    // only 1 page to study
-  } else if (data.startPage === data.lastPage) {
-    realCurrentPage = data.currentPage % data.lastPage
-    // consider start page in calculation
-  } else {
-    realCurrentPage =
-      (data.currentPage % data.lastPage) +
-      data.startPage * data.timesRepeat -
-      (data.startPage - data.timesRepeat + 1)
-  }
-
-  // to display the last page correctly (edge cases)
-  if (realCurrentPage === 0) {
-    realCurrentPage = data.lastPage
-  }
-  if (realCurrentPage < data.startPage) {
-    realCurrentPage = data.startPage
-  }
-  if (realCurrentPage > data.lastPage) {
-    realCurrentPage = data.startPage
-  }
+  const realCurrentPage = getRealCurrentPage(data)
 
   let defaultValues = {
     subject: data.subject,
