@@ -25,29 +25,22 @@ export function prepareExamInputData(args, userId) {
   if (!args.startDate || args.startDate.length <= 0) {
     args.startDate = new Date();
   }
-
   args.startPage = args.startPage || 1;
   args.numberPages = calcNumberPagesFromPageNumbers(args.startPage, args.lastPage);
-
   args.timesRepeat = args.timesRepeat || 1;
   args.currentPage = args.currentPage || args.startPage;
   args.completed = args.completed || false;
   args.userId = userId;
-
   args.color = getBackgroundColor(args.color, args);
-
   args.textColor = generateTextColor(args.color);
-
   args.totalNumberDays = getNumberOfDays(args.startDate, args.examDate);
   args.updatedAt = new Date();
-
   return { ...args };
 }
 
 function getBackgroundColor(color, args) {
   const tinycolorResp = tinycolor(color);
   if (tinycolorResp.isValid()) return color;
-  console.log("color was not ok");
   return generateSubjectColor(args);
 }
 

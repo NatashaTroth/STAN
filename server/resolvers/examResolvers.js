@@ -34,6 +34,7 @@ import { verifyRegexDate } from "../helpers/verifyInput";
 // import { ApolloError } from "apollo-server";
 import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
+import { handleAddExam } from "../helpers/exams/addExam";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -121,20 +122,11 @@ export const examResolvers = {
     addExam: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-
-        verifyExamInput(args, userInfo.userId);
-
-        verifyAddExamDates(args.startDate, args.examDate);
-        const processedArgs = prepareExamInputData({ ...args }, userInfo.userId);
-
-        // console.log(processedArgs);
-
-        await Exam.create(processedArgs);
-        //TODO ERROR HANDLING?
+        await handleAddExam(args, userInfo);
+        return true;
       } catch (err) {
         handleResolverError(err);
       }
-      return true;
     },
     updateExam: async (_, args, { userInfo }) => {
       try {
