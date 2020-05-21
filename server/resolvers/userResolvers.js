@@ -145,7 +145,6 @@ export const userResolvers = {
         if (userInfo.user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
         verifyUpdateUserInputFormat({ ...args });
-
         const updatedUser = await updateUser({
           userId: userInfo.userId,
           currentUser: userInfo.user,

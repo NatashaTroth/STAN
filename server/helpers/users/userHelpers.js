@@ -21,7 +21,6 @@ export function escapeUserObject(user) {
 
 export async function verifyEmailIsUnique(email) {
   const userWithEmail = await User.findOne({ email: email });
-
   if (userWithEmail)
     throw new UserInputError("User with email already exists, choose another one.");
 }

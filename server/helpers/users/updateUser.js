@@ -7,22 +7,13 @@ import { validatePassword, verifyUpdatePasswordInputFormat } from "./validateUse
 import { verifyEmailIsUnique } from "./userHelpers";
 
 export async function updateUser(args) {
-  //   {
-  //   userId,
-  //   currentPassword,
-  //   username,
-  //   email,
-  //   password,
-  //   mascot,
-  //   allowEmailNotifications
-  // }) {
+  if (args.email !== args.currentUser.email) await verifyEmailIsUnique(args.email);
 
   let passwordToSave = await getPasswordToSave(
     args.currentUser.password,
     args.password,
     args.newPassword
   );
-  if (args.email !== args.currentUser.email) await verifyEmailIsUnique(args.email);
   const resp = await User.updateOne(
     { _id: args.userId.toString() },
     {
