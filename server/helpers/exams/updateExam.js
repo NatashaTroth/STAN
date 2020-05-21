@@ -1,5 +1,5 @@
 import { Exam, TodaysChunkCache } from "../../models";
-import { handleUpdateExamInput, fetchExam, learningIsComplete } from "./examHelpers";
+import { handleUpdateExamInput, fetchExam } from "./examHelpers";
 import { createTodaysChunkObject } from "./todaysChunks";
 import { calcPagesLeft, todaysChunkIsCompleted } from "./chunkHelpers";
 import { ApolloError } from "apollo-server";

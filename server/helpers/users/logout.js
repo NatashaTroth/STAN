@@ -2,7 +2,6 @@ import {
   sendRefreshToken,
   invalidationAuthenticationTokens
 } from "../authentication/authenticationTokens";
-import { ApolloError } from "apollo-server";
 
 export async function logUserOut(res, userId) {
   sendRefreshToken(res, "");

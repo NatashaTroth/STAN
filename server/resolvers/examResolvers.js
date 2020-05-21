@@ -12,7 +12,6 @@ import { fetchTodaysChunks } from "../helpers/exams/todaysChunks";
 import { calculateChunkProgress } from "../helpers/exams/todaysChunkProgress";
 import { fetchCalendarChunks } from "../helpers/exams/calendarChunks";
 import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
-import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
 import { handleUpdateExam } from "../helpers/exams/updateExam";
 import { handleUpdateCurrentPage } from "../helpers/exams/updateCurrentPage";

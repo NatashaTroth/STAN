@@ -1,9 +1,7 @@
 import { Exam, TodaysChunkCache } from "../../models";
-import { handleUpdateExamInput, fetchExam, learningIsComplete } from "./examHelpers";
-
+import { learningIsComplete } from "./examHelpers";
 import { todaysChunkIsCompleted } from "./chunkHelpers";
 import { ApolloError } from "apollo-server";
-import { isTheSameDay } from "../dates";
 
 export async function handleUpdateCurrentPage(args, userInfo) {
   const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
