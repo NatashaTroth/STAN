@@ -31,7 +31,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
-import { filteredLinks, getRealCurrentPage } from "../../helpers/mascots"
+import { filteredLinks } from "../../helpers/mascots"
 
 const ExamDetailsEdit = ({ examId }) => {
   let history = useHistory()
@@ -63,8 +63,16 @@ const ExamDetailsEdit = ({ examId }) => {
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
-  // real current page ----------------
-  const realCurrentPage = getRealCurrentPage(data)
+  let numberOfPages
+  if (data.startPage > 1) {
+    numberOfPages = data.lastPage - data.startPage
+  } else {
+    numberOfPages = data.lastPage
+  }
+
+  // currentRepetition ----------------
+  let currentRepetition = Math.round(data.currentPage / numberOfPages)
+  if (currentRepetition < 1) currentRepetition = 1
 
   let defaultValues = {
     subject: data.subject,
@@ -73,7 +81,8 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
-    currentPage: realCurrentPage,
+    cycle: currentRepetition,
+    currentPage: data.currentPage - numberOfPages * (currentRepetition - 1),
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -90,6 +99,7 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage,
     startPage,
     currentPage,
+    cycle,
     timePerPage,
     timesRepeat,
     notes,
@@ -102,6 +112,7 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "lastPage" })
     register({ exam: "startPage" })
     register({ exam: "currentPage" })
+    register({ exam: "cycle" })
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
     register({ exam: "notes" })
@@ -144,6 +155,8 @@ const ExamDetailsEdit = ({ examId }) => {
       history,
       color,
       newLinks,
+      cycle,
+      numberOfPages,
     })
   }
 
@@ -186,10 +199,6 @@ const ExamDetailsEdit = ({ examId }) => {
   const handleColor = color => {
     setColor(color.hex)
   }
-
-  // currentRepetition ----------------
-  let currentRepetition = Math.round(data.currentPage / data.lastPage)
-  if (currentRepetition < 1) currentRepetition = 1
 
   // return ----------------
   return (
@@ -388,7 +397,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
               <input
                 className="form__element__input"
-                type="text"
+                type="number"
                 id="currentPage"
                 label="exam_current_page"
                 name="currentPage"
@@ -518,7 +527,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <OverlayTrigger
                   placement="top"
                   delay={{ show: 250, hide: 400 }}
-                  overlay={<Tooltip>Your repetition cycle.</Tooltip>}
+                  overlay={<Tooltip>Your current repetition cycle.</Tooltip>}
                 >
                   <span className="info-circle">i</span>
                 </OverlayTrigger>
@@ -531,21 +540,24 @@ const ExamDetailsEdit = ({ examId }) => {
                 label="exam_cycle"
                 name="cycle"
                 onChange={handleChange.bind(null, "cycle")}
-                value={currentRepetition}
+                value={cycle}
                 ref={register({
                   required: true,
                   min: 1,
-                  max: { timesRepeat },
+                  max: timesRepeat,
                 })}
                 required
               />
-              {errors.timePerPage && errors.cycle.type === "required" && (
+              {errors.cycle && errors.cycle.type === "required" && (
                 <span className="error">This field is required</span>
               )}
-              {errors.timePerPage && errors.cycle.type === "max" && (
-                <span className="error"> The maximum is 100 cycles.</span>
+              {errors.cycle && errors.cycle.type === "max" && (
+                <span className="error">
+                  {" "}
+                  The maximum is {timesRepeat} cycles.
+                </span>
               )}
-              {errors.timePerPage && errors.cycle.type === "min" && (
+              {errors.cycle && errors.cycle.type === "min" && (
                 <span className="error">Only positive numbers are allowed</span>
               )}
             </div>
@@ -772,8 +784,13 @@ async function handleExam({
   history,
   color,
   newLinks,
+  cycle,
+  numberOfPages,
 }) {
   try {
+    let realCurrentPage =
+      parseInt(data.currentPage) + numberOfPages * (cycle - 1)
+
     const resp = await updateExam({
       variables: {
         id: examId,
@@ -785,7 +802,7 @@ async function handleExam({
         timesRepeat: parseInt(data.timesRepeat),
         startPage: parseInt(data.startPage),
         color: color,
-        currentPage: parseInt(data.currentPage),
+        currentPage: realCurrentPage,
         notes: data.notes,
         studyMaterialLinks: newLinks,
         completed: false,
