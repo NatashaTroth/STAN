@@ -203,9 +203,7 @@ describe("Test update exam mutation", () => {
     });
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "No exam exists with this exam id: " + falseId + " for this user."
-    );
+    expect(resp.errors[0].message).toEqual("This exam does not exist.");
   });
 
   it("should not update the exam, since start date is after exam date", async () => {

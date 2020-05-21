@@ -13,10 +13,11 @@ import {
 
 import {
   fetchTodaysChunks,
-  fetchCalendarChunks,
   calculateChunkProgress,
   deleteExamsTodaysCache
 } from "../helpers/exams/chunks";
+
+import { fetchCalendarChunks } from "../helpers/exams/calendarChunks";
 
 import { verifyRegexDate } from "../helpers/verifyInput";
 
@@ -33,11 +34,11 @@ export const examResolvers = {
     exams: async (_, __, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        const resp = await Exam.find({
+        const exams = await Exam.find({
           userId: userInfo.userId
         }).sort({ subject: "asc" });
-        if (!resp) return [];
-        return escapeExamObjects(resp);
+
+        return escapeExamObjects(exams);
       } catch (err) {
         handleResolverError(err);
       }
@@ -45,18 +46,13 @@ export const examResolvers = {
     exam: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        const resp = await Exam.findOne({
-          _id: args.id,
-          userId: userInfo.userId
-        });
-        if (!resp) throw new ApolloError("This exam does not exist.");
-        return escapeExamObject(resp);
+        const exam = await fetchExam(args.id, userInfo.userId);
+        return escapeExamObject(exam);
       } catch (err) {
         handleResolverError(err);
       }
     },
     todaysChunkAndProgress: async (_, __, { userInfo }) => {
-      console.log("IN TODAYS CHUNK PROGRESS");
       try {
         handleAuthentication(userInfo);
 
@@ -73,12 +69,9 @@ export const examResolvers = {
       }
     },
     calendarChunks: async (_, __, { userInfo }) => {
-      // console.log("IN CALENDAR CHUNKS");
       try {
         handleAuthentication(userInfo);
-
         const chunks = await fetchCalendarChunks(userInfo.userId);
-
         return {
           calendarChunks: escapeCalendarObjects(chunks.calendarChunks),
           calendarExams: escapeCalendarObjects(chunks.calendarExams)

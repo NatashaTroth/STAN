@@ -109,9 +109,7 @@ describe("Test delete exam mutation", () => {
     });
 
     expect(resp.data.deleteExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "No exam exists with this exam id: " + falseId + " for this user."
-    );
+    expect(resp.errors[0].message).toEqual("This exam does not exist.");
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
   });

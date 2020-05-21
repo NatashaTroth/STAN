@@ -13,8 +13,7 @@ export async function fetchExam(examId, userId) {
     _id: examId,
     userId
   });
-  if (!exam)
-    throw new ApolloError("No exam exists with this exam id: " + examId + " for this user.");
+  if (!exam) throw new ApolloError("This exam does not exist.");
   return exam;
 }
 

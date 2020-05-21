@@ -26,10 +26,7 @@ export async function handleUpdateExam(args, userInfo) {
   // //TODO - NEED AWAIT HERE?
   // else
   await handleUpdateExamInTodaysChunkCache(userInfo.userId, exam, processedArgs);
-  return await Exam.findOne({
-    _id: args.id,
-    userId: userInfo.userId
-  });
+  return fetchExam(args.id, userInfo.userId);
 }
 
 export async function handleUpdateCurrentPage(args, userInfo) {
