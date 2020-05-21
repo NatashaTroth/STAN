@@ -77,25 +77,6 @@ export async function handleUpdateExamInput(exam, args, userId) {
   return prepareExamInputData({ ...args }, userId);
 }
 
-export async function handleCurrentPageInput(page, examId, userId) {
-  const exam = await Exam.findOne({
-    _id: examId,
-    userId: userId
-  });
-  if (!exam) throw new ApolloError("There is no exam with the id: " + examId + " for that user.");
-  if (page < exam.startPage)
-    throw new ApolloError("The entered current page is lower than the start page for this exam.");
-  if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
-    throw new ApolloError(
-      "The entered current page is higher than the number of pages for this exam."
-    );
-
-  // console.log("checking exam learning complete not chunk");
-  exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages, exam.timesRepeat);
-
-  return exam;
-}
-
 //middle color
 //fist light
 function generateSubjectColor(exam) {

@@ -25,7 +25,7 @@ import { verifyRegexDate } from "../helpers/verifyInput";
 import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
-import { handleUpdateExam } from "../helpers/exams/updateExam";
+import { handleUpdateExam, handleUpdateCurrentPage } from "../helpers/exams/updateExam";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -130,33 +130,9 @@ export const examResolvers = {
       }
     },
     updateCurrentPage: async (_, args, { userInfo }) => {
-      //TODO: CHECK IF COMPLETED EXAM - IF SO CHANGE IT
-      //TODO: SHOULD I ALSO CHANGE THE TODAYS CHUNK CURRENT PAGE?
-      // console.log("IN UPDATE CURRENT PAGE RESOLVER");
-
       try {
         handleAuthentication(userInfo);
-        const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
-        if (exam.currentPage === args.page) return true;
-
-        const resp = await Exam.updateOne(
-          { _id: args.id, userId: userInfo.userId },
-          {
-            currentPage: args.page,
-            // completed: exam.completed,
-            updatedAt: new Date()
-          }
-        );
-
-        if (resp.ok !== 1 || resp.nModified !== 1)
-          throw new ApolloError("The current page couldn't be updated.");
-
-        //TODO - don't think need anymore
-        // if (exam.completed)
-        //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
-        // else
-        await handleUpdateCurrentPageInTodaysChunkCache(userInfo.userId, exam._id, args.page);
-
+        await handleUpdateCurrentPage(args, userInfo);
         return true;
       } catch (err) {
         handleResolverError(err);
