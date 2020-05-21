@@ -1,13 +1,7 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  addTestExam,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, addTestExam, clearDatabase, teardown } from "../setup";
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import { EXAM_COMPLETED_MUTATION } from "../../mutations.js";
@@ -42,15 +36,9 @@ describe("Test exam completed mutation", () => {
     const respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks
-    ).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
-    expect(
-      await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks).toBeTruthy();
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
+    expect(await TodaysChunkCache.countDocuments({ userId: "samanthasId" })).toBe(1);
 
     const resp = await mutate({
       query: EXAM_COMPLETED_MUTATION,
@@ -61,9 +49,7 @@ describe("Test exam completed mutation", () => {
     });
     expect(resp.data.examCompleted).toBeTruthy();
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
-    expect(
-      await TodaysChunkCache.countDocuments({ userId: "samanthasId" })
-    ).toBe(0);
+    expect(await TodaysChunkCache.countDocuments({ userId: "samanthasId" })).toBe(0);
 
     const exam = await Exam.findOne({ userId: "samanthasId" });
     const todaysChunkCache = await TodaysChunkCache.findOne({

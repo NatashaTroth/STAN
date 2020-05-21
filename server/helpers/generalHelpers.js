@@ -5,17 +5,16 @@ import validator from "validator";
 import { AuthenticationError } from "apollo-server";
 
 export function handleResolverError(err) {
-  if (
-    err.extensions &&
-    err.extensions.code &&
-    err.extensions.code !== "UNAUTHENTICATED"
-  )
+  if (err.extensions && err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
     throw new AuthenticationError(err.message);
   throw err;
 }
 
 export function handleAuthentication(userInfo) {
   if (!userInfo.isAuth) throw new AuthenticationError("Unauthorised");
+}
+export function handleAuthenticationAlreadyLoggedIn(userInfo) {
+  if (userInfo.isAuth) throw new AuthenticationError("Already logged in.");
 }
 
 export function roundToTwoDecimals(num) {
@@ -26,10 +25,7 @@ export function roundToTwoDecimals(num) {
 export function escapeObjectForHtml(unescapedObject) {
   const escapedObject = { ...unescapedObject };
   for (var key in escapedObject) {
-    if (
-      typeof escapedObject[key] === "string" ||
-      escapedObject[key] instanceof String
-    )
+    if (typeof escapedObject[key] === "string" || escapedObject[key] instanceof String)
       escapedObject[key] = escapeStringForHtml(escapedObject[key]);
     else if (Array.isArray(escapedObject[key])) {
       escapedObject[key] = escapeArrayForHtml(escapedObject[key]);
@@ -49,14 +45,12 @@ export function escapeArrayForHtml(unescapedArray) {
 }
 
 export function escapeStringForHtml(value) {
-  if (typeof value === "string" || value instanceof String)
-    return validator.escape(value);
+  if (typeof value === "string" || value instanceof String) return validator.escape(value);
   else return value;
 }
 
 export function removeWhitespace(string) {
-  if (typeof string !== "string")
-    throw new Error("Can only remove whitespace of type string.");
+  if (typeof string !== "string") throw new Error("Can only remove whitespace of type string.");
   return string.replace(/\s/g, "");
 }
 

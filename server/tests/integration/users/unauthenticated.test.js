@@ -77,10 +77,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
 
     //Test accesstoken
     expect(resp.data.signup).toBeDefined();
-    const decodedToken = jwt.verify(
-      resp.data.signup,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(resp.data.signup, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
     expect(decodedToken.userId).toBe(user.id);
     expect(decodedToken.tokenVersion).toBe(0);
@@ -102,9 +99,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     // console.log(await User.find());
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "User with email already exists. Have you forgotten your password?"
-    );
+    expect(resp.errors[0].message).toEqual("User with email already exists, choose another one.");
   });
 
   it("should not update the mascot for a user", async () => {
@@ -171,10 +166,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
 
     //Test accesstoken
     expect(resp.data.login).toBeDefined();
-    const decodedToken = jwt.verify(
-      resp.data.login,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(resp.data.login, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
 
     const user = await User.findOne({
@@ -209,9 +201,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
       }
     });
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "User with this email does not exist."
-    );
+    expect(resp.errors[0].message).toEqual("User with this email does not exist.");
   });
 
   it("should fetch the current user - which is null", async () => {

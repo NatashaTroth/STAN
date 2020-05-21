@@ -54,8 +54,7 @@ export default class StanEmail {
     mascot
   ) {
     console.log("SENDING THREE DAY REMINDER MAIL");
-    let totalExamsLength =
-      examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
+    let totalExamsLength = examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
     let examWord = "Exam";
     if (totalExamsLength > 1) examWord = "Exams";
     if (totalExamsLength === 1) totalExamsLength = "";
@@ -68,9 +67,7 @@ export default class StanEmail {
     if (examsInThreeDays.length > 0) {
       examsListString += `<b>${examsInThreeDays.length} ${
         examsInThreeDays.length > 1 ? "exams" : "exam"
-      } in three days' time:</b><ul>${this.createExamsListString(
-        examsInThreeDays
-      )}</ul>`;
+      } in three days' time:</b><ul>${this.createExamsListString(examsInThreeDays)}</ul>`;
     }
     if (startDatesToday.length > 0) {
       examsListString += `<p><b>You need to start learning for the following ${

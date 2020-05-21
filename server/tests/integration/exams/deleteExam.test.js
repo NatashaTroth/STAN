@@ -1,13 +1,7 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  addTestExam,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, addTestExam, clearDatabase, teardown } from "../setup";
 import { Exam, TodaysChunkCache } from "../../../models";
 
 import { DELETE_EXAM_MUTATION } from "../../mutations.js";
@@ -51,9 +45,7 @@ describe("Test delete exam mutation", () => {
     });
 
     expect(resp.data).toBeTruthy();
-    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
-      initialCount - 1
-    );
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(initialCount - 1);
     expect(
       await Exam.countDocuments({
         _id: testExam._id.toString(),
@@ -71,9 +63,7 @@ describe("Test delete exam mutation", () => {
     });
 
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks).toBeTruthy();
-    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      1
-    );
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     const todaysChunksCount = await TodaysChunkCache.countDocuments({
       examId: testExam._id.toString(),
@@ -89,9 +79,7 @@ describe("Test delete exam mutation", () => {
     });
 
     expect(resp.data).toBeTruthy();
-    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(
-      initialCount - 1
-    );
+    expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(initialCount - 1);
     expect(
       await Exam.countDocuments({
         _id: testExam._id.toString(),
@@ -110,8 +98,7 @@ describe("Test delete exam mutation", () => {
     const testExam = await addTestExam({ subject: "Biology" });
 
     let falseId = "5e923a29a39c7738fb50e632";
-    if (testExam._id.toString() === falseId)
-      falseId = "5e923a29a39c7738fb50e635";
+    if (testExam._id.toString() === falseId) falseId = "5e923a29a39c7738fb50e635";
     const initialCount = await Exam.countDocuments();
 
     const resp = await mutate({

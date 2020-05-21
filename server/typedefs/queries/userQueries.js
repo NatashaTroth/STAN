@@ -20,11 +20,7 @@ const userQueries = gql`
     login(email: String!, password: String): String!
     googleLogin(idToken: String!): String!
     forgottenPasswordEmail(email: String!): Boolean!
-    resetPassword(
-      userId: String!
-      token: String!
-      newPassword: String!
-    ): Boolean!
+    resetPassword(userId: String!, token: String!, newPassword: String!): Boolean!
     updateUser(
       username: String!
       email: String!

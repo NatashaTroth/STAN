@@ -2,34 +2,55 @@
 
 import { User } from "../../models";
 import { ApolloError } from "apollo-server";
+import bcrypt from "bcrypt";
+import { validatePassword, verifyUpdatePasswordInputFormat } from "./validateUserInput";
+import { verifyEmailIsUnique } from "./userHelpers";
 
-export async function updateUserInDatabase(
-  userId,
-  username,
-  email,
-  passwordToSave,
-  mascot,
-  allowEmailNotifications
-) {
-  const updatedUser = {
-    username,
-    email,
-    password: passwordToSave,
-    mascot,
-    allowEmailNotifications
-  };
+export async function updateUser(args) {
+  //   {
+  //   userId,
+  //   currentPassword,
+  //   username,
+  //   email,
+  //   password,
+  //   mascot,
+  //   allowEmailNotifications
+  // }) {
 
+  let passwordToSave = await getPasswordToSave(
+    args.currentUser.password,
+    args.password,
+    args.newPassword
+  );
+  if (args.email !== args.currentUser.email) await verifyEmailIsUnique(args.email);
   const resp = await User.updateOne(
-    { _id: userId.toString() },
-    { ...updatedUser, updatedAt: new Date() }
+    { _id: args.userId.toString() },
+    {
+      username: args.username,
+      email: args.email,
+      password: passwordToSave,
+      mascot: args.mascot,
+      allowEmailNotifications: args.allowEmailNotifications,
+      updatedAt: new Date()
+    }
   );
 
-  if (resp.ok === 0 || resp.nModified === 0)
-    throw new ApolloError("The user couldn't be updated.");
+  if (resp.ok === 0 || resp.nModified === 0) throw new ApolloError("The user couldn't be updated.");
+
+  return await User.findOne({
+    _id: args.userId
+  });
 }
 
 export function userWantsPasswordUpdating(password, newPassword) {
-  return (
-    (password && password.length > 0) || (newPassword && newPassword.length > 0)
-  );
+  return (password && password.length > 0) || (newPassword && newPassword.length > 0);
+}
+
+export async function getPasswordToSave(currentPassword, inputOldPassword, inputNewPassword) {
+  if (userWantsPasswordUpdating(inputOldPassword, inputNewPassword)) {
+    await validatePassword(inputOldPassword, currentPassword);
+    verifyUpdatePasswordInputFormat(inputNewPassword);
+    return await bcrypt.hash(inputNewPassword, 10);
+  }
+  return currentPassword;
 }

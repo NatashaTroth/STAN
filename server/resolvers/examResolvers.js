@@ -31,10 +31,7 @@ import {
 
 import { verifyRegexDate } from "../helpers/verifyInput";
 // import { ApolloError } from "apollo-server";
-import {
-  handleResolverError,
-  handleAuthentication
-} from "../helpers/generalHelpers";
+import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
 
 //TODO: Authentication
@@ -127,10 +124,7 @@ export const examResolvers = {
         verifyExamInput(args, userInfo.userId);
 
         verifyAddExamDates(args.startDate, args.examDate);
-        const processedArgs = prepareExamInputData(
-          { ...args },
-          userInfo.userId
-        );
+        const processedArgs = prepareExamInputData({ ...args }, userInfo.userId);
 
         // console.log(processedArgs);
 
@@ -147,11 +141,7 @@ export const examResolvers = {
         // console.log("IN UPDATE EXAM MUTAION");
         const exam = await fetchExam(args.id, userInfo.userId);
 
-        const processedArgs = await handleUpdateExamInput(
-          exam,
-          args,
-          userInfo.userId
-        );
+        const processedArgs = await handleUpdateExamInput(exam, args, userInfo.userId);
 
         const resp = await Exam.updateOne(
           { _id: args.id, userId: userInfo.userId },
@@ -166,11 +156,7 @@ export const examResolvers = {
         //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
         // //TODO - NEED AWAIT HERE?
         // else
-        await handleUpdateExamInTodaysChunkCache(
-          userInfo.userId,
-          exam,
-          processedArgs
-        );
+        await handleUpdateExamInTodaysChunkCache(userInfo.userId, exam, processedArgs);
         const updatedExam = await Exam.findOne({
           _id: args.id,
           userId: userInfo.userId
@@ -188,11 +174,7 @@ export const examResolvers = {
 
       try {
         handleAuthentication(userInfo);
-        const exam = await handleCurrentPageInput(
-          args.page,
-          args.id,
-          userInfo.userId
-        );
+        const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
         if (exam.currentPage === args.page) return true;
 
         const resp = await Exam.updateOne(
@@ -211,11 +193,7 @@ export const examResolvers = {
         // if (exam.completed)
         //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
         // else
-        await handleUpdateCurrentPageInTodaysChunkCache(
-          userInfo.userId,
-          exam._id,
-          args.page
-        );
+        await handleUpdateCurrentPageInTodaysChunkCache(userInfo.userId, exam._id, args.page);
 
         return true;
       } catch (err) {
@@ -236,8 +214,7 @@ export const examResolvers = {
         );
 
         if (resp.ok === 1 && resp.nModified === 0) return true;
-        if (resp.ok === 0)
-          throw new ApolloError("The exam couldn't be updated.");
+        if (resp.ok === 0) throw new ApolloError("The exam couldn't be updated.");
 
         await deleteExamsTodaysCache(userInfo.userId, args.id);
 

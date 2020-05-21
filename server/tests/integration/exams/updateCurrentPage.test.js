@@ -10,10 +10,7 @@ import {
 } from "../setup";
 import { Exam } from "../../../models";
 
-import {
-  ADD_EXAM_MUTATION,
-  UPDATE_CURRENT_PAGE_MUTATION
-} from "../../mutations.js";
+import { ADD_EXAM_MUTATION, UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
 
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
@@ -132,12 +129,8 @@ describe("Test update currentPage mutation", () => {
     });
 
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      1
-    );
-    expect(
-      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
-    ).toBe(1);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage).toBe(1);
 
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
@@ -152,11 +145,7 @@ describe("Test update currentPage mutation", () => {
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();
-    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      1
-    );
-    expect(
-      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
-    ).toBe(3);
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage).toBe(3);
   });
 });

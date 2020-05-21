@@ -218,9 +218,7 @@ describe("Test add exam mutation", () => {
       }
     });
     expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "The last page should be higher than the start page."
-    );
+    expect(resp.errors[0].message).toEqual("The last page should be higher than the start page.");
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
   });

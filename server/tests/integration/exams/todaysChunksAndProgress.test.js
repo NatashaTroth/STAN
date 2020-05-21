@@ -61,9 +61,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -156,9 +154,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -247,9 +243,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -337,9 +331,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -411,9 +403,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -465,9 +455,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -520,9 +508,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -572,9 +558,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(1);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -649,9 +633,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(4);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -675,9 +657,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(4);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -706,9 +686,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(4);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(4);
 
     expect(
       await TodaysChunkCache.countDocuments({
@@ -731,9 +709,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(3);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
 
     expect(
       await TodaysChunkCache.countDocuments({

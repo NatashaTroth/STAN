@@ -100,8 +100,7 @@ export async function addTestExam({
   completed = false
 }) {
   let numberPages = lastPage - startPage + 1;
-  if (lastPage <= startPage)
-    throw new Error("The last page should be higher than the start page.");
+  if (lastPage <= startPage) throw new Error("The last page should be higher than the start page.");
 
   const finalExamDate = examDate || getFutureDay(new Date(), 5);
   const finalStartDate = startDate || new Date();

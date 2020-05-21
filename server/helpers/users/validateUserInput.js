@@ -76,7 +76,7 @@ export function verifyPasswordFormat(password) {
 }
 
 function verifyMascotFormat(mascot) {
-  if (!verifyRegexMascot(mascot))
+  if (!verifyRegexMascot(mascot.toString()))
     throw new Error(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );

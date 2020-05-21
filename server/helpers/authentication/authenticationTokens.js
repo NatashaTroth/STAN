@@ -30,8 +30,7 @@ export const sendRefreshToken = (res, token) => {
  * @param {object} user
  */
 export const createAccessToken = user => {
-  if (!user)
-    throw new ApolloError("User object is empty, cannot create access token.");
+  if (!user) throw new ApolloError("User object is empty, cannot create access token.");
   return jwt.sign(
     {
       userId: user.id,
@@ -50,8 +49,7 @@ export const createAccessToken = user => {
  * @param {object} user
  */
 export const createRefreshToken = user => {
-  if (!user)
-    throw new ApolloError("User object is empty, cannot create refresh token");
+  if (!user) throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(
     { userId: user.id, tokenVersion: user.refreshTokenVersion },
     process.env.REFRESH_TOKEN_SECRET,
@@ -83,8 +81,7 @@ export async function invalidateRefreshTokens(userId) {
       { _id: userId },
       { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
     );
-    if (resp.nModified === 0)
-      throw Error("Refresh token version was not increased.");
+    if (resp.nModified === 0) throw Error("Refresh token version was not increased.");
 
     return true;
   } catch (err) {
@@ -98,8 +95,7 @@ export async function invalidateAccessTokens(userId) {
       { _id: userId },
       { $inc: { accessTokenVersion: 1 }, updatedAt: new Date() }
     );
-    if (resp.nModified === 0)
-      throw Error("Access token version was not increased.");
+    if (resp.nModified === 0) throw Error("Access token version was not increased.");
     return true;
   } catch (err) {
     handleResolverError(err);

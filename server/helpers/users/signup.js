@@ -1,6 +1,7 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
 import { User } from "../../models";
+import { verifyEmailIsUnique } from "./userHelpers";
 import { UserInputError, AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
 
@@ -13,11 +14,10 @@ export async function signUserUp({
   googleLogin,
   allowEmailNotifications
 }) {
-  const userWithEmail = await User.findOne({ email: email });
-  if (userWithEmail)
-    throw new UserInputError(
-      "User with email already exists. Have you forgotten your password?"
-    );
+  // const userWithEmail = await User.findOne({ email: email });
+  // if (userWithEmail)
+  //   throw new UserInputError("User with email already exists. Have you forgotten your password?");
+  await verifyEmailIsUnique(email);
   let hashedPassword;
   if (googleLogin) hashedPassword = null;
   else hashedPassword = await bcrypt.hash(password, 10);

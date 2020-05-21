@@ -41,8 +41,7 @@ test("that the float is rounded to two decimals correctly", () => {
   expect(escapeObjectForHtml(user)).toMatchObject({
     id: "5e97499744dbe5306bfbe26d",
     username: "&lt;b&gt;I&#x27;m a very bold person&lt;&#x2F;b&gt;",
-    email:
-      "&lt;script&gt;alert(&#x27;I like to stay alerted&#x27;)&lt;&#x2F;script&gt;",
+    email: "&lt;script&gt;alert(&#x27;I like to stay alerted&#x27;)&lt;&#x2F;script&gt;",
     mascot: 0,
     googleLogin: false
   });

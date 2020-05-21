@@ -53,9 +53,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -68,9 +66,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -83,9 +79,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -98,9 +92,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -113,9 +105,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 });
 

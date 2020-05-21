@@ -9,20 +9,17 @@ import {
 import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
 import {
   handleResolverError,
-  handleAuthentication
+  handleAuthentication,
+  handleAuthenticationAlreadyLoggedIn
 } from "../helpers/generalHelpers";
 import bcrypt from "bcrypt";
 
-import {
-  escapeUserObject,
-  updateUserLastVisited
-  // calculateUserState
-} from "../helpers/users/userHelpers";
+import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
 
 import {
-  updateUserInDatabase,
-  userWantsPasswordUpdating
-  // calculateUserState
+  updateUser,
+  userWantsPasswordUpdating,
+  getPasswordToSave
 } from "../helpers/users/updateUser";
 
 import {
@@ -42,11 +39,7 @@ import {
 
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
-import {
-  logUserIn,
-  authenticateUser,
-  verifyGoogleIdToken
-} from "../helpers/users/login";
+import { logUserIn, authenticateUser, verifyGoogleIdToken } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
@@ -79,8 +72,7 @@ export const userResolvers = {
     },
     login: async (_, { email, password }, { res, userInfo }) => {
       try {
-        if (userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
+        handleAuthenticationAlreadyLoggedIn(userInfo);
         verifyLoginInputFormat({ email, password });
         const user = await authenticateUser({ email, password });
         const accessToken = logUserIn({ user, res });
@@ -92,20 +84,17 @@ export const userResolvers = {
     },
     signup: async (
       _,
-      { username, email, password, mascot, allowEmailNotifications },
+      { username, email, password, mascot = 0, allowEmailNotifications },
       { res, userInfo }
     ) => {
       try {
-        if (userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
-        if (!mascot) mascot = 0;
+        handleAuthenticationAlreadyLoggedIn(userInfo);
         verifySignupInputFormat({
           username,
           email,
           password,
-          mascot: mascot.toString()
+          mascot
         });
-
         const user = await signUserUp({
           username,
           email,
@@ -113,24 +102,18 @@ export const userResolvers = {
           mascot,
           allowEmailNotifications
         });
-
         const accessToken = logUserIn({ user, res });
         if (allowEmailNotifications) stanEmail.sendSignupMail(email, mascot);
         return accessToken;
       } catch (err) {
-        // if (err.code === 11000)
-        //   throw new ApolloError(
-        //     "User with email already exists. Have you forgotten your password?"
-        //   );
         handleResolverError(err);
       }
     },
     updateMascot: async (_, { mascot }, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        verifyMascotInputFormat({ mascot: mascot.toString() });
+        verifyMascotInputFormat({ mascot: mascot });
         if (userInfo.user.mascot === mascot) return true;
-
         const resp = await User.updateOne(
           { _id: userInfo.userId },
           { mascot: mascot, updatedAt: new Date() }
@@ -145,87 +128,40 @@ export const userResolvers = {
     googleLogin: async (_, { idToken }, { res, userInfo }) => {
       //https://developers.google.com/identity/sign-in/web/backend-auth
       try {
-        if (userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
+        handleAuthenticationAlreadyLoggedIn(userInfo);
         const payload = await verifyGoogleIdToken(idToken);
-        if (!payload)
-          throw new AuthenticationError("Google id token was not verified.");
-
+        if (!payload) throw new AuthenticationError("Google id token was not verified.");
         let user = await User.findOne({ googleId: payload.sub });
-
         if (!user) user = await signUpGoogleUser(payload);
-
         const accessToken = logUserIn({ user, res });
-        // return { user, accessToken, tokenExpiration: 15 };
         return accessToken;
       } catch (err) {
         handleResolverError(err);
       }
     },
-    updateUser: async (
-      _,
-      {
-        username,
-        email,
-        password,
-        newPassword,
-        mascot,
-        allowEmailNotifications
-      },
-      { userInfo }
-    ) => {
+    updateUser: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        const user = userInfo.user;
-        if (user.googleLogin)
+        if (userInfo.user.googleLogin)
           throw new ApolloError("Cannot update Google Login user account.");
-        verifyUpdateUserInputFormat({
-          username,
-          email,
-          mascot: mascot.toString()
+        verifyUpdateUserInputFormat({ ...args });
+
+        const updatedUser = await updateUser({
+          userId: userInfo.userId,
+          currentUser: userInfo.user,
+          ...args
         });
-        let passwordToSave = user.password;
-        if (userWantsPasswordUpdating(password, newPassword)) {
-          // console.log("USER WANTS PASSWORD UPDATING");
-
-          await validatePassword(password, user.password);
-          // console.log("Password is validated");
-          verifyUpdatePasswordInputFormat(newPassword);
-          passwordToSave = await bcrypt.hash(newPassword, 10);
-        }
-        // console.log("passwordToSave: " + passwordToSave);
-
-        await updateUserInDatabase(
-          userInfo.userId,
-          username,
-          email,
-          passwordToSave,
-          mascot,
-          allowEmailNotifications
-        );
-
-        const updatedUser = await User.findOne({
-          _id: userInfo.userId
-        });
-        // console.log(updatedUser);
-        // return updatedUser;
-        // updatedUser.id = updatedUser._id;
-
         return escapeUserObject(updatedUser);
-        // return await User.findOne({ _id: userInfo.userId });
       } catch (err) {
         handleResolverError(err);
       }
     },
     forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
-        if (userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
-
+        handleAuthenticationAlreadyLoggedIn(userInfo);
         verifyEmailFormat(email);
         const link = await createForgottenPasswordEmailLink(email);
         stanEmail.sendForgottenPasswordMail(email, link);
-
         return true;
       } catch (err) {
         handleResolverError(err);
@@ -233,8 +169,8 @@ export const userResolvers = {
     },
     resetPassword: async (_, { userId, token, newPassword }, { userInfo }) => {
       try {
-        if (userInfo.isAuth)
-          throw new AuthenticationError("Already logged in.");
+        handleAuthenticationAlreadyLoggedIn(userInfo);
+
         const user = await User.findOne({ _id: userId });
         if (!user) throw new ApolloError("There is no user with that id.");
         const secret = createForgottenPasswordSecret(user);
@@ -247,9 +183,7 @@ export const userResolvers = {
           { password: passwordToSave, updatedAt: new Date() }
         );
         if (updateResp.ok === 0 && updateResp.nModified === 0)
-          throw new ApolloError(
-            "Unable to reset the password. Please try again."
-          );
+          throw new ApolloError("Unable to reset the password. Please try again.");
         return true;
       } catch (err) {
         handleResolverError(err);
@@ -258,16 +192,11 @@ export const userResolvers = {
     deleteUser: async (_, __, { res, userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        //TODO: DELETE EVERYTHING RELATED TO THE USER (CACHE...)
         await deleteUsersData(userInfo.userId);
         sendRefreshToken(res, "");
-
         await deleteUser(userInfo.userId);
         if (userInfo.user.allowEmailNotifications)
-          stanEmail.sendDeleteAccountMail(
-            userInfo.user.email,
-            userInfo.user.mascot
-          );
+          stanEmail.sendDeleteAccountMail(userInfo.user.email, userInfo.user.mascot);
         return true;
       } catch (err) {
         handleResolverError(err);

@@ -2,13 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
 import { RESET_PASSWORD_MUTATION } from "../../mutations.js";
 // import { FORGOTTEN_PASSWORD_EMAIL } from "../../queries.js";
 import jwt from "jsonwebtoken";
@@ -54,27 +48,19 @@ describe("Test forgotten password resolver/helpers", () => {
   it.only("should update the users password correctly", async () => {
     //---create the email link---
     const secret = createForgottenPasswordSecret(testUser);
-    const token = jwt.sign(
-      { userId: testUser._id, userEmail: testUser.email },
-      secret,
-      {
-        expiresIn: "10m"
-      }
-    );
+    const token = jwt.sign({ userId: testUser._id, userEmail: testUser.email }, secret, {
+      expiresIn: "10m"
+    });
 
     const link = await createForgottenPasswordEmailLink(testUser.email);
     expect(link).toBeTruthy();
-    expect(link).toBe(
-      process.env.CLIENT_URL + "/resetpassword/" + testUser._id + "/" + token
-    );
+    expect(link).toBe(process.env.CLIENT_URL + "/resetpassword/" + testUser._id + "/" + token);
 
     //---reset password---
     const userBeforePasswordReset = await User.findOne({ _id: testUser._id });
     expect(userBeforePasswordReset).toBeTruthy();
 
-    expect(
-      await bcrypt.compare("samantha", userBeforePasswordReset.password)
-    ).toBeTruthy();
+    expect(await bcrypt.compare("samantha", userBeforePasswordReset.password)).toBeTruthy();
     const respResetPassword = await query({
       query: RESET_PASSWORD_MUTATION,
       variables: {
@@ -88,23 +74,13 @@ describe("Test forgotten password resolver/helpers", () => {
     const userAfterPasswordReset = await User.findOne({ _id: testUser._id });
 
     expect(
-      await bcrypt.compare(
-        "myNewEvenMoreSecretPassword",
-        userAfterPasswordReset.password
-      )
+      await bcrypt.compare("myNewEvenMoreSecretPassword", userAfterPasswordReset.password)
     ).toBeTruthy();
 
+    expect(await bcrypt.compare("samantha", userAfterPasswordReset.password)).toBeFalsy();
     expect(
-      await bcrypt.compare("samantha", userAfterPasswordReset.password)
+      await bcrypt.compare(userBeforePasswordReset.password, userAfterPasswordReset.password)
     ).toBeFalsy();
-    expect(
-      await bcrypt.compare(
-        userBeforePasswordReset.password,
-        userAfterPasswordReset.password
-      )
-    ).toBeFalsy();
-    expect(
-      await bcrypt.compare("samantha", userAfterPasswordReset.password)
-    ).toBeFalsy();
+    expect(await bcrypt.compare("samantha", userAfterPasswordReset.password)).toBeFalsy();
   });
 });

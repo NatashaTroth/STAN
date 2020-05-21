@@ -20,12 +20,7 @@ export async function createForgottenPasswordEmailLink(email) {
 }
 
 export function createForgottenPasswordSecret(user) {
-  return (
-    user.password +
-    "-" +
-    user.updatedAt.getTime() +
-    process.env.FORGOTTEN_PASSWORD_SECRET
-  );
+  return user.password + "-" + user.updatedAt.getTime() + process.env.FORGOTTEN_PASSWORD_SECRET;
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {
@@ -34,9 +29,7 @@ export function validateForgottenPasswordToken(user, token, secret) {
     decodedToken = jwt.verify(token, secret);
     if (!decodedToken) throw new Error();
   } catch (err) {
-    throw new Error(
-      "Invalid url. Please use the forgotten password button to try again."
-    );
+    throw new Error("Invalid url. Please use the forgotten password button to try again.");
   }
   if (decodedToken.userId.toString() !== user._id.toString())
     throw new Error("Wrong user in the forgotten password token.");

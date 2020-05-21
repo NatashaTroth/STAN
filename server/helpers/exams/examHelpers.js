@@ -28,9 +28,7 @@ export async function fetchExam(examId, userId) {
     userId
   });
   if (!exam)
-    throw new ApolloError(
-      "No exam exists with this exam id: " + examId + " for this user."
-    );
+    throw new ApolloError("No exam exists with this exam id: " + examId + " for this user.");
   return exam;
 }
 
@@ -41,10 +39,7 @@ export function prepareExamInputData(args, userId) {
   }
 
   args.startPage = args.startPage || 1;
-  args.numberPages = calcNumberPagesFromPageNumbers(
-    args.startPage,
-    args.lastPage
-  );
+  args.numberPages = calcNumberPagesFromPageNumbers(args.startPage, args.lastPage);
 
   args.timesRepeat = args.timesRepeat || 1;
   args.currentPage = args.currentPage || args.startPage;
@@ -95,8 +90,7 @@ export function verifyAddExamDates(startDate, examDate) {
     );
 }
 export function calcNumberPagesFromPageNumbers(startPage, lastPage) {
-  if (lastPage < startPage)
-    throw new Error("The last page should be higher than the start page.");
+  if (lastPage < startPage) throw new Error("The last page should be higher than the start page.");
   return lastPage - startPage + 1;
 }
 
@@ -113,10 +107,7 @@ export async function handleUpdateExamInput(exam, args, userId) {
   // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
-  args.numberPages = calcNumberPagesFromPageNumbers(
-    args.startPage,
-    args.lastPage
-  );
+  args.numberPages = calcNumberPagesFromPageNumbers(args.startPage, args.lastPage);
   args.color = getBackgroundColor(args.color, args);
   args.textColor = generateTextColor(args.color);
   // learningIsComplete(args.currentPage, args.startPage, a);
@@ -137,26 +128,16 @@ export async function handleCurrentPageInput(page, examId, userId) {
     _id: examId,
     userId: userId
   });
-  if (!exam)
-    throw new ApolloError(
-      "There is no exam with the id: " + examId + " for that user."
-    );
+  if (!exam) throw new ApolloError("There is no exam with the id: " + examId + " for that user.");
   if (page < exam.startPage)
-    throw new ApolloError(
-      "The entered current page is lower than the start page for this exam."
-    );
+    throw new ApolloError("The entered current page is lower than the start page for this exam.");
   if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
     throw new ApolloError(
       "The entered current page is higher than the number of pages for this exam."
     );
 
   // console.log("checking exam learning complete not chunk");
-  exam.completed = learningIsComplete(
-    page,
-    exam.startPage,
-    exam.numberPages,
-    exam.timesRepeat
-  );
+  exam.completed = learningIsComplete(page, exam.startPage, exam.numberPages, exam.timesRepeat);
 
   return exam;
 }
@@ -173,19 +154,16 @@ function generateSubjectColor(exam) {
     subjectAsciiNumber += exam.subject.charCodeAt(i);
   }
   colorNumbers.push(
-    Math.round(subjectAsciiNumber * Math.random() * 10) %
-      hexCharsFirstTwoDigits.length
+    Math.round(subjectAsciiNumber * Math.random() * 10) % hexCharsFirstTwoDigits.length
   );
 
   colorNumbers.push(
-    Math.round(
-      exam.examDate.getDay() + exam.examDate.getMonth() * Math.random() * 10
-    ) % hexCharsFirstTwoDigits.length
+    Math.round(exam.examDate.getDay() + exam.examDate.getMonth() * Math.random() * 10) %
+      hexCharsFirstTwoDigits.length
   );
   colorNumbers.push(
-    Math.round(
-      exam.startDate.getDay() + exam.startDate.getMonth() * Math.random() * 10
-    ) % hexCharsSecondTwoDigits.length
+    Math.round(exam.startDate.getDay() + exam.startDate.getMonth() * Math.random() * 10) %
+      hexCharsSecondTwoDigits.length
   );
   colorNumbers.push(
     Math.round(exam.numberPages * exam.timesRepeat * Math.random() * 10) %
@@ -193,19 +171,14 @@ function generateSubjectColor(exam) {
   );
   colorNumbers.push(exam.timePerPage % hexCharsThirdTwoDigits.length);
   colorNumbers.push(
-    (colorNumbers[0] +
-      colorNumbers[1] +
-      colorNumbers[2] +
-      colorNumbers[3] +
-      colorNumbers[4]) %
+    (colorNumbers[0] + colorNumbers[1] + colorNumbers[2] + colorNumbers[3] + colorNumbers[4]) %
       hexCharsThirdTwoDigits.length
   );
   let color = "#";
   let counter = 0;
   colorNumbers.forEach(colorNumber => {
     if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
-    else if (counter < 4)
-      color += hexCharsSecondTwoDigits[colorNumber].toString();
+    else if (counter < 4) color += hexCharsSecondTwoDigits[colorNumber].toString();
     else color += hexCharsThirdTwoDigits[colorNumber].toString();
     counter++;
   });
@@ -213,12 +186,7 @@ function generateSubjectColor(exam) {
   return color;
 }
 
-export function learningIsComplete(
-  currentPage,
-  startPage,
-  numberPages,
-  repeat = 1
-) {
+export function learningIsComplete(currentPage, startPage, numberPages, repeat = 1) {
   // console.log("IN LEARNING COMPLETE FUNCTION");
 
   const endPage = startPage + numberPages * repeat - 1;

@@ -7,30 +7,14 @@ import {
 } from "../../helpers/dates";
 
 test("verifies datesTimingIsValid", () => {
-  expect(
-    datesTimingIsValid(new Date("2120.12.01"), new Date("2121.12.01"))
-  ).toBeTruthy();
-  expect(
-    datesTimingIsValid(new Date("01.12.2120"), new Date("01.12.2121"))
-  ).toBeTruthy();
-  expect(
-    datesTimingIsValid(new Date("2120.12.01"), new Date("2121.12.03"))
-  ).toBeTruthy();
-  expect(
-    datesTimingIsValid(new Date("2120.12.01"), new Date("2221.12.03"))
-  ).toBeTruthy();
-  expect(
-    datesTimingIsValid(new Date("2120.12.02"), new Date("2120.12.01"))
-  ).toBeFalsy();
-  expect(
-    datesTimingIsValid(new Date("1920.12.01"), new Date("2121.12.01"))
-  ).toBeFalsy();
-  expect(
-    datesTimingIsValid(new Date("2120.12.01"), new Date("1920.12.01"))
-  ).toBeFalsy();
-  expect(
-    datesTimingIsValid(new Date("2120.12.01"), new Date("2120.12.01"))
-  ).toBeFalsy();
+  expect(datesTimingIsValid(new Date("2120.12.01"), new Date("2121.12.01"))).toBeTruthy();
+  expect(datesTimingIsValid(new Date("01.12.2120"), new Date("01.12.2121"))).toBeTruthy();
+  expect(datesTimingIsValid(new Date("2120.12.01"), new Date("2121.12.03"))).toBeTruthy();
+  expect(datesTimingIsValid(new Date("2120.12.01"), new Date("2221.12.03"))).toBeTruthy();
+  expect(datesTimingIsValid(new Date("2120.12.02"), new Date("2120.12.01"))).toBeFalsy();
+  expect(datesTimingIsValid(new Date("1920.12.01"), new Date("2121.12.01"))).toBeFalsy();
+  expect(datesTimingIsValid(new Date("2120.12.01"), new Date("1920.12.01"))).toBeFalsy();
+  expect(datesTimingIsValid(new Date("2120.12.01"), new Date("2120.12.01"))).toBeFalsy();
 });
 
 test("verifies startDateIsActive", () => {
@@ -42,24 +26,14 @@ test("verifies startDateIsActive", () => {
 });
 
 test("verifies isTheSameDay", () => {
-  expect(
-    isTheSameDay(new Date("1990.12.01"), new Date("1990.12.01"))
-  ).toBeTruthy();
-  expect(
-    isTheSameDay(new Date("1990.12.05"), new Date("1990.12.01"))
-  ).toBeFalsy();
+  expect(isTheSameDay(new Date("1990.12.01"), new Date("1990.12.01"))).toBeTruthy();
+  expect(isTheSameDay(new Date("1990.12.05"), new Date("1990.12.01"))).toBeFalsy();
 });
 
 test("verifies numberOfDaysLeft", () => {
-  expect(getNumberOfDays(new Date("2120.12.01"), new Date("2120.12.02"))).toBe(
-    1
-  );
-  expect(getNumberOfDays(new Date("2120.12.05"), new Date("2120.12.10"))).toBe(
-    5
-  );
-  expect(getNumberOfDays(new Date("2120-04-01"), new Date("2120-04-10"))).toBe(
-    9
-  );
+  expect(getNumberOfDays(new Date("2120.12.01"), new Date("2120.12.02"))).toBe(1);
+  expect(getNumberOfDays(new Date("2120.12.05"), new Date("2120.12.10"))).toBe(5);
+  expect(getNumberOfDays(new Date("2120-04-01"), new Date("2120-04-10"))).toBe(9);
 });
 
 //new Dte(year, month, day, hours, minutes, seconds, milliseconds)
