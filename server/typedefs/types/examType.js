@@ -18,7 +18,8 @@ const examType = gql`
     currentPage: Int!
     notes: String
     studyMaterialLinks: [String]
-    color: String!
+    color: String
+    textColor: String
     completed: Boolean
     userId: ID!
   }

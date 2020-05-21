@@ -194,6 +194,9 @@ function Today(props) {
   if (realCurrentPage < startPage) {
     realCurrentPage = startPage
   }
+  if (realCurrentPage > lastPage) {
+    realCurrentPage = startPage
+  }
   // display for total no. of pages
   let realCurrentPageTotal = currentPage % lastPage
   if (realCurrentPageTotal == 0) {
@@ -208,22 +211,22 @@ function Today(props) {
   // --------------------------------
 
   // last page for todays goal ----------------
-  let numberPages = lastPage
+  let numberPages = todaysChunk.exam.numberPages
   // if start page is bigger than 1 -> last page minus start page (calculation from backend)
-  if (startPage > 1 && startPage != lastPage) {
-    numberPages = todaysChunk.exam.numberPages
-  }
-  // if numberPagesToday is bigger than last page
-  // (happens when more than 1 cycle has to be studied in a day)
-  else if (
-    todaysChunk.numberPagesToday > lastPage ||
-    (todaysChunk.numberPagesToday >= lastPage && startPage == lastPage)
-  ) {
-    numberPages =
-      todaysChunk.numberPagesToday - startPage + todaysChunk.exam.timesRepeat
-  }
-  // happens if startPage = lastPage (only study 1 page)
-  else if (numberPages == 0) numberPages = lastPage - 1
+  // if (startPage > 1 && startPage != lastPage) {
+  //   numberPages = todaysChunk.exam.numberPages
+  // }
+  // // if numberPagesToday is bigger than last page
+  // // (happens when more than 1 cycle has to be studied in a day)
+  // else if (
+  //   todaysChunk.numberPagesToday > lastPage ||
+  //   (todaysChunk.numberPagesToday >= lastPage && startPage == lastPage)
+  // ) {
+  //   numberPages =
+  //     todaysChunk.numberPagesToday - startPage + todaysChunk.exam.timesRepeat
+  // }
+  // // happens if startPage = lastPage (only study 1 page)
+  // else if (numberPages == 0) numberPages = lastPage - 1
 
   // duration ----------------
   let duration = todaysChunk.durationLeftToday
@@ -250,7 +253,7 @@ function Today(props) {
   let repetitionGoal = Math.floor(currentPage / lastPage) + 1
 
   // end page for today's chunk goal ----------------
-  let numberPagesToday = todaysChunk.numberPagesToday
+  let numberPagesToday = todaysChunk.numberPagesToday + startPage - 1
   // if start page is bigger
   if (numberPagesToday < startPage) {
     numberPagesToday = startPage + numberPagesToday
@@ -321,7 +324,7 @@ function Today(props) {
     realCurrentPage !== lastPage
   ) {
     // pages left
-    leftPagesTotal = numberPagesToday - realCurrentPage
+    leftPagesTotal = numberPagesToday - realCurrentPage + 1
     // percentage for bar
     currentPageBar = realCurrentPage
     if (currentPageBar == 1 || currentPageBar == startPage) currentPageBar = 0 // to start with 0 in bar
@@ -376,7 +379,7 @@ function Today(props) {
     leftPagesTotal = numberPages - realCurrentPageTotal + 1
     // percentage for bar
     leftPagesPercentage = Math.round(
-      (currentPage * 100) / (leftPagesTotal + lastPage)
+      (100 / numberPages) * (currentPage - startPage + 1)
     )
   }
   // --------------------------------
@@ -435,7 +438,7 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total no. of pages:
+                        Total no. of pages per cycle:
                       </p>
                       <p className="today__container__content__text">
                         {realCurrentPageTotal} / {numberPages}
@@ -443,7 +446,7 @@ function Today(props) {
                     </div>
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Page numbers:
+                        Total page numbers per cycle:
                       </p>
                       <p className="today__container__content__text">
                         {startPage} - {lastPage}
@@ -471,7 +474,7 @@ function Today(props) {
                 {/* chunks left */}
                 <div className="today__container__chunks-left">
                   <Timeline
-                    heading="Study Progress (pages)"
+                    heading="Pages left to study for today"
                     daysLeft={leftPagesTotal}
                     percentage={leftPagesPercentage}
                     style="bar"
