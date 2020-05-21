@@ -33,6 +33,8 @@ export const GET_EXAM_QUERY = gql`
       timesRepeat
       currentPage
       startPage
+      color
+      textColor
       notes
       studyMaterialLinks
       completed
