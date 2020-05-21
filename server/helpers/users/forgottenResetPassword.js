@@ -9,12 +9,12 @@ import StanEmail from "../StanEmail";
 
 export async function handleForgottenPasswordEmail(email) {
   verifyEmailFormat(email);
-  const link = await createForgottenPasswordEmailLink(email);
+  const link = await createForgottenPasswordLink(email);
   const stanEmail = new StanEmail();
   stanEmail.sendForgottenPasswordMail(email, link);
 }
 
-export async function createForgottenPasswordEmailLink(email) {
+export async function createForgottenPasswordLink(email) {
   const user = await User.findOne({ email });
 
   if (!user) throw new ApolloError("There is no user with that email address.");

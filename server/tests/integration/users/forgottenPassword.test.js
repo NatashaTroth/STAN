@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 
 import { User } from "../../../models";
 import {
-  createForgottenPasswordEmailLink,
+  createForgottenPasswordLink,
   createForgottenPasswordSecret
 } from "../../../helpers/users/forgottenResetPassword";
 import bcrypt from "bcrypt";
@@ -52,7 +52,7 @@ describe("Test forgotten password resolver/helpers", () => {
       expiresIn: "10m"
     });
 
-    const link = await createForgottenPasswordEmailLink(testUser.email);
+    const link = await createForgottenPasswordLink(testUser.email);
     expect(link).toBeTruthy();
     expect(link).toBe(process.env.CLIENT_URL + "/resetpassword/" + testUser._id + "/" + token);
 

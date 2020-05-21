@@ -1,8 +1,5 @@
-import {
-  // UserInputError,
-  ApolloError
-} from "apollo-server";
-import { sendRefreshToken } from "../helpers/authentication/authenticationTokens";
+// UserInputError,
+import { ApolloError } from "apollo-server";
 import {
   handleResolverError,
   handleAuthentication,
@@ -11,16 +8,14 @@ import {
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
 import { handleUpdateUser, handleUpdateMascot } from "../helpers/users/updateUser";
 import {
-  createForgottenPasswordEmailLink,
+  createForgottenPasswordLink,
   handleResetPassword
 } from "../helpers/users/forgottenResetPassword";
-import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
+import { handleDeleteUser } from "../helpers/users/deleteUser";
 import { handleSignUp } from "../helpers/users/signup";
 import { handleGoogleLogin } from "../helpers/users/googleLogin";
 import { handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
-import StanEmail from "../helpers/StanEmail";
-const stanEmail = new StanEmail();
 
 //TODO CHANGE
 
@@ -94,7 +89,7 @@ export const userResolvers = {
     forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        await createForgottenPasswordEmailLink(email);
+        await createForgottenPasswordLink(email);
         return true;
       } catch (err) {
         handleResolverError(err);
@@ -112,11 +107,7 @@ export const userResolvers = {
     deleteUser: async (_, __, { res, userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        await deleteUsersData(userInfo.userId);
-        sendRefreshToken(res, "");
-        await deleteUser(userInfo.userId);
-        if (userInfo.user.allowEmailNotifications)
-          stanEmail.sendDeleteAccountMail(userInfo.user.email, userInfo.user.mascot);
+        await handleDeleteUser(res, userInfo);
         return true;
       } catch (err) {
         handleResolverError(err);

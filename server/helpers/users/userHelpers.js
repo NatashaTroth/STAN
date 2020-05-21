@@ -1,6 +1,6 @@
 import { User } from "../../models";
 import { escapeStringForHtml } from "../generalHelpers";
-import { UserInputError, AuthenticationError } from "apollo-server";
+import { UserInputError } from "apollo-server";
 
 export async function updateUserLastVisited(userId) {
   await User.updateOne(
