@@ -19,10 +19,7 @@ import bcrypt from "bcrypt";
 
 import {
   authenticateUser,
-  signUserUp,
   logUserIn,
-  signUpGoogleUser,
-  verifyGoogleIdToken,
   logUserOut,
   updateUserInDatabase,
   userWantsPasswordUpdating,
@@ -41,9 +38,11 @@ import {
   verifyUpdateUserInputFormat,
   verifyUpdatePasswordInputFormat,
   verifyEmailFormat,
-  validatePassword
+  validatePassword,
+  verifyGoogleIdToken
 } from "../helpers/users/validateUserInput";
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
+import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
 
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();

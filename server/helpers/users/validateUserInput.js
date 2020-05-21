@@ -11,6 +11,9 @@ import {
 import validator from "validator";
 import bcrypt from "bcrypt";
 
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);
@@ -84,4 +87,14 @@ export async function validatePassword(inputPassword, userPassword) {
   } catch (err) {
     throw new AuthenticationError("Password is incorrect.");
   }
+}
+
+//source: https://developers.google.com/identity/sign-in/web/backend-auth
+export async function verifyGoogleIdToken(token) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID
+  });
+  const payload = ticket.getPayload();
+  return payload;
 }

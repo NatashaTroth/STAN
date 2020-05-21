@@ -17,8 +17,6 @@ import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-// import { handleResolverError } from "../resolvers";
-// import { totalDurationCompleted } from "../helpers/chunks";
 import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
 
 import { validatePassword } from "./validateUserInput";
@@ -31,63 +29,13 @@ export async function authenticateUser({ email, password }) {
   //in case user tries to login with google login data in normal login - cause no password!
   if (user.googleLogin)
     throw new AuthenticationError("User has to login with google.");
-  await validatePassword(password, user.password);
-  // try {
-  //   const valid = await bcrypt.compare(password, user.password);
-  //   if (!valid) throw new AuthenticationError("Password is incorrect.");
-  // } catch (err) {
-  //   throw new AuthenticationError("Password is incorrect.");
-  // }
-
   return user;
-}
-
-export async function signUserUp({
-  username,
-  email,
-  password,
-  mascot,
-  googleId,
-  googleLogin,
-  allowEmailNotifications
-}) {
-  const userWithEmail = await User.findOne({ email: email });
-  if (userWithEmail)
-    throw new UserInputError(
-      "User with email already exists. Have you forgotten your password?"
-    );
-  let hashedPassword;
-  if (googleLogin) hashedPassword = null;
-  else hashedPassword = await bcrypt.hash(password, 10);
-  const resp = await User.create({
-    username,
-    email,
-    password: hashedPassword,
-    mascot: mascot || 0,
-    googleId: googleId || "",
-    googleLogin: googleLogin || false,
-    allowEmailNotifications
-  });
-
-  if (!resp) throw new AuthenticationError("User could not be created.");
-  return resp;
 }
 
 export function logUserIn({ user, res }) {
   let userAccessToken = createAccessToken(user);
   sendRefreshToken(res, createRefreshToken(user));
   return userAccessToken;
-}
-
-export function signUpGoogleUser(payload) {
-  return signUserUp({
-    username: payload.name,
-    email: payload.email,
-    password: null,
-    googleId: payload.sub,
-    googleLogin: true
-    // mascot: 1 //TODO GET MASCOT USER CHOSE
-  });
 }
 
 export async function updateUserLastVisited(userId) {
@@ -132,16 +80,6 @@ export async function invalidateAccessTokens(userId) {
   }
 }
 
-//source: https://developers.google.com/identity/sign-in/web/backend-auth
-export async function verifyGoogleIdToken(token) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID
-  });
-  const payload = ticket.getPayload();
-  return payload;
-}
-
 export async function logUserOut(res, userId) {
   sendRefreshToken(res, "");
 
@@ -168,7 +106,6 @@ export async function updateUserInDatabase(
     email,
     password: passwordToSave,
     mascot,
-
     allowEmailNotifications
   };
 
@@ -182,15 +119,9 @@ export async function updateUserInDatabase(
 }
 
 export function userWantsPasswordUpdating(password, newPassword) {
-  // if (!password || password.length <= 0) return false;
-  // if (!newPassword || newPassword.length <= 0) return false;
-  // return true;
   return (
     (password && password.length > 0) || (newPassword && newPassword.length > 0)
   );
-  // return (
-  //   password && password.length > 0 && newPassword && newPassword.length > 0
-  // );
 }
 
 export async function createForgottenPasswordEmailLink(email) {
