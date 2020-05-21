@@ -2,39 +2,30 @@
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
-import { verifyExamInput, verifyAddExamDates } from "../helpers/exams/validateExamInput";
 
 import {
-  prepareExamInputData,
-  // verifyExamInput,
   handleCurrentPageInput,
-  // fetchTodaysChunks,
-  // fetchCalendarChunks,
-  handleUpdateExamInput,
-  // verifyAddExamDates,
   escapeExamObject,
   escapeExamObjects,
   escapeTodaysChunksObjects,
   escapeCalendarObjects,
   fetchExam
-  // learningIsComplete
 } from "../helpers/exams/examHelpers";
 
 import {
   fetchTodaysChunks,
   fetchCalendarChunks,
-  // getTodaysChunkProgress,
   calculateChunkProgress,
   handleUpdateCurrentPageInTodaysChunkCache,
-  handleUpdateExamInTodaysChunkCache,
   deleteExamsTodaysCache
 } from "../helpers/exams/chunks";
 
 import { verifyRegexDate } from "../helpers/verifyInput";
-// import { ApolloError } from "apollo-server";
+
 import { handleResolverError, handleAuthentication } from "../helpers/generalHelpers";
 import { ApolloError } from "apollo-server";
 import { handleAddExam } from "../helpers/exams/addExam";
+import { handleUpdateExam } from "../helpers/exams/updateExam";
 
 //TODO: Authentication
 export const examResolvers = {
@@ -131,29 +122,7 @@ export const examResolvers = {
     updateExam: async (_, args, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        // console.log("IN UPDATE EXAM MUTAION");
-        const exam = await fetchExam(args.id, userInfo.userId);
-
-        const processedArgs = await handleUpdateExamInput(exam, args, userInfo.userId);
-
-        const resp = await Exam.updateOne(
-          { _id: args.id, userId: userInfo.userId },
-          { ...processedArgs, updatedAt: new Date() }
-        );
-
-        if (resp.ok === 0 || resp.nModified === 0)
-          throw new ApolloError("The exam couldn't be updated.");
-
-        //TODO: DON'T THINK I NEED, SINCE DELETED NEXT DAY
-        // if (processedArgs.completed)
-        //   await deleteExamsTodaysCache(userInfo.userId, exam._id);
-        // //TODO - NEED AWAIT HERE?
-        // else
-        await handleUpdateExamInTodaysChunkCache(userInfo.userId, exam, processedArgs);
-        const updatedExam = await Exam.findOne({
-          _id: args.id,
-          userId: userInfo.userId
-        });
+        const updatedExam = await handleUpdateExam(args, userInfo);
 
         return escapeExamObject(updatedExam);
       } catch (err) {
