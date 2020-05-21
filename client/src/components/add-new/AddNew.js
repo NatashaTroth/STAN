@@ -577,9 +577,16 @@ async function handleExam({
     })
 
     if (resp && resp.data && resp.data.addExam) {
+      // remove error message ----------------
+      let element = document.getElementsByClassName("graphql-error")
+      element[0].innerHTML = ""
       // success message ----------------
-      document.getElementById("success-container-add-new").style.display =
-        "block"
+      let successBox = document.getElementById("success-container-add-new")
+      successBox.style.display = "block"
+
+      setTimeout(() => {
+        successBox.style.display = "none"
+      }, 3000)
 
       reset({}) // reset form data
     } else {
@@ -587,6 +594,7 @@ async function handleExam({
       throw new Error("The exam could not be added, please check your input")
     }
   } catch (err) {
+    // get element for error message ----------------
     let element = document.getElementsByClassName("graphql-error")
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
