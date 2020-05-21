@@ -57,7 +57,7 @@ const ExamDetailsEdit = ({ examId }) => {
   const [myStartDate, setMyStartDate] = useState(data.startDate)
 
   // color picker ----------------
-  const [color, setColor] = useState() // data.color
+  const [color, setColor] = useState(data.color)
 
   // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
@@ -654,20 +654,7 @@ const ExamDetailsEdit = ({ examId }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <SliderPicker
-                  onChange={handleColor}
-                  color={[
-                    "#D9E3F0",
-                    "#F47373",
-                    "#697689",
-                    "#37D67A",
-                    "#2CCCE4",
-                    "#555555",
-                    "#dce775",
-                    "#ff8a65",
-                    "#ba68c8",
-                  ]}
-                />
+                <SliderPicker onChange={handleColor} color={color} />
               </div>
 
               <div className="form__showColor">
