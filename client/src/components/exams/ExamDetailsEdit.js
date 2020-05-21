@@ -63,6 +63,32 @@ const ExamDetailsEdit = ({ examId }) => {
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
+  // real current page ----------------
+  let realCurrentPage
+  if (data.startPage === 1) {
+    realCurrentPage = data.currentPage % data.lastPage
+    // only 1 page to study
+  } else if (data.startPage === data.lastPage) {
+    realCurrentPage = data.currentPage % data.lastPage
+    // consider start page in calculation
+  } else {
+    realCurrentPage =
+      (data.currentPage % data.lastPage) +
+      data.startPage * data.timesRepeat -
+      (data.startPage - data.timesRepeat + 1)
+  }
+
+  // to display the last page correctly (edge cases)
+  if (realCurrentPage === 0) {
+    realCurrentPage = data.lastPage
+  }
+  if (realCurrentPage < data.startPage) {
+    realCurrentPage = data.startPage
+  }
+  if (realCurrentPage > data.lastPage) {
+    realCurrentPage = data.startPage
+  }
+
   let defaultValues = {
     subject: data.subject,
     examDate: moment(data.examDate),
@@ -70,7 +96,7 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
-    currentPage: data.currentPage,
+    currentPage: realCurrentPage,
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -184,6 +210,7 @@ const ExamDetailsEdit = ({ examId }) => {
     setColor(color.hex)
   }
 
+  // currentRepetition ----------------
   let currentRepetition = Math.round(data.currentPage / data.lastPage)
   if (currentRepetition < 1) currentRepetition = 1
 
@@ -750,7 +777,7 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
 
         <div className="col-md-12" id="success-container-edit-exam">
-          <p className="success">the changes were successfully saved</p>
+          <p className="success">The changes were successfully saved.</p>
         </div>
       </div>
     </form>
