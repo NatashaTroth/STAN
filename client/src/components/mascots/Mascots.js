@@ -106,7 +106,7 @@ const Mascots = () => {
                   </div>
                 </div>
                 <div id="success-container-mascot-saved">
-                  <p className="success">the mascot was successfully saved</p>
+                  <p className="success">The mascot was successfully saved.</p>
                 </div>
                 <div className="error">
                   <p className="graphql-error"></p>

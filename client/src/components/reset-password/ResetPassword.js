@@ -71,7 +71,7 @@ const ResetPassword = props => {
             >
               <div id="success-save-password">
                 <p className="success">
-                  the new password was successfully saved
+                  The new password was successfully saved.
                 </p>
               </div>
 

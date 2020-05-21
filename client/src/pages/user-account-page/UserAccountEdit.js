@@ -537,7 +537,7 @@ const UserAccountEdit = () => {
                         id="success-container-edit-user"
                       >
                         <p className="success">
-                          the changes were successfully saved
+                          The changes were successfully saved.
                         </p>
                       </div>
 
@@ -546,7 +546,7 @@ const UserAccountEdit = () => {
                         id="success-container-edit-mascot"
                       >
                         <p className="success">
-                          the new mascot was successfully saved
+                          The new mascot was successfully saved.
                         </p>
                       </div>
 
@@ -591,7 +591,7 @@ const UserAccountEdit = () => {
                           id="success-container-delete-user"
                         >
                           <p className="success">
-                            your account was successfully deleted
+                            Your account was successfully deleted.
                           </p>
                         </div>
                       </div>

@@ -554,7 +554,7 @@ function AddNew() {
             </div>
           </div>
           <div className="col-md-12" id="success-container-add-new">
-            <p className="success">the exam was successfully added</p>
+            <p className="success">The exam was successfully added.</p>
           </div>
         </div>
       </div>
