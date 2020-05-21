@@ -110,32 +110,14 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
       newChunk.exam.startPage,
       newChunk.exam.currentPage
     ) * newChunk.exam.timePerPage;
-  // console.log(
-  //   "pages left " +
-  //     calcPagesLeft(
-  //       newChunk.exam.numberPages,
-  //       newChunk.exam.timesRepeat,
-  //       newChunk.exam.startPage,
-  //       newChunk.exam.currentPage
-  //     )
-  // );
-  // console.log("totalDurationLeft " + totalDurationLeft);
+
   const dailyDurationWithCompletedDuration =
     (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
-  // console.log(
-  //   "dailyDurationWithCompletedDuration " + dailyDurationWithCompletedDuration
-  // );
 
   let durationToday = Math.ceil(dailyDurationWithCompletedDuration - durationAlreadyLearned);
-
   if (durationToday < 0) durationToday = 0;
-  // console.log("durationToday " + durationToday);
-
   const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
-  // console.log("numberPagesToday " + numberPagesToday);
-
   durationToday = numberPagesToday * newChunk.exam.timePerPage;
-  // console.log("durationToday " + durationToday);
 
   updates = {
     numberPagesToday,
@@ -143,12 +125,10 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
     startPage: newChunk.currentPage,
     currentPage: newChunk.currentPage,
     daysLeft: newChunk.daysLeft,
-    notEnoughTime: newChunk.notEnoughTime,
     durationAlreadyLearned,
     completed: newChunk.completed
     // updatedAt: new Date
   };
-
   return updates;
 }
 

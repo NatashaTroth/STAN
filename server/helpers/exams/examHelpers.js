@@ -17,6 +17,13 @@ export async function fetchExam(examId, userId) {
   return exam;
 }
 
+export async function fetchUncompletedExams(userId) {
+  return await Exam.find({
+    userId: userId,
+    completed: false
+  }).sort({ examDate: "asc" });
+}
+
 export function prepareExamInputData(args, userId) {
   args.examDate = new Date(args.examDate);
   if (!args.startDate || args.startDate.length <= 0) {

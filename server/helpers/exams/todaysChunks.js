@@ -5,7 +5,8 @@ import { Exam, TodaysChunkCache } from "../../models";
 import { startDateIsActive, getNumberOfDays, isTheSameDay } from "../dates";
 
 import {
-  learningIsComplete
+  learningIsComplete,
+  fetchUncompletedExams
   // handleCurrentPageInput
 } from "./examHelpers";
 import { ApolloError } from "apollo-server";
@@ -68,7 +69,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       durationAlreadyLearned: chunk.durationAlreadyLearned,
       durationLeftToday,
       daysLeft: chunk.daysLeft,
-      notEnoughTime: chunk.notEnoughTime,
+
       completed: chunk.completed
     };
   });
@@ -84,11 +85,8 @@ export function chunkCacheIsValid(chunkUpdatedAt) {
 }
 
 async function fetchCurrentExams(userId) {
-  const exams = await Exam.find({
-    userId: userId,
-    completed: false
-  }).sort({ examDate: "asc" });
-  const currentExams = exams.filter(exam => {
+  const uncompletedExams = await fetchUncompletedExams(userId);
+  const currentExams = uncompletedExams.filter(exam => {
     return startDateIsActive(new Date(exam.startDate));
   });
   return currentExams;
@@ -140,7 +138,7 @@ export function createTodaysChunkObject(exam) {
     durationLeftToday: durationToday,
     durationAlreadyLearned: 0,
     daysLeft,
-    notEnoughTime: false, //TODO: IMPLEMENT
+
     completed: false
   };
 
@@ -159,7 +157,6 @@ async function addTodaysChunkToDatabase(chunk, userId) {
       startPage: chunk.exam.currentPage,
       currentPage: chunk.exam.currentPage,
       daysLeft: chunk.daysLeft,
-      notEnoughTime: chunk.notEnoughTime,
       completed: false
     });
     if (!resp) throw new Error();

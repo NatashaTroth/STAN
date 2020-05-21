@@ -39,11 +39,6 @@ const todaysChunkCacheSchema = new Schema({
     type: Number,
     required: true
   },
-
-  notEnoughTime: {
-    type: Boolean,
-    default: false
-  },
   completed: {
     type: Boolean,
     default: false

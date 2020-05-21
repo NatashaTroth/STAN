@@ -86,8 +86,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 10,
       durationToday: 50,
       daysLeft: 5
-
-      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
@@ -109,8 +107,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 36,
       durationToday: 360,
       daysLeft: 2
-
-      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
@@ -132,8 +128,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 48,
       durationToday: 480,
       daysLeft: 1
-
-      // notEnoughTime: false
     });
   });
 
@@ -180,7 +174,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 10,
       durationToday: 50,
       daysLeft: 5
-      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[1]).toMatchObject({
@@ -202,8 +195,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 36,
       durationToday: 360,
       daysLeft: 2
-
-      // notEnoughTime: false
     });
 
     expect(resp.data.todaysChunkAndProgress.todaysChunks[0]).toMatchObject({
@@ -225,8 +216,6 @@ describe("Test get todays chunks query", () => {
       numberPagesToday: 48,
       durationToday: 480,
       daysLeft: 1
-
-      // notEnoughTime: false
     });
   });
 
@@ -330,7 +319,6 @@ describe("Test get todays chunks query", () => {
       // currentPage: 3,
       durationToday: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].durationToday,
       daysLeft: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].daysLeft
-      // notEnoughTime: false
     });
 
     //update exam -  "important changes" - therefore chunk has to be recalculated
@@ -377,7 +365,6 @@ describe("Test get todays chunks query", () => {
       // currentPage: 23,
       durationToday: 135,
       daysLeft: 7
-      // notEnoughTime: false
     });
 
     //update Exam again - current progress should still be included
@@ -423,7 +410,6 @@ describe("Test get todays chunks query", () => {
       // currentPage: 23,
       durationToday: 160,
       daysLeft: 6
-      // notEnoughTime: false
     });
   });
 

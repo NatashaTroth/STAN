@@ -97,7 +97,6 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
         }
       ],
       todaysProgress: 0
-      // notEnoughTime: false
     });
 
     //---CHECK DB TODAYSCACHE---
@@ -490,7 +489,6 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
         }
       ],
       todaysProgress: 0
-      // notEnoughTime: false
     });
 
     //---UPDATE CURRENT PAGE---

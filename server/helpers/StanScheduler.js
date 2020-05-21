@@ -6,6 +6,7 @@ import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
 import { deleteExamsTodaysCache } from "./exams/chunkHelpers";
 import { deleteUsersData, deleteUser } from "./users/deleteUser";
+import { fetchUncompletedExams } from "./exams/examHelpers";
 
 export default class StanScheduler {
   constructor() {
@@ -52,16 +53,13 @@ export default class StanScheduler {
       const examsInOneDay = [];
       const examsInThreeDays = [];
       const startDatesToday = [];
-      const exams = await Exam.find({
-        userId: user._id,
-        completed: false
-      }).sort({ subject: "asc" });
+      const exams = await fetchUncompletedExams(user._id);
       exams.forEach(exam => {
         const numberOfDaysUntilExam = getNumberOfDays(new Date(), exam.examDate);
-        console.log(numberOfDaysUntilExam);
+
         if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
         if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
-        console.log(JSON.stringify(examsInOneDay));
+
         if (isTheSameDay(new Date(), exam.startDate)) startDatesToday.push(exam.subject);
       });
       // if (examsInOneDay.length > 0)

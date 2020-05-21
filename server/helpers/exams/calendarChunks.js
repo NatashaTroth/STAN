@@ -3,13 +3,10 @@
 import { Exam } from "../../models";
 import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunkHelpers";
 import { startDateIsActive, getNumberOfDays, isTheSameDay, getPastDay } from "../dates";
+import { fetchUncompletedExams } from "./examHelpers";
 
 export async function fetchCalendarChunks(userId) {
-  const exams = await Exam.find({
-    userId,
-    completed: false
-  }).sort({ examDate: "asc" });
-
+  const exams = await fetchUncompletedExams(userId);
   return getCalendarChunks(exams);
 }
 
