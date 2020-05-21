@@ -1,6 +1,4 @@
-//TODO CHANGE ORDER of all the functions
-// import { ApolloError } from "apollo-server";
-import { Exam, TodaysChunkCache } from "../../models";
+import { TodaysChunkCache } from "../../models";
 
 import {
   learningIsComplete

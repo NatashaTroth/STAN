@@ -1,4 +1,3 @@
-//TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 import { Exam } from "../../models";
 import { fetchExam } from "./examHelpers";
 import { deleteExamsTodaysCache } from "./chunkHelpers";

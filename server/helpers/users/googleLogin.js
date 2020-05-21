@@ -36,6 +36,5 @@ export function signUpGoogleUser(payload) {
     password: null,
     googleId: payload.sub,
     googleLogin: true
-    // mascot: 1 //TODO GET MASCOT USER CHOSE
   });
 }

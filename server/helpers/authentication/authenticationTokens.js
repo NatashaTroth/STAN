@@ -79,29 +79,35 @@ async function getUserFromToken(payload) {
   return user;
 }
 
+export async function invalidationAuthenticationTokens(userId) {
+  const respRefreshToken = await invalidateRefreshTokens(userId);
+  if (!respRefreshToken) throw new ApolloError("Unable to revoke refresh token.");
+  const respAccessToken = await invalidateAccessTokens(userId);
+  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
+}
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
-export async function invalidateRefreshTokens(userId) {
-  //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
+async function invalidateRefreshTokens(userId) {
   try {
     const resp = await User.updateOne(
       { _id: userId },
       { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
     );
-    if (resp.nModified === 0) throw Error("Refresh token version was not increased.");
+    if (resp.nModified === 0) throw new Error("Refresh token version was not increased.");
 
     return true;
   } catch (err) {
     handleResolverError(err);
   }
 }
-//TODO: MOVE TOKEN HELPERS TO TOKEN FILE
-export async function invalidateAccessTokens(userId) {
+
+async function invalidateAccessTokens(userId) {
   try {
     const resp = await User.updateOne(
       { _id: userId },
       { $inc: { accessTokenVersion: 1 }, updatedAt: new Date() }
     );
-    if (resp.nModified === 0) throw Error("Access token version was not increased.");
+    if (resp.nModified === 0) throw new Error("Access token version was not increased.");
+
     return true;
   } catch (err) {
     handleResolverError(err);

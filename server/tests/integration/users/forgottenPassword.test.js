@@ -82,5 +82,7 @@ describe("Test forgotten password resolver/helpers", () => {
       await bcrypt.compare(userBeforePasswordReset.password, userAfterPasswordReset.password)
     ).toBeFalsy();
     expect(await bcrypt.compare("samantha", userAfterPasswordReset.password)).toBeFalsy();
+
+    //TODO: test that auth tokens were invalidated
   });
 });

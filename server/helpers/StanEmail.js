@@ -109,8 +109,6 @@ export default class StanEmail {
     console.log("SENDING MAIL");
 
     let image = `${mascot}-emailStan.svg`;
-
-    //TODO (IF TIME): send correct mascot - 0,1 or 2
     const html = `<style>*{font-family: Verdana, sans-serif}</style><h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
 
     console.log(`${__dirname}/images/${image}`);

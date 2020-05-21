@@ -11,18 +11,12 @@ import {
   getFutureDay
 } from "../setup";
 import { TodaysChunkCache, Exam } from "../../../models";
-// import { todaysChunkCacheEmpty } from "../../../helpers/chunks";
-
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
-
-//TODO: ADD THIS TO THIS TEST TOO?
 import {
   EXAM_COMPLETED_MUTATION,
   UPDATE_CURRENT_PAGE_MUTATION,
   UPDATE_EXAM_MUTATION
 } from "../../mutations.js";
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test get todays chunks query", () => {
   let server;
@@ -315,8 +309,7 @@ describe("Test get todays chunks query", () => {
       },
       numberPagesToday:
         respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].numberPagesToday,
-      startPage: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage, //TODO: or 23???
-      // currentPage: 3,
+      startPage: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage,
       durationToday: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].durationToday,
       daysLeft: respFetchChunks.data.todaysChunkAndProgress.todaysChunks[0].daysLeft
     });
@@ -406,8 +399,7 @@ describe("Test get todays chunks query", () => {
         ]
       },
       numberPagesToday: 32,
-      startPage: 23, //TODO: or 23???
-      // currentPage: 23,
+      startPage: 23,
       durationToday: 160,
       daysLeft: 6
     });

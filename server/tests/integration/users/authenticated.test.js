@@ -177,6 +177,7 @@ describe("Test resolvers are accessed correctly when authenticated", () => {
     const user = await User.findOne({
       _id: testUser._id
     });
+
     expect(user.accessTokenVersion).toBe(1);
     expect(user.refreshTokenVersion).toBe(1);
 

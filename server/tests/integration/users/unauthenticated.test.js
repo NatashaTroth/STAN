@@ -1,13 +1,6 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  clearDatabase,
-  teardown
-  // signUpTestUser
-} from "../setup";
-
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
@@ -21,8 +14,6 @@ import {
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
 import jwt from "jsonwebtoken";
-
-//TODO: TEST GOOGLE LOGIN??
 
 describe("Test resolvers are accessed correctly when the user is unauthenticated", () => {
   let server;

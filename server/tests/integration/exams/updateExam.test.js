@@ -10,11 +10,8 @@ import {
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
-
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
-
-//TODO TEST REGEX HERE TOO?
 
 describe("Test update exam mutation", () => {
   let server;

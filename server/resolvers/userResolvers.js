@@ -17,9 +17,6 @@ import { handleGoogleLogin } from "../helpers/users/googleLogin";
 import { handleLogin } from "../helpers/users/login";
 import { logUserOut } from "../helpers/users/logout";
 
-//TODO CHANGE
-
-//TODO: Authenticate Queries
 export const userResolvers = {
   Query: {
     currentUser: async (_, __, { userInfo }) => {

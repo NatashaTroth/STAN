@@ -48,23 +48,11 @@ export function calcNumberPagesFromPageNumbers(startPage, lastPage) {
 }
 
 export async function handleUpdateExamInput(exam, args, userId) {
-  //TODO: CHANGE NOT GOOD - MIGHT NOT BE START DATE, AND ORIGINAL STARTDATE MIGHT BE IN THE PAST
-  // console.log("HERE");
-  // console.log(args.startDate + " " + args.examDate);
   verifyExamInput(args, userId);
   verifyUpdateExamDates(args.startDate, args.examDate, exam.startDate);
   args.numberPages = calcNumberPagesFromPageNumbers(args.startPage, args.lastPage);
   args.color = getBackgroundColor(args.color, args);
   args.textColor = generateTextColor(args.color);
-  // learningIsComplete(args.currentPage, args.startPage, a);
-  // args.completed = exam.completed;
-  // if (!args.completed)
-  //   args.completed = learningIsComplete(
-  //     args.currentPage,
-  //     args.startPage,
-  //     args.numberPages,
-  //     args.repeat
-  //   );
 
   return prepareExamInputData({ ...args }, userId);
 }

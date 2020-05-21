@@ -3,13 +3,8 @@
 import { createTestClient } from "apollo-server-testing";
 import { setupApolloServer, setupDb, addTestExam, clearDatabase, teardown } from "../setup";
 import { Exam, TodaysChunkCache } from "../../../models";
-
 import { DELETE_EXAM_MUTATION } from "../../mutations.js";
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
-
-//TODO: ADD THIS TO THIS TEST TOO?
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test delete exam mutation", () => {
   let server;

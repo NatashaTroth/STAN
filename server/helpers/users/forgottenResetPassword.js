@@ -1,10 +1,9 @@
-//TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
-
 import { User } from "../../models";
 import { ApolloError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { verifyEmailFormat } from "./validateUserInput";
+import { invalidationAuthenticationTokens } from "../authentication/authenticationTokens";
 import StanEmail from "../StanEmail";
 
 export async function handleForgottenPasswordEmail(email) {
@@ -42,6 +41,7 @@ export async function handleResetPassword({ userId, token, newPassword }) {
   validateForgottenPasswordToken(user, token, secret);
   const passwordToSave = await bcrypt.hash(newPassword, 10);
   await updatePassword(user._id, passwordToSave);
+  await invalidationAuthenticationTokens(userId);
 }
 
 export function validateForgottenPasswordToken(user, token, secret) {

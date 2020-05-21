@@ -1,7 +1,4 @@
-//TODO CHANGE ORDER of all the functions
-// import { ApolloError } from "apollo-server";
-import { Exam } from "../../models";
-import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunkHelpers";
+import { calcPagesLeft } from "./chunkHelpers";
 import { startDateIsActive, getNumberOfDays, isTheSameDay, getPastDay } from "../dates";
 import { fetchUncompletedExams } from "./examHelpers";
 

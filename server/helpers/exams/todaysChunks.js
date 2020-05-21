@@ -1,31 +1,18 @@
-//TODO CHANGE ORDER of all the functions
-// import { ApolloError } from "apollo-server";
-import { Exam, TodaysChunkCache } from "../../models";
-
+import { TodaysChunkCache } from "../../models";
 import { startDateIsActive, getNumberOfDays, isTheSameDay } from "../dates";
+import { learningIsComplete, fetchUncompletedExams } from "./examHelpers";
 
-import {
-  learningIsComplete,
-  fetchUncompletedExams
-  // handleCurrentPageInput
-} from "./examHelpers";
-import { ApolloError } from "apollo-server";
-import { numberOfPagesForChunk, calcPagesLeft, durationLeft } from "./chunkHelpers";
+import { numberOfPagesForChunk, durationLeft } from "./chunkHelpers";
 
 export async function fetchTodaysChunks(userId) {
-  // console.log("in FETCHChunkFunc");
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
   let todaysChunksFromCache = await TodaysChunkCache.find({ userId });
-
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
-    // console.log("cache empty");
     chunks = await calculateTodaysChunks(currentExams);
   } else {
-    // console.log("cache not empty");
     chunks = await createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
   }
-
   return chunks;
 }
 
@@ -39,11 +26,8 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
 
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
-        // console.log("no chunk - recalc");
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
-        // console.log("updating chunk with updates");
-        // console.log(newChunk);
         newChunk.updatedAt = new Date();
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
@@ -80,8 +64,6 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
 
 export function chunkCacheIsValid(chunkUpdatedAt) {
   return isTheSameDay(chunkUpdatedAt, new Date());
-  //TODO do i need this? don't think so now
-  // && date1IsBeforeDate2(examUpdatedAt, chunkUpdatedAt)
 }
 
 async function fetchCurrentExams(userId) {
@@ -93,7 +75,6 @@ async function fetchCurrentExams(userId) {
 }
 
 async function calculateTodaysChunks(currentExams) {
-  // console.log("cahe was empty, calcing new chunks");
   //remove exams where completed = false, but learning is finished
   const exams = currentExams.filter(
     exam =>
@@ -138,7 +119,6 @@ export function createTodaysChunkObject(exam) {
     durationLeftToday: durationToday,
     durationAlreadyLearned: 0,
     daysLeft,
-
     completed: false
   };
 

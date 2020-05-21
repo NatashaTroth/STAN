@@ -1,5 +1,3 @@
-//TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
-
 import { User } from "../../models";
 import { ApolloError } from "apollo-server";
 import bcrypt from "bcrypt";

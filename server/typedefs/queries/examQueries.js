@@ -1,6 +1,5 @@
 import { gql } from "apollo-server";
 
-//TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY CONFIDENTIAL DATA
 const examQueries = gql`
   type Query {
     exams: [Exam]
@@ -8,11 +7,9 @@ const examQueries = gql`
     todaysChunkAndProgress: TodaysChunkAndProgress!
     calendarChunks: CalendarObject!
     examsCount: ExamsCount!
-    # todaysChunksProgress: Int!
   }
 
   type Mutation {
-    #TODO: REFACTOR SO THAT VARIABLES ARE NOT DUPLICATED (WITH UPDATE)
     addExam(
       subject: String!
       examDate: Date!
@@ -42,7 +39,6 @@ const examQueries = gql`
       studyMaterialLinks: [String] # completed: Boolean
     ): Exam!
 
-    #todo: change to just id
     updateCurrentPage(id: ID!, page: Int!): Boolean
     deleteExam(id: ID!): Boolean
     examCompleted(id: ID!, completed: Boolean!): Boolean

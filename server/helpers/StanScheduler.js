@@ -31,22 +31,10 @@ export default class StanScheduler {
       this.removeNoLongerNeededCache();
       this.notifyAndDeleteOldUsers();
     });
-
-    // schedule.scheduleJob("*/1 * * * *", function() {
-    //   console.log("THE SCHEDULER IS WORKING");
-    // });
   }
 
-  //TODO - SIGN UP MAIL, DELETE ACCOUNT MAIL, START LEARNING DATE MAILS
-
   async notifyUsersAboutExams() {
-    //{ hour: 17, minute: 32 }
-    // schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
-    //3 UTC (Greenwich), 4am Austrian time
     console.log("Sending Mails");
-
-    //TODO: INDEX allowEmailNotifications
-
     const users = await User.find({ allowEmailNotifications: true });
     console.log(users.length + " no users authenticated");
     users.forEach(async user => {

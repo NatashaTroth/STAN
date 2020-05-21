@@ -1,13 +1,9 @@
-//TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
-
 import { User, Exam, TodaysChunkCache } from "../../models";
 import { ApolloError } from "apollo-server";
 import { sendRefreshToken } from "../authentication/authenticationTokens";
 
 import StanEmail from "../StanEmail";
 const stanEmail = new StanEmail();
-
-//TODAY: export exam.deletemany into examhelpers
 
 export async function handleDeleteUser(res, userInfo) {
   await deleteUsersData(userInfo.userId);

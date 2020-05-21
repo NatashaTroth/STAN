@@ -1,4 +1,3 @@
-//TODO: EXTRACT ALL DATABASE LOGIC TO APOLLO DATASOURCE: https://www.apollographql.com/docs/tutorial/data-source/
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
@@ -21,7 +20,6 @@ import { handleExamCompleted } from "../helpers/exams/examCompleted";
 import { handleDeleteExam } from "../helpers/exams/deleteExam";
 import { isDateInvalid } from "../helpers/dates";
 
-//TODO: Authentication
 export const examResolvers = {
   Query: {
     exams: async (_, __, { userInfo }) => {
@@ -48,13 +46,9 @@ export const examResolvers = {
     todaysChunkAndProgress: async (_, __, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-
+        //todo extract
         const chunks = await fetchTodaysChunks(userInfo.userId);
-
         const todaysProgress = calculateChunkProgress(chunks);
-
-        //to avoid todayschunks and progress being fetched at the same time
-        //TODO: FETCH THE PRGORESS HERE AND RETURN IT
         const escapedChunks = escapeTodaysChunksObjects(chunks);
         return { todaysChunks: escapedChunks, todaysProgress };
       } catch (err) {
