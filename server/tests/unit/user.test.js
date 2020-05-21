@@ -1,4 +1,4 @@
-import { userWantsPasswordUpdating } from "../../helpers/users/userHelpers";
+import { userWantsPasswordUpdating } from "../../helpers/users/updateUser";
 
 test("verifies numberOfDaysLeft", () => {
   expect(userWantsPasswordUpdating("test1", "test2")).toBeTruthy();

@@ -1,18 +1,18 @@
 import jwt from "jsonwebtoken";
 import { User } from "../../models/index";
 import { ApolloError } from "apollo-server";
+import { handleResolverError } from "../generalHelpers";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
-export async function handleRefreshToken(req, res) {
+export async function handleRefreshTokenRoute(req, res) {
   //read refresh cookie - validate that it's correct
   try {
     const payload = verifyRefreshToken(req);
-    const user = await getUser(payload);
+    const user = await getUserFromToken(payload);
     sendRefreshToken(res, createRefreshToken(user));
     return res.send({ ok: true, accessToken: createAccessToken(user) });
   } catch (err) {
-    console.log("Error in handleRefreshToken()");
-    console.error(err.message);
+    console.error("Error in handleRefreshTokenRoute(): " + err.message);
     return res.send({ ok: false, accessToken: "" });
   }
 }
@@ -67,10 +67,41 @@ function verifyRefreshToken(req) {
   return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 }
 
-async function getUser(payload) {
+async function getUserFromToken(payload) {
   const user = await User.findOne({ _id: payload.userId });
   if (!user) throw new Error("No refresh token in cookie");
   if (user.refreshTokenVersion !== payload.tokenVersion)
     throw new Error("No refresh token in cookie");
   return user;
+}
+
+//TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+export async function invalidateRefreshTokens(userId) {
+  //TODO: NOT THROWING THE ERRORS TO THE CLIENT - PRINTING THEM TO SERVER CONSOLE ON LOGOUT
+  try {
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
+    );
+    if (resp.nModified === 0)
+      throw Error("Refresh token version was not increased.");
+
+    return true;
+  } catch (err) {
+    handleResolverError(err);
+  }
+}
+//TODO: MOVE TOKEN HELPERS TO TOKEN FILE
+export async function invalidateAccessTokens(userId) {
+  try {
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { accessTokenVersion: 1 }, updatedAt: new Date() }
+    );
+    if (resp.nModified === 0)
+      throw Error("Access token version was not increased.");
+    return true;
+  } catch (err) {
+    handleResolverError(err);
+  }
 }

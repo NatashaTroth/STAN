@@ -17,7 +17,7 @@ import { User } from "../../../models";
 import {
   createForgottenPasswordEmailLink,
   createForgottenPasswordSecret
-} from "../../../helpers/users/userHelpers";
+} from "../../../helpers/users/forgottenPassword";
 import bcrypt from "bcrypt";
 
 describe("Test forgotten password resolver/helpers", () => {
@@ -51,7 +51,7 @@ describe("Test forgotten password resolver/helpers", () => {
     await teardown();
   });
 
-  it("should update the users password correctly", async () => {
+  it.only("should update the users password correctly", async () => {
     //---create the email link---
     const secret = createForgottenPasswordSecret(testUser);
     const token = jwt.sign(
@@ -85,7 +85,6 @@ describe("Test forgotten password resolver/helpers", () => {
     });
 
     expect(respResetPassword).toBeTruthy();
-
     const userAfterPasswordReset = await User.findOne({ _id: testUser._id });
 
     expect(

@@ -9,7 +9,7 @@ import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "apollo-server";
 import { isAuth } from "./helpers/authentication/is-auth";
 import cookieParser from "cookie-parser";
-import { handleRefreshToken } from "./helpers/authentication/authenticationTokens";
+import { handleRefreshTokenRoute } from "./helpers/authentication/authenticationTokens";
 import path from "path";
 import compress from "compression";
 import StanScheduler from "./helpers/StanScheduler";
@@ -121,7 +121,7 @@ const apolloServer = new ApolloServer({
 
 //special route for updating access token - for security reasons
 app.post("/refresh_token", async (req, res) => {
-  await handleRefreshToken(req, res);
+  await handleRefreshTokenRoute(req, res);
 });
 
 // TODO: remove /graphql when deployed

@@ -1,25 +1,8 @@
 //TODO: here and in exam resolvers, export error messages to separate file - so only have to change once and can also use in tests
 
 import { User } from "../../models";
-import {
-  UserInputError,
-  AuthenticationError,
-  ApolloError
-} from "apollo-server";
-import {
-  createAccessToken,
-  createRefreshToken
-} from "../authentication/authenticationTokens";
-import { sendRefreshToken } from "../authentication/authenticationTokens";
+import { UserInputError, AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
-import { OAuth2Client } from "google-auth-library";
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-import { escapeStringForHtml, handleResolverError } from "../generalHelpers";
-
-import { validatePassword } from "./validateInput";
 
 export async function signUserUp({
   username,

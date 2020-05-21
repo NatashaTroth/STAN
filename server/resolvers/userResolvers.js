@@ -12,40 +12,42 @@ import {
   handleAuthentication
 } from "../helpers/generalHelpers";
 import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-
-// import sanitizer from "sanitize";
-// import validator from "validator";
 
 import {
-  logUserOut,
-  updateUserInDatabase,
-  userWantsPasswordUpdating,
-  createForgottenPasswordEmailLink,
-  createForgottenPasswordSecret,
-  validateForgottenPasswordToken,
   escapeUserObject,
   updateUserLastVisited
   // calculateUserState
 } from "../helpers/users/userHelpers";
 
 import {
+  updateUserInDatabase,
+  userWantsPasswordUpdating
+  // calculateUserState
+} from "../helpers/users/updateUser";
+
+import {
+  createForgottenPasswordEmailLink,
+  createForgottenPasswordSecret,
+  validateForgottenPasswordToken
+} from "../helpers/users/forgottenPassword";
+import {
+  validatePassword,
   verifySignupInputFormat,
   verifyLoginInputFormat,
   verifyMascotInputFormat,
   verifyUpdateUserInputFormat,
   verifyUpdatePasswordInputFormat,
   verifyEmailFormat
-} from "../helpers/users/verifyInputFormat";
-import {
-  validatePassword,
-  verifyGoogleIdToken,
-  authenticateUser
-} from "../helpers/users/validateInput";
+} from "../helpers/users/validateUserInput";
 
 import { deleteUsersData, deleteUser } from "../helpers/users/deleteUser";
 import { signUserUp, signUpGoogleUser } from "../helpers/users/signup";
-import { logUserIn } from "../helpers/users/login";
+import {
+  logUserIn,
+  authenticateUser,
+  verifyGoogleIdToken
+} from "../helpers/users/login";
+import { logUserOut } from "../helpers/users/logout";
 import StanEmail from "../helpers/StanEmail";
 const stanEmail = new StanEmail();
 // import { escapeObjectForHtml } from "../helpers/generalHelpers";

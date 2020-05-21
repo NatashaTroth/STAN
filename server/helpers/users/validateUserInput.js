@@ -4,17 +4,26 @@ import {
   verifyRegexPassword,
   verifyRegexMascot
 } from "../verifyInput";
+
+import validator from "validator";
+
 import {
   // UserInputError,
   AuthenticationError
 } from "apollo-server";
-import validator from "validator";
+
 import bcrypt from "bcrypt";
 
-import { OAuth2Client } from "google-auth-library";
-import { User } from "../../models";
+export async function validatePassword(inputPassword, userPassword) {
+  try {
+    if (!verifyRegexPassword(inputPassword)) throw new Error();
+    const valid = await bcrypt.compare(inputPassword, userPassword);
+    if (!valid) throw new Error();
+  } catch (err) {
+    throw new AuthenticationError("Password is incorrect.");
+  }
+}
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
   verifyEmailFormat(email);
