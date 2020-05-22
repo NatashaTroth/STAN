@@ -51,6 +51,7 @@ const Exams = () => {
         subject: exam.subject,
         lastPage: exam.lastPage,
         currentPage: exam.currentPage,
+        numberPages: exam.numberPages,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
       })
@@ -60,6 +61,7 @@ const Exams = () => {
         subject: exam.subject,
         lastPage: exam.lastPage,
         currentPage: exam.currentPage,
+        numberPages: exam.numberPages,
         startPage: exam.startPage,
         timesRepeat: exam.timesRepeat,
       })

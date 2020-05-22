@@ -138,18 +138,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
-
-                {/* TODO: fix progressbar and number of pages left */}
                 <div className="exam-pages__bar">
                   <ExamBar value={progressbar} />
 
                   <div className="exam-pages__bar--status">
                     <p>
-                      {examDetails.numberPages -
-                        examDetails.startPage -
-                        (examDetails.currentPage -
-                          examDetails.startPage -
-                          1)}{" "}
+                      {examDetails.numberPages * examDetails.timesRepeat -
+                        (examDetails.currentPage - examDetails.startPage)}{" "}
                       pages left
                     </p>
                   </div>
