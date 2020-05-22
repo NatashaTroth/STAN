@@ -37,6 +37,7 @@ export default class DatePicker extends React.Component {
         onDayChange={this.handleDayChange}
         dayPickerProps={{
           selectedDays: this.state.selectedDay && selectedDayFormatted,
+          firstDayOfWeek: 1,
           disabledDays: {
             before: today,
             after: this.props.disabledAfter,
@@ -51,7 +52,10 @@ export default class DatePicker extends React.Component {
             },
           },
         }}
-        inputProps={{ required: this.props.required, readOnly: "readOnly" }}
+        inputProps={{
+          required: this.props.required,
+          readOnly: "readOnly",
+        }}
         formatDate={formatDate}
         format={FORMAT}
         parseDate={parseDate}
