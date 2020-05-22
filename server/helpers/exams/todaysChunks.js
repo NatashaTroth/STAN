@@ -51,7 +51,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       startPage: chunk.startPage,
       currentPage: chunk.currentPage,
       durationToday: chunk.durationToday,
-      durationAlreadyLearned: chunk.durationAlreadyLearned,
+      // durationAlreadyLearned: chunk.durationAlreadyLearned,
       durationLeftToday,
       daysLeft: chunk.daysLeft,
 
@@ -119,7 +119,7 @@ export function createTodaysChunkObject(exam) {
     currentPage: exam.currentPage,
     durationToday,
     durationLeftToday: durationToday,
-    durationAlreadyLearned: 0,
+    // durationAlreadyLearned: 0,
     daysLeft,
     completed: false
   };

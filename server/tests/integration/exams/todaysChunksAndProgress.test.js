@@ -103,7 +103,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       startPage: testExam.currentPage,
       currentPage: testExam.currentPage,
       daysLeft: 5,
-      durationAlreadyLearned: 0,
+      // durationAlreadyLearned: 0,
       completed: false
     });
     const dateInTodaysChunkCacheDb = new Date(todaysChunkCacheDb.updatedAt);
@@ -130,7 +130,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       startPage: chunkStartPage,
       currentPage: 3,
       daysLeft: 5,
-      durationAlreadyLearned: 0,
+      // durationAlreadyLearned: 0,
       completed: false
     });
     let exam = await Exam.findOne({
@@ -219,7 +219,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       startPage: chunkStartPage,
       currentPage: 5,
       daysLeft: 5,
-      durationAlreadyLearned: 0,
+      // durationAlreadyLearned: 0,
       completed: false
     });
     exam = await Exam.findOne({
@@ -296,24 +296,26 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     });
 
     expect(updateResp3.data.updateExam).toBeTruthy();
+
     todaysChunkCacheDb = await TodaysChunkCache.findOne({
       userId: "samanthasId",
       examId: testExam._id.toString()
     });
     expect(todaysChunkCacheDb).toBeTruthy();
     expect(todaysChunkCacheDb).toMatchObject({
-      numberPagesToday: 5,
-      durationToday: 50,
+      numberPagesToday: 6,
+      durationToday: 60,
       startPage: 7,
       currentPage: 7,
       daysLeft: 6,
-      durationAlreadyLearned: 20, //30 if you calc from new currentpage TODO
+      // durationAlreadyLearned: 20,
       completed: false
     });
     exam = await Exam.findOne({
       userId: "samanthasId",
       subject: testExam.subject
     });
+
     expect(exam).toBeTruthy();
     expect(exam.currentPage).toBe(7);
 
@@ -348,15 +350,16 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
               "https://stan-studyplan.herokuapp.com/"
             ]
           },
-          numberPagesToday: 5,
+          numberPagesToday: 6,
           startPage: 7,
-          durationToday: 50,
-          durationLeftToday: 50,
+          durationToday: 60,
+          durationLeftToday: 60,
           daysLeft: 6,
           completed: false
         }
       ],
-      todaysProgress: 29 //already learnt 20min today - new total today 70min -> 70...100%, 20...x -> x=29%
+      todaysProgress: 0
+      // todaysProgress: 29 //already learnt 20min today - new total today 70min -> 70...100%, 20...x -> x=29%
     });
 
     //---UPDATE CURRENT PAGE TO COMPLETE CHUNK---
@@ -374,12 +377,12 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     });
     expect(todaysChunkCacheDb).toBeTruthy();
     expect(todaysChunkCacheDb).toMatchObject({
-      numberPagesToday: 5,
-      durationToday: 50,
+      numberPagesToday: 6,
+      durationToday: 60,
       startPage: 7,
       currentPage: 13,
       daysLeft: 6,
-      durationAlreadyLearned: 20,
+      // durationAlreadyLearned: 20,
       completed: true
     });
     exam = await Exam.findOne({
@@ -420,9 +423,9 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
               "https://stan-studyplan.herokuapp.com/"
             ]
           },
-          numberPagesToday: 5,
+          numberPagesToday: 6,
           startPage: 7,
-          durationToday: 50,
+          durationToday: 60,
           durationLeftToday: 0,
           daysLeft: 6,
           completed: true
@@ -597,7 +600,7 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
       startPage: 3,
       currentPage: 3,
       daysLeft: 5,
-      durationAlreadyLearned: 0,
+      // durationAlreadyLearned: 0,
       completed: false
     });
     const dateInTodaysChunkCacheDb = new Date(todaysChunkCacheDb.updatedAt);
@@ -641,13 +644,11 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     });
 
     expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
-    console.log(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks);
+
     //---REFETCH TODAYSCHUNKS---
     respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    console.log("------after-------");
-    console.log(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks);
 
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(4);

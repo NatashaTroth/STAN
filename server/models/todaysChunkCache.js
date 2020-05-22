@@ -43,10 +43,10 @@ const todaysChunkCacheSchema = new Schema({
     type: Boolean,
     default: false
   },
-  durationAlreadyLearned: {
-    type: Number,
-    default: 0
-  },
+  // durationAlreadyLearned: {
+  //   type: Number,
+  //   default: 0
+  // },
   createdAt: {
     type: Date,
     default: new Date()
