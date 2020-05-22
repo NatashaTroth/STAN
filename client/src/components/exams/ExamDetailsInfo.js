@@ -26,11 +26,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  let currentRepetition = Math.round(
-    examDetails.currentPage / examDetails.numberPages
-  )
-  if (currentRepetition < 1) currentRepetition = 1
-
   let numberOfPages
   if (examDetails.startPage > 1) {
     numberOfPages = examDetails.lastPage - examDetails.startPage
@@ -38,6 +33,16 @@ const ExamDetailsInfo = ({ examDetails }) => {
     numberOfPages = examDetails.lastPage
   }
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
+
+  let currentRepetition
+  if (examDetails.currentPage - numberOfPages === examDetails.lastPage) {
+    currentRepetition = Math.round(examDetails.currentPage / numberOfPages)
+  } else {
+    currentRepetition = Math.round(
+      examDetails.currentPage / examDetails.numberPages
+    )
+  }
+  if (currentRepetition < 1) currentRepetition = 1
 
   let progressbar =
     (100 * (examDetails.currentPage - examDetails.startPage)) /
