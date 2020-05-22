@@ -1,13 +1,13 @@
-import React from "react"
+import React, { lazy } from "react"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
-// components ----------------
-import AddNew from "../../components/add-new/AddNew"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const AddNew = lazy(() => import("../../components/add-new/AddNew"))
 
 const AddNewPage = () => {
   // redirects ----------------

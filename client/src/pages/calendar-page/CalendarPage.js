@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -19,19 +19,19 @@ import enLocale from "@fullcalendar/core/locales/en-gb"
 import Popover from "react-bootstrap/Popover"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
-// components ----------------
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
-
-// sub-components ----------------
-import Button from "../../components/button/Button"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { minuteToHours } from "../../helpers/dates"
 import { extractDomain, decodeHtml } from "../../helpers/mascots"
+
+// components ----------------
+const QueryError = lazy(() => import("./../components/error/Error"))
+const Loading = lazy(() => import("../../components/loading/Loading"))
+
+// sub-components ----------------
+const Button = lazy(() => import("../../components/button/Button"))
 
 const ExamsCalendar = () => {
   // objects ----------------
