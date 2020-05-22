@@ -133,6 +133,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
 
+                {/* TODO: fix progressbar and number of pages left */}
                 <div className="exam-pages__bar">
                   <ExamBar value={progressbar} />
 
