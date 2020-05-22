@@ -25,9 +25,10 @@ import DatePicker from "../../components/datepicker/DatePicker"
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
-// react-bootstrap ----------------
+// react-bootstrap & color picker ----------------
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
+import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
 import { filteredLinks } from "../../helpers/mascots"
@@ -55,9 +56,23 @@ const ExamDetailsEdit = ({ examId }) => {
   const [myExamDate, setMyExamDate] = useState(data.examDate)
   const [myStartDate, setMyStartDate] = useState(data.startDate)
 
+  // color picker ----------------
+  const [color, setColor] = useState(data.color)
+
   // parse Date ----------------
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
+
+  let numberOfPages
+  if (data.startPage > 1) {
+    numberOfPages = data.lastPage - data.startPage
+  } else {
+    numberOfPages = data.lastPage
+  }
+
+  // currentRepetition ----------------
+  let currentRepetition = Math.round(data.currentPage / data.numberPages)
+  if (currentRepetition < 1) currentRepetition = 1
 
   let defaultValues = {
     subject: data.subject,
@@ -66,7 +81,8 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
-    currentPage: data.currentPage,
+    cycle: currentRepetition,
+    currentPage: data.currentPage - numberOfPages * (currentRepetition - 1),
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -83,6 +99,7 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage,
     startPage,
     currentPage,
+    cycle,
     timePerPage,
     timesRepeat,
     notes,
@@ -95,6 +112,7 @@ const ExamDetailsEdit = ({ examId }) => {
     register({ exam: "lastPage" })
     register({ exam: "startPage" })
     register({ exam: "currentPage" })
+    register({ exam: "cycle" })
     register({ exam: "timePerPage" })
     register({ exam: "timesRepeat" })
     register({ exam: "notes" })
@@ -135,7 +153,10 @@ const ExamDetailsEdit = ({ examId }) => {
       formExamDate,
       formStartDate,
       history,
+      color,
       newLinks,
+      cycle,
+      numberOfPages,
     })
   }
 
@@ -175,8 +196,9 @@ const ExamDetailsEdit = ({ examId }) => {
     setNewUrls(values)
   }
 
-  let currentRepetition = Math.round(data.currentPage / data.lastPage)
-  if (currentRepetition < 1) currentRepetition = 1
+  const handleColor = color => {
+    setColor(color.hex)
+  }
 
   // return ----------------
   return (
@@ -375,7 +397,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
               <input
                 className="form__element__input"
-                type="text"
+                type="number"
                 id="currentPage"
                 label="exam_current_page"
                 name="currentPage"
@@ -505,7 +527,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <OverlayTrigger
                   placement="top"
                   delay={{ show: 250, hide: 400 }}
-                  overlay={<Tooltip>Your repetition cycle.</Tooltip>}
+                  overlay={<Tooltip>Your current repetition cycle.</Tooltip>}
                 >
                   <span className="info-circle">i</span>
                 </OverlayTrigger>
@@ -518,21 +540,24 @@ const ExamDetailsEdit = ({ examId }) => {
                 label="exam_cycle"
                 name="cycle"
                 onChange={handleChange.bind(null, "cycle")}
-                value={currentRepetition}
+                value={cycle}
                 ref={register({
                   required: true,
                   min: 1,
-                  max: { timesRepeat },
+                  max: timesRepeat,
                 })}
                 required
               />
-              {errors.timePerPage && errors.cycle.type === "required" && (
+              {errors.cycle && errors.cycle.type === "required" && (
                 <span className="error">This field is required</span>
               )}
-              {errors.timePerPage && errors.cycle.type === "max" && (
-                <span className="error"> The maximum is 100 cycles.</span>
+              {errors.cycle && errors.cycle.type === "max" && (
+                <span className="error">
+                  {" "}
+                  The maximum is {timesRepeat} cycles.
+                </span>
               )}
-              {errors.timePerPage && errors.cycle.type === "min" && (
+              {errors.cycle && errors.cycle.type === "min" && (
                 <span className="error">Only positive numbers are allowed</span>
               )}
             </div>
@@ -623,6 +648,37 @@ const ExamDetailsEdit = ({ examId }) => {
               </div>
             ) : null}
 
+            <div className="form__element">
+              <div className="form__color-picker">
+                <div className="info-box-label">
+                  <Label
+                    htmlFor="color"
+                    text="Select an exam color"
+                    className="form__element__label"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        Give your exam a unique color to make it stick out in
+                        the calendar overview. If no color is selected, stan
+                        will generate a random exam color for you.
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <SliderPicker onChange={handleColor} color={color} />
+              </div>
+
+              <div className="form__showColor">
+                <h5 className="form__element__label">Selected color</h5>
+                <div className="color" style={{ backgroundColor: color }}></div>
+              </div>
+            </div>
+
             <div className="form__current-study-links">
               <div className="form__element">
                 <div className="info-box-label">
@@ -710,7 +766,7 @@ const ExamDetailsEdit = ({ examId }) => {
         </div>
 
         <div className="col-md-12" id="success-container-edit-exam">
-          <p className="success">the changes were successfully saved</p>
+          <p className="success">The changes were successfully saved.</p>
         </div>
       </div>
     </form>
@@ -726,9 +782,15 @@ async function handleExam({
   formExamDate,
   formStartDate,
   history,
+  color,
   newLinks,
+  cycle,
+  numberOfPages,
 }) {
   try {
+    let realCurrentPage =
+      parseInt(data.currentPage) + numberOfPages * (cycle - 1)
+
     const resp = await updateExam({
       variables: {
         id: examId,
@@ -739,7 +801,8 @@ async function handleExam({
         timePerPage: parseInt(data.timePerPage),
         timesRepeat: parseInt(data.timesRepeat),
         startPage: parseInt(data.startPage),
-        currentPage: parseInt(data.currentPage),
+        color: color,
+        currentPage: realCurrentPage,
         notes: data.notes,
         studyMaterialLinks: newLinks,
         completed: false,

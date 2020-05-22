@@ -220,7 +220,7 @@ const ExamDetails = () => {
                           id="success-container-exam-detail"
                         >
                           <p className="success">
-                            the exam was successfully deleted
+                            The exam was successfully deleted.
                           </p>
                         </div>
                       </div>

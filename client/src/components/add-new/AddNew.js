@@ -43,17 +43,7 @@ function AddNew() {
 
   // state ----------------
   const [inputFields, setInputFields] = useState([""])
-  const [color, setColor] = useState([
-    "#D9E3F0",
-    "#F47373",
-    "#697689",
-    "#37D67A",
-    "#2CCCE4",
-    "#555555",
-    "#dce775",
-    "#ff8a65",
-    "#ba68c8",
-  ])
+  const [color, setColor] = useState("")
 
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
@@ -76,6 +66,7 @@ function AddNew() {
       formExamDate,
       formStartDate,
       newLinks,
+      color,
       reset,
     })
   }
@@ -504,7 +495,7 @@ function AddNew() {
                         <div className="info-box-label">
                           <Label
                             htmlFor="color"
-                            text="Choose an exam color"
+                            text="Select an exam color"
                             className="form__element__label"
                           />
                           <OverlayTrigger
@@ -512,7 +503,10 @@ function AddNew() {
                             delay={{ show: 250, hide: 400 }}
                             overlay={
                               <Tooltip>
-                                You will see this color in your calendar.
+                                Give your exam a unique color to make it stick
+                                out in the calendar overview. If no color is
+                                selected, stan will generate a random exam color
+                                for you.
                               </Tooltip>
                             }
                           >
@@ -520,9 +514,27 @@ function AddNew() {
                           </OverlayTrigger>
                         </div>
                         <SliderPicker
-                          onChangeComplete={handleColor}
-                          color={color}
+                          onChange={handleColor}
+                          color={[
+                            "#D9E3F0",
+                            "#F47373",
+                            "#697689",
+                            "#37D67A",
+                            "#2CCCE4",
+                            "#555555",
+                            "#dce775",
+                            "#ff8a65",
+                            "#ba68c8",
+                          ]}
                         />
+                      </div>
+
+                      <div className="form__showColor">
+                        <h5 className="form__element__label">Selected color</h5>
+                        <div
+                          className="color"
+                          style={{ backgroundColor: color }}
+                        ></div>
                       </div>
                     </div>
                   </div>
@@ -542,7 +554,7 @@ function AddNew() {
             </div>
           </div>
           <div className="col-md-12" id="success-container-add-new">
-            <p className="success">the exam was successfully added</p>
+            <p className="success">The exam was successfully added.</p>
           </div>
         </div>
       </div>
@@ -558,6 +570,7 @@ async function handleExam({
   formExamDate,
   formStartDate,
   newLinks,
+  color,
   reset,
 }) {
   try {
@@ -571,6 +584,7 @@ async function handleExam({
         timePerPage: parseInt(formData.exam_page_time),
         timesRepeat: parseInt(formData.exam_page_repeat),
         notes: formData.exam_page_notes,
+        color: color,
         studyMaterialLinks: newLinks,
         completed: false,
       },
