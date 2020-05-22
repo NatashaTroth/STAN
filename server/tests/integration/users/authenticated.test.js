@@ -157,7 +157,7 @@ describe("Test resolvers are accessed correctly when authenticated", () => {
   it("should log the user out", async () => {
     expect(testUser.accessTokenVersion).toBe(0);
     expect(testUser.refreshTokenVersion).toBe(0);
-    const accessToken = createAccessToken(testUser);
+    const accessToken = createAccessToken(testUser._id, testUser.accessTokenVersion);
     expect(accessToken).toBeTruthy();
     const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
