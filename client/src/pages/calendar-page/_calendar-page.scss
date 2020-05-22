@@ -105,6 +105,15 @@
       &:focus,
       &:active {
         box-shadow: none;
+        color: theme-color("primary-yellow");
+
+        &::after {
+          background-color: theme-color("primary-yellow");
+        }
+      }
+
+      &:focus {
+        outline: 3px solid theme-color("dark");
       }
 
       .fc-icon {

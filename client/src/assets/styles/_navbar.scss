@@ -53,6 +53,11 @@
       }
 
       a {
+        &:focus {
+          outline: none;
+          border: none;
+        }
+
         img {
           width: 85%;
           height: 90px;
@@ -188,14 +193,20 @@
               font-family: $font-family-BasierCircle-SemiBold;
               @include rem(letter-spacing, 1px);
               background: none;
-              border: none;
+              border-bottom: 3px solid;
+              border-color: theme-color("light");
               text-transform: uppercase;
               padding: 0;
               color: theme_color("dark");
               transition: all 200ms ease-in-out;
 
-              &:hover {
+              &:hover,
+              &:focus {
                 color: theme-color("primary-yellow");
+              }
+              &:focus {
+                outline: none;
+                border-bottom: 3px solid theme-color("primary-yellow");
               }
             }
           }

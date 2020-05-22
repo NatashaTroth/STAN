@@ -79,7 +79,7 @@ const Navbar = () => {
       logoutButton = (
         <Button
           variant="button"
-          className=""
+          className="logout-btn"
           onClick={async () => logUserOut({ logout })}
           text="Logout"
         />

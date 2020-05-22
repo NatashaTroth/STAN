@@ -7,10 +7,19 @@
   cursor: pointer;
   transition: all 250ms ease-in-out;
 
-  &:hover,
-  &:focus {
+  &:hover {
     outline: none;
     background-color: theme-color("primary-yellow-dark");
+
+    .today-subject__heading,
+    .today-subject__duration {
+      color: theme-color("light");
+    }
+  }
+
+  &:focus {
+    outline: none;
+    background-color: theme-color("primary-yellow-darker");
 
     .today-subject__heading,
     .today-subject__duration {

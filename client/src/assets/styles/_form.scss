@@ -99,7 +99,7 @@
 
         &:focus,
         &:active {
-          outline: none;
+          outline: 3px solid theme-color("dark");
         }
 
         @include media-breakpoint-down(lg) {

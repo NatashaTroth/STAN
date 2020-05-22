@@ -78,6 +78,7 @@
 
       &:focus {
         outline: none;
+        border-bottom: 3px solid theme-color("primary-yellow");
       }
 
       i {

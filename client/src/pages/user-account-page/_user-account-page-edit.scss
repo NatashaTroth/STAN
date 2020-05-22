@@ -89,11 +89,6 @@
             @include rem(font-size, $font-size-14);
             @include rem(line-height, 18px);
           }
-
-          &:active,
-          &:focus {
-            outline: none;
-          }
         }
       }
     }
@@ -159,10 +154,12 @@
       color: theme-color("dark");
       transition: all 0.3s ease;
       background: none;
-      padding-left: 25px;
+      margin-left: 25px;
+      padding-left: 0;
 
       &:focus {
         outline: none;
+        border-bottom: 3px solid theme-color("primary-yellow");
       }
     }
 
@@ -201,6 +198,12 @@
 
       @include media-breakpoint-down(xs) {
         font-size: 12px;
+      }
+
+      input {
+        &:focus + span {
+          border-color: theme-color("primary-yellow") !important;
+        }
       }
     }
   }
