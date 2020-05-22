@@ -49,7 +49,7 @@ export const calcExamProgress = exam => {
    * currentPage - startPage (as if startpage = 0)...x
    */
   const currentPageWithoutStartpage = exam.currentPage - exam.startPage
-  const totalNumberPages = exam.numberPages * exam.timesRepeat
+  const totalNumberPages = (exam.lastPage - exam.startPage) * exam.timesRepeat
   if (totalNumberPages === 0) return 0 //to avoid division by 0 which would return infinity
   const examProgress = Math.round(
     (100 * currentPageWithoutStartpage) / totalNumberPages
