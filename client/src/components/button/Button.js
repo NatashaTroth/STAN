@@ -1,7 +1,7 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const Button = ({ variant, text, className, onClick, disabled }) => {
+const Button = ({ variant, text, className, onClick, disabled, hide }) => {
   // return ----------------
   return (
     <button
@@ -11,6 +11,7 @@ const Button = ({ variant, text, className, onClick, disabled }) => {
       onClick={onClick}
       disabled={disabled}
     >
+      <p className="hide-visually">{hide}</p>
       {text}
     </button>
   )
