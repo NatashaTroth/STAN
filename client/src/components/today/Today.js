@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy } from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import moment from "moment"
@@ -16,14 +16,14 @@ import {
 // mutations ----------------
 import { UPDATE_CURRENT_PAGE_MUTATION } from "../../graphQL/exams/mutations"
 
-// components ----------------
-import Button from "../../components/button/Button"
-import Label from "../../components/label/Label"
-import Input from "../../components/input/Input"
-import Timeline from "../../components/timeline/Timeline"
-
 // helpers ----------------
 import { decodeHtml } from "../../helpers/mascots"
+
+// components ----------------
+const Button = lazy(() => import("../../components/button/Button"))
+const Label = lazy(() => import("../../components/label/Label"))
+const Input = lazy(() => import("../../components/input/Input"))
+const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
 function Today(props) {
   // form specific ----------------

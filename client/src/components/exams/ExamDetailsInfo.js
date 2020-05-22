@@ -1,9 +1,6 @@
-import React from "react"
+import React, { lazy } from "react"
 import moment from "moment"
 // --------------------------------------------------------------
-
-// sub-components ----------------
-import ExamBar from "../progressbar/ProgressBar"
 
 // react-bootstrap ----------------
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
@@ -16,6 +13,9 @@ import {
   filteredLinks,
   calcExamProgress,
 } from "../../helpers/mascots"
+
+// sub-components ----------------
+const ExamBar = lazy(() => import("../progressbar/ProgressBar"))
 
 const ExamDetailsInfo = ({ examDetails }) => {
   // calculation ----------------

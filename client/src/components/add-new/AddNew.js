@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import { useForm } from "react-hook-form"
 import moment from "moment"
@@ -16,19 +16,19 @@ import {
 // mutations ----------------
 import { ADD_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
-// components ----------------
-import Label from "../../components/label/Label"
-import Input from "../../components/input/Input"
-import Textarea from "../../components/textarea/Textarea"
-import Button from "../../components/button/Button"
-import DatePicker from "../../components/datepicker/DatePicker"
-
 // react-bootstrap ----------------
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers ----------------
 import { filteredLinks } from "../../helpers/mascots"
+
+// components ----------------
+const Label = lazy(() => import("../../components/label/Label"))
+const Input = lazy(() => import("../../components/input/Input"))
+const Textarea = lazy(() => import("../../components/textarea/Textarea"))
+const Button = lazy(() => import("../../components/button/Button"))
+const DatePicker = lazy(() => import("../../components/datepicker/DatePicker"))
 
 function AddNew() {
   // mutation ----------------

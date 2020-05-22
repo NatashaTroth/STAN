@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -17,20 +17,20 @@ import {
 } from "../../graphQL/exams/mutations"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
-// components ----------------
-import ExamDetailsEdit from "../exams/ExamDetailsEdit"
-import ExamDetailsInfo from "../exams/ExamDetailsInfo"
-
-// sub-components ----------------
-import Button from "../button/Button"
-import QueryError from "../error/Error"
-import Loading from "../loading/Loading"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { decodeHtml } from "../../helpers/mascots"
+
+// components ----------------
+const ExamDetailsEdit = lazy(() => import("../exams/ExamDetailsEdit"))
+const ExamDetailsInfo = lazy(() => import("../exams/ExamDetailsInfo"))
+
+// sub-components ----------------
+const Button = lazy(() => import("../button/Button"))
+const QueryError = lazy(() => import("../error/Error"))
+const Loading = lazy(() => import("../loading/Loading"))
 
 const getParamId = location => {
   const searchParams = new URLSearchParams(location.search)

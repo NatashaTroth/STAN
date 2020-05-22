@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { useForm } from "react-hook-form"
 // --------------------------------------------------------------
 
@@ -6,17 +6,17 @@ import { useForm } from "react-hook-form"
 import { useMutation } from "@apollo/react-hooks"
 import { FORGOTTEN_PASSWORD_EMAIL } from "../../graphQL/users/mutations"
 
-// components ----------------
-import Login from "../../components/login/Login"
-
-// sub-components ----------------
-import Input from "../../components/input/Input"
-import Label from "../../components/label/Label"
-import Button from "../../components/button/Button"
-import Image from "../../components/image/Image"
-
 // image ----------------
 import Mascot from "../../images/mascots/forgottenPasswordStan.svg"
+
+// components ----------------
+const Login = lazy(() => import("../../components/login/Login"))
+
+// sub-components ----------------
+const Input = lazy(() => import("../../components/input/Input"))
+const Label = lazy(() => import("../../components/label/Label"))
+const Button = lazy(() => import("../../components/button/Button"))
+const Image = lazy(() => import("../../components/image/Image"))
 
 const ForgottenPassword = () => {
   // form specific ----------------

@@ -1,11 +1,8 @@
-import React from "react"
+import React, { lazy } from "react"
 // --------------------------------------------------------------
 
 // query ----------------
 import { CURRENT_USER } from "../../graphQL/users/queries"
-
-// components ----------------
-import Image from "../../components/image/Image"
 
 // helpers ----------------
 import { currentMood } from "../../helpers/mascots"
@@ -18,6 +15,9 @@ import Carousel from "react-bootstrap/Carousel"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const Image = lazy(() => import("../../components/image/Image"))
 
 // random number ----------------
 const random = Math.floor(Math.random() * 3)
