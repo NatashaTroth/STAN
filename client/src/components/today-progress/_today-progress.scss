@@ -61,13 +61,18 @@
           margin-bottom: 10px;
         }
 
-        &__item {
-          padding: 1px 0;
-          hyphens: auto;
-          word-break: break-word;
+        &__list {
+          padding: 0;
+          margin: 0;
 
-          &::before {
-            display: none;
+          &__item {
+            padding: 1px 0;
+            hyphens: auto;
+            word-break: break-word;
+
+            &::before {
+              display: none;
+            }
           }
         }
       }

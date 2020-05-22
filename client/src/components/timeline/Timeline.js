@@ -6,12 +6,12 @@ const Timeline = ({ heading, daysLeft, percentage, styleChoice }) => {
   return (
     <dl className={"timeline timeline-" + styleChoice}>
       <dt className="timeline__heading">{heading}</dt>
-      <div className="timeline__bar">
-        <dd
+      <dd className="timeline__bar">
+        <div
           className={"timeline__bar__percentage percentage-" + percentage}
-        ></dd>
+        ></div>
         <p className="timeline__bar__text">{daysLeft} left</p>
-      </div>
+      </dd>
     </dl>
   )
 }
