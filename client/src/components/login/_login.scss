@@ -92,6 +92,10 @@
         cursor: pointer;
         height: 0;
         width: 0;
+
+        &:focus + .checkmark {
+          border-color: theme_color("primary-yellow");
+        }
       }
       .checkmark {
         position: absolute;
@@ -182,6 +186,7 @@
           &:hover,
           &:active,
           &:focus {
+            outline: none;
             color: theme-color("primary-yellow");
             text-decoration: none;
           }
