@@ -27,7 +27,7 @@ import { minuteToHours } from "../../helpers/dates"
 import { extractDomain, decodeHtml } from "../../helpers/mascots"
 
 // components ----------------
-const QueryError = lazy(() => import("./../components/error/Error"))
+const QueryError = lazy(() => import("../../components/error/Error"))
 const Loading = lazy(() => import("../../components/loading/Loading"))
 
 // sub-components ----------------
