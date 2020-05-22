@@ -23,7 +23,7 @@ function TodayProgress(props) {
       <Listing
         key={index}
         text={decodeHtml(subject)}
-        className={"today-progress__container__content__subjects__item"}
+        className={"today-progress__container__content__subjects__list__item"}
       ></Listing>
     )
   })
@@ -58,7 +58,9 @@ function TodayProgress(props) {
                   <h4 className="today-progress__container__content__subjects__heading">
                     {goalHeading}
                   </h4>
-                  {todaySubject}
+                  <ul className="today-progress__container__content__subjects__list">
+                    {todaySubject}
+                  </ul>
                 </div>
                 {/* ---------------- */}
               </div>

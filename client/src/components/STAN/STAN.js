@@ -128,9 +128,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <ul className="navigation__items--list">
+          <div className="navigation__items--list">
             {/* PRIVATE ROUTES */}
-            <div className="menu-top">
+            <ul className="menu-top">
               {/* HOME & DASHBOARD */}
               {!currentUser ? (
                 <li className="logged-out home">
@@ -243,38 +243,40 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ) : null}
-            </div>
+            </ul>
 
             {/* PUBLIC ROUTES */}
-            <div className="menu-bottom">
+            <div className="menu-bottom-container">
               {/* Dark /Light mode button */}
               <ThemeMode />
-              {/* other menu buttons */}
-              <li className="logout">{logoutButton}</li>
-              <li className="imprint">
-                <NavLink
-                  strict
-                  to="/imprint"
-                  exact
-                  activeClassName="active"
-                  onClick={closeSidebar}
-                >
-                  Imprint
-                </NavLink>
-              </li>
-              <li className="data-policy">
-                <NavLink
-                  strict
-                  to="/data-policy"
-                  exact
-                  activeClassName="active"
-                  onClick={closeSidebar}
-                >
-                  Data Policy
-                </NavLink>
-              </li>
+              <ul className="menu-bottom">
+                {/* other menu buttons */}
+                <li className="logout">{logoutButton}</li>
+                <li className="imprint">
+                  <NavLink
+                    strict
+                    to="/imprint"
+                    exact
+                    activeClassName="active"
+                    onClick={closeSidebar}
+                  >
+                    Imprint
+                  </NavLink>
+                </li>
+                <li className="data-policy">
+                  <NavLink
+                    strict
+                    to="/data-policy"
+                    exact
+                    activeClassName="active"
+                    onClick={closeSidebar}
+                  >
+                    Data Policy
+                  </NavLink>
+                </li>
+              </ul>
             </div>
-          </ul>
+          </div>
         </div>
       </nav>
 
