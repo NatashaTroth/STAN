@@ -17,7 +17,8 @@ export async function fetchTodaysChunks(userId) {
 }
 
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
-  const chunks = currentExams.map(async exam => {
+  const exams = currentExams.filter(exam => !isTheSameDay(exam.examDate, new Date()));
+  const chunks = exams.map(async exam => {
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
     //cache calculated from scratch
@@ -78,7 +79,8 @@ async function calculateTodaysChunks(currentExams) {
   //remove exams where completed = false, but learning is finished
   const exams = currentExams.filter(
     exam =>
-      !learningIsComplete(exam.currentPage, exam.startPage, exam.numberPages, exam.timesRepeat)
+      !learningIsComplete(exam.currentPage, exam.startPage, exam.numberPages, exam.timesRepeat) &&
+      !isTheSameDay(exam.examDate, new Date())
   );
   const chunks = exams.map(async exam => {
     //if pages are complete, but completed is still false

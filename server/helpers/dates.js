@@ -21,8 +21,6 @@ export function startDateIsActive(startDate) {
 }
 
 export function isTheSameDay(date1, date2) {
-  // console.log(date1);
-  // console.log(date2);
   const date1Formatted = dayjs(date1).format("DD/MM/YYYY");
   const date2Formatted = dayjs(date2).format("DD/MM/YYYY");
   return date1Formatted === date2Formatted;
@@ -37,6 +35,7 @@ export function getNumberOfDays(startDate, endDate) {
 
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   const numberOfDays = Math.round((start - end) / oneDay);
+
   if (numberOfDays < 0) return 0;
   return numberOfDays;
 }

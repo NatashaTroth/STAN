@@ -641,11 +641,14 @@ describe("Test todays chunks and progress are created/updated correctly", () => 
     });
 
     expect(updatePageResp1.data.updateCurrentPage).toBeTruthy();
-
+    console.log(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks);
     //---REFETCH TODAYSCHUNKS---
     respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
+    console.log("------after-------");
+    console.log(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks);
+
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(4);
 
