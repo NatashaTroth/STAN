@@ -12,11 +12,11 @@ test("Valid access token should be created", () => {
     throw new Error("Error wasn't thrown");
   } catch (err) {
     expect(accessToken).toBeFalsy();
-    expect(err.message).toBe("User object is empty, cannot create access token.");
+    expect(err.message).toBe("No user id or access token version, cannot create access token.");
   }
 
   const user = { id: "testUserId", accessTokenVersion: 0 };
-  accessToken = createAccessToken(user);
+  accessToken = createAccessToken(user.id, user.accessTokenVersion);
   const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   expect(decodedToken).toBeTruthy();
   expect(decodedToken.userId).toBe(user.id);
@@ -41,11 +41,11 @@ test("Valid refresh token should be created", () => {
     throw new Error("Error wasn't thrown");
   } catch (err) {
     expect(refreshToken).toBeFalsy();
-    expect(err.message).toBe("User object is empty, cannot create refresh token");
+    expect(err.message).toBe("No user id or refresh token version, cannot create refresh token.");
   }
 
   const user = { id: "testUserId", refreshTokenVersion: 0 };
-  refreshToken = createRefreshToken(user);
+  refreshToken = createRefreshToken(user.id, user.refreshTokenVersion);
   const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
   expect(decodedToken).toBeTruthy();
   expect(decodedToken.userId).toBe(user.id);
