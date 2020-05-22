@@ -201,7 +201,7 @@ const ExamDetailsEdit = ({ examId }) => {
         <div className="col-md-6 form__left">
           <div className="form__element">
             <Label
-              htmlFor="subject"
+              labelType="subject"
               text="Subject"
               className="form__element__label input-required"
             />
@@ -233,11 +233,12 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="form__container form__container--numbers">
             <div className="form__element">
               <Label
-                htmlFor="exam-date"
+                labelType="exam-date"
                 text="Exam date"
                 className="form__element__label"
               />
               <DatePicker
+                id="exam-date"
                 onDaySelected={selectedDay => {
                   setMyExamDate(selectedDay)
                 }}
@@ -250,7 +251,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="study-start-date"
+                  labelType="study-start-date"
                   text="Start learning on"
                   className="form__element__label"
                 />
@@ -267,6 +268,7 @@ const ExamDetailsEdit = ({ examId }) => {
               </div>
 
               <DatePicker
+                id="study-start-date"
                 onDaySelected={selectedDay => {
                   setMyStartDate(selectedDay)
                 }}
@@ -280,7 +282,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="startPage"
+                  labelType="startPage"
                   text="Start page"
                   className="form__element__label input-required"
                 />
@@ -326,7 +328,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="pageAmount"
+                  labelType="pageAmount"
                   text="Last page"
                   className="form__element__label input-required"
                 />
@@ -371,7 +373,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="currentPage"
+                  labelType="currentPage"
                   text="Current page"
                   className="form__element__label input-required"
                 ></Label>
@@ -424,7 +426,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="pageTime"
+                  labelType="pageTime"
                   text="Time per page"
                   className="form__element__label input-required"
                 ></Label>
@@ -473,7 +475,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="pageRepeat"
+                  labelType="pageRepeat"
                   text="Repeat"
                   className="form__element__label"
                 />
@@ -514,7 +516,7 @@ const ExamDetailsEdit = ({ examId }) => {
             <div className="form__element">
               <div className="info-box-label">
                 <Label
-                  htmlFor="cycle"
+                  labelType="cycle"
                   text="Repetition cycle"
                   className="form__element__label input-required"
                 ></Label>
@@ -562,7 +564,7 @@ const ExamDetailsEdit = ({ examId }) => {
           <div className="form__right--top">
             <div className="form__element">
               <Label
-                htmlFor="pageNotes"
+                labelType="pageNotes"
                 text="Notes"
                 className="form__element__label"
               />
@@ -590,7 +592,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 <div className="form__element">
                   <div className="info-box-label">
                     <Label
-                      htmlFor="studyLinks"
+                      labelType="studyLinks"
                       text="Current study links"
                       className="form__element__label"
                     />
@@ -646,7 +648,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="form__color-picker">
                 <div className="info-box-label">
                   <Label
-                    htmlFor="color"
+                    labelType="color"
                     text="Select an exam color"
                     className="form__element__label"
                   />
@@ -677,7 +679,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="form__element">
                 <div className="info-box-label">
                   <Label
-                    htmlFor="study-new-links"
+                    labelType="study-new-links"
                     text="Add new study links (https://...)"
                     className="form__element__label"
                   />

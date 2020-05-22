@@ -87,7 +87,7 @@ const Login = () => {
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
             <Label
-              for="email"
+              labelType="email"
               text="E-Mail"
               className="login__form__element__label input-required"
             ></Label>
@@ -122,7 +122,7 @@ const Login = () => {
 
           <div className="login__form__element">
             <Label
-              for="password"
+              labelType="password"
               text="Password"
               className="login__form__element__label input-required"
             ></Label>

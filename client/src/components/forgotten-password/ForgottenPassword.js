@@ -108,7 +108,7 @@ const ForgottenPassword = () => {
 
           <div className="login__form__element">
             <Label
-              for="email"
+              labelType="email"
               text="E-Mail"
               className="login__form__element__label input-required"
             ></Label>

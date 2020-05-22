@@ -526,7 +526,7 @@ function Today(props) {
                       <div className="today__container__buttons__submit__form__elements-container">
                         <div className="today__container__buttons__submit__form__elements-container__elements">
                           <Label
-                            for="page"
+                            labelType="page"
                             text="studied up to page:"
                             className="today__container__buttons__submit__form__elements-container__elements__label"
                           ></Label>
@@ -566,7 +566,7 @@ function Today(props) {
                           )}
                         <div className="today__container__buttons__submit__form__elements-container__elements">
                           <Label
-                            for="page"
+                            labelType="page"
                             text="in repetition cycle:"
                             className="today__container__buttons__submit__form__elements-container__elements__label"
                           ></Label>

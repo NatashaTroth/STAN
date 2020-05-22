@@ -174,7 +174,7 @@ const UserAccountEdit = () => {
                             </div>
 
                             <Label
-                              htmlFor="username"
+                              labelType="username"
                               text="Username"
                               className="form__element__label input-required"
                             />
@@ -226,7 +226,7 @@ const UserAccountEdit = () => {
 
                           <div className="form__element">
                             <Label
-                              htmlFor="email"
+                              labelType="email"
                               text="Email"
                               className="form__element__label input-required"
                             />
@@ -291,7 +291,7 @@ const UserAccountEdit = () => {
                           {isPasswordOpen ? (
                             <div className="form__element">
                               <Label
-                                htmlFor="currentPassword"
+                                labelType="currentPassword"
                                 text="Current password"
                                 className="form__element__label input-required"
                               />
@@ -337,7 +337,7 @@ const UserAccountEdit = () => {
                           {isPasswordOpen ? (
                             <div className="form__element">
                               <Label
-                                htmlFor="newPassword"
+                                labelType="newPassword"
                                 text="New password"
                                 className="form__element__label input-required"
                               />
@@ -383,7 +383,7 @@ const UserAccountEdit = () => {
                           {isPasswordOpen ? (
                             <div className="form__element">
                               <Label
-                                htmlFor="retypePassword"
+                                labelType="retypePassword"
                                 text="Retype new password"
                                 className="form__element__label input-required"
                               />
@@ -501,7 +501,10 @@ const UserAccountEdit = () => {
                       <div className="col-xl-12">
                         <div className="edit-form-bottom">
                           <div className="form__notifications login__form__notifications">
-                            <label htmlFor="notification" className="container">
+                            <label
+                              labelType="notification"
+                              className="container"
+                            >
                               <input
                                 type="checkbox"
                                 id="notification"
