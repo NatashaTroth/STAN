@@ -438,7 +438,8 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total no. of pages per cycle:
+                        {/* Total no. of pages: */}
+                        Page no. per cycle:
                       </p>
                       <p className="today__container__content__text">
                         {realCurrentPageTotal} / {numberPages}
@@ -446,7 +447,7 @@ function Today(props) {
                     </div>
                     <div className="today__container__content__details__total-pages">
                       <p className="today__container__content__label">
-                        Total page numbers per cycle:
+                        Page numbers:
                       </p>
                       <p className="today__container__content__text">
                         {startPage} - {lastPage}
