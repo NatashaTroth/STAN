@@ -566,7 +566,7 @@ function Today(props) {
                           )}
                         <div className="today__container__buttons__submit__form__elements-container__elements">
                           <Label
-                            labelType="page"
+                            labelType="cycle"
                             text="in repetition cycle:"
                             className="today__container__buttons__submit__form__elements-container__elements__label"
                           ></Label>
@@ -574,7 +574,7 @@ function Today(props) {
                             className="today__container__buttons__submit__form__elements-container__elements__input"
                             type="number"
                             min="0"
-                            id="page"
+                            id="cycle"
                             label="cycles_studied"
                             placeholder={repetition}
                             ref={register({
