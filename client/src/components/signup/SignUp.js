@@ -145,7 +145,7 @@ const SignUp = () => {
                 required: true,
                 minLength: 1,
                 maxLength: 50,
-                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
+                pattern: /^([\w_\-."+!#$%&'*/=?^`{|}~ ]{1,64})@([\w_\-.]+)\.([a-z]+)$/,
               })}
             />
             {errors.email && errors.email.type === "required" ? (
