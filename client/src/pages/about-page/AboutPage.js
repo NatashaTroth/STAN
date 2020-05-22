@@ -1,13 +1,9 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Link, Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
 import { CURRENT_USER } from "../../graphQL/users/queries"
-
-// sub-components ----------------
-import Image from "../../components/image/Image"
-import SubHeading from "../../components/sub-heading/SubHeading"
 
 // images ----------------
 import Pic1 from "../../images/desk1.png"
@@ -15,6 +11,10 @@ import Pic2 from "../../images/desk2.png"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// sub-components ----------------
+const Image = lazy(() => import("../../components/image/Image"))
+const SubHeading = lazy(() => import("../../components/sub-heading/SubHeading"))
 
 const About = () => {
   // redirects ----------------

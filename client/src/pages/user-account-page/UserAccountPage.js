@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Redirect, Link } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -17,18 +17,18 @@ import {
 import Carousel from "react-bootstrap/Carousel"
 import CountUp from "react-countup"
 
-// components ----------------
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
-
-// sub components ----------------
-import Image from "../../components/image/Image"
-
 // helpers ----------------
 import { currentMood, decodeHtml } from "../../helpers/mascots"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const QueryError = lazy(() => import("../../components/error/Error"))
+const Loading = lazy(() => import("../../components/loading/Loading"))
+
+// sub components ----------------
+const Image = lazy(() => import("../../components/image/Image"))
 
 const UserAccount = props => {
   // redirects ----------------

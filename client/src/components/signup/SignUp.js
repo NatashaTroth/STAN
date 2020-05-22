@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { setAccessToken } from "../../accessToken"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -15,9 +15,9 @@ import {
 import { GoogleLogin } from "react-google-login"
 
 // components ----------------
-import Input from "../../components/input/Input"
-import Label from "../../components/label/Label"
-import Button from "../../components/button/Button"
+const Input = lazy(() => import("../../components/input/Input"))
+const Label = lazy(() => import("../../components/label/Label"))
+const Button = lazy(() => import("../../components/button/Button"))
 
 const SignUp = () => {
   // form ----------------

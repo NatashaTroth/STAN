@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
@@ -7,21 +7,27 @@ import { useQuery } from "@apollo/react-hooks"
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../graphQL/exams/queries"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
-// components ----------------
-import EmptyDashboard from "../../components/empty-dashboard/EmptyDashboard"
-import TodayGoals from "../../components/today-goals/TodayGoals"
-import Today from "../../components/today/Today"
-import TodayProgress from "../../components/today-progress/TodayProgress"
-import Mascots from "../../components/mascots/Mascots"
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
-import CurrentState from "../../components/current-state/CurrentState"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { decodeHtml } from "../../helpers/mascots"
+
+// components ----------------
+const EmptyDashboard = lazy(() =>
+  import("../../components/empty-dashboard/EmptyDashboard")
+)
+const TodayGoals = lazy(() => import("../../components/today-goals/TodayGoals"))
+const Today = lazy(() => import("../../components/today/Today"))
+const TodayProgress = lazy(() =>
+  import("../../components/today-progress/TodayProgress")
+)
+const Mascots = lazy(() => import("../../components/mascots/Mascots"))
+const QueryError = lazy(() => import("../../components/error/Error"))
+const Loading = lazy(() => import("../../components/loading/Loading"))
+const CurrentState = lazy(() =>
+  import("../../components/current-state/CurrentState")
+)
 
 function Dashboard() {
   // state & query ----------------

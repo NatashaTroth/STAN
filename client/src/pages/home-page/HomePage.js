@@ -1,4 +1,4 @@
-import React, { initialState } from "react"
+import React, { initialState, lazy } from "react"
 import { Link } from "react-router-dom"
 import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
@@ -6,16 +6,16 @@ import useDarkMode from "use-dark-mode"
 // queries ----------------
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
-// components ----------------
-import SubHeading from "../../components/sub-heading/SubHeading"
-import Listing from "../../components/listing/Listing"
-import Dashboard from "../dashboard-page/DashboardPage"
-
 // libraries ----------------
 import Particles from "react-particles-js"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const SubHeading = lazy(() => import("../../components/sub-heading/SubHeading"))
+const Listing = lazy(() => import("../../components/listing/Listing"))
+const Dashboard = lazy(() => import("../dashboard-page/DashboardPage"))
 
 const Home = () => {
   // dark mode specific ----------------

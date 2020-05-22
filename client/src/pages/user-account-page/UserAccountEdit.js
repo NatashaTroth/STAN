@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, lazy } from "react"
 import { useHistory } from "react-router-dom"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
@@ -15,13 +15,6 @@ import {
 } from "../../graphQL/users/mutations"
 import { useMutation } from "@apollo/react-hooks"
 
-// components ----------------
-import Button from "../../components/button/Button"
-import Label from "../../components/label/Label"
-
-// sub-components ----------------
-import Image from "../../components/image/Image"
-
 // mascots ----------------
 import VeryHappyMascot from "../../images/mascots/user-mascot/0-0.svg"
 import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
@@ -35,6 +28,13 @@ import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { decodeHtml } from "../../helpers/mascots"
+
+// components ----------------
+const Button = lazy(() => import("../../components/button/Button"))
+const Label = lazy(() => import("../../components/label/Label"))
+
+// sub-components ----------------
+const Image = lazy(() => import("../../components/image/Image"))
 
 const UserAccountEdit = () => {
   // variables ----------------

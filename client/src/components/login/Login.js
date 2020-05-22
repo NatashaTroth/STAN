@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { setAccessToken } from "../../accessToken"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
@@ -13,10 +13,12 @@ import {
 } from "../../graphQL/users/mutations"
 
 // components ----------------
-import Input from "../../components/input/Input"
-import Label from "../../components/label/Label"
-import Button from "../../components/button/Button"
-import ForgottenPassword from "../../components/forgotten-password/ForgottenPassword"
+const Input = lazy(() => import("../../components/input/Input"))
+const Label = lazy(() => import("../../components/label/Label"))
+const Button = lazy(() => import("../../components/button/Button"))
+const ForgottenPassword = lazy(() =>
+  import("../../components/forgotten-password/ForgottenPassword")
+)
 
 const Login = () => {
   // local-storage popup event ----------------

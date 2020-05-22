@@ -1,15 +1,15 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Redirect } from "react-router-dom"
 // --------------------------------------------------------------
 
 // queries ----------------
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
-// components ----------------
-import LoginForm from "../../components/login/Login"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const LoginForm = lazy(() => import("../../components/login/Login"))
 
 const LoginPage = () => {
   // redirects ----------------

@@ -421,6 +421,10 @@ html body {
   }
 }
 
+.loading {
+  visibility: hidden;
+}
+
 // SUCCESS MESSAGES
 #success-container-edit-user,
 #success-container-edit-exam,

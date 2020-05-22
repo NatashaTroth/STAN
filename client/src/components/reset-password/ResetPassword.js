@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Redirect } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
@@ -11,13 +11,13 @@ import { CURRENT_USER } from "../../graphQL/users/queries"
 import { useMutation } from "@apollo/react-hooks"
 import { RESET_PASSWORD_MUTATION } from "../../graphQL/users/mutations"
 
-// components ----------------
-import Input from "../../components/input/Input"
-import Label from "../../components/label/Label"
-import Button from "../../components/button/Button"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
+
+// components ----------------
+const Input = lazy(() => import("../../components/input/Input"))
+const Label = lazy(() => import("../../components/label/Label"))
+const Button = lazy(() => import("../../components/button/Button"))
 
 const ResetPassword = props => {
   const { match } = props

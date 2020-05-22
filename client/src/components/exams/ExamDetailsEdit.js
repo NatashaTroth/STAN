@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, lazy } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Redirect, useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -15,13 +15,6 @@ import {
 import { CURRENT_USER } from "../../graphQL/users/queries"
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
-// sub-components ----------------
-import Label from "../../components/label/Label"
-import Button from "../../components/button/Button"
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
-import DatePicker from "../../components/datepicker/DatePicker"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
@@ -32,6 +25,13 @@ import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
 import { filteredLinks } from "../../helpers/mascots"
+
+// sub-components ----------------
+const Label = lazy(() => import("../../components/label/Label"))
+const Button = lazy(() => import("../../components/button/Button"))
+const QueryError = lazy(() => import("../../components/error/Error"))
+const Loading = lazy(() => import("../../components/loading/Loading"))
+const DatePicker = lazy(() => import("../../components/datepicker/DatePicker"))
 
 const ExamDetailsEdit = ({ examId }) => {
   let history = useHistory()

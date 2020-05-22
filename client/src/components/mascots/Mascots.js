@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
 // --------------------------------------------------------------
@@ -17,8 +17,8 @@ import VeryHappyGirlyMascot from "../../images/mascots/user-mascot/1-0.svg"
 import VeryHappyCleverMascot from "../../images/mascots/user-mascot/2-0.svg"
 
 // sub components ----------------
-import Button from "../button/Button"
-import Image from "../image/Image"
+const Button = lazy(() => import("../button/Button"))
+const Image = lazy(() => import("../image/Image"))
 
 const Mascots = () => {
   // form specific & routes ----------------

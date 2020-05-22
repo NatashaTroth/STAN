@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { useQuery } from "@apollo/react-hooks"
 import { Redirect, Link, useRouteMatch } from "react-router-dom"
 // --------------------------------------------------------------
@@ -7,16 +7,16 @@ import { Redirect, Link, useRouteMatch } from "react-router-dom"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 import { GET_EXAMS_QUERY } from "../../graphQL/exams/queries"
 
-// components ----------------
-import Exam from "../../components/exams/Exam"
-import QueryError from "../../components/error/Error"
-import Loading from "../../components/loading/Loading"
-
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { decodeHtml, calcExamProgress } from "../../helpers/mascots"
+
+// components ----------------
+const Exam = lazy(() => import("../../components/exams/Exam"))
+const QueryError = lazy(() => import("../../components/error/Error"))
+const Loading = lazy(() => import("../../components/loading/Loading"))
 
 const Exams = () => {
   // router ----------------

@@ -1,11 +1,11 @@
-import React from "react"
+import React, { lazy } from "react"
 // --------------------------------------------------------------
 
 // image ----------------
 import Stan from "../../images/mascots/iAmStan.svg"
 
 // sub-components
-import Image from "../../components/image/Image"
+const Image = lazy(() => import("../../components/image/Image"))
 
 const Imprint = () => {
   // return ----------------
