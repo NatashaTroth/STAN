@@ -76,9 +76,9 @@
     &__text {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
       height: 17px;
       margin-left: 8px;
+      min-width: 18%;
 
       @include media-breakpoint-down(xs) {
         margin-left: 0;
