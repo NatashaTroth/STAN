@@ -2,25 +2,11 @@ import jwt from "jsonwebtoken";
 import { User } from "../../models/index";
 import { ApolloError } from "apollo-server";
 import { handleResolverError } from "../generalHelpers";
-// import { createRefreshToken, createAccessToken } from "./auth";
 
 export function createLoginTokens({ user, res }) {
-  let userAccessToken = createAccessToken(user);
-  sendRefreshToken(res, createRefreshToken(user));
+  let userAccessToken = createAccessToken(user.id, user.accessTokenVersion);
+  sendRefreshToken(res, createRefreshToken(user.id, user.refreshTokenVersion));
   return userAccessToken;
-}
-
-export async function handleRefreshTokenRoute(req, res) {
-  //read refresh cookie - validate that it's correct
-  try {
-    const payload = verifyRefreshToken(req);
-    const user = await getUserFromToken(payload);
-    sendRefreshToken(res, createRefreshToken(user));
-    return res.send({ ok: true, accessToken: createAccessToken(user) });
-  } catch (err) {
-    console.error("Error in handleRefreshTokenRoute(): " + err.message);
-    return res.send({ ok: false, accessToken: "" });
-  }
 }
 
 export const sendRefreshToken = (res, token) => {
@@ -31,39 +17,35 @@ export const sendRefreshToken = (res, token) => {
     });
 };
 
-/**
- * Creates and returns a json token, containing the user id. Used as short term access token for authentication.
- * @param {object} user
- */
-export const createAccessToken = user => {
-  if (!user) throw new ApolloError("User object is empty, cannot create access token.");
-  return jwt.sign(
-    {
-      userId: user.id,
-      // googleLogin: user.googleLogin,
-      tokenVersion: user.accessTokenVersion
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: "15m" //TODO CHANGE BACK TO 15m !!!!!!!!
-    }
-  );
+export const createAccessToken = (userId, tokenVersion) => {
+  if (!userId || isNaN(tokenVersion))
+    throw new ApolloError("No user id or access token version, cannot create access token.");
+  return jwt.sign({ userId, tokenVersion }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m"
+  });
 };
 
-/**
- * Creates and returns json token, containing the user id and tokenversion. Used as a refreshtoken for authentication.
- * @param {object} user
- */
-export const createRefreshToken = user => {
-  if (!user) throw new ApolloError("User object is empty, cannot create refresh token");
-  return jwt.sign(
-    { userId: user.id, tokenVersion: user.refreshTokenVersion },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: "7d"
-    }
-  );
+export const createRefreshToken = (userId, tokenVersion) => {
+  if (!userId || isNaN(tokenVersion))
+    throw new ApolloError("No user id or refresh token version, cannot create refresh token.");
+  return jwt.sign({ userId, tokenVersion }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d"
+  });
 };
+
+//----------REFRESH TOKEN ROUTE----------
+export async function handleRefreshTokenRoute(req, res) {
+  //read refresh cookie - validate that it's correct
+  try {
+    const payload = verifyRefreshToken(req);
+    const user = await getUserFromToken(payload);
+    sendRefreshToken(res, createRefreshToken(user.id, user.refreshTokenVersion));
+    return res.send({ ok: true, accessToken: createAccessToken(user.id, user.accessTokenVersion) });
+  } catch (err) {
+    console.error("Error in handleRefreshTokenRoute(): " + err.message);
+    return res.send({ ok: false, accessToken: "" });
+  }
+}
 
 function verifyRefreshToken(req) {
   const token = req.cookies.refresh_token;
@@ -88,7 +70,7 @@ export async function invalidationAuthenticationTokens(userId) {
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function invalidateRefreshTokens(userId) {
   try {
-    const resp = await User.updateOne(
+    const resp = +User.updateOne(
       { _id: userId },
       { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
     );

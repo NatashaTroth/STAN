@@ -24,15 +24,12 @@ describe("Test is auth (verifies access token and authenticates that user)", () 
 
   it("authorise the test User", async () => {
     const headers = new Map();
-
     const user = { id: testUser._id, accessTokenVersion: 0 };
-    const accessToken = createAccessToken(user);
+    const accessToken = createAccessToken(user.id, user.accessTokenVersion);
     const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
-
     headers.set("Authorization", "bearer " + accessToken);
     const resp = await isAuth(headers);
-
     expect(resp).toBeTruthy();
     expect(resp.isAuth).toBeTruthy();
     expect(resp.userId).toBe(testUser._id.toString());
@@ -49,7 +46,7 @@ describe("Test is auth (verifies access token and authenticates that user)", () 
     const headers = new Map();
 
     const user = { id: "wrongId", accessTokenVersion: 0 };
-    const accessToken = createAccessToken(user);
+    const accessToken = createAccessToken(user.id, user.accessTokenVersion);
     const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
 
