@@ -146,20 +146,21 @@
           margin: 0 0 3px 0;
           display: flex;
 
-          @media (max-width: 1380px) {
+          @media (max-width: 1545px) {
             flex-direction: column;
             margin-top: 10px;
           }
           @include media-breakpoint-down(lg) {
             flex-direction: row;
             margin-top: 0;
+            padding-right: 10px;
           }
         }
 
         &__duration {
           display: flex;
 
-          @media (max-width: 1380px) {
+          @media (max-width: 1545px) {
             flex-direction: column;
             margin-top: 10px;
           }
@@ -172,14 +173,30 @@
         &__total-pages {
           margin: 0 0 3px 0;
           display: flex;
+          justify-content: space-between;
 
-          @media (max-width: 1380px) {
-            flex-direction: column;
+          @media (max-width: 1545px) {
             margin-top: 10px;
+            align-items: flex-start;
           }
           @include media-breakpoint-down(lg) {
             flex-direction: row;
             margin-top: 0;
+          }
+
+          .today-info-circle-container {
+            display: flex;
+            flex-direction: row;
+
+            @media (max-width: 1545px) {
+              flex-direction: column;
+            }
+            @include media-breakpoint-down(lg) {
+              flex-direction: row;
+            }
+          }
+          .info-circle {
+            margin: 2px 2px 2px 10px;
           }
         }
 

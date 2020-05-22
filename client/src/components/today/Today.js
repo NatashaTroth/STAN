@@ -22,6 +22,10 @@ import Label from "../../components/label/Label"
 import Input from "../../components/input/Input"
 import Timeline from "../../components/timeline/Timeline"
 
+// react-bootstrap ----------------
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
 // helpers ----------------
 import { decodeHtml } from "../../helpers/mascots"
 
@@ -437,21 +441,49 @@ function Today(props) {
 
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__total-pages">
-                      <p className="today__container__content__label">
-                        {/* Total no. of pages: */}
-                        Page no. per cycle:
-                      </p>
-                      <p className="today__container__content__text">
-                        {realCurrentPageTotal} / {numberPages}
-                      </p>
+                      <div className="today-info-circle-container">
+                        <p className="today__container__content__label">
+                          {/* Total no. of pages: */}
+                          {/* Page no. per cycle: */}
+                          Page amount:
+                        </p>
+                        <p className="today__container__content__text">
+                          {realCurrentPageTotal} /{" "}
+                          {todaysChunk.numberPagesToday}
+                        </p>
+                      </div>
+                      <OverlayTrigger
+                        placement="top"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={
+                          <Tooltip>
+                            The amount of pages you have to study today
+                          </Tooltip>
+                        }
+                      >
+                        <span className="info-circle">i</span>
+                      </OverlayTrigger>
                     </div>
                     <div className="today__container__content__details__total-pages">
-                      <p className="today__container__content__label">
-                        Page numbers:
-                      </p>
-                      <p className="today__container__content__text">
-                        {startPage} - {lastPage}
-                      </p>
+                      <div className="today-info-circle-container">
+                        <p className="today__container__content__label">
+                          Total page nos.:
+                        </p>
+                        <p className="today__container__content__text">
+                          {startPage} - {lastPage}
+                        </p>
+                      </div>
+                      <OverlayTrigger
+                        placement="top"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={
+                          <Tooltip>
+                            The start and last page in your study materials
+                          </Tooltip>
+                        }
+                      >
+                        <span className="info-circle">i</span>
+                      </OverlayTrigger>
                     </div>
                     <div className="today__container__content__details__repetition">
                       <p className="today__container__content__label">
