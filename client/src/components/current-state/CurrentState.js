@@ -53,7 +53,7 @@ const CurrentState = ({ todaysProgress }) => {
               path={require(`../../images/mascots/${
                 currentUser.mascot
               }-${mood.replace(/ /g, "")}-0.svg`)}
-              text=""
+              alt="stan mascot"
             />
           </Carousel.Item>
 
@@ -62,7 +62,7 @@ const CurrentState = ({ todaysProgress }) => {
               path={require(`../../images/mascots/${
                 currentUser.mascot
               }-${mood.replace(/ /g, "")}-1.svg`)}
-              text=""
+              alt="stan mascot with hair bow"
             />
           </Carousel.Item>
 
@@ -71,7 +71,7 @@ const CurrentState = ({ todaysProgress }) => {
               path={require(`../../images/mascots/${
                 currentUser.mascot
               }-${mood.replace(/ /g, "")}-2.svg`)}
-              text=""
+              alt="stan mascot with graduation hat"
             />
           </Carousel.Item>
         </Carousel>

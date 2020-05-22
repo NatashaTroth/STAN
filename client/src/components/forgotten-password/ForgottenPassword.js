@@ -87,7 +87,7 @@ const ForgottenPassword = () => {
               </p>
 
               <div className="mascot">
-                <Image path={Mascot} text="a mascot with a letter" />
+                <Image path={Mascot} alt="a mascot with a letter" />
               </div>
             </div>
           </div>

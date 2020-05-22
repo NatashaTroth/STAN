@@ -442,21 +442,21 @@ const UserAccountEdit = () => {
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyMascot}
-                                  text="a very happy mascot"
+                                  alt="a very happy mascot"
                                 />
                               </Carousel.Item>
 
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyGirlyMascot}
-                                  text="a very happy girly mascot"
+                                  alt="a very happy girly mascot"
                                 />
                               </Carousel.Item>
 
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyCleverMascot}
-                                  text="a very happy clever mascot"
+                                  alt="a very happy clever mascot"
                                 />
                               </Carousel.Item>
                             </Carousel>
@@ -476,21 +476,21 @@ const UserAccountEdit = () => {
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyMascot}
-                                  text="a very happy mascot"
+                                  alt="a very happy mascot"
                                 />
                               </Carousel.Item>
 
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyGirlyMascot}
-                                  text="a very happy girly mascot"
+                                  alt="a very happy girly mascot"
                                 />
                               </Carousel.Item>
 
                               <Carousel.Item>
                                 <Image
                                   path={VeryHappyCleverMascot}
-                                  text="a very happy clever mascot"
+                                  alt="a very happy clever mascot"
                                 />
                               </Carousel.Item>
                             </Carousel>

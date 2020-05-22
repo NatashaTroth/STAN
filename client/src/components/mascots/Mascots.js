@@ -76,23 +76,20 @@ const Mascots = () => {
                     interval={null}
                   >
                     <Carousel.Item>
-                      <Image
-                        path={VeryHappyMascot}
-                        text="a very happy mascot"
-                      />
+                      <Image path={VeryHappyMascot} alt="a very happy mascot" />
                     </Carousel.Item>
 
                     <Carousel.Item>
                       <Image
                         path={VeryHappyGirlyMascot}
-                        text="a very happy girly mascot"
+                        alt="a very happy girly mascot"
                       />
                     </Carousel.Item>
 
                     <Carousel.Item>
                       <Image
                         path={VeryHappyCleverMascot}
-                        text="a very happy clever mascot"
+                        alt="a very happy clever mascot"
                       />
                     </Carousel.Item>
                   </Carousel>
@@ -100,7 +97,7 @@ const Mascots = () => {
                   <div className="mascots__inner--form__button">
                     <Button
                       variant="button"
-                      text="Save"
+                      alt="Save"
                       className="stan-btn-primary"
                     />
                   </div>
