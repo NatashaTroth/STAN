@@ -39,7 +39,7 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
   if (chunkHasToBeChanged(exam, newArgs)) {
     // console.log("chunk has to be changed");
 
-    const updates = filterOutUpdatesInTodaysChunk(exam, newArgs, todaysChunkCache);
+    const updates = filterOutUpdatesInTodaysChunk(newArgs);
     //TODO EXTRAct
     const updateCacheResp = await TodaysChunkCache.updateOne(
       {
@@ -98,7 +98,7 @@ function chunkHasToBeChanged(oldExam, newArgs) {
   );
 }
 
-function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
+function filterOutUpdatesInTodaysChunk(newArgs) {
   let updates;
   const newChunk = createTodaysChunkObject(newArgs);
   // const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
@@ -132,9 +132,9 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
   return updates;
 }
 
-function calcCompletedDuration(chunk) {
-  const timePerPage = chunk.durationToday / chunk.numberPagesToday;
-  const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
+// function calcCompletedDuration(chunk) {
+//   const timePerPage = chunk.durationToday / chunk.numberPagesToday;
+//   const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
 
-  return timePerPage * numberOfCompletedPages;
-}
+//   return timePerPage * numberOfCompletedPages;
+// }
