@@ -51,6 +51,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
     )
   }
 
+  const pagesLeft = examDetails => {
+    const pagesLeft =
+      examDetails.numberPages * examDetails.timesRepeat -
+      (examDetails.currentPage - examDetails.startPage)
+    return pagesLeft
+  }
+
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -130,7 +137,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
             <div className="exam-details__inner--details--right">
               <div className="exam-data">
                 <h4>Days until deadline</h4>
-                <p>{todaysDayUntilDeadline} days left</p>
+                {todaysDayUntilDeadline > 1 ? (
+                  <p>{todaysDayUntilDeadline} days left</p>
+                ) : (
+                  <p>{todaysDayUntilDeadline} day left</p>
+                )}
               </div>
               <div className="exam-data">
                 <h4>Studied</h4>
@@ -142,11 +153,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   <ExamBar value={progressbar} />
 
                   <div className="exam-pages__bar--status">
-                    <p>
-                      {examDetails.numberPages * examDetails.timesRepeat -
-                        (examDetails.currentPage - examDetails.startPage)}{" "}
-                      pages left
-                    </p>
+                    {pagesLeft(examDetails) > 1 ? (
+                      <p>{pagesLeft(examDetails)} pages left</p>
+                    ) : (
+                      <p>{pagesLeft(examDetails)} page left</p>
+                    )}
                   </div>
                 </div>
               </div>
