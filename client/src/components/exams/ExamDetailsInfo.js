@@ -26,17 +26,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  let currentRepetition = Math.round(
-    examDetails.currentPage / examDetails.numberPages
+  let currentRepetition = Math.floor(
+    (examDetails.currentPage - examDetails.startPage) /
+      examDetails.numberPages +
+      1
   )
   if (currentRepetition < 1) currentRepetition = 1
 
-  let numberOfPages
-  if (examDetails.startPage > 1) {
-    numberOfPages = examDetails.lastPage - examDetails.startPage
-  } else {
-    numberOfPages = examDetails.lastPage
-  }
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
   let progressbar =
@@ -44,6 +40,16 @@ const ExamDetailsInfo = ({ examDetails }) => {
     (examDetails.numberPages * examDetails.timesRepeat)
 
   if (progressbar > 100) progressbar = 100
+
+  const getCurrentPage = (examDetails, currentRepetition) => {
+    let currentPageWithoutStartPage =
+      examDetails.currentPage - examDetails.startPage
+    let numberPagesLearned = examDetails.numberPages * (currentRepetition - 1)
+
+    return (
+      currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
+    )
+  }
 
   // return ----------------
   return (
@@ -110,7 +116,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <p>{numberOfPages}</p>
+                <p>{examDetails.numberPages}</p>
               </div>
 
               <div className="exam-data">
@@ -152,10 +158,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>
-                  {examDetails.currentPage -
-                    numberOfPages * (currentRepetition - 1)}
-                </p>
+                <p>{getCurrentPage(examDetails, currentRepetition)}</p>
               </div>
 
               <div className="exam-data">
