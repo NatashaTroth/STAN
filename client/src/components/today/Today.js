@@ -144,7 +144,7 @@ function Today(props) {
   let lastPage = todaysChunk.exam.lastPage
 
   // start page for today's chunk goal ----------------
-  let startPage = todaysChunk.startPage
+  let startPage = todaysChunk.exam.startPage
 
   // ----------------
   let repetitionCycles = todaysChunk.exam.timesRepeat
