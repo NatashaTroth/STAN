@@ -419,6 +419,21 @@ html body {
       @include rem(font-size, 18px);
     }
   }
+
+  .list-style-none {
+    list-style: none;
+    @include rem(font-size, 20px);
+    font-family: $font-family-BasierCircle-SemiBold;
+    margin-bottom: 10px;
+
+    &::before {
+      display: none;
+    }
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, 18px);
+    }
+  }
 }
 
 .loading {
