@@ -8,17 +8,16 @@ export function calculateChunkProgress(chunks) {
   let totalDuration = 0;
   let totalDurationCompleted = 0;
   chunks.forEach(chunk => {
-    let durationAlreadyLearned = chunk.durationAlreadyLearned || 0;
-    totalDuration += chunk.durationToday + durationAlreadyLearned;
+    // let durationAlreadyLearned = chunk.durationAlreadyLearned || 0;
+    totalDuration += chunk.durationToday; //+ durationAlreadyLearned;
 
-    totalDurationCompleted +=
-      durationCompleted({
-        duration: chunk.durationToday,
-        startPage: chunk.startPage,
-        currentPage: chunk.currentPage,
-        numberPages: chunk.numberPagesToday,
-        completed: chunk.completed
-      }) + durationAlreadyLearned;
+    totalDurationCompleted += durationCompleted({
+      duration: chunk.durationToday,
+      startPage: chunk.startPage,
+      currentPage: chunk.currentPage,
+      numberPages: chunk.numberPagesToday,
+      completed: chunk.completed
+    }); //+ durationAlreadyLearned;
   });
 
   //duration ..... 100%

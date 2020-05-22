@@ -101,7 +101,7 @@ function chunkHasToBeChanged(oldExam, newArgs) {
 function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
   let updates;
   const newChunk = createTodaysChunkObject(newArgs);
-  const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
+  // const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
 
   const totalDurationLeft =
     calcPagesLeft(
@@ -111,10 +111,10 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
       newChunk.exam.currentPage
     ) * newChunk.exam.timePerPage;
 
-  const dailyDurationWithCompletedDuration =
-    (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
+  const dailyDurationWithCompletedDuration = totalDurationLeft / newChunk.daysLeft;
+  //  (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
 
-  let durationToday = Math.ceil(dailyDurationWithCompletedDuration - durationAlreadyLearned);
+  let durationToday = Math.ceil(dailyDurationWithCompletedDuration); //- durationAlreadyLearned);
   if (durationToday < 0) durationToday = 0;
   const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
   durationToday = numberPagesToday * newChunk.exam.timePerPage;
@@ -125,7 +125,7 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
     startPage: newChunk.currentPage,
     currentPage: newChunk.currentPage,
     daysLeft: newChunk.daysLeft,
-    durationAlreadyLearned,
+    // durationAlreadyLearned,
     completed: newChunk.completed
     // updatedAt: new Date
   };
