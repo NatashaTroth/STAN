@@ -71,7 +71,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <header>
-        <h1 className="hide">Stan - online study plan</h1>
+        <h1 className="hide-visually">Stan - online study plan</h1>
       </header>
 
       <STAN />
