@@ -71,7 +71,7 @@ const ExamDetailsEdit = ({ examId }) => {
   }
 
   // currentRepetition ----------------
-  let currentRepetition = Math.round(data.currentPage / numberOfPages)
+  let currentRepetition = Math.round(data.currentPage / data.numberPages)
   if (currentRepetition < 1) currentRepetition = 1
 
   let defaultValues = {
