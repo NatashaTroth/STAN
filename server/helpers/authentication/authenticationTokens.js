@@ -70,7 +70,7 @@ export async function invalidationAuthenticationTokens(userId) {
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function invalidateRefreshTokens(userId) {
   try {
-    const resp = await User.updateOne(
+    const resp = +User.updateOne(
       { _id: userId },
       { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
     );

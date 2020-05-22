@@ -51,6 +51,7 @@ export const GET_TODAYS_CHUNKS_AND_PROGRESS = gql`
           subject
           examDate
           startDate
+          startPage
           totalNumberDays
           numberPages
           lastPage
