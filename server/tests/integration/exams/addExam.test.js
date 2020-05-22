@@ -1,18 +1,9 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  // addTestExam,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 import { Exam } from "../../../models";
-
 import { ADD_EXAM_MUTATION } from "../../mutations.js";
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 //TODO: add totalNumberDays to the test
 describe("Test add exam mutation", () => {
@@ -69,7 +60,6 @@ describe("Test add exam mutation", () => {
     expect(exam.timesRepeat).toBe(1);
     expect(exam.startPage).toBe(4);
     expect(exam.currentPage).toBe(4);
-    //TODO: PDF LINK
     expect(exam.notes).toBe("My Test Notes");
     expect(exam.completed).toBe(false);
 
@@ -218,9 +208,7 @@ describe("Test add exam mutation", () => {
       }
     });
     expect(resp.data.addExam).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "The last page should be higher than the start page."
-    );
+    expect(resp.errors[0].message).toEqual("The last page should be higher than the start page.");
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount);
   });

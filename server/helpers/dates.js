@@ -1,14 +1,19 @@
 import dayjs from "dayjs";
+import { verifyRegexDate } from "./verifyInput";
+
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+
+export function isDateInvalid(value) {
+  return (
+    !value || value.length <= 0 || isNaN(Date.parse(value)) || !verifyRegexDate(value.toString())
+  );
+}
 
 export function datesTimingIsValid(startDate, examDate) {
   // console.log(datesAreNotPast([startDate, examDate]));
   // console.log(date1IsBeforeDate2(startDate, examDate));
-  return (
-    datesAreNotPast([startDate, examDate]) &&
-    date1IsBeforeDate2(startDate, examDate)
-  );
+  return datesAreNotPast([startDate, examDate]) && date1IsBeforeDate2(startDate, examDate);
 }
 
 export function startDateIsActive(startDate) {
@@ -27,16 +32,8 @@ export function isTheSameDay(date1, date2) {
 
 export function getNumberOfDays(startDate, endDate) {
   //source: https://stackoverflow.com/a/2627493 &  https://stackoverflow.com/a/17727953
-  const start = Date.UTC(
-    endDate.getFullYear(),
-    endDate.getMonth(),
-    endDate.getDate()
-  );
-  const end = Date.UTC(
-    startDate.getFullYear(),
-    startDate.getMonth(),
-    startDate.getDate()
-  );
+  const start = Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+  const end = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   const numberOfDays = Math.round((start - end) / oneDay);
@@ -49,8 +46,6 @@ export function getNumberOfDays(startDate, endDate) {
 //TODO: TEST
 export function datesAreNotPast(dates) {
   for (let i = 0; i < dates.length; i++) {
-    // console.log(dates[i]);
-
     //if today is after the date, then it is in the past
     if (dayjs(dates[i]).isBefore(dayjs()) && !isToday(dates[i])) {
       return false;

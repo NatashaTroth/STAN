@@ -2,18 +2,8 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
-import {
-  LOGIN_MUTATION,
-  SIGNUP_MUTATION,
-  UPDATE_USER_MUTATION
-} from "../../mutations.js";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
+import { LOGIN_MUTATION, SIGNUP_MUTATION, UPDATE_USER_MUTATION } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
@@ -257,8 +247,6 @@ describe("Test user resolver input (regex) and output (escape)", () => {
       }
     });
     expect(respUpdateUser.data.updateUser).toBeTruthy();
-    expect(respUpdateUser.data.updateUser.username).toBe(
-      "Samantha&#x27;s new username"
-    );
+    expect(respUpdateUser.data.updateUser.username).toBe("Samantha&#x27;s new username");
   });
 });

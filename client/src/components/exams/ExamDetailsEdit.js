@@ -63,20 +63,10 @@ const ExamDetailsEdit = ({ examId }) => {
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
-  let numberOfPages
-  if (data.startPage > 1) {
-    numberOfPages = data.lastPage - data.startPage
-  } else {
-    numberOfPages = data.lastPage
-  }
-
   // currentRepetition ----------------
-  let currentRepetition
-  if (data.currentPage - numberOfPages === data.lastPage) {
-    currentRepetition = Math.round(data.currentPage / numberOfPages)
-  } else {
-    currentRepetition = Math.round(data.currentPage / data.numberPages)
-  }
+  let currentRepetition = Math.floor(
+    (data.currentPage - data.startPage) / data.numberPages + 1
+  )
   if (currentRepetition < 1) currentRepetition = 1
 
   let defaultValues = {
@@ -87,7 +77,7 @@ const ExamDetailsEdit = ({ examId }) => {
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
     cycle: currentRepetition,
-    currentPage: data.currentPage - numberOfPages * (currentRepetition - 1),
+    currentPage: data.currentPage - data.numberPages * (currentRepetition - 1),
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -161,7 +151,6 @@ const ExamDetailsEdit = ({ examId }) => {
       color,
       newLinks,
       cycle,
-      numberOfPages,
     })
   }
 
@@ -790,11 +779,10 @@ async function handleExam({
   color,
   newLinks,
   cycle,
-  numberOfPages,
 }) {
   try {
-    let realCurrentPage =
-      parseInt(data.currentPage) + numberOfPages * (cycle - 1)
+    let numberPages = data.lastPage - data.startPage + 1
+    let realCurrentPage = parseInt(data.currentPage) + numberPages * (cycle - 1)
 
     const resp = await updateExam({
       variables: {

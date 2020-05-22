@@ -20,9 +20,7 @@ test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail("n@f.at")).toBeTruthy();
   expect(verifyRegexEmail("123.-3@d.at")).toBeTruthy();
   expect(verifyRegexEmail("very.common@example.com")).toBeTruthy();
-  expect(
-    verifyRegexEmail("disposable.style.email.with+symbol@example.com")
-  ).toBeTruthy();
+  expect(verifyRegexEmail("disposable.style.email.with+symbol@example.com")).toBeTruthy();
   expect(verifyRegexEmail("other.email-with-hyphen@example.com")).toBeTruthy();
   expect(verifyRegexEmail("fully-qualified-domain@example.com")).toBeTruthy();
   expect(verifyRegexEmail("user.name+tag+sorting@example.com")).toBeTruthy();
@@ -33,9 +31,7 @@ test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail("mailhost!username@example.org")).toBeTruthy();
   expect(verifyRegexEmail("user%example.com@example.org")).toBeTruthy();
   expect(verifyRegexEmail("a".repeat(64) + "@example.com")).toBeTruthy();
-  expect(
-    verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(251) + ".com")
-  ).toBeTruthy();
+  expect(verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(251) + ".com")).toBeTruthy();
 
   expect(verifyRegexEmail("@fh-salzburg.ac.at")).toBeFalsy();
   expect(verifyRegexEmail("Abc.example.com")).toBeFalsy();
@@ -46,9 +42,7 @@ test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail('this still"not\\allowed@example.com')).toBeFalsy();
   expect(verifyRegexEmail("")).toBeFalsy();
   expect(verifyRegexEmail("b".repeat(65) + "@example.com")).toBeFalsy();
-  expect(
-    verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(252) + ".com")
-  ).toBeFalsy();
+  expect(verifyRegexEmail("a".repeat(64) + "@" + "a".repeat(252) + ".com")).toBeFalsy();
 });
 
 test("verifies string is formatted as a username", () => {
@@ -153,16 +147,10 @@ test("verifies string is formatted as notes", () => {
 test("verifies string is formatted as a URL Link", () => {
   expect(verifyRegexUrlLink("https://google.at")).toBeTruthy();
   expect(
-    verifyRegexUrlLink(
-      "https://wiki.mediacube.at/wiki/index.php?title=Studiowoche"
-    )
+    verifyRegexUrlLink("https://wiki.mediacube.at/wiki/index.php?title=Studiowoche")
   ).toBeTruthy();
-  expect(
-    verifyRegexUrlLink("https://stan-studyplan-staging.herokuapp.com/")
-  ).toBeTruthy();
-  expect(
-    verifyRegexUrlLink("https://stan-studyplan.herokuapp.com/")
-  ).toBeTruthy();
+  expect(verifyRegexUrlLink("https://stan-studyplan-staging.herokuapp.com/")).toBeTruthy();
+  expect(verifyRegexUrlLink("https://stan-studyplan.herokuapp.com/")).toBeTruthy();
 
   expect(verifyRegexUrlLink("")).toBeFalsy();
   expect(verifyRegexUrlLink("ddsfhj8o345")).toBeFalsy();
@@ -181,9 +169,7 @@ function testVariousChars(regexFunction) {
   expect(regexFunction('kls7$5469!"')).toBeTruthy();
   expect(regexFunction("§$%&/()=?$§d")).toBeTruthy();
   expect(
-    regexFunction(
-      "\u0030\u0031\u0032\u0033\u0034\u0035\u0036\u0037\u0038\u0039"
-    )
+    regexFunction("\u0030\u0031\u0032\u0033\u0034\u0035\u0036\u0037\u0038\u0039")
   ).toBeTruthy();
 }
 

@@ -1,20 +1,10 @@
 //https://www.apollographql.com/docs/apollo-server/testing/testing/
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  addTestExam,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, addTestExam, clearDatabase, teardown } from "../setup";
 // import { Exam } from "../../../models";
 
-import {
-  GET_EXAM_QUERY,
-  GET_EXAMS_QUERY,
-  GET_EXAMS_COUNT
-} from "../../queries.js";
+import { GET_EXAM_QUERY, GET_EXAMS_QUERY, GET_EXAMS_COUNT } from "../../queries.js";
 
 // import { createTestClient } from "apollo-server-integration-testing";
 
@@ -56,12 +46,8 @@ describe("Test get exams queries", () => {
     expect(exam.timesRepeat).toBe(resp.data.exam.timesRepeat);
     expect(exam.startPage).toBe(resp.data.exam.startPage);
     expect(exam.currentPage).toBe(resp.data.exam.currentPage);
-    expect(exam.studyMaterialLinks.length).toBe(
-      resp.data.exam.studyMaterialLinks.length
-    );
-    expect(exam.studyMaterialLinks[0]).toBe(
-      resp.data.exam.studyMaterialLinks[0]
-    );
+    expect(exam.studyMaterialLinks.length).toBe(resp.data.exam.studyMaterialLinks.length);
+    expect(exam.studyMaterialLinks[0]).toBe(resp.data.exam.studyMaterialLinks[0]);
     expect("Samantha&#x27;s notes").toBe(resp.data.exam.notes);
     expect(exam.completed).toBe(resp.data.exam.completed);
   });
@@ -97,24 +83,16 @@ describe("Test get exams queries", () => {
     expect(resp.data.exams[3].subject).toBe("Dance");
 
     //Check one exam
-    expect(exam.examDate.toString()).toBe(
-      resp.data.exams[2].examDate.toString()
-    );
-    expect(exam.startDate.toString()).toBe(
-      resp.data.exams[2].startDate.toString()
-    );
+    expect(exam.examDate.toString()).toBe(resp.data.exams[2].examDate.toString());
+    expect(exam.startDate.toString()).toBe(resp.data.exams[2].startDate.toString());
     expect(exam.lastPage).toBe(resp.data.exams[2].lastPage);
     expect(exam.numberPages).toBe(resp.data.exams[2].numberPages);
     expect(exam.timePerPage).toBe(resp.data.exams[2].timePerPage);
     expect(exam.timesRepeat).toBe(resp.data.exams[2].timesRepeat);
     expect(exam.startPage).toBe(resp.data.exams[2].startPage);
     expect(exam.currentPage).toBe(resp.data.exams[2].currentPage);
-    expect(exam.studyMaterialLinks.length).toBe(
-      resp.data.exams[2].studyMaterialLinks.length
-    );
-    expect(exam.studyMaterialLinks[0]).toBe(
-      resp.data.exams[2].studyMaterialLinks[0]
-    );
+    expect(exam.studyMaterialLinks.length).toBe(resp.data.exams[2].studyMaterialLinks.length);
+    expect(exam.studyMaterialLinks[0]).toBe(resp.data.exams[2].studyMaterialLinks[0]);
     expect("Samantha&#x27;s notes").toBe(resp.data.exams[2].notes);
     expect(exam.completed).toBe(resp.data.exams[2].completed);
   });

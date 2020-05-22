@@ -37,7 +37,6 @@ const examType = gql`
     daysLeft: Int! #incl. today
     # totalChunks: Int!
     # numberPagesWithRepeat: Int! #exam.pages*repeat
-    notEnoughTime: Boolean!
     completed: Boolean!
   }
 

@@ -26,12 +26,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  let numberOfPages
-  if (examDetails.startPage > 1) {
-    numberOfPages = examDetails.lastPage - examDetails.startPage
-  } else {
-    numberOfPages = examDetails.lastPage
-  }
+  let currentRepetition = Math.floor(
+    (examDetails.currentPage - examDetails.startPage) /
+      examDetails.numberPages +
+      1
+  )
+  if (currentRepetition < 1) currentRepetition = 1
+
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
   let currentRepetition
@@ -49,6 +50,16 @@ const ExamDetailsInfo = ({ examDetails }) => {
     (examDetails.numberPages * examDetails.timesRepeat)
 
   if (progressbar > 100) progressbar = 100
+
+  const getCurrentPage = (examDetails, currentRepetition) => {
+    let currentPageWithoutStartPage =
+      examDetails.currentPage - examDetails.startPage
+    let numberPagesLearned = examDetails.numberPages * (currentRepetition - 1)
+
+    return (
+      currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
+    )
+  }
 
   // return ----------------
   return (
@@ -115,7 +126,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <p>{numberOfPages}</p>
+                <p>{examDetails.numberPages}</p>
               </div>
 
               <div className="exam-data">
@@ -137,18 +148,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
-
-                {/* TODO: fix progressbar and number of pages left */}
                 <div className="exam-pages__bar">
                   <ExamBar value={progressbar} />
 
                   <div className="exam-pages__bar--status">
                     <p>
-                      {examDetails.numberPages -
-                        examDetails.startPage -
-                        (examDetails.currentPage -
-                          examDetails.startPage -
-                          1)}{" "}
+                      {examDetails.numberPages * examDetails.timesRepeat -
+                        (examDetails.currentPage - examDetails.startPage)}{" "}
                       pages left
                     </p>
                   </div>
@@ -157,10 +163,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>
-                  {examDetails.currentPage -
-                    numberOfPages * (currentRepetition - 1)}
-                </p>
+                <p>{getCurrentPage(examDetails, currentRepetition)}</p>
               </div>
 
               <div className="exam-data">

@@ -13,10 +13,7 @@ import {
 } from "../setup";
 import { DELETE_USER_MUTATION } from "../../mutations.js";
 
-import {
-  GET_EXAMS_QUERY,
-  GET_TODAYS_CHUNKS_AND_PROGRESS
-} from "../../queries.js";
+import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 import { User, Exam, TodaysChunkCache } from "../../../models";
 // import { getNumberOfDays } from "../../../helpers/dates";
 
@@ -65,12 +62,8 @@ describe("Test delete user mutation", () => {
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      3
-    );
-    expect(
-      await TodaysChunkCache.countDocuments({ userId: testUser._id })
-    ).toBe(3);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(3);
+    expect(await TodaysChunkCache.countDocuments({ userId: testUser._id })).toBe(3);
 
     //count number of exams for this user
     const respExams = await query({
@@ -104,9 +97,7 @@ describe("Test delete user mutation", () => {
     expect(respExamsAfterDelete.data.exams.length).toBe(0);
 
     expect(await Exam.countDocuments({ userId: testUser._id })).toBe(0);
-    expect(
-      await TodaysChunkCache.countDocuments({ userId: testUser._id })
-    ).toBe(0);
+    expect(await TodaysChunkCache.countDocuments({ userId: testUser._id })).toBe(0);
 
     //check that a non existing user cannot be deleted (although normally the error would be "Unauthorised")
     const respDelete2 = await mutate({

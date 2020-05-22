@@ -1,18 +1,24 @@
 import jwt from "jsonwebtoken";
 import { User } from "../../models/index";
 import { ApolloError } from "apollo-server";
+import { handleResolverError } from "../generalHelpers";
 // import { createRefreshToken, createAccessToken } from "./auth";
 
-export async function handleRefreshToken(req, res) {
+export function createLoginTokens({ user, res }) {
+  let userAccessToken = createAccessToken(user);
+  sendRefreshToken(res, createRefreshToken(user));
+  return userAccessToken;
+}
+
+export async function handleRefreshTokenRoute(req, res) {
   //read refresh cookie - validate that it's correct
   try {
     const payload = verifyRefreshToken(req);
-    const user = await getUser(payload);
+    const user = await getUserFromToken(payload);
     sendRefreshToken(res, createRefreshToken(user));
     return res.send({ ok: true, accessToken: createAccessToken(user) });
   } catch (err) {
-    console.log("Error in handleRefreshToken()");
-    console.error(err.message);
+    console.error("Error in handleRefreshTokenRoute(): " + err.message);
     return res.send({ ok: false, accessToken: "" });
   }
 }
@@ -30,8 +36,7 @@ export const sendRefreshToken = (res, token) => {
  * @param {object} user
  */
 export const createAccessToken = user => {
-  if (!user)
-    throw new ApolloError("User object is empty, cannot create access token.");
+  if (!user) throw new ApolloError("User object is empty, cannot create access token.");
   return jwt.sign(
     {
       userId: user.id,
@@ -50,8 +55,7 @@ export const createAccessToken = user => {
  * @param {object} user
  */
 export const createRefreshToken = user => {
-  if (!user)
-    throw new ApolloError("User object is empty, cannot create refresh token");
+  if (!user) throw new ApolloError("User object is empty, cannot create refresh token");
   return jwt.sign(
     { userId: user.id, tokenVersion: user.refreshTokenVersion },
     process.env.REFRESH_TOKEN_SECRET,
@@ -67,10 +71,45 @@ function verifyRefreshToken(req) {
   return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 }
 
-async function getUser(payload) {
+async function getUserFromToken(payload) {
   const user = await User.findOne({ _id: payload.userId });
   if (!user) throw new Error("No refresh token in cookie");
   if (user.refreshTokenVersion !== payload.tokenVersion)
     throw new Error("No refresh token in cookie");
   return user;
+}
+
+export async function invalidationAuthenticationTokens(userId) {
+  const respRefreshToken = await invalidateRefreshTokens(userId);
+  if (!respRefreshToken) throw new ApolloError("Unable to revoke refresh token.");
+  const respAccessToken = await invalidateAccessTokens(userId);
+  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
+}
+//TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+async function invalidateRefreshTokens(userId) {
+  try {
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { refreshTokenVersion: 1 }, updatedAt: new Date() }
+    );
+    if (resp.nModified === 0) throw new Error("Refresh token version was not increased.");
+
+    return true;
+  } catch (err) {
+    handleResolverError(err);
+  }
+}
+
+async function invalidateAccessTokens(userId) {
+  try {
+    const resp = await User.updateOne(
+      { _id: userId },
+      { $inc: { accessTokenVersion: 1 }, updatedAt: new Date() }
+    );
+    if (resp.nModified === 0) throw new Error("Access token version was not increased.");
+
+    return true;
+  } catch (err) {
+    handleResolverError(err);
+  }
 }

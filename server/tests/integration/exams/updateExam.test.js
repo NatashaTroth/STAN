@@ -10,11 +10,8 @@ import {
   teardown
 } from "../setup";
 import { Exam } from "../../../models";
-
 import { UPDATE_EXAM_MUTATION } from "../../mutations.js";
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
-
-//TODO TEST REGEX HERE TOO?
 
 describe("Test update exam mutation", () => {
   let server;
@@ -80,16 +77,10 @@ describe("Test update exam mutation", () => {
     });
     // console.log(todaysChunks.data);
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      1
-    );
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
-    expect(
-      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage
-    ).toBe(1);
-    expect(
-      todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
-    ).toBe(1);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].startPage).toBe(1);
+    expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage).toBe(1);
 
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
@@ -117,15 +108,9 @@ describe("Test update exam mutation", () => {
     });
 
     expect(todaysChunks2.data.todaysChunkAndProgress).toBeTruthy();
-    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(
-      1
-    );
-    expect(
-      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].startPage
-    ).toBe(2);
-    expect(
-      todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage
-    ).toBe(2);
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].startPage).toBe(2);
+    expect(todaysChunks2.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage).toBe(2);
   });
 
   it("should update the exam correctly, even thought original unchanged startDate is in the past", async () => {
@@ -185,17 +170,14 @@ describe("Test update exam mutation", () => {
     });
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Start learning date must be before exam date."
-    );
+    expect(resp.errors[0].message).toEqual("Start learning date must be before exam date.");
   });
 
   it("should not update the exam, since the exam doesn't exist", async () => {
     const testExam = await addTestExam({ subject: "Biology" });
 
     let falseId = "5e923a29a39c7738fb50e632";
-    if (testExam._id.toString() === falseId)
-      falseId = "5e923a29a39c7738fb50e635";
+    if (testExam._id.toString() === falseId) falseId = "5e923a29a39c7738fb50e635";
     const resp = await mutate({
       query: UPDATE_EXAM_MUTATION,
       variables: {
@@ -218,9 +200,7 @@ describe("Test update exam mutation", () => {
     });
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "No exam exists with this exam id: " + falseId + " for this user."
-    );
+    expect(resp.errors[0].message).toEqual("This exam does not exist.");
   });
 
   it("should not update the exam, since start date is after exam date", async () => {

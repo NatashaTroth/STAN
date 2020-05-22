@@ -92,11 +92,7 @@ function validateRegexDate(string) {
   let regexDateOne = /^(0?[1-9]|[12][0-9]|3[01])[-|/|.](0?[1-9]|1[012])[-|/|.]\d{4}$/; //dd/mm/yyyy
   let regexDateTwo = /^\d{4}[-|/|.](0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])$/; //yyyy/mm/dd
   let regexDateThree = /^(0?[1-9]|1[012])[-|/|.](0?[1-9]|[12][0-9]|3[01])[-|/|.]\d{4}$/; //mm/dd/yyyy
-  if (
-    !string.match(regexDateOne) &&
-    !string.match(regexDateTwo) &&
-    !string.match(regexDateThree)
-  )
+  if (!string.match(regexDateOne) && !string.match(regexDateTwo) && !string.match(regexDateThree))
     return false;
   return true;
 }

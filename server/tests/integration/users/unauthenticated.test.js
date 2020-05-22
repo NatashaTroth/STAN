@@ -1,13 +1,6 @@
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  clearDatabase,
-  teardown
-  // signUpTestUser
-} from "../setup";
-
+import { setupApolloServer, setupDb, clearDatabase, teardown } from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
@@ -21,8 +14,6 @@ import {
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
 import jwt from "jsonwebtoken";
-
-//TODO: TEST GOOGLE LOGIN??
 
 describe("Test resolvers are accessed correctly when the user is unauthenticated", () => {
   let server;
@@ -77,10 +68,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
 
     //Test accesstoken
     expect(resp.data.signup).toBeDefined();
-    const decodedToken = jwt.verify(
-      resp.data.signup,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(resp.data.signup, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
     expect(decodedToken.userId).toBe(user.id);
     expect(decodedToken.tokenVersion).toBe(0);
@@ -102,9 +90,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     // console.log(await User.find());
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "User with email already exists. Have you forgotten your password?"
-    );
+    expect(resp.errors[0].message).toEqual("User with email already exists, choose another one.");
   });
 
   it("should not update the mascot for a user", async () => {
@@ -171,10 +157,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
 
     //Test accesstoken
     expect(resp.data.login).toBeDefined();
-    const decodedToken = jwt.verify(
-      resp.data.login,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(resp.data.login, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
 
     const user = await User.findOne({
@@ -186,6 +169,20 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     expect(decodedToken.tokenVersion).toBe(0);
   });
 
+  it("should not login a user with the wrong password", async () => {
+    await signUserUp("Stan3", "user3@stan.com", "12345678");
+
+    const resp = await mutate({
+      query: LOGIN_MUTATION,
+      variables: {
+        email: "user3@stan.com",
+        password: "wrong password"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+  });
+
   it("should not login a non existing user", async () => {
     const resp = await mutate({
       query: LOGIN_MUTATION,
@@ -195,9 +192,7 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
       }
     });
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "User with this email does not exist."
-    );
+    expect(resp.errors[0].message).toEqual("User with this email does not exist.");
   });
 
   it("should fetch the current user - which is null", async () => {

@@ -54,8 +54,7 @@ export default class StanEmail {
     mascot
   ) {
     console.log("SENDING THREE DAY REMINDER MAIL");
-    let totalExamsLength =
-      examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
+    let totalExamsLength = examsInOneDay.length + examsInThreeDays.length + startDatesToday.length;
     let examWord = "Exam";
     if (totalExamsLength > 1) examWord = "Exams";
     if (totalExamsLength === 1) totalExamsLength = "";
@@ -68,9 +67,7 @@ export default class StanEmail {
     if (examsInThreeDays.length > 0) {
       examsListString += `<b>${examsInThreeDays.length} ${
         examsInThreeDays.length > 1 ? "exams" : "exam"
-      } in three days' time:</b><ul>${this.createExamsListString(
-        examsInThreeDays
-      )}</ul>`;
+      } in three days' time:</b><ul>${this.createExamsListString(examsInThreeDays)}</ul>`;
     }
     if (startDatesToday.length > 0) {
       examsListString += `<p><b>You need to start learning for the following ${
@@ -112,8 +109,6 @@ export default class StanEmail {
     console.log("SENDING MAIL");
 
     let image = `${mascot}-emailStan.svg`;
-
-    //TODO (IF TIME): send correct mascot - 0,1 or 2
     const html = `<style>*{font-family: Verdana, sans-serif}</style><h1 style="color:#00729e">${h1}</h1>${text}<br><p><img style="width: 220px" src="cid:unique@stan.com"/></p>`;
 
     console.log(`${__dirname}/images/${image}`);

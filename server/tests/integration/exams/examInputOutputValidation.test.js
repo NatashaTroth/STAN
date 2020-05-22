@@ -266,10 +266,7 @@ describe("Test exam input and output validations/regex/escape", () => {
         timePerPage: 2,
         startPage: 1,
         notes: "NOTES",
-        studyMaterialLinks: [
-          "https://stan-studyplan-staging.herokuapp.com/",
-          "42"
-        ],
+        studyMaterialLinks: ["https://stan-studyplan-staging.herokuapp.com/", "42"],
         completed: false
       }
     });
@@ -326,9 +323,7 @@ describe("Test exam input and output validations/regex/escape", () => {
     expect(respExams.data.exams[0].subject).toBe(
       "&lt;script&gt;alert(&#x27;evil exam&#x27;)&lt;&#x2F;script&gt;"
     );
-    expect(respExams.data.exams[0].notes).toBe(
-      "&amp;&lt;&gt;&#x27;&quot;&#x2F;"
-    );
+    expect(respExams.data.exams[0].notes).toBe("&amp;&lt;&gt;&#x27;&quot;&#x2F;");
 
     //---Get exam query---
     const respExam = await query({
@@ -349,15 +344,13 @@ describe("Test exam input and output validations/regex/escape", () => {
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
 
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
-    ).toBeTruthy();
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.subject
-    ).toBe("&lt;script&gt;alert(&#x27;evil exam&#x27;)&lt;&#x2F;script&gt;");
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.notes
-    ).toBe("&amp;&lt;&gt;&#x27;&quot;&#x2F;");
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam).toBeTruthy();
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.subject).toBe(
+      "&lt;script&gt;alert(&#x27;evil exam&#x27;)&lt;&#x2F;script&gt;"
+    );
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.notes).toBe(
+      "&amp;&lt;&gt;&#x27;&quot;&#x2F;"
+    );
 
     //---Get todays chunks and progress---
     const respCalendarChunks = await query({
@@ -389,8 +382,6 @@ describe("Test exam input and output validations/regex/escape", () => {
     });
 
     expect(respUpdateExam.data.updateExam).toBeTruthy();
-    expect(respUpdateExam.data.updateExam.subject).toBe(
-      "&amp;&lt;&gt;&#x27;&quot;&#x2F;"
-    );
+    expect(respUpdateExam.data.updateExam.subject).toBe("&amp;&lt;&gt;&#x27;&quot;&#x2F;");
   });
 });

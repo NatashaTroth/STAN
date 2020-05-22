@@ -4,12 +4,25 @@ import {
   verifyRegexPassword,
   verifyRegexMascot
 } from "../verifyInput";
+
+import validator from "validator";
+
 import {
   // UserInputError,
   AuthenticationError
 } from "apollo-server";
-import validator from "validator";
+
 import bcrypt from "bcrypt";
+
+export async function validatePassword(inputPassword, userPassword) {
+  try {
+    if (!verifyRegexPassword(inputPassword)) throw new Error();
+    const valid = await bcrypt.compare(inputPassword, userPassword);
+    if (!valid) throw new Error();
+  } catch (err) {
+    throw new AuthenticationError("Password is incorrect.");
+  }
+}
 
 export function verifySignupInputFormat({ username, email, password, mascot }) {
   verifyUsernameFormat(username);
@@ -33,13 +46,6 @@ export function verifyUpdatePasswordInputFormat(password) {
     );
   }
 }
-
-// export function updateUser({ username, email, password, mascot }) {
-//   verifyUsernameFormat(username);
-//   verifyEmailFormat(email);
-//   verifyPasswordFormat(password);
-//   verifyMascotFormat(mascot);
-// }
 
 export function verifyLoginInputFormat({ email, password }) {
   verifyEmailFormat(email);
@@ -70,18 +76,8 @@ export function verifyPasswordFormat(password) {
 }
 
 function verifyMascotFormat(mascot) {
-  if (!verifyRegexMascot(mascot))
+  if (!verifyRegexMascot(mascot.toString()))
     throw new Error(
       "Mascot input has the wrong format. It must be one of the following numbers: 0, 1, 2."
     );
-}
-
-export async function validatePassword(inputPassword, userPassword) {
-  try {
-    if (!verifyRegexPassword(inputPassword)) throw new Error();
-    const valid = await bcrypt.compare(inputPassword, userPassword);
-    if (!valid) throw new Error();
-  } catch (err) {
-    throw new AuthenticationError("Password is incorrect.");
-  }
 }

@@ -2,13 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
 import {
   LOGIN_MUTATION,
   SIGNUP_MUTATION,
@@ -165,10 +159,7 @@ describe("Test resolvers are accessed correctly when authenticated", () => {
     expect(testUser.refreshTokenVersion).toBe(0);
     const accessToken = createAccessToken(testUser);
     expect(accessToken).toBeTruthy();
-    const decodedToken = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
     expect(decodedToken.userId).toBe(testUser.id);
     expect(decodedToken.tokenVersion).toBe(0);
@@ -186,6 +177,7 @@ describe("Test resolvers are accessed correctly when authenticated", () => {
     const user = await User.findOne({
       _id: testUser._id
     });
+
     expect(user.accessTokenVersion).toBe(1);
     expect(user.refreshTokenVersion).toBe(1);
 

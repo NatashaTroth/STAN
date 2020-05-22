@@ -4,8 +4,9 @@ import { User, Exam } from "./../models";
 import { getNumberOfDays, isTheSameDay, date1IsBeforeDate2 } from "./dates";
 import StanEmail from "./StanEmail";
 const stanEmail = new StanEmail();
-import { deleteExamsTodaysCache } from "./exams/chunks";
+import { deleteExamsTodaysCache } from "./exams/chunkHelpers";
 import { deleteUsersData, deleteUser } from "./users/deleteUser";
+import { fetchUncompletedExams } from "./exams/examHelpers";
 
 export default class StanScheduler {
   constructor() {
@@ -30,53 +31,30 @@ export default class StanScheduler {
       this.removeNoLongerNeededCache();
       this.notifyAndDeleteOldUsers();
     });
-
-    // schedule.scheduleJob("*/1 * * * *", function() {
-    //   console.log("THE SCHEDULER IS WORKING");
-    // });
   }
 
-  //TODO - SIGN UP MAIL, DELETE ACCOUNT MAIL, START LEARNING DATE MAILS
-
   async notifyUsersAboutExams() {
-    //{ hour: 17, minute: 32 }
-    // schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
-    //3 UTC (Greenwich), 4am Austrian time
     console.log("Sending Mails");
-
-    //TODO: INDEX allowEmailNotifications
-
     const users = await User.find({ allowEmailNotifications: true });
     console.log(users.length + " no users authenticated");
     users.forEach(async user => {
       const examsInOneDay = [];
       const examsInThreeDays = [];
       const startDatesToday = [];
-      const exams = await Exam.find({
-        userId: user._id,
-        completed: false
-      }).sort({ subject: "asc" });
+      const exams = await fetchUncompletedExams(user._id);
       exams.forEach(exam => {
-        const numberOfDaysUntilExam = getNumberOfDays(
-          new Date(),
-          exam.examDate
-        );
-        console.log(numberOfDaysUntilExam);
+        const numberOfDaysUntilExam = getNumberOfDays(new Date(), exam.examDate);
+
         if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
         if (numberOfDaysUntilExam === 3) examsInThreeDays.push(exam.subject);
-        console.log(JSON.stringify(examsInOneDay));
-        if (isTheSameDay(new Date(), exam.startDate))
-          startDatesToday.push(exam.subject);
+
+        if (isTheSameDay(new Date(), exam.startDate)) startDatesToday.push(exam.subject);
       });
       // if (examsInOneDay.length > 0)
       //   stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
       // if (examsInThreeDays.length > 0)
       //   stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
-      if (
-        examsInOneDay.length > 0 ||
-        examsInThreeDays.length > 0 ||
-        startDatesToday.length > 0
-      )
+      if (examsInOneDay.length > 0 || examsInThreeDays.length > 0 || startDatesToday.length > 0)
         stanEmail.sendExamDateReminderMail(
           user.email,
           examsInOneDay,
@@ -98,10 +76,7 @@ export default class StanScheduler {
     exams.forEach(async exam => {
       console.log(exam.subject);
       if (date1IsBeforeDate2(exam.examDate, new Date())) {
-        await Exam.updateOne(
-          { _id: exam._id },
-          { completed: true, updatedAt: new Date() }
-        );
+        await Exam.updateOne({ _id: exam._id }, { completed: true, updatedAt: new Date() });
         console.log("updating exam " + exam.subject);
         await deleteExamsTodaysCache(exam.userId, exam._id);
       }
@@ -122,10 +97,7 @@ export default class StanScheduler {
   async notifyAndDeleteOldUsers() {
     const users = await User.find();
     users.forEach(async user => {
-      const daysSinceLastVisited = getNumberOfDays(
-        user.lastVisited,
-        new Date()
-      );
+      const daysSinceLastVisited = getNumberOfDays(user.lastVisited, new Date());
       console.log("user: " + user.username);
       console.log("-------days since last visited: " + daysSinceLastVisited);
 
@@ -135,15 +107,8 @@ export default class StanScheduler {
         await deleteUsersData(user._id);
         await deleteUser(user._id);
         stanEmail.sendDeleteAccountMail(user.email, user.mascot);
-      } else if (
-        daysSinceLastVisited >= 336 &&
-        user.sentOneMonthDeleteReminder === false
-      ) {
-        stanEmail.sendExamDeleteAccountWarning(
-          user.email,
-          366 - daysSinceLastVisited,
-          user.mascot
-        );
+      } else if (daysSinceLastVisited >= 336 && user.sentOneMonthDeleteReminder === false) {
+        stanEmail.sendExamDeleteAccountWarning(user.email, 366 - daysSinceLastVisited, user.mascot);
         await User.updateOne(
           { _id: user._id },
           { sentOneMonthDeleteReminder: true, updatedAt: new Date() }

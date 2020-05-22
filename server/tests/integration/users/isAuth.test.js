@@ -3,13 +3,7 @@ import { isAuth } from "../../../helpers/authentication/is-auth";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
 
 describe("Test is auth (verifies access token and authenticates that user)", () => {
   let testUser;
@@ -33,10 +27,7 @@ describe("Test is auth (verifies access token and authenticates that user)", () 
 
     const user = { id: testUser._id, accessTokenVersion: 0 };
     const accessToken = createAccessToken(user);
-    const decodedToken = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
 
     headers.set("Authorization", "bearer " + accessToken);
@@ -59,10 +50,7 @@ describe("Test is auth (verifies access token and authenticates that user)", () 
 
     const user = { id: "wrongId", accessTokenVersion: 0 };
     const accessToken = createAccessToken(user);
-    const decodedToken = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     expect(decodedToken).toBeTruthy();
 
     headers.set("Authorization", "bearer " + accessToken);

@@ -2,13 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
 import { UPDATE_USER_MUTATION } from "../../mutations.js";
 
 import { User } from "../../../models";
@@ -73,7 +67,7 @@ describe("Test update user mutation", () => {
         allowEmailNotifications: true
       }
     });
-
+    console.log(resp);
     expect(resp.data.updateUser).toBeTruthy();
 
     expect(resp.data.updateUser).toMatchObject({

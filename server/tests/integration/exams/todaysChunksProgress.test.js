@@ -75,10 +75,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const respTodaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(
-      respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam
-        .currentPage
-    ).toBe(3);
+    expect(respTodaysChunks.data.todaysChunkAndProgress.todaysChunks[0].exam.currentPage).toBe(3);
 
     const resp2 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
@@ -169,9 +166,7 @@ describe("Test todays progress query is calculated correctly", () => {
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respFetchChunks.data.todaysChunkAndProgress).toBeTruthy();
-    expect(
-      respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length
-    ).toBe(0);
+    expect(respFetchChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(0);
 
     const resp1 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS

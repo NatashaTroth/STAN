@@ -1,8 +1,7 @@
-import {
-  numberOfPagesForChunk,
-  durationCompleted,
-  chunkCacheIsValid
-} from "../../helpers/exams/chunks";
+import { numberOfPagesForChunk } from "../../helpers/exams/chunkHelpers";
+import { chunkCacheIsValid } from "../../helpers/exams/todaysChunks";
+
+import { durationCompleted } from "../../helpers/exams/todaysChunkProgress";
 
 test("the number of pages for each chunk is correct", () => {
   expect(
@@ -53,9 +52,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -68,9 +65,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -83,9 +78,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -98,9 +91,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 
   try {
@@ -113,9 +104,7 @@ test("that correct Error is thrown with NaN inputs", () => {
     });
     throw new Error("Error wasn't thrown");
   } catch (err) {
-    expect(err.message).toBe(
-      "Not all arguments for numberOfPagesForChunk are numbers."
-    );
+    expect(err.message).toBe("Not all arguments for numberOfPagesForChunk are numbers.");
   }
 });
 

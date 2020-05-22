@@ -2,13 +2,7 @@
 //https://mongoosejs.com/docs/jest.html
 import "dotenv/config";
 import { createTestClient } from "apollo-server-testing";
-import {
-  setupApolloServer,
-  setupDb,
-  signUpTestUser,
-  clearDatabase,
-  teardown
-} from "../setup";
+import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } from "../setup";
 import { UPDATE_USER_MUTATION } from "../../mutations.js";
 
 //TODO: ADD MORE TESTS
@@ -69,8 +63,6 @@ describe("Test google login mutation", () => {
     });
 
     expect(resp.data).toBeFalsy();
-    expect(resp.errors[0].message).toEqual(
-      "Cannot update Google Login user account."
-    );
+    expect(resp.errors[0].message).toEqual("Cannot update Google Login user account.");
   });
 });
