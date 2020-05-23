@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { User } from "../../models/index";
-import { ApolloError } from "apollo-server";
 import { handleResolverError } from "../generalHelpers";
 
 export function createLoginTokens({ user, res }) {

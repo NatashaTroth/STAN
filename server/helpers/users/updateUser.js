@@ -1,5 +1,4 @@
 import { User } from "../../models";
-import { ApolloError } from "apollo-server";
 import bcrypt from "bcrypt";
 import {
   validatePassword,

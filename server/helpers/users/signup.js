@@ -2,7 +2,6 @@
 
 import { User } from "../../models";
 import { verifyEmailIsUnique } from "./userHelpers";
-import { AuthenticationError } from "apollo-server";
 import bcrypt from "bcrypt";
 import { verifySignupInputFormat } from "./validateUserInput";
 import { createLoginTokens } from "./../authentication/authenticationTokens";

@@ -1,7 +1,6 @@
 import { Exam } from "../../models";
 import { fetchExam } from "./examHelpers";
 import { deleteExamsTodaysCache } from "./chunkHelpers";
-import { ApolloError } from "apollo-server";
 
 export async function handleDeleteExam(args, userInfo) {
   await fetchExam(args.id, userInfo.userId);
