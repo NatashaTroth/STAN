@@ -262,7 +262,7 @@ function Today(props) {
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday + startPage - 1
   // if start page is bigger
-  if (numberPagesToday > startPage && startPage !== lastPage) {
+  if (numberPagesToday < startPage && startPage !== lastPage) {
     // get pages for new cycles
     let pagesLeft = lastPage - todaysChunk.numberPagesToday
     numberPagesToday = startPage + todaysChunk.numberPagesToday - pagesLeft
