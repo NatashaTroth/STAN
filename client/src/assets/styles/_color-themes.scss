@@ -292,9 +292,11 @@ html.dark-mode {
   .fc-unthemed .fc-content,
   .fc-unthemed .fc-popover,
   .fc-unthemed .fc-list-view,
-  .fc-unthemed .fc-list-heading td {
+  .fc-unthemed .fc-list-heading td,
+  table.fc-list-table {
     border-color: theme-color("light");
   }
+
   .fc-content.fc-title,
   .fc-list-heading-main,
   .fc-list-heading-alt {
