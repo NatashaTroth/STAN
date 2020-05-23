@@ -97,9 +97,8 @@
         background: none;
         border: none;
 
-        &:focus,
-        &:active {
-          outline: 3px solid theme-color("dark");
+        &:focus {
+          outline: 3px solid theme-color("primary-yellow");
         }
 
         @include media-breakpoint-down(lg) {
