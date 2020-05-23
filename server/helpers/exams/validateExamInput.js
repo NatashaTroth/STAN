@@ -11,26 +11,17 @@ import {
 import { UserInputError } from "apollo-server";
 
 import { removeWhitespace } from "../generalHelpers";
-import {
-  datesTimingIsValid,
-  // startDateIsActive,
-  isTheSameDay,
-  date1IsBeforeDate2
-} from "../dates";
+import { datesTimingIsValid, isTheSameDay, date1IsBeforeDate2 } from "../dates";
 import validator from "validator";
 
 export function verifyExamInput(args) {
   //regex
   verifyNewExamInputFormat(args);
-
   if (isTheSameDay(args.startDate, args.examDate)) {
     throw new UserInputError(
       "Careful! You shouldn't start learning on the same day as the test. Start date should be at least 1 day before the test."
     );
   }
-
-  // if (args.startPage && args.startPage > args.lastPage)
-  //   throw new UserInputError("Start page cannot higher than the number of pages.");
 }
 
 function verifyNewExamInputFormat(args) {
@@ -39,7 +30,6 @@ function verifyNewExamInputFormat(args) {
   verifyTimePerPageFormat(args.timePerPage);
   verifyTimesRepeatFormat(args.timesRepeat);
   verifyStartPageFormat(args.startPage);
-  // verifyHexColorFormat(args.color, args);
   verifyNotesFormat(args.notes);
   verifyStudyMaterialLinksFormat(args.studyMaterialLinks);
 }

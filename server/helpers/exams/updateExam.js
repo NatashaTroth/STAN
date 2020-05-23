@@ -25,21 +25,9 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
   if (!todaysChunkCache) return;
 
   if (chunkHasToBeChanged(exam, newArgs)) {
-    const updates = filterOutUpdatesInTodaysChunk(newArgs);
-    const updateCacheResp = await TodaysChunkCache.updateOne(
-      {
-        examId: exam._id.toString(),
-        userId
-      },
-      {
-        ...updates,
-        updatedAt: new Date()
-      }
-    );
-
-    if (updateCacheResp.ok !== 1) throw new Error("The todays chunk cache could not be updated.");
+    const updates = createUpdatedChunk(newArgs);
+    await updateTodaysChunkCache(exam._id, userId, updates);
   } else {
-    // console.log("chunk has not changed much");
     const updates = {};
     let updateNeeded = false;
     if (exam.currentPage !== newArgs.currentPage) {
@@ -53,20 +41,7 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
     updates.completed = todaysChunkIsCompleted(newArgs.currentPage, todaysChunkCache);
 
     if (updateNeeded) {
-      // console.log("update was needed");
-      //TODO EXTRAct
-
-      const updateCacheResp = await TodaysChunkCache.updateOne(
-        {
-          examId: exam._id.toString(),
-          userId
-        },
-        {
-          ...updates,
-          updatedAt: new Date()
-        }
-      );
-      if (updateCacheResp.ok !== 1) throw new Error("The todays chunk cache could not be updated.");
+      await updateTodaysChunkCache(exam._id, userId, updates);
     }
   }
 }
@@ -81,11 +56,9 @@ function chunkHasToBeChanged(oldExam, newArgs) {
   );
 }
 
-function filterOutUpdatesInTodaysChunk(newArgs) {
+function createUpdatedChunk(newArgs) {
   let updates;
   const newChunk = createTodaysChunkObject(newArgs);
-  // const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
-
   const totalDurationLeft =
     calcPagesLeft(
       newChunk.exam.numberPages,
@@ -95,9 +68,7 @@ function filterOutUpdatesInTodaysChunk(newArgs) {
     ) * newChunk.exam.timePerPage;
 
   const dailyDurationWithCompletedDuration = totalDurationLeft / newChunk.daysLeft;
-  //  (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
-
-  let durationToday = Math.ceil(dailyDurationWithCompletedDuration); //- durationAlreadyLearned);
+  let durationToday = Math.ceil(dailyDurationWithCompletedDuration);
   if (durationToday < 0) durationToday = 0;
   const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
   durationToday = numberPagesToday * newChunk.exam.timePerPage;
@@ -108,16 +79,22 @@ function filterOutUpdatesInTodaysChunk(newArgs) {
     startPage: newChunk.currentPage,
     currentPage: newChunk.currentPage,
     daysLeft: newChunk.daysLeft,
-    // durationAlreadyLearned,
     completed: newChunk.completed
-    // updatedAt: new Date
   };
   return updates;
 }
 
-// function calcCompletedDuration(chunk) {
-//   const timePerPage = chunk.durationToday / chunk.numberPagesToday;
-//   const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
+async function updateTodaysChunkCache(examId, userId, updates) {
+  const updateCacheResp = await TodaysChunkCache.updateOne(
+    {
+      examId: examId.toString(),
+      userId
+    },
+    {
+      ...updates,
+      updatedAt: new Date()
+    }
+  );
 
-//   return timePerPage * numberOfCompletedPages;
-// }
+  if (updateCacheResp.ok !== 1) throw new Error("The todays chunk cache could not be updated.");
+}

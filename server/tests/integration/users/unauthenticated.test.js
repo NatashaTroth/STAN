@@ -7,9 +7,9 @@ import {
   UPDATE_MASCOT_MUTATION,
   UPDATE_USER_MUTATION,
   LOGOUT_MUTATION,
-  DELETE_USER_MUTATION
+  DELETE_USER_MUTATION,
   // FORGOTTEN_PASSWORD_EMAIL
-  // GOOGLE_LOGIN_MUTATION
+  GOOGLE_LOGIN_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -222,13 +222,24 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
   }
 
   it("should not log the user out - user isn't logged in", async () => {
-    //Already logged in
     const resp = await mutate({
       query: LOGOUT_MUTATION
     });
 
     expect(resp.data.logout).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
+  });
+
+  it("should refuse invalid google login token", async () => {
+    const resp = await mutate({
+      query: GOOGLE_LOGIN_MUTATION,
+      variables: {
+        idToken: "notAValidGoogleToken"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Google id token was not verified. Please try again.");
   });
   // it("should not log the user out - user isn't logged in", async () => {
   //   let testUser = await signUpTestUser("tashy.troth@gmx.at");
