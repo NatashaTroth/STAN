@@ -14,17 +14,6 @@ export default class StanScheduler {
   }
 
   init() {
-    // var j = schedule.scheduleJob("47 * * * *", function() {
-    //   console.log("The answer to life, the universe, and everything!");
-    // });
-    //     const rule = new schedule.RecurrenceRule();
-    // // rule.dayOfWeek = [0, new schedule.Range(4, 6)];
-    // rule.hour = 17;
-    // rule.minute = 0;
-
-    // const j = schedule.scheduleJob(rule, function(){
-    //   console.log('Today is recognized by Rebecca Black!');
-    // });
     schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
       this.notifyUsersAboutExams();
       this.completePastExams();
@@ -34,9 +23,7 @@ export default class StanScheduler {
   }
 
   async notifyUsersAboutExams() {
-    console.log("Sending Mails");
     const users = await User.find({ allowEmailNotifications: true });
-    console.log(users.length + " no users authenticated");
     users.forEach(async user => {
       const examsInOneDay = [];
       const examsInThreeDays = [];
@@ -50,10 +37,7 @@ export default class StanScheduler {
 
         if (isTheSameDay(new Date(), exam.startDate)) startDatesToday.push(exam.subject);
       });
-      // if (examsInOneDay.length > 0)
-      //   stanEmail.sendOneDayReminderMail(user.email, examsInOneDay);
-      // if (examsInThreeDays.length > 0)
-      //   stanEmail.sendThreeDayReminderMail(user.email, examsInThreeDays);
+
       if (examsInOneDay.length > 0 || examsInThreeDays.length > 0 || startDatesToday.length > 0)
         stanEmail.sendExamDateReminderMail(
           user.email,
@@ -63,29 +47,22 @@ export default class StanScheduler {
           user.mascot
         );
     });
-    // });
   }
 
   async completePastExams() {
-    // schedule.scheduleJob({ hour: 22, minute: 31 }, async () => {
-    console.log("SCHEDULED COMPLETING PAST EXAMS");
     const exams = await Exam.find({
       completed: false
     });
-    console.log(exams);
+
     exams.forEach(async exam => {
-      console.log(exam.subject);
       if (date1IsBeforeDate2(exam.examDate, new Date())) {
         await Exam.updateOne({ _id: exam._id }, { completed: true, updatedAt: new Date() });
-        console.log("updating exam " + exam.subject);
         await deleteExamsTodaysCache(exam.userId, exam._id);
       }
     });
-    // });
   }
 
   async removeNoLongerNeededCache() {
-    console.log("REMOVING NO LONGER NEEDED CACHE");
     const exams = await Exam.find({
       completed: true
     });
@@ -98,9 +75,6 @@ export default class StanScheduler {
     const users = await User.find();
     users.forEach(async user => {
       const daysSinceLastVisited = getNumberOfDays(user.lastVisited, new Date());
-      console.log("user: " + user.username);
-      console.log("-------days since last visited: " + daysSinceLastVisited);
-
       if (daysSinceLastVisited === 365)
         stanEmail.sendExamDeleteAccountWarning(user.email, 1, user.mascot);
       else if (daysSinceLastVisited >= 366) {

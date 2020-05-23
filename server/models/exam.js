@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-//validation: https://mongoosejs.com/docs/validation.html
-
-//this object describes properties and datatypes
-//Mongodb automatically creates new id for each file added to the db
 const examSchema = new Schema({
   subject: {
     type: String,
@@ -83,6 +79,4 @@ const examSchema = new Schema({
   }
 });
 
-//model is like a collection in mongodb
-//This collection will be called Book and have objects inside it that look like this schema
 module.exports = mongoose.model("Exam", examSchema);

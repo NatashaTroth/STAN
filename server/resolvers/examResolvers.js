@@ -46,7 +46,6 @@ export const examResolvers = {
     todaysChunkAndProgress: async (_, __, { userInfo }) => {
       try {
         handleAuthentication(userInfo);
-        //todo extract
         const chunks = await fetchTodaysChunks(userInfo.userId);
         const todaysProgress = calculateChunkProgress(chunks);
         const escapedChunks = escapeTodaysChunksObjects(chunks);
@@ -78,7 +77,6 @@ export const examResolvers = {
           userId: userInfo.userId,
           completed: true
         });
-        //TODO: ERROR HANDLING?
         return { currentExams, finishedExams };
       } catch (err) {
         handleResolverError(err);
