@@ -385,7 +385,7 @@ function Today(props) {
 
     if (
       currentPageBar === 1 ||
-      (currentPageBar === lastPage && repetitionGoal != repetition)
+      (currentPageBar === lastPage && repetitionGoal !== repetition)
     ) {
       leftPagesPercentage = 0 // to start with 0 in bar
     } else {
