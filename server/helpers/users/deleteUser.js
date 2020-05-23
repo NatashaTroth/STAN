@@ -1,5 +1,4 @@
 import { User, Exam, TodaysChunkCache } from "../../models";
-import { ApolloError } from "apollo-server";
 import { sendRefreshToken } from "../authentication/authenticationTokens";
 
 import StanEmail from "../StanEmail";

@@ -1,11 +1,9 @@
 import { Exam } from "../../models";
 import { deleteExamsTodaysCache } from "./chunkHelpers";
-import { ApolloError } from "apollo-server";
+import { fetchExam } from "./examHelpers";
 
 export async function handleExamCompleted(args, userInfo) {
-  // //todo: remove?
-  // await fetchExam(args.id, userInfo.userId);
-
+  await fetchExam(args.id, userInfo.userId);
   const resp = await Exam.updateOne(
     { _id: args.id, userId: userInfo.userId },
     { completed: args.completed, updatedAt: new Date() }

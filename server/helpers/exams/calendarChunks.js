@@ -12,12 +12,10 @@ function getCalendarChunks(exams) {
   const calendarExams = [];
 
   // to avoid division by daysleft = 0 -> and no longer need to show this exam
-
   exams = exams.filter(exam => !isTheSameDay(exam.examDate, new Date()));
+
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
-
-    //TODO - BETWEEN STARTDATE OR TODAY
     let dayToStartCounting = exam.startDate;
     if (startDateIsActive(exam.startDate)) dayToStartCounting = new Date();
     const daysLeft = getNumberOfDays(dayToStartCounting, exam.examDate);
@@ -29,7 +27,6 @@ function getCalendarChunks(exams) {
       exam.currentPage
     );
 
-    // exam.numberPages * exam.timesRepeat - exam.currentPage + 1;
     let numberPagesPerDay;
     if (daysLeft === 0) numberPagesPerDay = 0;
     else numberPagesPerDay = Math.ceil(numberPagesLeftTotal / daysLeft);

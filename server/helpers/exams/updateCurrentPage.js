@@ -1,7 +1,7 @@
 import { Exam, TodaysChunkCache } from "../../models";
 import { learningIsComplete } from "./examHelpers";
 import { todaysChunkIsCompleted } from "./chunkHelpers";
-import { ApolloError, UserInputError } from "apollo-server";
+import { UserInputError } from "apollo-server";
 
 export async function handleUpdateCurrentPage(args, userInfo) {
   const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
@@ -11,7 +11,6 @@ export async function handleUpdateCurrentPage(args, userInfo) {
     { _id: args.id, userId: userInfo.userId },
     {
       currentPage: args.page,
-      // completed: exam.completed,
       updatedAt: new Date()
     }
   );
@@ -69,5 +68,4 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(userId, examId, 
 
   if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
     throw new Error("The todays chunk cache current page could not be updated.");
-  // console.log("updateCurrChunkPageFunk  - updated page");
 }

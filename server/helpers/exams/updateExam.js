@@ -2,7 +2,6 @@ import { Exam, TodaysChunkCache } from "../../models";
 import { handleUpdateExamInput, fetchExam } from "./examHelpers";
 import { createTodaysChunkObject } from "./todaysChunks";
 import { calcPagesLeft, todaysChunkIsCompleted } from "./chunkHelpers";
-import { ApolloError } from "apollo-server";
 import { isTheSameDay } from "../dates";
 
 export async function handleUpdateExam(args, userInfo) {

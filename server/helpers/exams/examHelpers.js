@@ -1,12 +1,9 @@
 import { verifyExamInput, verifyUpdateExamDates } from "./validateExamInput";
-import { ApolloError, UserInputError } from "apollo-server";
+import { UserInputError } from "apollo-server";
 import { Exam } from "../../models";
 import { escapeStringForHtml } from "../generalHelpers";
 import { getBackgroundColor, generateTextColor } from "./colors";
-import {
-  // startDateIsActive,
-  getNumberOfDays
-} from "../dates";
+import { getNumberOfDays } from "../dates";
 
 export async function fetchExam(examId, userId) {
   const exam = await Exam.findOne({
@@ -54,7 +51,6 @@ export async function handleUpdateExamInput(exam, args, userId) {
   args.numberPages = calcNumberPagesFromPageNumbers(args.startPage, args.lastPage);
   args.color = getBackgroundColor(args.color, args);
   args.textColor = generateTextColor(args.color);
-
   return prepareExamInputData({ ...args }, userId);
 }
 
@@ -66,7 +62,6 @@ export function learningIsComplete(currentPage, startPage, numberPages, repeat =
 export function escapeExamObject(exam) {
   exam.subject = escapeStringForHtml(exam.subject);
   exam.notes = escapeStringForHtml(exam.notes);
-  // exam.studyMaterialLinks = escapeArrayForHtml(exam.studyMaterialLinks);
   return exam;
 }
 

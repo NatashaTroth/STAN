@@ -47,6 +47,7 @@ describe("Test exam completed mutation", () => {
         completed: true
       }
     });
+    console.log(resp);
     expect(resp.data.examCompleted).toBeTruthy();
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
     expect(await TodaysChunkCache.countDocuments({ userId: "samanthasId" })).toBe(0);
