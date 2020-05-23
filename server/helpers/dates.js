@@ -46,7 +46,6 @@ export function getNumberOfDays(startDate, endDate) {
 
 //------------------------HELPERS--------------------
 
-//TODO: TEST
 export function datesAreNotPast(dates) {
   for (let i = 0; i < dates.length; i++) {
     //if today is after the date, then it is in the past

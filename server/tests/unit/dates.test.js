@@ -3,7 +3,8 @@ import {
   startDateIsActive,
   isTheSameDay,
   getNumberOfDays,
-  date1IsBeforeDate2
+  date1IsBeforeDate2,
+  datesAreNotPast
 } from "../../helpers/dates";
 
 test("verifies datesTimingIsValid", () => {
@@ -28,6 +29,11 @@ test("verifies startDateIsActive", () => {
 test("verifies isTheSameDay", () => {
   expect(isTheSameDay(new Date("1990.12.01"), new Date("1990.12.01"))).toBeTruthy();
   expect(isTheSameDay(new Date("1990.12.05"), new Date("1990.12.01"))).toBeFalsy();
+});
+test("verifies datesAreNotPast", () => {
+  expect(datesAreNotPast([new Date("2990.12.01"), new Date("2990.12.01")])).toBeTruthy();
+  expect(datesAreNotPast([new Date("1990.12.01"), new Date("2990.12.01")])).toBeFalsy();
+  expect(datesAreNotPast([new Date("1990.12.01"), new Date("1990.12.01")])).toBeFalsy();
 });
 
 test("verifies numberOfDaysLeft", () => {

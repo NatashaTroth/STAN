@@ -22,10 +22,10 @@ export async function verifyGoogleIdToken(token) {
     });
     const payload = ticket.getPayload();
     if (!payload) throw new Error();
+    return payload;
   } catch (err) {
     throw new AuthenticationError("Google id token was not verified. Please try again.");
   }
-  return payload;
 }
 
 export function signUpGoogleUser(payload) {

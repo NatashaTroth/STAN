@@ -1,5 +1,4 @@
 import { User } from "../../models";
-import { UserInputError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { verifyEmailFormat, verifyUpdatePasswordInputFormat } from "./validateUserInput";
