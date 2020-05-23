@@ -25,9 +25,10 @@ export const currentRepetition = examDetails => {
 }
 
 export const calcProgressbar = examDetails => {
-  const progressbar =
+  const progressbar = Math.round(
     (100 * (examDetails.currentPage - examDetails.startPage)) /
-    (examDetails.numberPages * examDetails.timesRepeat)
+      (examDetails.numberPages * examDetails.timesRepeat)
+  )
 
   if (progressbar > 100) progressbar = 100
 
@@ -47,6 +48,6 @@ export const getCurrentPage = (examDetails, currentRep) => {
 export const pagesLeft = examDetails => {
   const pagesLeft =
     examDetails.numberPages * examDetails.timesRepeat -
-    (examDetails.currentPage - examDetails.startPage)
+    (examDetails.currentPage + 1 - examDetails.startPage)
   return pagesLeft
 }

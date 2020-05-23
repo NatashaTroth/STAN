@@ -27,6 +27,7 @@ import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
 import { filteredLinks } from "../../helpers/general"
+import { currentRepetition } from "../../helpers/examCalc"
 
 // sub-components ----------------
 const Label = lazy(() => import("../../components/label/Label"))
@@ -66,10 +67,7 @@ const ExamDetailsEdit = ({ examId }) => {
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
   // currentRepetition ----------------
-  let currentRepetition = Math.floor(
-    (data.currentPage - data.startPage) / data.numberPages + 1
-  )
-  if (currentRepetition < 1) currentRepetition = 1
+  let currentRep = currentRepetition(data)
 
   // set default values to input fields ----------------
   let defaultValues = {
@@ -79,8 +77,8 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
-    cycle: currentRepetition,
-    currentPage: data.currentPage - data.numberPages * (currentRepetition - 1),
+    cycle: currentRep,
+    currentPage: data.currentPage - data.numberPages * (currentRep - 1),
     startPage: data.startPage,
     notes: data.notes,
   }
