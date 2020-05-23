@@ -1,10 +1,5 @@
 import { TodaysChunkCache } from "../../models";
-
-import {
-  learningIsComplete
-  // handleCurrentPageInput
-} from "./examHelpers";
-import { ApolloError } from "apollo-server";
+import { learningIsComplete } from "./examHelpers";
 
 export function numberOfPagesForChunk({ numberOfPages, startPage, currentPage, daysLeft, repeat }) {
   if (
