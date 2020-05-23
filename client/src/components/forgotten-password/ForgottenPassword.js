@@ -24,10 +24,10 @@ const ForgottenPassword = () => {
 
   // mutations ----------------
   const [forgottenPasswordEmail] = useMutation(FORGOTTEN_PASSWORD_EMAIL)
-  const [email, setEmail] = useState("")
 
   // state ----------------
   const [openLogin, setLogin] = useState(false)
+  const [email, setEmail] = useState("")
 
   // functions ----------------
   const handleLogin = () => {

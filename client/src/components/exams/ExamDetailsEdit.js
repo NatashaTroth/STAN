@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import moment from "moment"
 // --------------------------------------------------------------
 
-// queries & mutation ----------------
+// queries ----------------
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
@@ -13,6 +13,8 @@ import {
   GET_CALENDAR_CHUNKS,
 } from "../../graphQL/exams/queries"
 import { CURRENT_USER } from "../../graphQL/users/queries"
+
+// mutation ----------------
 import { UPDATE_EXAM_MUTATION } from "../../graphQL/exams/mutations"
 
 // apolloClient cache ----------------
@@ -69,6 +71,7 @@ const ExamDetailsEdit = ({ examId }) => {
   )
   if (currentRepetition < 1) currentRepetition = 1
 
+  // set default values to input fields ----------------
   let defaultValues = {
     subject: data.subject,
     examDate: moment(data.examDate),

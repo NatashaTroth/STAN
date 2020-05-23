@@ -1,16 +1,18 @@
 import React, { useState, initialState } from "react"
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom"
-import ThemeMode from "../theme-changer/ThemeChanger"
-import useDarkMode from "use-dark-mode"
 import { setAccessToken } from "../../accessToken"
 import { GoogleLogout } from "react-google-login"
 // --------------------------------------------------------------
 
 // mutation & queries ----------------
 import { useMutation } from "@apollo/react-hooks"
+import { useQuery } from "@apollo/react-hooks"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 import { LOGOUT_MUTATION } from "../../graphQL/users/mutations"
-import { useQuery } from "@apollo/react-hooks"
+
+// light & dark mode ----------------
+import ThemeMode from "../theme-changer/ThemeChanger"
+import useDarkMode from "use-dark-mode"
 
 // components ----------------
 import BurgerButton from "../burger-button/BurgerButton"
@@ -54,6 +56,7 @@ const Navbar = () => {
   // query ----------------
   const { loading, error } = useQuery(CURRENT_USER)
 
+  // error handling ----------------
   if (loading) return <Loading />
   if (error) return <QueryError errorMessage={error.message} />
 

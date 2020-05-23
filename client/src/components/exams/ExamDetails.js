@@ -1,8 +1,9 @@
 import React, { useState, lazy } from "react"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 // --------------------------------------------------------------
 
-// queries & mutations ----------------
+// queries ----------------
 import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
@@ -11,11 +12,12 @@ import {
   GET_EXAMS_COUNT,
 } from "../../graphQL/exams/queries"
 import { CURRENT_USER } from "../../graphQL/users/queries"
+
+// mutations ----------------
 import {
   DELETE_EXAM_MUTATION,
   EXAM_COMPLETED_MUTATION,
 } from "../../graphQL/exams/mutations"
-import { useQuery, useMutation } from "@apollo/react-hooks"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
