@@ -2,11 +2,8 @@
 //https://mongoosejs.com/docs/jest.html
 import { createTestClient } from "apollo-server-testing";
 import { setupApolloServer, setupDb, addTestExam, clearDatabase, teardown } from "../setup";
-// import { Exam } from "../../../models";
 
 import { GET_EXAM_QUERY, GET_EXAMS_QUERY, GET_EXAMS_COUNT } from "../../queries.js";
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test get exams queries", () => {
   let server;

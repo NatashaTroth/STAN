@@ -329,7 +329,7 @@ describe("Test get todays chunks query", () => {
         timesRepeat: 1
       }
     });
-    console.log(respUpdateExam);
+
     expect(respUpdateExam.data.updateExam).toBeTruthy();
     const respFetchChunks3 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
@@ -355,11 +355,12 @@ describe("Test get todays chunks query", () => {
       },
       numberPagesToday: 29,
       startPage: 23,
-      // currentPage: 23,
+
       durationToday: 145,
       daysLeft: 7
     });
 
+    //for durationLearned
     // //update Exam again - current progress should still be included
     // const respUpdateExam2 = await mutate({
     //   query: UPDATE_EXAM_MUTATION,

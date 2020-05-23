@@ -38,10 +38,6 @@ describe("Test get calendar chunks query", () => {
     });
 
     expect(resp.data.calendarChunks).toBeTruthy();
-    // console.log(testExams);
-    // console.log("----");
-    // console.log(resp.data.calendarChunks);
-
     expect(resp.data.calendarChunks.calendarChunks.length).toBe(4);
     let exam;
     const examColor = "#ff554d";
@@ -163,7 +159,6 @@ describe("Test get calendar chunks query", () => {
     });
 
     expect(resp.data.calendarChunks).toBeTruthy();
-
     expect(resp.data.calendarChunks.calendarChunks.length).toBe(0);
   });
 });

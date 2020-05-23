@@ -241,19 +241,4 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Google id token was not verified. Please try again.");
   });
-  // it("should not log the user out - user isn't logged in", async () => {
-  //   let testUser = await signUpTestUser("tashy.troth@gmx.at");
-  //   console.log(await User.find());
-  //   //Already logged in
-  //   const resp = await mutate({
-  //     query: FORGOTTEN_PASSWORD_EMAIL,
-  //     variables: {
-  //       email: "tashy.troth@gmx.at"
-  //     }
-  //   });
-  //   console.log(resp);
-  //   expect(resp.data.forgottenPasswordEmail).toBeTruthy();
-  //   //   expect(resp.errors[0].message).toEqual("Unauthorised");
-  //   // });
-  // });
 });

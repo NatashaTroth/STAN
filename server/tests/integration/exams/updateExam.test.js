@@ -75,7 +75,7 @@ describe("Test update exam mutation", () => {
     const todaysChunks = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    // console.log(todaysChunks.data);
+
     expect(todaysChunks.data.todaysChunkAndProgress).toBeTruthy();
     expect(todaysChunks.data.todaysChunkAndProgress.todaysChunks.length).toBe(1);
 
@@ -98,11 +98,6 @@ describe("Test update exam mutation", () => {
     });
 
     expect(resp.data.updateExam).toBeTruthy();
-
-    // const todaysCacheFromDb = await TodaysChunkCache.findOne({
-    //   examId: testExam._id.toString()
-    // });
-
     const todaysChunks2 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });

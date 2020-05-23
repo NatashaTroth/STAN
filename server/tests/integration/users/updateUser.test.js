@@ -158,21 +158,6 @@ describe("Test update user mutation", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Password is incorrect.");
-
-    // const resp2 = await mutate({
-    //   query: UPDATE_USER_MUTATION,
-    //   variables: {
-    //     username: testUser.username,
-    //     email: testUser.email,
-    //     password: "incorrect",
-    //     newPassword: "samantha",
-
-    //     mascot: testUser.mascot
-    //   }
-    // });
-
-    // expect(resp2.data).toBeFalsy();
-    // expect(resp2.errors[0].message).toEqual("Password is incorrect.");
   });
 
   it("should not update the current user, since the password is incorrect", async () => {

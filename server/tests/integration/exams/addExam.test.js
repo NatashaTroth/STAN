@@ -41,7 +41,6 @@ describe("Test add exam mutation", () => {
         completed: false
       }
     });
-    console.log(resp);
     expect(resp.data.addExam).toBeTruthy();
     const newCount = await Exam.countDocuments();
     expect(newCount).toBe(initialCount + 1);
@@ -54,6 +53,7 @@ describe("Test add exam mutation", () => {
     expect(exam.subject).toBe("MyStanTestExam");
     expect(exam.examDate.toString()).toBe(new Date("2122.08.11").toString());
     expect(exam.startDate.toString()).toBe(new Date("2122.08.05").toString());
+    expect(exam.totalNumberDays).toBe(6);
     expect(exam.lastPage).toBe(5);
     expect(exam.numberPages).toBe(2);
     expect(exam.timePerPage).toBe(5);

@@ -14,12 +14,9 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  // GET_TODAYS_CHUNKS_PROGRESS,
   GET_CALENDAR_CHUNKS,
   GET_EXAMS_COUNT
 } from "../../queries.js";
-
-// import { createTestClient } from "apollo-server-integration-testing";
 
 describe("Test exam resolvers cannot be accessed if not authenticated", () => {
   let server;
@@ -99,14 +96,6 @@ describe("Test exam resolvers cannot be accessed if not authenticated", () => {
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
-
-  // it("should not fetch today's chunks progress", async () => {
-  //   const resp = await query({
-  //     query: GET_TODAYS_CHUNKS_PROGRESS
-  //   });
-  //   expect(resp.data).toBeFalsy();
-  //   expect(resp.errors[0].message).toEqual("Unauthorised");
-  // });
 
   it("should not be able to fetch calendar chunks", async () => {
     const resp = await query({

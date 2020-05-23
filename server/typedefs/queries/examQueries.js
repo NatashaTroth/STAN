@@ -36,7 +36,7 @@ const examQueries = gql`
       currentPage: Int!
       color: String
       notes: String
-      studyMaterialLinks: [String] # completed: Boolean
+      studyMaterialLinks: [String]
     ): Exam!
 
     updateCurrentPage(id: ID!, page: Int!): Boolean

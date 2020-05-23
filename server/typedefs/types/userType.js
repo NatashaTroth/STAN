@@ -1,6 +1,5 @@
 import { gql } from "apollo-server";
 
-//TODO - DON'T ALLOW CLIENT TO BE ABLE TO QUERY PASSWORD
 const userType = gql`
   type User {
     id: ID!
@@ -11,12 +10,7 @@ const userType = gql`
     googleLogin: Boolean!
     allowEmailNotifications: Boolean!
   }
-  # type AuthData {
-  #   # userId: ID!
-  #   user: User!
-  #   accessToken: String!
-  #   tokenExpiration: Int!
-  # }
+
   type UpdateUserResponse {
     successful: Boolean!
     user: User!

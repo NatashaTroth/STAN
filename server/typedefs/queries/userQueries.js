@@ -29,9 +29,6 @@ const userQueries = gql`
 
     updateMascot(mascot: Int!): Boolean
     deleteUser: Boolean
-
-    #in case refresh tokens get comprimised
-    # revokeRefreshTokensForUser(userId: ID!): Boolean
   }
 `;
 
