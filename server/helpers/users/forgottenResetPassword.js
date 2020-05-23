@@ -62,6 +62,5 @@ export function validateForgottenPasswordToken(user, token, secret) {
 
 export async function updatePassword(userId, password) {
   const updateResp = await User.updateOne({ _id: userId }, { password, updatedAt: new Date() });
-  if (updateResp.ok === 0 && updateResp.nModified === 0)
-    throw new Error("Unable to reset the password. Please try again.");
+  if (updateResp.ok === 0) throw new Error("Unable to reset the password. Please try again.");
 }

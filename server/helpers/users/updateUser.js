@@ -22,7 +22,7 @@ export async function handleUpdateMascot(mascot, userInfo) {
   verifyMascotInputFormat({ mascot });
   if (userInfo.user.mascot === mascot) return true;
   const resp = await User.updateOne({ _id: userInfo.userId }, { mascot, updatedAt: new Date() });
-  if (resp.ok === 0 || resp.nModified === 0) throw new Error("The mascot couldn't be updated.");
+  if (resp.ok === 0) throw new Error("The mascot couldn't be updated.");
 }
 
 export async function updateUser(args) {
@@ -45,7 +45,7 @@ export async function updateUser(args) {
     }
   );
 
-  if (resp.ok === 0 || resp.nModified === 0) throw new Error("The user couldn't be updated.");
+  if (resp.ok === 0) throw new Error("The user couldn't be updated.");
 
   return await User.findOne({
     _id: args.userId
