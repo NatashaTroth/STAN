@@ -502,7 +502,7 @@ const UserAccountEdit = () => {
                         <div className="edit-form-bottom">
                           <div className="form__notifications login__form__notifications">
                             <label
-                              labelType="notification"
+                              labeltype="notification"
                               className="container"
                             >
                               <input
