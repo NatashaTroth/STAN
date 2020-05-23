@@ -7,7 +7,7 @@ import useDarkMode from "use-dark-mode"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // libraries ----------------
-import Particles from "react-particles-js"
+// import Particles from "react-particles-js"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
@@ -19,15 +19,15 @@ const Dashboard = lazy(() => import("../dashboard-page/DashboardPage"))
 
 const Home = () => {
   // dark mode specific ----------------
-  const darkMode = useDarkMode(initialState, {
-    element: document.documentElement,
-  })
-  let particleColor
-  if (darkMode.value) {
-    particleColor = "#ffffff"
-  } else {
-    particleColor = "#000000"
-  }
+  // const darkMode = useDarkMode(initialState, {
+  //   element: document.documentElement,
+  // })
+  // let particleColor
+  // if (darkMode.value) {
+  //   particleColor = "#ffffff"
+  // } else {
+  //   particleColor = "#000000"
+  // }
 
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
@@ -74,7 +74,7 @@ const Home = () => {
           </div>
           <div className="col-md-1"></div>
 
-          <Particles
+          {/* <Particles
             params={{
               particles: {
                 number: {
@@ -84,7 +84,7 @@ const Home = () => {
                   },
                 },
                 color: {
-                  value: particleColor,
+                  value: "#000000",
                 },
                 size: {
                   value: 3,
@@ -129,7 +129,7 @@ const Home = () => {
                 },
               },
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
