@@ -21,7 +21,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const Button = lazy(() => import("../../components/button/Button"))

@@ -27,7 +27,7 @@ import Carousel from "react-bootstrap/Carousel"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const Button = lazy(() => import("../../components/button/Button"))

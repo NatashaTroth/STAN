@@ -11,7 +11,8 @@ import { GET_EXAMS_QUERY } from "../../graphQL/exams/queries"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml, calcExamProgress } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
+import { calcExamProgress } from "../../helpers/examCalc"
 
 // components ----------------
 const Exam = lazy(() => import("../../components/exams/Exam"))

@@ -23,7 +23,7 @@ import {
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const ExamDetailsEdit = lazy(() => import("../exams/ExamDetailsEdit"))

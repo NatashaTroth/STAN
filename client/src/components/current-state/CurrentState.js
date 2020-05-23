@@ -5,7 +5,7 @@ import React, { lazy } from "react"
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // helpers ----------------
-import { currentMood } from "../../helpers/mascots"
+import { currentMood } from "../../helpers/general"
 
 // motivational sayings ----------------
 import motivationalSayings from "./json/motivational-sayings.json"

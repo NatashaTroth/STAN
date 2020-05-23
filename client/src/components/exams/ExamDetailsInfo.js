@@ -8,11 +8,14 @@ import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
+import { extractDomain, filteredLinks } from "../../helpers/general"
 import {
-  extractDomain,
-  filteredLinks,
   calcExamProgress,
-} from "../../helpers/mascots"
+  currentRepetition,
+  calcProgressbar,
+  getCurrentPage,
+  pagesLeft,
+} from "../../helpers/examCalc"
 
 // sub-components ----------------
 const ExamBar = lazy(() => import("../progressbar/ProgressBar"))
@@ -26,41 +29,12 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  // repetition calculations ----------------
-  let currentRepetition = Math.floor(
-    (examDetails.currentPage - examDetails.startPage) /
-      examDetails.numberPages +
-      1
-  )
-  if (currentRepetition < 1) currentRepetition = 1
-
-  // remove empty strings ----------------
+  // exam calculations ----------------
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
-
-  // progressbar calculations ----------------
-  let progressbar =
-    (100 * (examDetails.currentPage - examDetails.startPage)) /
-    (examDetails.numberPages * examDetails.timesRepeat)
-
-  if (progressbar > 100) progressbar = 100
-
-  // functions ----------------
-  const getCurrentPage = (examDetails, currentRepetition) => {
-    let currentPageWithoutStartPage =
-      examDetails.currentPage - examDetails.startPage
-    let numberPagesLearned = examDetails.numberPages * (currentRepetition - 1)
-
-    return (
-      currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
-    )
-  }
-
-  const pagesLeft = examDetails => {
-    const pagesLeft =
-      examDetails.numberPages * examDetails.timesRepeat -
-      (examDetails.currentPage - examDetails.startPage)
-    return pagesLeft
-  }
+  const currentRep = currentRepetition(examDetails)
+  const progressbar = calcProgressbar(examDetails)
+  const currentPage = getCurrentPage(examDetails, currentRep)
+  const pages = pagesLeft(examDetails)
 
   // return ----------------
   return (
@@ -157,10 +131,10 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   <ExamBar value={progressbar} />
 
                   <div className="exam-pages__bar--status">
-                    {pagesLeft(examDetails) > 1 ? (
-                      <p>{pagesLeft(examDetails)} pages left</p>
+                    {pages > 1 ? (
+                      <p>{pages} pages left</p>
                     ) : (
-                      <p>{pagesLeft(examDetails)} page left</p>
+                      <p>{pages} page left</p>
                     )}
                   </div>
                 </div>
@@ -168,7 +142,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>{getCurrentPage(examDetails, currentRepetition)}</p>
+                <p>{currentPage}</p>
               </div>
 
               <div className="exam-data">
@@ -183,7 +157,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
                 <p>
-                  {currentRepetition}/{examDetails.timesRepeat}
+                  {currentRep}/{examDetails.timesRepeat}
                 </p>
               </div>
             </div>

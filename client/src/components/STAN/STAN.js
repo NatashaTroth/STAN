@@ -30,7 +30,7 @@ import LogoDark from "../../images/icons/stan-logo-dark.svg"
 import LogoLight from "../../images/icons/stan-logo-light.svg"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 const Navbar = () => {
   // mutation ----------------

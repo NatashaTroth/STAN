@@ -26,7 +26,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import { SliderPicker } from "react-color"
 
 // helpers functions ----------------
-import { filteredLinks } from "../../helpers/mascots"
+import { filteredLinks } from "../../helpers/general"
 
 // sub-components ----------------
 const Label = lazy(() => import("../../components/label/Label"))

@@ -24,7 +24,7 @@ import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { minuteToHours } from "../../helpers/dates"
-import { extractDomain, decodeHtml } from "../../helpers/mascots"
+import { extractDomain, decodeHtml } from "../../helpers/general"
 
 // components ----------------
 import QueryError from "../../components/error/Error"

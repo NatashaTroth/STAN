@@ -6,7 +6,7 @@ import Listing from "../listing/Listing"
 import Donut from "react-svg-donuts"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 function TodayProgress(props) {
   // query data ----------------

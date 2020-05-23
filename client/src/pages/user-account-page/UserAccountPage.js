@@ -18,7 +18,7 @@ import Carousel from "react-bootstrap/Carousel"
 import CountUp from "react-countup"
 
 // helpers ----------------
-import { currentMood, decodeHtml } from "../../helpers/mascots"
+import { currentMood, decodeHtml } from "../../helpers/general"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
