@@ -97,7 +97,7 @@ const Mascots = () => {
                   <div className="mascots__inner--form__button">
                     <Button
                       variant="button"
-                      alt="Save"
+                      text="Save"
                       className="stan-btn-primary"
                     />
                   </div>
