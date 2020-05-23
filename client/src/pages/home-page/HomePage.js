@@ -55,7 +55,7 @@ const Home = () => {
               procrastination.
             </p>
 
-            <div className="home__list">
+            <ul className="home__list">
               <Listing
                 className="list-style"
                 text="increase your learning motivation"
@@ -64,7 +64,7 @@ const Home = () => {
                 className="list-style"
                 text="decrease your procrastination"
               />
-            </div>
+            </ul>
 
             <div className="home__btn">
               <Link to="/sign-up" className="stan-btn-double">
