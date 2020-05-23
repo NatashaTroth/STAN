@@ -17,14 +17,11 @@ export async function fetchTodaysChunks(userId) {
 }
 
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
-  console.log(currentExams);
   const exams = currentExams.filter(
     exam =>
       !isTheSameDay(exam.examDate, new Date()) && date1IsBeforeDate2(new Date(), exam.examDate)
   );
 
-  console.log("-----------");
-  console.log(exams);
   const chunks = exams.map(async exam => {
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
