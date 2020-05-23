@@ -22,7 +22,7 @@ export async function deleteUsersData(userId) {
   });
 
   if (respDeleteExams.ok !== 1 || respDeleteTodaysChunkCache.ok !== 1)
-    throw new ApolloError("The user's data couldn't be deleted");
+    throw new Error("The user's data couldn't be deleted");
 }
 
 export async function deleteUser(userId) {
@@ -31,7 +31,7 @@ export async function deleteUser(userId) {
   });
 
   if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError(
+    throw new Error(
       "The user couldn't be deleted. Please contact us at stan.studyplan@gmail.com, to delete your account."
     );
 }

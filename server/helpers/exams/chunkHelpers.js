@@ -57,5 +57,5 @@ export async function deleteExamsTodaysCache(userId, examId) {
     userId
   });
   if (respDeleteChunkCache.ok !== 1 || respDeleteChunkCache.deletedCount !== 1)
-    throw new ApolloError("The exam today's chunk cache couldn't be deleted");
+    throw new Error("The exam today's chunk cache couldn't be deleted");
 }

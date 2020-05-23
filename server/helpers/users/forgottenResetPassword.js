@@ -1,5 +1,5 @@
 import { User } from "../../models";
-import { ApolloError } from "apollo-server";
+import { ApolloError, UserInputError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { verifyEmailFormat } from "./validateUserInput";
@@ -16,7 +16,7 @@ export async function handleForgottenPasswordEmail(email) {
 export async function createForgottenPasswordLink(email) {
   const user = await User.findOne({ email });
 
-  if (!user) throw new ApolloError("There is no user with that email address.");
+  if (!user) throw new Error("There is no user with that email address.");
 
   const secret = createForgottenPasswordSecret(user);
 
@@ -36,7 +36,7 @@ export function createForgottenPasswordSecret(user) {
 export async function handleResetPassword({ userId, token, newPassword }) {
   // handleResetPassword(args, userInfo)
   const user = await User.findOne({ _id: userId });
-  if (!user) throw new ApolloError("There is no user with that id.");
+  if (!user) throw new Error("There is no user with that id.");
   const secret = createForgottenPasswordSecret(user);
   validateForgottenPasswordToken(user, token, secret);
   const passwordToSave = await bcrypt.hash(newPassword, 10);
@@ -50,7 +50,7 @@ export function validateForgottenPasswordToken(user, token, secret) {
     decodedToken = jwt.verify(token, secret);
     if (!decodedToken) throw new Error();
   } catch (err) {
-    throw new Error("Invalid url. Please use the forgotten password button to try again.");
+    throw new UserInputError("Invalid url. Please use the forgotten password button to try again.");
   }
   if (decodedToken.userId.toString() !== user._id.toString())
     throw new Error("Wrong user in the forgotten password token.");
@@ -62,5 +62,5 @@ export function validateForgottenPasswordToken(user, token, secret) {
 export async function updatePassword(userId, password) {
   const updateResp = await User.updateOne({ _id: userId }, { password, updatedAt: new Date() });
   if (updateResp.ok === 0 && updateResp.nModified === 0)
-    throw new ApolloError("Unable to reset the password. Please try again.");
+    throw new Error("Unable to reset the password. Please try again.");
 }

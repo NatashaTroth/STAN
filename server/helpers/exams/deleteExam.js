@@ -12,8 +12,7 @@ export async function handleDeleteExam(args, userInfo) {
     userId: userInfo.userId
   });
 
-  if (resp.ok !== 1 || resp.deletedCount !== 1)
-    throw new ApolloError("The exam couldn't be deleted");
+  if (resp.ok !== 1 || resp.deletedCount !== 1) throw new Error("The exam couldn't be deleted");
 
   await deleteExamsTodaysCache(userInfo.userId, args.id);
 }

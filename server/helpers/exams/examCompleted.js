@@ -12,7 +12,7 @@ export async function handleExamCompleted(args, userInfo) {
   );
 
   if (resp.ok === 1 && resp.nModified === 0) return true;
-  if (resp.ok === 0) throw new ApolloError("The exam couldn't be updated.");
+  if (resp.ok === 0) throw new Error("The exam couldn't be updated.");
 
   await deleteExamsTodaysCache(userInfo.userId, args.id);
 }

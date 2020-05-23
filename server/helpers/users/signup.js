@@ -45,6 +45,6 @@ export async function signUserUp({
     allowEmailNotifications
   });
 
-  if (!resp) throw new AuthenticationError("User could not be created.");
+  if (!resp) throw new Error("User could not be created.");
   return resp;
 }

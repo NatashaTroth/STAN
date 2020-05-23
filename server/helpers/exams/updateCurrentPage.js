@@ -1,7 +1,7 @@
 import { Exam, TodaysChunkCache } from "../../models";
 import { learningIsComplete } from "./examHelpers";
 import { todaysChunkIsCompleted } from "./chunkHelpers";
-import { ApolloError } from "apollo-server";
+import { ApolloError, UserInputError } from "apollo-server";
 
 export async function handleUpdateCurrentPage(args, userInfo) {
   const exam = await handleCurrentPageInput(args.page, args.id, userInfo.userId);
@@ -17,7 +17,7 @@ export async function handleUpdateCurrentPage(args, userInfo) {
   );
 
   if (resp.ok !== 1 || resp.nModified !== 1)
-    throw new ApolloError("The current page couldn't be updated.");
+    throw new Error("The current page couldn't be updated.");
 
   //TODO - don't think need anymore
   // if (exam.completed)
@@ -31,11 +31,13 @@ export async function handleCurrentPageInput(page, examId, userId) {
     _id: examId,
     userId: userId
   });
-  if (!exam) throw new ApolloError("There is no exam with the id: " + examId + " for that user.");
+  if (!exam) throw new Error("There is no exam with the id: " + examId + " for that user.");
   if (page < exam.startPage)
-    throw new ApolloError("The entered current page is lower than the start page for this exam.");
+    throw new UserInputError(
+      "The entered current page is lower than the start page for this exam."
+    );
   if (page > exam.numberPages * exam.timesRepeat + exam.startPage)
-    throw new ApolloError(
+    throw new UserInputError(
       "The entered current page is higher than the number of pages for this exam."
     );
 
@@ -66,6 +68,6 @@ export async function handleUpdateCurrentPageInTodaysChunkCache(userId, examId, 
   );
 
   if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-    throw new ApolloError("The todays chunk cache current page could not be updated.");
+    throw new Error("The todays chunk cache current page could not be updated.");
   // console.log("updateCurrChunkPageFunk  - updated page");
 }

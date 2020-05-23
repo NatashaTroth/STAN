@@ -1,5 +1,5 @@
 import { verifyExamInput, verifyUpdateExamDates } from "./validateExamInput";
-import { ApolloError } from "apollo-server";
+import { ApolloError, UserInputError } from "apollo-server";
 import { Exam } from "../../models";
 import { escapeStringForHtml } from "../generalHelpers";
 import { getBackgroundColor, generateTextColor } from "./colors";
@@ -13,7 +13,7 @@ export async function fetchExam(examId, userId) {
     _id: examId,
     userId
   });
-  if (!exam) throw new ApolloError("This exam does not exist.");
+  if (!exam) throw new Error("This exam does not exist.");
   return exam;
 }
 
@@ -43,7 +43,8 @@ export function prepareExamInputData(args, userId) {
 }
 
 export function calcNumberPagesFromPageNumbers(startPage, lastPage) {
-  if (lastPage < startPage) throw new Error("The last page should be higher than the start page.");
+  if (lastPage < startPage)
+    throw new UserInputError("The last page should be higher than the start page.");
   return lastPage - startPage + 1;
 }
 

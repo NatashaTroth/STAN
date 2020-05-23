@@ -2,12 +2,15 @@
 //   return JSON.parse(JSON.stringify(obj));
 // }
 import validator from "validator";
-import { AuthenticationError } from "apollo-server";
+import { AuthenticationError, UserInputError, ApolloError } from "apollo-server";
 
 export function handleResolverError(err) {
-  if (err.extensions && err.extensions.code && err.extensions.code !== "UNAUTHENTICATED")
+  if (err.extensions && err.extensions.code && err.extensions.code === "UNAUTHENTICATED")
     throw new AuthenticationError(err.message);
-  throw err;
+  if (err.extensions && err.extensions.code && err.extensions.code === "BAD_USER_INPUT")
+    throw new UserInputError(err.message);
+
+  throw new ApolloError(err.message);
 }
 
 export function handleAuthentication(userInfo) {

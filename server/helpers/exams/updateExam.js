@@ -16,7 +16,7 @@ export async function handleUpdateExam(args, userInfo) {
     { ...processedArgs, updatedAt: new Date() }
   );
 
-  if (resp.ok === 0 || resp.nModified === 0) throw new ApolloError("The exam couldn't be updated.");
+  if (resp.ok === 0 || resp.nModified === 0) throw new Error("The exam couldn't be updated.");
 
   //TODO: DON'T THINK I NEED, SINCE DELETED NEXT DAY
   // if (processedArgs.completed)
@@ -53,7 +53,7 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
     );
 
     if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-      throw new ApolloError("The todays chunk cache could not be updated.");
+      throw new Error("The todays chunk cache could not be updated.");
   } else {
     // console.log("chunk has not changed much");
     const updates = {};
@@ -83,7 +83,7 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
         }
       );
       if (updateCacheResp.ok !== 1 || updateCacheResp.nModified !== 1)
-        throw new ApolloError("The todays chunk cache could not be updated.");
+        throw new Error("The todays chunk cache could not be updated.");
     }
   }
 }

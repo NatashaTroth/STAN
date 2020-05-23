@@ -19,7 +19,7 @@ export const sendRefreshToken = (res, token) => {
 
 export const createAccessToken = (userId, tokenVersion) => {
   if (!userId || isNaN(tokenVersion))
-    throw new ApolloError("No user id or access token version, cannot create access token.");
+    throw new Error("No user id or access token version, cannot create access token.");
   return jwt.sign({ userId, tokenVersion }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "15m"
   });
@@ -27,7 +27,7 @@ export const createAccessToken = (userId, tokenVersion) => {
 
 export const createRefreshToken = (userId, tokenVersion) => {
   if (!userId || isNaN(tokenVersion))
-    throw new ApolloError("No user id or refresh token version, cannot create refresh token.");
+    throw new Error("No user id or refresh token version, cannot create refresh token.");
   return jwt.sign({ userId, tokenVersion }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d"
   });
@@ -63,9 +63,9 @@ async function getUserFromToken(payload) {
 
 export async function invalidationAuthenticationTokens(userId) {
   const respRefreshToken = await invalidateRefreshTokens(userId);
-  if (!respRefreshToken) throw new ApolloError("Unable to revoke refresh token.");
+  if (!respRefreshToken) throw new Error("Unable to revoke refresh token.");
   const respAccessToken = await invalidateAccessTokens(userId);
-  if (!respAccessToken) throw new ApolloError("Unable to revoke access token.");
+  if (!respAccessToken) throw new Error("Unable to revoke access token.");
 }
 //TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
 async function invalidateRefreshTokens(userId) {

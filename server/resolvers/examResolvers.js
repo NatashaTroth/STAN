@@ -1,6 +1,7 @@
 import { Exam } from "../models";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
+import { UserInputError } from "apollo-server";
 import {
   escapeExamObject,
   escapeExamObjects,
@@ -138,7 +139,7 @@ export const examResolvers = {
     parseValue(value) {
       if (value instanceof Date) return value;
       if (isDateInvalid(value))
-        throw new Error(
+        throw new UserInputError(
           "Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -"
         );
       return new Date(value); // value from the client

@@ -17,7 +17,7 @@ export async function isAuth(req) {
 
 function decodeAccessToken(req) {
   const authHeader = req.get("Authorization");
-  if (!authHeader) throw new Error("Unauthorised"); //executes next function (if there is one)
+  if (!authHeader) throw new AuthenticationError("Unauthorised"); //executes next function (if there is one)
   const token = authHeader.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   if (!decodedToken) throw new Error("Invalid access token.");

@@ -8,7 +8,7 @@ import {
   verifyRegexPageNotes,
   verifyRegexUrlLink
 } from "../verifyInput";
-import { AuthenticationError, UserInputError } from "apollo-server";
+import { UserInputError } from "apollo-server";
 
 import { removeWhitespace } from "../generalHelpers";
 import {
@@ -46,7 +46,7 @@ function verifyNewExamInputFormat(args) {
 
 function verifySubjectFormat(subject) {
   if (!verifyRegexSubject(subject))
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Subject input has the wrong format. It cannot be empty. Max length 50 characters."
     );
 }
@@ -67,28 +67,28 @@ export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
 
 function verifyLastPageFormat(lastPage) {
   if (!verifyRegexPageAmount(lastPage.toString()))
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Number of pages input has the wrong format. It must be a positive number and cannot be empty. Max length 10000 characters."
     );
 }
 
 function verifyTimePerPageFormat(timePerPage) {
   if (!verifyRegexPageTime(timePerPage.toString()) || timePerPage <= 0)
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Time per page input has the wrong format. It must be a positive number and cannot be empty. Max length 600 characters."
     );
 }
 
 function verifyTimesRepeatFormat(timesRepeat) {
   if (timesRepeat != null && !verifyRegexPageRepeat(timesRepeat.toString()))
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Times to repeat input has the wrong format. It must be a positive number.  Max length 1000 characters."
     );
 }
 
 function verifyStartPageFormat(currentPage) {
   if (currentPage != null && !verifyRegexCurrentPage(currentPage.toString()))
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Start page input has the wrong format. It must ve a positive number.  Max length 10000 characters."
     );
 }
@@ -100,7 +100,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
   studyMaterialLinks.forEach(link => {
     link = removeWhitespace(link);
     if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
-      throw new AuthenticationError(
+      throw new UserInputError(
         "All the study material links have to be URLs (websites) (e.g. https://stan-studyplan.herokuapp.com)."
       );
   });
@@ -108,7 +108,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
 
 function verifyNotesFormat(notes) {
   if (notes != null && !verifyRegexPageNotes(notes))
-    throw new AuthenticationError(
+    throw new UserInputError(
       "Notes input has the wrong format. It cannot exceed 100000000 characters."
     );
 }
