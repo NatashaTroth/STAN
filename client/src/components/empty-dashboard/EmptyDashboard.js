@@ -44,15 +44,22 @@ const EmptyDashboard = ({ heading, text, showBtn }) => {
     // return if items found ----------------
     if (filteredItemsDueSoon.length !== 0) {
       dueSoonItem = filteredItemsDueSoon.map((element, index) => {
+        // link to subject in exams
+        let subjectLink = `/exams/${element.subject
+          .toLowerCase()
+          .replace(/ /g, "-")}?id=${element.id}`
+
+        // return listing component
         return (
           <Listing
             key={index}
             className="empty-dashboard__upcoming__list-item"
             text={
-              element.subject +
               " - starting on " +
               moment(element.startDate).format("DD. MMMM YYYY")
             }
+            linkText={element.subject}
+            link={subjectLink}
           />
         )
       })
