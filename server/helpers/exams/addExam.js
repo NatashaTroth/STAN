@@ -7,6 +7,7 @@ export async function handleAddExam(args, userInfo) {
 
   verifyAddExamDates(args.startDate, args.examDate);
   const processedArgs = prepareExamInputData({ ...args }, userInfo.userId);
-  await Exam.create(processedArgs);
-  //TODO ERROR HANDLING?
+  const resp = await Exam.create(processedArgs);
+  console.log(resp);
+  //todo: here
 }

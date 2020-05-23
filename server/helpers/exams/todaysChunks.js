@@ -1,5 +1,5 @@
 import { TodaysChunkCache } from "../../models";
-import { startDateIsActive, getNumberOfDays, isTheSameDay } from "../dates";
+import { startDateIsActive, getNumberOfDays, isTheSameDay, date1IsBeforeDate2 } from "../dates";
 import { learningIsComplete, fetchUncompletedExams } from "./examHelpers";
 
 import { numberOfPagesForChunk, durationLeft } from "./chunkHelpers";
@@ -17,7 +17,14 @@ export async function fetchTodaysChunks(userId) {
 }
 
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
-  const exams = currentExams.filter(exam => !isTheSameDay(exam.examDate, new Date()));
+  console.log(currentExams);
+  const exams = currentExams.filter(
+    exam =>
+      !isTheSameDay(exam.examDate, new Date()) && date1IsBeforeDate2(new Date(), exam.examDate)
+  );
+
+  console.log("-----------");
+  console.log(exams);
   const chunks = exams.map(async exam => {
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
@@ -77,10 +84,12 @@ async function fetchCurrentExams(userId) {
 
 async function calculateTodaysChunks(currentExams) {
   //remove exams where completed = false, but learning is finished
+
   const exams = currentExams.filter(
     exam =>
       !learningIsComplete(exam.currentPage, exam.startPage, exam.numberPages, exam.timesRepeat) &&
-      !isTheSameDay(exam.examDate, new Date())
+      !isTheSameDay(exam.examDate, new Date()) &&
+      date1IsBeforeDate2(new Date(), exam.examDate)
   );
   const chunks = exams.map(async exam => {
     //if pages are complete, but completed is still false
