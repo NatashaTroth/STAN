@@ -12,6 +12,7 @@ export const GET_EXAMS_QUERY = gql`
       timePerPage
       timesRepeat
       currentPage
+      color
       startPage
       notes
       studyMaterialLinks

@@ -164,7 +164,7 @@ const Exams = () => {
                 onClick={handleArchiveClick}
                 className="exams__archiveExamsToggle--button"
               >
-                <h3>Past exams</h3>
+                <h2 className="exams__past-exams-heading">Past exams</h2>
                 <i className={isArchiveOpen ? "arrow down" : "arrow right"}></i>
               </button>
             </div>

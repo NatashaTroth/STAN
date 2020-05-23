@@ -39,7 +39,7 @@ async function handleUpdateExamInTodaysChunkCache(userId, exam, newArgs) {
   if (chunkHasToBeChanged(exam, newArgs)) {
     // console.log("chunk has to be changed");
 
-    const updates = filterOutUpdatesInTodaysChunk(exam, newArgs, todaysChunkCache);
+    const updates = filterOutUpdatesInTodaysChunk(newArgs);
     //TODO EXTRAct
     const updateCacheResp = await TodaysChunkCache.updateOne(
       {
@@ -98,10 +98,10 @@ function chunkHasToBeChanged(oldExam, newArgs) {
   );
 }
 
-function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
+function filterOutUpdatesInTodaysChunk(newArgs) {
   let updates;
   const newChunk = createTodaysChunkObject(newArgs);
-  const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
+  // const durationAlreadyLearned = calcCompletedDuration(oldChunk) + oldChunk.durationAlreadyLearned;
 
   const totalDurationLeft =
     calcPagesLeft(
@@ -111,10 +111,10 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
       newChunk.exam.currentPage
     ) * newChunk.exam.timePerPage;
 
-  const dailyDurationWithCompletedDuration =
-    (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
+  const dailyDurationWithCompletedDuration = totalDurationLeft / newChunk.daysLeft;
+  //  (totalDurationLeft + durationAlreadyLearned) / newChunk.daysLeft;
 
-  let durationToday = Math.ceil(dailyDurationWithCompletedDuration - durationAlreadyLearned);
+  let durationToday = Math.ceil(dailyDurationWithCompletedDuration); //- durationAlreadyLearned);
   if (durationToday < 0) durationToday = 0;
   const numberPagesToday = Math.ceil(durationToday / newChunk.exam.timePerPage);
   durationToday = numberPagesToday * newChunk.exam.timePerPage;
@@ -125,16 +125,16 @@ function filterOutUpdatesInTodaysChunk(exam, newArgs, oldChunk) {
     startPage: newChunk.currentPage,
     currentPage: newChunk.currentPage,
     daysLeft: newChunk.daysLeft,
-    durationAlreadyLearned,
+    // durationAlreadyLearned,
     completed: newChunk.completed
     // updatedAt: new Date
   };
   return updates;
 }
 
-function calcCompletedDuration(chunk) {
-  const timePerPage = chunk.durationToday / chunk.numberPagesToday;
-  const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
+// function calcCompletedDuration(chunk) {
+//   const timePerPage = chunk.durationToday / chunk.numberPagesToday;
+//   const numberOfCompletedPages = chunk.currentPage - chunk.startPage;
 
-  return timePerPage * numberOfCompletedPages;
-}
+//   return timePerPage * numberOfCompletedPages;
+// }

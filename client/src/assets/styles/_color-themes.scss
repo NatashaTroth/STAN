@@ -51,11 +51,16 @@ html.dark-mode {
   }
   .dark-mode-btn {
     color: theme-color("light");
+    border-color: theme-color("dark-mode");
 
     &:hover,
     &:active,
     &:focus {
       color: theme-color("primary-yellow");
+    }
+    &:focus {
+      outline: none;
+      border-bottom: 3px solid theme-color("primary-yellow");
     }
   }
 
@@ -179,6 +184,7 @@ html.dark-mode {
   }
   .navigation__items--list .menu-bottom .logout button {
     color: theme-color("light");
+    border-color: theme-color("dark-mode");
   }
   // ----------------------------------------------------------------
   // dashboard ----------------

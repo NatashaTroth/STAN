@@ -8,7 +8,7 @@ import {
   verifyRegexPageNotes,
   verifyRegexUrlLink
 } from "../verifyInput";
-import { AuthenticationError, ApolloError } from "apollo-server";
+import { AuthenticationError, UserInputError } from "apollo-server";
 
 import { removeWhitespace } from "../generalHelpers";
 import {
@@ -24,13 +24,13 @@ export function verifyExamInput(args) {
   verifyNewExamInputFormat(args);
 
   if (isTheSameDay(args.startDate, args.examDate)) {
-    throw new ApolloError(
+    throw new UserInputError(
       "Careful! You shouldn't start learning on the same day as the test. Start date should be at least 1 day before the test."
     );
   }
 
   // if (args.startPage && args.startPage > args.lastPage)
-  //   throw new ApolloError("Start page cannot higher than the number of pages.");
+  //   throw new UserInputError("Start page cannot higher than the number of pages.");
 }
 
 function verifyNewExamInputFormat(args) {
@@ -53,7 +53,7 @@ function verifySubjectFormat(subject) {
 
 export function verifyAddExamDates(startDate, examDate) {
   if (!datesTimingIsValid(startDate, examDate))
-    throw new ApolloError(
+    throw new UserInputError(
       "Dates cannot be in the past and start learning date must be before exam date."
     );
 }
@@ -61,7 +61,7 @@ export function verifyAddExamDates(startDate, examDate) {
 export function verifyUpdateExamDates(startDate, examDate, oldStartDate) {
   if (isTheSameDay(startDate, oldStartDate)) {
     if (!date1IsBeforeDate2(startDate, examDate))
-      throw new ApolloError("Start learning date must be before exam date.");
+      throw new UserInputError("Start learning date must be before exam date.");
   } else verifyAddExamDates(startDate, examDate);
 }
 

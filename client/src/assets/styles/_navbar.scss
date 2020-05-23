@@ -53,6 +53,11 @@
       }
 
       a {
+        &:focus {
+          outline: none;
+          border: none;
+        }
+
         img {
           width: 85%;
           height: 90px;
@@ -108,6 +113,9 @@
       }
 
       .menu-top {
+        padding: 0;
+        margin: 0;
+
         .dashboard {
           &:before {
             content: url("../../images/icons/dashboard-dark.svg");
@@ -166,45 +174,59 @@
         }
       }
 
-      .menu-bottom {
-        text-transform: uppercase;
-
+      .menu-bottom-container {
         @include media-breakpoint-down(md) {
-          margin-bottom: 35px;
+          margin-top: 10px;
         }
 
-        .logout {
-          button {
-            font-family: $font-family-BasierCircle-SemiBold;
-            @include rem(letter-spacing, 1px);
-            background: none;
-            border: none;
-            text-transform: uppercase;
-            padding: 0;
-            color: theme_color("dark");
-            transition: all 200ms ease-in-out;
+        .menu-bottom {
+          padding: 0;
+          margin: 0;
+          text-transform: uppercase;
 
-            &:hover {
-              color: theme-color("primary-yellow");
+          @include media-breakpoint-down(md) {
+            margin-bottom: 35px;
+          }
+
+          .logout {
+            button {
+              font-family: $font-family-BasierCircle-SemiBold;
+              @include rem(letter-spacing, 1px);
+              background: none;
+              border-bottom: 3px solid;
+              border-color: theme-color("light");
+              text-transform: uppercase;
+              padding: 0;
+              color: theme_color("dark");
+              transition: all 200ms ease-in-out;
+
+              &:hover,
+              &:focus {
+                color: theme-color("primary-yellow");
+              }
+              &:focus {
+                outline: none;
+                border-bottom: 3px solid theme-color("primary-yellow");
+              }
             }
           }
-        }
 
-        li {
-          padding: 0 0 5px 7px;
-          font-family: $font-family-BasierCircle-SemiBold;
-          @include rem(letter-spacing, 1px);
-
-          &::before {
-            display: none;
-          }
-
-          a {
+          li {
+            padding: 0 0 5px 7px;
             font-family: $font-family-BasierCircle-SemiBold;
             @include rem(letter-spacing, 1px);
 
-            &.active {
-              color: theme-color("primary-yellow");
+            &::before {
+              display: none;
+            }
+
+            a {
+              font-family: $font-family-BasierCircle-SemiBold;
+              @include rem(letter-spacing, 1px);
+
+              &.active {
+                color: theme-color("primary-yellow");
+              }
             }
           }
         }

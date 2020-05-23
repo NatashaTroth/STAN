@@ -63,13 +63,13 @@ function Dashboard() {
     // filter only completed entries ----------------
     let filteredItemsDONE = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
-        return el.completed == true
+        return el.completed === true
       }
     )
     // filter only NOT completed entries ----------------
     let filteredItems = data.todaysChunkAndProgress.todaysChunks.filter(
       function(el) {
-        return el.completed == false
+        return el.completed === false
       }
     )
     // set index to last element in list (when only 1 is left)

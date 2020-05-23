@@ -6,6 +6,7 @@ const burgerButton = props => (
     <div className="burger__btn__line line-1" />
     <div className="burger__btn__line line-2" />
     <div className="burger__btn__line line-3" />
+    <span className="hide-visually">Navigation</span>
   </button>
 )
 

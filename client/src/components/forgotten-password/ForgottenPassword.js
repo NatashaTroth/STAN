@@ -87,7 +87,7 @@ const ForgottenPassword = () => {
               </p>
 
               <div className="mascot">
-                <Image path={Mascot} text="a mascot with a letter" />
+                <Image path={Mascot} alt="a mascot with a letter" />
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@ const ForgottenPassword = () => {
 
           <div className="login__form__element">
             <Label
-              for="email"
+              labelType="email"
               text="E-Mail"
               className="login__form__element__label input-required"
             ></Label>
@@ -123,7 +123,7 @@ const ForgottenPassword = () => {
                 required: true,
                 minLength: 1,
                 maxLength: 50,
-                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
+                pattern: /^([\w_\-."+!#$%&'*/=?^`{|}~ ]{1,64})@([\w_\-.]+)\.([a-z]+)$/,
               })}
             />
 

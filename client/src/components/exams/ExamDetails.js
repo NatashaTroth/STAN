@@ -127,6 +127,7 @@ const ExamDetails = () => {
                   history.goBack()
                 }}
                 className="exam-details__headline--back-btn"
+                hide="go back"
               />
             </div>
 

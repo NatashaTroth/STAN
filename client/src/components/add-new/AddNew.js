@@ -114,7 +114,7 @@ function AddNew() {
                 <div className="col-md-6 form__left">
                   <div className="form__element">
                     <Label
-                      for="subject"
+                      labelType="subject"
                       text="Subject"
                       className="form__element__label input-required subject-label"
                     />
@@ -153,11 +153,12 @@ function AddNew() {
                   <div className="form__container form__container--numbers">
                     <div className="form__element">
                       <Label
-                        for="exam-date"
+                        labelType="exam-date"
                         text="Exam date"
                         className="form__element__label input-required"
                       ></Label>
                       <DatePicker
+                        id="exam-date"
                         onDaySelected={selectedDay => {
                           setMyExamDate(selectedDay)
                         }}
@@ -169,7 +170,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="study-start-date"
+                          labelType="study-start-date"
                           text="Start learning on"
                           className="form__element__label input-required"
                         ></Label>
@@ -188,6 +189,7 @@ function AddNew() {
                       </div>
 
                       <DatePicker
+                        id="study-start-date"
                         onDaySelected={selectedDay => {
                           setMyStartDate(selectedDay)
                         }}
@@ -201,7 +203,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="start-page"
+                          labelType="start-page"
                           text="Start page"
                           className="form__element__label input-required"
                         ></Label>
@@ -251,7 +253,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="page-amount"
+                          labelType="page-amount"
                           text="Last page"
                           className="form__element__label input-required"
                         ></Label>
@@ -301,7 +303,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="page-time"
+                          labelType="page-time"
                           text="Time per page"
                           className="form__element__label input-required"
                         ></Label>
@@ -354,7 +356,7 @@ function AddNew() {
                     <div className="form__element">
                       <div className="info-box-label">
                         <Label
-                          for="page-repeat"
+                          labelType="page-repeat"
                           text="Repeat"
                           className="form__element__label"
                         ></Label>
@@ -404,7 +406,7 @@ function AddNew() {
                   <div className="form__right--top">
                     <div className="form__element">
                       <Label
-                        for="page-notes"
+                        labelType="page-notes"
                         text="Notes"
                         className="form__element__label"
                       ></Label>
@@ -430,7 +432,7 @@ function AddNew() {
                       <div className="form__element">
                         <div className="info-box-label">
                           <Label
-                            htmlFor="study-new-links"
+                            labelType="study-links"
                             text="Study material links (https://...)"
                             className="form__element__label"
                           />
@@ -494,7 +496,7 @@ function AddNew() {
                       <div className="form__color-picker">
                         <div className="info-box-label">
                           <Label
-                            htmlFor="color"
+                            labelType="color"
                             text="Select an exam color"
                             className="form__element__label"
                           />
@@ -530,7 +532,7 @@ function AddNew() {
                       </div>
 
                       <div className="form__showColor">
-                        <h5 className="form__element__label">Selected color</h5>
+                        <h4 className="form__element__label">Selected color</h4>
                         <div
                           className="color"
                           style={{ backgroundColor: color }}

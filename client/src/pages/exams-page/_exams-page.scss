@@ -1,7 +1,22 @@
 .exams {
+  &__past-exams-heading {
+    margin-top: 0;
+    font-family: $font-family-BasierCircle-Bold;
+    @include rem(font-size, $h3-font-size);
+    @include rem(letter-spacing, 1.5px);
+    @include rem(line-height, $h3-line-height);
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, $h3-font-size-mobile);
+      @include rem(line-height, $h3-line-height-mobile);
+      @include rem(letter-spacing, 1px);
+    }
+  }
+
   &__headline {
     padding-bottom: 40px;
   }
+
   &__empty {
     &__content {
       padding: 50px;
@@ -16,6 +31,7 @@
         justify-content: center;
       }
     }
+
     &--pastExams {
       display: flex;
       justify-content: center;
@@ -62,6 +78,7 @@
 
       &:focus {
         outline: none;
+        border-bottom: 3px solid theme-color("primary-yellow");
       }
 
       i {

@@ -87,7 +87,7 @@ const ResetPassword = props => {
 
               <div className="login__form__element">
                 <Label
-                  for="password"
+                  labelType="password"
                   text="New password"
                   className="login__form__element__label input-required"
                 ></Label>
@@ -122,7 +122,7 @@ const ResetPassword = props => {
 
               <div className="login__form__element">
                 <Label
-                  for="retype_password"
+                  labelType="retype_password"
                   text="Confirm password"
                   className="login__form__element__label input-required"
                 ></Label>

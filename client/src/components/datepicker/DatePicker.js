@@ -55,6 +55,7 @@ export default class DatePicker extends React.Component {
         inputProps={{
           required: this.props.required,
           readOnly: "readOnly",
+          id: this.props.id,
         }}
         formatDate={formatDate}
         format={FORMAT}

@@ -10,6 +10,13 @@ html body {
 
   a:focus {
     outline: none;
+    border-bottom: 3px solid theme-color("primary-yellow");
+
+    .exam__subject {
+      border-color: theme-color("primary-yellow");
+      box-shadow: 10px 10px 0px -2px theme-color("primary-yellow");
+      color: theme-color("dark");
+    }
   }
   *:focus {
     outline: 3px solid theme-color("primary-yellow");
@@ -20,7 +27,6 @@ html body {
     outline: none;
     border-bottom: 2px solid theme-color("success");
   }
-  //TODO: change color to red if error
 
   h1 {
     color: theme-color("dark");
@@ -305,7 +311,7 @@ html body {
     @include rem(line-height, 32px);
   }
 
-  .hide {
+  .hide-visually {
     position: absolute;
     white-space: nowrap;
     width: 1px;
@@ -413,6 +419,21 @@ html body {
       padding: 0 10px 0 0;
       font-family: $font-family-BasierCircle-SemiBold;
       @include rem(font-size, 25px);
+    }
+
+    @include media-breakpoint-down(sm) {
+      @include rem(font-size, 18px);
+    }
+  }
+
+  .list-style-none {
+    list-style: none;
+    @include rem(font-size, 20px);
+    font-family: $font-family-BasierCircle-SemiBold;
+    margin-bottom: 10px;
+
+    &::before {
+      display: none;
     }
 
     @include media-breakpoint-down(sm) {

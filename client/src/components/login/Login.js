@@ -87,7 +87,7 @@ const Login = () => {
         <div className="col-md-12 login__form__inner">
           <div className="login__form__element">
             <Label
-              for="email"
+              labelType="email"
               text="E-Mail"
               className="login__form__element__label input-required"
             ></Label>
@@ -102,7 +102,7 @@ const Login = () => {
                 required: true,
                 minLength: 1,
                 maxLength: 50,
-                pattern: /^([\w_\-\.\"\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|\}\~ ]{1,64})@([\w_\-\.]+)\.([a-z]+)$/,
+                pattern: /^([\w_\-."+!#$%&'*/=?^`{|}~ ]{1,64})@([\w_\-.]+)\.([a-z]+)$/,
               })}
             />
 
@@ -122,7 +122,7 @@ const Login = () => {
 
           <div className="login__form__element">
             <Label
-              for="password"
+              labelType="password"
               text="Password"
               className="login__form__element__label input-required"
             ></Label>

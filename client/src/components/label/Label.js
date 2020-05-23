@@ -1,10 +1,10 @@
 import React from "react"
 // --------------------------------------------------------------
 
-const Label = ({ labeltype, text, className }) => {
+const Label = ({ labelType, text, className }) => {
   // return ----------------
   return (
-    <label htmlFor={labeltype} className={className}>
+    <label htmlFor={labelType} className={className}>
       {text}
     </label>
   )

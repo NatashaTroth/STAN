@@ -51,10 +51,6 @@
             &:hover {
               color: theme_color("primary-yellow");
             }
-            &:focus,
-            &:active {
-              outline: none;
-            }
 
             // font styling
             font-family: $font-family-OpenSans-Regular;
