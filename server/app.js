@@ -103,5 +103,3 @@ apolloServer.applyMiddleware({ app, cors: false });
 app.listen({ port: PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:5000${apolloServer.graphqlPath}`)
 );
-
-console.log("DATE: " + new Date());
