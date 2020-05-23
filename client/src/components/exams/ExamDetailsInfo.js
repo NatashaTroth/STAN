@@ -18,7 +18,7 @@ import {
 const ExamBar = lazy(() => import("../progressbar/ProgressBar"))
 
 const ExamDetailsInfo = ({ examDetails }) => {
-  // calculation ----------------
+  // day calculations ----------------
   const today = new Date()
 
   const todaysDayUntilDeadline = getNumberOfDays(
@@ -26,6 +26,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
+  // repetition calculations ----------------
   let currentRepetition = Math.floor(
     (examDetails.currentPage - examDetails.startPage) /
       examDetails.numberPages +
@@ -33,14 +34,17 @@ const ExamDetailsInfo = ({ examDetails }) => {
   )
   if (currentRepetition < 1) currentRepetition = 1
 
+  // remove empty strings ----------------
   const newLinks = filteredLinks(examDetails.studyMaterialLinks)
 
+  // progressbar calculations ----------------
   let progressbar =
     (100 * (examDetails.currentPage - examDetails.startPage)) /
     (examDetails.numberPages * examDetails.timesRepeat)
 
   if (progressbar > 100) progressbar = 100
 
+  // functions ----------------
   const getCurrentPage = (examDetails, currentRepetition) => {
     let currentPageWithoutStartPage =
       examDetails.currentPage - examDetails.startPage
