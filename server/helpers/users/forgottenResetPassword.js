@@ -2,7 +2,7 @@ import { User } from "../../models";
 import { ApolloError, UserInputError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { verifyEmailFormat } from "./validateUserInput";
+import { verifyEmailFormat, verifyUpdatePasswordInputFormat } from "./validateUserInput";
 import { invalidationAuthenticationTokens } from "../authentication/authenticationTokens";
 import StanEmail from "../StanEmail";
 
@@ -39,6 +39,7 @@ export async function handleResetPassword({ userId, token, newPassword }) {
   if (!user) throw new Error("There is no user with that id.");
   const secret = createForgottenPasswordSecret(user);
   validateForgottenPasswordToken(user, token, secret);
+  verifyUpdatePasswordInputFormat(newPassword);
   const passwordToSave = await bcrypt.hash(newPassword, 10);
   await updatePassword(user._id, passwordToSave);
   await invalidationAuthenticationTokens(userId);

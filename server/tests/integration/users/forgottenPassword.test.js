@@ -61,7 +61,24 @@ describe("Test forgotten password resolver/helpers", () => {
     expect(userBeforePasswordReset).toBeTruthy();
 
     expect(await bcrypt.compare("samantha", userBeforePasswordReset.password)).toBeTruthy();
-    const respResetPassword = await query({
+
+    //should detect if password format is wrong
+    let respResetPassword = await query({
+      query: RESET_PASSWORD_MUTATION,
+      variables: {
+        userId: testUser._id.toString(),
+        token,
+        newPassword: "bad"
+      }
+    });
+
+    expect(respResetPassword.data).toBeFalsy();
+    expect(respResetPassword.errors[0].message).toEqual(
+      "New password input has the wrong format. It must contain at least 8 characters. Max length 30 characters."
+    );
+
+    //should reset password
+    respResetPassword = await query({
       query: RESET_PASSWORD_MUTATION,
       variables: {
         userId: testUser._id.toString(),
