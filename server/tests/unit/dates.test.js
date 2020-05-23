@@ -42,7 +42,7 @@ test("verifies numberOfDaysLeft", () => {
   expect(getNumberOfDays(new Date("2120-04-01"), new Date("2120-04-10"))).toBe(9);
 });
 
-//new Dte(year, month, day, hours, minutes, seconds, milliseconds)
+//new Date(year, month, day, hours, minutes, seconds, milliseconds)
 test("verifies date1IsBeforeDate2", () => {
   expect(
     date1IsBeforeDate2(

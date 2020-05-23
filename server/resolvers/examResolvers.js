@@ -135,6 +135,8 @@ export const examResolvers = {
     name: "Date",
     description: "GraphqL date scalar",
     parseValue(value) {
+      console.log(value);
+      console.log(new Date(value));
       if (value instanceof Date) return value;
       if (isDateInvalid(value))
         throw new UserInputError(
