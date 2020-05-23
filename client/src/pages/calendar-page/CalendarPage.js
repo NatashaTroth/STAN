@@ -1,4 +1,4 @@
-import React, { lazy } from "react"
+import React, { lazy, Suspense } from "react"
 import { Redirect } from "react-router-dom"
 import ReactDOM from "react-dom"
 // --------------------------------------------------------------
@@ -27,11 +27,11 @@ import { minuteToHours } from "../../helpers/dates"
 import { extractDomain, decodeHtml } from "../../helpers/mascots"
 
 // components ----------------
-const QueryError = lazy(() => import("../../components/error/Error"))
-const Loading = lazy(() => import("../../components/loading/Loading"))
+import QueryError from "../../components/error/Error"
+import Loading from "../../components/loading/Loading"
 
 // sub-components ----------------
-const Button = lazy(() => import("../../components/button/Button"))
+import Button from "../../components/button/Button"
 
 const ExamsCalendar = () => {
   // objects ----------------
