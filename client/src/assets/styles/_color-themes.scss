@@ -298,7 +298,7 @@ html.dark-mode {
   .fc-content.fc-title,
   .fc-list-heading-main,
   .fc-list-heading-alt {
-    color: theme-color("dark-mode");
+    color: inherit;
   }
   .fc-widget-header {
     background-color: theme-color("dark-mode") !important;
