@@ -66,9 +66,6 @@ const ExamDetailsEdit = ({ examId }) => {
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
-  // currentRepetition ----------------
-  let currentRep = currentRepetition(data)
-
   // set default values to input fields ----------------
   let defaultValues = {
     subject: data.subject,
@@ -77,8 +74,9 @@ const ExamDetailsEdit = ({ examId }) => {
     lastPage: data.lastPage,
     timePerPage: data.timePerPage,
     timesRepeat: data.timesRepeat,
-    cycle: currentRep,
-    currentPage: data.currentPage - data.numberPages * (currentRep - 1),
+    cycle: currentRepetition(data),
+    currentPage:
+      data.currentPage - data.numberPages * (currentRepetition(data) - 1),
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -645,37 +643,6 @@ const ExamDetailsEdit = ({ examId }) => {
               </div>
             ) : null}
 
-            <div className="form__element">
-              <div className="form__color-picker">
-                <div className="info-box-label">
-                  <Label
-                    labelType="color"
-                    text="Select an exam color"
-                    className="form__element__label"
-                  />
-                  <OverlayTrigger
-                    placement="top"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={
-                      <Tooltip>
-                        Give your exam a unique color to make it stick out in
-                        the calendar overview. If no color is selected, stan
-                        will generate a random exam color for you.
-                      </Tooltip>
-                    }
-                  >
-                    <span className="info-circle">i</span>
-                  </OverlayTrigger>
-                </div>
-                <SliderPicker onChange={handleColor} color={color} />
-              </div>
-
-              <div className="form__showColor">
-                <h4 className="form__element__label">Selected color</h4>
-                <div className="color" style={{ backgroundColor: color }}></div>
-              </div>
-            </div>
-
             <div className="form__current-study-links">
               <div className="form__element">
                 <div className="info-box-label">
@@ -734,6 +701,37 @@ const ExamDetailsEdit = ({ examId }) => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="form__element">
+              <div className="form__color-picker">
+                <div className="info-box-label">
+                  <Label
+                    labelType="color"
+                    text="Select an exam color"
+                    className="form__element__label"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        Give your exam a unique color to make it stick out in
+                        the calendar overview. If no color is selected, stan
+                        will generate a random exam color for you.
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <SliderPicker onChange={handleColor} color={color} />
+              </div>
+
+              <div className="form__showColor">
+                <h5 className="form__element__label">Selected color</h5>
+                <div className="color" style={{ backgroundColor: color }}></div>
+              </div>
             </div>
           </div>
         </div>

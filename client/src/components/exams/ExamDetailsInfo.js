@@ -29,13 +29,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  // exam calculations ----------------
-  const newLinks = filteredLinks(examDetails.studyMaterialLinks)
-  const currentRep = currentRepetition(examDetails)
-  const progressbar = calcProgressbar(examDetails)
-  const currentPage = getCurrentPage(examDetails, currentRep)
-  const pages = pagesLeft(examDetails)
-
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -128,13 +121,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
                 <div className="exam-pages__bar">
-                  <ExamBar value={progressbar} />
+                  <ExamBar value={calcProgressbar(examDetails)} />
 
                   <div className="exam-pages__bar--status">
-                    {pages > 1 ? (
-                      <p>{pages} pages left</p>
+                    {pagesLeft(examDetails) > 1 ? (
+                      <p>{pagesLeft(examDetails)} pages left</p>
                     ) : (
-                      <p>{pages} page left</p>
+                      <p>{pagesLeft(examDetails)} page left</p>
                     )}
                   </div>
                 </div>
@@ -142,7 +135,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>{currentPage}</p>
+                <p>
+                  {getCurrentPage(examDetails, currentRepetition(examDetails))}
+                </p>
               </div>
 
               <div className="exam-data">
@@ -157,7 +152,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
                 <p>
-                  {currentRep}/{examDetails.timesRepeat}
+                  {currentRepetition(examDetails)}/{examDetails.timesRepeat}
                 </p>
               </div>
             </div>
@@ -168,20 +163,22 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="link--headline">
                 <h4>Study material links</h4>
               </div>
-              {newLinks.length > 0 ? (
+              {filteredLinks(examDetails.studyMaterialLinks).length > 0 ? (
                 <div className="link--buttons">
-                  {newLinks.map((value, index) => (
-                    <div key={index}>
-                      <a
-                        href={value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="stan-btn-secondary link-button"
-                      >
-                        {extractDomain(value)}
-                      </a>
-                    </div>
-                  ))}
+                  {filteredLinks(examDetails.studyMaterialLinks).map(
+                    (value, index) => (
+                      <div key={index}>
+                        <a
+                          href={value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="stan-btn-secondary link-button"
+                        >
+                          {extractDomain(value)}
+                        </a>
+                      </div>
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="empty-link">
