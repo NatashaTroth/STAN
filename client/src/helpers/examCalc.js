@@ -13,7 +13,7 @@ export const calcExamProgress = exam => {
 }
 
 export const currentRepetition = examDetails => {
-  const rep = Math.floor(
+  let rep = Math.floor(
     (examDetails.currentPage - examDetails.startPage) /
       examDetails.numberPages +
       1
@@ -25,7 +25,7 @@ export const currentRepetition = examDetails => {
 }
 
 export const calcProgressbar = examDetails => {
-  const progressbar = Math.round(
+  let progressbar = Math.round(
     (100 * (examDetails.currentPage - examDetails.startPage)) /
       (examDetails.numberPages * examDetails.timesRepeat)
   )
