@@ -11,8 +11,6 @@ export function isDateInvalid(value) {
 }
 
 export function datesTimingIsValid(startDate, examDate) {
-  // console.log(datesAreNotPast([startDate, examDate]));
-  // console.log(date1IsBeforeDate2(startDate, examDate));
   return datesAreNotPast([startDate, examDate]) && date1IsBeforeDate2(startDate, examDate);
 }
 
@@ -21,15 +19,9 @@ export function startDateIsActive(startDate) {
 }
 
 export function isTheSameDay(date1, date2) {
-  // console.log(date1.toLocaleDateString("en-GB"), date2.toLocaleDateString("en-GB"));
-  // console.log(date1, date2);
   const date1Formatted = dayjs(date1).format("DD/MM/YYYY");
   const date2Formatted = dayjs(date2).format("DD/MM/YYYY");
-
-  // console.log(dayjs(date1Formatted), dayjs(date2Formatted));
   return date1Formatted === date2Formatted;
-  // console.log(date1Formatted.isSame(date2Formatted));
-  // return dayjs(date1).isSame(dayjs(date2));
 }
 
 export function getNumberOfDays(startDate, endDate) {

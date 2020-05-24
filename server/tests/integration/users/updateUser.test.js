@@ -67,9 +67,8 @@ describe("Test update user mutation", () => {
         allowEmailNotifications: true
       }
     });
-    console.log(resp);
-    expect(resp.data.updateUser).toBeTruthy();
 
+    expect(resp.data.updateUser).toBeTruthy();
     expect(resp.data.updateUser).toMatchObject({
       username: "Samantha&#x27;s new username",
       email: "newSamantha@node.com",

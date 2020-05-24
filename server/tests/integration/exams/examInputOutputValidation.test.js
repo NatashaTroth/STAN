@@ -58,7 +58,7 @@ describe("Test exam input and output validations/regex/escape", () => {
         completed: false
       }
     });
-    console.log(resp);
+
     expect(resp.data.addExam).toBeTruthy();
   });
 

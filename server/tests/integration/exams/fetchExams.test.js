@@ -70,7 +70,7 @@ describe("Test get exams queries", () => {
     const resp = await query({
       query: GET_EXAMS_QUERY
     });
-    // console.log(JSON.stringify(resp));
+
     expect(resp.data.exams).toBeTruthy();
 
     //Check order

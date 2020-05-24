@@ -87,7 +87,6 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
         allowEmailNotifications: false
       }
     });
-    // console.log(await User.find());
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("User with email already exists, choose another one.");
