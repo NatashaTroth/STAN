@@ -39,7 +39,7 @@ const Mascots = () => {
   }
 
   // functions ----------------
-  const handleMascotCallback = id => {
+  const handleMascotCallback = (id) => {
     setIndex(id)
   }
 
@@ -102,11 +102,12 @@ const Mascots = () => {
                     />
                   </div>
                 </div>
-                <div id="success-container-mascot-saved">
-                  <p className="success">The mascot was successfully saved.</p>
-                </div>
+
                 <div className="error">
                   <p className="graphql-error"></p>
+                </div>
+                <div id="success-container-mascot-saved">
+                  <p className="success">The mascot was successfully saved.</p>
                 </div>
               </form>
             </div>
@@ -137,9 +138,9 @@ async function handleMascot({ index, updateMascot, history }) {
 
     // redirect ----------------
     window.localStorage.setItem("mascot-event", false)
-    setTimeout(() => {
-      history.push("/")
-    }, 1000)
+    // setTimeout(() => {
+    //   history.push("/")
+    // }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 

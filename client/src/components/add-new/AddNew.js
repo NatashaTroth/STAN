@@ -532,7 +532,7 @@ function AddNew() {
                       </div>
 
                       <div className="form__showColor">
-                        <h4 className="form__element__label">Selected color</h4>
+                        <h5 className="form__element__label">Selected color</h5>
                         <div
                           className="color"
                           style={{ backgroundColor: color }}
