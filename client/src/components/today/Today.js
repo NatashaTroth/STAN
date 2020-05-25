@@ -32,6 +32,7 @@ const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
+  console.log(props)
 
   // user click to add custom page number ----------------
   const onSubmit = async (formData) => {
@@ -259,12 +260,29 @@ function Today(props) {
 
   // repetition goal to display next to goal ----------------
   // let repetitionGoal = Math.floor(currentPage / lastPage) + 1
-  let repetitionGoal = Math.floor(
-    (todaysChunk.startPage + todaysChunk.numberPagesToday - startPage) /
-      todaysChunk.exam.numberPages +
-      1
-  )
-
+  let repetitionGoal =
+    Math.floor(
+      (todaysChunk.startPage + todaysChunk.numberPagesToday - startPage - 1) /
+        todaysChunk.exam.numberPages
+    ) + 1
+  // console.log(
+  //   "chunk startpage: " +
+  //     todaysChunk.startPage +
+  //     ", chunk nr pages " +
+  //     todaysChunk.numberPagesToday +
+  //     ", total startpage " +
+  //     startPage +
+  //     ", exam nr pages (per cycle) " +
+  //     todaysChunk.exam.numberPages
+  // )
+  // console.log(
+  //   todaysChunk.startPage + todaysChunk.numberPagesToday - startPage - 1,
+  //   todaysChunk.exam.numberPages
+  // )
+  // console.log(
+  //   (todaysChunk.startPage + todaysChunk.numberPagesToday - startPage - 1) /
+  //     todaysChunk.exam.numberPages
+  // )
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday + startPage - 1
   // if start page is bigger
