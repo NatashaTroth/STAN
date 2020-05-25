@@ -30,6 +30,7 @@ const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
 function Today(props) {
+  console.log(props)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
