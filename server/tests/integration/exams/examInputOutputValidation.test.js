@@ -149,7 +149,7 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$examDate" got invalid value "test"; Expected type "Date". Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$examDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
     );
   });
 
@@ -174,7 +174,7 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$startDate" got invalid value "test"; Expected type "Date". Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$startDate" got invalid value "test"; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
     );
   });
 
@@ -199,7 +199,7 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
-      'Variable "$startDate" got invalid value ""; Expected type "Date". Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
+      'Variable "$startDate" got invalid value ""; Expected type Date. Date input has the wrong format. Valid formats: dd/mm/yyyy, yyyy/mm/dd, mm/dd/yyyy. Valid separators: . / -'
     );
   });
 
