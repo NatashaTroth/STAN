@@ -24,36 +24,36 @@ image: node:latest
 #     # TODO: change when testing in client:
 #     - /^front-feature.*$/
 
-  # lint:client:
-  #   stage: lint
-  #   tags:
-  #     - node
-  #   script:
-  #     - cd client/
-  #     - echo "Linting.."
-  #     - npm run format
-  #   except:
-  #     - /^front-feature.*$/
-  #     - /^back-feature.*$/
+# lint:client:
+#   stage: lint
+#   tags:
+#     - node
+#   script:
+#     - cd client/
+#     - echo "Linting.."
+#     - npm run format
+#   except:
+#     - /^front-feature.*$/
+#     - /^back-feature.*$/
 
-  # staging:client:
-  #   stage: staging client
-  #   artifacts:
-  #     paths:
-  #       - server/public/
-  #     expire_in: 1 week
-  #   tags:
-  #     - node
-  #   script:
-  #     - rm -rf server/public
-  #     - mkdir server/public
-  #     - cd client/
+# staging:client:
+#   stage: staging client
+#   artifacts:
+#     paths:
+#       - server/public/
+#     expire_in: 1 week
+#   tags:
+#     - node
+#   script:
+#     - rm -rf server/public
+#     - mkdir server/public
+#     - cd client/
 
-  #     # #TODO: remove CI=false - so it treats warnings as errors again
-  #     - CI=false npm run build
+#     # #TODO: remove CI=false - so it treats warnings as errors again
+#     - CI=false npm run build
 
-  only:
-    - development
+# only:
+#   - development
 
 deployment:client:
   stage: deployment client
