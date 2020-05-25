@@ -6,23 +6,23 @@ image: node:latest
 #   - staging
 #   - deployment
 
-npm:client:
-  tags:
-    - node
-  stage: npm
-  artifacts:
-    paths:
-      - client/node_modules/
-    expire_in: 1 days
-    when: always
-  script:
-    - cd client/
-    - echo "Running npm ci ..."
-    - npm ci
-  except:
-    - /^back-feature.*$/
-    # TODO: change when testing in client:
-    - /^front-feature.*$/
+# npm:client:
+#   tags:
+#     - node
+#   stage: npm
+#   artifacts:
+#     paths:
+#       - client/node_modules/
+#     expire_in: 1 days
+#     when: always
+#   script:
+#     - cd client/
+#     - echo "Running npm ci ..."
+#     - npm ci
+#   except:
+#     - /^back-feature.*$/
+#     # TODO: change when testing in client:
+#     - /^front-feature.*$/
 
   # lint:client:
   #   stage: lint
