@@ -1,4 +1,4 @@
-export const calcExamProgress = exam => {
+export const calcExamProgress = (exam) => {
   /**
    * nr pages * repeat....100%
    * currentPage - startPage (as if startpage = 0)...x
@@ -12,7 +12,7 @@ export const calcExamProgress = exam => {
   return examProgress
 }
 
-export const currentRepetition = examDetails => {
+export const currentRepetition = (examDetails) => {
   let rep = Math.floor(
     (examDetails.currentPage - examDetails.startPage) /
       examDetails.numberPages +
@@ -20,11 +20,12 @@ export const currentRepetition = examDetails => {
   )
 
   if (rep < 1) rep = 1
+  if (rep > examDetails.timesRepeat) return examDetails.timesRepeat
 
   return rep
 }
 
-export const calcProgressbar = examDetails => {
+export const calcProgressbar = (examDetails) => {
   let progressbar = Math.round(
     (100 * (examDetails.currentPage - examDetails.startPage)) /
       (examDetails.numberPages * examDetails.timesRepeat)
@@ -36,6 +37,7 @@ export const calcProgressbar = examDetails => {
 }
 
 export const getCurrentPage = (examDetails, currentRep) => {
+  if (learningIsComplete(examDetails)) return examDetails.lastPage
   let currentPageWithoutStartPage =
     examDetails.currentPage - examDetails.startPage
   let numberPagesLearned = examDetails.numberPages * (currentRep - 1)
@@ -44,10 +46,19 @@ export const getCurrentPage = (examDetails, currentRep) => {
     currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
   )
 }
+const learningIsComplete = ({
+  currentPage,
+  startPage,
+  numberPages,
+  timesRepeat = 1,
+}) => {
+  const endPage = startPage + numberPages * timesRepeat - 1
+  return currentPage > endPage
+}
 
-export const pagesLeft = examDetails => {
+export const pagesLeft = (examDetails) => {
   const pagesLeft =
     examDetails.numberPages * examDetails.timesRepeat -
-    (examDetails.currentPage + 1 - examDetails.startPage)
+    (examDetails.currentPage - examDetails.startPage)
   return pagesLeft
 }
