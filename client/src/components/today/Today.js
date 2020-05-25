@@ -30,12 +30,11 @@ const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
 function Today(props) {
-  console.log(props)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
   // user click to add custom page number ----------------
-  const onSubmit = async formData => {
+  const onSubmit = async (formData) => {
     try {
       const chunk = props.selectedGoal
       const exam = chunk.exam
@@ -98,7 +97,7 @@ function Today(props) {
   }
 
   // user click on goal-studied ----------------
-  const onSubmitAll = async e => {
+  const onSubmitAll = async (e) => {
     e.preventDefault()
     try {
       const resp = await updatePage({
@@ -214,7 +213,8 @@ function Today(props) {
     realCurrentPageTotal = 1
   }
   if (realCurrentPageTotal > todaysChunk.numberPagesToday) {
-    realCurrentPageTotal = 1
+    realCurrentPageTotal =
+      realCurrentPageTotal - todaysChunk.numberPagesToday + 1
   }
   // --------------------------------
 
@@ -258,7 +258,12 @@ function Today(props) {
   // --------------------------------
 
   // repetition goal to display next to goal ----------------
-  let repetitionGoal = Math.floor(currentPage / lastPage) + 1
+  // let repetitionGoal = Math.floor(currentPage / lastPage) + 1
+  let repetitionGoal = Math.floor(
+    (todaysChunk.startPage + todaysChunk.numberPagesToday - startPage) /
+      todaysChunk.exam.numberPages +
+      1
+  )
 
   // end page for today's chunk goal ----------------
   let numberPagesToday = todaysChunk.numberPagesToday + startPage - 1
@@ -268,8 +273,8 @@ function Today(props) {
     let pagesLeft = lastPage - todaysChunk.numberPagesToday
     numberPagesToday = startPage + todaysChunk.numberPagesToday - pagesLeft
     // to display correct rep cycle goal
-    repetitionGoal =
-      Math.round((startPage + numberPagesToday - pagesLeft) / lastPage) + 1
+    // repetitionGoal =
+    //   Math.round((startPage + numberPagesToday - pagesLeft) / lastPage) + 1
   }
   // only 1 page & multiple repetition cycles
   if (
@@ -278,9 +283,15 @@ function Today(props) {
   ) {
     // maximum goal is last page
     numberPagesToday = lastPage
+
     // to display correct rep cycle goal
-    repetitionGoal =
-      Math.round((startPage + todaysChunk.numberPagesToday) / lastPage) + 1
+    // repetitionGoal = Math.floor(
+    //   (todaysChunk.startPage + todaysChunk.numberPagesToday - startPage) /
+    //     todaysChunk.exam.numberPages
+    // )
+
+    // show message
+    noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
   // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
   if (numberPagesToday > lastPage) {
@@ -289,7 +300,7 @@ function Today(props) {
     // maximum goal is last page
     numberPagesToday = lastPage
     // to display correct rep cycle goal
-    repetitionGoal = Math.round((startPage + pagesLeftInCycles) / lastPage) + 1
+    // repetitionGoal = Math.round((startPage + pagesLeftInCycles) / lastPage) + 1
   }
   // if there is only 1 page to study
   if (
@@ -298,7 +309,7 @@ function Today(props) {
     todaysChunk.numberPagesToday === 1
   ) {
     // to display correct rep cycle goal
-    repetitionGoal = repetition
+    // repetitionGoal = repetition
     // to display correct total no. of pages if there is only 1 page
     numberPages = 1
     realCurrentPageTotal = 1
@@ -312,7 +323,7 @@ function Today(props) {
       startPage !== lastPage)
   ) {
     // to display correct rep cycle goal
-    repetitionGoal = repetitionCycles
+    // repetitionGoal = repetitionCycles
     // show message
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
@@ -335,91 +346,94 @@ function Today(props) {
   let currentPageBar
 
   // edge case start page is bigger than goal page
-  if (
-    realCurrentPage > todaysChunk.numberPagesToday &&
-    startPage !== lastPage
-  ) {
-    // pages left
-    leftPagesTotal =
-      numberPagesToday - (currentPage - todaysChunk.startPage) + 1
+  // if (
+  //   realCurrentPage > todaysChunk.numberPagesToday &&
+  //   startPage !== lastPage
+  // ) {
+  // pages left
+  // leftPagesTotal =
+  //   numberPagesToday - (currentPage - todaysChunk.startPage) + 1
+  leftPagesTotal =
+    todaysChunk.numberPagesToday -
+    (todaysChunk.exam.currentPage - todaysChunk.startPage)
 
-    // percentage for bar
-    currentPageBar = numberPagesToday
+  // percentage for bar
+  currentPageBar = todaysChunk.numberPagesToday
 
-    if (currentPageBar === 1 || currentPageBar === startPage) currentPageBar = 0 // to start with 0 in bar
-    leftPagesPercentage =
-      100 - Math.round((leftPagesTotal * 100) / currentPageBar)
-  }
-  // normal case
-  else if (
-    todaysChunk.numberPagesToday <= lastPage &&
-    realCurrentPage !== lastPage &&
-    realCurrentPage < todaysChunk.numberPagesToday
-  ) {
-    // pages left
-    leftPagesTotal = numberPagesToday - realCurrentPage + 1
+  if (currentPageBar === 1 || currentPageBar === startPage) currentPageBar = 0 // to start with 0 in bar
+  leftPagesPercentage =
+    100 - Math.round((leftPagesTotal * 100) / currentPageBar)
+  // }
+  // // normal case
+  // else if (
+  //   todaysChunk.numberPagesToday <= lastPage &&
+  //   realCurrentPage !== lastPage &&
+  //   realCurrentPage < todaysChunk.numberPagesToday
+  // ) {
+  //   // pages left
+  //   leftPagesTotal = numberPagesToday - realCurrentPage + 1
 
-    // percentage for bar
-    currentPageBar = realCurrentPage
-    if (currentPageBar === 1 || currentPageBar === startPage) currentPageBar = 0 // to start with 0 in bar
-    leftPagesPercentage = Math.round((currentPageBar * 100) / numberPages)
-  }
-  // if only 2 pages & NOT multiple cycles a day
-  else if (
-    realCurrentPage > numberPages &&
-    todaysChunk.numberPagesToday < numberPages
-  ) {
-    leftPagesTotal = numberPages - realCurrentPageTotal + 1
-    currentPageBar = realCurrentPage
-    if (currentPageBar === 1 || currentPageBar === startPage) {
-      leftPagesPercentage = 0 // to start with 0 in bar
-    } else {
-      leftPagesPercentage = Math.round(
-        (realCurrentPageTotal * 100) / (lastPage - startPage + 1)
-      )
-    }
-  }
-  // if only 1 page
-  else if (realCurrentPage === lastPage) {
-    leftPagesTotal = numberPages - realCurrentPageTotal + 1
-    currentPageBar = realCurrentPage
+  //   // percentage for bar
+  //   currentPageBar = realCurrentPage
+  //   if (currentPageBar === 1 || currentPageBar === startPage) currentPageBar = 0 // to start with 0 in bar
+  //   leftPagesPercentage = Math.round((currentPageBar * 100) / numberPages)
+  // }
+  // // if only 2 pages & NOT multiple cycles a day
+  // else if (
+  //   realCurrentPage > numberPages &&
+  //   todaysChunk.numberPagesToday < numberPages
+  // ) {
+  //   leftPagesTotal = numberPages - realCurrentPageTotal + 1
+  //   currentPageBar = realCurrentPage
+  //   if (currentPageBar === 1 || currentPageBar === startPage) {
+  //     leftPagesPercentage = 0 // to start with 0 in bar
+  //   } else {
+  //     leftPagesPercentage = Math.round(
+  //       (realCurrentPageTotal * 100) / (lastPage - startPage + 1)
+  //     )
+  //   }
+  // }
+  // // if only 1 page
+  // else if (realCurrentPage === lastPage) {
+  //   leftPagesTotal = numberPages - realCurrentPageTotal + 1
+  //   currentPageBar = realCurrentPage
 
-    if (
-      currentPageBar === 1 ||
-      (currentPageBar === lastPage && repetitionGoal !== repetition)
-    ) {
-      leftPagesPercentage = 0 // to start with 0 in bar
-    } else {
-      leftPagesPercentage = Math.round(
-        (realCurrentPageTotal * 100) / todaysChunk.numberPagesToday
-      )
-    }
-  }
-  // if only 2 pages & multiple cycles a day
-  else if (
-    realCurrentPage > numberPages &&
-    todaysChunk.numberPagesToday > numberPages
-  ) {
-    if (realCurrentPageTotal === lastPage) {
-      leftPagesTotal =
-        todaysChunk.numberPagesToday - numberPages * repetition - 1
-    } else {
-      leftPagesTotal = todaysChunk.numberPagesToday - numberPages * repetition
-    }
-    // percentage for bar
-    leftPagesPercentage = Math.round(
-      (realCurrentPageTotal * 100) / (leftPagesTotal + 1)
-    )
-  }
-  // if more than 1 cycle a day
-  else {
-    // pages left
-    leftPagesTotal = numberPages - realCurrentPageTotal + 1
-    // percentage for bar
-    leftPagesPercentage = Math.round(
-      (100 / numberPages) * (currentPage - startPage + 1)
-    )
-  }
+  //   if (
+  //     currentPageBar === 1 ||
+  //     (currentPageBar === lastPage && repetitionGoal !== repetition)
+  //   ) {
+  //     leftPagesPercentage = 0 // to start with 0 in bar
+  //   } else {
+  //     leftPagesPercentage = Math.round(
+  //       (realCurrentPageTotal * 100) / todaysChunk.numberPagesToday
+  //     )
+  //   }
+  // }
+  // // if only 2 pages & multiple cycles a day
+  // else if (
+  //   realCurrentPage > numberPages &&
+  //   todaysChunk.numberPagesToday > numberPages
+  // ) {
+  //   if (realCurrentPageTotal === lastPage) {
+  //     leftPagesTotal =
+  //       todaysChunk.numberPagesToday - numberPages * repetition - 1
+  //   } else {
+  //     leftPagesTotal = todaysChunk.numberPagesToday - numberPages * repetition
+  //   }
+  //   // percentage for bar
+  //   leftPagesPercentage = Math.round(
+  //     (realCurrentPageTotal * 100) / (leftPagesTotal + 1)
+  //   )
+  // }
+  // // if more than 1 cycle a day
+  // else {
+  //   // pages left
+  //   leftPagesTotal = numberPages - realCurrentPageTotal + 1
+  //   // percentage for bar
+  //   leftPagesPercentage = Math.round(
+  //     (100 / numberPages) * (currentPage - startPage + 1)
+  //   )
+  // }
   // --------------------------------
 
   // return ----------------
