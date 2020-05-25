@@ -262,8 +262,10 @@ function Today(props) {
   // days till deadline ----------------
   let daysLeft = todaysChunk.daysLeft
   // total days from start to end date
-  let totalDays = todaysChunk.totalNumberDays
+  let totalDays = todaysChunk.exam.totalNumberDays
+  console.log(todaysChunk)
   // percentage for bar
+  console.log("daysleft & total: ", daysLeft, totalDays)
   let dayPercentage = 100 - Math.round((daysLeft / totalDays) * 100)
   // --------------------------------
 
