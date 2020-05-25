@@ -17,10 +17,6 @@ const todaysChunkCacheSchema = new Schema({
     type: Number,
     required: true
   },
-  // timePerPage: {
-  //   type: Number,
-  //   required: true
-  // },
   durationToday: {
     type: Number,
     required: true
@@ -43,10 +39,6 @@ const todaysChunkCacheSchema = new Schema({
     type: Boolean,
     default: false
   },
-  // durationAlreadyLearned: {
-  //   type: Number,
-  //   default: 0
-  // },
   createdAt: {
     type: Date,
     default: new Date()
@@ -58,4 +50,3 @@ const todaysChunkCacheSchema = new Schema({
 });
 
 module.exports = mongoose.model("TodaysChunkCache", todaysChunkCacheSchema);
-// export default mongoose.model('User', userSchema)

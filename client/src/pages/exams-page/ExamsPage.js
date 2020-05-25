@@ -11,7 +11,8 @@ import { GET_EXAMS_QUERY } from "../../graphQL/exams/queries"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml, calcExamProgress } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
+import { calcExamProgress } from "../../helpers/examCalc"
 
 // components ----------------
 const Exam = lazy(() => import("../../components/exams/Exam"))
@@ -44,29 +45,9 @@ const Exams = () => {
   // run query in cache ----------------
   const data = client.readQuery({ query: GET_EXAMS_QUERY }).exams
 
-  data.forEach(exam => {
-    if (!exam.completed) {
-      currentExamsList.push({
-        id: exam.id,
-        subject: exam.subject,
-        lastPage: exam.lastPage,
-        currentPage: exam.currentPage,
-        numberPages: exam.numberPages,
-        startPage: exam.startPage,
-        timesRepeat: exam.timesRepeat,
-      })
-    } else {
-      archiveExamsList.push({
-        id: exam.id,
-        subject: exam.subject,
-        lastPage: exam.lastPage,
-        currentPage: exam.currentPage,
-        numberPages: exam.numberPages,
-        startPage: exam.startPage,
-        timesRepeat: exam.timesRepeat,
-      })
-    }
-  })
+  // filter all exams ----------------
+  archiveExamsList = data.filter(exam => exam.completed)
+  currentExamsList = data.filter(exam => !exam.completed)
 
   // functions ----------------
   currentExams = currentExamsList.map(function(exam) {
@@ -119,40 +100,31 @@ const Exams = () => {
             </div>
           </div>
           <div className="col-md-1"></div>
-        </div>
-      </div>
 
-      <div className="container-fluid">
-        <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10">
             {currentExamsList.length === 0 ? (
               <div className="exams__empty">
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="exams__empty__content box-content">
-                        <div className="exams__empty__content--headline">
-                          <h3>no open exams</h3>
-                        </div>
+                <div className="col-md-6">
+                  <div className="exams__empty__content box-content">
+                    <div className="exams__empty__content--headline">
+                      <h3>No open exams</h3>
+                    </div>
 
-                        <div className="exams__empty__content--text">
-                          <p>
-                            Are you sure there are no exams you need to study
-                            for?
-                          </p>
-                        </div>
+                    <div className="exams__empty__content--text">
+                      <p>
+                        Are you sure there are no exams you need to study for?
+                      </p>
+                    </div>
 
-                        <div className="exams__empty__content--btn">
-                          <Link to="/add-new" className="stan-btn-primary">
-                            Add exam
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="col-md-6"></div>
+                    <div className="exams__empty__content--btn">
+                      <Link to="/add-new" className="stan-btn-primary">
+                        Add exam
+                      </Link>
                     </div>
                   </div>
                 </div>
+                <div className="col-md-6"></div>
               </div>
             ) : (
               <div className="exams__currentExams">{currentExams}</div>

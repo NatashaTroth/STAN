@@ -18,8 +18,6 @@ import {
   GET_CALENDAR_CHUNKS
 } from "../../queries.js";
 
-// import { createTestClient } from "apollo-server-integration-testing";
-
 describe("Test exam input and output validations/regex/escape", () => {
   let server;
   let mutate;
@@ -60,7 +58,7 @@ describe("Test exam input and output validations/regex/escape", () => {
         completed: false
       }
     });
-    console.log(resp);
+
     expect(resp.data.addExam).toBeTruthy();
   });
 

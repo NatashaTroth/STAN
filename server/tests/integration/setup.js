@@ -12,12 +12,9 @@ import mongoose from "mongoose";
 let mongod;
 
 export async function setupApolloServer({ isAuth, userId, user }) {
-  // console.log("IN SETUP");
   let server;
 
   try {
-    // const headers = new Map();
-    // header.set("Authorization", "test");
     server = new ApolloServer({
       typeDefs,
       resolvers,
@@ -47,7 +44,6 @@ export async function setupDb() {
       useUnifiedTopology: true,
       useCreateIndex: true
     });
-    // console.log("connected to db");
   } catch (err) {
     throw new Error("DB not connected.");
   }
@@ -176,7 +172,6 @@ export async function addTestExams(inputUserId) {
     userId
   });
 
-  // return exam1;
   return { exam1, exam2, exam3, exam4 };
 }
 
@@ -192,12 +187,10 @@ export async function clearDatabase() {
 }
 
 export async function teardown() {
-  // console.log("IN TEARDOWN");
   // await mongoose.connection.db.dropDatabase();
   //await db.dropDatabase();
   // await db.users.drop();
   // await db.close();
-
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   await mongod.stop();

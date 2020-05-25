@@ -12,10 +12,8 @@ import {
   teardown
 } from "../setup";
 import { DELETE_USER_MUTATION } from "../../mutations.js";
-
 import { GET_EXAMS_QUERY, GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 import { User, Exam, TodaysChunkCache } from "../../../models";
-// import { getNumberOfDays } from "../../../helpers/dates";
 
 describe("Test delete user mutation", () => {
   let server;

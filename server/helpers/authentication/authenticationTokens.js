@@ -66,7 +66,7 @@ export async function invalidationAuthenticationTokens(userId) {
   const respAccessToken = await invalidateAccessTokens(userId);
   if (!respAccessToken) throw new Error("Unable to revoke access token.");
 }
-//TODO:  the revoke code should be used in a method, say if password forgotton / change password or user account hacked - closes all open sessions
+
 async function invalidateRefreshTokens(userId) {
   try {
     const resp = await User.updateOne(

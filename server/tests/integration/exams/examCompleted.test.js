@@ -47,7 +47,6 @@ describe("Test exam completed mutation", () => {
         completed: true
       }
     });
-    console.log(resp);
     expect(resp.data.examCompleted).toBeTruthy();
     expect(await Exam.countDocuments({ userId: "samanthasId" })).toBe(1);
     expect(await TodaysChunkCache.countDocuments({ userId: "samanthasId" })).toBe(0);
@@ -59,13 +58,6 @@ describe("Test exam completed mutation", () => {
 
     expect(exam.completed).toBeTruthy();
     expect(todaysChunkCache).toBeFalsy();
-
-    // const exam = await query({
-    //   query: GET_EXAM,
-    //   variables: {
-    //     id:testExam._id.toString()
-    //   }
-    // });
   });
 
   it("should set exam completed as false", async () => {
@@ -83,7 +75,6 @@ describe("Test exam completed mutation", () => {
     expect(resp.data.examCompleted).toBeTruthy();
 
     const exam = await Exam.findOne({ userId: "samanthasId" });
-
     expect(exam.completed).toBeFalsy();
   });
 });

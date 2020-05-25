@@ -55,14 +55,6 @@ describe("Test todays progress query is calculated correctly", () => {
     const newCount = await TodaysChunkCache.countDocuments();
     expect(newCount).toBe(initialCount + 1);
 
-    // update current page to 3
-    // const respUpdate = await TodaysChunkCache.updateOne(
-    //   { examId: testExam._id.toString() },
-    //   { currentPage: 3 }
-    // );
-
-    // expect(respUpdate.ok).toBeTruthy();
-    // expect(respUpdate.nModified).toBe(1);
     const updateResp = await mutate({
       query: UPDATE_CURRENT_PAGE_MUTATION,
       variables: {

@@ -3,10 +3,17 @@ import bcrypt from "bcrypt";
 import {
   validatePassword,
   verifyUpdatePasswordInputFormat,
-  verifyMascotInputFormat,
+  verifyMascotFormat,
   verifyUpdateUserInputFormat
 } from "./validateUserInput";
 import { verifyEmailIsUnique } from "./userHelpers";
+
+export async function handleUpdateMascot(mascot, userInfo) {
+  verifyMascotFormat(mascot);
+  if (userInfo.user.mascot === mascot) return true;
+  const resp = await User.updateOne({ _id: userInfo.userId }, { mascot, updatedAt: new Date() });
+  if (resp.ok === 0) throw new Error("The mascot couldn't be updated.");
+}
 
 export async function handleUpdateUser(args, userInfo) {
   if (userInfo.user.googleLogin) throw new Error("Cannot update Google Login user account.");
@@ -18,16 +25,8 @@ export async function handleUpdateUser(args, userInfo) {
   });
 }
 
-export async function handleUpdateMascot(mascot, userInfo) {
-  verifyMascotInputFormat({ mascot });
-  if (userInfo.user.mascot === mascot) return true;
-  const resp = await User.updateOne({ _id: userInfo.userId }, { mascot, updatedAt: new Date() });
-  if (resp.ok === 0 || resp.nModified === 0) throw new Error("The mascot couldn't be updated.");
-}
-
-export async function updateUser(args) {
+async function updateUser(args) {
   if (args.email !== args.currentUser.email) await verifyEmailIsUnique(args.email);
-
   let passwordToSave = await getPasswordToSave(
     args.currentUser.password,
     args.password,
@@ -45,7 +44,7 @@ export async function updateUser(args) {
     }
   );
 
-  if (resp.ok === 0 || resp.nModified === 0) throw new Error("The user couldn't be updated.");
+  if (resp.ok === 0) throw new Error("The user couldn't be updated.");
 
   return await User.findOne({
     _id: args.userId
@@ -56,7 +55,7 @@ export function userWantsPasswordUpdating(password, newPassword) {
   return (password && password.length > 0) || (newPassword && newPassword.length > 0);
 }
 
-export async function getPasswordToSave(currentPassword, inputOldPassword, inputNewPassword) {
+async function getPasswordToSave(currentPassword, inputOldPassword, inputNewPassword) {
   if (userWantsPasswordUpdating(inputOldPassword, inputNewPassword)) {
     await validatePassword(inputOldPassword, currentPassword);
     verifyUpdatePasswordInputFormat(inputNewPassword);

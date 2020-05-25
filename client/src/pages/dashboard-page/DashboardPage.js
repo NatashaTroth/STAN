@@ -11,7 +11,7 @@ import { CURRENT_USER } from "../../graphQL/users/queries"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const EmptyDashboard = lazy(() =>

@@ -25,7 +25,6 @@ export function verifyRegexMascot(string) {
 }
 
 //--------------EXAMS--------------
-
 export function verifyRegexSubject(string) {
   if (!verifyStringFormat(string)) return false;
   return string.match(/^.{1,50}$/);
@@ -36,13 +35,6 @@ export function verifyRegexDate(string) {
   if (!validateRegexDate(string)) return false;
   return true;
 }
-// export function verifyRegexStudyStartDate(string) {
-// if(!verifyStringFormat(string))return false
-
-//   if (string.match(/^.{0}$/)) return true;
-//   if (!validateRegexDate(string)) return false;
-//   return true;
-// }
 
 export function verifyRegexPageAmount(string) {
   if (!verifyStringFormat(string)) return false;
@@ -64,18 +56,10 @@ export function verifyRegexCurrentPage(string) {
   return string.match(/^\d{0,10000}$/);
 }
 
-// export function verifyRegexHexColor(string) {
-//   if (!verifyStringFormat(string)) return false;
-//   console.log(string + " here");
-//   return string.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/);
-// }
-
 export function verifyRegexUrlLink(string) {
   if (!verifyStringFormat(string)) return false;
-  // if (string.length === 0) return true;
   return string.match(
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
-    // /(http|https):\/\/(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/ | /([w#!:.?+=&%@!-/]))?/
   );
 }
 

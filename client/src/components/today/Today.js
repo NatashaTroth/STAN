@@ -21,7 +21,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const Button = lazy(() => import("../../components/button/Button"))
@@ -30,6 +30,7 @@ const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
 function Today(props) {
+  console.log(props)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 

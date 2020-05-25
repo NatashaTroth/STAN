@@ -7,9 +7,9 @@ import {
   UPDATE_MASCOT_MUTATION,
   UPDATE_USER_MUTATION,
   LOGOUT_MUTATION,
-  DELETE_USER_MUTATION
+  DELETE_USER_MUTATION,
   // FORGOTTEN_PASSWORD_EMAIL
-  // GOOGLE_LOGIN_MUTATION
+  GOOGLE_LOGIN_MUTATION
 } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 import { User } from "../../../models";
@@ -87,7 +87,6 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
         allowEmailNotifications: false
       }
     });
-    // console.log(await User.find());
 
     expect(resp.data).toBeFalsy();
     expect(resp.errors[0].message).toEqual("User with email already exists, choose another one.");
@@ -222,7 +221,6 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
   }
 
   it("should not log the user out - user isn't logged in", async () => {
-    //Already logged in
     const resp = await mutate({
       query: LOGOUT_MUTATION
     });
@@ -230,19 +228,16 @@ describe("Test resolvers are accessed correctly when the user is unauthenticated
     expect(resp.data.logout).toBeFalsy();
     expect(resp.errors[0].message).toEqual("Unauthorised");
   });
-  // it("should not log the user out - user isn't logged in", async () => {
-  //   let testUser = await signUpTestUser("tashy.troth@gmx.at");
-  //   console.log(await User.find());
-  //   //Already logged in
-  //   const resp = await mutate({
-  //     query: FORGOTTEN_PASSWORD_EMAIL,
-  //     variables: {
-  //       email: "tashy.troth@gmx.at"
-  //     }
-  //   });
-  //   console.log(resp);
-  //   expect(resp.data.forgottenPasswordEmail).toBeTruthy();
-  //   //   expect(resp.errors[0].message).toEqual("Unauthorised");
-  //   // });
-  // });
+
+  it("should refuse invalid google login token", async () => {
+    const resp = await mutate({
+      query: GOOGLE_LOGIN_MUTATION,
+      variables: {
+        idToken: "notAValidGoogleToken"
+      }
+    });
+
+    expect(resp.data).toBeFalsy();
+    expect(resp.errors[0].message).toEqual("Google id token was not verified. Please try again.");
+  });
 });

@@ -21,7 +21,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers ----------------
-import { filteredLinks } from "../../helpers/mascots"
+import { filteredLinks } from "../../helpers/general"
 
 // components ----------------
 const Label = lazy(() => import("../../components/label/Label"))

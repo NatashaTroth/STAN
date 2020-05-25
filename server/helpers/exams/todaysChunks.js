@@ -17,7 +17,7 @@ export async function fetchTodaysChunks(userId) {
 
 async function fetchCurrentExams(userId) {
   const uncompletedExams = await fetchUncompletedExams(userId);
-  const currentExams = uncompletedExams.filter(exam => {
+  const currentExams = uncompletedExams.filter((exam) => {
     return startDateIsActive(new Date(exam.startDate));
   });
   return currentExams;
@@ -27,12 +27,12 @@ async function calculateTodaysChunks(currentExams) {
   //remove exams where completed = false, but learning is finished
 
   const exams = currentExams.filter(
-    exam =>
+    (exam) =>
       !learningIsComplete(exam.currentPage, exam.startPage, exam.numberPages, exam.timesRepeat) &&
       !isTheSameDay(exam.examDate, new Date()) &&
       date1IsBeforeDate2(new Date(), exam.examDate)
   );
-  const chunks = exams.map(async exam => {
+  const chunks = exams.map(async (exam) => {
     //if pages are complete, but completed is still false
     const chunk = createTodaysChunkObject(exam);
     await addTodaysChunkToDatabase(chunk, exam.userId);
@@ -43,12 +43,12 @@ async function calculateTodaysChunks(currentExams) {
 
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   const exams = currentExams.filter(
-    exam =>
+    (exam) =>
       !isTheSameDay(exam.examDate, new Date()) && date1IsBeforeDate2(new Date(), exam.examDate)
   );
 
-  const chunks = exams.map(async exam => {
-    let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
+  const chunks = exams.map(async (exam) => {
+    let chunk = todaysChunks.find((chunk) => chunk.examId === exam.id);
 
     //cache calculated from scratch
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {

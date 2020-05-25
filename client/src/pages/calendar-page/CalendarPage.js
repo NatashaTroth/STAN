@@ -24,7 +24,7 @@ import { client } from "../../apolloClient"
 
 // helpers ----------------
 import { minuteToHours } from "../../helpers/dates"
-import { extractDomain, decodeHtml } from "../../helpers/mascots"
+import { extractDomain, decodeHtml } from "../../helpers/general"
 
 // components ----------------
 import QueryError from "../../components/error/Error"
@@ -91,13 +91,6 @@ const ExamsCalendar = () => {
                 }}
                 eventRender={info => {
                   const examDetails = info.event.extendedProps
-                  const examDate = examDetails.examDate
-                  const currentPage = examDetails.currentPage
-                  const numberPagesLeftTotal = examDetails.numberPagesLeftTotal
-                  const numberPagesPerDay = examDetails.numberPagesPerDay
-                  const durationTotal = examDetails.durationTotal
-                  const durationPerDay = examDetails.durationPerDay
-                  const links = examDetails.studyMaterialLinks
 
                   // background color for list-view ----------------
                   info.el.style.backgroundColor = info.event.backgroundColor
@@ -123,36 +116,42 @@ const ExamsCalendar = () => {
                         <Popover.Content>
                           <div className="exam-date">
                             <h5>Exam date:</h5>
-                            <p>{moment(examDate).format("DD/MM/YYYY")}</p>
+                            <p>
+                              {moment(examDetails.examDate).format(
+                                "DD/MM/YYYY"
+                              )}
+                            </p>
                           </div>
                           <div className="current-page">
                             <h5>Current page: </h5>
-                            <p>{currentPage}</p>
+                            <p>{examDetails.currentPage}</p>
                           </div>
                           <div className="total-pages-left">
                             <h5>Total pages left: </h5>
-                            <p>{numberPagesLeftTotal}</p>
+                            <p>{examDetails.numberPagesLeftTotal}</p>
                           </div>
                           <div className="pages-per-day">
                             <h5>Pages per day to learn: ca. </h5>
-                            <p>{numberPagesPerDay}</p>
+                            <p>{examDetails.numberPagesPerDay}</p>
                           </div>
                           <div className="duration-per-day">
                             <h5>Duration per day: ca. </h5>
-                            <p>{minuteToHours(durationPerDay)}</p>
+                            <p>{minuteToHours(examDetails.durationPerDay)}</p>
                           </div>
                           <div className="duration-total">
                             <h5>Duration total: </h5>
-                            <p>{minuteToHours(durationTotal)}</p>
+                            <p>{minuteToHours(examDetails.durationTotal)}</p>
                           </div>
-                          {links.length > 0 ? (
+                          {examDetails.studyMaterialLinks.length > 0 ? (
                             <div className="link">
                               <h5>Study material links:</h5>
-                              {links.map((value, index) => (
-                                <a key={index} href={value}>
-                                  {extractDomain(value)}
-                                </a>
-                              ))}
+                              {examDetails.studyMaterialLinks.map(
+                                (value, index) => (
+                                  <a key={index} href={value}>
+                                    {extractDomain(value)}
+                                  </a>
+                                )
+                              )}
                             </div>
                           ) : null}
                         </Popover.Content>

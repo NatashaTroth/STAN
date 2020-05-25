@@ -5,14 +5,12 @@ import {
   verifyRegexMascot,
   verifyRegexSubject,
   verifyRegexDate,
-  // verifyRegexStudyStartDate,
   verifyRegexPageAmount,
   verifyRegexPageTime,
   verifyRegexPageRepeat,
   verifyRegexCurrentPage,
   verifyRegexPageNotes,
   verifyRegexUrlLink
-  // verifyRegexHexColor
 } from "../../helpers/verifyInput";
 
 test("verifies string is formatted as an email", () => {
@@ -37,8 +35,6 @@ test("verifies string is formatted as an email", () => {
   expect(verifyRegexEmail("Abc.example.com")).toBeFalsy();
   expect(verifyRegexEmail("A@b@c@example.com")).toBeFalsy();
   expect(verifyRegexEmail('a"b(c)d,e:f;g<h>i[jk]l@example.com')).toBeFalsy();
-  // expect(verifyRegexEmail('just"not"right@example.com')).toBeFalsy();
-  // expect(verifyRegexEmail('this is"notallowed@example.com')).toBeFalsy();
   expect(verifyRegexEmail('this still"not\\allowed@example.com')).toBeFalsy();
   expect(verifyRegexEmail("")).toBeFalsy();
   expect(verifyRegexEmail("b".repeat(65) + "@example.com")).toBeFalsy();
@@ -94,11 +90,6 @@ test("verifies string is formatted as a date", () => {
   dateTests(verifyRegexDate);
   expect(verifyRegexDate("")).toBeFalsy();
 });
-
-// test("verifies string is formatted as a study start date", () => {
-//   dateTests(verifyRegexStudyStartDate);
-//   expect(verifyRegexStudyStartDate("")).toBeTruthy();
-// });
 
 test("verifies string is formatted as a page amount", () => {
   testNumbers(verifyRegexPageAmount);
@@ -157,10 +148,6 @@ test("verifies string is formatted as a URL Link", () => {
   expect(verifyRegexUrlLink("https:/google.at")).toBeFalsy();
 });
 
-// test("verifies string is formatted as a hex color", () => {
-//   expect(verifyRegexHexColor("ffffff")).toBeTruthy();
-// });
-
 //------------------------------------------HELPER FUNCTIONS------------------------------------------
 function testVariousChars(regexFunction) {
   testAllAsciiChars(regexFunction);
@@ -201,7 +188,6 @@ function dateTests(dateFunction) {
   expect(dateFunction("2023.12.2")).toBeTruthy();
   expect(dateFunction("01/12/2020")).toBeTruthy();
   expect(dateFunction("2016/05/7")).toBeTruthy();
-  // expect(dateFunction("1609369200000")).toBeTruthy();
 
   expect(dateFunction("0-0-0")).toBeFalsy();
   expect(dateFunction("00-00-0000")).toBeFalsy();

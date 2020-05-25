@@ -8,55 +8,26 @@ import Tooltip from "react-bootstrap/Tooltip"
 
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
+import { extractDomain, filteredLinks } from "../../helpers/general"
 import {
-  extractDomain,
-  filteredLinks,
   calcExamProgress,
-} from "../../helpers/mascots"
+  currentRepetition,
+  calcProgressbar,
+  getCurrentPage,
+  pagesLeft,
+} from "../../helpers/examCalc"
 
 // sub-components ----------------
 const ExamBar = lazy(() => import("../progressbar/ProgressBar"))
 
 const ExamDetailsInfo = ({ examDetails }) => {
-  // calculation ----------------
+  // day calculations ----------------
   const today = new Date()
 
   const todaysDayUntilDeadline = getNumberOfDays(
     today,
     new Date(examDetails.examDate)
   )
-
-  let currentRepetition = Math.floor(
-    (examDetails.currentPage - examDetails.startPage) /
-      examDetails.numberPages +
-      1
-  )
-  if (currentRepetition < 1) currentRepetition = 1
-
-  const newLinks = filteredLinks(examDetails.studyMaterialLinks)
-
-  let progressbar =
-    (100 * (examDetails.currentPage - examDetails.startPage)) /
-    (examDetails.numberPages * examDetails.timesRepeat)
-
-  if (progressbar > 100) progressbar = 100
-
-  const getCurrentPage = (examDetails, currentRepetition) => {
-    let currentPageWithoutStartPage =
-      examDetails.currentPage - examDetails.startPage
-    let numberPagesLearned = examDetails.numberPages * (currentRepetition - 1)
-
-    return (
-      currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
-    )
-  }
-
-  const pagesLeft = examDetails => {
-    const pagesLeft =
-      examDetails.numberPages * examDetails.timesRepeat -
-      (examDetails.currentPage - examDetails.startPage)
-    return pagesLeft
-  }
 
   // return ----------------
   return (
@@ -150,7 +121,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-pages">
                 <h4>Pages left incl. repetition</h4>
                 <div className="exam-pages__bar">
-                  <ExamBar value={progressbar} />
+                  <ExamBar value={calcProgressbar(examDetails)} />
 
                   <div className="exam-pages__bar--status">
                     {pagesLeft(examDetails) > 1 ? (
@@ -164,7 +135,9 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <h4>Current page</h4>
-                <p>{getCurrentPage(examDetails, currentRepetition)}</p>
+                <p>
+                  {getCurrentPage(examDetails, currentRepetition(examDetails))}
+                </p>
               </div>
 
               <div className="exam-data">
@@ -179,7 +152,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <h4>Repetition cycle</h4>
                 <p>
-                  {currentRepetition}/{examDetails.timesRepeat}
+                  {currentRepetition(examDetails)}/{examDetails.timesRepeat}
                 </p>
               </div>
             </div>
@@ -190,20 +163,22 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="link--headline">
                 <h4>Study material links</h4>
               </div>
-              {newLinks.length > 0 ? (
+              {filteredLinks(examDetails.studyMaterialLinks).length > 0 ? (
                 <div className="link--buttons">
-                  {newLinks.map((value, index) => (
-                    <div key={index}>
-                      <a
-                        href={value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="stan-btn-secondary link-button"
-                      >
-                        {extractDomain(value)}
-                      </a>
-                    </div>
-                  ))}
+                  {filteredLinks(examDetails.studyMaterialLinks).map(
+                    (value, index) => (
+                      <div key={index}>
+                        <a
+                          href={value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="stan-btn-secondary link-button"
+                        >
+                          {extractDomain(value)}
+                        </a>
+                      </div>
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="empty-link">

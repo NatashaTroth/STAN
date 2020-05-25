@@ -2,7 +2,7 @@ import React from "react"
 // --------------------------------------------------------------
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 const TodaySubject = ({ subject, durationTime, id, onClick, className }) => {
   // return ----------------

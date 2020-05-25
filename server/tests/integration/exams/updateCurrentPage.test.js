@@ -12,8 +12,6 @@ import { Exam } from "../../../models";
 import { ADD_EXAM_MUTATION, UPDATE_CURRENT_PAGE_MUTATION } from "../../mutations.js";
 import { GET_TODAYS_CHUNKS_AND_PROGRESS } from "../../queries.js";
 
-// import { createTestClient } from "apollo-server-integration-testing";
-
 describe("Test update currentPage mutation", () => {
   let server;
   let mutate;

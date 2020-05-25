@@ -6,8 +6,6 @@ import { setupApolloServer, setupDb, signUpTestUser, clearDatabase, teardown } f
 import { LOGIN_MUTATION, SIGNUP_MUTATION, UPDATE_USER_MUTATION } from "../../mutations.js";
 import { CURRENT_USER } from "../../queries.js";
 
-// import { createTestClient } from "apollo-server-integration-testing";
-
 describe("Test user resolver input (regex) and output (escape)", () => {
   let server;
   let mutate;

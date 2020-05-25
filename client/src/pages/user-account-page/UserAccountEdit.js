@@ -27,7 +27,7 @@ import Carousel from "react-bootstrap/Carousel"
 import { client } from "../../apolloClient"
 
 // helpers ----------------
-import { decodeHtml } from "../../helpers/mascots"
+import { decodeHtml } from "../../helpers/general"
 
 // components ----------------
 const Button = lazy(() => import("../../components/button/Button"))
@@ -502,7 +502,7 @@ const UserAccountEdit = () => {
                         <div className="edit-form-bottom">
                           <div className="form__notifications login__form__notifications">
                             <label
-                              labelType="notification"
+                              labeltype="notification"
                               className="container"
                             >
                               <input

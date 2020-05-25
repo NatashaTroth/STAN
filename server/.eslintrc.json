@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es6": true,
@@ -17,6 +18,8 @@
   "ignorePatterns": ["public/", "node_modules/"],
   "rules": {
     "prettier/prettier": "error"
+    // "comma-dangle": ["error", "never"]
+
     // "no-unused-vars": ["error", { "args": "none" }]
   },
 

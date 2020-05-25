@@ -67,21 +67,21 @@ export function escapeExamObject(exam) {
 
 export function escapeExamObjects(exams) {
   const escapedExams = [];
-  exams.forEach(exam => {
+  exams.forEach((exam) => {
     escapedExams.push(escapeExamObject(exam));
   });
   return escapedExams;
 }
 
 export function escapeTodaysChunksObjects(chunks) {
-  chunks.forEach(chunk => {
+  chunks.forEach((chunk) => {
     chunk.exam = escapeExamObject(chunk.exam);
   });
   return chunks;
 }
 
 export function escapeCalendarObjects(calendarObjects) {
-  calendarObjects.forEach(calendarObject => {
+  calendarObjects.forEach((calendarObject) => {
     calendarObject.title = escapeStringForHtml(calendarObject.title);
   });
   return calendarObjects;

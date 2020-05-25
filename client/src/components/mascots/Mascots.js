@@ -97,7 +97,7 @@ const Mascots = () => {
                   <div className="mascots__inner--form__button">
                     <Button
                       variant="button"
-                      alt="Save"
+                      text="Save"
                       className="stan-btn-primary"
                     />
                   </div>
@@ -137,7 +137,9 @@ async function handleMascot({ index, updateMascot, history }) {
 
     // redirect ----------------
     window.localStorage.setItem("mascot-event", false)
-    history.push("/")
+    setTimeout(() => {
+      history.push("/")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 

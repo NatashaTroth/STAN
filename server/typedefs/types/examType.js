@@ -26,17 +26,12 @@ const examType = gql`
 
   # duration in minutes
   type TodaysChunk {
-    # examId: ID!
-    # subject: String!
     exam: Exam!
     numberPagesToday: Int!
     startPage: Int!
-    # currentPage: Int!
     durationToday: Int!
     durationLeftToday: Int!
     daysLeft: Int! #incl. today
-    # totalChunks: Int!
-    # numberPagesWithRepeat: Int! #exam.pages*repeat
     completed: Boolean!
   }
 
