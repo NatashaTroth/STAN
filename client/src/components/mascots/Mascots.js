@@ -137,10 +137,10 @@ async function handleMascot({ index, updateMascot, history }) {
     }
 
     // redirect ----------------
-    window.localStorage.setItem("mascot-event", false)
-    // setTimeout(() => {
-    //   history.push("/")
-    // }, 1000)
+    setTimeout(() => {
+      window.localStorage.setItem("mascot-event", false)
+      history.push("/")
+    }, 1000)
   } catch (err) {
     let element = document.getElementsByClassName("graphql-error")
 
