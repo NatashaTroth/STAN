@@ -7,7 +7,7 @@ import {
   clearDatabase,
   getFutureDay,
   teardown,
-  addTestExam,
+  addTestExam
 } from "../setup";
 
 import { ADD_EXAM_MUTATION, UPDATE_EXAM_MUTATION } from "../../mutations.js";
@@ -15,7 +15,7 @@ import {
   GET_EXAM_QUERY,
   GET_EXAMS_QUERY,
   GET_TODAYS_CHUNKS_AND_PROGRESS,
-  GET_CALENDAR_CHUNKS,
+  GET_CALENDAR_CHUNKS
 } from "../../queries.js";
 
 describe("Test exam input and output validations/regex/escape", () => {
@@ -26,7 +26,7 @@ describe("Test exam input and output validations/regex/escape", () => {
     await setupDb();
     server = await setupApolloServer({
       isAuth: true,
-      userId: "samanthasId",
+      userId: "samanthasId"
     });
     let client = createTestClient(server);
     mutate = client.mutate;
@@ -53,10 +53,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           " https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data.addExam).toBeTruthy();
@@ -75,10 +75,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
     expect(resp.data.addExam).toBeTruthy();
   });
@@ -96,10 +96,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
     expect(resp.data.addExam).toBeTruthy();
   });
@@ -117,10 +117,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
@@ -141,10 +141,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data).toBeFalsy();
@@ -166,10 +166,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data).toBeFalsy();
@@ -191,10 +191,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data).toBeFalsy();
@@ -216,10 +216,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data).toBeFalsy();
@@ -241,10 +241,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "NOTES",
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data.addExam).toBeFalsy();
@@ -265,8 +265,8 @@ describe("Test exam input and output validations/regex/escape", () => {
         startPage: 1,
         notes: "NOTES",
         studyMaterialLinks: ["https://stan-studyplan-staging.herokuapp.com/", "42"],
-        completed: false,
-      },
+        completed: false
+      }
     });
 
     expect(resp.data.addExam).toBeFalsy();
@@ -288,10 +288,10 @@ describe("Test exam input and output validations/regex/escape", () => {
         notes: "d".repeat(100000001),
         studyMaterialLinks: [
           "https://stan-studyplan-staging.herokuapp.com/",
-          "https://stan-studyplan.herokuapp.com/",
+          "https://stan-studyplan.herokuapp.com/"
         ],
-        completed: false,
-      },
+        completed: false
+      }
     });
     expect(resp.data.addExam).toBeFalsy();
     expect(resp.errors[0].message).toEqual(
@@ -302,7 +302,7 @@ describe("Test exam input and output validations/regex/escape", () => {
   it("should escape all output strings that came from user input", async () => {
     server = await setupApolloServer({
       isAuth: true,
-      userId: "samanthasId",
+      userId: "samanthasId"
     });
     let client = createTestClient(server);
     mutate = client.mutate;
@@ -310,12 +310,12 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     const testExam = await addTestExam({
       subject: "<script>alert('evil exam')</script>",
-      notes: "&<>'\"/",
+      notes: "&<>'\"/"
     });
 
     //---Get exams query---
     const respExams = await query({
-      query: GET_EXAMS_QUERY,
+      query: GET_EXAMS_QUERY
     });
     expect(respExams.data.exams).toBeTruthy();
     expect(respExams.data.exams[0].subject).toBe(
@@ -327,8 +327,8 @@ describe("Test exam input and output validations/regex/escape", () => {
     const respExam = await query({
       query: GET_EXAM_QUERY,
       variables: {
-        id: testExam._id.toString(),
-      },
+        id: testExam._id.toString()
+      }
     });
     expect(respExam.data.exam).toBeTruthy();
     expect(respExam.data.exam.subject).toBe(
@@ -338,7 +338,7 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     //---Get todays chunks and progress---
     const respTodaysChunks = await query({
-      query: GET_TODAYS_CHUNKS_AND_PROGRESS,
+      query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
     expect(respTodaysChunks.data.todaysChunkAndProgress).toBeTruthy();
 
@@ -352,7 +352,7 @@ describe("Test exam input and output validations/regex/escape", () => {
 
     //---Get todays chunks and progress---
     const respCalendarChunks = await query({
-      query: GET_CALENDAR_CHUNKS,
+      query: GET_CALENDAR_CHUNKS
     });
 
     expect(respCalendarChunks.data.calendarChunks).toBeTruthy();
@@ -375,8 +375,8 @@ describe("Test exam input and output validations/regex/escape", () => {
         timePerPage: 5,
         timesRepeat: 2,
         startPage: 1,
-        currentPage: 2,
-      },
+        currentPage: 2
+      }
     });
 
     expect(respUpdateExam.data.updateExam).toBeTruthy();

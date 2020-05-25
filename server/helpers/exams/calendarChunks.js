@@ -12,7 +12,7 @@ function getCalendarChunks(exams) {
   const calendarExams = [];
 
   // to avoid division by daysleft = 0 -> and no longer need to show this exam
-  exams = exams.filter(exam => !isTheSameDay(exam.examDate, new Date()));
+  exams = exams.filter((exam) => !isTheSameDay(exam.examDate, new Date()));
 
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];

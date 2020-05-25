@@ -79,7 +79,7 @@ export default class StanEmail {
 
   createExamsListString(exams) {
     let examsListString = "";
-    exams.forEach(exam => {
+    exams.forEach((exam) => {
       examsListString += `<li>${exam}</li>`;
     });
     return examsListString;
@@ -112,7 +112,7 @@ export default class StanEmail {
       ]
     };
 
-    this.transporter.sendMail(mailOptions, function(error, info) {
+    this.transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {

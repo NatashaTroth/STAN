@@ -4,7 +4,7 @@ export function calculateChunkProgress(chunks) {
   if (chunks.length <= 0) return 100;
   let totalDuration = 0;
   let totalDurationCompleted = 0;
-  chunks.forEach(chunk => {
+  chunks.forEach((chunk) => {
     totalDuration += chunk.durationToday;
     totalDurationCompleted += durationCompleted({
       duration: chunk.durationToday,

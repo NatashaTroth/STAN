@@ -24,12 +24,12 @@ export default class StanScheduler {
 
   async notifyUsersAboutExams() {
     const users = await User.find({ allowEmailNotifications: true });
-    users.forEach(async user => {
+    users.forEach(async (user) => {
       const examsInOneDay = [];
       const examsInThreeDays = [];
       const startDatesToday = [];
       const exams = await fetchUncompletedExams(user._id);
-      exams.forEach(exam => {
+      exams.forEach((exam) => {
         const numberOfDaysUntilExam = getNumberOfDays(new Date(), exam.examDate);
 
         if (numberOfDaysUntilExam === 1) examsInOneDay.push(exam.subject);
@@ -54,7 +54,7 @@ export default class StanScheduler {
       completed: false
     });
 
-    exams.forEach(async exam => {
+    exams.forEach(async (exam) => {
       if (date1IsBeforeDate2(exam.examDate, new Date())) {
         await Exam.updateOne({ _id: exam._id }, { completed: true, updatedAt: new Date() });
         await deleteExamsTodaysCache(exam.userId, exam._id);
@@ -66,14 +66,14 @@ export default class StanScheduler {
     const exams = await Exam.find({
       completed: true
     });
-    exams.forEach(async exam => {
+    exams.forEach(async (exam) => {
       await deleteExamsTodaysCache(exam.userId, exam._id);
     });
   }
 
   async notifyAndDeleteOldUsers() {
     const users = await User.find();
-    users.forEach(async user => {
+    users.forEach(async (user) => {
       const daysSinceLastVisited = getNumberOfDays(user.lastVisited, new Date());
       if (daysSinceLastVisited === 365)
         stanEmail.sendExamDeleteAccountWarning(user.email, 1, user.mascot);

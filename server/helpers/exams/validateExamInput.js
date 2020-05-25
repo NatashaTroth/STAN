@@ -87,7 +87,7 @@ function verifyStudyMaterialLinksFormat(studyMaterialLinks) {
   if (!studyMaterialLinks) return;
   if (studyMaterialLinks.length === 0) return;
 
-  studyMaterialLinks.forEach(link => {
+  studyMaterialLinks.forEach((link) => {
     link = removeWhitespace(link);
     if (link === null || !validator.isURL(link) || !verifyRegexUrlLink(link))
       throw new UserInputError(
