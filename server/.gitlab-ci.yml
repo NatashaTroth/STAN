@@ -90,3 +90,4 @@ deployment:server:
     - deployment:client
   only:
     - master
+    - /^release.*$/
