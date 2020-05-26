@@ -82,7 +82,7 @@ const UserAccountEdit = () => {
     setValue(user, e.target.value)
   }
 
-  const onSubmit = formData => {
+  const onSubmit = (formData) => {
     // google login ----------------
     if (currentUser.googleLogin) {
       handleMascot({ index, updateMascot, history })
@@ -100,12 +100,12 @@ const UserAccountEdit = () => {
   }
 
   // functions ----------------
-  const handleMascotCallback = id => {
+  const handleMascotCallback = (id) => {
     setIndex(id)
   }
 
   const handleUser = () => {
-    setDeletion(deleteProfile => !deleteProfile)
+    setDeletion((deleteProfile) => !deleteProfile)
   }
 
   const handleDeletion = () => {
@@ -117,7 +117,7 @@ const UserAccountEdit = () => {
   }
 
   const handleNotification = () => {
-    setNotification(notification => !notification)
+    setNotification((notification) => !notification)
   }
 
   // return ----------------
@@ -280,12 +280,12 @@ const UserAccountEdit = () => {
                               className="form__passwordToggle--button"
                             >
                               <h4>Change password</h4>
+                              <i
+                                className={
+                                  isPasswordOpen ? "arrow down" : "arrow right"
+                                }
+                              ></i>
                             </button>
-                            <i
-                              className={
-                                isPasswordOpen ? "arrow down" : "arrow right"
-                              }
-                            ></i>
                           </div>
 
                           {isPasswordOpen ? (

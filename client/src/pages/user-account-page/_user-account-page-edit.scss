@@ -150,6 +150,8 @@
     padding: 20px 0;
 
     &--button {
+      display: flex;
+      flex-direction: row;
       border: none;
       color: theme-color("dark");
       transition: all 0.3s ease;
@@ -169,7 +171,7 @@
       border-width: 0 2px 2px 0;
       display: inline-block;
       padding: 3px;
-      margin-bottom: 2px;
+      margin-top: 6px;
       margin-left: 8px;
 
       @include media-breakpoint-down(sm) {
