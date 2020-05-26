@@ -19,7 +19,7 @@ const Input = lazy(() => import("../../components/input/Input"))
 const Label = lazy(() => import("../../components/label/Label"))
 const Button = lazy(() => import("../../components/button/Button"))
 
-const ResetPassword = props => {
+const ResetPassword = (props) => {
   const { match } = props
   let history = useHistory()
 
@@ -40,7 +40,7 @@ const ResetPassword = props => {
   }
 
   // form specific ----------------
-  const onSubmit = async formData => {
+  const onSubmit = async (formData) => {
     if (formData.password === formData.retype_password) {
       document.getElementById("forgotten-password-error").style.display = "none"
       handleResetPassword({ formData, userId, token, resetPassword, history })
@@ -82,7 +82,7 @@ const ResetPassword = props => {
               </div>
 
               <div className="error-handling-form">
-                <p id="graphql-forgotten-password-error" className="error"></p>
+                <p className="error graphql-forgotten-password-error"></p>
               </div>
 
               <div className="login__form__element">
@@ -203,12 +203,18 @@ async function handleResetPassword({
       history.push("/login")
     }, 1500)
   } catch (err) {
-    let element = document.getElementById("graphql-forgotten-password-error")
+    let element = document.getElementsByClassName(
+      "graphql-forgotten-password-error"
+    )
 
     if (err.graphQLErrors && err.graphQLErrors[0]) {
       element[0].innerHTML = err.graphQLErrors[0].message
     } else {
       element[0].innerHTML = err.message
     }
+
+    setTimeout(() => {
+      history.push("/login")
+    }, 1500)
   }
 }
