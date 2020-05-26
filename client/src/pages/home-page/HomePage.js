@@ -1,13 +1,11 @@
-import React, { initialState, lazy } from "react"
+import React, { lazy } from "react"
 import { Link } from "react-router-dom"
-import useDarkMode from "use-dark-mode"
 // --------------------------------------------------------------
 
 // queries ----------------
 import { CURRENT_USER } from "../../graphQL/users/queries"
 
 // libraries ----------------
-// import Particles from "react-particles-js"
 
 // apolloClient cache ----------------
 import { client } from "../../apolloClient"
@@ -16,19 +14,11 @@ import { client } from "../../apolloClient"
 const SubHeading = lazy(() => import("../../components/sub-heading/SubHeading"))
 const Listing = lazy(() => import("../../components/listing/Listing"))
 const Dashboard = lazy(() => import("../dashboard-page/DashboardPage"))
+const ParticlesComponent = lazy(() =>
+  import("../../components/particles/Particles")
+)
 
 const Home = () => {
-  // dark mode specific ----------------
-  // const darkMode = useDarkMode(initialState, {
-  //   element: document.documentElement,
-  // })
-  // let particleColor
-  // if (darkMode.value) {
-  //   particleColor = "#ffffff"
-  // } else {
-  //   particleColor = "#000000"
-  // }
-
   // redirects ----------------
   const currentUser = client.readQuery({ query: CURRENT_USER }).currentUser
   if (currentUser !== null) {
@@ -38,6 +28,7 @@ const Home = () => {
   // return ----------------
   return (
     <div className="home">
+      <ParticlesComponent />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-1"></div>
@@ -73,63 +64,6 @@ const Home = () => {
             </div>
           </div>
           <div className="col-md-1"></div>
-
-          {/* <Particles
-            params={{
-              particles: {
-                number: {
-                  value: 160,
-                  density: {
-                    enable: false,
-                  },
-                },
-                color: {
-                  value: "#000000",
-                },
-                size: {
-                  value: 3,
-                  random: true,
-                  anim: {
-                    speed: 4,
-                    size_min: 0.3,
-                  },
-                },
-                line_linked: {
-                  enable: false,
-                },
-                move: {
-                  random: true,
-                  speed: 1,
-                  direction: "top",
-                  out_mode: "out",
-                },
-              },
-              interactivity: {
-                events: {
-                  onhover: {
-                    enable: true,
-                    mode: "bubble",
-                  },
-                  onclick: {
-                    enable: true,
-                    mode: "repulse",
-                  },
-                },
-                modes: {
-                  bubble: {
-                    distance: 250,
-                    duration: 2,
-                    size: 0,
-                    opacity: 0,
-                  },
-                  repulse: {
-                    distance: 400,
-                    duration: 4,
-                  },
-                },
-              },
-            }}
-          /> */}
         </div>
       </div>
     </div>
