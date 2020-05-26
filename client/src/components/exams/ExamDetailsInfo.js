@@ -29,6 +29,11 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
+  const pagesStudied = getCurrentPage(
+    examDetails,
+    currentRepetition(examDetails)
+  )
+
   // return ----------------
   return (
     <div className="exam-details__inner--details">
@@ -134,10 +139,22 @@ const ExamDetailsInfo = ({ examDetails }) => {
               </div>
 
               <div className="exam-data">
-                <h4>Current page</h4>
-                <p>
-                  {getCurrentPage(examDetails, currentRepetition(examDetails))}
-                </p>
+                <div className="exam-data__heading">
+                  <h4>Pages studied</h4>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip>
+                        The page number you have studied up to in this
+                        repitition cycle.
+                      </Tooltip>
+                    }
+                  >
+                    <span className="info-circle">i</span>
+                  </OverlayTrigger>
+                </div>
+                <p>{pagesStudied - 1}</p>
               </div>
 
               <div className="exam-data">

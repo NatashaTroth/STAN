@@ -76,7 +76,7 @@ const ExamDetailsEdit = ({ examId }) => {
     timesRepeat: data.timesRepeat,
     cycle: currentRepetition(data),
     currentPage:
-      data.currentPage - data.numberPages * (currentRepetition(data) - 1),
+      data.currentPage - data.numberPages * (currentRepetition(data) - 1) - 1,
     startPage: data.startPage,
     notes: data.notes,
   }
@@ -139,7 +139,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
   let newLinks = filteredLinks(oldUrls.concat(newUrls))
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     handleExam({
       examId,
       data,
@@ -162,7 +162,7 @@ const ExamDetailsEdit = ({ examId }) => {
     setOldUrls(values)
   }
 
-  const handleRemoveOldFields = index => {
+  const handleRemoveOldFields = (index) => {
     const values = [...oldUrls]
     values.splice(index, 1)
     setOldUrls(values)
@@ -183,13 +183,13 @@ const ExamDetailsEdit = ({ examId }) => {
     setNewUrls(values)
   }
 
-  const handleRemoveFields = index => {
+  const handleRemoveFields = (index) => {
     const values = [...newUrls]
     values.splice(index, 1)
     setNewUrls(values)
   }
 
-  const handleColor = color => {
+  const handleColor = (color) => {
     setColor(color.hex)
   }
 
@@ -238,7 +238,7 @@ const ExamDetailsEdit = ({ examId }) => {
               />
               <DatePicker
                 id="exam-date"
-                onDaySelected={selectedDay => {
+                onDaySelected={(selectedDay) => {
                   setMyExamDate(selectedDay)
                 }}
                 myValue={moment(examDate).format("DD.MM.YYYY")}
@@ -268,7 +268,7 @@ const ExamDetailsEdit = ({ examId }) => {
 
               <DatePicker
                 id="study-start-date"
-                onDaySelected={selectedDay => {
+                onDaySelected={(selectedDay) => {
                   setMyStartDate(selectedDay)
                 }}
                 myValue={moment(startDate).format("DD.MM.YYYY")}
@@ -373,7 +373,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="info-box-label">
                 <Label
                   labelType="currentPage"
-                  text="Current page"
+                  text="Pages studied"
                   className="form__element__label input-required"
                 ></Label>
                 <OverlayTrigger
@@ -622,7 +622,7 @@ const ExamDetailsEdit = ({ examId }) => {
                         name="studyLinks"
                         value={inputField}
                         label="exam_links_upload"
-                        onChange={event => handleOldInputChange(index, event)}
+                        onChange={(event) => handleOldInputChange(index, event)}
                         ref={register({
                           required: false,
                           pattern:
@@ -675,7 +675,7 @@ const ExamDetailsEdit = ({ examId }) => {
                       name="study-new-links"
                       placeholder="https://example.com/math"
                       label="exam_links_upload"
-                      onChange={event => handleNewInputChange(index, event)}
+                      onChange={(event) => handleNewInputChange(index, event)}
                       ref={register({
                         required: false,
                         pattern:
@@ -783,7 +783,8 @@ async function handleExam({
 }) {
   try {
     let numberPages = data.lastPage - data.startPage + 1
-    let realCurrentPage = parseInt(data.currentPage) + numberPages * (cycle - 1)
+    let realCurrentPage =
+      parseInt(data.currentPage) + numberPages * (cycle - 1) + 1
 
     const resp = await updateExam({
       variables: {
