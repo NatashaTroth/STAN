@@ -39,11 +39,11 @@ const Home = () => {
             <SubHeading className="sub-heading" text="Easy . Fast . Online" />
 
             <p className="home__text">
-              Students like you can add and organize their learning material for
-              exams with Stan! Stan supports you in dividing up your tasks for
-              each subject. Deadlines, as well as calculated learning chunks,
-              are visualized so you can keep track of your progress and counter
-              procrastination.
+              Students like yourself can add and organize their learning
+              material for exams with stan. stan supports you in dividing up
+              your tasks for each subject. Deadlines, as well as calculated
+              daily study chunks are visualised, making it easy for you to keep
+              track of your progress and fight procrastination.
             </p>
 
             <ul className="home__list">
