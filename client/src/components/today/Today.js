@@ -320,7 +320,11 @@ function Today(props) {
       (todaysChunk.exam.lastPage - todaysChunk.exam.startPage + 1)) +
     todaysChunk.exam.startPage
   console.log("testREalChunkStartPage: " + realChunkStartPage)
-  if (realChunkStartPage + numberPagesToday - 1 > lastPage) {
+  if (
+    realChunkStartPage + numberPagesToday - 1 > lastPage &&
+    repetitionGoal > repetition &&
+    repetition !== repetitionCycles
+  ) {
     console.log("HERE")
     console.log(realChunkStartPage, numberPagesToday, lastPage)
     console.log(realChunkStartPage + numberPagesToday - 1 > lastPage)
