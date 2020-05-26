@@ -36,7 +36,7 @@ export const calcProgressbar = (examDetails) => {
 }
 
 export const getCurrentPage = (examDetails, currentRep) => {
-  if (learningIsComplete(examDetails)) return examDetails.lastPage
+  // if (learningIsComplete(examDetails)) return examDetails.lastPage
   let currentPageWithoutStartPage =
     examDetails.currentPage - examDetails.startPage
   let numberPagesLearned = examDetails.numberPages * (currentRep - 1)
