@@ -31,8 +31,7 @@ export const calcProgressbar = (examDetails) => {
       (examDetails.numberPages * examDetails.timesRepeat)
   )
 
-  if (progressbar > 100) progressbar = 100
-
+  if (learningIsComplete(examDetails) || progressbar > 100) progressbar = 100
   return progressbar
 }
 
