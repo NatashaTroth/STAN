@@ -8,7 +8,7 @@ import {
 import { escapeUserObject, updateUserLastVisited } from "../helpers/users/userHelpers";
 import { handleUpdateUser, handleUpdateMascot } from "../helpers/users/updateUser";
 import {
-  createForgottenPasswordLink,
+  handleForgottenPasswordEmail,
   handleResetPassword
 } from "../helpers/users/forgottenResetPassword";
 import { handleDeleteUser } from "../helpers/users/deleteUser";
@@ -86,7 +86,8 @@ export const userResolvers = {
     forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        await createForgottenPasswordLink(email);
+        console.log("in forgotten password resolver");
+        await handleForgottenPasswordEmail(email);
         return true;
       } catch (err) {
         handleResolverError(err);
