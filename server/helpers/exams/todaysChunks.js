@@ -6,18 +6,21 @@ import { numberOfPagesForChunk, durationLeft } from "./chunkHelpers";
 export async function fetchTodaysChunks(userId) {
   const currentExams = await fetchCurrentExams(userId);
   let chunks;
+
   let todaysChunksFromCache = await TodaysChunkCache.find({ userId });
+
   if (!todaysChunksFromCache || todaysChunksFromCache.length <= 0) {
     chunks = await calculateTodaysChunks(currentExams);
   } else {
     chunks = await createTodaysChunksFromCache(currentExams, todaysChunksFromCache);
   }
+
   return chunks;
 }
 
 async function fetchCurrentExams(userId) {
   const uncompletedExams = await fetchUncompletedExams(userId);
-  const currentExams = uncompletedExams.filter((exam) => {
+  const currentExams = uncompletedExams.filter(exam => {
     return startDateIsActive(new Date(exam.startDate));
   });
   return currentExams;
@@ -27,32 +30,36 @@ async function calculateTodaysChunks(currentExams) {
   //remove exams where completed = false, but learning is finished
 
   const exams = currentExams.filter(
-    (exam) =>
+    exam =>
       !learningIsComplete(exam.currentPage, exam.startPage, exam.numberPages, exam.timesRepeat) &&
       !isTheSameDay(exam.examDate, new Date()) &&
       date1IsBeforeDate2(new Date(), exam.examDate)
   );
-  const chunks = exams.map(async (exam) => {
+  const chunks = exams.map(async exam => {
     //if pages are complete, but completed is still false
     const chunk = createTodaysChunkObject(exam);
+    // if (chunk.durationToday === 0) return;
     await addTodaysChunkToDatabase(chunk, exam.userId);
     return chunk;
   });
+
   return await Promise.all(chunks);
 }
 
 async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   const exams = currentExams.filter(
-    (exam) =>
+    exam =>
       !isTheSameDay(exam.examDate, new Date()) && date1IsBeforeDate2(new Date(), exam.examDate)
   );
 
-  const chunks = exams.map(async (exam) => {
-    let chunk = todaysChunks.find((chunk) => chunk.examId === exam.id);
+  const chunks = exams.map(async exam => {
+    let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
 
     //cache calculated from scratch
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
       const newChunk = createTodaysChunkObject(exam);
+      // if (new.durationToday === 0) return;
+
       if (!chunk) {
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {

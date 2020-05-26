@@ -232,7 +232,7 @@ describe("Test todays progress query is calculated correctly", () => {
     const resp3 = await query({
       query: GET_TODAYS_CHUNKS_AND_PROGRESS
     });
-    expect(resp3.data.todaysChunkAndProgress.todaysProgress).toBe(42);
+    expect(resp3.data.todaysChunkAndProgress.todaysProgress).toBe(41);
 
     //---UPDATE THIRD EXAM---
     const updateResp3 = await mutate({
