@@ -47,7 +47,7 @@ function generateSubjectColor(exam) {
   );
   let color = "#";
   let counter = 0;
-  colorNumbers.forEach((colorNumber) => {
+  colorNumbers.forEach(colorNumber => {
     if (counter < 2) color += hexCharsFirstTwoDigits[colorNumber].toString();
     else if (counter < 4) color += hexCharsSecondTwoDigits[colorNumber].toString();
     else color += hexCharsThirdTwoDigits[colorNumber].toString();
