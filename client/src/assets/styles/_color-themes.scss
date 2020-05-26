@@ -78,6 +78,10 @@ html.dark-mode {
   }
   .error {
     color: theme-color("error");
+
+    p {
+      color: theme-color("error");
+    }
   }
   .error.forgotten-password-error {
     p {
