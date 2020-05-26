@@ -194,8 +194,13 @@ html.dark-mode {
   .current-state {
     border-color: theme_color("light");
   }
-  .today-goals__container__header {
-    border-color: theme-color("light");
+  .today-goals__container {
+    &__header {
+      border-color: theme-color("light");
+    }
+    &__warning__text--warning {
+      color: theme-color("error");
+    }
   }
   .today {
     background-color: theme-color("dark-mode");
