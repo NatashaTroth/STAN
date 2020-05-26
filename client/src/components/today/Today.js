@@ -517,7 +517,7 @@ function Today(props) {
                   <div className="today__container__content__details">
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
-                      <p className="today__container__content__text">
+                      <p className="today__container__content__text today-goal">
                         {/* {console.log(
                           "(currentPage % lastPage) + startPage - 1",
                           todaysChunk.exam.currentPag,
@@ -538,7 +538,7 @@ function Today(props) {
                       <p className="today__container__content__label">
                         Duration:
                       </p>
-                      <p className="today__container__content__text">
+                      <p className="today__container__content__text today-goal-duration">
                         {durationFormatted}
                       </p>
                     </div>
@@ -552,7 +552,7 @@ function Today(props) {
                           {/* Page no. per cycle: */}
                           Page amount:
                         </p>
-                        <p className="today__container__content__text">
+                        <p className="today__container__content__text today-page-amount">
                           {console.log(
                             todaysChunk.numberPagesToday,
                             todaysChunk.exam.currentPage,
@@ -584,7 +584,7 @@ function Today(props) {
                         <p className="today__container__content__label">
                           Total page nos.:
                         </p>
-                        <p className="today__container__content__text">
+                        <p className="today__container__content__text today-page-nos">
                           {startPage} - {lastPage}
                         </p>
                       </div>
@@ -604,7 +604,7 @@ function Today(props) {
                       <p className="today__container__content__label">
                         Repetition cycle:
                       </p>
-                      <p className="today__container__content__text">
+                      <p className="today__container__content__text today-rep-cycles">
                         {repetition} / {repetitionCycles}
                       </p>
                     </div>

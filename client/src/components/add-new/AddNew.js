@@ -59,7 +59,7 @@ function AddNew() {
   // -----------------------------
 
   const newLinks = filteredLinks(inputFields)
-  const onSubmit = formData => {
+  const onSubmit = (formData) => {
     handleExam({
       formData,
       addExam,
@@ -86,13 +86,13 @@ function AddNew() {
     setInputFields(values)
   }
 
-  const handleRemoveFields = index => {
+  const handleRemoveFields = (index) => {
     const values = [...inputFields]
     values.splice(index, 1)
     setInputFields(values)
   }
 
-  const handleColor = color => {
+  const handleColor = (color) => {
     setColor(color.hex)
   }
 
@@ -108,7 +108,7 @@ function AddNew() {
             <form
               onSubmit={handleSubmit(onSubmit)}
               id="add-exam"
-              className="form"
+              className="form add-new-form-submit"
             >
               <div className="row">
                 <div className="col-md-6 form__left">
@@ -119,7 +119,7 @@ function AddNew() {
                       className="form__element__label input-required subject-label"
                     />
                     <Input
-                      className="form__element__input"
+                      className="form__element__input subject-input"
                       type="text"
                       id="subject"
                       label="exam_subject"
@@ -159,7 +159,7 @@ function AddNew() {
                       ></Label>
                       <DatePicker
                         id="exam-date"
-                        onDaySelected={selectedDay => {
+                        onDaySelected={(selectedDay) => {
                           setMyExamDate(selectedDay)
                         }}
                         placeholder="DD.MM.YYYY"
@@ -190,7 +190,7 @@ function AddNew() {
 
                       <DatePicker
                         id="study-start-date"
-                        onDaySelected={selectedDay => {
+                        onDaySelected={(selectedDay) => {
                           setMyStartDate(selectedDay)
                         }}
                         disabledAfter={myExamDate}
@@ -222,7 +222,7 @@ function AddNew() {
                       </div>
 
                       <Input
-                        className="form__element__input"
+                        className="form__element__input start-page-input"
                         type="number"
                         min="0"
                         id="start-page"
@@ -269,7 +269,7 @@ function AddNew() {
                       </div>
 
                       <Input
-                        className="form__element__input"
+                        className="form__element__input last-page-input"
                         type="number"
                         min="0"
                         id="page-amount"
@@ -321,7 +321,7 @@ function AddNew() {
                       </div>
 
                       <Input
-                        className="form__element__input"
+                        className="form__element__input page-time-input"
                         type="number"
                         min="0"
                         id="page-time"
@@ -374,7 +374,7 @@ function AddNew() {
                       </div>
 
                       <Input
-                        className="form__element__input"
+                        className="form__element__input repeat-input"
                         type="number"
                         id="page-repeat"
                         label="exam_page_repeat"
@@ -411,7 +411,7 @@ function AddNew() {
                         className="form__element__label"
                       ></Label>
                       <Textarea
-                        className="form__element__input"
+                        className="form__element__input notes-input"
                         id="page-notes"
                         label="exam_page_notes"
                         placeholder="..."
@@ -457,13 +457,13 @@ function AddNew() {
                         >
                           <div className="form__element form__study-links--input">
                             <input
-                              className="form__element__input"
+                              className="form__element__input study-link-input"
                               type="url"
                               id="study-links"
                               name="study-links"
                               placeholder="https://example.com/math"
                               label="exam_links_upload"
-                              onChange={event =>
+                              onChange={(event) =>
                                 handleInputChange(index, event)
                               }
                               ref={register({
@@ -479,13 +479,17 @@ function AddNew() {
                               type="button"
                               onClick={() => handleRemoveFields(index)}
                             >
-                              -
+                              -{" "}
+                              <span className="hide-visually">remove link</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => handleAddFields()}
                             >
-                              +
+                              +{" "}
+                              <span className="hide-visually">
+                                add new link
+                              </span>
                             </button>
                           </div>
                         </div>
