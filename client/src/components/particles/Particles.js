@@ -1,4 +1,4 @@
-import React, { initialState, useState, useEffect } from "react"
+import React, { initialState } from "react"
 import Particles from "react-particles-js"
 import useDarkMode from "use-dark-mode"
 
