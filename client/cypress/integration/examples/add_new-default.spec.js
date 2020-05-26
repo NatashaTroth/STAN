@@ -65,7 +65,6 @@ describe("add exam (default) and mark as completed", () => {
       .get(".DayPickerInput-OverlayWrapper")
       .click({ force: true })
       .find('[aria-label="' + dateFormatDatePicker + '"]')
-      .contains("30")
       .click({ force: true })
       .wait(1000)
 
