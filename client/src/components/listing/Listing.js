@@ -1,11 +1,14 @@
 import React from "react"
+import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
 const Listing = ({ text, className, link, linkText }) => {
   // return ----------------
   return (
     <li className={className}>
-      <a href={link}>{linkText}</a>
+      <Link to={link} href={link}>
+        {linkText}
+      </Link>
       {text}
     </li>
   )
