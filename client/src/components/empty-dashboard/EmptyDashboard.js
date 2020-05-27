@@ -13,7 +13,7 @@ import { client } from "../../apolloClient"
 // components ----------------
 const QueryError = lazy(() => import("../../components/error/Error"))
 const Loading = lazy(() => import("../../components/loading/Loading"))
-const Listing = lazy(() => import("../../components/listing/Listing"))
+const ListingLink = lazy(() => import("../../components/listing/ListingLink"))
 
 const EmptyDashboard = ({ heading, text, showBtn }) => {
   // state & queries ----------------
@@ -33,7 +33,7 @@ const EmptyDashboard = ({ heading, text, showBtn }) => {
   // check if there is data ----------------
   if (data && data.length > 0) {
     // filter only completed entries ----------------
-    let filteredItemsDueSoon = data.filter(function(el) {
+    let filteredItemsDueSoon = data.filter(function (el) {
       // parse Date ----------------
       let today = moment(new Date()).format("MM/DD/YYYY")
       let formExamDate = moment(el.startDate).format("MM/DD/YYYY")
@@ -51,7 +51,7 @@ const EmptyDashboard = ({ heading, text, showBtn }) => {
 
         // return listing component
         return (
-          <Listing
+          <ListingLink
             key={index}
             className="empty-dashboard__upcoming__list-item"
             text={

@@ -1,17 +1,9 @@
 import React from "react"
-import { Link } from "react-router-dom"
 // --------------------------------------------------------------
 
-const Listing = ({ text, className, link, linkText }) => {
+const Listing = ({ text, className }) => {
   // return ----------------
-  return (
-    <li className={className}>
-      <Link to={link} href={link}>
-        {linkText}
-      </Link>
-      {text}
-    </li>
-  )
+  return <li className={className}>{text}</li>
 }
 
 export default Listing
