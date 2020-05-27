@@ -46,11 +46,11 @@ const Exams = () => {
   const data = client.readQuery({ query: GET_EXAMS_QUERY }).exams
 
   // filter all exams ----------------
-  archiveExamsList = data.filter(exam => exam.completed)
-  currentExamsList = data.filter(exam => !exam.completed)
+  archiveExamsList = data.filter((exam) => exam.completed)
+  currentExamsList = data.filter((exam) => !exam.completed)
 
   // functions ----------------
-  currentExams = currentExamsList.map(function(exam) {
+  currentExams = currentExamsList.map(function (exam) {
     return (
       <div key={exam.id}>
         <Link
@@ -67,7 +67,7 @@ const Exams = () => {
     )
   })
 
-  archiveExams = archiveExamsList.map(function(exam) {
+  archiveExams = archiveExamsList.map(function (exam) {
     return (
       <div key={exam.id}>
         <Link
