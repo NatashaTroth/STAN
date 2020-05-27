@@ -56,7 +56,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
   for (let i = 0; i < exams.length; i++) {
     const exam = exams[i];
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
-    if (chunk && chunk.durationToday === 0) break;
+    if (chunk && chunk.durationToday <= 0) continue;
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
       const newChunk = createTodaysChunkObject(exam);
       if (!chunk) {
