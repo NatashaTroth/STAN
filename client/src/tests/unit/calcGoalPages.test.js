@@ -2,12 +2,11 @@ function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
   let goalPage = numberPagesToday + chunkStartPage - 1
 
   if (goalPage > lastPage) {
-    console.log("here")
     //gone over rep cycle
-    console.log(goalPage, lastPage)
+
     //e.g. 5 % 5 = 0, but: 4%5 = 4 + 1 = 5
     let leftover = ((goalPage - 1) % lastPage) + 1
-    console.log(leftover)
+
     goalPage = leftover + startPage - 1
     // if (goalPage === 0) goalPage = lastPage
   }

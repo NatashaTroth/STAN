@@ -29,18 +29,6 @@ const Label = lazy(() => import("../../components/label/Label"))
 const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
-// function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
-//   let goalPage = numberPagesToday + chunkStartPage - 1
-
-//   if (goalPage > lastPage) {
-//     //gone over rep cycle
-//     let leftover = goalPage % lastPage
-//     goalPage = leftover + startPage - 1
-//     if (goalPage === 0) goalPage = lastPage
-//   }
-//   return goalPage
-// }
-
 function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
   let goalPage = numberPagesToday + chunkStartPage - 1
   if (goalPage > lastPage) {
@@ -234,50 +222,6 @@ function Today(props) {
     todaysChunk.startPage,
     todaysChunk.exam.startPage,
     todaysChunk.exam.lastPage
-  )
-  // (todaysChunk.numberPagesToday + todaysChunk.startPage - 1)
-
-  // if(numberPagesToday > todaysChunk.exam.lastPage) {
-  //   //gone over rep cycle
-  //   let leftover = numberPagesToday % todaysChunk.exam.lastPage
-  //   console.log(leftover)
-  // }
-
-  // let numberPagesToday =
-  //   ((todaysChunk.numberPagesToday + todaysChunk.startPage - 1) %
-  //     todaysChunk.exam.lastPage) +
-  //   todaysChunk.exam.startPage -
-  //   1
-  // console.log(numberPagesToday === 0)
-  // if (numberPagesToday === 0) numberPagesToday = todaysChunk.exam.lastPage
-  // if (numberPagesToday < todaysChunk.exam.startPage)
-  //   numberPagesToday = todaysChunk.exam.startPage
-  // let numberPagesToday =
-  //   todaysChunk.numberPagesToday + todaysChunk.startPage - 1
-
-  // if (todaysChunk.exam.startPage === todaysChunk.exam.lastPage)
-  //   numberPagesToday = todaysChunk.startPage
-  // else if (numberPagesToday > lastPage) {
-  //   console.log("hereyo")
-  //   // maximum goal is last page
-  //   numberPagesToday =
-  //     ((todaysChunk.numberPagesToday + todaysChunk.startPage - 1) %
-  //       todaysChunk.exam.lastPage) +
-  //     todaysChunk.exam.startPage -
-  //     1
-  // }
-  console.log(
-    "here ",
-    todaysChunk.numberPagesToday,
-    todaysChunk.startPage,
-    todaysChunk.exam.startPage,
-    todaysChunk.exam.lastPage
-  )
-  console.log(todaysChunk.numberPagesToday + todaysChunk.startPage - 1)
-  console.log(
-    ((todaysChunk.numberPagesToday + todaysChunk.startPage) %
-      todaysChunk.exam.lastPage) +
-      todaysChunk.exam.startPage
   )
 
   // page the chunk starts at ----------------
