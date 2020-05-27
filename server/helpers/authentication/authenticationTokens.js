@@ -12,7 +12,9 @@ export const sendRefreshToken = (res, token) => {
   if (res)
     res.cookie("refresh_token", token, {
       httpOnly: true,
-      path: "/refresh_token" //to only send request token when at refresh_token path
+      path: "/refresh_token", //to only send request token when at refresh_token path,
+      secure: true,
+      sameSite: "strict"
     });
 };
 
