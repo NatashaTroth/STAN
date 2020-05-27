@@ -86,7 +86,6 @@ export const userResolvers = {
     forgottenPasswordEmail: async (_, { email }, { userInfo }) => {
       try {
         handleAuthenticationAlreadyLoggedIn(userInfo);
-        console.log("in forgotten password resolver");
         await handleForgottenPasswordEmail(email);
         return true;
       } catch (err) {

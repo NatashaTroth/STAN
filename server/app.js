@@ -33,7 +33,7 @@ mongoose
   .then(() => {
     console.log("connected to db ");
   })
-  .catch((e) => console.error(e.message));
+  .catch(e => console.error(e.message));
 
 app.use(cookieParser());
 
