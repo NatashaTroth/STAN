@@ -72,7 +72,7 @@ export default class StanEmail {
 
     const subject = `${examWord} coming up!`;
     const h1 = `Reminder that you have the following ${examWord.toLowerCase()} coming up`;
-    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you haven't finished learning for yet.</p>${examsListString}`;
+    const text = `<p>stan wanted to remind you about the ${examWord.toLowerCase()} you have coming up, which you may not have finished learning for yet.</p>${examsListString}`;
 
     this.sendMail(recipientEmail, subject, text, h1, mascot);
   }
