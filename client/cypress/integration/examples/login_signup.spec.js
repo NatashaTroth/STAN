@@ -47,5 +47,15 @@ describe("authentication and registration", () => {
       .wait(1000)
       .getCookie("refresh_token")
       .should("exist")
+
+    cy.visit("/profile")
+      .get(".button a")
+      .click({ force: true })
+
+      .get(".delete-button")
+      .click({ force: true })
+
+      .get(".delete-account-yes")
+      .click({ force: true })
   })
 })
