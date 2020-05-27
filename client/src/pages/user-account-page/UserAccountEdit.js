@@ -88,13 +88,12 @@ const UserAccountEdit = () => {
       handleMascot({ index, updateMascot, history })
     } else {
       // standard login ----------------
-      if (formData.newPassword === formData.retypePassword) {
+      if (formData.newPassword !== formData.retypePassword) {
+        document.getElementById("retype-password-error").style.display = "block"
+      } else {
         document.getElementById("retype-password-error").style.display = "none"
-
         let mascotId = index
         editUser({ mascotId, formData, updateUser, notification, history })
-      } else {
-        document.getElementById("retype-password-error").style.display = "block"
       }
     }
   }
