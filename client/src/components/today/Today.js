@@ -32,7 +32,6 @@ const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 function Today(props) {
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
-  console.log(props)
 
   // user click to add custom page number ----------------
   const onSubmit = async (formData) => {
