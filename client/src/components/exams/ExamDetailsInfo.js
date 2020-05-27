@@ -9,6 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 // helpers functions ----------------
 import { getNumberOfDays, minuteToHours } from "../../helpers/dates"
 import { extractDomain, filteredLinks } from "../../helpers/general"
+import { learningIsComplete } from "../../helpers/examCalc"
 import {
   calcExamProgress,
   currentRepetition,
@@ -140,13 +141,13 @@ const ExamDetailsInfo = ({ examDetails }) => {
                   <h4>Next page to study</h4>
                 </div>
                 <div className="exam-data__pagesStudy">
-                  {nextPage === examDetails.lastPage ? (
+                  {learningIsComplete(examDetails) ? (
                     <p className="nextPage">{nextPage}</p>
                   ) : (
                     <p>{nextPage}</p>
                   )}
 
-                  {nextPage === examDetails.lastPage ? (
+                  {learningIsComplete(examDetails) ? (
                     <p className="finished-message">
                       no more pages left to study
                     </p>

@@ -45,7 +45,7 @@ export const getCurrentPage = (examDetails, currentRep) => {
     currentPageWithoutStartPage - numberPagesLearned + examDetails.startPage
   )
 }
-const learningIsComplete = ({
+export const learningIsComplete = ({
   currentPage,
   startPage,
   numberPages,
