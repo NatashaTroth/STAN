@@ -138,18 +138,6 @@ const ExamDetailsInfo = ({ examDetails }) => {
               <div className="exam-data">
                 <div className="exam-data__heading">
                   <h4>Next page to study</h4>
-                  <OverlayTrigger
-                    placement="top"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={
-                      <Tooltip>
-                        The page number you have studied up to in this
-                        repitition cycle.
-                      </Tooltip>
-                    }
-                  >
-                    <span className="info-circle">i</span>
-                  </OverlayTrigger>
                 </div>
                 <div className="exam-data__pagesStudy">
                   {nextPage === examDetails.lastPage ? (
