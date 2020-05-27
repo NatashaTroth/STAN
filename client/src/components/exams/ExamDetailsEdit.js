@@ -66,6 +66,13 @@ const ExamDetailsEdit = ({ examId }) => {
   let formExamDate = moment(myExamDate).format("MM/DD/YYYY")
   let formStartDate = moment(myStartDate).format("MM/DD/YYYY")
 
+  let minStartPage
+  if (currentRepetition(data) === 1) {
+    minStartPage = data.startPage - 1
+  } else {
+    minStartPage = data.startPage
+  }
+
   // set default values to input fields ----------------
   let defaultValues = {
     subject: data.subject,
@@ -400,7 +407,7 @@ const ExamDetailsEdit = ({ examId }) => {
                 value={currentPage}
                 ref={register({
                   required: true,
-                  min: startPage,
+                  min: minStartPage,
                   max: lastPage,
                 })}
               />
