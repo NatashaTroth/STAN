@@ -52,17 +52,17 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       !isTheSameDay(exam.examDate, new Date()) && date1IsBeforeDate2(new Date(), exam.examDate)
   );
 
-  const chunks = exams.map(async exam => {
+  const chunks = [];
+  for (let i = 0; i < exams.length; i++) {
+    const exam = exams[i];
     let chunk = todaysChunks.find(chunk => chunk.examId === exam.id);
-
-    //cache calculated from scratch
+    if (chunk && chunk.durationToday === 0) break;
     if (!chunk || !chunkCacheIsValid(chunk.updatedAt, exam.updatedAt)) {
       const newChunk = createTodaysChunkObject(exam);
-      // if (new.durationToday === 0) return;
-
       if (!chunk) {
         await addTodaysChunkToDatabase(newChunk, exam.userId);
       } else {
+        // if (chunk.durationToday === 0) return;
         const resp = await TodaysChunkCache.updateOne(
           { _id: chunk._id },
           { ...newChunk, updatedAt: new Date() }
@@ -78,7 +78,7 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       chunk.numberPagesToday,
       exam.timePerPage
     );
-    return {
+    chunks.push({
       exam,
       numberPagesToday: chunk.numberPagesToday,
       startPage: chunk.startPage,
@@ -87,8 +87,9 @@ async function createTodaysChunksFromCache(currentExams, todaysChunks) {
       durationLeftToday,
       daysLeft: chunk.daysLeft,
       completed: chunk.completed
-    };
-  });
+    });
+  }
+
   const resp = await Promise.all(chunks);
   return resp;
 }

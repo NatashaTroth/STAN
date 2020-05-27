@@ -15,10 +15,10 @@ export default class StanScheduler {
 
   init() {
     schedule.scheduleJob({ hour: 2, minute: 30 }, async () => {
-      this.notifyUsersAboutExams();
       this.completePastExams();
       this.removeNoLongerNeededCache();
       this.notifyAndDeleteOldUsers();
+      this.notifyUsersAboutExams();
     });
   }
 
