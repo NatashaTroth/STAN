@@ -29,10 +29,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
     new Date(examDetails.examDate)
   )
 
-  const pagesStudied = getCurrentPage(
-    examDetails,
-    currentRepetition(examDetails)
-  )
+  const nextPage = getCurrentPage(examDetails, currentRepetition(examDetails))
 
   // return ----------------
   return (
@@ -154,8 +151,19 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <p>{pagesStudied}</p>
-                <p>You have finished</p>
+                <div className="exam-data__pagesStudy">
+                  {nextPage === examDetails.lastPage ? (
+                    <p className="nextPage">{nextPage}</p>
+                  ) : (
+                    <p>{nextPage}</p>
+                  )}
+
+                  {nextPage === examDetails.lastPage ? (
+                    <p className="finished-message">
+                      no more pages left to study
+                    </p>
+                  ) : null}
+                </div>
               </div>
 
               <div className="exam-data">
