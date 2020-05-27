@@ -204,7 +204,9 @@ function Today(props) {
     ) + 1
 
   // end page for today's chunk goal ----------------
-  let numberPagesToday = todaysChunk.numberPagesToday + startPageExam - 1
+  // let numberPagesToday = todaysChunk.numberPagesToday + startPageExam - 1
+  let numberPagesToday =
+    todaysChunk.numberPagesToday + todaysChunk.startPage - 1
 
   // page the chunk starts at ----------------
   //(to display in frontend correctly, regardless of rep cycle)
@@ -222,6 +224,7 @@ function Today(props) {
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
 
+  //todo
   // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
   if (numberPagesToday > lastPage) {
     // maximum goal is last page
