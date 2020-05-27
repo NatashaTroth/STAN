@@ -574,7 +574,7 @@ const UserAccountEdit = () => {
 
                         <div className="user-account__edit--popup--inner--buttons">
                           <Button
-                            className="stan-btn-secondary"
+                            className="stan-btn-secondary delete-account-yes"
                             text="Yes"
                             onClick={handleDeletion}
                           />

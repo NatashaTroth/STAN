@@ -39,5 +39,23 @@
         text-align: right;
       }
     }
+    &__warning {
+      margin: 10px 0;
+
+      &__text {
+        &--warning {
+          font-family: $font-family-BasierCircle-SemiBold;
+          @include rem(font-size, $font-size-14);
+          @include rem(line-height, 18px);
+          @include rem(letter-spacing, 0.5px);
+          color: theme-color("error-hover");
+          text-align: left;
+
+          @include media-breakpoint-down(xs) {
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 }

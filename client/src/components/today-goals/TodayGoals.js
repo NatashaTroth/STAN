@@ -36,7 +36,7 @@ function TodayGoals(props) {
         key={index}
         subject={subject}
         durationTime={durationTime}
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault()
           props.activeElementIndexChange(index)
         }}
@@ -44,6 +44,13 @@ function TodayGoals(props) {
       ></TodaySubject>
     )
   })
+
+  // alert no time left ----------------
+  let noTimeMessage
+  // noTime = todaysChunk.notEnoughTime
+  if (totalDuration > 1440) {
+    noTimeMessage = "Study faster, today's duration is more than 24h!"
+  }
 
   // return ----------------
   return (
@@ -58,6 +65,11 @@ function TodayGoals(props) {
                 </h3>
                 <p className="today-goals__container__header__time">
                   {totalDurationTime}
+                </p>
+              </div>
+              <div className="today-goals__container__warning">
+                <p className="today-goals__container__warning__text--warning">
+                  {noTimeMessage}
                 </p>
               </div>
             </div>
