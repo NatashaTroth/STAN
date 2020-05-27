@@ -30,7 +30,6 @@ const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
 function Today(props) {
-  // console.log(props)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
@@ -208,9 +207,6 @@ function Today(props) {
   // let numberPagesToday = todaysChunk.numberPagesToday + startPageExam - 1
   let numberPagesToday =
     todaysChunk.numberPagesToday + todaysChunk.startPage - 1
-  // console.log("nrpagestodaBAckend: " + todaysChunk.numberPagesToday)
-  // console.log("startPageExam: " + startPageExam)
-  // console.log("numPgesTodayFrontend: " + numberPagesToday)
 
   // page the chunk starts at ----------------
   //(to display in frontend correctly, regardless of rep cycle)
@@ -291,7 +287,6 @@ function Today(props) {
                     <div className="today__container__content__details__goal">
                       <p className="today__container__content__label">Goal:</p>
                       <p className="today__container__content__text today-goal">
-                        {/* {console.log(numberPagesToday)} */}
                         page {goalStartPage} to {numberPagesToday} (rep.{" "}
                         {repetitionGoal})
                       </p>
