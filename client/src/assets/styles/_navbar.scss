@@ -193,8 +193,7 @@
               font-family: $font-family-BasierCircle-SemiBold;
               @include rem(letter-spacing, 1px);
               background: none;
-              border-bottom: 3px solid;
-              border-color: theme-color("light");
+              border: none;
               text-transform: uppercase;
               padding: 0;
               color: theme_color("dark");
