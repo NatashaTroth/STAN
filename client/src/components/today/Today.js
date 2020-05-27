@@ -29,7 +29,20 @@ const Label = lazy(() => import("../../components/label/Label"))
 const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
+function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
+  let goalPage = numberPagesToday + chunkStartPage - 1
+
+  if (goalPage > lastPage) {
+    //gone over rep cycle
+    let leftover = goalPage % lastPage
+    goalPage = leftover + startPage - 1
+    if (goalPage === 0) goalPage = lastPage
+  }
+  return goalPage
+}
+
 function Today(props) {
+  console.log(props)
   // form specific ----------------
   const { register, errors, handleSubmit, reset } = useForm()
 
@@ -205,8 +218,57 @@ function Today(props) {
 
   // end page for today's chunk goal ----------------
   // let numberPagesToday = todaysChunk.numberPagesToday + startPageExam - 1
-  let numberPagesToday =
-    todaysChunk.numberPagesToday + todaysChunk.startPage - 1
+
+  let numberPagesToday = calcGoalPage(
+    todaysChunk.numberPagesToday,
+    todaysChunk.startPage,
+    todaysChunk.exam.startPage,
+    todaysChunk.exam.lastPage
+  )
+  // (todaysChunk.numberPagesToday + todaysChunk.startPage - 1)
+
+  // if(numberPagesToday > todaysChunk.exam.lastPage) {
+  //   //gone over rep cycle
+  //   let leftover = numberPagesToday % todaysChunk.exam.lastPage
+  //   console.log(leftover)
+  // }
+
+  // let numberPagesToday =
+  //   ((todaysChunk.numberPagesToday + todaysChunk.startPage - 1) %
+  //     todaysChunk.exam.lastPage) +
+  //   todaysChunk.exam.startPage -
+  //   1
+  // console.log(numberPagesToday === 0)
+  // if (numberPagesToday === 0) numberPagesToday = todaysChunk.exam.lastPage
+  // if (numberPagesToday < todaysChunk.exam.startPage)
+  //   numberPagesToday = todaysChunk.exam.startPage
+  // let numberPagesToday =
+  //   todaysChunk.numberPagesToday + todaysChunk.startPage - 1
+
+  // if (todaysChunk.exam.startPage === todaysChunk.exam.lastPage)
+  //   numberPagesToday = todaysChunk.startPage
+  // else if (numberPagesToday > lastPage) {
+  //   console.log("hereyo")
+  //   // maximum goal is last page
+  //   numberPagesToday =
+  //     ((todaysChunk.numberPagesToday + todaysChunk.startPage - 1) %
+  //       todaysChunk.exam.lastPage) +
+  //     todaysChunk.exam.startPage -
+  //     1
+  // }
+  console.log(
+    "here ",
+    todaysChunk.numberPagesToday,
+    todaysChunk.startPage,
+    todaysChunk.exam.startPage,
+    todaysChunk.exam.lastPage
+  )
+  console.log(todaysChunk.numberPagesToday + todaysChunk.startPage - 1)
+  console.log(
+    ((todaysChunk.numberPagesToday + todaysChunk.startPage) %
+      todaysChunk.exam.lastPage) +
+      todaysChunk.exam.startPage
+  )
 
   // page the chunk starts at ----------------
   //(to display in frontend correctly, regardless of rep cycle)
@@ -216,7 +278,7 @@ function Today(props) {
 
   // display warning if multiple cycles to study
   if (
-    realChunkStartPage + numberPagesToday - 1 > lastPage &&
+    realChunkStartPage + todaysChunk.numberPagesToday - 1 > lastPage &&
     repetitionGoal > repetition &&
     repetition !== repetitionCycles
   ) {
@@ -224,12 +286,12 @@ function Today(props) {
     noTimeMessage = "Info: You have to study multiple repetition cycles today"
   }
 
-  //todo
-  // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
-  if (numberPagesToday > lastPage) {
-    // maximum goal is last page
-    numberPagesToday = lastPage
-  }
+  // //todo
+  // // when numberPagesToday is bigger than lastPage, the user needs to study more than 1 repetition in a day
+  // if (numberPagesToday > lastPage) {
+  //   // maximum goal is last page
+  //   numberPagesToday = lastPage
+  // }
   // --------------------------------
 
   // pages are left in total with repetition cycles ----------------
