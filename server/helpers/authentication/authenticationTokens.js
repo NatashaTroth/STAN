@@ -9,13 +9,17 @@ export function createLoginTokens({ user, res }) {
 }
 
 export const sendRefreshToken = (res, token) => {
-  if (res)
-    res.cookie("refresh_token", token, {
+  if (res) {
+    const options = {
       httpOnly: true,
-      path: "/refresh_token", //to only send request token when at refresh_token path,
-      secure: true,
-      sameSite: "strict"
-    });
+      path: "/refresh_token" //to only send request token when at refresh_token path,
+    };
+    if (process.env.NODE_ENV === "production") {
+      options.secure = true;
+      options.samSite = "strict";
+    }
+    res.cookie("refresh_token", token, options);
+  }
 };
 
 export const createAccessToken = (userId, tokenVersion) => {
