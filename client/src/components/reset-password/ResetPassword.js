@@ -139,16 +139,20 @@ const ResetPassword = (props) => {
                     pattern: /^.{8,30}$/,
                   })}
                 />
-                {errors.password && errors.password.type === "required" ? (
+                {errors.retype_password &&
+                errors.retype_password.type === "required" ? (
                   <span className="error">This field is required</span>
                 ) : null}
-                {errors.password && errors.password.type === "minLength" ? (
+                {errors.retype_password &&
+                errors.retype_password.type === "minLength" ? (
                   <span className="error"> Minimum 8 characters required</span>
                 ) : null}
-                {errors.password && errors.password.type === "maxLength" ? (
+                {errors.retype_password &&
+                errors.retype_password.type === "maxLength" ? (
                   <span className="error"> Maximum 30 characters allowed</span>
                 ) : null}
-                {errors.password && errors.password.type === "pattern" ? (
+                {errors.retype_password &&
+                errors.retype_password.type === "pattern" ? (
                   <span className="error">
                     The password needs to be between 8 and 30 characters long
                   </span>
