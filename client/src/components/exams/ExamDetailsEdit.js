@@ -789,7 +789,7 @@ async function handleExam({
     const resp = await updateExam({
       variables: {
         id: examId,
-        subject: data.subject,
+        subject: data.subject.replace(/[^a-zA-Z ]/g, ""),
         examDate: formExamDate,
         startDate: formStartDate,
         lastPage: parseInt(data.lastPage),

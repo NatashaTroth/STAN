@@ -579,10 +579,12 @@ async function handleExam({
   color,
   reset,
 }) {
+  let exam = formData.exam_subject.replace(/[^a-zA-Z ]/g, "")
+
   try {
     const resp = await addExam({
       variables: {
-        subject: formData.exam_subject,
+        subject: exam,
         examDate: formExamDate,
         startDate: formStartDate,
         lastPage: parseInt(formData.exam_page_amount),
