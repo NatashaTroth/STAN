@@ -31,7 +31,7 @@ const SignUp = () => {
   const [googleLogin] = useMutation(GOOGLE_LOGIN_MUTATION)
 
   // google signup ----------------
-  const successGoogle = async response => {
+  const successGoogle = async (response) => {
     try {
       const resp = await googleLogin({
         variables: {
@@ -54,14 +54,14 @@ const SignUp = () => {
       }
     }
   }
-  const failureGoogle = response => {
+  const failureGoogle = (response) => {
     let failureGoogleResponse = JSON.stringify(response.Qt.Ad)
     let element = document.getElementsByClassName("graphql-sign-up-error")
     element[0].innerHTML = failureGoogleResponse
   }
 
   // form specific ----------------
-  const onSubmit = async formData => {
+  const onSubmit = async (formData) => {
     if (formData.password === formData.retype_password) {
       document.getElementById("signup-error").style.display = "none"
 
@@ -72,7 +72,7 @@ const SignUp = () => {
   }
 
   const handleNotification = () => {
-    setNotification(notification => !notification)
+    setNotification((notification) => !notification)
   }
 
   return (
@@ -216,16 +216,20 @@ const SignUp = () => {
                 pattern: /^.{8,30}$/,
               })}
             />
-            {errors.password && errors.password.type === "required" ? (
+            {errors.retype_password &&
+            errors.retype_password.type === "required" ? (
               <span className="error">This field is required</span>
             ) : null}
-            {errors.password && errors.password.type === "minLength" ? (
+            {errors.retype_password &&
+            errors.retype_password.type === "minLength" ? (
               <span className="error"> Minimum 8 characters required</span>
             ) : null}
-            {errors.password && errors.password.type === "maxLength" ? (
+            {errors.retype_password &&
+            errors.retype_password.type === "maxLength" ? (
               <span className="error"> Maximum 30 characters allowed</span>
             ) : null}
-            {errors.password && errors.password.type === "pattern" ? (
+            {errors.retype_password &&
+            errors.retype_password.type === "pattern" ? (
               <span className="error">
                 The password needs to be between 8 and 30 characters long
               </span>
@@ -253,7 +257,7 @@ const SignUp = () => {
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Login"
-                render={renderProps => (
+                render={(renderProps) => (
                   <button
                     type="button"
                     onClick={renderProps.onClick}
