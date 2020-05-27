@@ -373,7 +373,7 @@ const ExamDetailsEdit = ({ examId }) => {
               <div className="info-box-label">
                 <Label
                   labelType="currentPage"
-                  text="Pages studied"
+                  text="Studied up to page"
                   className="form__element__label input-required"
                 ></Label>
                 <OverlayTrigger

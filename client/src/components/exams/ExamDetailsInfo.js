@@ -140,7 +140,7 @@ const ExamDetailsInfo = ({ examDetails }) => {
 
               <div className="exam-data">
                 <div className="exam-data__heading">
-                  <h4>Pages studied</h4>
+                  <h4>Next page to study</h4>
                   <OverlayTrigger
                     placement="top"
                     delay={{ show: 250, hide: 400 }}
@@ -154,7 +154,8 @@ const ExamDetailsInfo = ({ examDetails }) => {
                     <span className="info-circle">i</span>
                   </OverlayTrigger>
                 </div>
-                <p>{pagesStudied - 1}</p>
+                <p>{pagesStudied}</p>
+                <p>You have finished</p>
               </div>
 
               <div className="exam-data">
