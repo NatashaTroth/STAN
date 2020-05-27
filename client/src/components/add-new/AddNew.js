@@ -579,7 +579,7 @@ async function handleExam({
   color,
   reset,
 }) {
-  let exam = formData.exam_subject.replace(/[^a-zA-Z ]/g, "")
+  let exam = formData.exam_subject.replace(/[^a-zA-Z0-9\s]+/g, "")
 
   try {
     const resp = await addExam({
