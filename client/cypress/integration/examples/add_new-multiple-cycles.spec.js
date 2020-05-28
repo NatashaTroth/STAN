@@ -5,7 +5,7 @@ import moment from "moment"
 // set date for Date Picker ----------------
 let date = new Date()
 let futureDate = date.setDate(date.getDate() + 1)
-let dateFormatDatePicker = moment(futureDate).format("ddd MMMM DD YYYY")
+let dateFormatDatePicker = moment(futureDate).format("ddd MMM DD YYYY")
 // --------------------------------------------------------
 
 describe("Cypress", () => {
