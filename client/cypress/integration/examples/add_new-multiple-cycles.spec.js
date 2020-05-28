@@ -3,9 +3,12 @@ import moment from "moment"
 // --------------------------------------------------------------
 
 // set date for Date Picker ----------------
+let today = new Date()
 let date = new Date()
 let futureDate = date.setDate(date.getDate() + 1)
 let dateFormatDatePicker = moment(futureDate).format("ddd MMM DD YYYY")
+let monthCurrent = moment(today).format("MM")
+let monthPicked = moment(futureDate).format("MM")
 // --------------------------------------------------------
 
 describe("Cypress", () => {
@@ -60,12 +63,32 @@ describe("add exam (multiple cycles) and mark as completed", () => {
       .should("have.value", "Math")
       .wait(1000)
 
-      .get("#exam-date")
-      .click({ waitForAnimations: false })
-      .get(".DayPickerInput-OverlayWrapper")
-      .click({ force: true })
-      .find('[aria-label="' + dateFormatDatePicker + '"]')
-      .click({ force: true })
+      .then(() => {
+        if (
+          monthPicked > monthCurrent ||
+          (monthCurrent == 12 && monthPicked < monthCurrent)
+        ) {
+          cy.get("#exam-date")
+            .click({ waitForAnimations: false })
+            .get(".DayPickerInput-OverlayWrapper")
+            .click({ force: true })
+            .find('[aria-label="Next Month"]')
+            .click({ force: true })
+            .wait(1000)
+            .get(".DayPickerInput-OverlayWrapper")
+            .click({ force: true })
+            .find('[aria-label="' + dateFormatDatePicker + '"]')
+            .click({ force: true })
+        } else {
+          cy.get("#exam-date")
+            .click({ waitForAnimations: false })
+            .get(".DayPickerInput-OverlayWrapper")
+            .click({ force: true })
+            .find('[aria-label="' + dateFormatDatePicker + '"]')
+            .click({ force: true })
+        }
+      })
+
       .wait(1000)
 
       .get("#study-start-date")
