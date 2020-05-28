@@ -5,7 +5,7 @@ import moment from "moment"
 // set date for Date Picker ----------------
 let date = new Date()
 let futureDate = date.setDate(date.getDate() + 4)
-let dateFormatDatePicker = moment(futureDate).format("ddd MMMM DD YYYY")
+let dateFormatDatePicker = moment(futureDate).format("ddd MMM DD YYYY")
 // --------------------------------------------------------
 
 describe("Cypress", () => {
@@ -64,8 +64,14 @@ describe("add exam (default) and mark as completed", () => {
       .click({ waitForAnimations: false })
       .get(".DayPickerInput-OverlayWrapper")
       .click({ force: true })
+      .find('[aria-label="Next Month"]')
+      .click({ force: true })
+      .wait(1000)
+      .get(".DayPickerInput-OverlayWrapper")
+      .click({ force: true })
       .find('[aria-label="' + dateFormatDatePicker + '"]')
       .click({ force: true })
+
       .wait(1000)
 
       .get("#study-start-date")
@@ -146,6 +152,8 @@ describe("add exam (default) and mark as completed", () => {
 
       .get("#study-chunk")
       .submit()
+
+      .wait(1000)
 
       // check calculations ----------
       .get(".today-goal")
