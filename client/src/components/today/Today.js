@@ -29,13 +29,26 @@ const Label = lazy(() => import("../../components/label/Label"))
 const Input = lazy(() => import("../../components/input/Input"))
 const Timeline = lazy(() => import("../../components/timeline/Timeline"))
 
+// function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
+//   let goalPage = numberPagesToday + chunkStartPage - 1
+//   if (goalPage > lastPage) {
+//     //gone over rep cycle
+//     //e.g. 5 % 5 = 0, but: 4%5 = 4 + 1 = 5
+//     let leftover = ((goalPage - 1) % lastPage) + 1
+//     goalPage = leftover + startPage - 1
+//     if (goalPage === 0) goalPage = lastPage
+//     if (lastPage === startPage) goalPage = lastPage
+//   }
+//   return goalPage
+// }
+
 function calcGoalPage(numberPagesToday, chunkStartPage, startPage, lastPage) {
   let goalPage = numberPagesToday + chunkStartPage - 1
   if (goalPage > lastPage) {
     //gone over rep cycle
-    //e.g. 5 % 5 = 0, but: 4%5 = 4 + 1 = 5
-    let leftover = ((goalPage - 1) % lastPage) + 1
-    goalPage = leftover + startPage - 1
+    while (goalPage > lastPage) {
+      goalPage -= lastPage - startPage + 1
+    }
   }
   return goalPage
 }
